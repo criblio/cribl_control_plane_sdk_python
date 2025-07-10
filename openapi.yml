@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.12.2-4b17c8d4
+  version: 4.14.0-alpha.1752180207000-eaf35602
   contact:
     name: Support
     email: support@cribl.io
@@ -34,13 +34,208 @@ components:
             - standby
         startTime:
           type: number
+    GitFile:
+      type: object
+      properties:
+        children:
+          type: array
+          items:
+            $ref: "#/components/schemas/GitFile"
+        name:
+          type: string
+        state:
+          type: string
+      required:
+        - name
 security:
   - bearerAuth: []
 tags:
+  - name: ai-settings
+    description: Actions related to Ai Settings
+  - name: appscope-configs
+    description: Actions related to Appscope Configs
+  - name: auth
+    description: Actions related to authentication. Do not use the /auth endpoints in Cribl.Cloud deployments. Instead, follow the instructions at https://docs.cribl.io/stream/api-tutorials/#criblcloud to authenticate for Cribl.Cloud.
+  - name: authorize
+    description: Actions related to Authorize
+  - name: banners
+    description: Actions related to Banners
+  - name: certificates
+    description: Actions related to Certificates
+  - name: changelog
+    description: Actions related to Changelog
+  - name: click-house
+    description: Actions related to ClickHouse
+  - name: clui
+    description: Actions related to CLUI
+  - name: collectors
+    description: Actions related to Collectors
+  - name: conditions
+    description: Actions related to Conditions
+  - name: consent
+    description: Actions related to Consent
+  - name: dashboardCategories
+    description: Actions related to DashboardCategories
+  - name: dashboards
+    description: Actions related to Dashboards
+  - name: database-connections
+    description: Actions related to Database Connections
+  - name: datasets
+    description: Actions related to Datasets
   - name: diag
     description: Actions related to diagnostics
+  - name: distributed
+    description: Actions related to Distributed
+  - name: edge
+    description: Actions enabled in Edge
+  - name: edgeAppScopeProcesses
+    description: Actions related to Edge AppScope processes
+  - name: edgeContainers
+    description: Actions related to Edge containers
+  - name: edgeEvents
+    description: Actions related to EdgeEvents
+  - name: edgeFiles
+    description: Actions related to Edge Files
+  - name: edgeLs
+    description: Actions related to Edge listing
+  - name: edgeProcesses
+    description: Actions related to Edge processes
+  - name: event_breaker_rules
+    description: Actions related to Event Breaker rules
+  - name: events
+    description: Actions related to Events
+  - name: executors
+    description: Actions related to Executors
+  - name: expressions
+    description: Actions related to expressions
+  - name: features
+    description: Actions related to Features
+  - name: file
+    description: Actions related to File
+  - name: fileSampler
+    description: Actions related to FileSampler
+  - name: functions
+    description: Actions related to functions
+  - name: git
+    description: Actions related to Git
+  - name: global_variables
+    description: Actions related to Global Variables
+  - name: grokfiles
+    description: Actions related to Grok files
+  - name: groups
+    description: Actions related to Groups
   - name: health
     description: Actions related to REST server health
+  - name: hmac-functions
+    description: Actions related to HMAC functions
+  - name: ingest
+    description: Actions related to Ingest
+  - name: inputs
+    description: Actions related to inputs
+  - name: iometrics
+    description: Actions related to source/destination metrics
+  - name: jobs
+    description: Actions related to Jobs
+  - name: keys
+    description: Actions related to encryption keys
+  - name: kube-logs
+    description: Actions related to Kube Logs
+  - name: kube-proxy
+    description: Actions related to Kube Proxy
+  - name: lake
+    description: Actions related to Lake
+  - name: licenses
+    description: Actions related to licenses. The <code>/licenses</code> endpoints do not apply to Cribl.Cloud deployments.
+  - name: logger
+    description: Actions related to Logger
+  - name: logging
+    description: Actions related to logging
+  - name: lookups
+    description: Actions related to lookups
+  - name: macros
+    description: Actions related to Macros
+  - name: messages
+    description: Actions related to messages
+  - name: metrics
+    description: Actions related to metrics
+  - name: notification-targets
+    description: Actions related to Notification Targets
+  - name: notifications
+    description: Actions related to Notifications
+  - name: onlyOnPrem
+    description: Actions only available for onprem deployments and do not apply to Cribl.Cloud deployments
+  - name: outputs
+    description: Actions related to outputs
+  - name: packs
+    description: Actions related to Packs
+  - name: parquetschemas
+    description: Actions related to Parquet schemas
+  - name: parsers
+    description: Actions related to parsers
+  - name: pipelines
+    description: Actions related to Pipelines
+  - name: policies
+    description: Actions related to Policies
+  - name: preview
+    description: Actions related to data preview
+  - name: processes
+    description: Actions related to Processes
+  - name: profiler
+    description: Actions related to Profiler
+  - name: projects
+    description: Actions related to Projects
+  - name: protobuflibraries
+    description: Actions related to Protobuf libraries
+  - name: query
+    description: Actions related to Query
+  - name: regexes
+    description: Actions related to regular expressions
+  - name: roles
+    description: Actions related to Roles
+  - name: routes
+    description: Actions related to Routes
+  - name: samples
+    description: Actions related to samples
+  - name: saved-jobs
+    description: Actions related to Saved Jobs
+  - name: savedQueries
+    description: Actions related to saved queries
+  - name: schemas
+    description: Actions related to Schemas
+  - name: scripts
+    description: Actions related to scripts
+  - name: sds-rules
+    description: Actions related to Sds Rules
+  - name: search
+    description: Actions related to Search
+  - name: secrets
+    description: Actions related to Secrets
+  - name: security
+    description: Actions related to Security
+  - name: subscriptions
+    description: Actions related to Subscriptions
+  - name: system
+    description: Actions related to system settings
+  - name: teams
+    description: Actions related to Teams
+  - name: teams ACL
+    description: Actions related to Teams ACL
+  - name: trust-policies
+    description: Actions related to Trust Policies
+  - name: uiState
+    description: Actions related to UiState
+  - name: usage-groups
+    description: Actions related to Usage Groups
+  - name: users
+    description: Actions related to users. The <code>/system/users</code> endpoints do not apply to Cribl.Cloud deployments. Instead use <code>/products/{product}/users</code>
+  - name: users ACL
+    description: Actions related to Users ACL
+  - name: users,onlyOnPrem
+    description: Actions related to Users,onlyOnPrem
+  - name: versioning
+    description: Actions related to Versioning
+  - name: workers
+    description: Actions related to Workers
 paths:
   /health:
     get:

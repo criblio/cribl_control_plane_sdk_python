@@ -17,7 +17,6 @@ class Status(str, Enum):
     HEALTHY = "healthy"
     SHUTTING_DOWN = "shutting down"
     STANDBY = "standby"
-    FAKE_STATUS = "fake_status"
 
 
 class HealthStatusTypedDict(TypedDict):

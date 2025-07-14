@@ -2,11 +2,6 @@
 
 package components
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 type Role string
 
 const (
@@ -16,21 +11,6 @@ const (
 
 func (e Role) ToPointer() *Role {
 	return &e
-}
-func (e *Role) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "primary":
-		fallthrough
-	case "standby":
-		*e = Role(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Role: %v", v)
-	}
 }
 
 type Status string
@@ -43,23 +23,6 @@ const (
 
 func (e Status) ToPointer() *Status {
 	return &e
-}
-func (e *Status) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "healthy":
-		fallthrough
-	case "shutting down":
-		fallthrough
-	case "standby":
-		*e = Status(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Status: %v", v)
-	}
 }
 
 type HealthStatus struct {

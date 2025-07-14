@@ -29,11 +29,13 @@ components:
       properties:
         role:
           type: string
+          x-speakeasy-unknown-values: allow
           enum:
             - primary
             - standby
         status:
           type: string
+          x-speakeasy-unknown-values: allow
           enum:
             - healthy
             - shutting down

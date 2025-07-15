@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.14.0-alpha.1752602215751-e622ff04
+  version: 4.14.0-alpha.1752617527934-7bd769a5
   contact:
     name: Support
     email: support@cribl.io

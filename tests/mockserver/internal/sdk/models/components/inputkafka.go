@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -14,6 +16,19 @@ const (
 
 func (e InputKafkaType) ToPointer() *InputKafkaType {
 	return &e
+}
+func (e *InputKafkaType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "kafka":
+		*e = InputKafkaType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputKafkaType: %v", v)
+	}
 }
 
 type InputKafkaConnection struct {
@@ -46,6 +61,21 @@ const (
 func (e InputKafkaMode) ToPointer() *InputKafkaMode {
 	return &e
 }
+func (e *InputKafkaMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = InputKafkaMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputKafkaMode: %v", v)
+	}
+}
 
 // InputKafkaCompression - Codec to use to compress the persisted data
 type InputKafkaCompression string
@@ -57,6 +87,21 @@ const (
 
 func (e InputKafkaCompression) ToPointer() *InputKafkaCompression {
 	return &e
+}
+func (e *InputKafkaCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = InputKafkaCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputKafkaCompression: %v", v)
+	}
 }
 
 type InputKafkaPq struct {
@@ -180,6 +225,25 @@ const (
 func (e InputKafkaKafkaSchemaRegistryMinimumTLSVersion) ToPointer() *InputKafkaKafkaSchemaRegistryMinimumTLSVersion {
 	return &e
 }
+func (e *InputKafkaKafkaSchemaRegistryMinimumTLSVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = InputKafkaKafkaSchemaRegistryMinimumTLSVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputKafkaKafkaSchemaRegistryMinimumTLSVersion: %v", v)
+	}
+}
 
 type InputKafkaKafkaSchemaRegistryMaximumTLSVersion string
 
@@ -192,6 +256,25 @@ const (
 
 func (e InputKafkaKafkaSchemaRegistryMaximumTLSVersion) ToPointer() *InputKafkaKafkaSchemaRegistryMaximumTLSVersion {
 	return &e
+}
+func (e *InputKafkaKafkaSchemaRegistryMaximumTLSVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = InputKafkaKafkaSchemaRegistryMaximumTLSVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputKafkaKafkaSchemaRegistryMaximumTLSVersion: %v", v)
+	}
 }
 
 type InputKafkaKafkaSchemaRegistryTLSSettingsClientSide struct {
@@ -383,6 +466,25 @@ const (
 func (e InputKafkaSASLMechanism) ToPointer() *InputKafkaSASLMechanism {
 	return &e
 }
+func (e *InputKafkaSASLMechanism) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "plain":
+		fallthrough
+	case "scram-sha-256":
+		fallthrough
+	case "scram-sha-512":
+		fallthrough
+	case "kerberos":
+		*e = InputKafkaSASLMechanism(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputKafkaSASLMechanism: %v", v)
+	}
+}
 
 // InputKafkaAuthentication - Authentication parameters to use when connecting to brokers. Using TLS is highly recommended.
 type InputKafkaAuthentication struct {
@@ -427,6 +529,25 @@ const (
 func (e InputKafkaMinimumTLSVersion) ToPointer() *InputKafkaMinimumTLSVersion {
 	return &e
 }
+func (e *InputKafkaMinimumTLSVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = InputKafkaMinimumTLSVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputKafkaMinimumTLSVersion: %v", v)
+	}
+}
 
 type InputKafkaMaximumTLSVersion string
 
@@ -439,6 +560,25 @@ const (
 
 func (e InputKafkaMaximumTLSVersion) ToPointer() *InputKafkaMaximumTLSVersion {
 	return &e
+}
+func (e *InputKafkaMaximumTLSVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = InputKafkaMaximumTLSVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputKafkaMaximumTLSVersion: %v", v)
+	}
 }
 
 type InputKafkaTLSSettingsClientSide struct {

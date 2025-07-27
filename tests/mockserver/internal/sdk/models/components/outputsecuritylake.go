@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -14,6 +16,19 @@ const (
 
 func (e OutputSecurityLakeType) ToPointer() *OutputSecurityLakeType {
 	return &e
+}
+func (e *OutputSecurityLakeType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "security_lake":
+		*e = OutputSecurityLakeType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSecurityLakeType: %v", v)
+	}
 }
 
 // OutputSecurityLakeAuthenticationMethod - AWS authentication method. Choose Auto to use IAM roles.
@@ -28,6 +43,23 @@ const (
 func (e OutputSecurityLakeAuthenticationMethod) ToPointer() *OutputSecurityLakeAuthenticationMethod {
 	return &e
 }
+func (e *OutputSecurityLakeAuthenticationMethod) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "auto":
+		fallthrough
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = OutputSecurityLakeAuthenticationMethod(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSecurityLakeAuthenticationMethod: %v", v)
+	}
+}
 
 // OutputSecurityLakeSignatureVersion - Signature version to use for signing Amazon Security Lake requests
 type OutputSecurityLakeSignatureVersion string
@@ -39,6 +71,21 @@ const (
 
 func (e OutputSecurityLakeSignatureVersion) ToPointer() *OutputSecurityLakeSignatureVersion {
 	return &e
+}
+func (e *OutputSecurityLakeSignatureVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "v2":
+		fallthrough
+	case "v4":
+		*e = OutputSecurityLakeSignatureVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSecurityLakeSignatureVersion: %v", v)
+	}
 }
 
 // OutputSecurityLakeObjectACL - Object ACL to assign to uploaded objects
@@ -56,6 +103,31 @@ const (
 
 func (e OutputSecurityLakeObjectACL) ToPointer() *OutputSecurityLakeObjectACL {
 	return &e
+}
+func (e *OutputSecurityLakeObjectACL) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "private":
+		fallthrough
+	case "public-read":
+		fallthrough
+	case "public-read-write":
+		fallthrough
+	case "authenticated-read":
+		fallthrough
+	case "aws-exec-read":
+		fallthrough
+	case "bucket-owner-read":
+		fallthrough
+	case "bucket-owner-full-control":
+		*e = OutputSecurityLakeObjectACL(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSecurityLakeObjectACL: %v", v)
+	}
 }
 
 // OutputSecurityLakeStorageClass - Storage class to select for uploaded objects
@@ -75,6 +147,33 @@ const (
 func (e OutputSecurityLakeStorageClass) ToPointer() *OutputSecurityLakeStorageClass {
 	return &e
 }
+func (e *OutputSecurityLakeStorageClass) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "STANDARD":
+		fallthrough
+	case "REDUCED_REDUNDANCY":
+		fallthrough
+	case "STANDARD_IA":
+		fallthrough
+	case "ONEZONE_IA":
+		fallthrough
+	case "INTELLIGENT_TIERING":
+		fallthrough
+	case "GLACIER":
+		fallthrough
+	case "GLACIER_IR":
+		fallthrough
+	case "DEEP_ARCHIVE":
+		*e = OutputSecurityLakeStorageClass(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSecurityLakeStorageClass: %v", v)
+	}
+}
 
 type OutputSecurityLakeServerSideEncryptionForUploadedObjects string
 
@@ -85,6 +184,21 @@ const (
 
 func (e OutputSecurityLakeServerSideEncryptionForUploadedObjects) ToPointer() *OutputSecurityLakeServerSideEncryptionForUploadedObjects {
 	return &e
+}
+func (e *OutputSecurityLakeServerSideEncryptionForUploadedObjects) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "AES256":
+		fallthrough
+	case "aws:kms":
+		*e = OutputSecurityLakeServerSideEncryptionForUploadedObjects(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSecurityLakeServerSideEncryptionForUploadedObjects: %v", v)
+	}
 }
 
 // OutputSecurityLakeBackpressureBehavior - How to handle events when all receivers are exerting backpressure
@@ -98,6 +212,21 @@ const (
 func (e OutputSecurityLakeBackpressureBehavior) ToPointer() *OutputSecurityLakeBackpressureBehavior {
 	return &e
 }
+func (e *OutputSecurityLakeBackpressureBehavior) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		*e = OutputSecurityLakeBackpressureBehavior(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSecurityLakeBackpressureBehavior: %v", v)
+	}
+}
 
 // OutputSecurityLakeDiskSpaceProtection - How to handle events when disk space is below the global 'Min free disk space' limit
 type OutputSecurityLakeDiskSpaceProtection string
@@ -109,6 +238,21 @@ const (
 
 func (e OutputSecurityLakeDiskSpaceProtection) ToPointer() *OutputSecurityLakeDiskSpaceProtection {
 	return &e
+}
+func (e *OutputSecurityLakeDiskSpaceProtection) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		*e = OutputSecurityLakeDiskSpaceProtection(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSecurityLakeDiskSpaceProtection: %v", v)
+	}
 }
 
 // OutputSecurityLakeParquetVersion - Determines which data types are supported and how they are represented
@@ -123,6 +267,23 @@ const (
 func (e OutputSecurityLakeParquetVersion) ToPointer() *OutputSecurityLakeParquetVersion {
 	return &e
 }
+func (e *OutputSecurityLakeParquetVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "PARQUET_1_0":
+		fallthrough
+	case "PARQUET_2_4":
+		fallthrough
+	case "PARQUET_2_6":
+		*e = OutputSecurityLakeParquetVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSecurityLakeParquetVersion: %v", v)
+	}
+}
 
 // OutputSecurityLakeDataPageVersion - Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it.
 type OutputSecurityLakeDataPageVersion string
@@ -134,6 +295,21 @@ const (
 
 func (e OutputSecurityLakeDataPageVersion) ToPointer() *OutputSecurityLakeDataPageVersion {
 	return &e
+}
+func (e *OutputSecurityLakeDataPageVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "DATA_PAGE_V1":
+		fallthrough
+	case "DATA_PAGE_V2":
+		*e = OutputSecurityLakeDataPageVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSecurityLakeDataPageVersion: %v", v)
+	}
 }
 
 type OutputSecurityLakeKeyValueMetadatum struct {

@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -14,6 +16,19 @@ const (
 
 func (e InputPrometheusRwType) ToPointer() *InputPrometheusRwType {
 	return &e
+}
+func (e *InputPrometheusRwType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "prometheus_rw":
+		*e = InputPrometheusRwType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputPrometheusRwType: %v", v)
+	}
 }
 
 type InputPrometheusRwConnection struct {
@@ -46,6 +61,21 @@ const (
 func (e InputPrometheusRwMode) ToPointer() *InputPrometheusRwMode {
 	return &e
 }
+func (e *InputPrometheusRwMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = InputPrometheusRwMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputPrometheusRwMode: %v", v)
+	}
+}
 
 // InputPrometheusRwCompression - Codec to use to compress the persisted data
 type InputPrometheusRwCompression string
@@ -57,6 +87,21 @@ const (
 
 func (e InputPrometheusRwCompression) ToPointer() *InputPrometheusRwCompression {
 	return &e
+}
+func (e *InputPrometheusRwCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = InputPrometheusRwCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputPrometheusRwCompression: %v", v)
+	}
 }
 
 type InputPrometheusRwPq struct {
@@ -148,6 +193,25 @@ const (
 func (e InputPrometheusRwMinimumTLSVersion) ToPointer() *InputPrometheusRwMinimumTLSVersion {
 	return &e
 }
+func (e *InputPrometheusRwMinimumTLSVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = InputPrometheusRwMinimumTLSVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputPrometheusRwMinimumTLSVersion: %v", v)
+	}
+}
 
 type InputPrometheusRwMaximumTLSVersion string
 
@@ -160,6 +224,25 @@ const (
 
 func (e InputPrometheusRwMaximumTLSVersion) ToPointer() *InputPrometheusRwMaximumTLSVersion {
 	return &e
+}
+func (e *InputPrometheusRwMaximumTLSVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = InputPrometheusRwMaximumTLSVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputPrometheusRwMaximumTLSVersion: %v", v)
+	}
 }
 
 type InputPrometheusRwTLSSettingsServerSide struct {
@@ -284,6 +367,29 @@ const (
 
 func (e InputPrometheusRwAuthenticationType) ToPointer() *InputPrometheusRwAuthenticationType {
 	return &e
+}
+func (e *InputPrometheusRwAuthenticationType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "basic":
+		fallthrough
+	case "credentialsSecret":
+		fallthrough
+	case "token":
+		fallthrough
+	case "textSecret":
+		fallthrough
+	case "oauth":
+		*e = InputPrometheusRwAuthenticationType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputPrometheusRwAuthenticationType: %v", v)
+	}
 }
 
 type InputPrometheusRwMetadatum struct {

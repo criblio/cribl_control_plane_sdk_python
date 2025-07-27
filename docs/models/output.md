@@ -261,10 +261,10 @@ value: models.OutputSumoLogic = /* values here */
 value: models.OutputDatadog = /* values here */
 ```
 
-### `models.OutputGrafanaCloudUnion`
+### `models.OutputGrafanaCloud`
 
 ```python
-value: models.OutputGrafanaCloudUnion = /* values here */
+value: models.OutputGrafanaCloud = /* values here */
 ```
 
 ### `models.OutputLoki`

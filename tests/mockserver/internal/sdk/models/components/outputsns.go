@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -14,6 +16,19 @@ const (
 
 func (e OutputSnsType) ToPointer() *OutputSnsType {
 	return &e
+}
+func (e *OutputSnsType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "sns":
+		*e = OutputSnsType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSnsType: %v", v)
+	}
 }
 
 // OutputSnsAuthenticationMethod - AWS authentication method. Choose Auto to use IAM roles.
@@ -28,6 +43,23 @@ const (
 func (e OutputSnsAuthenticationMethod) ToPointer() *OutputSnsAuthenticationMethod {
 	return &e
 }
+func (e *OutputSnsAuthenticationMethod) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "auto":
+		fallthrough
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = OutputSnsAuthenticationMethod(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSnsAuthenticationMethod: %v", v)
+	}
+}
 
 // OutputSnsSignatureVersion - Signature version to use for signing SNS requests
 type OutputSnsSignatureVersion string
@@ -39,6 +71,21 @@ const (
 
 func (e OutputSnsSignatureVersion) ToPointer() *OutputSnsSignatureVersion {
 	return &e
+}
+func (e *OutputSnsSignatureVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "v2":
+		fallthrough
+	case "v4":
+		*e = OutputSnsSignatureVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSnsSignatureVersion: %v", v)
+	}
 }
 
 // OutputSnsBackpressureBehavior - How to handle events when all receivers are exerting backpressure
@@ -53,6 +100,23 @@ const (
 func (e OutputSnsBackpressureBehavior) ToPointer() *OutputSnsBackpressureBehavior {
 	return &e
 }
+func (e *OutputSnsBackpressureBehavior) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		fallthrough
+	case "queue":
+		*e = OutputSnsBackpressureBehavior(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSnsBackpressureBehavior: %v", v)
+	}
+}
 
 // OutputSnsCompression - Codec to use to compress the persisted data
 type OutputSnsCompression string
@@ -64,6 +128,21 @@ const (
 
 func (e OutputSnsCompression) ToPointer() *OutputSnsCompression {
 	return &e
+}
+func (e *OutputSnsCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = OutputSnsCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSnsCompression: %v", v)
+	}
 }
 
 // OutputSnsQueueFullBehavior - How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged.
@@ -77,6 +156,21 @@ const (
 func (e OutputSnsQueueFullBehavior) ToPointer() *OutputSnsQueueFullBehavior {
 	return &e
 }
+func (e *OutputSnsQueueFullBehavior) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		*e = OutputSnsQueueFullBehavior(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSnsQueueFullBehavior: %v", v)
+	}
+}
 
 // OutputSnsMode - In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem.
 type OutputSnsMode string
@@ -89,6 +183,23 @@ const (
 
 func (e OutputSnsMode) ToPointer() *OutputSnsMode {
 	return &e
+}
+func (e *OutputSnsMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "error":
+		fallthrough
+	case "backpressure":
+		fallthrough
+	case "always":
+		*e = OutputSnsMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSnsMode: %v", v)
+	}
 }
 
 type OutputSnsPqControls struct {

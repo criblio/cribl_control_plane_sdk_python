@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -14,6 +16,19 @@ const (
 
 func (e OutputWebhookType) ToPointer() *OutputWebhookType {
 	return &e
+}
+func (e *OutputWebhookType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "webhook":
+		*e = OutputWebhookType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputWebhookType: %v", v)
+	}
 }
 
 // OutputWebhookMethod - The method to use when sending events
@@ -28,6 +43,23 @@ const (
 func (e OutputWebhookMethod) ToPointer() *OutputWebhookMethod {
 	return &e
 }
+func (e *OutputWebhookMethod) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "POST":
+		fallthrough
+	case "PUT":
+		fallthrough
+	case "PATCH":
+		*e = OutputWebhookMethod(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputWebhookMethod: %v", v)
+	}
+}
 
 // OutputWebhookFormat - How to format events before sending out
 type OutputWebhookFormat string
@@ -41,6 +73,25 @@ const (
 
 func (e OutputWebhookFormat) ToPointer() *OutputWebhookFormat {
 	return &e
+}
+func (e *OutputWebhookFormat) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "ndjson":
+		fallthrough
+	case "json_array":
+		fallthrough
+	case "custom":
+		fallthrough
+	case "advanced":
+		*e = OutputWebhookFormat(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputWebhookFormat: %v", v)
+	}
 }
 
 type OutputWebhookExtraHTTPHeader struct {
@@ -73,6 +124,23 @@ const (
 
 func (e OutputWebhookFailedRequestLoggingMode) ToPointer() *OutputWebhookFailedRequestLoggingMode {
 	return &e
+}
+func (e *OutputWebhookFailedRequestLoggingMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "payload":
+		fallthrough
+	case "payloadAndHeaders":
+		fallthrough
+	case "none":
+		*e = OutputWebhookFailedRequestLoggingMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputWebhookFailedRequestLoggingMode: %v", v)
+	}
 }
 
 type OutputWebhookResponseRetrySetting struct {
@@ -186,6 +254,23 @@ const (
 func (e OutputWebhookBackpressureBehavior) ToPointer() *OutputWebhookBackpressureBehavior {
 	return &e
 }
+func (e *OutputWebhookBackpressureBehavior) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		fallthrough
+	case "queue":
+		*e = OutputWebhookBackpressureBehavior(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputWebhookBackpressureBehavior: %v", v)
+	}
+}
 
 // OutputWebhookAuthenticationType - Authentication method to use for the HTTP request
 type OutputWebhookAuthenticationType string
@@ -202,6 +287,29 @@ const (
 func (e OutputWebhookAuthenticationType) ToPointer() *OutputWebhookAuthenticationType {
 	return &e
 }
+func (e *OutputWebhookAuthenticationType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "basic":
+		fallthrough
+	case "credentialsSecret":
+		fallthrough
+	case "token":
+		fallthrough
+	case "textSecret":
+		fallthrough
+	case "oauth":
+		*e = OutputWebhookAuthenticationType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputWebhookAuthenticationType: %v", v)
+	}
+}
 
 type OutputWebhookMinimumTLSVersion string
 
@@ -215,6 +323,25 @@ const (
 func (e OutputWebhookMinimumTLSVersion) ToPointer() *OutputWebhookMinimumTLSVersion {
 	return &e
 }
+func (e *OutputWebhookMinimumTLSVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = OutputWebhookMinimumTLSVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputWebhookMinimumTLSVersion: %v", v)
+	}
+}
 
 type OutputWebhookMaximumTLSVersion string
 
@@ -227,6 +354,25 @@ const (
 
 func (e OutputWebhookMaximumTLSVersion) ToPointer() *OutputWebhookMaximumTLSVersion {
 	return &e
+}
+func (e *OutputWebhookMaximumTLSVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = OutputWebhookMaximumTLSVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputWebhookMaximumTLSVersion: %v", v)
+	}
 }
 
 type OutputWebhookTLSSettingsClientSide struct {
@@ -332,6 +478,21 @@ const (
 func (e OutputWebhookCompression) ToPointer() *OutputWebhookCompression {
 	return &e
 }
+func (e *OutputWebhookCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = OutputWebhookCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputWebhookCompression: %v", v)
+	}
+}
 
 // OutputWebhookQueueFullBehavior - How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged.
 type OutputWebhookQueueFullBehavior string
@@ -343,6 +504,21 @@ const (
 
 func (e OutputWebhookQueueFullBehavior) ToPointer() *OutputWebhookQueueFullBehavior {
 	return &e
+}
+func (e *OutputWebhookQueueFullBehavior) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		*e = OutputWebhookQueueFullBehavior(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputWebhookQueueFullBehavior: %v", v)
+	}
 }
 
 // OutputWebhookMode - In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem.
@@ -356,6 +532,23 @@ const (
 
 func (e OutputWebhookMode) ToPointer() *OutputWebhookMode {
 	return &e
+}
+func (e *OutputWebhookMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "error":
+		fallthrough
+	case "backpressure":
+		fallthrough
+	case "always":
+		*e = OutputWebhookMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputWebhookMode: %v", v)
+	}
 }
 
 type OutputWebhookPqControls struct {

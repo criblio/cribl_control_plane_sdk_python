@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -14,6 +16,19 @@ const (
 
 func (e OutputConfluentCloudType) ToPointer() *OutputConfluentCloudType {
 	return &e
+}
+func (e *OutputConfluentCloudType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "confluent_cloud":
+		*e = OutputConfluentCloudType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputConfluentCloudType: %v", v)
+	}
 }
 
 type OutputConfluentCloudMinimumTLSVersion string
@@ -28,6 +43,25 @@ const (
 func (e OutputConfluentCloudMinimumTLSVersion) ToPointer() *OutputConfluentCloudMinimumTLSVersion {
 	return &e
 }
+func (e *OutputConfluentCloudMinimumTLSVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = OutputConfluentCloudMinimumTLSVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputConfluentCloudMinimumTLSVersion: %v", v)
+	}
+}
 
 type OutputConfluentCloudMaximumTLSVersion string
 
@@ -40,6 +74,25 @@ const (
 
 func (e OutputConfluentCloudMaximumTLSVersion) ToPointer() *OutputConfluentCloudMaximumTLSVersion {
 	return &e
+}
+func (e *OutputConfluentCloudMaximumTLSVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = OutputConfluentCloudMaximumTLSVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputConfluentCloudMaximumTLSVersion: %v", v)
+	}
 }
 
 type OutputConfluentCloudTLSSettingsClientSide struct {
@@ -156,6 +209,23 @@ const (
 func (e OutputConfluentCloudAcknowledgments) ToPointer() *OutputConfluentCloudAcknowledgments {
 	return &e
 }
+func (e *OutputConfluentCloudAcknowledgments) UnmarshalJSON(data []byte) error {
+	var v int64
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case 1:
+		fallthrough
+	case 0:
+		fallthrough
+	case -1:
+		*e = OutputConfluentCloudAcknowledgments(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputConfluentCloudAcknowledgments: %v", v)
+	}
+}
 
 // OutputConfluentCloudRecordDataFormat - Format to use to serialize events before writing to Kafka.
 type OutputConfluentCloudRecordDataFormat string
@@ -168,6 +238,23 @@ const (
 
 func (e OutputConfluentCloudRecordDataFormat) ToPointer() *OutputConfluentCloudRecordDataFormat {
 	return &e
+}
+func (e *OutputConfluentCloudRecordDataFormat) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "json":
+		fallthrough
+	case "raw":
+		fallthrough
+	case "protobuf":
+		*e = OutputConfluentCloudRecordDataFormat(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputConfluentCloudRecordDataFormat: %v", v)
+	}
 }
 
 // OutputConfluentCloudCompression - Codec to use to compress the data before sending to Kafka
@@ -182,6 +269,25 @@ const (
 
 func (e OutputConfluentCloudCompression) ToPointer() *OutputConfluentCloudCompression {
 	return &e
+}
+func (e *OutputConfluentCloudCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		fallthrough
+	case "snappy":
+		fallthrough
+	case "lz4":
+		*e = OutputConfluentCloudCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputConfluentCloudCompression: %v", v)
+	}
 }
 
 // OutputConfluentCloudAuth - Credentials to use when authenticating with the schema registry using basic HTTP authentication
@@ -228,6 +334,25 @@ const (
 func (e OutputConfluentCloudKafkaSchemaRegistryMinimumTLSVersion) ToPointer() *OutputConfluentCloudKafkaSchemaRegistryMinimumTLSVersion {
 	return &e
 }
+func (e *OutputConfluentCloudKafkaSchemaRegistryMinimumTLSVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = OutputConfluentCloudKafkaSchemaRegistryMinimumTLSVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputConfluentCloudKafkaSchemaRegistryMinimumTLSVersion: %v", v)
+	}
+}
 
 type OutputConfluentCloudKafkaSchemaRegistryMaximumTLSVersion string
 
@@ -240,6 +365,25 @@ const (
 
 func (e OutputConfluentCloudKafkaSchemaRegistryMaximumTLSVersion) ToPointer() *OutputConfluentCloudKafkaSchemaRegistryMaximumTLSVersion {
 	return &e
+}
+func (e *OutputConfluentCloudKafkaSchemaRegistryMaximumTLSVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = OutputConfluentCloudKafkaSchemaRegistryMaximumTLSVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputConfluentCloudKafkaSchemaRegistryMaximumTLSVersion: %v", v)
+	}
 }
 
 type OutputConfluentCloudKafkaSchemaRegistryTLSSettingsClientSide struct {
@@ -449,6 +593,25 @@ const (
 func (e OutputConfluentCloudSASLMechanism) ToPointer() *OutputConfluentCloudSASLMechanism {
 	return &e
 }
+func (e *OutputConfluentCloudSASLMechanism) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "plain":
+		fallthrough
+	case "scram-sha-256":
+		fallthrough
+	case "scram-sha-512":
+		fallthrough
+	case "kerberos":
+		*e = OutputConfluentCloudSASLMechanism(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputConfluentCloudSASLMechanism: %v", v)
+	}
+}
 
 // OutputConfluentCloudAuthentication - Authentication parameters to use when connecting to brokers. Using TLS is highly recommended.
 type OutputConfluentCloudAuthentication struct {
@@ -493,6 +656,23 @@ const (
 func (e OutputConfluentCloudBackpressureBehavior) ToPointer() *OutputConfluentCloudBackpressureBehavior {
 	return &e
 }
+func (e *OutputConfluentCloudBackpressureBehavior) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		fallthrough
+	case "queue":
+		*e = OutputConfluentCloudBackpressureBehavior(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputConfluentCloudBackpressureBehavior: %v", v)
+	}
+}
 
 // OutputConfluentCloudPqCompressCompression - Codec to use to compress the persisted data
 type OutputConfluentCloudPqCompressCompression string
@@ -504,6 +684,21 @@ const (
 
 func (e OutputConfluentCloudPqCompressCompression) ToPointer() *OutputConfluentCloudPqCompressCompression {
 	return &e
+}
+func (e *OutputConfluentCloudPqCompressCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = OutputConfluentCloudPqCompressCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputConfluentCloudPqCompressCompression: %v", v)
+	}
 }
 
 // OutputConfluentCloudQueueFullBehavior - How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged.
@@ -517,6 +712,21 @@ const (
 func (e OutputConfluentCloudQueueFullBehavior) ToPointer() *OutputConfluentCloudQueueFullBehavior {
 	return &e
 }
+func (e *OutputConfluentCloudQueueFullBehavior) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		*e = OutputConfluentCloudQueueFullBehavior(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputConfluentCloudQueueFullBehavior: %v", v)
+	}
+}
 
 // OutputConfluentCloudMode - In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem.
 type OutputConfluentCloudMode string
@@ -529,6 +739,23 @@ const (
 
 func (e OutputConfluentCloudMode) ToPointer() *OutputConfluentCloudMode {
 	return &e
+}
+func (e *OutputConfluentCloudMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "error":
+		fallthrough
+	case "backpressure":
+		fallthrough
+	case "always":
+		*e = OutputConfluentCloudMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputConfluentCloudMode: %v", v)
+	}
 }
 
 type OutputConfluentCloudPqControls struct {

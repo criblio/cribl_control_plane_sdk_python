@@ -13,47 +13,44 @@ from .inputkubemetrics import InputKubeMetrics, InputKubeMetricsTypedDict
 from .inputsystemmetrics import InputSystemMetrics, InputSystemMetricsTypedDict
 from .inputsystemstate import InputSystemState, InputSystemStateTypedDict
 from .inputwindowsmetrics import InputWindowsMetrics, InputWindowsMetricsTypedDict
-from cribl_control_plane import utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
-from pydantic.functional_validators import PlainValidator
 from typing import Any, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
-class CreateInputInputZscalerHecType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputTypeZscalerHec(str, Enum):
     ZSCALER_HEC = "zscaler_hec"
 
 
-class CreateInputInputZscalerHecConnectionTypedDict(TypedDict):
+class ConnectionZscalerHecTypedDict(TypedDict):
     output: str
     pipeline: NotRequired[str]
 
 
-class CreateInputInputZscalerHecConnection(BaseModel):
+class ConnectionZscalerHec(BaseModel):
     output: str
 
     pipeline: Optional[str] = None
 
 
-class CreateInputInputZscalerHecMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ModeZscalerHec(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputZscalerHecCompression(str, Enum, metaclass=utils.OpenEnumMeta):
+class CompressionZscalerHec(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class CreateInputInputZscalerHecPqTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputZscalerHecMode]
+class PqZscalerHecTypedDict(TypedDict):
+    mode: NotRequired[ModeZscalerHec]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
@@ -65,15 +62,12 @@ class CreateInputInputZscalerHecPqTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
-    compress: NotRequired[CreateInputInputZscalerHecCompression]
+    compress: NotRequired[CompressionZscalerHec]
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputZscalerHecPq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputZscalerHecMode],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputZscalerHecMode.ALWAYS
+class PqZscalerHec(BaseModel):
+    mode: Optional[ModeZscalerHec] = ModeZscalerHec.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -97,58 +91,49 @@ class CreateInputInputZscalerHecPq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputZscalerHecCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputZscalerHecCompression.NONE
+    compress: Optional[CompressionZscalerHec] = CompressionZscalerHec.NONE
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputZscalerHecAuthenticationMethod(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class AuthenticationMethodZscalerHec(str, Enum):
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
     MANUAL = "manual"
     SECRET = "secret"
 
 
-class CreateInputInputZscalerHecAuthTokenMetadatumTypedDict(TypedDict):
+class AuthTokenMetadatumZscalerHecTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputZscalerHecAuthTokenMetadatum(BaseModel):
+class AuthTokenMetadatumZscalerHec(BaseModel):
     name: str
 
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputZscalerHecAuthTokenTypedDict(TypedDict):
+class AuthTokenZscalerHecTypedDict(TypedDict):
     token: Any
-    auth_type: NotRequired[CreateInputInputZscalerHecAuthenticationMethod]
+    auth_type: NotRequired[AuthenticationMethodZscalerHec]
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
     token_secret: NotRequired[Any]
     enabled: NotRequired[bool]
     description: NotRequired[str]
     allowed_indexes_at_token: NotRequired[List[str]]
     r"""Enter the values you want to allow in the HEC event index field at the token level. Supports wildcards. To skip validation, leave blank."""
-    metadata: NotRequired[List[CreateInputInputZscalerHecAuthTokenMetadatumTypedDict]]
+    metadata: NotRequired[List[AuthTokenMetadatumZscalerHecTypedDict]]
     r"""Fields to add to events referencing this token"""
 
 
-class CreateInputInputZscalerHecAuthToken(BaseModel):
+class AuthTokenZscalerHec(BaseModel):
     token: Any
 
     auth_type: Annotated[
-        Annotated[
-            Optional[CreateInputInputZscalerHecAuthenticationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
-    ] = CreateInputInputZscalerHecAuthenticationMethod.MANUAL
+        Optional[AuthenticationMethodZscalerHec], pydantic.Field(alias="authType")
+    ] = AuthenticationMethodZscalerHec.MANUAL
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
     token_secret: Annotated[Optional[Any], pydantic.Field(alias="tokenSecret")] = None
@@ -162,29 +147,25 @@ class CreateInputInputZscalerHecAuthToken(BaseModel):
     ] = None
     r"""Enter the values you want to allow in the HEC event index field at the token level. Supports wildcards. To skip validation, leave blank."""
 
-    metadata: Optional[List[CreateInputInputZscalerHecAuthTokenMetadatum]] = None
+    metadata: Optional[List[AuthTokenMetadatumZscalerHec]] = None
     r"""Fields to add to events referencing this token"""
 
 
-class CreateInputInputZscalerHecMinimumTLSVersion(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class MinimumTLSVersionZscalerHec(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputZscalerHecMaximumTLSVersion(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class MaximumTLSVersionZscalerHec(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputZscalerHecTLSSettingsServerSideTypedDict(TypedDict):
+class TLSSettingsServerSideZscalerHecTypedDict(TypedDict):
     disabled: NotRequired[bool]
     certificate_name: NotRequired[str]
     r"""The name of the predefined certificate"""
@@ -200,11 +181,11 @@ class CreateInputInputZscalerHecTLSSettingsServerSideTypedDict(TypedDict):
     r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
     reject_unauthorized: NotRequired[Any]
     common_name_regex: NotRequired[Any]
-    min_version: NotRequired[CreateInputInputZscalerHecMinimumTLSVersion]
-    max_version: NotRequired[CreateInputInputZscalerHecMaximumTLSVersion]
+    min_version: NotRequired[MinimumTLSVersionZscalerHec]
+    max_version: NotRequired[MaximumTLSVersionZscalerHec]
 
 
-class CreateInputInputZscalerHecTLSSettingsServerSide(BaseModel):
+class TLSSettingsServerSideZscalerHec(BaseModel):
     disabled: Optional[bool] = True
 
     certificate_name: Annotated[
@@ -236,29 +217,21 @@ class CreateInputInputZscalerHecTLSSettingsServerSide(BaseModel):
     ] = None
 
     min_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputZscalerHecMinimumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="minVersion"),
+        Optional[MinimumTLSVersionZscalerHec], pydantic.Field(alias="minVersion")
     ] = None
 
     max_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputZscalerHecMaximumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="maxVersion"),
+        Optional[MaximumTLSVersionZscalerHec], pydantic.Field(alias="maxVersion")
     ] = None
 
 
-class CreateInputInputZscalerHecMetadatumTypedDict(TypedDict):
+class MetadatumZscalerHecTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputZscalerHecMetadatum(BaseModel):
+class MetadatumZscalerHec(BaseModel):
     name: str
 
     value: str
@@ -270,7 +243,7 @@ class CreateInputInputZscalerHecTypedDict(TypedDict):
     r"""Unique ID for this input"""
     port: float
     r"""Port to listen on"""
-    type: NotRequired[CreateInputInputZscalerHecType]
+    type: NotRequired[CreateInputTypeZscalerHec]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -282,14 +255,14 @@ class CreateInputInputZscalerHecTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[CreateInputInputZscalerHecConnectionTypedDict]]
+    connections: NotRequired[List[ConnectionZscalerHecTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[CreateInputInputZscalerHecPqTypedDict]
+    pq: NotRequired[PqZscalerHecTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-    auth_tokens: NotRequired[List[CreateInputInputZscalerHecAuthTokenTypedDict]]
+    auth_tokens: NotRequired[List[AuthTokenZscalerHecTypedDict]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
-    tls: NotRequired[CreateInputInputZscalerHecTLSSettingsServerSideTypedDict]
+    tls: NotRequired[TLSSettingsServerSideZscalerHecTypedDict]
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -313,7 +286,7 @@ class CreateInputInputZscalerHecTypedDict(TypedDict):
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
     hec_api: NotRequired[str]
     r"""Absolute path on which to listen for the Zscaler HTTP Event Collector API requests. This input supports the /event endpoint."""
-    metadata: NotRequired[List[CreateInputInputZscalerHecMetadatumTypedDict]]
+    metadata: NotRequired[List[MetadatumZscalerHecTypedDict]]
     r"""Fields to add to every event. May be overridden by fields added at the token or request level."""
     allowed_indexes: NotRequired[List[str]]
     r"""List values allowed in HEC event index field. Leave blank to skip validation. Supports wildcards. The values here can expand index validation at the token level."""
@@ -335,10 +308,7 @@ class CreateInputInputZscalerHec(BaseModel):
     port: float
     r"""Port to listen on"""
 
-    type: Annotated[
-        Optional[CreateInputInputZscalerHecType],
-        PlainValidator(validate_open_enum(False)),
-    ] = None
+    type: Optional[CreateInputTypeZscalerHec] = None
 
     disabled: Optional[bool] = False
 
@@ -359,21 +329,20 @@ class CreateInputInputZscalerHec(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[CreateInputInputZscalerHecConnection]] = None
+    connections: Optional[List[ConnectionZscalerHec]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[CreateInputInputZscalerHecPq] = None
+    pq: Optional[PqZscalerHec] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
 
     auth_tokens: Annotated[
-        Optional[List[CreateInputInputZscalerHecAuthToken]],
-        pydantic.Field(alias="authTokens"),
+        Optional[List[AuthTokenZscalerHec]], pydantic.Field(alias="authTokens")
     ] = None
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
-    tls: Optional[CreateInputInputZscalerHecTLSSettingsServerSide] = None
+    tls: Optional[TLSSettingsServerSideZscalerHec] = None
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         256
@@ -434,7 +403,7 @@ class CreateInputInputZscalerHec(BaseModel):
     )
     r"""Absolute path on which to listen for the Zscaler HTTP Event Collector API requests. This input supports the /event endpoint."""
 
-    metadata: Optional[List[CreateInputInputZscalerHecMetadatum]] = None
+    metadata: Optional[List[MetadatumZscalerHec]] = None
     r"""Fields to add to every event. May be overridden by fields added at the token or request level."""
 
     allowed_indexes: Annotated[
@@ -463,37 +432,37 @@ class CreateInputInputZscalerHec(BaseModel):
     description: Optional[str] = None
 
 
-class CreateInputInputSecurityLakeType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputTypeSecurityLake(str, Enum):
     SECURITY_LAKE = "security_lake"
 
 
-class CreateInputInputSecurityLakeConnectionTypedDict(TypedDict):
+class ConnectionSecurityLakeTypedDict(TypedDict):
     output: str
     pipeline: NotRequired[str]
 
 
-class CreateInputInputSecurityLakeConnection(BaseModel):
+class ConnectionSecurityLake(BaseModel):
     output: str
 
     pipeline: Optional[str] = None
 
 
-class CreateInputInputSecurityLakeMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ModeSecurityLake(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputSecurityLakeCompression(str, Enum, metaclass=utils.OpenEnumMeta):
+class CompressionSecurityLake(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class CreateInputInputSecurityLakePqTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputSecurityLakeMode]
+class PqSecurityLakeTypedDict(TypedDict):
+    mode: NotRequired[ModeSecurityLake]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
@@ -505,15 +474,12 @@ class CreateInputInputSecurityLakePqTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
-    compress: NotRequired[CreateInputInputSecurityLakeCompression]
+    compress: NotRequired[CompressionSecurityLake]
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputSecurityLakePq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputSecurityLakeMode],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputSecurityLakeMode.ALWAYS
+class PqSecurityLake(BaseModel):
+    mode: Optional[ModeSecurityLake] = ModeSecurityLake.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -537,16 +503,11 @@ class CreateInputInputSecurityLakePq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputSecurityLakeCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputSecurityLakeCompression.NONE
+    compress: Optional[CompressionSecurityLake] = CompressionSecurityLake.NONE
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputSecurityLakeAuthenticationMethod(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class CreateInputAuthenticationMethodSecurityLake(str, Enum):
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     AUTO = "auto"
@@ -554,16 +515,14 @@ class CreateInputInputSecurityLakeAuthenticationMethod(
     SECRET = "secret"
 
 
-class CreateInputInputSecurityLakeSignatureVersion(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class CreateInputSignatureVersionSecurityLake(str, Enum):
     r"""Signature version to use for signing S3 requests"""
 
     V2 = "v2"
     V4 = "v4"
 
 
-class CreateInputInputSecurityLakePreprocessTypedDict(TypedDict):
+class PreprocessSecurityLakeTypedDict(TypedDict):
     disabled: NotRequired[bool]
     command: NotRequired[str]
     r"""Command to feed the data through (via stdin) and process its output (stdout)"""
@@ -571,7 +530,7 @@ class CreateInputInputSecurityLakePreprocessTypedDict(TypedDict):
     r"""Arguments to be added to the custom command"""
 
 
-class CreateInputInputSecurityLakePreprocess(BaseModel):
+class PreprocessSecurityLake(BaseModel):
     disabled: Optional[bool] = True
 
     command: Optional[str] = None
@@ -581,27 +540,27 @@ class CreateInputInputSecurityLakePreprocess(BaseModel):
     r"""Arguments to be added to the custom command"""
 
 
-class CreateInputInputSecurityLakeMetadatumTypedDict(TypedDict):
+class MetadatumSecurityLakeTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputSecurityLakeMetadatum(BaseModel):
+class MetadatumSecurityLake(BaseModel):
     name: str
 
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputSecurityLakeCheckpointingTypedDict(TypedDict):
+class CheckpointingSecurityLakeTypedDict(TypedDict):
     enabled: NotRequired[bool]
     r"""Resume processing files after an interruption"""
     retries: NotRequired[float]
     r"""The number of times to retry processing when a processing error occurs. If Skip file on error is enabled, this setting is ignored."""
 
 
-class CreateInputInputSecurityLakeCheckpointing(BaseModel):
+class CheckpointingSecurityLake(BaseModel):
     enabled: Optional[bool] = False
     r"""Resume processing files after an interruption"""
 
@@ -609,9 +568,7 @@ class CreateInputInputSecurityLakeCheckpointing(BaseModel):
     r"""The number of times to retry processing when a processing error occurs. If Skip file on error is enabled, this setting is ignored."""
 
 
-class CreateInputInputSecurityLakeTagAfterProcessing(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class TagAfterProcessingSecurityLake(str, Enum):
     FALSE = "false"
     TRUE = "true"
 
@@ -619,7 +576,7 @@ class CreateInputInputSecurityLakeTagAfterProcessing(
 class CreateInputInputSecurityLakeTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputInputSecurityLakeType
+    type: CreateInputTypeSecurityLake
     queue_name: str
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
     disabled: NotRequired[bool]
@@ -633,23 +590,21 @@ class CreateInputInputSecurityLakeTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[CreateInputInputSecurityLakeConnectionTypedDict]]
+    connections: NotRequired[List[ConnectionSecurityLakeTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[CreateInputInputSecurityLakePqTypedDict]
+    pq: NotRequired[PqSecurityLakeTypedDict]
     file_filter: NotRequired[str]
     r"""Regex matching file names to download and process. Defaults to: .*"""
     aws_account_id: NotRequired[str]
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
-    aws_authentication_method: NotRequired[
-        CreateInputInputSecurityLakeAuthenticationMethod
-    ]
+    aws_authentication_method: NotRequired[CreateInputAuthenticationMethodSecurityLake]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     region: NotRequired[str]
     r"""AWS Region where the S3 bucket and SQS queue are located. Required, unless the Queue entry is a URL or ARN that includes a Region."""
     endpoint: NotRequired[str]
     r"""S3 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint."""
-    signature_version: NotRequired[CreateInputInputSecurityLakeSignatureVersion]
+    signature_version: NotRequired[CreateInputSignatureVersionSecurityLake]
     r"""Signature version to use for signing S3 requests"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
@@ -679,14 +634,14 @@ class CreateInputInputSecurityLakeTypedDict(TypedDict):
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
     enable_sqs_assume_role: NotRequired[bool]
     r"""Use Assume Role credentials when accessing Amazon SQS"""
-    preprocess: NotRequired[CreateInputInputSecurityLakePreprocessTypedDict]
-    metadata: NotRequired[List[CreateInputInputSecurityLakeMetadatumTypedDict]]
+    preprocess: NotRequired[PreprocessSecurityLakeTypedDict]
+    metadata: NotRequired[List[MetadatumSecurityLakeTypedDict]]
     r"""Fields to add to events from this input"""
     parquet_chunk_size_mb: NotRequired[float]
     r"""Maximum file size for each Parquet chunk"""
     parquet_chunk_download_timeout: NotRequired[float]
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
-    checkpointing: NotRequired[CreateInputInputSecurityLakeCheckpointingTypedDict]
+    checkpointing: NotRequired[CheckpointingSecurityLakeTypedDict]
     poll_timeout: NotRequired[float]
     r"""How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts."""
     encoding: NotRequired[str]
@@ -695,7 +650,7 @@ class CreateInputInputSecurityLakeTypedDict(TypedDict):
     aws_api_key: NotRequired[str]
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
-    tag_after_processing: NotRequired[CreateInputInputSecurityLakeTagAfterProcessing]
+    tag_after_processing: NotRequired[TagAfterProcessingSecurityLake]
     processed_tag_key: NotRequired[str]
     r"""The key for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
     processed_tag_value: NotRequired[str]
@@ -706,9 +661,7 @@ class CreateInputInputSecurityLake(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: Annotated[
-        CreateInputInputSecurityLakeType, PlainValidator(validate_open_enum(False))
-    ]
+    type: CreateInputTypeSecurityLake
 
     queue_name: Annotated[str, pydantic.Field(alias="queueName")]
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
@@ -732,10 +685,10 @@ class CreateInputInputSecurityLake(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[CreateInputInputSecurityLakeConnection]] = None
+    connections: Optional[List[ConnectionSecurityLake]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[CreateInputInputSecurityLakePq] = None
+    pq: Optional[PqSecurityLake] = None
 
     file_filter: Annotated[Optional[str], pydantic.Field(alias="fileFilter")] = "/.*/"
     r"""Regex matching file names to download and process. Defaults to: .*"""
@@ -746,12 +699,9 @@ class CreateInputInputSecurityLake(BaseModel):
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
 
     aws_authentication_method: Annotated[
-        Annotated[
-            Optional[CreateInputInputSecurityLakeAuthenticationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[CreateInputAuthenticationMethodSecurityLake],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = CreateInputInputSecurityLakeAuthenticationMethod.AUTO
+    ] = CreateInputAuthenticationMethodSecurityLake.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -765,12 +715,9 @@ class CreateInputInputSecurityLake(BaseModel):
     r"""S3 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint."""
 
     signature_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputSecurityLakeSignatureVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[CreateInputSignatureVersionSecurityLake],
         pydantic.Field(alias="signatureVersion"),
-    ] = CreateInputInputSecurityLakeSignatureVersion.V4
+    ] = CreateInputSignatureVersionSecurityLake.V4
     r"""Signature version to use for signing S3 requests"""
 
     reuse_connections: Annotated[
@@ -839,9 +786,9 @@ class CreateInputInputSecurityLake(BaseModel):
     ] = False
     r"""Use Assume Role credentials when accessing Amazon SQS"""
 
-    preprocess: Optional[CreateInputInputSecurityLakePreprocess] = None
+    preprocess: Optional[PreprocessSecurityLake] = None
 
-    metadata: Optional[List[CreateInputInputSecurityLakeMetadatum]] = None
+    metadata: Optional[List[MetadatumSecurityLake]] = None
     r"""Fields to add to events from this input"""
 
     parquet_chunk_size_mb: Annotated[
@@ -854,7 +801,7 @@ class CreateInputInputSecurityLake(BaseModel):
     ] = 600
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
 
-    checkpointing: Optional[CreateInputInputSecurityLakeCheckpointing] = None
+    checkpointing: Optional[CheckpointingSecurityLake] = None
 
     poll_timeout: Annotated[Optional[float], pydantic.Field(alias="pollTimeout")] = 10
     r"""How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts."""
@@ -870,10 +817,7 @@ class CreateInputInputSecurityLake(BaseModel):
     r"""Select or create a stored secret that references your access key and secret key"""
 
     tag_after_processing: Annotated[
-        Annotated[
-            Optional[CreateInputInputSecurityLakeTagAfterProcessing],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[TagAfterProcessingSecurityLake],
         pydantic.Field(alias="tagAfterProcessing"),
     ] = None
 
@@ -888,37 +832,37 @@ class CreateInputInputSecurityLake(BaseModel):
     r"""The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
 
 
-class CreateInputInputNetflowType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputTypeNetflow(str, Enum):
     NETFLOW = "netflow"
 
 
-class CreateInputInputNetflowConnectionTypedDict(TypedDict):
+class ConnectionNetflowTypedDict(TypedDict):
     output: str
     pipeline: NotRequired[str]
 
 
-class CreateInputInputNetflowConnection(BaseModel):
+class ConnectionNetflow(BaseModel):
     output: str
 
     pipeline: Optional[str] = None
 
 
-class CreateInputInputNetflowMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ModeNetflow(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputNetflowCompression(str, Enum, metaclass=utils.OpenEnumMeta):
+class CompressionNetflow(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class CreateInputInputNetflowPqTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputNetflowMode]
+class PqNetflowTypedDict(TypedDict):
+    mode: NotRequired[ModeNetflow]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
@@ -930,14 +874,12 @@ class CreateInputInputNetflowPqTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
-    compress: NotRequired[CreateInputInputNetflowCompression]
+    compress: NotRequired[CompressionNetflow]
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputNetflowPq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputNetflowMode], PlainValidator(validate_open_enum(False))
-    ] = CreateInputInputNetflowMode.ALWAYS
+class PqNetflow(BaseModel):
+    mode: Optional[ModeNetflow] = ModeNetflow.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -961,20 +903,17 @@ class CreateInputInputNetflowPq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputNetflowCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputNetflowCompression.NONE
+    compress: Optional[CompressionNetflow] = CompressionNetflow.NONE
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputNetflowMetadatumTypedDict(TypedDict):
+class MetadatumNetflowTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputNetflowMetadatum(BaseModel):
+class MetadatumNetflow(BaseModel):
     name: str
 
     value: str
@@ -984,7 +923,7 @@ class CreateInputInputNetflowMetadatum(BaseModel):
 class CreateInputInputNetflowTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: NotRequired[CreateInputInputNetflowType]
+    type: NotRequired[CreateInputTypeNetflow]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -996,9 +935,9 @@ class CreateInputInputNetflowTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[CreateInputInputNetflowConnectionTypedDict]]
+    connections: NotRequired[List[ConnectionNetflowTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[CreateInputInputNetflowPqTypedDict]
+    pq: NotRequired[PqNetflowTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
     port: NotRequired[float]
@@ -1019,7 +958,7 @@ class CreateInputInputNetflowTypedDict(TypedDict):
     r"""Accept messages in Netflow V9 format."""
     ipfix_enabled: NotRequired[bool]
     r"""Accept messages in IPFIX format."""
-    metadata: NotRequired[List[CreateInputInputNetflowMetadatumTypedDict]]
+    metadata: NotRequired[List[MetadatumNetflowTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
 
@@ -1028,9 +967,7 @@ class CreateInputInputNetflow(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: Annotated[
-        Optional[CreateInputInputNetflowType], PlainValidator(validate_open_enum(False))
-    ] = None
+    type: Optional[CreateInputTypeNetflow] = None
 
     disabled: Optional[bool] = False
 
@@ -1051,10 +988,10 @@ class CreateInputInputNetflow(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[CreateInputInputNetflowConnection]] = None
+    connections: Optional[List[ConnectionNetflow]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[CreateInputInputNetflowPq] = None
+    pq: Optional[PqNetflow] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
@@ -1098,43 +1035,43 @@ class CreateInputInputNetflow(BaseModel):
     )
     r"""Accept messages in IPFIX format."""
 
-    metadata: Optional[List[CreateInputInputNetflowMetadatum]] = None
+    metadata: Optional[List[MetadatumNetflow]] = None
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
 
 
-class CreateInputInputWizType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputTypeWiz(str, Enum):
     WIZ = "wiz"
 
 
-class CreateInputInputWizConnectionTypedDict(TypedDict):
+class ConnectionWizTypedDict(TypedDict):
     output: str
     pipeline: NotRequired[str]
 
 
-class CreateInputInputWizConnection(BaseModel):
+class ConnectionWiz(BaseModel):
     output: str
 
     pipeline: Optional[str] = None
 
 
-class CreateInputInputWizMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ModeWiz(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputWizCompression(str, Enum, metaclass=utils.OpenEnumMeta):
+class CompressionWiz(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class CreateInputInputWizPqTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputWizMode]
+class PqWizTypedDict(TypedDict):
+    mode: NotRequired[ModeWiz]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
@@ -1146,14 +1083,12 @@ class CreateInputInputWizPqTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
-    compress: NotRequired[CreateInputInputWizCompression]
+    compress: NotRequired[CompressionWiz]
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputWizPq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputWizMode], PlainValidator(validate_open_enum(False))
-    ] = CreateInputInputWizMode.ALWAYS
+class PqWiz(BaseModel):
+    mode: Optional[ModeWiz] = ModeWiz.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -1177,21 +1112,18 @@ class CreateInputInputWizPq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputWizCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputWizCompression.NONE
+    compress: Optional[CompressionWiz] = CompressionWiz.NONE
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputWizContentConfigTypedDict(TypedDict):
+class ContentConfigWizTypedDict(TypedDict):
     content_type: str
     r"""The name of the Wiz query"""
     content_description: NotRequired[str]
     enabled: NotRequired[bool]
 
 
-class CreateInputInputWizContentConfig(BaseModel):
+class ContentConfigWiz(BaseModel):
     content_type: Annotated[str, pydantic.Field(alias="contentType")]
     r"""The name of the Wiz query"""
 
@@ -1202,20 +1134,20 @@ class CreateInputInputWizContentConfig(BaseModel):
     enabled: Optional[bool] = False
 
 
-class CreateInputInputWizMetadatumTypedDict(TypedDict):
+class MetadatumWizTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputWizMetadatum(BaseModel):
+class MetadatumWiz(BaseModel):
     name: str
 
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputWizRetryType(str, Enum, metaclass=utils.OpenEnumMeta):
+class RetryTypeWiz(str, Enum):
     r"""The algorithm to use when performing HTTP retries"""
 
     NONE = "none"
@@ -1223,8 +1155,8 @@ class CreateInputInputWizRetryType(str, Enum, metaclass=utils.OpenEnumMeta):
     STATIC = "static"
 
 
-class CreateInputInputWizRetryRulesTypedDict(TypedDict):
-    type: NotRequired[CreateInputInputWizRetryType]
+class RetryRulesWizTypedDict(TypedDict):
+    type: NotRequired[RetryTypeWiz]
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[float]
     r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
@@ -1242,11 +1174,8 @@ class CreateInputInputWizRetryRulesTypedDict(TypedDict):
     r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
-class CreateInputInputWizRetryRules(BaseModel):
-    type: Annotated[
-        Optional[CreateInputInputWizRetryType],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputWizRetryType.BACKOFF
+class RetryRulesWiz(BaseModel):
+    type: Optional[RetryTypeWiz] = RetryTypeWiz.BACKOFF
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[float] = 1000
@@ -1277,7 +1206,7 @@ class CreateInputInputWizRetryRules(BaseModel):
     r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
-class CreateInputInputWizAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
+class AuthenticationMethodWiz(str, Enum):
     r"""Enter client secret directly, or select a stored secret"""
 
     MANUAL = "manual"
@@ -1291,8 +1220,8 @@ class CreateInputInputWizTypedDict(TypedDict):
     r"""The authentication URL to generate an OAuth token"""
     client_id: str
     r"""The client ID of the Wiz application"""
-    content_config: List[CreateInputInputWizContentConfigTypedDict]
-    type: NotRequired[CreateInputInputWizType]
+    content_config: List[ContentConfigWizTypedDict]
+    type: NotRequired[CreateInputTypeWiz]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -1304,9 +1233,9 @@ class CreateInputInputWizTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[CreateInputInputWizConnectionTypedDict]]
+    connections: NotRequired[List[ConnectionWizTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[CreateInputInputWizPqTypedDict]
+    pq: NotRequired[PqWizTypedDict]
     endpoint: NotRequired[str]
     r"""The Wiz GraphQL API endpoint. Example: https://api.us1.app.wiz.io/graphql"""
     auth_audience_override: NotRequired[str]
@@ -1321,10 +1250,10 @@ class CreateInputInputWizTypedDict(TypedDict):
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
     ignore_group_jobs_limit: NotRequired[bool]
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
-    metadata: NotRequired[List[CreateInputInputWizMetadatumTypedDict]]
+    metadata: NotRequired[List[MetadatumWizTypedDict]]
     r"""Fields to add to events from this input"""
-    retry_rules: NotRequired[CreateInputInputWizRetryRulesTypedDict]
-    auth_type: NotRequired[CreateInputInputWizAuthenticationMethod]
+    retry_rules: NotRequired[RetryRulesWizTypedDict]
+    auth_type: NotRequired[AuthenticationMethodWiz]
     r"""Enter client secret directly, or select a stored secret"""
     description: NotRequired[str]
     client_secret: NotRequired[str]
@@ -1344,12 +1273,10 @@ class CreateInputInputWiz(BaseModel):
     r"""The client ID of the Wiz application"""
 
     content_config: Annotated[
-        List[CreateInputInputWizContentConfig], pydantic.Field(alias="contentConfig")
+        List[ContentConfigWiz], pydantic.Field(alias="contentConfig")
     ]
 
-    type: Annotated[
-        Optional[CreateInputInputWizType], PlainValidator(validate_open_enum(False))
-    ] = None
+    type: Optional[CreateInputTypeWiz] = None
 
     disabled: Optional[bool] = False
 
@@ -1370,10 +1297,10 @@ class CreateInputInputWiz(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[CreateInputInputWizConnection]] = None
+    connections: Optional[List[ConnectionWiz]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[CreateInputInputWizPq] = None
+    pq: Optional[PqWiz] = None
 
     endpoint: Optional[str] = "https://api.<region>.app.wiz.io/graphql"
     r"""The Wiz GraphQL API endpoint. Example: https://api.us1.app.wiz.io/graphql"""
@@ -1406,20 +1333,16 @@ class CreateInputInputWiz(BaseModel):
     ] = False
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
 
-    metadata: Optional[List[CreateInputInputWizMetadatum]] = None
+    metadata: Optional[List[MetadatumWiz]] = None
     r"""Fields to add to events from this input"""
 
     retry_rules: Annotated[
-        Optional[CreateInputInputWizRetryRules], pydantic.Field(alias="retryRules")
+        Optional[RetryRulesWiz], pydantic.Field(alias="retryRules")
     ] = None
 
     auth_type: Annotated[
-        Annotated[
-            Optional[CreateInputInputWizAuthenticationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
-    ] = CreateInputInputWizAuthenticationMethod.MANUAL
+        Optional[AuthenticationMethodWiz], pydantic.Field(alias="authType")
+    ] = AuthenticationMethodWiz.MANUAL
     r"""Enter client secret directly, or select a stored secret"""
 
     description: Optional[str] = None
@@ -1431,7 +1354,7 @@ class CreateInputInputWiz(BaseModel):
     r"""Select or create a stored text secret"""
 
 
-class CreateInputInputJournalFilesType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputInputJournalFilesType(str, Enum):
     JOURNAL_FILES = "journal_files"
 
 
@@ -1446,14 +1369,14 @@ class CreateInputInputJournalFilesConnection(BaseModel):
     pipeline: Optional[str] = None
 
 
-class CreateInputInputJournalFilesMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputInputJournalFilesMode(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputJournalFilesCompression(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputInputJournalFilesCompression(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
@@ -1478,10 +1401,9 @@ class CreateInputInputJournalFilesPqTypedDict(TypedDict):
 
 
 class CreateInputInputJournalFilesPq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputJournalFilesMode],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputJournalFilesMode.ALWAYS
+    mode: Optional[CreateInputInputJournalFilesMode] = (
+        CreateInputInputJournalFilesMode.ALWAYS
+    )
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -1505,10 +1427,9 @@ class CreateInputInputJournalFilesPq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputJournalFilesCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputJournalFilesCompression.NONE
+    compress: Optional[CreateInputInputJournalFilesCompression] = (
+        CreateInputInputJournalFilesCompression.NONE
+    )
     r"""Codec to use to compress the persisted data"""
 
 
@@ -1585,10 +1506,7 @@ class CreateInputInputJournalFiles(BaseModel):
     journals: List[str]
     r"""The full path of discovered journals are matched against this wildcard list."""
 
-    type: Annotated[
-        Optional[CreateInputInputJournalFilesType],
-        PlainValidator(validate_open_enum(False)),
-    ] = None
+    type: Optional[CreateInputInputJournalFilesType] = None
 
     disabled: Optional[bool] = False
 
@@ -1632,37 +1550,37 @@ class CreateInputInputJournalFiles(BaseModel):
     description: Optional[str] = None
 
 
-class CreateInputInputRawUDPType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputTypeRawUDP(str, Enum):
     RAW_UDP = "raw_udp"
 
 
-class CreateInputInputRawUDPConnectionTypedDict(TypedDict):
+class ConnectionRawUDPTypedDict(TypedDict):
     output: str
     pipeline: NotRequired[str]
 
 
-class CreateInputInputRawUDPConnection(BaseModel):
+class ConnectionRawUDP(BaseModel):
     output: str
 
     pipeline: Optional[str] = None
 
 
-class CreateInputInputRawUDPMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ModeRawUDP(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputRawUDPCompression(str, Enum, metaclass=utils.OpenEnumMeta):
+class CompressionRawUDP(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class CreateInputInputRawUDPPqTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputRawUDPMode]
+class PqRawUDPTypedDict(TypedDict):
+    mode: NotRequired[ModeRawUDP]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
@@ -1674,14 +1592,12 @@ class CreateInputInputRawUDPPqTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
-    compress: NotRequired[CreateInputInputRawUDPCompression]
+    compress: NotRequired[CompressionRawUDP]
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputRawUDPPq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputRawUDPMode], PlainValidator(validate_open_enum(False))
-    ] = CreateInputInputRawUDPMode.ALWAYS
+class PqRawUDP(BaseModel):
+    mode: Optional[ModeRawUDP] = ModeRawUDP.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -1705,20 +1621,17 @@ class CreateInputInputRawUDPPq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputRawUDPCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputRawUDPCompression.NONE
+    compress: Optional[CompressionRawUDP] = CompressionRawUDP.NONE
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputRawUDPMetadatumTypedDict(TypedDict):
+class MetadatumRawUDPTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputRawUDPMetadatum(BaseModel):
+class MetadatumRawUDP(BaseModel):
     name: str
 
     value: str
@@ -1730,7 +1643,7 @@ class CreateInputInputRawUDPTypedDict(TypedDict):
     r"""Unique ID for this input"""
     port: float
     r"""Port to listen on"""
-    type: NotRequired[CreateInputInputRawUDPType]
+    type: NotRequired[CreateInputTypeRawUDP]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -1742,9 +1655,9 @@ class CreateInputInputRawUDPTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[CreateInputInputRawUDPConnectionTypedDict]]
+    connections: NotRequired[List[ConnectionRawUDPTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[CreateInputInputRawUDPPqTypedDict]
+    pq: NotRequired[PqRawUDPTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
     max_buffer_size: NotRequired[float]
@@ -1757,7 +1670,7 @@ class CreateInputInputRawUDPTypedDict(TypedDict):
     r"""If true, a __rawBytes field will be added to each event containing the raw bytes of the datagram."""
     udp_socket_rx_buf_size: NotRequired[float]
     r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
-    metadata: NotRequired[List[CreateInputInputRawUDPMetadatumTypedDict]]
+    metadata: NotRequired[List[MetadatumRawUDPTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
 
@@ -1769,9 +1682,7 @@ class CreateInputInputRawUDP(BaseModel):
     port: float
     r"""Port to listen on"""
 
-    type: Annotated[
-        Optional[CreateInputInputRawUDPType], PlainValidator(validate_open_enum(False))
-    ] = None
+    type: Optional[CreateInputTypeRawUDP] = None
 
     disabled: Optional[bool] = False
 
@@ -1792,10 +1703,10 @@ class CreateInputInputRawUDP(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[CreateInputInputRawUDPConnection]] = None
+    connections: Optional[List[ConnectionRawUDP]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[CreateInputInputRawUDPPq] = None
+    pq: Optional[PqRawUDP] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
@@ -1825,43 +1736,43 @@ class CreateInputInputRawUDP(BaseModel):
     ] = None
     r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
 
-    metadata: Optional[List[CreateInputInputRawUDPMetadatum]] = None
+    metadata: Optional[List[MetadatumRawUDP]] = None
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
 
 
-class CreateInputInputWinEventLogsType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputTypeWinEventLogs(str, Enum):
     WIN_EVENT_LOGS = "win_event_logs"
 
 
-class CreateInputInputWinEventLogsConnectionTypedDict(TypedDict):
+class ConnectionWinEventLogsTypedDict(TypedDict):
     output: str
     pipeline: NotRequired[str]
 
 
-class CreateInputInputWinEventLogsConnection(BaseModel):
+class ConnectionWinEventLogs(BaseModel):
     output: str
 
     pipeline: Optional[str] = None
 
 
-class CreateInputInputWinEventLogsMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ModeWinEventLogs(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputWinEventLogsCompression(str, Enum, metaclass=utils.OpenEnumMeta):
+class CompressionWinEventLogs(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class CreateInputInputWinEventLogsPqTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputWinEventLogsMode]
+class PqWinEventLogsTypedDict(TypedDict):
+    mode: NotRequired[ModeWinEventLogs]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
@@ -1873,15 +1784,12 @@ class CreateInputInputWinEventLogsPqTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
-    compress: NotRequired[CreateInputInputWinEventLogsCompression]
+    compress: NotRequired[CompressionWinEventLogs]
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputWinEventLogsPq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputWinEventLogsMode],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputWinEventLogsMode.ALWAYS
+class PqWinEventLogs(BaseModel):
+    mode: Optional[ModeWinEventLogs] = ModeWinEventLogs.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -1905,34 +1813,31 @@ class CreateInputInputWinEventLogsPq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputWinEventLogsCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputWinEventLogsCompression.NONE
+    compress: Optional[CompressionWinEventLogs] = CompressionWinEventLogs.NONE
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputReadMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputReadMode(str, Enum):
     r"""Read all stored and future event logs, or only future events"""
 
     OLDEST = "oldest"
     NEWEST = "newest"
 
 
-class CreateInputEventFormat(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputEventFormat(str, Enum):
     r"""Format of individual events"""
 
     JSON = "json"
     XML = "xml"
 
 
-class CreateInputInputWinEventLogsMetadatumTypedDict(TypedDict):
+class MetadatumWinEventLogsTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputWinEventLogsMetadatum(BaseModel):
+class MetadatumWinEventLogs(BaseModel):
     name: str
 
     value: str
@@ -1942,7 +1847,7 @@ class CreateInputInputWinEventLogsMetadatum(BaseModel):
 class CreateInputInputWinEventLogsTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputInputWinEventLogsType
+    type: CreateInputTypeWinEventLogs
     log_names: List[str]
     r"""Enter the event logs to collect. Run \"Get-WinEvent -ListLog *\" in PowerShell to see the available logs."""
     disabled: NotRequired[bool]
@@ -1956,9 +1861,9 @@ class CreateInputInputWinEventLogsTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[CreateInputInputWinEventLogsConnectionTypedDict]]
+    connections: NotRequired[List[ConnectionWinEventLogsTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[CreateInputInputWinEventLogsPqTypedDict]
+    pq: NotRequired[PqWinEventLogsTypedDict]
     read_mode: NotRequired[CreateInputReadMode]
     r"""Read all stored and future event logs, or only future events"""
     event_format: NotRequired[CreateInputEventFormat]
@@ -1969,7 +1874,7 @@ class CreateInputInputWinEventLogsTypedDict(TypedDict):
     r"""Time, in seconds, between checking for new entries (Applicable for pre-4.8.0 nodes that use Windows Tools)"""
     batch_size: NotRequired[float]
     r"""The maximum number of events to read in one polling interval. A batch size higher than 500 can cause delays when pulling from multiple event logs. (Applicable for pre-4.8.0 nodes that use Windows Tools)"""
-    metadata: NotRequired[List[CreateInputInputWinEventLogsMetadatumTypedDict]]
+    metadata: NotRequired[List[MetadatumWinEventLogsTypedDict]]
     r"""Fields to add to events from this input"""
     max_event_bytes: NotRequired[float]
     r"""The maximum number of bytes in an event before it is flushed to the pipelines"""
@@ -1980,9 +1885,7 @@ class CreateInputInputWinEventLogs(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: Annotated[
-        CreateInputInputWinEventLogsType, PlainValidator(validate_open_enum(False))
-    ]
+    type: CreateInputTypeWinEventLogs
 
     log_names: Annotated[List[str], pydantic.Field(alias="logNames")]
     r"""Enter the event logs to collect. Run \"Get-WinEvent -ListLog *\" in PowerShell to see the available logs."""
@@ -2006,24 +1909,18 @@ class CreateInputInputWinEventLogs(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[CreateInputInputWinEventLogsConnection]] = None
+    connections: Optional[List[ConnectionWinEventLogs]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[CreateInputInputWinEventLogsPq] = None
+    pq: Optional[PqWinEventLogs] = None
 
     read_mode: Annotated[
-        Annotated[
-            Optional[CreateInputReadMode], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="readMode"),
+        Optional[CreateInputReadMode], pydantic.Field(alias="readMode")
     ] = CreateInputReadMode.OLDEST
     r"""Read all stored and future event logs, or only future events"""
 
     event_format: Annotated[
-        Annotated[
-            Optional[CreateInputEventFormat], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="eventFormat"),
+        Optional[CreateInputEventFormat], pydantic.Field(alias="eventFormat")
     ] = CreateInputEventFormat.JSON
     r"""Format of individual events"""
 
@@ -2038,7 +1935,7 @@ class CreateInputInputWinEventLogs(BaseModel):
     batch_size: Annotated[Optional[float], pydantic.Field(alias="batchSize")] = 500
     r"""The maximum number of events to read in one polling interval. A batch size higher than 500 can cause delays when pulling from multiple event logs. (Applicable for pre-4.8.0 nodes that use Windows Tools)"""
 
-    metadata: Optional[List[CreateInputInputWinEventLogsMetadatum]] = None
+    metadata: Optional[List[MetadatumWinEventLogs]] = None
     r"""Fields to add to events from this input"""
 
     max_event_bytes: Annotated[
@@ -2049,37 +1946,37 @@ class CreateInputInputWinEventLogs(BaseModel):
     description: Optional[str] = None
 
 
-class CreateInputInputWefType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputTypeWef(str, Enum):
     WEF = "wef"
 
 
-class CreateInputInputWefConnectionTypedDict(TypedDict):
+class ConnectionWefTypedDict(TypedDict):
     output: str
     pipeline: NotRequired[str]
 
 
-class CreateInputInputWefConnection(BaseModel):
+class ConnectionWef(BaseModel):
     output: str
 
     pipeline: Optional[str] = None
 
 
-class CreateInputInputWefMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ModeWef(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputWefCompression(str, Enum, metaclass=utils.OpenEnumMeta):
+class CompressionWef(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class CreateInputInputWefPqTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputWefMode]
+class PqWefTypedDict(TypedDict):
+    mode: NotRequired[ModeWef]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
@@ -2091,14 +1988,12 @@ class CreateInputInputWefPqTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
-    compress: NotRequired[CreateInputInputWefCompression]
+    compress: NotRequired[CompressionWef]
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputWefPq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputWefMode], PlainValidator(validate_open_enum(False))
-    ] = CreateInputInputWefMode.ALWAYS
+class PqWef(BaseModel):
+    mode: Optional[ModeWef] = ModeWef.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -2122,28 +2017,25 @@ class CreateInputInputWefPq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputWefCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputWefCompression.NONE
+    compress: Optional[CompressionWef] = CompressionWef.NONE
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputWefAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
+class AuthenticationMethodWef(str, Enum):
     r"""How to authenticate incoming client connections"""
 
     CLIENT_CERT = "clientCert"
     KERBEROS = "kerberos"
 
 
-class CreateInputInputWefMinimumTLSVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+class MinimumTLSVersionWef(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputWefMaximumTLSVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+class MaximumTLSVersionWef(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
@@ -2169,8 +2061,8 @@ class CreateInputMTLSSettingsTypedDict(TypedDict):
     r"""Passphrase to use to decrypt private key"""
     common_name_regex: NotRequired[str]
     r"""Regex matching allowable common names in peer certificates' subject attribute"""
-    min_version: NotRequired[CreateInputInputWefMinimumTLSVersion]
-    max_version: NotRequired[CreateInputInputWefMaximumTLSVersion]
+    min_version: NotRequired[MinimumTLSVersionWef]
+    max_version: NotRequired[MaximumTLSVersionWef]
     ocsp_check: NotRequired[bool]
     r"""Enable OCSP check of certificate"""
     keytab: NotRequired[Any]
@@ -2214,19 +2106,11 @@ class CreateInputMTLSSettings(BaseModel):
     r"""Regex matching allowable common names in peer certificates' subject attribute"""
 
     min_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputWefMinimumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="minVersion"),
+        Optional[MinimumTLSVersionWef], pydantic.Field(alias="minVersion")
     ] = None
 
     max_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputWefMaximumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="maxVersion"),
+        Optional[MaximumTLSVersionWef], pydantic.Field(alias="maxVersion")
     ] = None
 
     ocsp_check: Annotated[Optional[bool], pydantic.Field(alias="ocspCheck")] = False
@@ -2242,25 +2126,25 @@ class CreateInputMTLSSettings(BaseModel):
     r"""If enabled, checks will fail on any OCSP error. Otherwise, checks will fail only when a certificate is revoked, ignoring other errors."""
 
 
-class CreateInputFormat(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputFormat(str, Enum):
     r"""Content format in which the endpoint should deliver events"""
 
     RAW = "Raw"
     RENDERED_TEXT = "RenderedText"
 
 
-class CreateInputQueryBuilderMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputQueryBuilderMode(str, Enum):
     SIMPLE = "simple"
     XML = "xml"
 
 
-class CreateInputSubscriptionMetadatumTypedDict(TypedDict):
+class SubscriptionMetadatumWefTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputSubscriptionMetadatum(BaseModel):
+class SubscriptionMetadatumWef(BaseModel):
     name: str
 
     value: str
@@ -2288,7 +2172,7 @@ class CreateInputSubscriptionTypedDict(TypedDict):
     locale: NotRequired[str]
     r"""The RFC-3066 locale the Windows clients should use when sending events. Defaults to \"en-US\"."""
     query_selector: NotRequired[CreateInputQueryBuilderMode]
-    metadata: NotRequired[List[CreateInputSubscriptionMetadatumTypedDict]]
+    metadata: NotRequired[List[SubscriptionMetadatumWefTypedDict]]
     r"""Fields to add to events ingested under this subscription"""
 
 
@@ -2302,10 +2186,7 @@ class CreateInputSubscription(BaseModel):
     r"""Version UUID for this subscription. If any subscription parameters are modified, this value will change."""
 
     content_format: Annotated[
-        Annotated[
-            Optional[CreateInputFormat], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="contentFormat"),
+        Optional[CreateInputFormat], pydantic.Field(alias="contentFormat")
     ] = CreateInputFormat.RAW
     r"""Content format in which the endpoint should deliver events"""
 
@@ -2334,24 +2215,20 @@ class CreateInputSubscription(BaseModel):
     r"""The RFC-3066 locale the Windows clients should use when sending events. Defaults to \"en-US\"."""
 
     query_selector: Annotated[
-        Annotated[
-            Optional[CreateInputQueryBuilderMode],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="querySelector"),
+        Optional[CreateInputQueryBuilderMode], pydantic.Field(alias="querySelector")
     ] = CreateInputQueryBuilderMode.SIMPLE
 
-    metadata: Optional[List[CreateInputSubscriptionMetadatum]] = None
+    metadata: Optional[List[SubscriptionMetadatumWef]] = None
     r"""Fields to add to events ingested under this subscription"""
 
 
-class CreateInputInputWefMetadatumTypedDict(TypedDict):
+class MetadatumWefTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputWefMetadatum(BaseModel):
+class MetadatumWef(BaseModel):
     name: str
 
     value: str
@@ -2363,7 +2240,7 @@ class CreateInputInputWefTypedDict(TypedDict):
     r"""Unique ID for this input"""
     subscriptions: List[CreateInputSubscriptionTypedDict]
     r"""Subscriptions to events on forwarding endpoints"""
-    type: NotRequired[CreateInputInputWefType]
+    type: NotRequired[CreateInputTypeWef]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -2375,14 +2252,14 @@ class CreateInputInputWefTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[CreateInputInputWefConnectionTypedDict]]
+    connections: NotRequired[List[ConnectionWefTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[CreateInputInputWefPqTypedDict]
+    pq: NotRequired[PqWefTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: NotRequired[float]
     r"""Port to listen on"""
-    auth_method: NotRequired[CreateInputInputWefAuthenticationMethod]
+    auth_method: NotRequired[AuthenticationMethodWef]
     r"""How to authenticate incoming client connections"""
     tls: NotRequired[CreateInputMTLSSettingsTypedDict]
     max_active_req: NotRequired[float]
@@ -2411,7 +2288,7 @@ class CreateInputInputWefTypedDict(TypedDict):
     r"""Kerberos principal used for authentication, typically in the form HTTP/<hostname>@<REALM>"""
     allow_machine_id_mismatch: NotRequired[bool]
     r"""Allow events to be ingested even if their MachineID does not match the client certificate CN"""
-    metadata: NotRequired[List[CreateInputInputWefMetadatumTypedDict]]
+    metadata: NotRequired[List[MetadatumWefTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
     log_fingerprint_mismatch: NotRequired[bool]
@@ -2425,9 +2302,7 @@ class CreateInputInputWef(BaseModel):
     subscriptions: List[CreateInputSubscription]
     r"""Subscriptions to events on forwarding endpoints"""
 
-    type: Annotated[
-        Optional[CreateInputInputWefType], PlainValidator(validate_open_enum(False))
-    ] = None
+    type: Optional[CreateInputTypeWef] = None
 
     disabled: Optional[bool] = False
 
@@ -2448,10 +2323,10 @@ class CreateInputInputWef(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[CreateInputInputWefConnection]] = None
+    connections: Optional[List[ConnectionWef]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[CreateInputInputWefPq] = None
+    pq: Optional[PqWef] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -2460,12 +2335,8 @@ class CreateInputInputWef(BaseModel):
     r"""Port to listen on"""
 
     auth_method: Annotated[
-        Annotated[
-            Optional[CreateInputInputWefAuthenticationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authMethod"),
-    ] = CreateInputInputWefAuthenticationMethod.CLIENT_CERT
+        Optional[AuthenticationMethodWef], pydantic.Field(alias="authMethod")
+    ] = AuthenticationMethodWef.CLIENT_CERT
     r"""How to authenticate incoming client connections"""
 
     tls: Optional[CreateInputMTLSSettings] = None
@@ -2531,7 +2402,7 @@ class CreateInputInputWef(BaseModel):
     ] = False
     r"""Allow events to be ingested even if their MachineID does not match the client certificate CN"""
 
-    metadata: Optional[List[CreateInputInputWefMetadatum]] = None
+    metadata: Optional[List[MetadatumWef]] = None
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
@@ -2542,37 +2413,37 @@ class CreateInputInputWef(BaseModel):
     r"""Log a warning if the client certificate authority (CA) fingerprint does not match the expected value. A mismatch prevents Cribl from receiving events from the Windows Event Forwarder."""
 
 
-class CreateInputInputTCPType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputTypeTCP(str, Enum):
     TCP = "tcp"
 
 
-class CreateInputInputTCPConnectionTypedDict(TypedDict):
+class ConnectionTCPTypedDict(TypedDict):
     output: str
     pipeline: NotRequired[str]
 
 
-class CreateInputInputTCPConnection(BaseModel):
+class ConnectionTCP(BaseModel):
     output: str
 
     pipeline: Optional[str] = None
 
 
-class CreateInputInputTCPMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ModeTCP(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputTCPCompression(str, Enum, metaclass=utils.OpenEnumMeta):
+class CompressionTCP(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class CreateInputInputTCPPqTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputTCPMode]
+class PqTCPTypedDict(TypedDict):
+    mode: NotRequired[ModeTCP]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
@@ -2584,14 +2455,12 @@ class CreateInputInputTCPPqTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
-    compress: NotRequired[CreateInputInputTCPCompression]
+    compress: NotRequired[CompressionTCP]
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputTCPPq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputTCPMode], PlainValidator(validate_open_enum(False))
-    ] = CreateInputInputTCPMode.ALWAYS
+class PqTCP(BaseModel):
+    mode: Optional[ModeTCP] = ModeTCP.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -2615,28 +2484,25 @@ class CreateInputInputTCPPq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputTCPCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputTCPCompression.NONE
+    compress: Optional[CompressionTCP] = CompressionTCP.NONE
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputTCPMinimumTLSVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+class MinimumTLSVersionTCP(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputTCPMaximumTLSVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+class MaximumTLSVersionTCP(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputTCPTLSSettingsServerSideTypedDict(TypedDict):
+class TLSSettingsServerSideTCPTypedDict(TypedDict):
     disabled: NotRequired[bool]
     certificate_name: NotRequired[str]
     r"""The name of the predefined certificate"""
@@ -2652,11 +2518,11 @@ class CreateInputInputTCPTLSSettingsServerSideTypedDict(TypedDict):
     r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
     reject_unauthorized: NotRequired[Any]
     common_name_regex: NotRequired[Any]
-    min_version: NotRequired[CreateInputInputTCPMinimumTLSVersion]
-    max_version: NotRequired[CreateInputInputTCPMaximumTLSVersion]
+    min_version: NotRequired[MinimumTLSVersionTCP]
+    max_version: NotRequired[MaximumTLSVersionTCP]
 
 
-class CreateInputInputTCPTLSSettingsServerSide(BaseModel):
+class TLSSettingsServerSideTCP(BaseModel):
     disabled: Optional[bool] = True
 
     certificate_name: Annotated[
@@ -2688,36 +2554,28 @@ class CreateInputInputTCPTLSSettingsServerSide(BaseModel):
     ] = None
 
     min_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputTCPMinimumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="minVersion"),
+        Optional[MinimumTLSVersionTCP], pydantic.Field(alias="minVersion")
     ] = None
 
     max_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputTCPMaximumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="maxVersion"),
+        Optional[MaximumTLSVersionTCP], pydantic.Field(alias="maxVersion")
     ] = None
 
 
-class CreateInputInputTCPMetadatumTypedDict(TypedDict):
+class MetadatumTCPTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputTCPMetadatum(BaseModel):
+class MetadatumTCP(BaseModel):
     name: str
 
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputTCPPreprocessTypedDict(TypedDict):
+class PreprocessTCPTypedDict(TypedDict):
     disabled: NotRequired[bool]
     command: NotRequired[str]
     r"""Command to feed the data through (via stdin) and process its output (stdout)"""
@@ -2725,7 +2583,7 @@ class CreateInputInputTCPPreprocessTypedDict(TypedDict):
     r"""Arguments to be added to the custom command"""
 
 
-class CreateInputInputTCPPreprocess(BaseModel):
+class PreprocessTCP(BaseModel):
     disabled: Optional[bool] = True
 
     command: Optional[str] = None
@@ -2735,7 +2593,7 @@ class CreateInputInputTCPPreprocess(BaseModel):
     r"""Arguments to be added to the custom command"""
 
 
-class CreateInputInputTCPAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
+class AuthenticationMethodTCP(str, Enum):
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
     MANUAL = "manual"
@@ -2747,7 +2605,7 @@ class CreateInputInputTCPTypedDict(TypedDict):
     r"""Unique ID for this input"""
     port: float
     r"""Port to listen on"""
-    type: NotRequired[CreateInputInputTCPType]
+    type: NotRequired[CreateInputTypeTCP]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -2759,12 +2617,12 @@ class CreateInputInputTCPTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[CreateInputInputTCPConnectionTypedDict]]
+    connections: NotRequired[List[ConnectionTCPTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[CreateInputInputTCPPqTypedDict]
+    pq: NotRequired[PqTCPTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-    tls: NotRequired[CreateInputInputTCPTLSSettingsServerSideTypedDict]
+    tls: NotRequired[TLSSettingsServerSideTCPTypedDict]
     ip_whitelist_regex: NotRequired[str]
     r"""Regex matching IP addresses that are allowed to establish a connection"""
     max_active_cxn: NotRequired[float]
@@ -2777,7 +2635,7 @@ class CreateInputInputTCPTypedDict(TypedDict):
     r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
     enable_proxy_header: NotRequired[bool]
     r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
-    metadata: NotRequired[List[CreateInputInputTCPMetadatumTypedDict]]
+    metadata: NotRequired[List[MetadatumTCPTypedDict]]
     r"""Fields to add to events from this input"""
     breaker_rulesets: NotRequired[List[str]]
     r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
@@ -2785,9 +2643,9 @@ class CreateInputInputTCPTypedDict(TypedDict):
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
     enable_header: NotRequired[bool]
     r"""Client will pass the header record with every new connection. The header can contain an authToken, and an object with a list of fields and values to add to every event. These fields can be used to simplify Event Breaker selection, routing, etc. Header has this format, and must be followed by a newline: { \"authToken\" : \"myToken\", \"fields\": { \"field1\": \"value1\", \"field2\": \"value2\" } }"""
-    preprocess: NotRequired[CreateInputInputTCPPreprocessTypedDict]
+    preprocess: NotRequired[PreprocessTCPTypedDict]
     description: NotRequired[str]
-    auth_type: NotRequired[CreateInputInputTCPAuthenticationMethod]
+    auth_type: NotRequired[AuthenticationMethodTCP]
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
 
@@ -2798,9 +2656,7 @@ class CreateInputInputTCP(BaseModel):
     port: float
     r"""Port to listen on"""
 
-    type: Annotated[
-        Optional[CreateInputInputTCPType], PlainValidator(validate_open_enum(False))
-    ] = None
+    type: Optional[CreateInputTypeTCP] = None
 
     disabled: Optional[bool] = False
 
@@ -2821,15 +2677,15 @@ class CreateInputInputTCP(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[CreateInputInputTCPConnection]] = None
+    connections: Optional[List[ConnectionTCP]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[CreateInputInputTCPPq] = None
+    pq: Optional[PqTCP] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
 
-    tls: Optional[CreateInputInputTCPTLSSettingsServerSide] = None
+    tls: Optional[TLSSettingsServerSideTCP] = None
 
     ip_whitelist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipWhitelistRegex")
@@ -2861,7 +2717,7 @@ class CreateInputInputTCP(BaseModel):
     ] = False
     r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
 
-    metadata: Optional[List[CreateInputInputTCPMetadatum]] = None
+    metadata: Optional[List[MetadatumTCP]] = None
     r"""Fields to add to events from this input"""
 
     breaker_rulesets: Annotated[
@@ -2879,21 +2735,17 @@ class CreateInputInputTCP(BaseModel):
     )
     r"""Client will pass the header record with every new connection. The header can contain an authToken, and an object with a list of fields and values to add to every event. These fields can be used to simplify Event Breaker selection, routing, etc. Header has this format, and must be followed by a newline: { \"authToken\" : \"myToken\", \"fields\": { \"field1\": \"value1\", \"field2\": \"value2\" } }"""
 
-    preprocess: Optional[CreateInputInputTCPPreprocess] = None
+    preprocess: Optional[PreprocessTCP] = None
 
     description: Optional[str] = None
 
     auth_type: Annotated[
-        Annotated[
-            Optional[CreateInputInputTCPAuthenticationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
-    ] = CreateInputInputTCPAuthenticationMethod.MANUAL
+        Optional[AuthenticationMethodTCP], pydantic.Field(alias="authType")
+    ] = AuthenticationMethodTCP.MANUAL
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
 
-class CreateInputInputSyslogType2(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputInputSyslogType2(str, Enum):
     SYSLOG = "syslog"
 
 
@@ -2908,14 +2760,14 @@ class CreateInputInputSyslogConnection2(BaseModel):
     pipeline: Optional[str] = None
 
 
-class CreateInputInputSyslogMode2(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputInputSyslogMode2(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputSyslogCompression2(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputInputSyslogCompression2(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
@@ -2940,9 +2792,7 @@ class CreateInputInputSyslogPq2TypedDict(TypedDict):
 
 
 class CreateInputInputSyslogPq2(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputSyslogMode2], PlainValidator(validate_open_enum(False))
-    ] = CreateInputInputSyslogMode2.ALWAYS
+    mode: Optional[CreateInputInputSyslogMode2] = CreateInputInputSyslogMode2.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -2966,21 +2816,20 @@ class CreateInputInputSyslogPq2(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputSyslogCompression2],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputSyslogCompression2.NONE
+    compress: Optional[CreateInputInputSyslogCompression2] = (
+        CreateInputInputSyslogCompression2.NONE
+    )
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputSyslogMinimumTLSVersion2(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputInputSyslogMinimumTLSVersion2(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputSyslogMaximumTLSVersion2(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputInputSyslogMaximumTLSVersion2(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
@@ -3039,18 +2888,12 @@ class CreateInputInputSyslogTLSSettingsServerSide2(BaseModel):
     ] = None
 
     min_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputSyslogMinimumTLSVersion2],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[CreateInputInputSyslogMinimumTLSVersion2],
         pydantic.Field(alias="minVersion"),
     ] = None
 
     max_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputSyslogMaximumTLSVersion2],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[CreateInputInputSyslogMaximumTLSVersion2],
         pydantic.Field(alias="maxVersion"),
     ] = None
 
@@ -3068,7 +2911,7 @@ class CreateInputInputSyslogMetadatum2(BaseModel):
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputSyslog2TypedDict(TypedDict):
+class CreateInputInputSyslogSyslog2TypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputSyslogType2
@@ -3132,13 +2975,11 @@ class CreateInputInputSyslog2TypedDict(TypedDict):
     r"""When enabled, parses PROXY protocol headers during the TLS handshake. Disable if compatibility issues arise."""
 
 
-class CreateInputInputSyslog2(BaseModel):
+class CreateInputInputSyslogSyslog2(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: Annotated[
-        CreateInputInputSyslogType2, PlainValidator(validate_open_enum(False))
-    ]
+    type: CreateInputInputSyslogType2
 
     tcp_port: Annotated[float, pydantic.Field(alias="tcpPort")]
     r"""Enter TCP port number to listen on. Not required if listening on UDP."""
@@ -3266,7 +3107,7 @@ class CreateInputInputSyslog2(BaseModel):
     r"""When enabled, parses PROXY protocol headers during the TLS handshake. Disable if compatibility issues arise."""
 
 
-class CreateInputInputSyslogType1(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputInputSyslogType1(str, Enum):
     SYSLOG = "syslog"
 
 
@@ -3281,14 +3122,14 @@ class CreateInputInputSyslogConnection1(BaseModel):
     pipeline: Optional[str] = None
 
 
-class CreateInputInputSyslogMode1(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputInputSyslogMode1(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputSyslogCompression1(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputInputSyslogCompression1(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
@@ -3313,9 +3154,7 @@ class CreateInputInputSyslogPq1TypedDict(TypedDict):
 
 
 class CreateInputInputSyslogPq1(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputSyslogMode1], PlainValidator(validate_open_enum(False))
-    ] = CreateInputInputSyslogMode1.ALWAYS
+    mode: Optional[CreateInputInputSyslogMode1] = CreateInputInputSyslogMode1.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -3339,21 +3178,20 @@ class CreateInputInputSyslogPq1(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputSyslogCompression1],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputSyslogCompression1.NONE
+    compress: Optional[CreateInputInputSyslogCompression1] = (
+        CreateInputInputSyslogCompression1.NONE
+    )
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputSyslogMinimumTLSVersion1(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputInputSyslogMinimumTLSVersion1(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputSyslogMaximumTLSVersion1(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputInputSyslogMaximumTLSVersion1(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
@@ -3412,18 +3250,12 @@ class CreateInputInputSyslogTLSSettingsServerSide1(BaseModel):
     ] = None
 
     min_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputSyslogMinimumTLSVersion1],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[CreateInputInputSyslogMinimumTLSVersion1],
         pydantic.Field(alias="minVersion"),
     ] = None
 
     max_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputSyslogMaximumTLSVersion1],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[CreateInputInputSyslogMaximumTLSVersion1],
         pydantic.Field(alias="maxVersion"),
     ] = None
 
@@ -3441,7 +3273,7 @@ class CreateInputInputSyslogMetadatum1(BaseModel):
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputSyslog1TypedDict(TypedDict):
+class CreateInputInputSyslogSyslog1TypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputSyslogType1
@@ -3505,13 +3337,11 @@ class CreateInputInputSyslog1TypedDict(TypedDict):
     r"""When enabled, parses PROXY protocol headers during the TLS handshake. Disable if compatibility issues arise."""
 
 
-class CreateInputInputSyslog1(BaseModel):
+class CreateInputInputSyslogSyslog1(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: Annotated[
-        CreateInputInputSyslogType1, PlainValidator(validate_open_enum(False))
-    ]
+    type: CreateInputInputSyslogType1
 
     udp_port: Annotated[float, pydantic.Field(alias="udpPort")]
     r"""Enter UDP port number to listen on. Not required if listening on TCP."""
@@ -3641,47 +3471,49 @@ class CreateInputInputSyslog1(BaseModel):
 
 CreateInputInputSyslogUnionTypedDict = TypeAliasType(
     "CreateInputInputSyslogUnionTypedDict",
-    Union[CreateInputInputSyslog1TypedDict, CreateInputInputSyslog2TypedDict],
+    Union[
+        CreateInputInputSyslogSyslog1TypedDict, CreateInputInputSyslogSyslog2TypedDict
+    ],
 )
 
 
 CreateInputInputSyslogUnion = TypeAliasType(
     "CreateInputInputSyslogUnion",
-    Union[CreateInputInputSyslog1, CreateInputInputSyslog2],
+    Union[CreateInputInputSyslogSyslog1, CreateInputInputSyslogSyslog2],
 )
 
 
-class CreateInputInputSqsType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputTypeSqs(str, Enum):
     SQS = "sqs"
 
 
-class CreateInputInputSqsConnectionTypedDict(TypedDict):
+class ConnectionSqsTypedDict(TypedDict):
     output: str
     pipeline: NotRequired[str]
 
 
-class CreateInputInputSqsConnection(BaseModel):
+class ConnectionSqs(BaseModel):
     output: str
 
     pipeline: Optional[str] = None
 
 
-class CreateInputInputSqsMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputModeSqs(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputSqsCompression(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputCompressionSqs(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class CreateInputInputSqsPqTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputSqsMode]
+class PqSqsTypedDict(TypedDict):
+    mode: NotRequired[CreateInputModeSqs]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
@@ -3693,14 +3525,12 @@ class CreateInputInputSqsPqTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
-    compress: NotRequired[CreateInputInputSqsCompression]
+    compress: NotRequired[CreateInputCompressionSqs]
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputSqsPq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputSqsMode], PlainValidator(validate_open_enum(False))
-    ] = CreateInputInputSqsMode.ALWAYS
+class PqSqs(BaseModel):
+    mode: Optional[CreateInputModeSqs] = CreateInputModeSqs.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -3724,21 +3554,18 @@ class CreateInputInputSqsPq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputSqsCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputSqsCompression.NONE
+    compress: Optional[CreateInputCompressionSqs] = CreateInputCompressionSqs.NONE
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputQueueType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputQueueType(str, Enum):
     r"""The queue type used (or created)"""
 
     STANDARD = "standard"
     FIFO = "fifo"
 
 
-class CreateInputInputSqsAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputAuthenticationMethodSqs(str, Enum):
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     AUTO = "auto"
@@ -3746,20 +3573,20 @@ class CreateInputInputSqsAuthenticationMethod(str, Enum, metaclass=utils.OpenEnu
     SECRET = "secret"
 
 
-class CreateInputInputSqsSignatureVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputSignatureVersionSqs(str, Enum):
     r"""Signature version to use for signing SQS requests"""
 
     V2 = "v2"
     V4 = "v4"
 
 
-class CreateInputInputSqsMetadatumTypedDict(TypedDict):
+class MetadatumSqsTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputSqsMetadatum(BaseModel):
+class MetadatumSqs(BaseModel):
     name: str
 
     value: str
@@ -3771,7 +3598,7 @@ class CreateInputInputSqsTypedDict(TypedDict):
     r"""Unique ID for this input"""
     queue_name: str
     r"""The name, URL, or ARN of the SQS queue to read events from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can only be evaluated at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
-    type: NotRequired[CreateInputInputSqsType]
+    type: NotRequired[CreateInputTypeSqs]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -3783,23 +3610,23 @@ class CreateInputInputSqsTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[CreateInputInputSqsConnectionTypedDict]]
+    connections: NotRequired[List[ConnectionSqsTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[CreateInputInputSqsPqTypedDict]
+    pq: NotRequired[PqSqsTypedDict]
     queue_type: NotRequired[CreateInputQueueType]
     r"""The queue type used (or created)"""
     aws_account_id: NotRequired[str]
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
     create_queue: NotRequired[bool]
     r"""Create queue if it does not exist"""
-    aws_authentication_method: NotRequired[CreateInputInputSqsAuthenticationMethod]
+    aws_authentication_method: NotRequired[CreateInputAuthenticationMethodSqs]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     region: NotRequired[str]
     r"""AWS Region where the SQS queue is located. Required, unless the Queue entry is a URL or ARN that includes a Region."""
     endpoint: NotRequired[str]
     r"""SQS service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to SQS-compatible endpoint."""
-    signature_version: NotRequired[CreateInputInputSqsSignatureVersion]
+    signature_version: NotRequired[CreateInputSignatureVersionSqs]
     r"""Signature version to use for signing SQS requests"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
@@ -3817,7 +3644,7 @@ class CreateInputInputSqsTypedDict(TypedDict):
     r"""The maximum number of messages SQS should return in a poll request. Amazon SQS never returns more messages than this value (however, fewer messages might be returned). Valid values: 1 to 10."""
     visibility_timeout: NotRequired[float]
     r"""After messages are retrieved by a ReceiveMessage request, @{product} will hide them from subsequent retrieve requests for at least this duration. You can set this as high as 43200 sec. (12 hours)."""
-    metadata: NotRequired[List[CreateInputInputSqsMetadatumTypedDict]]
+    metadata: NotRequired[List[MetadatumSqsTypedDict]]
     r"""Fields to add to events from this input"""
     poll_timeout: NotRequired[float]
     r"""How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts."""
@@ -3836,9 +3663,7 @@ class CreateInputInputSqs(BaseModel):
     queue_name: Annotated[str, pydantic.Field(alias="queueName")]
     r"""The name, URL, or ARN of the SQS queue to read events from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can only be evaluated at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
 
-    type: Annotated[
-        Optional[CreateInputInputSqsType], PlainValidator(validate_open_enum(False))
-    ] = None
+    type: Optional[CreateInputTypeSqs] = None
 
     disabled: Optional[bool] = False
 
@@ -3859,16 +3684,13 @@ class CreateInputInputSqs(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[CreateInputInputSqsConnection]] = None
+    connections: Optional[List[ConnectionSqs]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[CreateInputInputSqsPq] = None
+    pq: Optional[PqSqs] = None
 
     queue_type: Annotated[
-        Annotated[
-            Optional[CreateInputQueueType], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="queueType"),
+        Optional[CreateInputQueueType], pydantic.Field(alias="queueType")
     ] = CreateInputQueueType.STANDARD
     r"""The queue type used (or created)"""
 
@@ -3881,12 +3703,9 @@ class CreateInputInputSqs(BaseModel):
     r"""Create queue if it does not exist"""
 
     aws_authentication_method: Annotated[
-        Annotated[
-            Optional[CreateInputInputSqsAuthenticationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[CreateInputAuthenticationMethodSqs],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = CreateInputInputSqsAuthenticationMethod.AUTO
+    ] = CreateInputAuthenticationMethodSqs.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -3900,12 +3719,9 @@ class CreateInputInputSqs(BaseModel):
     r"""SQS service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to SQS-compatible endpoint."""
 
     signature_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputSqsSignatureVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[CreateInputSignatureVersionSqs],
         pydantic.Field(alias="signatureVersion"),
-    ] = CreateInputInputSqsSignatureVersion.V4
+    ] = CreateInputSignatureVersionSqs.V4
     r"""Signature version to use for signing SQS requests"""
 
     reuse_connections: Annotated[
@@ -3946,7 +3762,7 @@ class CreateInputInputSqs(BaseModel):
     ] = 600
     r"""After messages are retrieved by a ReceiveMessage request, @{product} will hide them from subsequent retrieve requests for at least this duration. You can set this as high as 43200 sec. (12 hours)."""
 
-    metadata: Optional[List[CreateInputInputSqsMetadatum]] = None
+    metadata: Optional[List[MetadatumSqs]] = None
     r"""Fields to add to events from this input"""
 
     poll_timeout: Annotated[Optional[float], pydantic.Field(alias="pollTimeout")] = 10
@@ -3963,39 +3779,37 @@ class CreateInputInputSqs(BaseModel):
     r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
 
 
-class CreateInputInputModelDrivenTelemetryType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputTypeModelDrivenTelemetry(str, Enum):
     MODEL_DRIVEN_TELEMETRY = "model_driven_telemetry"
 
 
-class CreateInputInputModelDrivenTelemetryConnectionTypedDict(TypedDict):
+class ConnectionModelDrivenTelemetryTypedDict(TypedDict):
     output: str
     pipeline: NotRequired[str]
 
 
-class CreateInputInputModelDrivenTelemetryConnection(BaseModel):
+class ConnectionModelDrivenTelemetry(BaseModel):
     output: str
 
     pipeline: Optional[str] = None
 
 
-class CreateInputInputModelDrivenTelemetryMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ModeModelDrivenTelemetry(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputModelDrivenTelemetryCompression(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class CompressionModelDrivenTelemetry(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class CreateInputInputModelDrivenTelemetryPqTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputModelDrivenTelemetryMode]
+class PqModelDrivenTelemetryTypedDict(TypedDict):
+    mode: NotRequired[ModeModelDrivenTelemetry]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
@@ -4007,15 +3821,12 @@ class CreateInputInputModelDrivenTelemetryPqTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
-    compress: NotRequired[CreateInputInputModelDrivenTelemetryCompression]
+    compress: NotRequired[CompressionModelDrivenTelemetry]
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputModelDrivenTelemetryPq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputModelDrivenTelemetryMode],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputModelDrivenTelemetryMode.ALWAYS
+class PqModelDrivenTelemetry(BaseModel):
+    mode: Optional[ModeModelDrivenTelemetry] = ModeModelDrivenTelemetry.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -4039,32 +3850,27 @@ class CreateInputInputModelDrivenTelemetryPq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputModelDrivenTelemetryCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputModelDrivenTelemetryCompression.NONE
+    compress: Optional[CompressionModelDrivenTelemetry] = (
+        CompressionModelDrivenTelemetry.NONE
+    )
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputModelDrivenTelemetryMinimumTLSVersion(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class MinimumTLSVersionModelDrivenTelemetry(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputModelDrivenTelemetryMaximumTLSVersion(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class MaximumTLSVersionModelDrivenTelemetry(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputModelDrivenTelemetryTLSSettingsServerSideTypedDict(TypedDict):
+class TLSSettingsServerSideModelDrivenTelemetryTypedDict(TypedDict):
     disabled: NotRequired[bool]
     certificate_name: NotRequired[str]
     r"""The name of the predefined certificate"""
@@ -4078,11 +3884,11 @@ class CreateInputInputModelDrivenTelemetryTLSSettingsServerSideTypedDict(TypedDi
     r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
     reject_unauthorized: NotRequired[Any]
     common_name_regex: NotRequired[Any]
-    min_version: NotRequired[CreateInputInputModelDrivenTelemetryMinimumTLSVersion]
-    max_version: NotRequired[CreateInputInputModelDrivenTelemetryMaximumTLSVersion]
+    min_version: NotRequired[MinimumTLSVersionModelDrivenTelemetry]
+    max_version: NotRequired[MaximumTLSVersionModelDrivenTelemetry]
 
 
-class CreateInputInputModelDrivenTelemetryTLSSettingsServerSide(BaseModel):
+class TLSSettingsServerSideModelDrivenTelemetry(BaseModel):
     disabled: Optional[bool] = True
 
     certificate_name: Annotated[
@@ -4111,29 +3917,23 @@ class CreateInputInputModelDrivenTelemetryTLSSettingsServerSide(BaseModel):
     ] = None
 
     min_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputModelDrivenTelemetryMinimumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[MinimumTLSVersionModelDrivenTelemetry],
         pydantic.Field(alias="minVersion"),
     ] = None
 
     max_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputModelDrivenTelemetryMaximumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[MaximumTLSVersionModelDrivenTelemetry],
         pydantic.Field(alias="maxVersion"),
     ] = None
 
 
-class CreateInputInputModelDrivenTelemetryMetadatumTypedDict(TypedDict):
+class MetadatumModelDrivenTelemetryTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputModelDrivenTelemetryMetadatum(BaseModel):
+class MetadatumModelDrivenTelemetry(BaseModel):
     name: str
 
     value: str
@@ -4143,7 +3943,7 @@ class CreateInputInputModelDrivenTelemetryMetadatum(BaseModel):
 class CreateInputInputModelDrivenTelemetryTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: NotRequired[CreateInputInputModelDrivenTelemetryType]
+    type: NotRequired[CreateInputTypeModelDrivenTelemetry]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -4155,17 +3955,15 @@ class CreateInputInputModelDrivenTelemetryTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[
-        List[CreateInputInputModelDrivenTelemetryConnectionTypedDict]
-    ]
+    connections: NotRequired[List[ConnectionModelDrivenTelemetryTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[CreateInputInputModelDrivenTelemetryPqTypedDict]
+    pq: NotRequired[PqModelDrivenTelemetryTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: NotRequired[float]
     r"""Port to listen on"""
-    tls: NotRequired[CreateInputInputModelDrivenTelemetryTLSSettingsServerSideTypedDict]
-    metadata: NotRequired[List[CreateInputInputModelDrivenTelemetryMetadatumTypedDict]]
+    tls: NotRequired[TLSSettingsServerSideModelDrivenTelemetryTypedDict]
+    metadata: NotRequired[List[MetadatumModelDrivenTelemetryTypedDict]]
     r"""Fields to add to events from this input"""
     max_active_cxn: NotRequired[float]
     r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
@@ -4178,10 +3976,7 @@ class CreateInputInputModelDrivenTelemetry(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: Annotated[
-        Optional[CreateInputInputModelDrivenTelemetryType],
-        PlainValidator(validate_open_enum(False)),
-    ] = None
+    type: Optional[CreateInputTypeModelDrivenTelemetry] = None
 
     disabled: Optional[bool] = False
 
@@ -4202,10 +3997,10 @@ class CreateInputInputModelDrivenTelemetry(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[CreateInputInputModelDrivenTelemetryConnection]] = None
+    connections: Optional[List[ConnectionModelDrivenTelemetry]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[CreateInputInputModelDrivenTelemetryPq] = None
+    pq: Optional[PqModelDrivenTelemetry] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -4213,9 +4008,9 @@ class CreateInputInputModelDrivenTelemetry(BaseModel):
     port: Optional[float] = 57000
     r"""Port to listen on"""
 
-    tls: Optional[CreateInputInputModelDrivenTelemetryTLSSettingsServerSide] = None
+    tls: Optional[TLSSettingsServerSideModelDrivenTelemetry] = None
 
-    metadata: Optional[List[CreateInputInputModelDrivenTelemetryMetadatum]] = None
+    metadata: Optional[List[MetadatumModelDrivenTelemetry]] = None
     r"""Fields to add to events from this input"""
 
     max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
@@ -4231,37 +4026,37 @@ class CreateInputInputModelDrivenTelemetry(BaseModel):
     description: Optional[str] = None
 
 
-class CreateInputInputOpenTelemetryType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputTypeOpenTelemetry(str, Enum):
     OPEN_TELEMETRY = "open_telemetry"
 
 
-class CreateInputInputOpenTelemetryConnectionTypedDict(TypedDict):
+class ConnectionOpenTelemetryTypedDict(TypedDict):
     output: str
     pipeline: NotRequired[str]
 
 
-class CreateInputInputOpenTelemetryConnection(BaseModel):
+class ConnectionOpenTelemetry(BaseModel):
     output: str
 
     pipeline: Optional[str] = None
 
 
-class CreateInputInputOpenTelemetryMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputModeOpenTelemetry(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputOpenTelemetryCompression(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputCompressionOpenTelemetry(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class CreateInputInputOpenTelemetryPqTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputOpenTelemetryMode]
+class PqOpenTelemetryTypedDict(TypedDict):
+    mode: NotRequired[CreateInputModeOpenTelemetry]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
@@ -4273,15 +4068,12 @@ class CreateInputInputOpenTelemetryPqTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
-    compress: NotRequired[CreateInputInputOpenTelemetryCompression]
+    compress: NotRequired[CreateInputCompressionOpenTelemetry]
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputOpenTelemetryPq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputOpenTelemetryMode],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputOpenTelemetryMode.ALWAYS
+class PqOpenTelemetry(BaseModel):
+    mode: Optional[CreateInputModeOpenTelemetry] = CreateInputModeOpenTelemetry.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -4305,32 +4097,27 @@ class CreateInputInputOpenTelemetryPq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputOpenTelemetryCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputOpenTelemetryCompression.NONE
+    compress: Optional[CreateInputCompressionOpenTelemetry] = (
+        CreateInputCompressionOpenTelemetry.NONE
+    )
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputOpenTelemetryMinimumTLSVersion(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class CreateInputMinimumTLSVersionOpenTelemetry(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputOpenTelemetryMaximumTLSVersion(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class CreateInputMaximumTLSVersionOpenTelemetry(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputOpenTelemetryTLSSettingsServerSideTypedDict(TypedDict):
+class TLSSettingsServerSideOpenTelemetryTypedDict(TypedDict):
     disabled: NotRequired[bool]
     certificate_name: NotRequired[str]
     r"""The name of the predefined certificate"""
@@ -4346,11 +4133,11 @@ class CreateInputInputOpenTelemetryTLSSettingsServerSideTypedDict(TypedDict):
     r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
     reject_unauthorized: NotRequired[Any]
     common_name_regex: NotRequired[Any]
-    min_version: NotRequired[CreateInputInputOpenTelemetryMinimumTLSVersion]
-    max_version: NotRequired[CreateInputInputOpenTelemetryMaximumTLSVersion]
+    min_version: NotRequired[CreateInputMinimumTLSVersionOpenTelemetry]
+    max_version: NotRequired[CreateInputMaximumTLSVersionOpenTelemetry]
 
 
-class CreateInputInputOpenTelemetryTLSSettingsServerSide(BaseModel):
+class TLSSettingsServerSideOpenTelemetry(BaseModel):
     disabled: Optional[bool] = True
 
     certificate_name: Annotated[
@@ -4382,39 +4169,31 @@ class CreateInputInputOpenTelemetryTLSSettingsServerSide(BaseModel):
     ] = None
 
     min_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputOpenTelemetryMinimumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[CreateInputMinimumTLSVersionOpenTelemetry],
         pydantic.Field(alias="minVersion"),
     ] = None
 
     max_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputOpenTelemetryMaximumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[CreateInputMaximumTLSVersionOpenTelemetry],
         pydantic.Field(alias="maxVersion"),
     ] = None
 
 
-class CreateInputInputOpenTelemetryProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputProtocolOpenTelemetry(str, Enum):
     r"""Select whether to leverage gRPC or HTTP for OpenTelemetry"""
 
     GRPC = "grpc"
     HTTP = "http"
 
 
-class CreateInputOTLPVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputOTLPVersion(str, Enum):
     r"""The version of OTLP Protobuf definitions to use when interpreting received data"""
 
     ZERO_DOT_10_DOT_0 = "0.10.0"
     ONE_DOT_3_DOT_1 = "1.3.1"
 
 
-class CreateInputInputOpenTelemetryAuthenticationType(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class CreateInputAuthenticationTypeOpenTelemetry(str, Enum):
     r"""OpenTelemetry authentication type"""
 
     NONE = "none"
@@ -4425,27 +4204,27 @@ class CreateInputInputOpenTelemetryAuthenticationType(
     OAUTH = "oauth"
 
 
-class CreateInputInputOpenTelemetryMetadatumTypedDict(TypedDict):
+class CreateInputMetadatumOpenTelemetryTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputOpenTelemetryMetadatum(BaseModel):
+class CreateInputMetadatumOpenTelemetry(BaseModel):
     name: str
 
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputOpenTelemetryOauthParamTypedDict(TypedDict):
+class CreateInputOauthParamOpenTelemetryTypedDict(TypedDict):
     name: str
     r"""OAuth parameter name"""
     value: str
     r"""OAuth parameter value"""
 
 
-class CreateInputInputOpenTelemetryOauthParam(BaseModel):
+class CreateInputOauthParamOpenTelemetry(BaseModel):
     name: str
     r"""OAuth parameter name"""
 
@@ -4453,14 +4232,14 @@ class CreateInputInputOpenTelemetryOauthParam(BaseModel):
     r"""OAuth parameter value"""
 
 
-class CreateInputInputOpenTelemetryOauthHeaderTypedDict(TypedDict):
+class CreateInputOauthHeaderOpenTelemetryTypedDict(TypedDict):
     name: str
     r"""OAuth header name"""
     value: str
     r"""OAuth header value"""
 
 
-class CreateInputInputOpenTelemetryOauthHeader(BaseModel):
+class CreateInputOauthHeaderOpenTelemetry(BaseModel):
     name: str
     r"""OAuth header name"""
 
@@ -4471,7 +4250,7 @@ class CreateInputInputOpenTelemetryOauthHeader(BaseModel):
 class CreateInputInputOpenTelemetryTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: NotRequired[CreateInputInputOpenTelemetryType]
+    type: NotRequired[CreateInputTypeOpenTelemetry]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -4483,14 +4262,14 @@ class CreateInputInputOpenTelemetryTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[CreateInputInputOpenTelemetryConnectionTypedDict]]
+    connections: NotRequired[List[ConnectionOpenTelemetryTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[CreateInputInputOpenTelemetryPqTypedDict]
+    pq: NotRequired[PqOpenTelemetryTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: NotRequired[float]
     r"""Port to listen on"""
-    tls: NotRequired[CreateInputInputOpenTelemetryTLSSettingsServerSideTypedDict]
+    tls: NotRequired[TLSSettingsServerSideOpenTelemetryTypedDict]
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -4510,7 +4289,7 @@ class CreateInputInputOpenTelemetryTypedDict(TypedDict):
     r"""Messages from matched IP addresses will be processed, unless also matched by the denylist."""
     ip_denylist_regex: NotRequired[str]
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-    protocol: NotRequired[CreateInputInputOpenTelemetryProtocol]
+    protocol: NotRequired[CreateInputProtocolOpenTelemetry]
     r"""Select whether to leverage gRPC or HTTP for OpenTelemetry"""
     extract_spans: NotRequired[bool]
     r"""Enable to extract each incoming span to a separate event"""
@@ -4518,9 +4297,9 @@ class CreateInputInputOpenTelemetryTypedDict(TypedDict):
     r"""Enable to extract each incoming Gauge or IntGauge metric to multiple events, one per data point"""
     otlp_version: NotRequired[CreateInputOTLPVersion]
     r"""The version of OTLP Protobuf definitions to use when interpreting received data"""
-    auth_type: NotRequired[CreateInputInputOpenTelemetryAuthenticationType]
+    auth_type: NotRequired[CreateInputAuthenticationTypeOpenTelemetry]
     r"""OpenTelemetry authentication type"""
-    metadata: NotRequired[List[CreateInputInputOpenTelemetryMetadatumTypedDict]]
+    metadata: NotRequired[List[CreateInputMetadatumOpenTelemetryTypedDict]]
     r"""Fields to add to events from this input"""
     max_active_cxn: NotRequired[float]
     r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
@@ -4545,9 +4324,9 @@ class CreateInputInputOpenTelemetryTypedDict(TypedDict):
     r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
     token_timeout_secs: NotRequired[float]
     r"""How often the OAuth token should be refreshed."""
-    oauth_params: NotRequired[List[CreateInputInputOpenTelemetryOauthParamTypedDict]]
+    oauth_params: NotRequired[List[CreateInputOauthParamOpenTelemetryTypedDict]]
     r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-    oauth_headers: NotRequired[List[CreateInputInputOpenTelemetryOauthHeaderTypedDict]]
+    oauth_headers: NotRequired[List[CreateInputOauthHeaderOpenTelemetryTypedDict]]
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
     extract_logs: NotRequired[bool]
     r"""Enable to extract each incoming log record to a separate event"""
@@ -4557,10 +4336,7 @@ class CreateInputInputOpenTelemetry(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: Annotated[
-        Optional[CreateInputInputOpenTelemetryType],
-        PlainValidator(validate_open_enum(False)),
-    ] = None
+    type: Optional[CreateInputTypeOpenTelemetry] = None
 
     disabled: Optional[bool] = False
 
@@ -4581,10 +4357,10 @@ class CreateInputInputOpenTelemetry(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[CreateInputInputOpenTelemetryConnection]] = None
+    connections: Optional[List[ConnectionOpenTelemetry]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[CreateInputInputOpenTelemetryPq] = None
+    pq: Optional[PqOpenTelemetry] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -4592,7 +4368,7 @@ class CreateInputInputOpenTelemetry(BaseModel):
     port: Optional[float] = 4317
     r"""Port to listen on"""
 
-    tls: Optional[CreateInputInputOpenTelemetryTLSSettingsServerSide] = None
+    tls: Optional[TLSSettingsServerSideOpenTelemetry] = None
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         256
@@ -4646,10 +4422,9 @@ class CreateInputInputOpenTelemetry(BaseModel):
     ] = "/^$/"
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
 
-    protocol: Annotated[
-        Optional[CreateInputInputOpenTelemetryProtocol],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputOpenTelemetryProtocol.GRPC
+    protocol: Optional[CreateInputProtocolOpenTelemetry] = (
+        CreateInputProtocolOpenTelemetry.GRPC
+    )
     r"""Select whether to leverage gRPC or HTTP for OpenTelemetry"""
 
     extract_spans: Annotated[Optional[bool], pydantic.Field(alias="extractSpans")] = (
@@ -4663,23 +4438,17 @@ class CreateInputInputOpenTelemetry(BaseModel):
     r"""Enable to extract each incoming Gauge or IntGauge metric to multiple events, one per data point"""
 
     otlp_version: Annotated[
-        Annotated[
-            Optional[CreateInputOTLPVersion], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="otlpVersion"),
+        Optional[CreateInputOTLPVersion], pydantic.Field(alias="otlpVersion")
     ] = CreateInputOTLPVersion.ZERO_DOT_10_DOT_0
     r"""The version of OTLP Protobuf definitions to use when interpreting received data"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[CreateInputInputOpenTelemetryAuthenticationType],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[CreateInputAuthenticationTypeOpenTelemetry],
         pydantic.Field(alias="authType"),
-    ] = CreateInputInputOpenTelemetryAuthenticationType.NONE
+    ] = CreateInputAuthenticationTypeOpenTelemetry.NONE
     r"""OpenTelemetry authentication type"""
 
-    metadata: Optional[List[CreateInputInputOpenTelemetryMetadatum]] = None
+    metadata: Optional[List[CreateInputMetadatumOpenTelemetry]] = None
     r"""Fields to add to events from this input"""
 
     max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
@@ -4731,13 +4500,13 @@ class CreateInputInputOpenTelemetry(BaseModel):
     r"""How often the OAuth token should be refreshed."""
 
     oauth_params: Annotated[
-        Optional[List[CreateInputInputOpenTelemetryOauthParam]],
+        Optional[List[CreateInputOauthParamOpenTelemetry]],
         pydantic.Field(alias="oauthParams"),
     ] = None
     r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
     oauth_headers: Annotated[
-        Optional[List[CreateInputInputOpenTelemetryOauthHeader]],
+        Optional[List[CreateInputOauthHeaderOpenTelemetry]],
         pydantic.Field(alias="oauthHeaders"),
     ] = None
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
@@ -4746,37 +4515,37 @@ class CreateInputInputOpenTelemetry(BaseModel):
     r"""Enable to extract each incoming log record to a separate event"""
 
 
-class CreateInputInputSnmpType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputTypeSnmp(str, Enum):
     SNMP = "snmp"
 
 
-class CreateInputInputSnmpConnectionTypedDict(TypedDict):
+class ConnectionSnmpTypedDict(TypedDict):
     output: str
     pipeline: NotRequired[str]
 
 
-class CreateInputInputSnmpConnection(BaseModel):
+class ConnectionSnmp(BaseModel):
     output: str
 
     pipeline: Optional[str] = None
 
 
-class CreateInputInputSnmpMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ModeSnmp(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputSnmpCompression(str, Enum, metaclass=utils.OpenEnumMeta):
+class CompressionSnmp(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class CreateInputInputSnmpPqTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputSnmpMode]
+class PqSnmpTypedDict(TypedDict):
+    mode: NotRequired[ModeSnmp]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
@@ -4788,14 +4557,12 @@ class CreateInputInputSnmpPqTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
-    compress: NotRequired[CreateInputInputSnmpCompression]
+    compress: NotRequired[CompressionSnmp]
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputSnmpPq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputSnmpMode], PlainValidator(validate_open_enum(False))
-    ] = CreateInputInputSnmpMode.ALWAYS
+class PqSnmp(BaseModel):
+    mode: Optional[ModeSnmp] = ModeSnmp.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -4819,14 +4586,11 @@ class CreateInputInputSnmpPq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputSnmpCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputSnmpCompression.NONE
+    compress: Optional[CompressionSnmp] = CompressionSnmp.NONE
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputAuthenticationProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputAuthenticationProtocol(str, Enum):
     NONE = "none"
     MD5 = "md5"
     SHA = "sha"
@@ -4847,10 +4611,7 @@ class CreateInputV3User(BaseModel):
     name: str
 
     auth_protocol: Annotated[
-        Annotated[
-            Optional[CreateInputAuthenticationProtocol],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[CreateInputAuthenticationProtocol],
         pydantic.Field(alias="authProtocol"),
     ] = CreateInputAuthenticationProtocol.NONE
 
@@ -4889,13 +4650,13 @@ class CreateInputSNMPv3Authentication(BaseModel):
     r"""User credentials for receiving v3 traps"""
 
 
-class CreateInputInputSnmpMetadatumTypedDict(TypedDict):
+class MetadatumSnmpTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputSnmpMetadatum(BaseModel):
+class MetadatumSnmp(BaseModel):
     name: str
 
     value: str
@@ -4905,7 +4666,7 @@ class CreateInputInputSnmpMetadatum(BaseModel):
 class CreateInputInputSnmpTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: NotRequired[CreateInputInputSnmpType]
+    type: NotRequired[CreateInputTypeSnmp]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -4917,9 +4678,9 @@ class CreateInputInputSnmpTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[CreateInputInputSnmpConnectionTypedDict]]
+    connections: NotRequired[List[ConnectionSnmpTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[CreateInputInputSnmpPqTypedDict]
+    pq: NotRequired[PqSnmpTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
     port: NotRequired[float]
@@ -4930,7 +4691,7 @@ class CreateInputInputSnmpTypedDict(TypedDict):
     r"""Maximum number of events to buffer when downstream is blocking."""
     ip_whitelist_regex: NotRequired[str]
     r"""Regex matching IP addresses that are allowed to send data"""
-    metadata: NotRequired[List[CreateInputInputSnmpMetadatumTypedDict]]
+    metadata: NotRequired[List[MetadatumSnmpTypedDict]]
     r"""Fields to add to events from this input"""
     udp_socket_rx_buf_size: NotRequired[float]
     r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
@@ -4945,9 +4706,7 @@ class CreateInputInputSnmp(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: Annotated[
-        Optional[CreateInputInputSnmpType], PlainValidator(validate_open_enum(False))
-    ] = None
+    type: Optional[CreateInputTypeSnmp] = None
 
     disabled: Optional[bool] = False
 
@@ -4968,10 +4727,10 @@ class CreateInputInputSnmp(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[CreateInputInputSnmpConnection]] = None
+    connections: Optional[List[ConnectionSnmp]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[CreateInputInputSnmpPq] = None
+    pq: Optional[PqSnmp] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
@@ -4994,7 +4753,7 @@ class CreateInputInputSnmp(BaseModel):
     ] = "/.*/"
     r"""Regex matching IP addresses that are allowed to send data"""
 
-    metadata: Optional[List[CreateInputInputSnmpMetadatum]] = None
+    metadata: Optional[List[MetadatumSnmp]] = None
     r"""Fields to add to events from this input"""
 
     udp_socket_rx_buf_size: Annotated[
@@ -5015,37 +4774,37 @@ class CreateInputInputSnmp(BaseModel):
     description: Optional[str] = None
 
 
-class CreateInputInputS3InventoryType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputTypeS3Inventory(str, Enum):
     S3_INVENTORY = "s3_inventory"
 
 
-class CreateInputInputS3InventoryConnectionTypedDict(TypedDict):
+class ConnectionS3InventoryTypedDict(TypedDict):
     output: str
     pipeline: NotRequired[str]
 
 
-class CreateInputInputS3InventoryConnection(BaseModel):
+class ConnectionS3Inventory(BaseModel):
     output: str
 
     pipeline: Optional[str] = None
 
 
-class CreateInputInputS3InventoryMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ModeS3Inventory(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputS3InventoryCompression(str, Enum, metaclass=utils.OpenEnumMeta):
+class CompressionS3Inventory(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class CreateInputInputS3InventoryPqTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputS3InventoryMode]
+class PqS3InventoryTypedDict(TypedDict):
+    mode: NotRequired[ModeS3Inventory]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
@@ -5057,15 +4816,12 @@ class CreateInputInputS3InventoryPqTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
-    compress: NotRequired[CreateInputInputS3InventoryCompression]
+    compress: NotRequired[CompressionS3Inventory]
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputS3InventoryPq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputS3InventoryMode],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputS3InventoryMode.ALWAYS
+class PqS3Inventory(BaseModel):
+    mode: Optional[ModeS3Inventory] = ModeS3Inventory.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -5089,16 +4845,11 @@ class CreateInputInputS3InventoryPq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputS3InventoryCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputS3InventoryCompression.NONE
+    compress: Optional[CompressionS3Inventory] = CompressionS3Inventory.NONE
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputS3InventoryAuthenticationMethod(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class AuthenticationMethodS3Inventory(str, Enum):
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     AUTO = "auto"
@@ -5106,16 +4857,14 @@ class CreateInputInputS3InventoryAuthenticationMethod(
     SECRET = "secret"
 
 
-class CreateInputInputS3InventorySignatureVersion(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class SignatureVersionS3Inventory(str, Enum):
     r"""Signature version to use for signing S3 requests"""
 
     V2 = "v2"
     V4 = "v4"
 
 
-class CreateInputInputS3InventoryPreprocessTypedDict(TypedDict):
+class PreprocessS3InventoryTypedDict(TypedDict):
     disabled: NotRequired[bool]
     command: NotRequired[str]
     r"""Command to feed the data through (via stdin) and process its output (stdout)"""
@@ -5123,7 +4872,7 @@ class CreateInputInputS3InventoryPreprocessTypedDict(TypedDict):
     r"""Arguments to be added to the custom command"""
 
 
-class CreateInputInputS3InventoryPreprocess(BaseModel):
+class PreprocessS3Inventory(BaseModel):
     disabled: Optional[bool] = True
 
     command: Optional[str] = None
@@ -5133,27 +4882,27 @@ class CreateInputInputS3InventoryPreprocess(BaseModel):
     r"""Arguments to be added to the custom command"""
 
 
-class CreateInputInputS3InventoryMetadatumTypedDict(TypedDict):
+class MetadatumS3InventoryTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputS3InventoryMetadatum(BaseModel):
+class MetadatumS3Inventory(BaseModel):
     name: str
 
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputS3InventoryCheckpointingTypedDict(TypedDict):
+class CheckpointingS3InventoryTypedDict(TypedDict):
     enabled: NotRequired[bool]
     r"""Resume processing files after an interruption"""
     retries: NotRequired[float]
     r"""The number of times to retry processing when a processing error occurs. If Skip file on error is enabled, this setting is ignored."""
 
 
-class CreateInputInputS3InventoryCheckpointing(BaseModel):
+class CheckpointingS3Inventory(BaseModel):
     enabled: Optional[bool] = False
     r"""Resume processing files after an interruption"""
 
@@ -5161,9 +4910,7 @@ class CreateInputInputS3InventoryCheckpointing(BaseModel):
     r"""The number of times to retry processing when a processing error occurs. If Skip file on error is enabled, this setting is ignored."""
 
 
-class CreateInputInputS3InventoryTagAfterProcessing(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class TagAfterProcessingS3Inventory(str, Enum):
     FALSE = "false"
     TRUE = "true"
 
@@ -5171,7 +4918,7 @@ class CreateInputInputS3InventoryTagAfterProcessing(
 class CreateInputInputS3InventoryTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputInputS3InventoryType
+    type: CreateInputTypeS3Inventory
     queue_name: str
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
     disabled: NotRequired[bool]
@@ -5185,23 +4932,21 @@ class CreateInputInputS3InventoryTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[CreateInputInputS3InventoryConnectionTypedDict]]
+    connections: NotRequired[List[ConnectionS3InventoryTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[CreateInputInputS3InventoryPqTypedDict]
+    pq: NotRequired[PqS3InventoryTypedDict]
     file_filter: NotRequired[str]
     r"""Regex matching file names to download and process. Defaults to: .*"""
     aws_account_id: NotRequired[str]
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
-    aws_authentication_method: NotRequired[
-        CreateInputInputS3InventoryAuthenticationMethod
-    ]
+    aws_authentication_method: NotRequired[AuthenticationMethodS3Inventory]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     region: NotRequired[str]
     r"""AWS Region where the S3 bucket and SQS queue are located. Required, unless the Queue entry is a URL or ARN that includes a Region."""
     endpoint: NotRequired[str]
     r"""S3 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint."""
-    signature_version: NotRequired[CreateInputInputS3InventorySignatureVersion]
+    signature_version: NotRequired[SignatureVersionS3Inventory]
     r"""Signature version to use for signing S3 requests"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
@@ -5231,14 +4976,14 @@ class CreateInputInputS3InventoryTypedDict(TypedDict):
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
     enable_sqs_assume_role: NotRequired[bool]
     r"""Use Assume Role credentials when accessing Amazon SQS"""
-    preprocess: NotRequired[CreateInputInputS3InventoryPreprocessTypedDict]
-    metadata: NotRequired[List[CreateInputInputS3InventoryMetadatumTypedDict]]
+    preprocess: NotRequired[PreprocessS3InventoryTypedDict]
+    metadata: NotRequired[List[MetadatumS3InventoryTypedDict]]
     r"""Fields to add to events from this input"""
     parquet_chunk_size_mb: NotRequired[float]
     r"""Maximum file size for each Parquet chunk"""
     parquet_chunk_download_timeout: NotRequired[float]
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
-    checkpointing: NotRequired[CreateInputInputS3InventoryCheckpointingTypedDict]
+    checkpointing: NotRequired[CheckpointingS3InventoryTypedDict]
     poll_timeout: NotRequired[float]
     r"""How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts."""
     checksum_suffix: NotRequired[str]
@@ -5251,7 +4996,7 @@ class CreateInputInputS3InventoryTypedDict(TypedDict):
     aws_api_key: NotRequired[str]
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
-    tag_after_processing: NotRequired[CreateInputInputS3InventoryTagAfterProcessing]
+    tag_after_processing: NotRequired[TagAfterProcessingS3Inventory]
     processed_tag_key: NotRequired[str]
     r"""The key for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
     processed_tag_value: NotRequired[str]
@@ -5262,9 +5007,7 @@ class CreateInputInputS3Inventory(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: Annotated[
-        CreateInputInputS3InventoryType, PlainValidator(validate_open_enum(False))
-    ]
+    type: CreateInputTypeS3Inventory
 
     queue_name: Annotated[str, pydantic.Field(alias="queueName")]
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
@@ -5288,10 +5031,10 @@ class CreateInputInputS3Inventory(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[CreateInputInputS3InventoryConnection]] = None
+    connections: Optional[List[ConnectionS3Inventory]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[CreateInputInputS3InventoryPq] = None
+    pq: Optional[PqS3Inventory] = None
 
     file_filter: Annotated[Optional[str], pydantic.Field(alias="fileFilter")] = "/.*/"
     r"""Regex matching file names to download and process. Defaults to: .*"""
@@ -5302,12 +5045,9 @@ class CreateInputInputS3Inventory(BaseModel):
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
 
     aws_authentication_method: Annotated[
-        Annotated[
-            Optional[CreateInputInputS3InventoryAuthenticationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodS3Inventory],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = CreateInputInputS3InventoryAuthenticationMethod.AUTO
+    ] = AuthenticationMethodS3Inventory.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -5321,12 +5061,8 @@ class CreateInputInputS3Inventory(BaseModel):
     r"""S3 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint."""
 
     signature_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputS3InventorySignatureVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="signatureVersion"),
-    ] = CreateInputInputS3InventorySignatureVersion.V4
+        Optional[SignatureVersionS3Inventory], pydantic.Field(alias="signatureVersion")
+    ] = SignatureVersionS3Inventory.V4
     r"""Signature version to use for signing S3 requests"""
 
     reuse_connections: Annotated[
@@ -5395,9 +5131,9 @@ class CreateInputInputS3Inventory(BaseModel):
     ] = False
     r"""Use Assume Role credentials when accessing Amazon SQS"""
 
-    preprocess: Optional[CreateInputInputS3InventoryPreprocess] = None
+    preprocess: Optional[PreprocessS3Inventory] = None
 
-    metadata: Optional[List[CreateInputInputS3InventoryMetadatum]] = None
+    metadata: Optional[List[MetadatumS3Inventory]] = None
     r"""Fields to add to events from this input"""
 
     parquet_chunk_size_mb: Annotated[
@@ -5410,7 +5146,7 @@ class CreateInputInputS3Inventory(BaseModel):
     ] = 600
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
 
-    checkpointing: Optional[CreateInputInputS3InventoryCheckpointing] = None
+    checkpointing: Optional[CheckpointingS3Inventory] = None
 
     poll_timeout: Annotated[Optional[float], pydantic.Field(alias="pollTimeout")] = 10
     r"""How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts."""
@@ -5438,10 +5174,7 @@ class CreateInputInputS3Inventory(BaseModel):
     r"""Select or create a stored secret that references your access key and secret key"""
 
     tag_after_processing: Annotated[
-        Annotated[
-            Optional[CreateInputInputS3InventoryTagAfterProcessing],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[TagAfterProcessingS3Inventory],
         pydantic.Field(alias="tagAfterProcessing"),
     ] = None
 
@@ -5456,37 +5189,37 @@ class CreateInputInputS3Inventory(BaseModel):
     r"""The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
 
 
-class CreateInputInputS3Type(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputTypeS3(str, Enum):
     S3 = "s3"
 
 
-class CreateInputInputS3ConnectionTypedDict(TypedDict):
+class ConnectionS3TypedDict(TypedDict):
     output: str
     pipeline: NotRequired[str]
 
 
-class CreateInputInputS3Connection(BaseModel):
+class ConnectionS3(BaseModel):
     output: str
 
     pipeline: Optional[str] = None
 
 
-class CreateInputInputS3Mode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ModeS3(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputS3Compression(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputCompressionS3(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class CreateInputInputS3PqTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputS3Mode]
+class PqS3TypedDict(TypedDict):
+    mode: NotRequired[ModeS3]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
@@ -5498,14 +5231,12 @@ class CreateInputInputS3PqTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
-    compress: NotRequired[CreateInputInputS3Compression]
+    compress: NotRequired[CreateInputCompressionS3]
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputS3Pq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputS3Mode], PlainValidator(validate_open_enum(False))
-    ] = CreateInputInputS3Mode.ALWAYS
+class PqS3(BaseModel):
+    mode: Optional[ModeS3] = ModeS3.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -5529,14 +5260,11 @@ class CreateInputInputS3Pq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputS3Compression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputS3Compression.NONE
+    compress: Optional[CreateInputCompressionS3] = CreateInputCompressionS3.NONE
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputS3AuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputAuthenticationMethodS3(str, Enum):
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     AUTO = "auto"
@@ -5544,14 +5272,14 @@ class CreateInputInputS3AuthenticationMethod(str, Enum, metaclass=utils.OpenEnum
     SECRET = "secret"
 
 
-class CreateInputInputS3SignatureVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputSignatureVersionS3(str, Enum):
     r"""Signature version to use for signing S3 requests"""
 
     V2 = "v2"
     V4 = "v4"
 
 
-class CreateInputInputS3PreprocessTypedDict(TypedDict):
+class PreprocessS3TypedDict(TypedDict):
     disabled: NotRequired[bool]
     command: NotRequired[str]
     r"""Command to feed the data through (via stdin) and process its output (stdout)"""
@@ -5559,7 +5287,7 @@ class CreateInputInputS3PreprocessTypedDict(TypedDict):
     r"""Arguments to be added to the custom command"""
 
 
-class CreateInputInputS3Preprocess(BaseModel):
+class PreprocessS3(BaseModel):
     disabled: Optional[bool] = True
 
     command: Optional[str] = None
@@ -5569,27 +5297,27 @@ class CreateInputInputS3Preprocess(BaseModel):
     r"""Arguments to be added to the custom command"""
 
 
-class CreateInputInputS3MetadatumTypedDict(TypedDict):
+class MetadatumS3TypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputS3Metadatum(BaseModel):
+class MetadatumS3(BaseModel):
     name: str
 
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputS3CheckpointingTypedDict(TypedDict):
+class CheckpointingS3TypedDict(TypedDict):
     enabled: NotRequired[bool]
     r"""Resume processing files after an interruption"""
     retries: NotRequired[float]
     r"""The number of times to retry processing when a processing error occurs. If Skip file on error is enabled, this setting is ignored."""
 
 
-class CreateInputInputS3Checkpointing(BaseModel):
+class CheckpointingS3(BaseModel):
     enabled: Optional[bool] = False
     r"""Resume processing files after an interruption"""
 
@@ -5600,7 +5328,7 @@ class CreateInputInputS3Checkpointing(BaseModel):
 class CreateInputInputS3TypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputInputS3Type
+    type: CreateInputTypeS3
     queue_name: str
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
     disabled: NotRequired[bool]
@@ -5614,21 +5342,21 @@ class CreateInputInputS3TypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[CreateInputInputS3ConnectionTypedDict]]
+    connections: NotRequired[List[ConnectionS3TypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[CreateInputInputS3PqTypedDict]
+    pq: NotRequired[PqS3TypedDict]
     file_filter: NotRequired[str]
     r"""Regex matching file names to download and process. Defaults to: .*"""
     aws_account_id: NotRequired[str]
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
-    aws_authentication_method: NotRequired[CreateInputInputS3AuthenticationMethod]
+    aws_authentication_method: NotRequired[CreateInputAuthenticationMethodS3]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     region: NotRequired[str]
     r"""AWS Region where the S3 bucket and SQS queue are located. Required, unless the Queue entry is a URL or ARN that includes a Region."""
     endpoint: NotRequired[str]
     r"""S3 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint."""
-    signature_version: NotRequired[CreateInputInputS3SignatureVersion]
+    signature_version: NotRequired[CreateInputSignatureVersionS3]
     r"""Signature version to use for signing S3 requests"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
@@ -5658,14 +5386,14 @@ class CreateInputInputS3TypedDict(TypedDict):
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
     enable_sqs_assume_role: NotRequired[bool]
     r"""Use Assume Role credentials when accessing Amazon SQS"""
-    preprocess: NotRequired[CreateInputInputS3PreprocessTypedDict]
-    metadata: NotRequired[List[CreateInputInputS3MetadatumTypedDict]]
+    preprocess: NotRequired[PreprocessS3TypedDict]
+    metadata: NotRequired[List[MetadatumS3TypedDict]]
     r"""Fields to add to events from this input"""
     parquet_chunk_size_mb: NotRequired[float]
     r"""Maximum file size for each Parquet chunk"""
     parquet_chunk_download_timeout: NotRequired[float]
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
-    checkpointing: NotRequired[CreateInputInputS3CheckpointingTypedDict]
+    checkpointing: NotRequired[CheckpointingS3TypedDict]
     poll_timeout: NotRequired[float]
     r"""How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts."""
     encoding: NotRequired[str]
@@ -5686,7 +5414,7 @@ class CreateInputInputS3(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: Annotated[CreateInputInputS3Type, PlainValidator(validate_open_enum(False))]
+    type: CreateInputTypeS3
 
     queue_name: Annotated[str, pydantic.Field(alias="queueName")]
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
@@ -5710,10 +5438,10 @@ class CreateInputInputS3(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[CreateInputInputS3Connection]] = None
+    connections: Optional[List[ConnectionS3]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[CreateInputInputS3Pq] = None
+    pq: Optional[PqS3] = None
 
     file_filter: Annotated[Optional[str], pydantic.Field(alias="fileFilter")] = "/.*/"
     r"""Regex matching file names to download and process. Defaults to: .*"""
@@ -5724,12 +5452,9 @@ class CreateInputInputS3(BaseModel):
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
 
     aws_authentication_method: Annotated[
-        Annotated[
-            Optional[CreateInputInputS3AuthenticationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[CreateInputAuthenticationMethodS3],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = CreateInputInputS3AuthenticationMethod.AUTO
+    ] = CreateInputAuthenticationMethodS3.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -5743,12 +5468,9 @@ class CreateInputInputS3(BaseModel):
     r"""S3 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint."""
 
     signature_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputS3SignatureVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[CreateInputSignatureVersionS3],
         pydantic.Field(alias="signatureVersion"),
-    ] = CreateInputInputS3SignatureVersion.V4
+    ] = CreateInputSignatureVersionS3.V4
     r"""Signature version to use for signing S3 requests"""
 
     reuse_connections: Annotated[
@@ -5817,9 +5539,9 @@ class CreateInputInputS3(BaseModel):
     ] = False
     r"""Use Assume Role credentials when accessing Amazon SQS"""
 
-    preprocess: Optional[CreateInputInputS3Preprocess] = None
+    preprocess: Optional[PreprocessS3] = None
 
-    metadata: Optional[List[CreateInputInputS3Metadatum]] = None
+    metadata: Optional[List[MetadatumS3]] = None
     r"""Fields to add to events from this input"""
 
     parquet_chunk_size_mb: Annotated[
@@ -5832,7 +5554,7 @@ class CreateInputInputS3(BaseModel):
     ] = 600
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
 
-    checkpointing: Optional[CreateInputInputS3Checkpointing] = None
+    checkpointing: Optional[CheckpointingS3] = None
 
     poll_timeout: Annotated[Optional[float], pydantic.Field(alias="pollTimeout")] = 10
     r"""How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts."""
@@ -5863,37 +5585,37 @@ class CreateInputInputS3(BaseModel):
     r"""The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
 
 
-class CreateInputInputMetricsType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputTypeMetrics(str, Enum):
     METRICS = "metrics"
 
 
-class CreateInputInputMetricsConnectionTypedDict(TypedDict):
+class ConnectionMetricsTypedDict(TypedDict):
     output: str
     pipeline: NotRequired[str]
 
 
-class CreateInputInputMetricsConnection(BaseModel):
+class ConnectionMetrics(BaseModel):
     output: str
 
     pipeline: Optional[str] = None
 
 
-class CreateInputInputMetricsMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ModeMetrics(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputMetricsCompression(str, Enum, metaclass=utils.OpenEnumMeta):
+class CompressionMetrics(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class CreateInputInputMetricsPqTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputMetricsMode]
+class PqMetricsTypedDict(TypedDict):
+    mode: NotRequired[ModeMetrics]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
@@ -5905,14 +5627,12 @@ class CreateInputInputMetricsPqTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
-    compress: NotRequired[CreateInputInputMetricsCompression]
+    compress: NotRequired[CompressionMetrics]
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputMetricsPq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputMetricsMode], PlainValidator(validate_open_enum(False))
-    ] = CreateInputInputMetricsMode.ALWAYS
+class PqMetrics(BaseModel):
+    mode: Optional[ModeMetrics] = ModeMetrics.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -5936,28 +5656,25 @@ class CreateInputInputMetricsPq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputMetricsCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputMetricsCompression.NONE
+    compress: Optional[CompressionMetrics] = CompressionMetrics.NONE
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputMetricsMinimumTLSVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+class MinimumTLSVersionMetrics(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputMetricsMaximumTLSVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+class MaximumTLSVersionMetrics(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputMetricsTLSSettingsServerSideTypedDict(TypedDict):
+class TLSSettingsServerSideMetricsTypedDict(TypedDict):
     disabled: NotRequired[bool]
     certificate_name: NotRequired[str]
     r"""The name of the predefined certificate"""
@@ -5973,11 +5690,11 @@ class CreateInputInputMetricsTLSSettingsServerSideTypedDict(TypedDict):
     r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
     reject_unauthorized: NotRequired[Any]
     common_name_regex: NotRequired[Any]
-    min_version: NotRequired[CreateInputInputMetricsMinimumTLSVersion]
-    max_version: NotRequired[CreateInputInputMetricsMaximumTLSVersion]
+    min_version: NotRequired[MinimumTLSVersionMetrics]
+    max_version: NotRequired[MaximumTLSVersionMetrics]
 
 
-class CreateInputInputMetricsTLSSettingsServerSide(BaseModel):
+class TLSSettingsServerSideMetrics(BaseModel):
     disabled: Optional[bool] = True
 
     certificate_name: Annotated[
@@ -6009,29 +5726,21 @@ class CreateInputInputMetricsTLSSettingsServerSide(BaseModel):
     ] = None
 
     min_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputMetricsMinimumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="minVersion"),
+        Optional[MinimumTLSVersionMetrics], pydantic.Field(alias="minVersion")
     ] = None
 
     max_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputMetricsMaximumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="maxVersion"),
+        Optional[MaximumTLSVersionMetrics], pydantic.Field(alias="maxVersion")
     ] = None
 
 
-class CreateInputInputMetricsMetadatumTypedDict(TypedDict):
+class MetadatumMetricsTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputMetricsMetadatum(BaseModel):
+class MetadatumMetrics(BaseModel):
     name: str
 
     value: str
@@ -6041,7 +5750,7 @@ class CreateInputInputMetricsMetadatum(BaseModel):
 class CreateInputInputMetricsTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputInputMetricsType
+    type: CreateInputTypeMetrics
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -6053,9 +5762,9 @@ class CreateInputInputMetricsTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[CreateInputInputMetricsConnectionTypedDict]]
+    connections: NotRequired[List[ConnectionMetricsTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[CreateInputInputMetricsPqTypedDict]
+    pq: NotRequired[PqMetricsTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
     udp_port: NotRequired[float]
@@ -6068,8 +5777,8 @@ class CreateInputInputMetricsTypedDict(TypedDict):
     r"""Regex matching IP addresses that are allowed to send data"""
     enable_proxy_header: NotRequired[bool]
     r"""Enable if the connection is proxied by a device that supports Proxy Protocol V1 or V2"""
-    tls: NotRequired[CreateInputInputMetricsTLSSettingsServerSideTypedDict]
-    metadata: NotRequired[List[CreateInputInputMetricsMetadatumTypedDict]]
+    tls: NotRequired[TLSSettingsServerSideMetricsTypedDict]
+    metadata: NotRequired[List[MetadatumMetricsTypedDict]]
     r"""Fields to add to events from this input"""
     udp_socket_rx_buf_size: NotRequired[float]
     r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
@@ -6080,9 +5789,7 @@ class CreateInputInputMetrics(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: Annotated[
-        CreateInputInputMetricsType, PlainValidator(validate_open_enum(False))
-    ]
+    type: CreateInputTypeMetrics
 
     disabled: Optional[bool] = False
 
@@ -6103,10 +5810,10 @@ class CreateInputInputMetrics(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[CreateInputInputMetricsConnection]] = None
+    connections: Optional[List[ConnectionMetrics]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[CreateInputInputMetricsPq] = None
+    pq: Optional[PqMetrics] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
@@ -6132,9 +5839,9 @@ class CreateInputInputMetrics(BaseModel):
     ] = False
     r"""Enable if the connection is proxied by a device that supports Proxy Protocol V1 or V2"""
 
-    tls: Optional[CreateInputInputMetricsTLSSettingsServerSide] = None
+    tls: Optional[TLSSettingsServerSideMetrics] = None
 
-    metadata: Optional[List[CreateInputInputMetricsMetadatum]] = None
+    metadata: Optional[List[MetadatumMetrics]] = None
     r"""Fields to add to events from this input"""
 
     udp_socket_rx_buf_size: Annotated[
@@ -6145,37 +5852,37 @@ class CreateInputInputMetrics(BaseModel):
     description: Optional[str] = None
 
 
-class CreateInputInputKinesisType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputTypeKinesis(str, Enum):
     KINESIS = "kinesis"
 
 
-class CreateInputInputKinesisConnectionTypedDict(TypedDict):
+class ConnectionKinesisTypedDict(TypedDict):
     output: str
     pipeline: NotRequired[str]
 
 
-class CreateInputInputKinesisConnection(BaseModel):
+class ConnectionKinesis(BaseModel):
     output: str
 
     pipeline: Optional[str] = None
 
 
-class CreateInputInputKinesisMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputModeKinesis(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputKinesisCompression(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputCompressionKinesis(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class CreateInputInputKinesisPqTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputKinesisMode]
+class PqKinesisTypedDict(TypedDict):
+    mode: NotRequired[CreateInputModeKinesis]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
@@ -6187,14 +5894,12 @@ class CreateInputInputKinesisPqTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
-    compress: NotRequired[CreateInputInputKinesisCompression]
+    compress: NotRequired[CreateInputCompressionKinesis]
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputKinesisPq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputKinesisMode], PlainValidator(validate_open_enum(False))
-    ] = CreateInputInputKinesisMode.ALWAYS
+class PqKinesis(BaseModel):
+    mode: Optional[CreateInputModeKinesis] = CreateInputModeKinesis.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -6218,21 +5923,20 @@ class CreateInputInputKinesisPq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputKinesisCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputKinesisCompression.NONE
+    compress: Optional[CreateInputCompressionKinesis] = (
+        CreateInputCompressionKinesis.NONE
+    )
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputShardIteratorStart(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputShardIteratorStart(str, Enum):
     r"""Location at which to start reading a shard for the first time"""
 
     TRIM_HORIZON = "TRIM_HORIZON"
     LATEST = "LATEST"
 
 
-class CreateInputRecordDataFormat(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputRecordDataFormat(str, Enum):
     r"""Format of data inside the Kinesis Stream records. Gzip compression is automatically detected."""
 
     CRIBL = "cribl"
@@ -6241,16 +5945,14 @@ class CreateInputRecordDataFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     LINE = "line"
 
 
-class CreateInputShardLoadBalancing(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputShardLoadBalancing(str, Enum):
     r"""The load-balancing algorithm to use for spreading out shards across Workers and Worker Processes"""
 
     CONSISTENT_HASHING = "ConsistentHashing"
     ROUND_ROBIN = "RoundRobin"
 
 
-class CreateInputInputKinesisAuthenticationMethod(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class CreateInputAuthenticationMethodKinesis(str, Enum):
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     AUTO = "auto"
@@ -6258,20 +5960,20 @@ class CreateInputInputKinesisAuthenticationMethod(
     SECRET = "secret"
 
 
-class CreateInputInputKinesisSignatureVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputSignatureVersionKinesis(str, Enum):
     r"""Signature version to use for signing Kinesis stream requests"""
 
     V2 = "v2"
     V4 = "v4"
 
 
-class CreateInputInputKinesisMetadatumTypedDict(TypedDict):
+class MetadatumKinesisTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputKinesisMetadatum(BaseModel):
+class MetadatumKinesis(BaseModel):
     name: str
 
     value: str
@@ -6285,7 +5987,7 @@ class CreateInputInputKinesisTypedDict(TypedDict):
     r"""Kinesis Data Stream to read data from"""
     region: str
     r"""Region where the Kinesis stream is located"""
-    type: NotRequired[CreateInputInputKinesisType]
+    type: NotRequired[CreateInputTypeKinesis]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -6297,9 +5999,9 @@ class CreateInputInputKinesisTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[CreateInputInputKinesisConnectionTypedDict]]
+    connections: NotRequired[List[ConnectionKinesisTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[CreateInputInputKinesisPqTypedDict]
+    pq: NotRequired[PqKinesisTypedDict]
     service_interval: NotRequired[float]
     r"""Time interval in minutes between consecutive service calls"""
     shard_expr: NotRequired[str]
@@ -6314,12 +6016,12 @@ class CreateInputInputKinesisTypedDict(TypedDict):
     r"""Maximum number of records, across all shards, to pull down at once per Worker Process"""
     load_balancing_algorithm: NotRequired[CreateInputShardLoadBalancing]
     r"""The load-balancing algorithm to use for spreading out shards across Workers and Worker Processes"""
-    aws_authentication_method: NotRequired[CreateInputInputKinesisAuthenticationMethod]
+    aws_authentication_method: NotRequired[CreateInputAuthenticationMethodKinesis]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     endpoint: NotRequired[str]
     r"""Kinesis stream service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Kinesis stream-compatible endpoint."""
-    signature_version: NotRequired[CreateInputInputKinesisSignatureVersion]
+    signature_version: NotRequired[CreateInputSignatureVersionKinesis]
     r"""Signature version to use for signing Kinesis stream requests"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
@@ -6337,7 +6039,7 @@ class CreateInputInputKinesisTypedDict(TypedDict):
     r"""Verify Kinesis Producer Library (KPL) event checksums"""
     avoid_duplicates: NotRequired[bool]
     r"""When resuming streaming from a stored state, Stream will read the next available record, rather than rereading the last-read record. Enabling this setting can cause data loss after a Worker Node's unexpected shutdown or restart."""
-    metadata: NotRequired[List[CreateInputInputKinesisMetadatumTypedDict]]
+    metadata: NotRequired[List[MetadatumKinesisTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
     aws_api_key: NotRequired[str]
@@ -6355,9 +6057,7 @@ class CreateInputInputKinesis(BaseModel):
     region: str
     r"""Region where the Kinesis stream is located"""
 
-    type: Annotated[
-        Optional[CreateInputInputKinesisType], PlainValidator(validate_open_enum(False))
-    ] = None
+    type: Optional[CreateInputTypeKinesis] = None
 
     disabled: Optional[bool] = False
 
@@ -6378,10 +6078,10 @@ class CreateInputInputKinesis(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[CreateInputInputKinesisConnection]] = None
+    connections: Optional[List[ConnectionKinesis]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[CreateInputInputKinesisPq] = None
+    pq: Optional[PqKinesis] = None
 
     service_interval: Annotated[
         Optional[float], pydantic.Field(alias="serviceInterval")
@@ -6392,20 +6092,13 @@ class CreateInputInputKinesis(BaseModel):
     r"""A JavaScript expression to be called with each shardId for the stream. If the expression evaluates to a truthy value, the shard will be processed."""
 
     shard_iterator_type: Annotated[
-        Annotated[
-            Optional[CreateInputShardIteratorStart],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[CreateInputShardIteratorStart],
         pydantic.Field(alias="shardIteratorType"),
     ] = CreateInputShardIteratorStart.TRIM_HORIZON
     r"""Location at which to start reading a shard for the first time"""
 
     payload_format: Annotated[
-        Annotated[
-            Optional[CreateInputRecordDataFormat],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="payloadFormat"),
+        Optional[CreateInputRecordDataFormat], pydantic.Field(alias="payloadFormat")
     ] = CreateInputRecordDataFormat.CRIBL
     r"""Format of data inside the Kinesis Stream records. Gzip compression is automatically detected."""
 
@@ -6420,21 +6113,15 @@ class CreateInputInputKinesis(BaseModel):
     r"""Maximum number of records, across all shards, to pull down at once per Worker Process"""
 
     load_balancing_algorithm: Annotated[
-        Annotated[
-            Optional[CreateInputShardLoadBalancing],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[CreateInputShardLoadBalancing],
         pydantic.Field(alias="loadBalancingAlgorithm"),
     ] = CreateInputShardLoadBalancing.CONSISTENT_HASHING
     r"""The load-balancing algorithm to use for spreading out shards across Workers and Worker Processes"""
 
     aws_authentication_method: Annotated[
-        Annotated[
-            Optional[CreateInputInputKinesisAuthenticationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[CreateInputAuthenticationMethodKinesis],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = CreateInputInputKinesisAuthenticationMethod.AUTO
+    ] = CreateInputAuthenticationMethodKinesis.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -6445,12 +6132,9 @@ class CreateInputInputKinesis(BaseModel):
     r"""Kinesis stream service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Kinesis stream-compatible endpoint."""
 
     signature_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputKinesisSignatureVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[CreateInputSignatureVersionKinesis],
         pydantic.Field(alias="signatureVersion"),
-    ] = CreateInputInputKinesisSignatureVersion.V4
+    ] = CreateInputSignatureVersionKinesis.V4
     r"""Signature version to use for signing Kinesis stream requests"""
 
     reuse_connections: Annotated[
@@ -6493,7 +6177,7 @@ class CreateInputInputKinesis(BaseModel):
     ] = False
     r"""When resuming streaming from a stored state, Stream will read the next available record, rather than rereading the last-read record. Enabling this setting can cause data loss after a Worker Node's unexpected shutdown or restart."""
 
-    metadata: Optional[List[CreateInputInputKinesisMetadatum]] = None
+    metadata: Optional[List[MetadatumKinesis]] = None
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
@@ -6504,37 +6188,37 @@ class CreateInputInputKinesis(BaseModel):
     r"""Select or create a stored secret that references your access key and secret key"""
 
 
-class CreateInputInputHTTPRawType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputTypeHTTPRaw(str, Enum):
     HTTP_RAW = "http_raw"
 
 
-class CreateInputInputHTTPRawConnectionTypedDict(TypedDict):
+class ConnectionHTTPRawTypedDict(TypedDict):
     output: str
     pipeline: NotRequired[str]
 
 
-class CreateInputInputHTTPRawConnection(BaseModel):
+class ConnectionHTTPRaw(BaseModel):
     output: str
 
     pipeline: Optional[str] = None
 
 
-class CreateInputInputHTTPRawMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ModeHTTPRaw(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputHTTPRawCompression(str, Enum, metaclass=utils.OpenEnumMeta):
+class CompressionHTTPRaw(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class CreateInputInputHTTPRawPqTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputHTTPRawMode]
+class PqHTTPRawTypedDict(TypedDict):
+    mode: NotRequired[ModeHTTPRaw]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
@@ -6546,14 +6230,12 @@ class CreateInputInputHTTPRawPqTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
-    compress: NotRequired[CreateInputInputHTTPRawCompression]
+    compress: NotRequired[CompressionHTTPRaw]
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputHTTPRawPq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputHTTPRawMode], PlainValidator(validate_open_enum(False))
-    ] = CreateInputInputHTTPRawMode.ALWAYS
+class PqHTTPRaw(BaseModel):
+    mode: Optional[ModeHTTPRaw] = ModeHTTPRaw.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -6577,28 +6259,25 @@ class CreateInputInputHTTPRawPq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputHTTPRawCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputHTTPRawCompression.NONE
+    compress: Optional[CompressionHTTPRaw] = CompressionHTTPRaw.NONE
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputHTTPRawMinimumTLSVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+class MinimumTLSVersionHTTPRaw(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputHTTPRawMaximumTLSVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+class MaximumTLSVersionHTTPRaw(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputHTTPRawTLSSettingsServerSideTypedDict(TypedDict):
+class TLSSettingsServerSideHTTPRawTypedDict(TypedDict):
     disabled: NotRequired[bool]
     certificate_name: NotRequired[str]
     r"""The name of the predefined certificate"""
@@ -6614,11 +6293,11 @@ class CreateInputInputHTTPRawTLSSettingsServerSideTypedDict(TypedDict):
     r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
     reject_unauthorized: NotRequired[Any]
     common_name_regex: NotRequired[Any]
-    min_version: NotRequired[CreateInputInputHTTPRawMinimumTLSVersion]
-    max_version: NotRequired[CreateInputInputHTTPRawMaximumTLSVersion]
+    min_version: NotRequired[MinimumTLSVersionHTTPRaw]
+    max_version: NotRequired[MaximumTLSVersionHTTPRaw]
 
 
-class CreateInputInputHTTPRawTLSSettingsServerSide(BaseModel):
+class TLSSettingsServerSideHTTPRaw(BaseModel):
     disabled: Optional[bool] = True
 
     certificate_name: Annotated[
@@ -6650,63 +6329,55 @@ class CreateInputInputHTTPRawTLSSettingsServerSide(BaseModel):
     ] = None
 
     min_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputHTTPRawMinimumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="minVersion"),
+        Optional[MinimumTLSVersionHTTPRaw], pydantic.Field(alias="minVersion")
     ] = None
 
     max_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputHTTPRawMaximumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="maxVersion"),
+        Optional[MaximumTLSVersionHTTPRaw], pydantic.Field(alias="maxVersion")
     ] = None
 
 
-class CreateInputInputHTTPRawMetadatumTypedDict(TypedDict):
+class MetadatumHTTPRawTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputHTTPRawMetadatum(BaseModel):
-    name: str
-
-    value: str
-    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
-
-
-class CreateInputInputHTTPRawAuthTokensExtMetadatumTypedDict(TypedDict):
-    name: str
-    value: str
-    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
-
-
-class CreateInputInputHTTPRawAuthTokensExtMetadatum(BaseModel):
+class MetadatumHTTPRaw(BaseModel):
     name: str
 
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputHTTPRawAuthTokensExtTypedDict(TypedDict):
+class AuthTokensExtMetadatumHTTPRawTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class AuthTokensExtMetadatumHTTPRaw(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class AuthTokensExtHTTPRawTypedDict(TypedDict):
     token: str
     r"""Shared secret to be provided by any client (Authorization: <token>)"""
     description: NotRequired[str]
-    metadata: NotRequired[List[CreateInputInputHTTPRawAuthTokensExtMetadatumTypedDict]]
+    metadata: NotRequired[List[AuthTokensExtMetadatumHTTPRawTypedDict]]
     r"""Fields to add to events referencing this token"""
 
 
-class CreateInputInputHTTPRawAuthTokensExt(BaseModel):
+class AuthTokensExtHTTPRaw(BaseModel):
     token: str
     r"""Shared secret to be provided by any client (Authorization: <token>)"""
 
     description: Optional[str] = None
 
-    metadata: Optional[List[CreateInputInputHTTPRawAuthTokensExtMetadatum]] = None
+    metadata: Optional[List[AuthTokensExtMetadatumHTTPRaw]] = None
     r"""Fields to add to events referencing this token"""
 
 
@@ -6715,7 +6386,7 @@ class CreateInputInputHTTPRawTypedDict(TypedDict):
     r"""Unique ID for this input"""
     port: float
     r"""Port to listen on"""
-    type: NotRequired[CreateInputInputHTTPRawType]
+    type: NotRequired[CreateInputTypeHTTPRaw]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -6727,14 +6398,14 @@ class CreateInputInputHTTPRawTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[CreateInputInputHTTPRawConnectionTypedDict]]
+    connections: NotRequired[List[ConnectionHTTPRawTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[CreateInputInputHTTPRawPqTypedDict]
+    pq: NotRequired[PqHTTPRawTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     auth_tokens: NotRequired[List[str]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
-    tls: NotRequired[CreateInputInputHTTPRawTLSSettingsServerSideTypedDict]
+    tls: NotRequired[TLSSettingsServerSideHTTPRawTypedDict]
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -6761,13 +6432,13 @@ class CreateInputInputHTTPRawTypedDict(TypedDict):
     r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
     stale_channel_flush_ms: NotRequired[float]
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
-    metadata: NotRequired[List[CreateInputInputHTTPRawMetadatumTypedDict]]
+    metadata: NotRequired[List[MetadatumHTTPRawTypedDict]]
     r"""Fields to add to events from this input"""
     allowed_paths: NotRequired[List[str]]
     r"""List of URI paths accepted by this input, wildcards are supported, e.g /api/v*/hook. Defaults to allow all."""
     allowed_methods: NotRequired[List[str]]
     r"""List of HTTP methods accepted by this input. Wildcards are supported (such as P*, GET). Defaults to allow all."""
-    auth_tokens_ext: NotRequired[List[CreateInputInputHTTPRawAuthTokensExtTypedDict]]
+    auth_tokens_ext: NotRequired[List[AuthTokensExtHTTPRawTypedDict]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     description: NotRequired[str]
 
@@ -6779,9 +6450,7 @@ class CreateInputInputHTTPRaw(BaseModel):
     port: float
     r"""Port to listen on"""
 
-    type: Annotated[
-        Optional[CreateInputInputHTTPRawType], PlainValidator(validate_open_enum(False))
-    ] = None
+    type: Optional[CreateInputTypeHTTPRaw] = None
 
     disabled: Optional[bool] = False
 
@@ -6802,10 +6471,10 @@ class CreateInputInputHTTPRaw(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[CreateInputInputHTTPRawConnection]] = None
+    connections: Optional[List[ConnectionHTTPRaw]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[CreateInputInputHTTPRawPq] = None
+    pq: Optional[PqHTTPRaw] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -6815,7 +6484,7 @@ class CreateInputInputHTTPRaw(BaseModel):
     )
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
-    tls: Optional[CreateInputInputHTTPRawTLSSettingsServerSide] = None
+    tls: Optional[TLSSettingsServerSideHTTPRaw] = None
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         256
@@ -6882,7 +6551,7 @@ class CreateInputInputHTTPRaw(BaseModel):
     ] = 10000
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
-    metadata: Optional[List[CreateInputInputHTTPRawMetadatum]] = None
+    metadata: Optional[List[MetadatumHTTPRaw]] = None
     r"""Fields to add to events from this input"""
 
     allowed_paths: Annotated[
@@ -6896,45 +6565,44 @@ class CreateInputInputHTTPRaw(BaseModel):
     r"""List of HTTP methods accepted by this input. Wildcards are supported (such as P*, GET). Defaults to allow all."""
 
     auth_tokens_ext: Annotated[
-        Optional[List[CreateInputInputHTTPRawAuthTokensExt]],
-        pydantic.Field(alias="authTokensExt"),
+        Optional[List[AuthTokensExtHTTPRaw]], pydantic.Field(alias="authTokensExt")
     ] = None
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
     description: Optional[str] = None
 
 
-class CreateInputInputDatagenType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputTypeDatagen(str, Enum):
     DATAGEN = "datagen"
 
 
-class CreateInputInputDatagenConnectionTypedDict(TypedDict):
+class ConnectionDatagenTypedDict(TypedDict):
     output: str
     pipeline: NotRequired[str]
 
 
-class CreateInputInputDatagenConnection(BaseModel):
+class ConnectionDatagen(BaseModel):
     output: str
 
     pipeline: Optional[str] = None
 
 
-class CreateInputInputDatagenMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ModeDatagen(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputDatagenCompression(str, Enum, metaclass=utils.OpenEnumMeta):
+class CompressionDatagen(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class CreateInputInputDatagenPqTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputDatagenMode]
+class PqDatagenTypedDict(TypedDict):
+    mode: NotRequired[ModeDatagen]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
@@ -6946,14 +6614,12 @@ class CreateInputInputDatagenPqTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
-    compress: NotRequired[CreateInputInputDatagenCompression]
+    compress: NotRequired[CompressionDatagen]
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputDatagenPq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputDatagenMode], PlainValidator(validate_open_enum(False))
-    ] = CreateInputInputDatagenMode.ALWAYS
+class PqDatagen(BaseModel):
+    mode: Optional[ModeDatagen] = ModeDatagen.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -6977,10 +6643,7 @@ class CreateInputInputDatagenPq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputDatagenCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputDatagenCompression.NONE
+    compress: Optional[CompressionDatagen] = CompressionDatagen.NONE
     r"""Codec to use to compress the persisted data"""
 
 
@@ -6999,13 +6662,13 @@ class CreateInputSample(BaseModel):
     r"""Maximum number of events to generate per second per Worker Node. Defaults to 10."""
 
 
-class CreateInputInputDatagenMetadatumTypedDict(TypedDict):
+class MetadatumDatagenTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputDatagenMetadatum(BaseModel):
+class MetadatumDatagen(BaseModel):
     name: str
 
     value: str
@@ -7015,7 +6678,7 @@ class CreateInputInputDatagenMetadatum(BaseModel):
 class CreateInputInputDatagenTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputInputDatagenType
+    type: CreateInputTypeDatagen
     samples: List[CreateInputSampleTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -7028,10 +6691,10 @@ class CreateInputInputDatagenTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[CreateInputInputDatagenConnectionTypedDict]]
+    connections: NotRequired[List[ConnectionDatagenTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[CreateInputInputDatagenPqTypedDict]
-    metadata: NotRequired[List[CreateInputInputDatagenMetadatumTypedDict]]
+    pq: NotRequired[PqDatagenTypedDict]
+    metadata: NotRequired[List[MetadatumDatagenTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
 
@@ -7040,9 +6703,7 @@ class CreateInputInputDatagen(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: Annotated[
-        CreateInputInputDatagenType, PlainValidator(validate_open_enum(False))
-    ]
+    type: CreateInputTypeDatagen
 
     samples: List[CreateInputSample]
 
@@ -7065,48 +6726,48 @@ class CreateInputInputDatagen(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[CreateInputInputDatagenConnection]] = None
+    connections: Optional[List[ConnectionDatagen]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[CreateInputInputDatagenPq] = None
+    pq: Optional[PqDatagen] = None
 
-    metadata: Optional[List[CreateInputInputDatagenMetadatum]] = None
+    metadata: Optional[List[MetadatumDatagen]] = None
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
 
 
-class CreateInputInputDatadogAgentType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputTypeDatadogAgent(str, Enum):
     DATADOG_AGENT = "datadog_agent"
 
 
-class CreateInputInputDatadogAgentConnectionTypedDict(TypedDict):
+class ConnectionDatadogAgentTypedDict(TypedDict):
     output: str
     pipeline: NotRequired[str]
 
 
-class CreateInputInputDatadogAgentConnection(BaseModel):
+class ConnectionDatadogAgent(BaseModel):
     output: str
 
     pipeline: Optional[str] = None
 
 
-class CreateInputInputDatadogAgentMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ModeDatadogAgent(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputDatadogAgentCompression(str, Enum, metaclass=utils.OpenEnumMeta):
+class CompressionDatadogAgent(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class CreateInputInputDatadogAgentPqTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputDatadogAgentMode]
+class PqDatadogAgentTypedDict(TypedDict):
+    mode: NotRequired[ModeDatadogAgent]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
@@ -7118,15 +6779,12 @@ class CreateInputInputDatadogAgentPqTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
-    compress: NotRequired[CreateInputInputDatadogAgentCompression]
+    compress: NotRequired[CompressionDatadogAgent]
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputDatadogAgentPq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputDatadogAgentMode],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputDatadogAgentMode.ALWAYS
+class PqDatadogAgent(BaseModel):
+    mode: Optional[ModeDatadogAgent] = ModeDatadogAgent.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -7150,32 +6808,25 @@ class CreateInputInputDatadogAgentPq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputDatadogAgentCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputDatadogAgentCompression.NONE
+    compress: Optional[CompressionDatadogAgent] = CompressionDatadogAgent.NONE
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputDatadogAgentMinimumTLSVersion(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class MinimumTLSVersionDatadogAgent(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputDatadogAgentMaximumTLSVersion(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class MaximumTLSVersionDatadogAgent(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputDatadogAgentTLSSettingsServerSideTypedDict(TypedDict):
+class TLSSettingsServerSideDatadogAgentTypedDict(TypedDict):
     disabled: NotRequired[bool]
     certificate_name: NotRequired[str]
     r"""The name of the predefined certificate"""
@@ -7191,11 +6842,11 @@ class CreateInputInputDatadogAgentTLSSettingsServerSideTypedDict(TypedDict):
     r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
     reject_unauthorized: NotRequired[Any]
     common_name_regex: NotRequired[Any]
-    min_version: NotRequired[CreateInputInputDatadogAgentMinimumTLSVersion]
-    max_version: NotRequired[CreateInputInputDatadogAgentMaximumTLSVersion]
+    min_version: NotRequired[MinimumTLSVersionDatadogAgent]
+    max_version: NotRequired[MaximumTLSVersionDatadogAgent]
 
 
-class CreateInputInputDatadogAgentTLSSettingsServerSide(BaseModel):
+class TLSSettingsServerSideDatadogAgent(BaseModel):
     disabled: Optional[bool] = True
 
     certificate_name: Annotated[
@@ -7227,43 +6878,35 @@ class CreateInputInputDatadogAgentTLSSettingsServerSide(BaseModel):
     ] = None
 
     min_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputDatadogAgentMinimumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="minVersion"),
+        Optional[MinimumTLSVersionDatadogAgent], pydantic.Field(alias="minVersion")
     ] = None
 
     max_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputDatadogAgentMaximumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="maxVersion"),
+        Optional[MaximumTLSVersionDatadogAgent], pydantic.Field(alias="maxVersion")
     ] = None
 
 
-class CreateInputInputDatadogAgentMetadatumTypedDict(TypedDict):
+class MetadatumDatadogAgentTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputDatadogAgentMetadatum(BaseModel):
+class MetadatumDatadogAgent(BaseModel):
     name: str
 
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputDatadogAgentProxyModeTypedDict(TypedDict):
+class ProxyModeDatadogAgentTypedDict(TypedDict):
     enabled: NotRequired[bool]
     r"""Toggle to Yes to send key validation requests from Datadog Agent to the Datadog API. If toggled to No (the default), Stream handles key validation requests by always responding that the key is valid."""
     reject_unauthorized: NotRequired[bool]
     r"""Whether to reject certificates that cannot be verified against a valid CA (e.g., self-signed certificates)."""
 
 
-class CreateInputInputDatadogAgentProxyMode(BaseModel):
+class ProxyModeDatadogAgent(BaseModel):
     enabled: Optional[bool] = False
     r"""Toggle to Yes to send key validation requests from Datadog Agent to the Datadog API. If toggled to No (the default), Stream handles key validation requests by always responding that the key is valid."""
 
@@ -7278,7 +6921,7 @@ class CreateInputInputDatadogAgentTypedDict(TypedDict):
     r"""Unique ID for this input"""
     port: float
     r"""Port to listen on"""
-    type: NotRequired[CreateInputInputDatadogAgentType]
+    type: NotRequired[CreateInputTypeDatadogAgent]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -7290,12 +6933,12 @@ class CreateInputInputDatadogAgentTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[CreateInputInputDatadogAgentConnectionTypedDict]]
+    connections: NotRequired[List[ConnectionDatadogAgentTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[CreateInputInputDatadogAgentPqTypedDict]
+    pq: NotRequired[PqDatadogAgentTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-    tls: NotRequired[CreateInputInputDatadogAgentTLSSettingsServerSideTypedDict]
+    tls: NotRequired[TLSSettingsServerSideDatadogAgentTypedDict]
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -7320,9 +6963,9 @@ class CreateInputInputDatadogAgentTypedDict(TypedDict):
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
     extract_metrics: NotRequired[bool]
     r"""Toggle to Yes to extract each incoming metric to multiple events, one per data point. This works well when sending metrics to a statsd-type output. If sending metrics to DatadogHQ or any destination that accepts arbitrary JSON, leave toggled to No (the default)."""
-    metadata: NotRequired[List[CreateInputInputDatadogAgentMetadatumTypedDict]]
+    metadata: NotRequired[List[MetadatumDatadogAgentTypedDict]]
     r"""Fields to add to events from this input"""
-    proxy_mode: NotRequired[CreateInputInputDatadogAgentProxyModeTypedDict]
+    proxy_mode: NotRequired[ProxyModeDatadogAgentTypedDict]
     description: NotRequired[str]
 
 
@@ -7333,10 +6976,7 @@ class CreateInputInputDatadogAgent(BaseModel):
     port: float
     r"""Port to listen on"""
 
-    type: Annotated[
-        Optional[CreateInputInputDatadogAgentType],
-        PlainValidator(validate_open_enum(False)),
-    ] = None
+    type: Optional[CreateInputTypeDatadogAgent] = None
 
     disabled: Optional[bool] = False
 
@@ -7357,15 +6997,15 @@ class CreateInputInputDatadogAgent(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[CreateInputInputDatadogAgentConnection]] = None
+    connections: Optional[List[ConnectionDatadogAgent]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[CreateInputInputDatadogAgentPq] = None
+    pq: Optional[PqDatadogAgent] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
 
-    tls: Optional[CreateInputInputDatadogAgentTLSSettingsServerSide] = None
+    tls: Optional[TLSSettingsServerSideDatadogAgent] = None
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         256
@@ -7427,48 +7067,47 @@ class CreateInputInputDatadogAgent(BaseModel):
     ] = False
     r"""Toggle to Yes to extract each incoming metric to multiple events, one per data point. This works well when sending metrics to a statsd-type output. If sending metrics to DatadogHQ or any destination that accepts arbitrary JSON, leave toggled to No (the default)."""
 
-    metadata: Optional[List[CreateInputInputDatadogAgentMetadatum]] = None
+    metadata: Optional[List[MetadatumDatadogAgent]] = None
     r"""Fields to add to events from this input"""
 
     proxy_mode: Annotated[
-        Optional[CreateInputInputDatadogAgentProxyMode],
-        pydantic.Field(alias="proxyMode"),
+        Optional[ProxyModeDatadogAgent], pydantic.Field(alias="proxyMode")
     ] = None
 
     description: Optional[str] = None
 
 
-class CreateInputInputCrowdstrikeType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputTypeCrowdstrike(str, Enum):
     CROWDSTRIKE = "crowdstrike"
 
 
-class CreateInputInputCrowdstrikeConnectionTypedDict(TypedDict):
+class ConnectionCrowdstrikeTypedDict(TypedDict):
     output: str
     pipeline: NotRequired[str]
 
 
-class CreateInputInputCrowdstrikeConnection(BaseModel):
+class ConnectionCrowdstrike(BaseModel):
     output: str
 
     pipeline: Optional[str] = None
 
 
-class CreateInputInputCrowdstrikeMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ModeCrowdstrike(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputCrowdstrikeCompression(str, Enum, metaclass=utils.OpenEnumMeta):
+class CompressionCrowdstrike(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class CreateInputInputCrowdstrikePqTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputCrowdstrikeMode]
+class PqCrowdstrikeTypedDict(TypedDict):
+    mode: NotRequired[ModeCrowdstrike]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
@@ -7480,15 +7119,12 @@ class CreateInputInputCrowdstrikePqTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
-    compress: NotRequired[CreateInputInputCrowdstrikeCompression]
+    compress: NotRequired[CompressionCrowdstrike]
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputCrowdstrikePq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputCrowdstrikeMode],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputCrowdstrikeMode.ALWAYS
+class PqCrowdstrike(BaseModel):
+    mode: Optional[ModeCrowdstrike] = ModeCrowdstrike.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -7512,16 +7148,11 @@ class CreateInputInputCrowdstrikePq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputCrowdstrikeCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputCrowdstrikeCompression.NONE
+    compress: Optional[CompressionCrowdstrike] = CompressionCrowdstrike.NONE
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputCrowdstrikeAuthenticationMethod(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class AuthenticationMethodCrowdstrike(str, Enum):
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     AUTO = "auto"
@@ -7529,16 +7160,14 @@ class CreateInputInputCrowdstrikeAuthenticationMethod(
     SECRET = "secret"
 
 
-class CreateInputInputCrowdstrikeSignatureVersion(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class SignatureVersionCrowdstrike(str, Enum):
     r"""Signature version to use for signing S3 requests"""
 
     V2 = "v2"
     V4 = "v4"
 
 
-class CreateInputInputCrowdstrikePreprocessTypedDict(TypedDict):
+class PreprocessCrowdstrikeTypedDict(TypedDict):
     disabled: NotRequired[bool]
     command: NotRequired[str]
     r"""Command to feed the data through (via stdin) and process its output (stdout)"""
@@ -7546,7 +7175,7 @@ class CreateInputInputCrowdstrikePreprocessTypedDict(TypedDict):
     r"""Arguments to be added to the custom command"""
 
 
-class CreateInputInputCrowdstrikePreprocess(BaseModel):
+class PreprocessCrowdstrike(BaseModel):
     disabled: Optional[bool] = True
 
     command: Optional[str] = None
@@ -7556,27 +7185,27 @@ class CreateInputInputCrowdstrikePreprocess(BaseModel):
     r"""Arguments to be added to the custom command"""
 
 
-class CreateInputInputCrowdstrikeMetadatumTypedDict(TypedDict):
+class MetadatumCrowdstrikeTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputCrowdstrikeMetadatum(BaseModel):
+class MetadatumCrowdstrike(BaseModel):
     name: str
 
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputCrowdstrikeCheckpointingTypedDict(TypedDict):
+class CheckpointingCrowdstrikeTypedDict(TypedDict):
     enabled: NotRequired[bool]
     r"""Resume processing files after an interruption"""
     retries: NotRequired[float]
     r"""The number of times to retry processing when a processing error occurs. If Skip file on error is enabled, this setting is ignored."""
 
 
-class CreateInputInputCrowdstrikeCheckpointing(BaseModel):
+class CheckpointingCrowdstrike(BaseModel):
     enabled: Optional[bool] = False
     r"""Resume processing files after an interruption"""
 
@@ -7584,9 +7213,7 @@ class CreateInputInputCrowdstrikeCheckpointing(BaseModel):
     r"""The number of times to retry processing when a processing error occurs. If Skip file on error is enabled, this setting is ignored."""
 
 
-class CreateInputInputCrowdstrikeTagAfterProcessing(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class TagAfterProcessingCrowdstrike(str, Enum):
     FALSE = "false"
     TRUE = "true"
 
@@ -7594,7 +7221,7 @@ class CreateInputInputCrowdstrikeTagAfterProcessing(
 class CreateInputInputCrowdstrikeTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputInputCrowdstrikeType
+    type: CreateInputTypeCrowdstrike
     queue_name: str
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
     disabled: NotRequired[bool]
@@ -7608,23 +7235,21 @@ class CreateInputInputCrowdstrikeTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[CreateInputInputCrowdstrikeConnectionTypedDict]]
+    connections: NotRequired[List[ConnectionCrowdstrikeTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[CreateInputInputCrowdstrikePqTypedDict]
+    pq: NotRequired[PqCrowdstrikeTypedDict]
     file_filter: NotRequired[str]
     r"""Regex matching file names to download and process. Defaults to: .*"""
     aws_account_id: NotRequired[str]
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
-    aws_authentication_method: NotRequired[
-        CreateInputInputCrowdstrikeAuthenticationMethod
-    ]
+    aws_authentication_method: NotRequired[AuthenticationMethodCrowdstrike]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     region: NotRequired[str]
     r"""AWS Region where the S3 bucket and SQS queue are located. Required, unless the Queue entry is a URL or ARN that includes a Region."""
     endpoint: NotRequired[str]
     r"""S3 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint."""
-    signature_version: NotRequired[CreateInputInputCrowdstrikeSignatureVersion]
+    signature_version: NotRequired[SignatureVersionCrowdstrike]
     r"""Signature version to use for signing S3 requests"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
@@ -7654,10 +7279,10 @@ class CreateInputInputCrowdstrikeTypedDict(TypedDict):
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
     enable_sqs_assume_role: NotRequired[bool]
     r"""Use Assume Role credentials when accessing Amazon SQS"""
-    preprocess: NotRequired[CreateInputInputCrowdstrikePreprocessTypedDict]
-    metadata: NotRequired[List[CreateInputInputCrowdstrikeMetadatumTypedDict]]
+    preprocess: NotRequired[PreprocessCrowdstrikeTypedDict]
+    metadata: NotRequired[List[MetadatumCrowdstrikeTypedDict]]
     r"""Fields to add to events from this input"""
-    checkpointing: NotRequired[CreateInputInputCrowdstrikeCheckpointingTypedDict]
+    checkpointing: NotRequired[CheckpointingCrowdstrikeTypedDict]
     poll_timeout: NotRequired[float]
     r"""How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts."""
     encoding: NotRequired[str]
@@ -7666,7 +7291,7 @@ class CreateInputInputCrowdstrikeTypedDict(TypedDict):
     aws_api_key: NotRequired[str]
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
-    tag_after_processing: NotRequired[CreateInputInputCrowdstrikeTagAfterProcessing]
+    tag_after_processing: NotRequired[TagAfterProcessingCrowdstrike]
     processed_tag_key: NotRequired[str]
     r"""The key for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
     processed_tag_value: NotRequired[str]
@@ -7677,9 +7302,7 @@ class CreateInputInputCrowdstrike(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: Annotated[
-        CreateInputInputCrowdstrikeType, PlainValidator(validate_open_enum(False))
-    ]
+    type: CreateInputTypeCrowdstrike
 
     queue_name: Annotated[str, pydantic.Field(alias="queueName")]
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
@@ -7703,10 +7326,10 @@ class CreateInputInputCrowdstrike(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[CreateInputInputCrowdstrikeConnection]] = None
+    connections: Optional[List[ConnectionCrowdstrike]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[CreateInputInputCrowdstrikePq] = None
+    pq: Optional[PqCrowdstrike] = None
 
     file_filter: Annotated[Optional[str], pydantic.Field(alias="fileFilter")] = "/.*/"
     r"""Regex matching file names to download and process. Defaults to: .*"""
@@ -7717,12 +7340,9 @@ class CreateInputInputCrowdstrike(BaseModel):
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
 
     aws_authentication_method: Annotated[
-        Annotated[
-            Optional[CreateInputInputCrowdstrikeAuthenticationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodCrowdstrike],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = CreateInputInputCrowdstrikeAuthenticationMethod.AUTO
+    ] = AuthenticationMethodCrowdstrike.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -7736,12 +7356,8 @@ class CreateInputInputCrowdstrike(BaseModel):
     r"""S3 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint."""
 
     signature_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputCrowdstrikeSignatureVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="signatureVersion"),
-    ] = CreateInputInputCrowdstrikeSignatureVersion.V4
+        Optional[SignatureVersionCrowdstrike], pydantic.Field(alias="signatureVersion")
+    ] = SignatureVersionCrowdstrike.V4
     r"""Signature version to use for signing S3 requests"""
 
     reuse_connections: Annotated[
@@ -7810,12 +7426,12 @@ class CreateInputInputCrowdstrike(BaseModel):
     ] = False
     r"""Use Assume Role credentials when accessing Amazon SQS"""
 
-    preprocess: Optional[CreateInputInputCrowdstrikePreprocess] = None
+    preprocess: Optional[PreprocessCrowdstrike] = None
 
-    metadata: Optional[List[CreateInputInputCrowdstrikeMetadatum]] = None
+    metadata: Optional[List[MetadatumCrowdstrike]] = None
     r"""Fields to add to events from this input"""
 
-    checkpointing: Optional[CreateInputInputCrowdstrikeCheckpointing] = None
+    checkpointing: Optional[CheckpointingCrowdstrike] = None
 
     poll_timeout: Annotated[Optional[float], pydantic.Field(alias="pollTimeout")] = 10
     r"""How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts."""
@@ -7831,10 +7447,7 @@ class CreateInputInputCrowdstrike(BaseModel):
     r"""Select or create a stored secret that references your access key and secret key"""
 
     tag_after_processing: Annotated[
-        Annotated[
-            Optional[CreateInputInputCrowdstrikeTagAfterProcessing],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[TagAfterProcessingCrowdstrike],
         pydantic.Field(alias="tagAfterProcessing"),
     ] = None
 
@@ -7849,37 +7462,37 @@ class CreateInputInputCrowdstrike(BaseModel):
     r"""The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
 
 
-class CreateInputInputTcpjsonType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputTypeTcpjson(str, Enum):
     TCPJSON = "tcpjson"
 
 
-class CreateInputInputTcpjsonConnectionTypedDict(TypedDict):
+class ConnectionTcpjsonTypedDict(TypedDict):
     output: str
     pipeline: NotRequired[str]
 
 
-class CreateInputInputTcpjsonConnection(BaseModel):
+class ConnectionTcpjson(BaseModel):
     output: str
 
     pipeline: Optional[str] = None
 
 
-class CreateInputInputTcpjsonMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ModeTcpjson(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputTcpjsonCompression(str, Enum, metaclass=utils.OpenEnumMeta):
+class CompressionTcpjson(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class CreateInputInputTcpjsonPqTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputTcpjsonMode]
+class PqTcpjsonTypedDict(TypedDict):
+    mode: NotRequired[ModeTcpjson]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
@@ -7891,14 +7504,12 @@ class CreateInputInputTcpjsonPqTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
-    compress: NotRequired[CreateInputInputTcpjsonCompression]
+    compress: NotRequired[CompressionTcpjson]
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputTcpjsonPq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputTcpjsonMode], PlainValidator(validate_open_enum(False))
-    ] = CreateInputInputTcpjsonMode.ALWAYS
+class PqTcpjson(BaseModel):
+    mode: Optional[ModeTcpjson] = ModeTcpjson.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -7922,28 +7533,25 @@ class CreateInputInputTcpjsonPq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputTcpjsonCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputTcpjsonCompression.NONE
+    compress: Optional[CompressionTcpjson] = CompressionTcpjson.NONE
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputTcpjsonMinimumTLSVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+class MinimumTLSVersionTcpjson(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputTcpjsonMaximumTLSVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+class MaximumTLSVersionTcpjson(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputTcpjsonTLSSettingsServerSideTypedDict(TypedDict):
+class TLSSettingsServerSideTcpjsonTypedDict(TypedDict):
     disabled: NotRequired[bool]
     certificate_name: NotRequired[str]
     r"""The name of the predefined certificate"""
@@ -7959,11 +7567,11 @@ class CreateInputInputTcpjsonTLSSettingsServerSideTypedDict(TypedDict):
     r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
     reject_unauthorized: NotRequired[Any]
     common_name_regex: NotRequired[Any]
-    min_version: NotRequired[CreateInputInputTcpjsonMinimumTLSVersion]
-    max_version: NotRequired[CreateInputInputTcpjsonMaximumTLSVersion]
+    min_version: NotRequired[MinimumTLSVersionTcpjson]
+    max_version: NotRequired[MaximumTLSVersionTcpjson]
 
 
-class CreateInputInputTcpjsonTLSSettingsServerSide(BaseModel):
+class TLSSettingsServerSideTcpjson(BaseModel):
     disabled: Optional[bool] = True
 
     certificate_name: Annotated[
@@ -7995,38 +7603,28 @@ class CreateInputInputTcpjsonTLSSettingsServerSide(BaseModel):
     ] = None
 
     min_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputTcpjsonMinimumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="minVersion"),
+        Optional[MinimumTLSVersionTcpjson], pydantic.Field(alias="minVersion")
     ] = None
 
     max_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputTcpjsonMaximumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="maxVersion"),
+        Optional[MaximumTLSVersionTcpjson], pydantic.Field(alias="maxVersion")
     ] = None
 
 
-class CreateInputInputTcpjsonMetadatumTypedDict(TypedDict):
+class MetadatumTcpjsonTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputTcpjsonMetadatum(BaseModel):
+class MetadatumTcpjson(BaseModel):
     name: str
 
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputTcpjsonAuthenticationMethod(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class AuthenticationMethodTcpjson(str, Enum):
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
     MANUAL = "manual"
@@ -8038,7 +7636,7 @@ class CreateInputInputTcpjsonTypedDict(TypedDict):
     r"""Unique ID for this input"""
     port: float
     r"""Port to listen on"""
-    type: NotRequired[CreateInputInputTcpjsonType]
+    type: NotRequired[CreateInputTypeTcpjson]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -8050,12 +7648,12 @@ class CreateInputInputTcpjsonTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[CreateInputInputTcpjsonConnectionTypedDict]]
+    connections: NotRequired[List[ConnectionTcpjsonTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[CreateInputInputTcpjsonPqTypedDict]
+    pq: NotRequired[PqTcpjsonTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-    tls: NotRequired[CreateInputInputTcpjsonTLSSettingsServerSideTypedDict]
+    tls: NotRequired[TLSSettingsServerSideTcpjsonTypedDict]
     ip_whitelist_regex: NotRequired[str]
     r"""Regex matching IP addresses that are allowed to establish a connection"""
     max_active_cxn: NotRequired[float]
@@ -8068,11 +7666,11 @@ class CreateInputInputTcpjsonTypedDict(TypedDict):
     r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
     enable_proxy_header: NotRequired[bool]
     r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
-    metadata: NotRequired[List[CreateInputInputTcpjsonMetadatumTypedDict]]
+    metadata: NotRequired[List[MetadatumTcpjsonTypedDict]]
     r"""Fields to add to events from this input"""
     enable_load_balancing: NotRequired[bool]
     r"""Load balance traffic across all Worker Processes"""
-    auth_type: NotRequired[CreateInputInputTcpjsonAuthenticationMethod]
+    auth_type: NotRequired[AuthenticationMethodTcpjson]
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
     description: NotRequired[str]
     auth_token: NotRequired[str]
@@ -8088,9 +7686,7 @@ class CreateInputInputTcpjson(BaseModel):
     port: float
     r"""Port to listen on"""
 
-    type: Annotated[
-        Optional[CreateInputInputTcpjsonType], PlainValidator(validate_open_enum(False))
-    ] = None
+    type: Optional[CreateInputTypeTcpjson] = None
 
     disabled: Optional[bool] = False
 
@@ -8111,15 +7707,15 @@ class CreateInputInputTcpjson(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[CreateInputInputTcpjsonConnection]] = None
+    connections: Optional[List[ConnectionTcpjson]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[CreateInputInputTcpjsonPq] = None
+    pq: Optional[PqTcpjson] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
 
-    tls: Optional[CreateInputInputTcpjsonTLSSettingsServerSide] = None
+    tls: Optional[TLSSettingsServerSideTcpjson] = None
 
     ip_whitelist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipWhitelistRegex")
@@ -8151,7 +7747,7 @@ class CreateInputInputTcpjson(BaseModel):
     ] = False
     r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
 
-    metadata: Optional[List[CreateInputInputTcpjsonMetadatum]] = None
+    metadata: Optional[List[MetadatumTcpjson]] = None
     r"""Fields to add to events from this input"""
 
     enable_load_balancing: Annotated[
@@ -8160,12 +7756,8 @@ class CreateInputInputTcpjson(BaseModel):
     r"""Load balance traffic across all Worker Processes"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[CreateInputInputTcpjsonAuthenticationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
-    ] = CreateInputInputTcpjsonAuthenticationMethod.MANUAL
+        Optional[AuthenticationMethodTcpjson], pydantic.Field(alias="authType")
+    ] = AuthenticationMethodTcpjson.MANUAL
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
     description: Optional[str] = None
@@ -8177,37 +7769,37 @@ class CreateInputInputTcpjson(BaseModel):
     r"""Select or create a stored text secret"""
 
 
-class CreateInputInputCriblLakeHTTPType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputTypeCriblLakeHTTP(str, Enum):
     CRIBL_LAKE_HTTP = "cribl_lake_http"
 
 
-class CreateInputInputCriblLakeHTTPConnectionTypedDict(TypedDict):
+class ConnectionCriblLakeHTTPTypedDict(TypedDict):
     output: str
     pipeline: NotRequired[str]
 
 
-class CreateInputInputCriblLakeHTTPConnection(BaseModel):
+class ConnectionCriblLakeHTTP(BaseModel):
     output: str
 
     pipeline: Optional[str] = None
 
 
-class CreateInputInputCriblLakeHTTPMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ModeCriblLakeHTTP(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputCriblLakeHTTPCompression(str, Enum, metaclass=utils.OpenEnumMeta):
+class CompressionCriblLakeHTTP(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class CreateInputInputCriblLakeHTTPPqTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputCriblLakeHTTPMode]
+class PqCriblLakeHTTPTypedDict(TypedDict):
+    mode: NotRequired[ModeCriblLakeHTTP]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
@@ -8219,15 +7811,12 @@ class CreateInputInputCriblLakeHTTPPqTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
-    compress: NotRequired[CreateInputInputCriblLakeHTTPCompression]
+    compress: NotRequired[CompressionCriblLakeHTTP]
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputCriblLakeHTTPPq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputCriblLakeHTTPMode],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputCriblLakeHTTPMode.ALWAYS
+class PqCriblLakeHTTP(BaseModel):
+    mode: Optional[ModeCriblLakeHTTP] = ModeCriblLakeHTTP.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -8251,32 +7840,25 @@ class CreateInputInputCriblLakeHTTPPq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputCriblLakeHTTPCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputCriblLakeHTTPCompression.NONE
+    compress: Optional[CompressionCriblLakeHTTP] = CompressionCriblLakeHTTP.NONE
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputCriblLakeHTTPMinimumTLSVersion(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class MinimumTLSVersionCriblLakeHTTP(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputCriblLakeHTTPMaximumTLSVersion(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class MaximumTLSVersionCriblLakeHTTP(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputCriblLakeHTTPTLSSettingsServerSideTypedDict(TypedDict):
+class TLSSettingsServerSideCriblLakeHTTPTypedDict(TypedDict):
     disabled: NotRequired[bool]
     certificate_name: NotRequired[str]
     r"""The name of the predefined certificate"""
@@ -8292,11 +7874,11 @@ class CreateInputInputCriblLakeHTTPTLSSettingsServerSideTypedDict(TypedDict):
     r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
     reject_unauthorized: NotRequired[Any]
     common_name_regex: NotRequired[Any]
-    min_version: NotRequired[CreateInputInputCriblLakeHTTPMinimumTLSVersion]
-    max_version: NotRequired[CreateInputInputCriblLakeHTTPMaximumTLSVersion]
+    min_version: NotRequired[MinimumTLSVersionCriblLakeHTTP]
+    max_version: NotRequired[MaximumTLSVersionCriblLakeHTTP]
 
 
-class CreateInputInputCriblLakeHTTPTLSSettingsServerSide(BaseModel):
+class TLSSettingsServerSideCriblLakeHTTP(BaseModel):
     disabled: Optional[bool] = True
 
     certificate_name: Annotated[
@@ -8328,29 +7910,21 @@ class CreateInputInputCriblLakeHTTPTLSSettingsServerSide(BaseModel):
     ] = None
 
     min_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputCriblLakeHTTPMinimumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="minVersion"),
+        Optional[MinimumTLSVersionCriblLakeHTTP], pydantic.Field(alias="minVersion")
     ] = None
 
     max_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputCriblLakeHTTPMaximumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="maxVersion"),
+        Optional[MaximumTLSVersionCriblLakeHTTP], pydantic.Field(alias="maxVersion")
     ] = None
 
 
-class CreateInputInputCriblLakeHTTPMetadatumTypedDict(TypedDict):
+class MetadatumCriblLakeHTTPTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputCriblLakeHTTPMetadatum(BaseModel):
+class MetadatumCriblLakeHTTP(BaseModel):
     name: str
 
     value: str
@@ -8362,7 +7936,7 @@ class CreateInputInputCriblLakeHTTPTypedDict(TypedDict):
     r"""Unique ID for this input"""
     port: float
     r"""Port to listen on"""
-    type: NotRequired[CreateInputInputCriblLakeHTTPType]
+    type: NotRequired[CreateInputTypeCriblLakeHTTP]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -8374,14 +7948,14 @@ class CreateInputInputCriblLakeHTTPTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[CreateInputInputCriblLakeHTTPConnectionTypedDict]]
+    connections: NotRequired[List[ConnectionCriblLakeHTTPTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[CreateInputInputCriblLakeHTTPPqTypedDict]
+    pq: NotRequired[PqCriblLakeHTTPTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     auth_tokens: NotRequired[List[str]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
-    tls: NotRequired[CreateInputInputCriblLakeHTTPTLSSettingsServerSideTypedDict]
+    tls: NotRequired[TLSSettingsServerSideCriblLakeHTTPTypedDict]
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -8404,7 +7978,7 @@ class CreateInputInputCriblLakeHTTPTypedDict(TypedDict):
     r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
     ip_denylist_regex: NotRequired[str]
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-    metadata: NotRequired[List[CreateInputInputCriblLakeHTTPMetadatumTypedDict]]
+    metadata: NotRequired[List[MetadatumCriblLakeHTTPTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
 
@@ -8416,10 +7990,7 @@ class CreateInputInputCriblLakeHTTP(BaseModel):
     port: float
     r"""Port to listen on"""
 
-    type: Annotated[
-        Optional[CreateInputInputCriblLakeHTTPType],
-        PlainValidator(validate_open_enum(False)),
-    ] = None
+    type: Optional[CreateInputTypeCriblLakeHTTP] = None
 
     disabled: Optional[bool] = False
 
@@ -8440,10 +8011,10 @@ class CreateInputInputCriblLakeHTTP(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[CreateInputInputCriblLakeHTTPConnection]] = None
+    connections: Optional[List[ConnectionCriblLakeHTTP]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[CreateInputInputCriblLakeHTTPPq] = None
+    pq: Optional[PqCriblLakeHTTP] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -8453,7 +8024,7 @@ class CreateInputInputCriblLakeHTTP(BaseModel):
     )
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
-    tls: Optional[CreateInputInputCriblLakeHTTPTLSSettingsServerSide] = None
+    tls: Optional[TLSSettingsServerSideCriblLakeHTTP] = None
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         256
@@ -8510,43 +8081,43 @@ class CreateInputInputCriblLakeHTTP(BaseModel):
     ] = "/^$/"
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
 
-    metadata: Optional[List[CreateInputInputCriblLakeHTTPMetadatum]] = None
+    metadata: Optional[List[MetadatumCriblLakeHTTP]] = None
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
 
 
-class CreateInputInputCriblHTTPType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputTypeCriblHTTP(str, Enum):
     CRIBL_HTTP = "cribl_http"
 
 
-class CreateInputInputCriblHTTPConnectionTypedDict(TypedDict):
+class ConnectionCriblHTTPTypedDict(TypedDict):
     output: str
     pipeline: NotRequired[str]
 
 
-class CreateInputInputCriblHTTPConnection(BaseModel):
+class ConnectionCriblHTTP(BaseModel):
     output: str
 
     pipeline: Optional[str] = None
 
 
-class CreateInputInputCriblHTTPMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ModeCriblHTTP(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputCriblHTTPCompression(str, Enum, metaclass=utils.OpenEnumMeta):
+class CompressionCriblHTTP(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class CreateInputInputCriblHTTPPqTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputCriblHTTPMode]
+class PqCriblHTTPTypedDict(TypedDict):
+    mode: NotRequired[ModeCriblHTTP]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
@@ -8558,15 +8129,12 @@ class CreateInputInputCriblHTTPPqTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
-    compress: NotRequired[CreateInputInputCriblHTTPCompression]
+    compress: NotRequired[CompressionCriblHTTP]
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputCriblHTTPPq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputCriblHTTPMode],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputCriblHTTPMode.ALWAYS
+class PqCriblHTTP(BaseModel):
+    mode: Optional[ModeCriblHTTP] = ModeCriblHTTP.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -8590,32 +8158,25 @@ class CreateInputInputCriblHTTPPq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputCriblHTTPCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputCriblHTTPCompression.NONE
+    compress: Optional[CompressionCriblHTTP] = CompressionCriblHTTP.NONE
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputCriblHTTPMinimumTLSVersion(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class MinimumTLSVersionCriblHTTP(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputCriblHTTPMaximumTLSVersion(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class MaximumTLSVersionCriblHTTP(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputCriblHTTPTLSSettingsServerSideTypedDict(TypedDict):
+class TLSSettingsServerSideCriblHTTPTypedDict(TypedDict):
     disabled: NotRequired[bool]
     certificate_name: NotRequired[str]
     r"""The name of the predefined certificate"""
@@ -8631,11 +8192,11 @@ class CreateInputInputCriblHTTPTLSSettingsServerSideTypedDict(TypedDict):
     r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
     reject_unauthorized: NotRequired[Any]
     common_name_regex: NotRequired[Any]
-    min_version: NotRequired[CreateInputInputCriblHTTPMinimumTLSVersion]
-    max_version: NotRequired[CreateInputInputCriblHTTPMaximumTLSVersion]
+    min_version: NotRequired[MinimumTLSVersionCriblHTTP]
+    max_version: NotRequired[MaximumTLSVersionCriblHTTP]
 
 
-class CreateInputInputCriblHTTPTLSSettingsServerSide(BaseModel):
+class TLSSettingsServerSideCriblHTTP(BaseModel):
     disabled: Optional[bool] = True
 
     certificate_name: Annotated[
@@ -8667,29 +8228,21 @@ class CreateInputInputCriblHTTPTLSSettingsServerSide(BaseModel):
     ] = None
 
     min_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputCriblHTTPMinimumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="minVersion"),
+        Optional[MinimumTLSVersionCriblHTTP], pydantic.Field(alias="minVersion")
     ] = None
 
     max_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputCriblHTTPMaximumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="maxVersion"),
+        Optional[MaximumTLSVersionCriblHTTP], pydantic.Field(alias="maxVersion")
     ] = None
 
 
-class CreateInputInputCriblHTTPMetadatumTypedDict(TypedDict):
+class MetadatumCriblHTTPTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputCriblHTTPMetadatum(BaseModel):
+class MetadatumCriblHTTP(BaseModel):
     name: str
 
     value: str
@@ -8701,7 +8254,7 @@ class CreateInputInputCriblHTTPTypedDict(TypedDict):
     r"""Unique ID for this input"""
     port: float
     r"""Port to listen on"""
-    type: NotRequired[CreateInputInputCriblHTTPType]
+    type: NotRequired[CreateInputTypeCriblHTTP]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -8713,14 +8266,14 @@ class CreateInputInputCriblHTTPTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[CreateInputInputCriblHTTPConnectionTypedDict]]
+    connections: NotRequired[List[ConnectionCriblHTTPTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[CreateInputInputCriblHTTPPqTypedDict]
+    pq: NotRequired[PqCriblHTTPTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     auth_tokens: NotRequired[List[str]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
-    tls: NotRequired[CreateInputInputCriblHTTPTLSSettingsServerSideTypedDict]
+    tls: NotRequired[TLSSettingsServerSideCriblHTTPTypedDict]
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -8743,7 +8296,7 @@ class CreateInputInputCriblHTTPTypedDict(TypedDict):
     r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
     ip_denylist_regex: NotRequired[str]
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-    metadata: NotRequired[List[CreateInputInputCriblHTTPMetadatumTypedDict]]
+    metadata: NotRequired[List[MetadatumCriblHTTPTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
 
@@ -8755,10 +8308,7 @@ class CreateInputInputCriblHTTP(BaseModel):
     port: float
     r"""Port to listen on"""
 
-    type: Annotated[
-        Optional[CreateInputInputCriblHTTPType],
-        PlainValidator(validate_open_enum(False)),
-    ] = None
+    type: Optional[CreateInputTypeCriblHTTP] = None
 
     disabled: Optional[bool] = False
 
@@ -8779,10 +8329,10 @@ class CreateInputInputCriblHTTP(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[CreateInputInputCriblHTTPConnection]] = None
+    connections: Optional[List[ConnectionCriblHTTP]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[CreateInputInputCriblHTTPPq] = None
+    pq: Optional[PqCriblHTTP] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -8792,7 +8342,7 @@ class CreateInputInputCriblHTTP(BaseModel):
     )
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
-    tls: Optional[CreateInputInputCriblHTTPTLSSettingsServerSide] = None
+    tls: Optional[TLSSettingsServerSideCriblHTTP] = None
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         256
@@ -8849,43 +8399,43 @@ class CreateInputInputCriblHTTP(BaseModel):
     ] = "/^$/"
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
 
-    metadata: Optional[List[CreateInputInputCriblHTTPMetadatum]] = None
+    metadata: Optional[List[MetadatumCriblHTTP]] = None
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
 
 
-class CreateInputInputCriblTCPType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputTypeCriblTCP(str, Enum):
     CRIBL_TCP = "cribl_tcp"
 
 
-class CreateInputInputCriblTCPConnectionTypedDict(TypedDict):
+class ConnectionCriblTCPTypedDict(TypedDict):
     output: str
     pipeline: NotRequired[str]
 
 
-class CreateInputInputCriblTCPConnection(BaseModel):
+class ConnectionCriblTCP(BaseModel):
     output: str
 
     pipeline: Optional[str] = None
 
 
-class CreateInputInputCriblTCPMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ModeCriblTCP(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputCriblTCPCompression(str, Enum, metaclass=utils.OpenEnumMeta):
+class CompressionCriblTCP(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class CreateInputInputCriblTCPPqTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputCriblTCPMode]
+class PqCriblTCPTypedDict(TypedDict):
+    mode: NotRequired[ModeCriblTCP]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
@@ -8897,15 +8447,12 @@ class CreateInputInputCriblTCPPqTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
-    compress: NotRequired[CreateInputInputCriblTCPCompression]
+    compress: NotRequired[CompressionCriblTCP]
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputCriblTCPPq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputCriblTCPMode],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputCriblTCPMode.ALWAYS
+class PqCriblTCP(BaseModel):
+    mode: Optional[ModeCriblTCP] = ModeCriblTCP.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -8929,32 +8476,25 @@ class CreateInputInputCriblTCPPq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputCriblTCPCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputCriblTCPCompression.NONE
+    compress: Optional[CompressionCriblTCP] = CompressionCriblTCP.NONE
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputCriblTCPMinimumTLSVersion(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class MinimumTLSVersionCriblTCP(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputCriblTCPMaximumTLSVersion(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class MaximumTLSVersionCriblTCP(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputCriblTCPTLSSettingsServerSideTypedDict(TypedDict):
+class TLSSettingsServerSideCriblTCPTypedDict(TypedDict):
     disabled: NotRequired[bool]
     certificate_name: NotRequired[str]
     r"""The name of the predefined certificate"""
@@ -8970,11 +8510,11 @@ class CreateInputInputCriblTCPTLSSettingsServerSideTypedDict(TypedDict):
     r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
     reject_unauthorized: NotRequired[Any]
     common_name_regex: NotRequired[Any]
-    min_version: NotRequired[CreateInputInputCriblTCPMinimumTLSVersion]
-    max_version: NotRequired[CreateInputInputCriblTCPMaximumTLSVersion]
+    min_version: NotRequired[MinimumTLSVersionCriblTCP]
+    max_version: NotRequired[MaximumTLSVersionCriblTCP]
 
 
-class CreateInputInputCriblTCPTLSSettingsServerSide(BaseModel):
+class TLSSettingsServerSideCriblTCP(BaseModel):
     disabled: Optional[bool] = True
 
     certificate_name: Annotated[
@@ -9006,29 +8546,21 @@ class CreateInputInputCriblTCPTLSSettingsServerSide(BaseModel):
     ] = None
 
     min_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputCriblTCPMinimumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="minVersion"),
+        Optional[MinimumTLSVersionCriblTCP], pydantic.Field(alias="minVersion")
     ] = None
 
     max_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputCriblTCPMaximumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="maxVersion"),
+        Optional[MaximumTLSVersionCriblTCP], pydantic.Field(alias="maxVersion")
     ] = None
 
 
-class CreateInputInputCriblTCPMetadatumTypedDict(TypedDict):
+class MetadatumCriblTCPTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputCriblTCPMetadatum(BaseModel):
+class MetadatumCriblTCP(BaseModel):
     name: str
 
     value: str
@@ -9040,7 +8572,7 @@ class CreateInputInputCriblTCPTypedDict(TypedDict):
     r"""Unique ID for this input"""
     port: float
     r"""Port to listen on"""
-    type: NotRequired[CreateInputInputCriblTCPType]
+    type: NotRequired[CreateInputTypeCriblTCP]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -9052,12 +8584,12 @@ class CreateInputInputCriblTCPTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[CreateInputInputCriblTCPConnectionTypedDict]]
+    connections: NotRequired[List[ConnectionCriblTCPTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[CreateInputInputCriblTCPPqTypedDict]
+    pq: NotRequired[PqCriblTCPTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-    tls: NotRequired[CreateInputInputCriblTCPTLSSettingsServerSideTypedDict]
+    tls: NotRequired[TLSSettingsServerSideCriblTCPTypedDict]
     max_active_cxn: NotRequired[float]
     r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
     socket_idle_timeout: NotRequired[float]
@@ -9068,7 +8600,7 @@ class CreateInputInputCriblTCPTypedDict(TypedDict):
     r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
     enable_proxy_header: NotRequired[bool]
     r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
-    metadata: NotRequired[List[CreateInputInputCriblTCPMetadatumTypedDict]]
+    metadata: NotRequired[List[MetadatumCriblTCPTypedDict]]
     r"""Fields to add to events from this input"""
     enable_load_balancing: NotRequired[bool]
     r"""Load balance traffic across all Worker Processes"""
@@ -9082,10 +8614,7 @@ class CreateInputInputCriblTCP(BaseModel):
     port: float
     r"""Port to listen on"""
 
-    type: Annotated[
-        Optional[CreateInputInputCriblTCPType],
-        PlainValidator(validate_open_enum(False)),
-    ] = None
+    type: Optional[CreateInputTypeCriblTCP] = None
 
     disabled: Optional[bool] = False
 
@@ -9106,15 +8635,15 @@ class CreateInputInputCriblTCP(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[CreateInputInputCriblTCPConnection]] = None
+    connections: Optional[List[ConnectionCriblTCP]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[CreateInputInputCriblTCPPq] = None
+    pq: Optional[PqCriblTCP] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
 
-    tls: Optional[CreateInputInputCriblTCPTLSSettingsServerSide] = None
+    tls: Optional[TLSSettingsServerSideCriblTCP] = None
 
     max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
         1000
@@ -9141,7 +8670,7 @@ class CreateInputInputCriblTCP(BaseModel):
     ] = False
     r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
 
-    metadata: Optional[List[CreateInputInputCriblTCPMetadatum]] = None
+    metadata: Optional[List[MetadatumCriblTCP]] = None
     r"""Fields to add to events from this input"""
 
     enable_load_balancing: Annotated[
@@ -9152,37 +8681,37 @@ class CreateInputInputCriblTCP(BaseModel):
     description: Optional[str] = None
 
 
-class CreateInputInputGooglePubsubType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputTypeGooglePubsub(str, Enum):
     GOOGLE_PUBSUB = "google_pubsub"
 
 
-class CreateInputInputGooglePubsubConnectionTypedDict(TypedDict):
+class ConnectionGooglePubsubTypedDict(TypedDict):
     output: str
     pipeline: NotRequired[str]
 
 
-class CreateInputInputGooglePubsubConnection(BaseModel):
+class ConnectionGooglePubsub(BaseModel):
     output: str
 
     pipeline: Optional[str] = None
 
 
-class CreateInputInputGooglePubsubMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputModeGooglePubsub(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputGooglePubsubCompression(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputCompressionGooglePubsub(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class CreateInputInputGooglePubsubPqTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputGooglePubsubMode]
+class PqGooglePubsubTypedDict(TypedDict):
+    mode: NotRequired[CreateInputModeGooglePubsub]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
@@ -9194,15 +8723,12 @@ class CreateInputInputGooglePubsubPqTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
-    compress: NotRequired[CreateInputInputGooglePubsubCompression]
+    compress: NotRequired[CreateInputCompressionGooglePubsub]
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputGooglePubsubPq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputGooglePubsubMode],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputGooglePubsubMode.ALWAYS
+class PqGooglePubsub(BaseModel):
+    mode: Optional[CreateInputModeGooglePubsub] = CreateInputModeGooglePubsub.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -9226,14 +8752,13 @@ class CreateInputInputGooglePubsubPq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputGooglePubsubCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputGooglePubsubCompression.NONE
+    compress: Optional[CreateInputCompressionGooglePubsub] = (
+        CreateInputCompressionGooglePubsub.NONE
+    )
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputGoogleAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputGoogleAuthenticationMethod(str, Enum):
     r"""Choose Auto to use Google Application Default Credentials (ADC), Manual to enter Google service account credentials directly, or Secret to select or create a stored secret that references Google service account credentials."""
 
     AUTO = "auto"
@@ -9241,13 +8766,13 @@ class CreateInputGoogleAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumM
     SECRET = "secret"
 
 
-class CreateInputInputGooglePubsubMetadatumTypedDict(TypedDict):
+class MetadatumGooglePubsubTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputGooglePubsubMetadatum(BaseModel):
+class MetadatumGooglePubsub(BaseModel):
     name: str
 
     value: str
@@ -9261,7 +8786,7 @@ class CreateInputInputGooglePubsubTypedDict(TypedDict):
     r"""ID of the topic to receive events from"""
     subscription_name: str
     r"""ID of the subscription to use when receiving events"""
-    type: NotRequired[CreateInputInputGooglePubsubType]
+    type: NotRequired[CreateInputTypeGooglePubsub]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -9273,9 +8798,9 @@ class CreateInputInputGooglePubsubTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[CreateInputInputGooglePubsubConnectionTypedDict]]
+    connections: NotRequired[List[ConnectionGooglePubsubTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[CreateInputInputGooglePubsubPqTypedDict]
+    pq: NotRequired[PqGooglePubsubTypedDict]
     create_topic: NotRequired[bool]
     r"""Create topic if it does not exist"""
     create_subscription: NotRequired[bool]
@@ -9294,7 +8819,7 @@ class CreateInputInputGooglePubsubTypedDict(TypedDict):
     r"""How many streams to pull messages from at one time. Doubling the value doubles the number of messages this Source pulls from the topic (if available), while consuming more CPU and memory. Defaults to 5."""
     request_timeout: NotRequired[float]
     r"""Pull request timeout, in milliseconds"""
-    metadata: NotRequired[List[CreateInputInputGooglePubsubMetadatumTypedDict]]
+    metadata: NotRequired[List[MetadatumGooglePubsubTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
     ordered_delivery: NotRequired[bool]
@@ -9311,10 +8836,7 @@ class CreateInputInputGooglePubsub(BaseModel):
     subscription_name: Annotated[str, pydantic.Field(alias="subscriptionName")]
     r"""ID of the subscription to use when receiving events"""
 
-    type: Annotated[
-        Optional[CreateInputInputGooglePubsubType],
-        PlainValidator(validate_open_enum(False)),
-    ] = None
+    type: Optional[CreateInputTypeGooglePubsub] = None
 
     disabled: Optional[bool] = False
 
@@ -9335,10 +8857,10 @@ class CreateInputInputGooglePubsub(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[CreateInputInputGooglePubsubConnection]] = None
+    connections: Optional[List[ConnectionGooglePubsub]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[CreateInputInputGooglePubsubPq] = None
+    pq: Optional[PqGooglePubsub] = None
 
     create_topic: Annotated[Optional[bool], pydantic.Field(alias="createTopic")] = False
     r"""Create topic if it does not exist"""
@@ -9352,10 +8874,7 @@ class CreateInputInputGooglePubsub(BaseModel):
     r"""Region to retrieve messages from. Select 'default' to allow Google to auto-select the nearest region. When using ordered delivery, the selected region must be allowed by message storage policy."""
 
     google_auth_method: Annotated[
-        Annotated[
-            Optional[CreateInputGoogleAuthenticationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[CreateInputGoogleAuthenticationMethod],
         pydantic.Field(alias="googleAuthMethod"),
     ] = CreateInputGoogleAuthenticationMethod.MANUAL
     r"""Choose Auto to use Google Application Default Credentials (ADC), Manual to enter Google service account credentials directly, or Secret to select or create a stored secret that references Google service account credentials."""
@@ -9379,7 +8898,7 @@ class CreateInputInputGooglePubsub(BaseModel):
     ] = 60000
     r"""Pull request timeout, in milliseconds"""
 
-    metadata: Optional[List[CreateInputInputGooglePubsubMetadatum]] = None
+    metadata: Optional[List[MetadatumGooglePubsub]] = None
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
@@ -9390,37 +8909,37 @@ class CreateInputInputGooglePubsub(BaseModel):
     r"""Receive events in the order they were added to the queue. The process sending events must have ordering enabled."""
 
 
-class CreateInputInputFirehoseType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputTypeFirehose(str, Enum):
     FIREHOSE = "firehose"
 
 
-class CreateInputInputFirehoseConnectionTypedDict(TypedDict):
+class ConnectionFirehoseTypedDict(TypedDict):
     output: str
     pipeline: NotRequired[str]
 
 
-class CreateInputInputFirehoseConnection(BaseModel):
+class ConnectionFirehose(BaseModel):
     output: str
 
     pipeline: Optional[str] = None
 
 
-class CreateInputInputFirehoseMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ModeFirehose(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputFirehoseCompression(str, Enum, metaclass=utils.OpenEnumMeta):
+class CompressionFirehose(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class CreateInputInputFirehosePqTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputFirehoseMode]
+class PqFirehoseTypedDict(TypedDict):
+    mode: NotRequired[ModeFirehose]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
@@ -9432,15 +8951,12 @@ class CreateInputInputFirehosePqTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
-    compress: NotRequired[CreateInputInputFirehoseCompression]
+    compress: NotRequired[CompressionFirehose]
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputFirehosePq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputFirehoseMode],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputFirehoseMode.ALWAYS
+class PqFirehose(BaseModel):
+    mode: Optional[ModeFirehose] = ModeFirehose.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -9464,32 +8980,25 @@ class CreateInputInputFirehosePq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputFirehoseCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputFirehoseCompression.NONE
+    compress: Optional[CompressionFirehose] = CompressionFirehose.NONE
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputFirehoseMinimumTLSVersion(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class MinimumTLSVersionFirehose(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputFirehoseMaximumTLSVersion(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class MaximumTLSVersionFirehose(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputFirehoseTLSSettingsServerSideTypedDict(TypedDict):
+class TLSSettingsServerSideFirehoseTypedDict(TypedDict):
     disabled: NotRequired[bool]
     certificate_name: NotRequired[str]
     r"""The name of the predefined certificate"""
@@ -9505,11 +9014,11 @@ class CreateInputInputFirehoseTLSSettingsServerSideTypedDict(TypedDict):
     r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
     reject_unauthorized: NotRequired[Any]
     common_name_regex: NotRequired[Any]
-    min_version: NotRequired[CreateInputInputFirehoseMinimumTLSVersion]
-    max_version: NotRequired[CreateInputInputFirehoseMaximumTLSVersion]
+    min_version: NotRequired[MinimumTLSVersionFirehose]
+    max_version: NotRequired[MaximumTLSVersionFirehose]
 
 
-class CreateInputInputFirehoseTLSSettingsServerSide(BaseModel):
+class TLSSettingsServerSideFirehose(BaseModel):
     disabled: Optional[bool] = True
 
     certificate_name: Annotated[
@@ -9541,29 +9050,21 @@ class CreateInputInputFirehoseTLSSettingsServerSide(BaseModel):
     ] = None
 
     min_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputFirehoseMinimumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="minVersion"),
+        Optional[MinimumTLSVersionFirehose], pydantic.Field(alias="minVersion")
     ] = None
 
     max_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputFirehoseMaximumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="maxVersion"),
+        Optional[MaximumTLSVersionFirehose], pydantic.Field(alias="maxVersion")
     ] = None
 
 
-class CreateInputInputFirehoseMetadatumTypedDict(TypedDict):
+class MetadatumFirehoseTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputFirehoseMetadatum(BaseModel):
+class MetadatumFirehose(BaseModel):
     name: str
 
     value: str
@@ -9575,7 +9076,7 @@ class CreateInputInputFirehoseTypedDict(TypedDict):
     r"""Unique ID for this input"""
     port: float
     r"""Port to listen on"""
-    type: NotRequired[CreateInputInputFirehoseType]
+    type: NotRequired[CreateInputTypeFirehose]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -9587,14 +9088,14 @@ class CreateInputInputFirehoseTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[CreateInputInputFirehoseConnectionTypedDict]]
+    connections: NotRequired[List[ConnectionFirehoseTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[CreateInputInputFirehosePqTypedDict]
+    pq: NotRequired[PqFirehoseTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     auth_tokens: NotRequired[List[str]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
-    tls: NotRequired[CreateInputInputFirehoseTLSSettingsServerSideTypedDict]
+    tls: NotRequired[TLSSettingsServerSideFirehoseTypedDict]
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -9617,7 +9118,7 @@ class CreateInputInputFirehoseTypedDict(TypedDict):
     r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
     ip_denylist_regex: NotRequired[str]
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-    metadata: NotRequired[List[CreateInputInputFirehoseMetadatumTypedDict]]
+    metadata: NotRequired[List[MetadatumFirehoseTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
 
@@ -9629,10 +9130,7 @@ class CreateInputInputFirehose(BaseModel):
     port: float
     r"""Port to listen on"""
 
-    type: Annotated[
-        Optional[CreateInputInputFirehoseType],
-        PlainValidator(validate_open_enum(False)),
-    ] = None
+    type: Optional[CreateInputTypeFirehose] = None
 
     disabled: Optional[bool] = False
 
@@ -9653,10 +9151,10 @@ class CreateInputInputFirehose(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[CreateInputInputFirehoseConnection]] = None
+    connections: Optional[List[ConnectionFirehose]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[CreateInputInputFirehosePq] = None
+    pq: Optional[PqFirehose] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -9666,7 +9164,7 @@ class CreateInputInputFirehose(BaseModel):
     )
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
-    tls: Optional[CreateInputInputFirehoseTLSSettingsServerSide] = None
+    tls: Optional[TLSSettingsServerSideFirehose] = None
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         256
@@ -9723,13 +9221,13 @@ class CreateInputInputFirehose(BaseModel):
     ] = "/^$/"
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
 
-    metadata: Optional[List[CreateInputInputFirehoseMetadatum]] = None
+    metadata: Optional[List[MetadatumFirehose]] = None
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
 
 
-class CreateInputInputExecType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputInputExecType(str, Enum):
     EXEC = "exec"
 
 
@@ -9744,14 +9242,14 @@ class CreateInputInputExecConnection(BaseModel):
     pipeline: Optional[str] = None
 
 
-class CreateInputInputExecMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputInputExecMode(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputExecCompression(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputInputExecCompression(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
@@ -9776,9 +9274,7 @@ class CreateInputInputExecPqTypedDict(TypedDict):
 
 
 class CreateInputInputExecPq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputExecMode], PlainValidator(validate_open_enum(False))
-    ] = CreateInputInputExecMode.ALWAYS
+    mode: Optional[CreateInputInputExecMode] = CreateInputInputExecMode.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -9802,14 +9298,13 @@ class CreateInputInputExecPq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputExecCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputExecCompression.NONE
+    compress: Optional[CreateInputInputExecCompression] = (
+        CreateInputInputExecCompression.NONE
+    )
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputScheduleType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputScheduleType(str, Enum):
     r"""Select a schedule type; either an interval (in seconds) or a cron-style schedule."""
 
     INTERVAL = "interval"
@@ -9870,7 +9365,7 @@ class CreateInputInputExec(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: Annotated[CreateInputInputExecType, PlainValidator(validate_open_enum(False))]
+    type: CreateInputInputExecType
 
     command: str
     r"""Command to execute; supports Bourne shell (or CMD on Windows) syntax"""
@@ -9903,10 +9398,7 @@ class CreateInputInputExec(BaseModel):
     r"""Maximum number of retry attempts in the event that the command fails"""
 
     schedule_type: Annotated[
-        Annotated[
-            Optional[CreateInputScheduleType], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="scheduleType"),
+        Optional[CreateInputScheduleType], pydantic.Field(alias="scheduleType")
     ] = CreateInputScheduleType.INTERVAL
     r"""Select a schedule type; either an interval (in seconds) or a cron-style schedule."""
 
@@ -9934,37 +9426,37 @@ class CreateInputInputExec(BaseModel):
     r"""Cron schedule to execute the command on."""
 
 
-class CreateInputInputEventhubType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputTypeEventhub(str, Enum):
     EVENTHUB = "eventhub"
 
 
-class CreateInputInputEventhubConnectionTypedDict(TypedDict):
+class ConnectionEventhubTypedDict(TypedDict):
     output: str
     pipeline: NotRequired[str]
 
 
-class CreateInputInputEventhubConnection(BaseModel):
+class ConnectionEventhub(BaseModel):
     output: str
 
     pipeline: Optional[str] = None
 
 
-class CreateInputInputEventhubMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ModeEventhub(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputEventhubCompression(str, Enum, metaclass=utils.OpenEnumMeta):
+class CompressionEventhub(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class CreateInputInputEventhubPqTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputEventhubMode]
+class PqEventhubTypedDict(TypedDict):
+    mode: NotRequired[ModeEventhub]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
@@ -9976,15 +9468,12 @@ class CreateInputInputEventhubPqTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
-    compress: NotRequired[CreateInputInputEventhubCompression]
+    compress: NotRequired[CompressionEventhub]
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputEventhubPq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputEventhubMode],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputEventhubMode.ALWAYS
+class PqEventhub(BaseModel):
+    mode: Optional[ModeEventhub] = ModeEventhub.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -10008,43 +9497,37 @@ class CreateInputInputEventhubPq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputEventhubCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputEventhubCompression.NONE
+    compress: Optional[CompressionEventhub] = CompressionEventhub.NONE
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputEventhubSASLMechanism(str, Enum, metaclass=utils.OpenEnumMeta):
+class SASLMechanismEventhub(str, Enum):
     PLAIN = "plain"
     OAUTHBEARER = "oauthbearer"
 
 
-class CreateInputInputEventhubAuthenticationTypedDict(TypedDict):
+class AuthenticationEventhubTypedDict(TypedDict):
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
     disabled: NotRequired[bool]
-    mechanism: NotRequired[CreateInputInputEventhubSASLMechanism]
+    mechanism: NotRequired[SASLMechanismEventhub]
 
 
-class CreateInputInputEventhubAuthentication(BaseModel):
+class AuthenticationEventhub(BaseModel):
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
     disabled: Optional[bool] = False
 
-    mechanism: Annotated[
-        Optional[CreateInputInputEventhubSASLMechanism],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputEventhubSASLMechanism.PLAIN
+    mechanism: Optional[SASLMechanismEventhub] = SASLMechanismEventhub.PLAIN
 
 
-class CreateInputInputEventhubTLSSettingsClientSideTypedDict(TypedDict):
+class TLSSettingsClientSideEventhubTypedDict(TypedDict):
     disabled: NotRequired[bool]
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates that are not authorized by a CA in the CA certificate path, or by another trusted CA (such as the system's)"""
 
 
-class CreateInputInputEventhubTLSSettingsClientSide(BaseModel):
+class TLSSettingsClientSideEventhub(BaseModel):
     disabled: Optional[bool] = False
 
     reject_unauthorized: Annotated[
@@ -10053,13 +9536,13 @@ class CreateInputInputEventhubTLSSettingsClientSide(BaseModel):
     r"""Reject certificates that are not authorized by a CA in the CA certificate path, or by another trusted CA (such as the system's)"""
 
 
-class CreateInputInputEventhubMetadatumTypedDict(TypedDict):
+class MetadatumEventhubTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputEventhubMetadatum(BaseModel):
+class MetadatumEventhub(BaseModel):
     name: str
 
     value: str
@@ -10073,7 +9556,7 @@ class CreateInputInputEventhubTypedDict(TypedDict):
     r"""List of Event Hubs Kafka brokers to connect to (example: yourdomain.servicebus.windows.net:9093). The hostname can be found in the host portion of the primary or secondary connection string in Shared Access Policies."""
     topics: List[str]
     r"""The name of the Event Hub (Kafka topic) to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Event Hubs Source to only a single topic."""
-    type: NotRequired[CreateInputInputEventhubType]
+    type: NotRequired[CreateInputTypeEventhub]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -10085,9 +9568,9 @@ class CreateInputInputEventhubTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[CreateInputInputEventhubConnectionTypedDict]]
+    connections: NotRequired[List[ConnectionEventhubTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[CreateInputInputEventhubPqTypedDict]
+    pq: NotRequired[PqEventhubTypedDict]
     group_id: NotRequired[str]
     r"""The consumer group this instance belongs to. Default is 'Cribl'."""
     from_beginning: NotRequired[bool]
@@ -10108,9 +9591,9 @@ class CreateInputInputEventhubTypedDict(TypedDict):
     r"""Maximum time to wait for Kafka to respond to an authentication request"""
     reauthentication_threshold: NotRequired[float]
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
-    sasl: NotRequired[CreateInputInputEventhubAuthenticationTypedDict]
+    sasl: NotRequired[AuthenticationEventhubTypedDict]
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
-    tls: NotRequired[CreateInputInputEventhubTLSSettingsClientSideTypedDict]
+    tls: NotRequired[TLSSettingsClientSideEventhubTypedDict]
     session_timeout: NotRequired[float]
     r"""Timeout (session.timeout.ms in Kafka domain) used to detect client failures when using Kafka's group-management facilities.
     If the client sends no heartbeats to the broker before the timeout expires, the broker will remove the client from the group and initiate a rebalance.
@@ -10139,7 +9622,7 @@ class CreateInputInputEventhubTypedDict(TypedDict):
     r"""Maximum number of network errors before the consumer re-creates a socket"""
     minimize_duplicates: NotRequired[bool]
     r"""Minimize duplicate events by starting only one consumer for each topic partition"""
-    metadata: NotRequired[List[CreateInputInputEventhubMetadatumTypedDict]]
+    metadata: NotRequired[List[MetadatumEventhubTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
 
@@ -10154,10 +9637,7 @@ class CreateInputInputEventhub(BaseModel):
     topics: List[str]
     r"""The name of the Event Hub (Kafka topic) to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Event Hubs Source to only a single topic."""
 
-    type: Annotated[
-        Optional[CreateInputInputEventhubType],
-        PlainValidator(validate_open_enum(False)),
-    ] = None
+    type: Optional[CreateInputTypeEventhub] = None
 
     disabled: Optional[bool] = False
 
@@ -10178,10 +9658,10 @@ class CreateInputInputEventhub(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[CreateInputInputEventhubConnection]] = None
+    connections: Optional[List[ConnectionEventhub]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[CreateInputInputEventhubPq] = None
+    pq: Optional[PqEventhub] = None
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = "Cribl"
     r"""The consumer group this instance belongs to. Default is 'Cribl'."""
@@ -10225,10 +9705,10 @@ class CreateInputInputEventhub(BaseModel):
     ] = 10000
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
 
-    sasl: Optional[CreateInputInputEventhubAuthentication] = None
+    sasl: Optional[AuthenticationEventhub] = None
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
-    tls: Optional[CreateInputInputEventhubTLSSettingsClientSide] = None
+    tls: Optional[TLSSettingsClientSideEventhub] = None
 
     session_timeout: Annotated[
         Optional[float], pydantic.Field(alias="sessionTimeout")
@@ -10283,45 +9763,43 @@ class CreateInputInputEventhub(BaseModel):
     ] = False
     r"""Minimize duplicate events by starting only one consumer for each topic partition"""
 
-    metadata: Optional[List[CreateInputInputEventhubMetadatum]] = None
+    metadata: Optional[List[MetadatumEventhub]] = None
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
 
 
-class CreateInputInputOffice365MsgTraceType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputTypeOffice365MsgTrace(str, Enum):
     OFFICE365_MSG_TRACE = "office365_msg_trace"
 
 
-class CreateInputInputOffice365MsgTraceConnectionTypedDict(TypedDict):
+class ConnectionOffice365MsgTraceTypedDict(TypedDict):
     output: str
     pipeline: NotRequired[str]
 
 
-class CreateInputInputOffice365MsgTraceConnection(BaseModel):
+class ConnectionOffice365MsgTrace(BaseModel):
     output: str
 
     pipeline: Optional[str] = None
 
 
-class CreateInputInputOffice365MsgTraceMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ModeOffice365MsgTrace(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputOffice365MsgTraceCompression(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class CompressionOffice365MsgTrace(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class CreateInputInputOffice365MsgTracePqTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputOffice365MsgTraceMode]
+class PqOffice365MsgTraceTypedDict(TypedDict):
+    mode: NotRequired[ModeOffice365MsgTrace]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
@@ -10333,15 +9811,12 @@ class CreateInputInputOffice365MsgTracePqTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
-    compress: NotRequired[CreateInputInputOffice365MsgTraceCompression]
+    compress: NotRequired[CompressionOffice365MsgTrace]
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputOffice365MsgTracePq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputOffice365MsgTraceMode],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputOffice365MsgTraceMode.ALWAYS
+class PqOffice365MsgTrace(BaseModel):
+    mode: Optional[ModeOffice365MsgTrace] = ModeOffice365MsgTrace.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -10365,16 +9840,11 @@ class CreateInputInputOffice365MsgTracePq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputOffice365MsgTraceCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputOffice365MsgTraceCompression.NONE
+    compress: Optional[CompressionOffice365MsgTrace] = CompressionOffice365MsgTrace.NONE
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputOffice365MsgTraceAuthenticationMethod(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class AuthenticationMethodOffice365MsgTrace(str, Enum):
     r"""Select authentication method."""
 
     MANUAL = "manual"
@@ -10384,9 +9854,7 @@ class CreateInputInputOffice365MsgTraceAuthenticationMethod(
     OAUTH_CERT = "oauthCert"
 
 
-class CreateInputInputOffice365MsgTraceLogLevel(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class LogLevelOffice365MsgTrace(str, Enum):
     r"""Log Level (verbosity) for collection runtime behavior."""
 
     ERROR = "error"
@@ -10396,22 +9864,20 @@ class CreateInputInputOffice365MsgTraceLogLevel(
     SILLY = "silly"
 
 
-class CreateInputInputOffice365MsgTraceMetadatumTypedDict(TypedDict):
+class MetadatumOffice365MsgTraceTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputOffice365MsgTraceMetadatum(BaseModel):
+class MetadatumOffice365MsgTrace(BaseModel):
     name: str
 
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputOffice365MsgTraceRetryType(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class RetryTypeOffice365MsgTrace(str, Enum):
     r"""The algorithm to use when performing HTTP retries"""
 
     NONE = "none"
@@ -10419,8 +9885,8 @@ class CreateInputInputOffice365MsgTraceRetryType(
     STATIC = "static"
 
 
-class CreateInputInputOffice365MsgTraceRetryRulesTypedDict(TypedDict):
-    type: NotRequired[CreateInputInputOffice365MsgTraceRetryType]
+class RetryRulesOffice365MsgTraceTypedDict(TypedDict):
+    type: NotRequired[RetryTypeOffice365MsgTrace]
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[float]
     r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
@@ -10438,11 +9904,8 @@ class CreateInputInputOffice365MsgTraceRetryRulesTypedDict(TypedDict):
     r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
-class CreateInputInputOffice365MsgTraceRetryRules(BaseModel):
-    type: Annotated[
-        Optional[CreateInputInputOffice365MsgTraceRetryType],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputOffice365MsgTraceRetryType.BACKOFF
+class RetryRulesOffice365MsgTrace(BaseModel):
+    type: Optional[RetryTypeOffice365MsgTrace] = RetryTypeOffice365MsgTrace.BACKOFF
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[float] = 1000
@@ -10473,9 +9936,7 @@ class CreateInputInputOffice365MsgTraceRetryRules(BaseModel):
     r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
-class CreateInputInputOffice365MsgTraceSubscriptionPlan(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class SubscriptionPlanOffice365MsgTrace(str, Enum):
     r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
 
     ENTERPRISE_GCC = "enterprise_gcc"
@@ -10514,7 +9975,7 @@ class CreateInputCertOptions(BaseModel):
 class CreateInputInputOffice365MsgTraceTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: NotRequired[CreateInputInputOffice365MsgTraceType]
+    type: NotRequired[CreateInputTypeOffice365MsgTrace]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -10526,9 +9987,9 @@ class CreateInputInputOffice365MsgTraceTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[CreateInputInputOffice365MsgTraceConnectionTypedDict]]
+    connections: NotRequired[List[ConnectionOffice365MsgTraceTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[CreateInputInputOffice365MsgTracePqTypedDict]
+    pq: NotRequired[PqOffice365MsgTraceTypedDict]
     url: NotRequired[str]
     r"""URL to use when retrieving report data."""
     interval: NotRequired[float]
@@ -10541,13 +10002,13 @@ class CreateInputInputOffice365MsgTraceTypedDict(TypedDict):
     r"""HTTP request inactivity timeout. Maximum is 2400 (40 minutes); enter 0 to wait indefinitely."""
     disable_time_filter: NotRequired[bool]
     r"""Disables time filtering of events when a date range is specified."""
-    auth_type: NotRequired[CreateInputInputOffice365MsgTraceAuthenticationMethod]
+    auth_type: NotRequired[AuthenticationMethodOffice365MsgTrace]
     r"""Select authentication method."""
     reschedule_dropped_tasks: NotRequired[bool]
     r"""Reschedule tasks that failed with non-fatal errors"""
     max_task_reschedule: NotRequired[float]
     r"""Maximum number of times a task can be rescheduled"""
-    log_level: NotRequired[CreateInputInputOffice365MsgTraceLogLevel]
+    log_level: NotRequired[LogLevelOffice365MsgTrace]
     r"""Log Level (verbosity) for collection runtime behavior."""
     job_timeout: NotRequired[str]
     r"""Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time."""
@@ -10559,9 +10020,9 @@ class CreateInputInputOffice365MsgTraceTypedDict(TypedDict):
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
     ignore_group_jobs_limit: NotRequired[bool]
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
-    metadata: NotRequired[List[CreateInputInputOffice365MsgTraceMetadatumTypedDict]]
+    metadata: NotRequired[List[MetadatumOffice365MsgTraceTypedDict]]
     r"""Fields to add to events from this input"""
-    retry_rules: NotRequired[CreateInputInputOffice365MsgTraceRetryRulesTypedDict]
+    retry_rules: NotRequired[RetryRulesOffice365MsgTraceTypedDict]
     description: NotRequired[str]
     username: NotRequired[str]
     r"""Username to run Message Trace API call."""
@@ -10577,7 +10038,7 @@ class CreateInputInputOffice365MsgTraceTypedDict(TypedDict):
     r"""client_id to pass in the OAuth request parameter."""
     resource: NotRequired[str]
     r"""Resource to pass in the OAuth request parameter."""
-    plan_type: NotRequired[CreateInputInputOffice365MsgTraceSubscriptionPlan]
+    plan_type: NotRequired[SubscriptionPlanOffice365MsgTrace]
     r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
     text_secret: NotRequired[str]
     r"""Select or create a secret that references your client_secret to pass in the OAuth request parameter."""
@@ -10588,10 +10049,7 @@ class CreateInputInputOffice365MsgTrace(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: Annotated[
-        Optional[CreateInputInputOffice365MsgTraceType],
-        PlainValidator(validate_open_enum(False)),
-    ] = None
+    type: Optional[CreateInputTypeOffice365MsgTrace] = None
 
     disabled: Optional[bool] = False
 
@@ -10612,10 +10070,10 @@ class CreateInputInputOffice365MsgTrace(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[CreateInputInputOffice365MsgTraceConnection]] = None
+    connections: Optional[List[ConnectionOffice365MsgTrace]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[CreateInputInputOffice365MsgTracePq] = None
+    pq: Optional[PqOffice365MsgTrace] = None
 
     url: Optional[str] = (
         "https://reports.office365.com/ecp/reportingwebservice/reporting.svc/MessageTrace"
@@ -10640,12 +10098,9 @@ class CreateInputInputOffice365MsgTrace(BaseModel):
     r"""Disables time filtering of events when a date range is specified."""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[CreateInputInputOffice365MsgTraceAuthenticationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOffice365MsgTrace],
         pydantic.Field(alias="authType"),
-    ] = CreateInputInputOffice365MsgTraceAuthenticationMethod.OAUTH
+    ] = AuthenticationMethodOffice365MsgTrace.OAUTH
     r"""Select authentication method."""
 
     reschedule_dropped_tasks: Annotated[
@@ -10659,12 +10114,8 @@ class CreateInputInputOffice365MsgTrace(BaseModel):
     r"""Maximum number of times a task can be rescheduled"""
 
     log_level: Annotated[
-        Annotated[
-            Optional[CreateInputInputOffice365MsgTraceLogLevel],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="logLevel"),
-    ] = CreateInputInputOffice365MsgTraceLogLevel.INFO
+        Optional[LogLevelOffice365MsgTrace], pydantic.Field(alias="logLevel")
+    ] = LogLevelOffice365MsgTrace.INFO
     r"""Log Level (verbosity) for collection runtime behavior."""
 
     job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = "0"
@@ -10688,12 +10139,11 @@ class CreateInputInputOffice365MsgTrace(BaseModel):
     ] = False
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
 
-    metadata: Optional[List[CreateInputInputOffice365MsgTraceMetadatum]] = None
+    metadata: Optional[List[MetadatumOffice365MsgTrace]] = None
     r"""Fields to add to events from this input"""
 
     retry_rules: Annotated[
-        Optional[CreateInputInputOffice365MsgTraceRetryRules],
-        pydantic.Field(alias="retryRules"),
+        Optional[RetryRulesOffice365MsgTrace], pydantic.Field(alias="retryRules")
     ] = None
 
     description: Optional[str] = None
@@ -10722,12 +10172,8 @@ class CreateInputInputOffice365MsgTrace(BaseModel):
     r"""Resource to pass in the OAuth request parameter."""
 
     plan_type: Annotated[
-        Annotated[
-            Optional[CreateInputInputOffice365MsgTraceSubscriptionPlan],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="planType"),
-    ] = CreateInputInputOffice365MsgTraceSubscriptionPlan.ENTERPRISE_GCC
+        Optional[SubscriptionPlanOffice365MsgTrace], pydantic.Field(alias="planType")
+    ] = SubscriptionPlanOffice365MsgTrace.ENTERPRISE_GCC
     r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
@@ -10738,39 +10184,37 @@ class CreateInputInputOffice365MsgTrace(BaseModel):
     ] = None
 
 
-class CreateInputInputOffice365ServiceType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputTypeOffice365Service(str, Enum):
     OFFICE365_SERVICE = "office365_service"
 
 
-class CreateInputInputOffice365ServiceConnectionTypedDict(TypedDict):
+class ConnectionOffice365ServiceTypedDict(TypedDict):
     output: str
     pipeline: NotRequired[str]
 
 
-class CreateInputInputOffice365ServiceConnection(BaseModel):
+class ConnectionOffice365Service(BaseModel):
     output: str
 
     pipeline: Optional[str] = None
 
 
-class CreateInputInputOffice365ServiceMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ModeOffice365Service(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputOffice365ServiceCompression(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class CompressionOffice365Service(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class CreateInputInputOffice365ServicePqTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputOffice365ServiceMode]
+class PqOffice365ServiceTypedDict(TypedDict):
+    mode: NotRequired[ModeOffice365Service]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
@@ -10782,15 +10226,12 @@ class CreateInputInputOffice365ServicePqTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
-    compress: NotRequired[CreateInputInputOffice365ServiceCompression]
+    compress: NotRequired[CompressionOffice365Service]
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputOffice365ServicePq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputOffice365ServiceMode],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputOffice365ServiceMode.ALWAYS
+class PqOffice365Service(BaseModel):
+    mode: Optional[ModeOffice365Service] = ModeOffice365Service.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -10814,16 +10255,11 @@ class CreateInputInputOffice365ServicePq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputOffice365ServiceCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputOffice365ServiceCompression.NONE
+    compress: Optional[CompressionOffice365Service] = CompressionOffice365Service.NONE
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputOffice365ServiceSubscriptionPlan(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class SubscriptionPlanOffice365Service(str, Enum):
     r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
 
     ENTERPRISE_GCC = "enterprise_gcc"
@@ -10832,20 +10268,20 @@ class CreateInputInputOffice365ServiceSubscriptionPlan(
     DOD = "dod"
 
 
-class CreateInputInputOffice365ServiceMetadatumTypedDict(TypedDict):
+class MetadatumOffice365ServiceTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputOffice365ServiceMetadatum(BaseModel):
+class MetadatumOffice365Service(BaseModel):
     name: str
 
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputOffice365ServiceLogLevel(str, Enum, metaclass=utils.OpenEnumMeta):
+class LogLevelOffice365Service(str, Enum):
     r"""Collector runtime Log Level"""
 
     ERROR = "error"
@@ -10854,18 +10290,18 @@ class CreateInputInputOffice365ServiceLogLevel(str, Enum, metaclass=utils.OpenEn
     DEBUG = "debug"
 
 
-class CreateInputInputOffice365ServiceContentConfigTypedDict(TypedDict):
+class ContentConfigOffice365ServiceTypedDict(TypedDict):
     content_type: NotRequired[str]
     r"""Office 365 Services API Content Type"""
     description: NotRequired[str]
     r"""If interval type is minutes the value entered must evenly divisible by 60 or save will fail"""
     interval: NotRequired[float]
-    log_level: NotRequired[CreateInputInputOffice365ServiceLogLevel]
+    log_level: NotRequired[LogLevelOffice365Service]
     r"""Collector runtime Log Level"""
     enabled: NotRequired[bool]
 
 
-class CreateInputInputOffice365ServiceContentConfig(BaseModel):
+class ContentConfigOffice365Service(BaseModel):
     content_type: Annotated[Optional[str], pydantic.Field(alias="contentType")] = None
     r"""Office 365 Services API Content Type"""
 
@@ -10875,20 +10311,14 @@ class CreateInputInputOffice365ServiceContentConfig(BaseModel):
     interval: Optional[float] = None
 
     log_level: Annotated[
-        Annotated[
-            Optional[CreateInputInputOffice365ServiceLogLevel],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="logLevel"),
+        Optional[LogLevelOffice365Service], pydantic.Field(alias="logLevel")
     ] = None
     r"""Collector runtime Log Level"""
 
     enabled: Optional[bool] = None
 
 
-class CreateInputInputOffice365ServiceRetryType(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class RetryTypeOffice365Service(str, Enum):
     r"""The algorithm to use when performing HTTP retries"""
 
     NONE = "none"
@@ -10896,8 +10326,8 @@ class CreateInputInputOffice365ServiceRetryType(
     STATIC = "static"
 
 
-class CreateInputInputOffice365ServiceRetryRulesTypedDict(TypedDict):
-    type: NotRequired[CreateInputInputOffice365ServiceRetryType]
+class RetryRulesOffice365ServiceTypedDict(TypedDict):
+    type: NotRequired[RetryTypeOffice365Service]
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[float]
     r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
@@ -10915,11 +10345,8 @@ class CreateInputInputOffice365ServiceRetryRulesTypedDict(TypedDict):
     r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
-class CreateInputInputOffice365ServiceRetryRules(BaseModel):
-    type: Annotated[
-        Optional[CreateInputInputOffice365ServiceRetryType],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputOffice365ServiceRetryType.BACKOFF
+class RetryRulesOffice365Service(BaseModel):
+    type: Optional[RetryTypeOffice365Service] = RetryTypeOffice365Service.BACKOFF
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[float] = 1000
@@ -10950,9 +10377,7 @@ class CreateInputInputOffice365ServiceRetryRules(BaseModel):
     r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
-class CreateInputInputOffice365ServiceAuthenticationMethod(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class AuthenticationMethodOffice365Service(str, Enum):
     r"""Enter client secret directly, or select a stored secret"""
 
     MANUAL = "manual"
@@ -10966,7 +10391,7 @@ class CreateInputInputOffice365ServiceTypedDict(TypedDict):
     r"""Office 365 Azure Tenant ID"""
     app_id: str
     r"""Office 365 Azure Application ID"""
-    type: NotRequired[CreateInputInputOffice365ServiceType]
+    type: NotRequired[CreateInputTypeOffice365Service]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -10978,10 +10403,10 @@ class CreateInputInputOffice365ServiceTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[CreateInputInputOffice365ServiceConnectionTypedDict]]
+    connections: NotRequired[List[ConnectionOffice365ServiceTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[CreateInputInputOffice365ServicePqTypedDict]
-    plan_type: NotRequired[CreateInputInputOffice365ServiceSubscriptionPlan]
+    pq: NotRequired[PqOffice365ServiceTypedDict]
+    plan_type: NotRequired[SubscriptionPlanOffice365Service]
     r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
     timeout: NotRequired[float]
     r"""HTTP request inactivity timeout, use 0 to disable"""
@@ -10995,14 +10420,12 @@ class CreateInputInputOffice365ServiceTypedDict(TypedDict):
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
     ignore_group_jobs_limit: NotRequired[bool]
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
-    metadata: NotRequired[List[CreateInputInputOffice365ServiceMetadatumTypedDict]]
+    metadata: NotRequired[List[MetadatumOffice365ServiceTypedDict]]
     r"""Fields to add to events from this input"""
-    content_config: NotRequired[
-        List[CreateInputInputOffice365ServiceContentConfigTypedDict]
-    ]
+    content_config: NotRequired[List[ContentConfigOffice365ServiceTypedDict]]
     r"""Enable Office 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."""
-    retry_rules: NotRequired[CreateInputInputOffice365ServiceRetryRulesTypedDict]
-    auth_type: NotRequired[CreateInputInputOffice365ServiceAuthenticationMethod]
+    retry_rules: NotRequired[RetryRulesOffice365ServiceTypedDict]
+    auth_type: NotRequired[AuthenticationMethodOffice365Service]
     r"""Enter client secret directly, or select a stored secret"""
     description: NotRequired[str]
     client_secret: NotRequired[str]
@@ -11021,10 +10444,7 @@ class CreateInputInputOffice365Service(BaseModel):
     app_id: Annotated[str, pydantic.Field(alias="appId")]
     r"""Office 365 Azure Application ID"""
 
-    type: Annotated[
-        Optional[CreateInputInputOffice365ServiceType],
-        PlainValidator(validate_open_enum(False)),
-    ] = None
+    type: Optional[CreateInputTypeOffice365Service] = None
 
     disabled: Optional[bool] = False
 
@@ -11045,18 +10465,14 @@ class CreateInputInputOffice365Service(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[CreateInputInputOffice365ServiceConnection]] = None
+    connections: Optional[List[ConnectionOffice365Service]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[CreateInputInputOffice365ServicePq] = None
+    pq: Optional[PqOffice365Service] = None
 
     plan_type: Annotated[
-        Annotated[
-            Optional[CreateInputInputOffice365ServiceSubscriptionPlan],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="planType"),
-    ] = CreateInputInputOffice365ServiceSubscriptionPlan.ENTERPRISE_GCC
+        Optional[SubscriptionPlanOffice365Service], pydantic.Field(alias="planType")
+    ] = SubscriptionPlanOffice365Service.ENTERPRISE_GCC
     r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
 
     timeout: Optional[float] = 300
@@ -11083,27 +10499,22 @@ class CreateInputInputOffice365Service(BaseModel):
     ] = False
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
 
-    metadata: Optional[List[CreateInputInputOffice365ServiceMetadatum]] = None
+    metadata: Optional[List[MetadatumOffice365Service]] = None
     r"""Fields to add to events from this input"""
 
     content_config: Annotated[
-        Optional[List[CreateInputInputOffice365ServiceContentConfig]],
+        Optional[List[ContentConfigOffice365Service]],
         pydantic.Field(alias="contentConfig"),
     ] = None
     r"""Enable Office 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."""
 
     retry_rules: Annotated[
-        Optional[CreateInputInputOffice365ServiceRetryRules],
-        pydantic.Field(alias="retryRules"),
+        Optional[RetryRulesOffice365Service], pydantic.Field(alias="retryRules")
     ] = None
 
     auth_type: Annotated[
-        Annotated[
-            Optional[CreateInputInputOffice365ServiceAuthenticationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
-    ] = CreateInputInputOffice365ServiceAuthenticationMethod.MANUAL
+        Optional[AuthenticationMethodOffice365Service], pydantic.Field(alias="authType")
+    ] = AuthenticationMethodOffice365Service.MANUAL
     r"""Enter client secret directly, or select a stored secret"""
 
     description: Optional[str] = None
@@ -11115,37 +10526,37 @@ class CreateInputInputOffice365Service(BaseModel):
     r"""Select or create a stored text secret"""
 
 
-class CreateInputInputOffice365MgmtType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputTypeOffice365Mgmt(str, Enum):
     OFFICE365_MGMT = "office365_mgmt"
 
 
-class CreateInputInputOffice365MgmtConnectionTypedDict(TypedDict):
+class ConnectionOffice365MgmtTypedDict(TypedDict):
     output: str
     pipeline: NotRequired[str]
 
 
-class CreateInputInputOffice365MgmtConnection(BaseModel):
+class ConnectionOffice365Mgmt(BaseModel):
     output: str
 
     pipeline: Optional[str] = None
 
 
-class CreateInputInputOffice365MgmtMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ModeOffice365Mgmt(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputOffice365MgmtCompression(str, Enum, metaclass=utils.OpenEnumMeta):
+class CompressionOffice365Mgmt(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class CreateInputInputOffice365MgmtPqTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputOffice365MgmtMode]
+class PqOffice365MgmtTypedDict(TypedDict):
+    mode: NotRequired[ModeOffice365Mgmt]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
@@ -11157,15 +10568,12 @@ class CreateInputInputOffice365MgmtPqTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
-    compress: NotRequired[CreateInputInputOffice365MgmtCompression]
+    compress: NotRequired[CompressionOffice365Mgmt]
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputOffice365MgmtPq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputOffice365MgmtMode],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputOffice365MgmtMode.ALWAYS
+class PqOffice365Mgmt(BaseModel):
+    mode: Optional[ModeOffice365Mgmt] = ModeOffice365Mgmt.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -11189,16 +10597,11 @@ class CreateInputInputOffice365MgmtPq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputOffice365MgmtCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputOffice365MgmtCompression.NONE
+    compress: Optional[CompressionOffice365Mgmt] = CompressionOffice365Mgmt.NONE
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputOffice365MgmtSubscriptionPlan(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class SubscriptionPlanOffice365Mgmt(str, Enum):
     r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
 
     ENTERPRISE_GCC = "enterprise_gcc"
@@ -11207,20 +10610,20 @@ class CreateInputInputOffice365MgmtSubscriptionPlan(
     DOD = "dod"
 
 
-class CreateInputInputOffice365MgmtMetadatumTypedDict(TypedDict):
+class MetadatumOffice365MgmtTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputOffice365MgmtMetadatum(BaseModel):
+class MetadatumOffice365Mgmt(BaseModel):
     name: str
 
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputOffice365MgmtLogLevel(str, Enum, metaclass=utils.OpenEnumMeta):
+class LogLevelOffice365Mgmt(str, Enum):
     r"""Collector runtime Log Level"""
 
     ERROR = "error"
@@ -11229,18 +10632,18 @@ class CreateInputInputOffice365MgmtLogLevel(str, Enum, metaclass=utils.OpenEnumM
     DEBUG = "debug"
 
 
-class CreateInputInputOffice365MgmtContentConfigTypedDict(TypedDict):
+class ContentConfigOffice365MgmtTypedDict(TypedDict):
     content_type: NotRequired[str]
     r"""Office 365 Management Activity API Content Type"""
     description: NotRequired[str]
     r"""If interval type is minutes the value entered must evenly divisible by 60 or save will fail"""
     interval: NotRequired[float]
-    log_level: NotRequired[CreateInputInputOffice365MgmtLogLevel]
+    log_level: NotRequired[LogLevelOffice365Mgmt]
     r"""Collector runtime Log Level"""
     enabled: NotRequired[bool]
 
 
-class CreateInputInputOffice365MgmtContentConfig(BaseModel):
+class ContentConfigOffice365Mgmt(BaseModel):
     content_type: Annotated[Optional[str], pydantic.Field(alias="contentType")] = None
     r"""Office 365 Management Activity API Content Type"""
 
@@ -11250,18 +10653,14 @@ class CreateInputInputOffice365MgmtContentConfig(BaseModel):
     interval: Optional[float] = None
 
     log_level: Annotated[
-        Annotated[
-            Optional[CreateInputInputOffice365MgmtLogLevel],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="logLevel"),
+        Optional[LogLevelOffice365Mgmt], pydantic.Field(alias="logLevel")
     ] = None
     r"""Collector runtime Log Level"""
 
     enabled: Optional[bool] = None
 
 
-class CreateInputInputOffice365MgmtRetryType(str, Enum, metaclass=utils.OpenEnumMeta):
+class RetryTypeOffice365Mgmt(str, Enum):
     r"""The algorithm to use when performing HTTP retries"""
 
     NONE = "none"
@@ -11269,8 +10668,8 @@ class CreateInputInputOffice365MgmtRetryType(str, Enum, metaclass=utils.OpenEnum
     STATIC = "static"
 
 
-class CreateInputInputOffice365MgmtRetryRulesTypedDict(TypedDict):
-    type: NotRequired[CreateInputInputOffice365MgmtRetryType]
+class RetryRulesOffice365MgmtTypedDict(TypedDict):
+    type: NotRequired[RetryTypeOffice365Mgmt]
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[float]
     r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
@@ -11288,11 +10687,8 @@ class CreateInputInputOffice365MgmtRetryRulesTypedDict(TypedDict):
     r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
-class CreateInputInputOffice365MgmtRetryRules(BaseModel):
-    type: Annotated[
-        Optional[CreateInputInputOffice365MgmtRetryType],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputOffice365MgmtRetryType.BACKOFF
+class RetryRulesOffice365Mgmt(BaseModel):
+    type: Optional[RetryTypeOffice365Mgmt] = RetryTypeOffice365Mgmt.BACKOFF
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[float] = 1000
@@ -11323,9 +10719,7 @@ class CreateInputInputOffice365MgmtRetryRules(BaseModel):
     r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
-class CreateInputInputOffice365MgmtAuthenticationMethod(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class AuthenticationMethodOffice365Mgmt(str, Enum):
     r"""Enter client secret directly, or select a stored secret"""
 
     MANUAL = "manual"
@@ -11339,7 +10733,7 @@ class CreateInputInputOffice365MgmtTypedDict(TypedDict):
     r"""Office 365 Azure Tenant ID"""
     app_id: str
     r"""Office 365 Azure Application ID"""
-    type: NotRequired[CreateInputInputOffice365MgmtType]
+    type: NotRequired[CreateInputTypeOffice365Mgmt]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -11351,10 +10745,10 @@ class CreateInputInputOffice365MgmtTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[CreateInputInputOffice365MgmtConnectionTypedDict]]
+    connections: NotRequired[List[ConnectionOffice365MgmtTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[CreateInputInputOffice365MgmtPqTypedDict]
-    plan_type: NotRequired[CreateInputInputOffice365MgmtSubscriptionPlan]
+    pq: NotRequired[PqOffice365MgmtTypedDict]
+    plan_type: NotRequired[SubscriptionPlanOffice365Mgmt]
     r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
     timeout: NotRequired[float]
     r"""HTTP request inactivity timeout, use 0 to disable"""
@@ -11368,18 +10762,16 @@ class CreateInputInputOffice365MgmtTypedDict(TypedDict):
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
     ignore_group_jobs_limit: NotRequired[bool]
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
-    metadata: NotRequired[List[CreateInputInputOffice365MgmtMetadatumTypedDict]]
+    metadata: NotRequired[List[MetadatumOffice365MgmtTypedDict]]
     r"""Fields to add to events from this input"""
     publisher_identifier: NotRequired[str]
     r"""Optional Publisher Identifier to use in API requests, defaults to tenant id if not defined. For more information see [here](https://docs.microsoft.com/en-us/office/office-365-management-api/office-365-management-activity-api-reference#start-a-subscription)"""
-    content_config: NotRequired[
-        List[CreateInputInputOffice365MgmtContentConfigTypedDict]
-    ]
+    content_config: NotRequired[List[ContentConfigOffice365MgmtTypedDict]]
     r"""Enable Office 365 Management Activity API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered must be evenly divisible by 60 to give a predictable schedule."""
     ingestion_lag: NotRequired[float]
     r"""Use this setting to account for ingestion lag. This is necessary because there can be a lag of 60 - 90 minutes (or longer) before Office 365 events are available for retrieval."""
-    retry_rules: NotRequired[CreateInputInputOffice365MgmtRetryRulesTypedDict]
-    auth_type: NotRequired[CreateInputInputOffice365MgmtAuthenticationMethod]
+    retry_rules: NotRequired[RetryRulesOffice365MgmtTypedDict]
+    auth_type: NotRequired[AuthenticationMethodOffice365Mgmt]
     r"""Enter client secret directly, or select a stored secret"""
     description: NotRequired[str]
     client_secret: NotRequired[str]
@@ -11398,10 +10790,7 @@ class CreateInputInputOffice365Mgmt(BaseModel):
     app_id: Annotated[str, pydantic.Field(alias="appId")]
     r"""Office 365 Azure Application ID"""
 
-    type: Annotated[
-        Optional[CreateInputInputOffice365MgmtType],
-        PlainValidator(validate_open_enum(False)),
-    ] = None
+    type: Optional[CreateInputTypeOffice365Mgmt] = None
 
     disabled: Optional[bool] = False
 
@@ -11422,18 +10811,14 @@ class CreateInputInputOffice365Mgmt(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[CreateInputInputOffice365MgmtConnection]] = None
+    connections: Optional[List[ConnectionOffice365Mgmt]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[CreateInputInputOffice365MgmtPq] = None
+    pq: Optional[PqOffice365Mgmt] = None
 
     plan_type: Annotated[
-        Annotated[
-            Optional[CreateInputInputOffice365MgmtSubscriptionPlan],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="planType"),
-    ] = CreateInputInputOffice365MgmtSubscriptionPlan.ENTERPRISE_GCC
+        Optional[SubscriptionPlanOffice365Mgmt], pydantic.Field(alias="planType")
+    ] = SubscriptionPlanOffice365Mgmt.ENTERPRISE_GCC
     r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
 
     timeout: Optional[float] = 300
@@ -11460,7 +10845,7 @@ class CreateInputInputOffice365Mgmt(BaseModel):
     ] = False
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
 
-    metadata: Optional[List[CreateInputInputOffice365MgmtMetadatum]] = None
+    metadata: Optional[List[MetadatumOffice365Mgmt]] = None
     r"""Fields to add to events from this input"""
 
     publisher_identifier: Annotated[
@@ -11469,7 +10854,7 @@ class CreateInputInputOffice365Mgmt(BaseModel):
     r"""Optional Publisher Identifier to use in API requests, defaults to tenant id if not defined. For more information see [here](https://docs.microsoft.com/en-us/office/office-365-management-api/office-365-management-activity-api-reference#start-a-subscription)"""
 
     content_config: Annotated[
-        Optional[List[CreateInputInputOffice365MgmtContentConfig]],
+        Optional[List[ContentConfigOffice365Mgmt]],
         pydantic.Field(alias="contentConfig"),
     ] = None
     r"""Enable Office 365 Management Activity API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered must be evenly divisible by 60 to give a predictable schedule."""
@@ -11478,17 +10863,12 @@ class CreateInputInputOffice365Mgmt(BaseModel):
     r"""Use this setting to account for ingestion lag. This is necessary because there can be a lag of 60 - 90 minutes (or longer) before Office 365 events are available for retrieval."""
 
     retry_rules: Annotated[
-        Optional[CreateInputInputOffice365MgmtRetryRules],
-        pydantic.Field(alias="retryRules"),
+        Optional[RetryRulesOffice365Mgmt], pydantic.Field(alias="retryRules")
     ] = None
 
     auth_type: Annotated[
-        Annotated[
-            Optional[CreateInputInputOffice365MgmtAuthenticationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
-    ] = CreateInputInputOffice365MgmtAuthenticationMethod.MANUAL
+        Optional[AuthenticationMethodOffice365Mgmt], pydantic.Field(alias="authType")
+    ] = AuthenticationMethodOffice365Mgmt.MANUAL
     r"""Enter client secret directly, or select a stored secret"""
 
     description: Optional[str] = None
@@ -11500,39 +10880,37 @@ class CreateInputInputOffice365Mgmt(BaseModel):
     r"""Select or create a stored text secret"""
 
 
-class CreateInputInputEdgePrometheusType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputTypeEdgePrometheus(str, Enum):
     EDGE_PROMETHEUS = "edge_prometheus"
 
 
-class CreateInputInputEdgePrometheusConnectionTypedDict(TypedDict):
+class ConnectionEdgePrometheusTypedDict(TypedDict):
     output: str
     pipeline: NotRequired[str]
 
 
-class CreateInputInputEdgePrometheusConnection(BaseModel):
+class ConnectionEdgePrometheus(BaseModel):
     output: str
 
     pipeline: Optional[str] = None
 
 
-class CreateInputInputEdgePrometheusMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ModeEdgePrometheus(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputEdgePrometheusPqCompression(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class PqCompressionEdgePrometheus(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class CreateInputInputEdgePrometheusPqTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputEdgePrometheusMode]
+class PqEdgePrometheusTypedDict(TypedDict):
+    mode: NotRequired[ModeEdgePrometheus]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
@@ -11544,15 +10922,12 @@ class CreateInputInputEdgePrometheusPqTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
-    compress: NotRequired[CreateInputInputEdgePrometheusPqCompression]
+    compress: NotRequired[PqCompressionEdgePrometheus]
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputEdgePrometheusPq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputEdgePrometheusMode],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputEdgePrometheusMode.ALWAYS
+class PqEdgePrometheus(BaseModel):
+    mode: Optional[ModeEdgePrometheus] = ModeEdgePrometheus.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -11576,16 +10951,11 @@ class CreateInputInputEdgePrometheusPq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputEdgePrometheusPqCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputEdgePrometheusPqCompression.NONE
+    compress: Optional[PqCompressionEdgePrometheus] = PqCompressionEdgePrometheus.NONE
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputEdgePrometheusDiscoveryType(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class DiscoveryTypeEdgePrometheus(str, Enum):
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
 
     STATIC = "static"
@@ -11595,7 +10965,7 @@ class CreateInputInputEdgePrometheusDiscoveryType(
     K8S_PODS = "k8s-pods"
 
 
-class CreateInputPersistenceCompression(str, Enum, metaclass=utils.OpenEnumMeta):
+class PersistenceCompressionEdgePrometheus(str, Enum):
     r"""Data compression format. Default is gzip."""
 
     NONE = "none"
@@ -11611,7 +10981,7 @@ class CreateInputDiskSpoolingTypedDict(TypedDict):
     r"""Maximum disk space that can be consumed before older buckets are deleted. Examples: 420MB, 4GB. Default is 1GB."""
     max_data_time: NotRequired[str]
     r"""Maximum amount of time to retain data before older buckets are deleted. Examples: 2h, 4d. Default is 24h."""
-    compress: NotRequired[CreateInputPersistenceCompression]
+    compress: NotRequired[PersistenceCompressionEdgePrometheus]
     r"""Data compression format. Default is gzip."""
 
 
@@ -11628,29 +10998,26 @@ class CreateInputDiskSpooling(BaseModel):
     max_data_time: Annotated[Optional[str], pydantic.Field(alias="maxDataTime")] = "24h"
     r"""Maximum amount of time to retain data before older buckets are deleted. Examples: 2h, 4d. Default is 24h."""
 
-    compress: Annotated[
-        Optional[CreateInputPersistenceCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputPersistenceCompression.GZIP
+    compress: Optional[PersistenceCompressionEdgePrometheus] = (
+        PersistenceCompressionEdgePrometheus.GZIP
+    )
     r"""Data compression format. Default is gzip."""
 
 
-class CreateInputInputEdgePrometheusMetadatumTypedDict(TypedDict):
+class MetadatumEdgePrometheusTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputEdgePrometheusMetadatum(BaseModel):
+class MetadatumEdgePrometheus(BaseModel):
     name: str
 
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputEdgePrometheusAuthTypeAuthenticationMethod(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class AuthTypeAuthenticationMethodEdgePrometheus(str, Enum):
     r"""Enter credentials directly, or select a stored secret"""
 
     MANUAL = "manual"
@@ -11658,7 +11025,7 @@ class CreateInputInputEdgePrometheusAuthTypeAuthenticationMethod(
     KUBERNETES = "kubernetes"
 
 
-class CreateInputTargetProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
+class TargetProtocolEdgePrometheus(str, Enum):
     r"""Protocol to use when collecting metrics"""
 
     HTTP = "http"
@@ -11668,7 +11035,7 @@ class CreateInputTargetProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
 class CreateInputTargetTypedDict(TypedDict):
     host: str
     r"""Name of host from which to pull metrics."""
-    protocol: NotRequired[CreateInputTargetProtocol]
+    protocol: NotRequired[TargetProtocolEdgePrometheus]
     r"""Protocol to use when collecting metrics"""
     port: NotRequired[float]
     r"""The port number in the metrics URL for discovered targets."""
@@ -11680,9 +11047,7 @@ class CreateInputTarget(BaseModel):
     host: str
     r"""Name of host from which to pull metrics."""
 
-    protocol: Annotated[
-        Optional[CreateInputTargetProtocol], PlainValidator(validate_open_enum(False))
-    ] = CreateInputTargetProtocol.HTTP
+    protocol: Optional[TargetProtocolEdgePrometheus] = TargetProtocolEdgePrometheus.HTTP
     r"""Protocol to use when collecting metrics"""
 
     port: Optional[float] = 9090
@@ -11692,7 +11057,7 @@ class CreateInputTarget(BaseModel):
     r"""Path to use when collecting metrics from discovered targets"""
 
 
-class CreateInputInputEdgePrometheusRecordType(str, Enum, metaclass=utils.OpenEnumMeta):
+class RecordTypeEdgePrometheus(str, Enum):
     r"""DNS Record type to resolve"""
 
     SRV = "SRV"
@@ -11700,21 +11065,21 @@ class CreateInputInputEdgePrometheusRecordType(str, Enum, metaclass=utils.OpenEn
     AAAA = "AAAA"
 
 
-class CreateInputScrapeProtocolProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
+class ScrapeProtocolProtocolEdgePrometheus(str, Enum):
     r"""Protocol to use when collecting metrics"""
 
     HTTP = "http"
     HTTPS = "https"
 
 
-class CreateInputInputEdgePrometheusSearchFilterTypedDict(TypedDict):
+class SearchFilterEdgePrometheusTypedDict(TypedDict):
     name: str
     r"""Search filter attribute name, see: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html for more information. Attributes can be manually entered if not present in the drop down list"""
     values: List[str]
     r"""Search Filter Values, if empty only \"running\" EC2 instances will be returned"""
 
 
-class CreateInputInputEdgePrometheusSearchFilter(BaseModel):
+class SearchFilterEdgePrometheus(BaseModel):
     name: Annotated[str, pydantic.Field(alias="Name")]
     r"""Search filter attribute name, see: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html for more information. Attributes can be manually entered if not present in the drop down list"""
 
@@ -11722,9 +11087,7 @@ class CreateInputInputEdgePrometheusSearchFilter(BaseModel):
     r"""Search Filter Values, if empty only \"running\" EC2 instances will be returned"""
 
 
-class CreateInputInputEdgePrometheusAwsAuthenticationMethodAuthenticationMethod(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class AwsAuthenticationMethodAuthenticationMethodEdgePrometheus(str, Enum):
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     AUTO = "auto"
@@ -11732,9 +11095,7 @@ class CreateInputInputEdgePrometheusAwsAuthenticationMethodAuthenticationMethod(
     SECRET = "secret"
 
 
-class CreateInputInputEdgePrometheusSignatureVersion(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class SignatureVersionEdgePrometheus(str, Enum):
     r"""Signature version to use for signing EC2 requests"""
 
     V2 = "v2"
@@ -11759,7 +11120,7 @@ class CreateInputPodFilter(BaseModel):
 class CreateInputInputEdgePrometheusTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: NotRequired[CreateInputInputEdgePrometheusType]
+    type: NotRequired[CreateInputTypeEdgePrometheus]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -11771,29 +11132,29 @@ class CreateInputInputEdgePrometheusTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[CreateInputInputEdgePrometheusConnectionTypedDict]]
+    connections: NotRequired[List[ConnectionEdgePrometheusTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[CreateInputInputEdgePrometheusPqTypedDict]
+    pq: NotRequired[PqEdgePrometheusTypedDict]
     dimension_list: NotRequired[List[str]]
     r"""Other dimensions to include in events"""
-    discovery_type: NotRequired[CreateInputInputEdgePrometheusDiscoveryType]
+    discovery_type: NotRequired[DiscoveryTypeEdgePrometheus]
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
     interval: NotRequired[float]
     r"""How often in seconds to scrape targets for metrics."""
     timeout: NotRequired[float]
     r"""Timeout, in milliseconds, before aborting HTTP connection attempts; 1-60000 or 0 to disable"""
     persistence: NotRequired[CreateInputDiskSpoolingTypedDict]
-    metadata: NotRequired[List[CreateInputInputEdgePrometheusMetadatumTypedDict]]
+    metadata: NotRequired[List[MetadatumEdgePrometheusTypedDict]]
     r"""Fields to add to events from this input"""
-    auth_type: NotRequired[CreateInputInputEdgePrometheusAuthTypeAuthenticationMethod]
+    auth_type: NotRequired[AuthTypeAuthenticationMethodEdgePrometheus]
     r"""Enter credentials directly, or select a stored secret"""
     description: NotRequired[str]
     targets: NotRequired[List[CreateInputTargetTypedDict]]
     name_list: NotRequired[List[str]]
     r"""List of DNS names to resolve"""
-    record_type: NotRequired[CreateInputInputEdgePrometheusRecordType]
+    record_type: NotRequired[RecordTypeEdgePrometheus]
     r"""DNS Record type to resolve"""
-    scrape_protocol: NotRequired[CreateInputScrapeProtocolProtocol]
+    scrape_protocol: NotRequired[ScrapeProtocolProtocolEdgePrometheus]
     r"""Protocol to use when collecting metrics"""
     scrape_path: NotRequired[str]
     r"""Path to use when collecting metrics from discovered targets"""
@@ -11801,12 +11162,10 @@ class CreateInputInputEdgePrometheusTypedDict(TypedDict):
     r"""Use public IP address for discovered targets. Set to false if the private IP address should be used."""
     scrape_port: NotRequired[float]
     r"""The port number in the metrics URL for discovered targets."""
-    search_filter: NotRequired[
-        List[CreateInputInputEdgePrometheusSearchFilterTypedDict]
-    ]
+    search_filter: NotRequired[List[SearchFilterEdgePrometheusTypedDict]]
     r"""EC2 Instance Search Filter"""
     aws_authentication_method: NotRequired[
-        CreateInputInputEdgePrometheusAwsAuthenticationMethodAuthenticationMethod
+        AwsAuthenticationMethodAuthenticationMethodEdgePrometheus
     ]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
@@ -11814,7 +11173,7 @@ class CreateInputInputEdgePrometheusTypedDict(TypedDict):
     r"""Region where the EC2 is located"""
     endpoint: NotRequired[str]
     r"""EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint."""
-    signature_version: NotRequired[CreateInputInputEdgePrometheusSignatureVersion]
+    signature_version: NotRequired[SignatureVersionEdgePrometheus]
     r"""Signature version to use for signing EC2 requests"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
@@ -11852,10 +11211,7 @@ class CreateInputInputEdgePrometheus(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: Annotated[
-        Optional[CreateInputInputEdgePrometheusType],
-        PlainValidator(validate_open_enum(False)),
-    ] = None
+    type: Optional[CreateInputTypeEdgePrometheus] = None
 
     disabled: Optional[bool] = False
 
@@ -11876,10 +11232,10 @@ class CreateInputInputEdgePrometheus(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[CreateInputInputEdgePrometheusConnection]] = None
+    connections: Optional[List[ConnectionEdgePrometheus]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[CreateInputInputEdgePrometheusPq] = None
+    pq: Optional[PqEdgePrometheus] = None
 
     dimension_list: Annotated[
         Optional[List[str]], pydantic.Field(alias="dimensionList")
@@ -11887,12 +11243,8 @@ class CreateInputInputEdgePrometheus(BaseModel):
     r"""Other dimensions to include in events"""
 
     discovery_type: Annotated[
-        Annotated[
-            Optional[CreateInputInputEdgePrometheusDiscoveryType],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="discoveryType"),
-    ] = CreateInputInputEdgePrometheusDiscoveryType.STATIC
+        Optional[DiscoveryTypeEdgePrometheus], pydantic.Field(alias="discoveryType")
+    ] = DiscoveryTypeEdgePrometheus.STATIC
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
 
     interval: Optional[float] = 15
@@ -11903,16 +11255,13 @@ class CreateInputInputEdgePrometheus(BaseModel):
 
     persistence: Optional[CreateInputDiskSpooling] = None
 
-    metadata: Optional[List[CreateInputInputEdgePrometheusMetadatum]] = None
+    metadata: Optional[List[MetadatumEdgePrometheus]] = None
     r"""Fields to add to events from this input"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[CreateInputInputEdgePrometheusAuthTypeAuthenticationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthTypeAuthenticationMethodEdgePrometheus],
         pydantic.Field(alias="authType"),
-    ] = CreateInputInputEdgePrometheusAuthTypeAuthenticationMethod.MANUAL
+    ] = AuthTypeAuthenticationMethodEdgePrometheus.MANUAL
     r"""Enter credentials directly, or select a stored secret"""
 
     description: Optional[str] = None
@@ -11923,21 +11272,14 @@ class CreateInputInputEdgePrometheus(BaseModel):
     r"""List of DNS names to resolve"""
 
     record_type: Annotated[
-        Annotated[
-            Optional[CreateInputInputEdgePrometheusRecordType],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="recordType"),
-    ] = CreateInputInputEdgePrometheusRecordType.SRV
+        Optional[RecordTypeEdgePrometheus], pydantic.Field(alias="recordType")
+    ] = RecordTypeEdgePrometheus.SRV
     r"""DNS Record type to resolve"""
 
     scrape_protocol: Annotated[
-        Annotated[
-            Optional[CreateInputScrapeProtocolProtocol],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[ScrapeProtocolProtocolEdgePrometheus],
         pydantic.Field(alias="scrapeProtocol"),
-    ] = CreateInputScrapeProtocolProtocol.HTTP
+    ] = ScrapeProtocolProtocolEdgePrometheus.HTTP
     r"""Protocol to use when collecting metrics"""
 
     scrape_path: Annotated[Optional[str], pydantic.Field(alias="scrapePath")] = (
@@ -11952,20 +11294,14 @@ class CreateInputInputEdgePrometheus(BaseModel):
     r"""The port number in the metrics URL for discovered targets."""
 
     search_filter: Annotated[
-        Optional[List[CreateInputInputEdgePrometheusSearchFilter]],
-        pydantic.Field(alias="searchFilter"),
+        Optional[List[SearchFilterEdgePrometheus]], pydantic.Field(alias="searchFilter")
     ] = None
     r"""EC2 Instance Search Filter"""
 
     aws_authentication_method: Annotated[
-        Annotated[
-            Optional[
-                CreateInputInputEdgePrometheusAwsAuthenticationMethodAuthenticationMethod
-            ],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AwsAuthenticationMethodAuthenticationMethodEdgePrometheus],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = CreateInputInputEdgePrometheusAwsAuthenticationMethodAuthenticationMethod.AUTO
+    ] = AwsAuthenticationMethodAuthenticationMethodEdgePrometheus.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -11979,12 +11315,9 @@ class CreateInputInputEdgePrometheus(BaseModel):
     r"""EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint."""
 
     signature_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputEdgePrometheusSignatureVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[SignatureVersionEdgePrometheus],
         pydantic.Field(alias="signatureVersion"),
-    ] = CreateInputInputEdgePrometheusSignatureVersion.V4
+    ] = SignatureVersionEdgePrometheus.V4
     r"""Signature version to use for signing EC2 requests"""
 
     reuse_connections: Annotated[
@@ -12053,37 +11386,37 @@ class CreateInputInputEdgePrometheus(BaseModel):
     r"""Select or create a secret that references your credentials"""
 
 
-class CreateInputInputPrometheusType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputTypePrometheus(str, Enum):
     PROMETHEUS = "prometheus"
 
 
-class CreateInputInputPrometheusConnectionTypedDict(TypedDict):
+class ConnectionPrometheusTypedDict(TypedDict):
     output: str
     pipeline: NotRequired[str]
 
 
-class CreateInputInputPrometheusConnection(BaseModel):
+class ConnectionPrometheus(BaseModel):
     output: str
 
     pipeline: Optional[str] = None
 
 
-class CreateInputInputPrometheusMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputModePrometheus(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputPrometheusCompression(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputCompressionPrometheus(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class CreateInputInputPrometheusPqTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputPrometheusMode]
+class PqPrometheusTypedDict(TypedDict):
+    mode: NotRequired[CreateInputModePrometheus]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
@@ -12095,15 +11428,12 @@ class CreateInputInputPrometheusPqTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
-    compress: NotRequired[CreateInputInputPrometheusCompression]
+    compress: NotRequired[CreateInputCompressionPrometheus]
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputPrometheusPq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputPrometheusMode],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputPrometheusMode.ALWAYS
+class PqPrometheus(BaseModel):
+    mode: Optional[CreateInputModePrometheus] = CreateInputModePrometheus.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -12127,14 +11457,13 @@ class CreateInputInputPrometheusPq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputPrometheusCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputPrometheusCompression.NONE
+    compress: Optional[CreateInputCompressionPrometheus] = (
+        CreateInputCompressionPrometheus.NONE
+    )
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputPrometheusDiscoveryType(str, Enum, metaclass=utils.OpenEnumMeta):
+class DiscoveryTypePrometheus(str, Enum):
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
 
     STATIC = "static"
@@ -12142,7 +11471,7 @@ class CreateInputInputPrometheusDiscoveryType(str, Enum, metaclass=utils.OpenEnu
     EC2 = "ec2"
 
 
-class CreateInputInputPrometheusLogLevel(str, Enum, metaclass=utils.OpenEnumMeta):
+class LogLevelPrometheus(str, Enum):
     r"""Collector runtime Log Level"""
 
     ERROR = "error"
@@ -12151,29 +11480,27 @@ class CreateInputInputPrometheusLogLevel(str, Enum, metaclass=utils.OpenEnumMeta
     DEBUG = "debug"
 
 
-class CreateInputInputPrometheusMetadatumTypedDict(TypedDict):
+class MetadatumPrometheusTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputPrometheusMetadatum(BaseModel):
+class MetadatumPrometheus(BaseModel):
     name: str
 
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputPrometheusAuthTypeAuthenticationMethod(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class AuthTypeAuthenticationMethodPrometheus(str, Enum):
     r"""Enter credentials directly, or select a stored secret"""
 
     MANUAL = "manual"
     SECRET = "secret"
 
 
-class CreateInputInputPrometheusRecordType(str, Enum, metaclass=utils.OpenEnumMeta):
+class RecordTypePrometheus(str, Enum):
     r"""DNS Record type to resolve"""
 
     SRV = "SRV"
@@ -12181,21 +11508,21 @@ class CreateInputInputPrometheusRecordType(str, Enum, metaclass=utils.OpenEnumMe
     AAAA = "AAAA"
 
 
-class CreateInputMetricsProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputMetricsProtocol(str, Enum):
     r"""Protocol to use when collecting metrics"""
 
     HTTP = "http"
     HTTPS = "https"
 
 
-class CreateInputInputPrometheusSearchFilterTypedDict(TypedDict):
+class SearchFilterPrometheusTypedDict(TypedDict):
     name: str
     r"""Search filter attribute name, see: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html for more information. Attributes can be manually entered if not present in the drop down list"""
     values: List[str]
     r"""Search Filter Values, if empty only \"running\" EC2 instances will be returned"""
 
 
-class CreateInputInputPrometheusSearchFilter(BaseModel):
+class SearchFilterPrometheus(BaseModel):
     name: Annotated[str, pydantic.Field(alias="Name")]
     r"""Search filter attribute name, see: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html for more information. Attributes can be manually entered if not present in the drop down list"""
 
@@ -12203,9 +11530,7 @@ class CreateInputInputPrometheusSearchFilter(BaseModel):
     r"""Search Filter Values, if empty only \"running\" EC2 instances will be returned"""
 
 
-class CreateInputInputPrometheusAwsAuthenticationMethodAuthenticationMethod(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class AwsAuthenticationMethodAuthenticationMethodPrometheus(str, Enum):
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     AUTO = "auto"
@@ -12213,9 +11538,7 @@ class CreateInputInputPrometheusAwsAuthenticationMethodAuthenticationMethod(
     SECRET = "secret"
 
 
-class CreateInputInputPrometheusSignatureVersion(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class SignatureVersionPrometheus(str, Enum):
     r"""Signature version to use for signing EC2 requests"""
 
     V2 = "v2"
@@ -12225,7 +11548,7 @@ class CreateInputInputPrometheusSignatureVersion(
 class CreateInputInputPrometheusTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: NotRequired[CreateInputInputPrometheusType]
+    type: NotRequired[CreateInputTypePrometheus]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -12237,16 +11560,16 @@ class CreateInputInputPrometheusTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[CreateInputInputPrometheusConnectionTypedDict]]
+    connections: NotRequired[List[ConnectionPrometheusTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[CreateInputInputPrometheusPqTypedDict]
+    pq: NotRequired[PqPrometheusTypedDict]
     dimension_list: NotRequired[List[str]]
     r"""Other dimensions to include in events"""
-    discovery_type: NotRequired[CreateInputInputPrometheusDiscoveryType]
+    discovery_type: NotRequired[DiscoveryTypePrometheus]
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
     interval: NotRequired[float]
     r"""How often in minutes to scrape targets for metrics, 60 must be evenly divisible by the value or save will fail."""
-    log_level: NotRequired[CreateInputInputPrometheusLogLevel]
+    log_level: NotRequired[LogLevelPrometheus]
     r"""Collector runtime Log Level"""
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
@@ -12260,16 +11583,16 @@ class CreateInputInputPrometheusTypedDict(TypedDict):
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
     ignore_group_jobs_limit: NotRequired[bool]
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
-    metadata: NotRequired[List[CreateInputInputPrometheusMetadatumTypedDict]]
+    metadata: NotRequired[List[MetadatumPrometheusTypedDict]]
     r"""Fields to add to events from this input"""
-    auth_type: NotRequired[CreateInputInputPrometheusAuthTypeAuthenticationMethod]
+    auth_type: NotRequired[AuthTypeAuthenticationMethodPrometheus]
     r"""Enter credentials directly, or select a stored secret"""
     description: NotRequired[str]
     target_list: NotRequired[List[str]]
     r"""List of Prometheus targets to pull metrics from. Values can be in URL or host[:port] format. For example: http://localhost:9090/metrics, localhost:9090, or localhost. In cases where just host[:port] is specified, the endpoint will resolve to 'http://host[:port]/metrics'."""
     name_list: NotRequired[List[str]]
     r"""List of DNS names to resolve"""
-    record_type: NotRequired[CreateInputInputPrometheusRecordType]
+    record_type: NotRequired[RecordTypePrometheus]
     r"""DNS Record type to resolve"""
     scrape_protocol: NotRequired[CreateInputMetricsProtocol]
     r"""Protocol to use when collecting metrics"""
@@ -12279,10 +11602,10 @@ class CreateInputInputPrometheusTypedDict(TypedDict):
     r"""Use public IP address for discovered targets. Set to false if the private IP address should be used."""
     scrape_port: NotRequired[float]
     r"""The port number in the metrics URL for discovered targets."""
-    search_filter: NotRequired[List[CreateInputInputPrometheusSearchFilterTypedDict]]
+    search_filter: NotRequired[List[SearchFilterPrometheusTypedDict]]
     r"""EC2 Instance Search Filter"""
     aws_authentication_method: NotRequired[
-        CreateInputInputPrometheusAwsAuthenticationMethodAuthenticationMethod
+        AwsAuthenticationMethodAuthenticationMethodPrometheus
     ]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
@@ -12290,7 +11613,7 @@ class CreateInputInputPrometheusTypedDict(TypedDict):
     r"""Region where the EC2 is located"""
     endpoint: NotRequired[str]
     r"""EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint."""
-    signature_version: NotRequired[CreateInputInputPrometheusSignatureVersion]
+    signature_version: NotRequired[SignatureVersionPrometheus]
     r"""Signature version to use for signing EC2 requests"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
@@ -12314,10 +11637,7 @@ class CreateInputInputPrometheus(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: Annotated[
-        Optional[CreateInputInputPrometheusType],
-        PlainValidator(validate_open_enum(False)),
-    ] = None
+    type: Optional[CreateInputTypePrometheus] = None
 
     disabled: Optional[bool] = False
 
@@ -12338,10 +11658,10 @@ class CreateInputInputPrometheus(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[CreateInputInputPrometheusConnection]] = None
+    connections: Optional[List[ConnectionPrometheus]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[CreateInputInputPrometheusPq] = None
+    pq: Optional[PqPrometheus] = None
 
     dimension_list: Annotated[
         Optional[List[str]], pydantic.Field(alias="dimensionList")
@@ -12349,24 +11669,16 @@ class CreateInputInputPrometheus(BaseModel):
     r"""Other dimensions to include in events"""
 
     discovery_type: Annotated[
-        Annotated[
-            Optional[CreateInputInputPrometheusDiscoveryType],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="discoveryType"),
-    ] = CreateInputInputPrometheusDiscoveryType.STATIC
+        Optional[DiscoveryTypePrometheus], pydantic.Field(alias="discoveryType")
+    ] = DiscoveryTypePrometheus.STATIC
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
 
     interval: Optional[float] = 15
     r"""How often in minutes to scrape targets for metrics, 60 must be evenly divisible by the value or save will fail."""
 
     log_level: Annotated[
-        Annotated[
-            Optional[CreateInputInputPrometheusLogLevel],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="logLevel"),
-    ] = CreateInputInputPrometheusLogLevel.INFO
+        Optional[LogLevelPrometheus], pydantic.Field(alias="logLevel")
+    ] = LogLevelPrometheus.INFO
     r"""Collector runtime Log Level"""
 
     reject_unauthorized: Annotated[
@@ -12395,16 +11707,13 @@ class CreateInputInputPrometheus(BaseModel):
     ] = False
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
 
-    metadata: Optional[List[CreateInputInputPrometheusMetadatum]] = None
+    metadata: Optional[List[MetadatumPrometheus]] = None
     r"""Fields to add to events from this input"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[CreateInputInputPrometheusAuthTypeAuthenticationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthTypeAuthenticationMethodPrometheus],
         pydantic.Field(alias="authType"),
-    ] = CreateInputInputPrometheusAuthTypeAuthenticationMethod.MANUAL
+    ] = AuthTypeAuthenticationMethodPrometheus.MANUAL
     r"""Enter credentials directly, or select a stored secret"""
 
     description: Optional[str] = None
@@ -12418,20 +11727,12 @@ class CreateInputInputPrometheus(BaseModel):
     r"""List of DNS names to resolve"""
 
     record_type: Annotated[
-        Annotated[
-            Optional[CreateInputInputPrometheusRecordType],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="recordType"),
-    ] = CreateInputInputPrometheusRecordType.SRV
+        Optional[RecordTypePrometheus], pydantic.Field(alias="recordType")
+    ] = RecordTypePrometheus.SRV
     r"""DNS Record type to resolve"""
 
     scrape_protocol: Annotated[
-        Annotated[
-            Optional[CreateInputMetricsProtocol],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="scrapeProtocol"),
+        Optional[CreateInputMetricsProtocol], pydantic.Field(alias="scrapeProtocol")
     ] = CreateInputMetricsProtocol.HTTP
     r"""Protocol to use when collecting metrics"""
 
@@ -12447,20 +11748,14 @@ class CreateInputInputPrometheus(BaseModel):
     r"""The port number in the metrics URL for discovered targets."""
 
     search_filter: Annotated[
-        Optional[List[CreateInputInputPrometheusSearchFilter]],
-        pydantic.Field(alias="searchFilter"),
+        Optional[List[SearchFilterPrometheus]], pydantic.Field(alias="searchFilter")
     ] = None
     r"""EC2 Instance Search Filter"""
 
     aws_authentication_method: Annotated[
-        Annotated[
-            Optional[
-                CreateInputInputPrometheusAwsAuthenticationMethodAuthenticationMethod
-            ],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AwsAuthenticationMethodAuthenticationMethodPrometheus],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = CreateInputInputPrometheusAwsAuthenticationMethodAuthenticationMethod.AUTO
+    ] = AwsAuthenticationMethodAuthenticationMethodPrometheus.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -12474,12 +11769,8 @@ class CreateInputInputPrometheus(BaseModel):
     r"""EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint."""
 
     signature_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputPrometheusSignatureVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="signatureVersion"),
-    ] = CreateInputInputPrometheusSignatureVersion.V4
+        Optional[SignatureVersionPrometheus], pydantic.Field(alias="signatureVersion")
+    ] = SignatureVersionPrometheus.V4
     r"""Signature version to use for signing EC2 requests"""
 
     reuse_connections: Annotated[
@@ -12519,37 +11810,37 @@ class CreateInputInputPrometheus(BaseModel):
     r"""Select or create a secret that references your credentials"""
 
 
-class CreateInputInputPrometheusRwType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputTypePrometheusRw(str, Enum):
     PROMETHEUS_RW = "prometheus_rw"
 
 
-class CreateInputInputPrometheusRwConnectionTypedDict(TypedDict):
+class ConnectionPrometheusRwTypedDict(TypedDict):
     output: str
     pipeline: NotRequired[str]
 
 
-class CreateInputInputPrometheusRwConnection(BaseModel):
+class ConnectionPrometheusRw(BaseModel):
     output: str
 
     pipeline: Optional[str] = None
 
 
-class CreateInputInputPrometheusRwMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ModePrometheusRw(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputPrometheusRwCompression(str, Enum, metaclass=utils.OpenEnumMeta):
+class CompressionPrometheusRw(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class CreateInputInputPrometheusRwPqTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputPrometheusRwMode]
+class PqPrometheusRwTypedDict(TypedDict):
+    mode: NotRequired[ModePrometheusRw]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
@@ -12561,15 +11852,12 @@ class CreateInputInputPrometheusRwPqTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
-    compress: NotRequired[CreateInputInputPrometheusRwCompression]
+    compress: NotRequired[CompressionPrometheusRw]
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputPrometheusRwPq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputPrometheusRwMode],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputPrometheusRwMode.ALWAYS
+class PqPrometheusRw(BaseModel):
+    mode: Optional[ModePrometheusRw] = ModePrometheusRw.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -12593,32 +11881,25 @@ class CreateInputInputPrometheusRwPq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputPrometheusRwCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputPrometheusRwCompression.NONE
+    compress: Optional[CompressionPrometheusRw] = CompressionPrometheusRw.NONE
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputPrometheusRwMinimumTLSVersion(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class MinimumTLSVersionPrometheusRw(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputPrometheusRwMaximumTLSVersion(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class MaximumTLSVersionPrometheusRw(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputPrometheusRwTLSSettingsServerSideTypedDict(TypedDict):
+class TLSSettingsServerSidePrometheusRwTypedDict(TypedDict):
     disabled: NotRequired[bool]
     certificate_name: NotRequired[str]
     r"""The name of the predefined certificate"""
@@ -12634,11 +11915,11 @@ class CreateInputInputPrometheusRwTLSSettingsServerSideTypedDict(TypedDict):
     r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
     reject_unauthorized: NotRequired[Any]
     common_name_regex: NotRequired[Any]
-    min_version: NotRequired[CreateInputInputPrometheusRwMinimumTLSVersion]
-    max_version: NotRequired[CreateInputInputPrometheusRwMaximumTLSVersion]
+    min_version: NotRequired[MinimumTLSVersionPrometheusRw]
+    max_version: NotRequired[MaximumTLSVersionPrometheusRw]
 
 
-class CreateInputInputPrometheusRwTLSSettingsServerSide(BaseModel):
+class TLSSettingsServerSidePrometheusRw(BaseModel):
     disabled: Optional[bool] = True
 
     certificate_name: Annotated[
@@ -12670,25 +11951,15 @@ class CreateInputInputPrometheusRwTLSSettingsServerSide(BaseModel):
     ] = None
 
     min_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputPrometheusRwMinimumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="minVersion"),
+        Optional[MinimumTLSVersionPrometheusRw], pydantic.Field(alias="minVersion")
     ] = None
 
     max_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputPrometheusRwMaximumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="maxVersion"),
+        Optional[MaximumTLSVersionPrometheusRw], pydantic.Field(alias="maxVersion")
     ] = None
 
 
-class CreateInputInputPrometheusRwAuthenticationType(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class AuthenticationTypePrometheusRw(str, Enum):
     r"""Remote Write authentication type"""
 
     NONE = "none"
@@ -12699,27 +11970,27 @@ class CreateInputInputPrometheusRwAuthenticationType(
     OAUTH = "oauth"
 
 
-class CreateInputInputPrometheusRwMetadatumTypedDict(TypedDict):
+class MetadatumPrometheusRwTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputPrometheusRwMetadatum(BaseModel):
+class MetadatumPrometheusRw(BaseModel):
     name: str
 
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputPrometheusRwOauthParamTypedDict(TypedDict):
+class OauthParamPrometheusRwTypedDict(TypedDict):
     name: str
     r"""OAuth parameter name"""
     value: str
     r"""OAuth parameter value"""
 
 
-class CreateInputInputPrometheusRwOauthParam(BaseModel):
+class OauthParamPrometheusRw(BaseModel):
     name: str
     r"""OAuth parameter name"""
 
@@ -12727,14 +11998,14 @@ class CreateInputInputPrometheusRwOauthParam(BaseModel):
     r"""OAuth parameter value"""
 
 
-class CreateInputInputPrometheusRwOauthHeaderTypedDict(TypedDict):
+class OauthHeaderPrometheusRwTypedDict(TypedDict):
     name: str
     r"""OAuth header name"""
     value: str
     r"""OAuth header value"""
 
 
-class CreateInputInputPrometheusRwOauthHeader(BaseModel):
+class OauthHeaderPrometheusRw(BaseModel):
     name: str
     r"""OAuth header name"""
 
@@ -12747,7 +12018,7 @@ class CreateInputInputPrometheusRwTypedDict(TypedDict):
     r"""Unique ID for this input"""
     port: float
     r"""Port to listen on"""
-    type: NotRequired[CreateInputInputPrometheusRwType]
+    type: NotRequired[CreateInputTypePrometheusRw]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -12759,12 +12030,12 @@ class CreateInputInputPrometheusRwTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[CreateInputInputPrometheusRwConnectionTypedDict]]
+    connections: NotRequired[List[ConnectionPrometheusRwTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[CreateInputInputPrometheusRwPqTypedDict]
+    pq: NotRequired[PqPrometheusRwTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-    tls: NotRequired[CreateInputInputPrometheusRwTLSSettingsServerSideTypedDict]
+    tls: NotRequired[TLSSettingsServerSidePrometheusRwTypedDict]
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -12789,9 +12060,9 @@ class CreateInputInputPrometheusRwTypedDict(TypedDict):
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
     prometheus_api: NotRequired[str]
     r"""Absolute path on which to listen for Prometheus requests. Defaults to /write, which will expand as: http://<your‑upstream‑URL>:<your‑port>/write."""
-    auth_type: NotRequired[CreateInputInputPrometheusRwAuthenticationType]
+    auth_type: NotRequired[AuthenticationTypePrometheusRw]
     r"""Remote Write authentication type"""
-    metadata: NotRequired[List[CreateInputInputPrometheusRwMetadatumTypedDict]]
+    metadata: NotRequired[List[MetadatumPrometheusRwTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
     username: NotRequired[str]
@@ -12814,9 +12085,9 @@ class CreateInputInputPrometheusRwTypedDict(TypedDict):
     r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
     token_timeout_secs: NotRequired[float]
     r"""How often the OAuth token should be refreshed."""
-    oauth_params: NotRequired[List[CreateInputInputPrometheusRwOauthParamTypedDict]]
+    oauth_params: NotRequired[List[OauthParamPrometheusRwTypedDict]]
     r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-    oauth_headers: NotRequired[List[CreateInputInputPrometheusRwOauthHeaderTypedDict]]
+    oauth_headers: NotRequired[List[OauthHeaderPrometheusRwTypedDict]]
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
 
@@ -12827,10 +12098,7 @@ class CreateInputInputPrometheusRw(BaseModel):
     port: float
     r"""Port to listen on"""
 
-    type: Annotated[
-        Optional[CreateInputInputPrometheusRwType],
-        PlainValidator(validate_open_enum(False)),
-    ] = None
+    type: Optional[CreateInputTypePrometheusRw] = None
 
     disabled: Optional[bool] = False
 
@@ -12851,15 +12119,15 @@ class CreateInputInputPrometheusRw(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[CreateInputInputPrometheusRwConnection]] = None
+    connections: Optional[List[ConnectionPrometheusRw]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[CreateInputInputPrometheusRwPq] = None
+    pq: Optional[PqPrometheusRw] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
 
-    tls: Optional[CreateInputInputPrometheusRwTLSSettingsServerSide] = None
+    tls: Optional[TLSSettingsServerSidePrometheusRw] = None
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         256
@@ -12922,15 +12190,11 @@ class CreateInputInputPrometheusRw(BaseModel):
     r"""Absolute path on which to listen for Prometheus requests. Defaults to /write, which will expand as: http://<your‑upstream‑URL>:<your‑port>/write."""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[CreateInputInputPrometheusRwAuthenticationType],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
-    ] = CreateInputInputPrometheusRwAuthenticationType.NONE
+        Optional[AuthenticationTypePrometheusRw], pydantic.Field(alias="authType")
+    ] = AuthenticationTypePrometheusRw.NONE
     r"""Remote Write authentication type"""
 
-    metadata: Optional[List[CreateInputInputPrometheusRwMetadatum]] = None
+    metadata: Optional[List[MetadatumPrometheusRw]] = None
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
@@ -12977,49 +12241,47 @@ class CreateInputInputPrometheusRw(BaseModel):
     r"""How often the OAuth token should be refreshed."""
 
     oauth_params: Annotated[
-        Optional[List[CreateInputInputPrometheusRwOauthParam]],
-        pydantic.Field(alias="oauthParams"),
+        Optional[List[OauthParamPrometheusRw]], pydantic.Field(alias="oauthParams")
     ] = None
     r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
     oauth_headers: Annotated[
-        Optional[List[CreateInputInputPrometheusRwOauthHeader]],
-        pydantic.Field(alias="oauthHeaders"),
+        Optional[List[OauthHeaderPrometheusRw]], pydantic.Field(alias="oauthHeaders")
     ] = None
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
 
-class CreateInputInputLokiType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputTypeLoki(str, Enum):
     LOKI = "loki"
 
 
-class CreateInputInputLokiConnectionTypedDict(TypedDict):
+class ConnectionLokiTypedDict(TypedDict):
     output: str
     pipeline: NotRequired[str]
 
 
-class CreateInputInputLokiConnection(BaseModel):
+class ConnectionLoki(BaseModel):
     output: str
 
     pipeline: Optional[str] = None
 
 
-class CreateInputInputLokiMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputModeLoki(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputLokiCompression(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputCompressionLoki(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class CreateInputInputLokiPqTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputLokiMode]
+class PqLokiTypedDict(TypedDict):
+    mode: NotRequired[CreateInputModeLoki]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
@@ -13031,14 +12293,12 @@ class CreateInputInputLokiPqTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
-    compress: NotRequired[CreateInputInputLokiCompression]
+    compress: NotRequired[CreateInputCompressionLoki]
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputLokiPq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputLokiMode], PlainValidator(validate_open_enum(False))
-    ] = CreateInputInputLokiMode.ALWAYS
+class PqLoki(BaseModel):
+    mode: Optional[CreateInputModeLoki] = CreateInputModeLoki.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -13062,28 +12322,25 @@ class CreateInputInputLokiPq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputLokiCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputLokiCompression.NONE
+    compress: Optional[CreateInputCompressionLoki] = CreateInputCompressionLoki.NONE
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputLokiMinimumTLSVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+class MinimumTLSVersionLoki(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputLokiMaximumTLSVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+class MaximumTLSVersionLoki(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputLokiTLSSettingsServerSideTypedDict(TypedDict):
+class TLSSettingsServerSideLokiTypedDict(TypedDict):
     disabled: NotRequired[bool]
     certificate_name: NotRequired[str]
     r"""The name of the predefined certificate"""
@@ -13099,11 +12356,11 @@ class CreateInputInputLokiTLSSettingsServerSideTypedDict(TypedDict):
     r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
     reject_unauthorized: NotRequired[Any]
     common_name_regex: NotRequired[Any]
-    min_version: NotRequired[CreateInputInputLokiMinimumTLSVersion]
-    max_version: NotRequired[CreateInputInputLokiMaximumTLSVersion]
+    min_version: NotRequired[MinimumTLSVersionLoki]
+    max_version: NotRequired[MaximumTLSVersionLoki]
 
 
-class CreateInputInputLokiTLSSettingsServerSide(BaseModel):
+class TLSSettingsServerSideLoki(BaseModel):
     disabled: Optional[bool] = True
 
     certificate_name: Annotated[
@@ -13135,23 +12392,15 @@ class CreateInputInputLokiTLSSettingsServerSide(BaseModel):
     ] = None
 
     min_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputLokiMinimumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="minVersion"),
+        Optional[MinimumTLSVersionLoki], pydantic.Field(alias="minVersion")
     ] = None
 
     max_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputLokiMaximumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="maxVersion"),
+        Optional[MaximumTLSVersionLoki], pydantic.Field(alias="maxVersion")
     ] = None
 
 
-class CreateInputInputLokiAuthenticationType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputAuthenticationTypeLoki(str, Enum):
     r"""Loki logs authentication type"""
 
     NONE = "none"
@@ -13162,27 +12411,27 @@ class CreateInputInputLokiAuthenticationType(str, Enum, metaclass=utils.OpenEnum
     OAUTH = "oauth"
 
 
-class CreateInputInputLokiMetadatumTypedDict(TypedDict):
+class MetadatumLokiTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputLokiMetadatum(BaseModel):
+class MetadatumLoki(BaseModel):
     name: str
 
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputLokiOauthParamTypedDict(TypedDict):
+class OauthParamLokiTypedDict(TypedDict):
     name: str
     r"""OAuth parameter name"""
     value: str
     r"""OAuth parameter value"""
 
 
-class CreateInputInputLokiOauthParam(BaseModel):
+class OauthParamLoki(BaseModel):
     name: str
     r"""OAuth parameter name"""
 
@@ -13190,14 +12439,14 @@ class CreateInputInputLokiOauthParam(BaseModel):
     r"""OAuth parameter value"""
 
 
-class CreateInputInputLokiOauthHeaderTypedDict(TypedDict):
+class OauthHeaderLokiTypedDict(TypedDict):
     name: str
     r"""OAuth header name"""
     value: str
     r"""OAuth header value"""
 
 
-class CreateInputInputLokiOauthHeader(BaseModel):
+class OauthHeaderLoki(BaseModel):
     name: str
     r"""OAuth header name"""
 
@@ -13210,7 +12459,7 @@ class CreateInputInputLokiTypedDict(TypedDict):
     r"""Unique ID for this input"""
     port: float
     r"""Port to listen on"""
-    type: NotRequired[CreateInputInputLokiType]
+    type: NotRequired[CreateInputTypeLoki]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -13222,12 +12471,12 @@ class CreateInputInputLokiTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[CreateInputInputLokiConnectionTypedDict]]
+    connections: NotRequired[List[ConnectionLokiTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[CreateInputInputLokiPqTypedDict]
+    pq: NotRequired[PqLokiTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-    tls: NotRequired[CreateInputInputLokiTLSSettingsServerSideTypedDict]
+    tls: NotRequired[TLSSettingsServerSideLokiTypedDict]
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -13252,9 +12501,9 @@ class CreateInputInputLokiTypedDict(TypedDict):
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
     loki_api: NotRequired[str]
     r"""Absolute path on which to listen for Loki logs requests. Defaults to /loki/api/v1/push, which will (in this example) expand as: 'http://<your‑upstream‑URL>:<your‑port>/loki/api/v1/push'."""
-    auth_type: NotRequired[CreateInputInputLokiAuthenticationType]
+    auth_type: NotRequired[CreateInputAuthenticationTypeLoki]
     r"""Loki logs authentication type"""
-    metadata: NotRequired[List[CreateInputInputLokiMetadatumTypedDict]]
+    metadata: NotRequired[List[MetadatumLokiTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
     username: NotRequired[str]
@@ -13277,9 +12526,9 @@ class CreateInputInputLokiTypedDict(TypedDict):
     r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
     token_timeout_secs: NotRequired[float]
     r"""How often the OAuth token should be refreshed."""
-    oauth_params: NotRequired[List[CreateInputInputLokiOauthParamTypedDict]]
+    oauth_params: NotRequired[List[OauthParamLokiTypedDict]]
     r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-    oauth_headers: NotRequired[List[CreateInputInputLokiOauthHeaderTypedDict]]
+    oauth_headers: NotRequired[List[OauthHeaderLokiTypedDict]]
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
 
@@ -13290,9 +12539,7 @@ class CreateInputInputLoki(BaseModel):
     port: float
     r"""Port to listen on"""
 
-    type: Annotated[
-        Optional[CreateInputInputLokiType], PlainValidator(validate_open_enum(False))
-    ] = None
+    type: Optional[CreateInputTypeLoki] = None
 
     disabled: Optional[bool] = False
 
@@ -13313,15 +12560,15 @@ class CreateInputInputLoki(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[CreateInputInputLokiConnection]] = None
+    connections: Optional[List[ConnectionLoki]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[CreateInputInputLokiPq] = None
+    pq: Optional[PqLoki] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
 
-    tls: Optional[CreateInputInputLokiTLSSettingsServerSide] = None
+    tls: Optional[TLSSettingsServerSideLoki] = None
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         256
@@ -13384,15 +12631,11 @@ class CreateInputInputLoki(BaseModel):
     r"""Absolute path on which to listen for Loki logs requests. Defaults to /loki/api/v1/push, which will (in this example) expand as: 'http://<your‑upstream‑URL>:<your‑port>/loki/api/v1/push'."""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[CreateInputInputLokiAuthenticationType],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
-    ] = CreateInputInputLokiAuthenticationType.NONE
+        Optional[CreateInputAuthenticationTypeLoki], pydantic.Field(alias="authType")
+    ] = CreateInputAuthenticationTypeLoki.NONE
     r"""Loki logs authentication type"""
 
-    metadata: Optional[List[CreateInputInputLokiMetadatum]] = None
+    metadata: Optional[List[MetadatumLoki]] = None
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
@@ -13439,19 +12682,17 @@ class CreateInputInputLoki(BaseModel):
     r"""How often the OAuth token should be refreshed."""
 
     oauth_params: Annotated[
-        Optional[List[CreateInputInputLokiOauthParam]],
-        pydantic.Field(alias="oauthParams"),
+        Optional[List[OauthParamLoki]], pydantic.Field(alias="oauthParams")
     ] = None
     r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
     oauth_headers: Annotated[
-        Optional[List[CreateInputInputLokiOauthHeader]],
-        pydantic.Field(alias="oauthHeaders"),
+        Optional[List[OauthHeaderLoki]], pydantic.Field(alias="oauthHeaders")
     ] = None
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
 
-class CreateInputInputGrafanaType2(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputInputGrafanaType2(str, Enum):
     GRAFANA = "grafana"
 
 
@@ -13466,14 +12707,14 @@ class CreateInputInputGrafanaConnection2(BaseModel):
     pipeline: Optional[str] = None
 
 
-class CreateInputInputGrafanaMode2(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputInputGrafanaMode2(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputGrafanaCompression2(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputInputGrafanaCompression2(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
@@ -13498,10 +12739,7 @@ class CreateInputInputGrafanaPq2TypedDict(TypedDict):
 
 
 class CreateInputInputGrafanaPq2(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputGrafanaMode2],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputGrafanaMode2.ALWAYS
+    mode: Optional[CreateInputInputGrafanaMode2] = CreateInputInputGrafanaMode2.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -13525,25 +12763,20 @@ class CreateInputInputGrafanaPq2(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputGrafanaCompression2],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputGrafanaCompression2.NONE
+    compress: Optional[CreateInputInputGrafanaCompression2] = (
+        CreateInputInputGrafanaCompression2.NONE
+    )
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputGrafanaMinimumTLSVersion2(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class CreateInputInputGrafanaMinimumTLSVersion2(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputGrafanaMaximumTLSVersion2(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class CreateInputInputGrafanaMaximumTLSVersion2(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
@@ -13602,25 +12835,17 @@ class CreateInputInputGrafanaTLSSettingsServerSide2(BaseModel):
     ] = None
 
     min_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputGrafanaMinimumTLSVersion2],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[CreateInputInputGrafanaMinimumTLSVersion2],
         pydantic.Field(alias="minVersion"),
     ] = None
 
     max_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputGrafanaMaximumTLSVersion2],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[CreateInputInputGrafanaMaximumTLSVersion2],
         pydantic.Field(alias="maxVersion"),
     ] = None
 
 
-class CreateInputPrometheusAuthAuthenticationType2(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class CreateInputPrometheusAuthAuthenticationType2(str, Enum):
     r"""Remote Write authentication type"""
 
     NONE = "none"
@@ -13692,10 +12917,7 @@ class CreateInputPrometheusAuth2TypedDict(TypedDict):
 
 class CreateInputPrometheusAuth2(BaseModel):
     auth_type: Annotated[
-        Annotated[
-            Optional[CreateInputPrometheusAuthAuthenticationType2],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[CreateInputPrometheusAuthAuthenticationType2],
         pydantic.Field(alias="authType"),
     ] = CreateInputPrometheusAuthAuthenticationType2.NONE
     r"""Remote Write authentication type"""
@@ -13754,7 +12976,7 @@ class CreateInputPrometheusAuth2(BaseModel):
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
 
-class CreateInputLokiAuthAuthenticationType2(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputLokiAuthAuthenticationType2(str, Enum):
     r"""Loki logs authentication type"""
 
     NONE = "none"
@@ -13826,10 +13048,7 @@ class CreateInputLokiAuth2TypedDict(TypedDict):
 
 class CreateInputLokiAuth2(BaseModel):
     auth_type: Annotated[
-        Annotated[
-            Optional[CreateInputLokiAuthAuthenticationType2],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[CreateInputLokiAuthAuthenticationType2],
         pydantic.Field(alias="authType"),
     ] = CreateInputLokiAuthAuthenticationType2.NONE
     r"""Loki logs authentication type"""
@@ -13901,7 +13120,7 @@ class CreateInputInputGrafanaMetadatum2(BaseModel):
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputGrafana2TypedDict(TypedDict):
+class CreateInputInputGrafanaGrafana2TypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     port: float
@@ -13957,17 +13176,14 @@ class CreateInputInputGrafana2TypedDict(TypedDict):
     description: NotRequired[str]
 
 
-class CreateInputInputGrafana2(BaseModel):
+class CreateInputInputGrafanaGrafana2(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
     port: float
     r"""Port to listen on"""
 
-    type: Annotated[
-        Optional[CreateInputInputGrafanaType2],
-        PlainValidator(validate_open_enum(False)),
-    ] = None
+    type: Optional[CreateInputInputGrafanaType2] = None
 
     disabled: Optional[bool] = False
 
@@ -14077,7 +13293,7 @@ class CreateInputInputGrafana2(BaseModel):
     description: Optional[str] = None
 
 
-class CreateInputInputGrafanaType1(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputInputGrafanaType1(str, Enum):
     GRAFANA = "grafana"
 
 
@@ -14092,14 +13308,14 @@ class CreateInputInputGrafanaConnection1(BaseModel):
     pipeline: Optional[str] = None
 
 
-class CreateInputInputGrafanaMode1(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputInputGrafanaMode1(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputGrafanaCompression1(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputInputGrafanaCompression1(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
@@ -14124,10 +13340,7 @@ class CreateInputInputGrafanaPq1TypedDict(TypedDict):
 
 
 class CreateInputInputGrafanaPq1(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputGrafanaMode1],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputGrafanaMode1.ALWAYS
+    mode: Optional[CreateInputInputGrafanaMode1] = CreateInputInputGrafanaMode1.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -14151,25 +13364,20 @@ class CreateInputInputGrafanaPq1(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputGrafanaCompression1],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputGrafanaCompression1.NONE
+    compress: Optional[CreateInputInputGrafanaCompression1] = (
+        CreateInputInputGrafanaCompression1.NONE
+    )
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputGrafanaMinimumTLSVersion1(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class CreateInputInputGrafanaMinimumTLSVersion1(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputGrafanaMaximumTLSVersion1(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class CreateInputInputGrafanaMaximumTLSVersion1(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
@@ -14228,25 +13436,17 @@ class CreateInputInputGrafanaTLSSettingsServerSide1(BaseModel):
     ] = None
 
     min_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputGrafanaMinimumTLSVersion1],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[CreateInputInputGrafanaMinimumTLSVersion1],
         pydantic.Field(alias="minVersion"),
     ] = None
 
     max_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputGrafanaMaximumTLSVersion1],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[CreateInputInputGrafanaMaximumTLSVersion1],
         pydantic.Field(alias="maxVersion"),
     ] = None
 
 
-class CreateInputPrometheusAuthAuthenticationType1(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class CreateInputPrometheusAuthAuthenticationType1(str, Enum):
     r"""Remote Write authentication type"""
 
     NONE = "none"
@@ -14318,10 +13518,7 @@ class CreateInputPrometheusAuth1TypedDict(TypedDict):
 
 class CreateInputPrometheusAuth1(BaseModel):
     auth_type: Annotated[
-        Annotated[
-            Optional[CreateInputPrometheusAuthAuthenticationType1],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[CreateInputPrometheusAuthAuthenticationType1],
         pydantic.Field(alias="authType"),
     ] = CreateInputPrometheusAuthAuthenticationType1.NONE
     r"""Remote Write authentication type"""
@@ -14380,7 +13577,7 @@ class CreateInputPrometheusAuth1(BaseModel):
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
 
-class CreateInputLokiAuthAuthenticationType1(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputLokiAuthAuthenticationType1(str, Enum):
     r"""Loki logs authentication type"""
 
     NONE = "none"
@@ -14452,10 +13649,7 @@ class CreateInputLokiAuth1TypedDict(TypedDict):
 
 class CreateInputLokiAuth1(BaseModel):
     auth_type: Annotated[
-        Annotated[
-            Optional[CreateInputLokiAuthAuthenticationType1],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[CreateInputLokiAuthAuthenticationType1],
         pydantic.Field(alias="authType"),
     ] = CreateInputLokiAuthAuthenticationType1.NONE
     r"""Loki logs authentication type"""
@@ -14527,7 +13721,7 @@ class CreateInputInputGrafanaMetadatum1(BaseModel):
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputGrafana1TypedDict(TypedDict):
+class CreateInputInputGrafanaGrafana1TypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     port: float
@@ -14583,17 +13777,14 @@ class CreateInputInputGrafana1TypedDict(TypedDict):
     description: NotRequired[str]
 
 
-class CreateInputInputGrafana1(BaseModel):
+class CreateInputInputGrafanaGrafana1(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
     port: float
     r"""Port to listen on"""
 
-    type: Annotated[
-        Optional[CreateInputInputGrafanaType1],
-        PlainValidator(validate_open_enum(False)),
-    ] = None
+    type: Optional[CreateInputInputGrafanaType1] = None
 
     disabled: Optional[bool] = False
 
@@ -14705,49 +13896,50 @@ class CreateInputInputGrafana1(BaseModel):
 
 CreateInputInputGrafanaUnionTypedDict = TypeAliasType(
     "CreateInputInputGrafanaUnionTypedDict",
-    Union[CreateInputInputGrafana1TypedDict, CreateInputInputGrafana2TypedDict],
+    Union[
+        CreateInputInputGrafanaGrafana1TypedDict,
+        CreateInputInputGrafanaGrafana2TypedDict,
+    ],
 )
 
 
 CreateInputInputGrafanaUnion = TypeAliasType(
     "CreateInputInputGrafanaUnion",
-    Union[CreateInputInputGrafana1, CreateInputInputGrafana2],
+    Union[CreateInputInputGrafanaGrafana1, CreateInputInputGrafanaGrafana2],
 )
 
 
-class CreateInputInputConfluentCloudType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputTypeConfluentCloud(str, Enum):
     CONFLUENT_CLOUD = "confluent_cloud"
 
 
-class CreateInputInputConfluentCloudConnectionTypedDict(TypedDict):
+class ConnectionConfluentCloudTypedDict(TypedDict):
     output: str
     pipeline: NotRequired[str]
 
 
-class CreateInputInputConfluentCloudConnection(BaseModel):
+class ConnectionConfluentCloud(BaseModel):
     output: str
 
     pipeline: Optional[str] = None
 
 
-class CreateInputInputConfluentCloudMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputModeConfluentCloud(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputConfluentCloudCompression(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class CreateInputCompressionConfluentCloud(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class CreateInputInputConfluentCloudPqTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputConfluentCloudMode]
+class PqConfluentCloudTypedDict(TypedDict):
+    mode: NotRequired[CreateInputModeConfluentCloud]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
@@ -14759,15 +13951,12 @@ class CreateInputInputConfluentCloudPqTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
-    compress: NotRequired[CreateInputInputConfluentCloudCompression]
+    compress: NotRequired[CreateInputCompressionConfluentCloud]
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputConfluentCloudPq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputConfluentCloudMode],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputConfluentCloudMode.ALWAYS
+class PqConfluentCloud(BaseModel):
+    mode: Optional[CreateInputModeConfluentCloud] = CreateInputModeConfluentCloud.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -14791,32 +13980,27 @@ class CreateInputInputConfluentCloudPq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputConfluentCloudCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputConfluentCloudCompression.NONE
+    compress: Optional[CreateInputCompressionConfluentCloud] = (
+        CreateInputCompressionConfluentCloud.NONE
+    )
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputConfluentCloudMinimumTLSVersion(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class CreateInputMinimumTLSVersionConfluentCloud(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputConfluentCloudMaximumTLSVersion(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class CreateInputMaximumTLSVersionConfluentCloud(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputConfluentCloudTLSSettingsClientSideTypedDict(TypedDict):
+class CreateInputTLSSettingsClientSideConfluentCloudTypedDict(TypedDict):
     disabled: NotRequired[bool]
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates that are not authorized by a CA in the CA certificate path, or by another
@@ -14834,11 +14018,11 @@ class CreateInputInputConfluentCloudTLSSettingsClientSideTypedDict(TypedDict):
     r"""Path on client in which to find certificates to use. PEM format. Can reference $ENV_VARS."""
     passphrase: NotRequired[str]
     r"""Passphrase to use to decrypt private key"""
-    min_version: NotRequired[CreateInputInputConfluentCloudMinimumTLSVersion]
-    max_version: NotRequired[CreateInputInputConfluentCloudMaximumTLSVersion]
+    min_version: NotRequired[CreateInputMinimumTLSVersionConfluentCloud]
+    max_version: NotRequired[CreateInputMaximumTLSVersionConfluentCloud]
 
 
-class CreateInputInputConfluentCloudTLSSettingsClientSide(BaseModel):
+class CreateInputTLSSettingsClientSideConfluentCloud(BaseModel):
     disabled: Optional[bool] = False
 
     reject_unauthorized: Annotated[
@@ -14869,23 +14053,17 @@ class CreateInputInputConfluentCloudTLSSettingsClientSide(BaseModel):
     r"""Passphrase to use to decrypt private key"""
 
     min_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputConfluentCloudMinimumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[CreateInputMinimumTLSVersionConfluentCloud],
         pydantic.Field(alias="minVersion"),
     ] = None
 
     max_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputConfluentCloudMaximumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[CreateInputMaximumTLSVersionConfluentCloud],
         pydantic.Field(alias="maxVersion"),
     ] = None
 
 
-class CreateInputInputConfluentCloudAuthTypedDict(TypedDict):
+class CreateInputAuthConfluentCloudTypedDict(TypedDict):
     r"""Credentials to use when authenticating with the schema registry using basic HTTP authentication"""
 
     disabled: NotRequired[bool]
@@ -14893,7 +14071,7 @@ class CreateInputInputConfluentCloudAuthTypedDict(TypedDict):
     r"""Select or create a secret that references your credentials"""
 
 
-class CreateInputInputConfluentCloudAuth(BaseModel):
+class CreateInputAuthConfluentCloud(BaseModel):
     r"""Credentials to use when authenticating with the schema registry using basic HTTP authentication"""
 
     disabled: Optional[bool] = True
@@ -14904,25 +14082,21 @@ class CreateInputInputConfluentCloudAuth(BaseModel):
     r"""Select or create a secret that references your credentials"""
 
 
-class CreateInputInputConfluentCloudKafkaSchemaRegistryMinimumTLSVersion(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class CreateInputKafkaSchemaRegistryMinimumTLSVersionConfluentCloud(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputConfluentCloudKafkaSchemaRegistryMaximumTLSVersion(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class CreateInputKafkaSchemaRegistryMaximumTLSVersionConfluentCloud(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputConfluentCloudKafkaSchemaRegistryTLSSettingsClientSideTypedDict(
+class CreateInputKafkaSchemaRegistryTLSSettingsClientSideConfluentCloudTypedDict(
     TypedDict
 ):
     disabled: NotRequired[bool]
@@ -14943,14 +14117,14 @@ class CreateInputInputConfluentCloudKafkaSchemaRegistryTLSSettingsClientSideType
     passphrase: NotRequired[str]
     r"""Passphrase to use to decrypt private key"""
     min_version: NotRequired[
-        CreateInputInputConfluentCloudKafkaSchemaRegistryMinimumTLSVersion
+        CreateInputKafkaSchemaRegistryMinimumTLSVersionConfluentCloud
     ]
     max_version: NotRequired[
-        CreateInputInputConfluentCloudKafkaSchemaRegistryMaximumTLSVersion
+        CreateInputKafkaSchemaRegistryMaximumTLSVersionConfluentCloud
     ]
 
 
-class CreateInputInputConfluentCloudKafkaSchemaRegistryTLSSettingsClientSide(BaseModel):
+class CreateInputKafkaSchemaRegistryTLSSettingsClientSideConfluentCloud(BaseModel):
     disabled: Optional[bool] = True
 
     reject_unauthorized: Annotated[
@@ -14981,29 +14155,17 @@ class CreateInputInputConfluentCloudKafkaSchemaRegistryTLSSettingsClientSide(Bas
     r"""Passphrase to use to decrypt private key"""
 
     min_version: Annotated[
-        Annotated[
-            Optional[
-                CreateInputInputConfluentCloudKafkaSchemaRegistryMinimumTLSVersion
-            ],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[CreateInputKafkaSchemaRegistryMinimumTLSVersionConfluentCloud],
         pydantic.Field(alias="minVersion"),
     ] = None
 
     max_version: Annotated[
-        Annotated[
-            Optional[
-                CreateInputInputConfluentCloudKafkaSchemaRegistryMaximumTLSVersion
-            ],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[CreateInputKafkaSchemaRegistryMaximumTLSVersionConfluentCloud],
         pydantic.Field(alias="maxVersion"),
     ] = None
 
 
-class CreateInputInputConfluentCloudKafkaSchemaRegistryAuthenticationTypedDict(
-    TypedDict
-):
+class CreateInputKafkaSchemaRegistryAuthenticationConfluentCloudTypedDict(TypedDict):
     disabled: NotRequired[bool]
     schema_registry_url: NotRequired[str]
     r"""URL for accessing the Confluent Schema Registry. Example: http://localhost:8081. To connect over TLS, use https instead of http."""
@@ -15013,14 +14175,14 @@ class CreateInputInputConfluentCloudKafkaSchemaRegistryAuthenticationTypedDict(
     r"""Maximum time to wait for the Schema Registry to respond to a request"""
     max_retries: NotRequired[float]
     r"""Maximum number of times to try fetching schemas from the Schema Registry"""
-    auth: NotRequired[CreateInputInputConfluentCloudAuthTypedDict]
+    auth: NotRequired[CreateInputAuthConfluentCloudTypedDict]
     r"""Credentials to use when authenticating with the schema registry using basic HTTP authentication"""
     tls: NotRequired[
-        CreateInputInputConfluentCloudKafkaSchemaRegistryTLSSettingsClientSideTypedDict
+        CreateInputKafkaSchemaRegistryTLSSettingsClientSideConfluentCloudTypedDict
     ]
 
 
-class CreateInputInputConfluentCloudKafkaSchemaRegistryAuthentication(BaseModel):
+class CreateInputKafkaSchemaRegistryAuthenticationConfluentCloud(BaseModel):
     disabled: Optional[bool] = True
 
     schema_registry_url: Annotated[
@@ -15041,48 +14203,45 @@ class CreateInputInputConfluentCloudKafkaSchemaRegistryAuthentication(BaseModel)
     max_retries: Annotated[Optional[float], pydantic.Field(alias="maxRetries")] = 1
     r"""Maximum number of times to try fetching schemas from the Schema Registry"""
 
-    auth: Optional[CreateInputInputConfluentCloudAuth] = None
+    auth: Optional[CreateInputAuthConfluentCloud] = None
     r"""Credentials to use when authenticating with the schema registry using basic HTTP authentication"""
 
-    tls: Optional[
-        CreateInputInputConfluentCloudKafkaSchemaRegistryTLSSettingsClientSide
-    ] = None
+    tls: Optional[CreateInputKafkaSchemaRegistryTLSSettingsClientSideConfluentCloud] = (
+        None
+    )
 
 
-class CreateInputInputConfluentCloudSASLMechanism(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class CreateInputSASLMechanismConfluentCloud(str, Enum):
     PLAIN = "plain"
     SCRAM_SHA_256 = "scram-sha-256"
     SCRAM_SHA_512 = "scram-sha-512"
     KERBEROS = "kerberos"
 
 
-class CreateInputInputConfluentCloudAuthenticationTypedDict(TypedDict):
+class CreateInputAuthenticationConfluentCloudTypedDict(TypedDict):
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
     disabled: NotRequired[bool]
-    mechanism: NotRequired[CreateInputInputConfluentCloudSASLMechanism]
+    mechanism: NotRequired[CreateInputSASLMechanismConfluentCloud]
 
 
-class CreateInputInputConfluentCloudAuthentication(BaseModel):
+class CreateInputAuthenticationConfluentCloud(BaseModel):
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
     disabled: Optional[bool] = True
 
-    mechanism: Annotated[
-        Optional[CreateInputInputConfluentCloudSASLMechanism],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputConfluentCloudSASLMechanism.PLAIN
+    mechanism: Optional[CreateInputSASLMechanismConfluentCloud] = (
+        CreateInputSASLMechanismConfluentCloud.PLAIN
+    )
 
 
-class CreateInputInputConfluentCloudMetadatumTypedDict(TypedDict):
+class MetadatumConfluentCloudTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputConfluentCloudMetadatum(BaseModel):
+class MetadatumConfluentCloud(BaseModel):
     name: str
 
     value: str
@@ -15096,7 +14255,7 @@ class CreateInputInputConfluentCloudTypedDict(TypedDict):
     r"""List of Confluent Cloud bootstrap servers to use, such as yourAccount.confluent.cloud:9092"""
     topics: List[str]
     r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
-    type: NotRequired[CreateInputInputConfluentCloudType]
+    type: NotRequired[CreateInputTypeConfluentCloud]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -15108,16 +14267,16 @@ class CreateInputInputConfluentCloudTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[CreateInputInputConfluentCloudConnectionTypedDict]]
+    connections: NotRequired[List[ConnectionConfluentCloudTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[CreateInputInputConfluentCloudPqTypedDict]
-    tls: NotRequired[CreateInputInputConfluentCloudTLSSettingsClientSideTypedDict]
+    pq: NotRequired[PqConfluentCloudTypedDict]
+    tls: NotRequired[CreateInputTLSSettingsClientSideConfluentCloudTypedDict]
     group_id: NotRequired[str]
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
     from_beginning: NotRequired[bool]
     r"""Leave enabled if you want the Source, upon first subscribing to a topic, to read starting with the earliest available message"""
     kafka_schema_registry: NotRequired[
-        CreateInputInputConfluentCloudKafkaSchemaRegistryAuthenticationTypedDict
+        CreateInputKafkaSchemaRegistryAuthenticationConfluentCloudTypedDict
     ]
     connection_timeout: NotRequired[float]
     r"""Maximum time to wait for a connection to complete successfully"""
@@ -15135,7 +14294,7 @@ class CreateInputInputConfluentCloudTypedDict(TypedDict):
     r"""Maximum time to wait for Kafka to respond to an authentication request"""
     reauthentication_threshold: NotRequired[float]
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
-    sasl: NotRequired[CreateInputInputConfluentCloudAuthenticationTypedDict]
+    sasl: NotRequired[CreateInputAuthenticationConfluentCloudTypedDict]
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
     session_timeout: NotRequired[float]
     r"""Timeout used to detect client failures when using Kafka's group-management facilities.
@@ -15164,7 +14323,7 @@ class CreateInputInputConfluentCloudTypedDict(TypedDict):
     r"""Maximum number of bytes that Kafka will return per fetch request. Defaults to 10485760 (10 MB)."""
     max_socket_errors: NotRequired[float]
     r"""Maximum number of network errors before the consumer re-creates a socket"""
-    metadata: NotRequired[List[CreateInputInputConfluentCloudMetadatumTypedDict]]
+    metadata: NotRequired[List[MetadatumConfluentCloudTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
 
@@ -15179,10 +14338,7 @@ class CreateInputInputConfluentCloud(BaseModel):
     topics: List[str]
     r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
 
-    type: Annotated[
-        Optional[CreateInputInputConfluentCloudType],
-        PlainValidator(validate_open_enum(False)),
-    ] = None
+    type: Optional[CreateInputTypeConfluentCloud] = None
 
     disabled: Optional[bool] = False
 
@@ -15203,12 +14359,12 @@ class CreateInputInputConfluentCloud(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[CreateInputInputConfluentCloudConnection]] = None
+    connections: Optional[List[ConnectionConfluentCloud]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[CreateInputInputConfluentCloudPq] = None
+    pq: Optional[PqConfluentCloud] = None
 
-    tls: Optional[CreateInputInputConfluentCloudTLSSettingsClientSide] = None
+    tls: Optional[CreateInputTLSSettingsClientSideConfluentCloud] = None
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = "Cribl"
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
@@ -15219,7 +14375,7 @@ class CreateInputInputConfluentCloud(BaseModel):
     r"""Leave enabled if you want the Source, upon first subscribing to a topic, to read starting with the earliest available message"""
 
     kafka_schema_registry: Annotated[
-        Optional[CreateInputInputConfluentCloudKafkaSchemaRegistryAuthentication],
+        Optional[CreateInputKafkaSchemaRegistryAuthenticationConfluentCloud],
         pydantic.Field(alias="kafkaSchemaRegistry"),
     ] = None
 
@@ -15257,7 +14413,7 @@ class CreateInputInputConfluentCloud(BaseModel):
     ] = 10000
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
 
-    sasl: Optional[CreateInputInputConfluentCloudAuthentication] = None
+    sasl: Optional[CreateInputAuthenticationConfluentCloud] = None
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
     session_timeout: Annotated[
@@ -15309,43 +14465,43 @@ class CreateInputInputConfluentCloud(BaseModel):
     ] = 0
     r"""Maximum number of network errors before the consumer re-creates a socket"""
 
-    metadata: Optional[List[CreateInputInputConfluentCloudMetadatum]] = None
+    metadata: Optional[List[MetadatumConfluentCloud]] = None
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
 
 
-class CreateInputInputElasticType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputTypeElastic(str, Enum):
     ELASTIC = "elastic"
 
 
-class CreateInputInputElasticConnectionTypedDict(TypedDict):
+class ConnectionElasticTypedDict(TypedDict):
     output: str
     pipeline: NotRequired[str]
 
 
-class CreateInputInputElasticConnection(BaseModel):
+class ConnectionElastic(BaseModel):
     output: str
 
     pipeline: Optional[str] = None
 
 
-class CreateInputInputElasticMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputModeElastic(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputElasticCompression(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputCompressionElastic(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class CreateInputInputElasticPqTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputElasticMode]
+class PqElasticTypedDict(TypedDict):
+    mode: NotRequired[CreateInputModeElastic]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
@@ -15357,14 +14513,12 @@ class CreateInputInputElasticPqTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
-    compress: NotRequired[CreateInputInputElasticCompression]
+    compress: NotRequired[CreateInputCompressionElastic]
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputElasticPq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputElasticMode], PlainValidator(validate_open_enum(False))
-    ] = CreateInputInputElasticMode.ALWAYS
+class PqElastic(BaseModel):
+    mode: Optional[CreateInputModeElastic] = CreateInputModeElastic.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -15388,28 +14542,27 @@ class CreateInputInputElasticPq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputElasticCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputElasticCompression.NONE
+    compress: Optional[CreateInputCompressionElastic] = (
+        CreateInputCompressionElastic.NONE
+    )
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputElasticMinimumTLSVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+class MinimumTLSVersionElastic(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputElasticMaximumTLSVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+class MaximumTLSVersionElastic(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputElasticTLSSettingsServerSideTypedDict(TypedDict):
+class TLSSettingsServerSideElasticTypedDict(TypedDict):
     disabled: NotRequired[bool]
     certificate_name: NotRequired[str]
     r"""The name of the predefined certificate"""
@@ -15425,11 +14578,11 @@ class CreateInputInputElasticTLSSettingsServerSideTypedDict(TypedDict):
     r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
     reject_unauthorized: NotRequired[Any]
     common_name_regex: NotRequired[Any]
-    min_version: NotRequired[CreateInputInputElasticMinimumTLSVersion]
-    max_version: NotRequired[CreateInputInputElasticMaximumTLSVersion]
+    min_version: NotRequired[MinimumTLSVersionElastic]
+    max_version: NotRequired[MaximumTLSVersionElastic]
 
 
-class CreateInputInputElasticTLSSettingsServerSide(BaseModel):
+class TLSSettingsServerSideElastic(BaseModel):
     disabled: Optional[bool] = True
 
     certificate_name: Annotated[
@@ -15461,32 +14614,22 @@ class CreateInputInputElasticTLSSettingsServerSide(BaseModel):
     ] = None
 
     min_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputElasticMinimumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="minVersion"),
+        Optional[MinimumTLSVersionElastic], pydantic.Field(alias="minVersion")
     ] = None
 
     max_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputElasticMaximumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="maxVersion"),
+        Optional[MaximumTLSVersionElastic], pydantic.Field(alias="maxVersion")
     ] = None
 
 
-class CreateInputInputElasticAuthenticationType(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class AuthenticationTypeElastic(str, Enum):
     NONE = "none"
     BASIC = "basic"
     CREDENTIALS_SECRET = "credentialsSecret"
     AUTH_TOKENS = "authTokens"
 
 
-class CreateInputAPIVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputAPIVersion(str, Enum):
     r"""The API version to use for communicating with the server"""
 
     SIX_DOT_8_DOT_4 = "6.8.4"
@@ -15505,22 +14648,20 @@ class CreateInputExtraHTTPHeader(BaseModel):
     name: Optional[str] = None
 
 
-class CreateInputInputElasticMetadatumTypedDict(TypedDict):
+class MetadatumElasticTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputElasticMetadatum(BaseModel):
+class MetadatumElastic(BaseModel):
     name: str
 
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputElasticAuthenticationMethod(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class ProxyModeAuthenticationMethodElastic(str, Enum):
     r"""Enter credentials directly, or select a stored secret"""
 
     NONE = "none"
@@ -15528,7 +14669,7 @@ class CreateInputInputElasticAuthenticationMethod(
     SECRET = "secret"
 
 
-class CreateInputInputElasticProxyModeTypedDict(TypedDict):
+class ProxyModeElasticTypedDict(TypedDict):
     enabled: NotRequired[bool]
     r"""Enable proxying of non-bulk API requests to an external Elastic server. Enable this only if you understand the implications. See [Cribl Docs](https://docs.cribl.io/stream/sources-elastic/#proxy-mode) for more details."""
     url: NotRequired[str]
@@ -15539,11 +14680,11 @@ class CreateInputInputElasticProxyModeTypedDict(TypedDict):
     r"""List of headers to remove from the request to proxy"""
     timeout_sec: NotRequired[float]
     r"""Amount of time, in seconds, to wait for a proxy request to complete before canceling it"""
-    auth_type: NotRequired[CreateInputInputElasticAuthenticationMethod]
+    auth_type: NotRequired[ProxyModeAuthenticationMethodElastic]
     r"""Enter credentials directly, or select a stored secret"""
 
 
-class CreateInputInputElasticProxyMode(BaseModel):
+class ProxyModeElastic(BaseModel):
     enabled: Optional[bool] = False
     r"""Enable proxying of non-bulk API requests to an external Elastic server. Enable this only if you understand the implications. See [Cribl Docs](https://docs.cribl.io/stream/sources-elastic/#proxy-mode) for more details."""
 
@@ -15564,12 +14705,8 @@ class CreateInputInputElasticProxyMode(BaseModel):
     r"""Amount of time, in seconds, to wait for a proxy request to complete before canceling it"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[CreateInputInputElasticAuthenticationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
-    ] = CreateInputInputElasticAuthenticationMethod.NONE
+        Optional[ProxyModeAuthenticationMethodElastic], pydantic.Field(alias="authType")
+    ] = ProxyModeAuthenticationMethodElastic.NONE
     r"""Enter credentials directly, or select a stored secret"""
 
 
@@ -15578,7 +14715,7 @@ class CreateInputInputElasticTypedDict(TypedDict):
     r"""Unique ID for this input"""
     port: float
     r"""Port to listen on"""
-    type: NotRequired[CreateInputInputElasticType]
+    type: NotRequired[CreateInputTypeElastic]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -15590,12 +14727,12 @@ class CreateInputInputElasticTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[CreateInputInputElasticConnectionTypedDict]]
+    connections: NotRequired[List[ConnectionElasticTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[CreateInputInputElasticPqTypedDict]
+    pq: NotRequired[PqElasticTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-    tls: NotRequired[CreateInputInputElasticTLSSettingsServerSideTypedDict]
+    tls: NotRequired[TLSSettingsServerSideElasticTypedDict]
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -15620,14 +14757,14 @@ class CreateInputInputElasticTypedDict(TypedDict):
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
     elastic_api: NotRequired[str]
     r"""Absolute path on which to listen for Elasticsearch API requests. Defaults to /. _bulk will be appended automatically. For example, /myPath becomes /myPath/_bulk. Requests can then be made to either /myPath/_bulk or /myPath/<myIndexName>/_bulk. Other entries are faked as success."""
-    auth_type: NotRequired[CreateInputInputElasticAuthenticationType]
+    auth_type: NotRequired[AuthenticationTypeElastic]
     api_version: NotRequired[CreateInputAPIVersion]
     r"""The API version to use for communicating with the server"""
     extra_http_headers: NotRequired[List[CreateInputExtraHTTPHeaderTypedDict]]
     r"""Headers to add to all events"""
-    metadata: NotRequired[List[CreateInputInputElasticMetadatumTypedDict]]
+    metadata: NotRequired[List[MetadatumElasticTypedDict]]
     r"""Fields to add to events from this input"""
-    proxy_mode: NotRequired[CreateInputInputElasticProxyModeTypedDict]
+    proxy_mode: NotRequired[ProxyModeElasticTypedDict]
     description: NotRequired[str]
     username: NotRequired[str]
     password: NotRequired[str]
@@ -15646,9 +14783,7 @@ class CreateInputInputElastic(BaseModel):
     port: float
     r"""Port to listen on"""
 
-    type: Annotated[
-        Optional[CreateInputInputElasticType], PlainValidator(validate_open_enum(False))
-    ] = None
+    type: Optional[CreateInputTypeElastic] = None
 
     disabled: Optional[bool] = False
 
@@ -15669,15 +14804,15 @@ class CreateInputInputElastic(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[CreateInputInputElasticConnection]] = None
+    connections: Optional[List[ConnectionElastic]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[CreateInputInputElasticPq] = None
+    pq: Optional[PqElastic] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
 
-    tls: Optional[CreateInputInputElasticTLSSettingsServerSide] = None
+    tls: Optional[TLSSettingsServerSideElastic] = None
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         256
@@ -15738,18 +14873,11 @@ class CreateInputInputElastic(BaseModel):
     r"""Absolute path on which to listen for Elasticsearch API requests. Defaults to /. _bulk will be appended automatically. For example, /myPath becomes /myPath/_bulk. Requests can then be made to either /myPath/_bulk or /myPath/<myIndexName>/_bulk. Other entries are faked as success."""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[CreateInputInputElasticAuthenticationType],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
-    ] = CreateInputInputElasticAuthenticationType.NONE
+        Optional[AuthenticationTypeElastic], pydantic.Field(alias="authType")
+    ] = AuthenticationTypeElastic.NONE
 
     api_version: Annotated[
-        Annotated[
-            Optional[CreateInputAPIVersion], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="apiVersion"),
+        Optional[CreateInputAPIVersion], pydantic.Field(alias="apiVersion")
     ] = CreateInputAPIVersion.EIGHT_DOT_3_DOT_2
     r"""The API version to use for communicating with the server"""
 
@@ -15759,11 +14887,11 @@ class CreateInputInputElastic(BaseModel):
     ] = None
     r"""Headers to add to all events"""
 
-    metadata: Optional[List[CreateInputInputElasticMetadatum]] = None
+    metadata: Optional[List[MetadatumElastic]] = None
     r"""Fields to add to events from this input"""
 
     proxy_mode: Annotated[
-        Optional[CreateInputInputElasticProxyMode], pydantic.Field(alias="proxyMode")
+        Optional[ProxyModeElastic], pydantic.Field(alias="proxyMode")
     ] = None
 
     description: Optional[str] = None
@@ -15805,37 +14933,37 @@ class CreateInputInputElastic(BaseModel):
     r"""Custom version information to respond to requests"""
 
 
-class CreateInputInputAzureBlobType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputTypeAzureBlob(str, Enum):
     AZURE_BLOB = "azure_blob"
 
 
-class CreateInputInputAzureBlobConnectionTypedDict(TypedDict):
+class ConnectionAzureBlobTypedDict(TypedDict):
     output: str
     pipeline: NotRequired[str]
 
 
-class CreateInputInputAzureBlobConnection(BaseModel):
+class ConnectionAzureBlob(BaseModel):
     output: str
 
     pipeline: Optional[str] = None
 
 
-class CreateInputInputAzureBlobMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ModeAzureBlob(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputAzureBlobCompression(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputCompressionAzureBlob(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class CreateInputInputAzureBlobPqTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputAzureBlobMode]
+class PqAzureBlobTypedDict(TypedDict):
+    mode: NotRequired[ModeAzureBlob]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
@@ -15847,15 +14975,12 @@ class CreateInputInputAzureBlobPqTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
-    compress: NotRequired[CreateInputInputAzureBlobCompression]
+    compress: NotRequired[CreateInputCompressionAzureBlob]
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputAzureBlobPq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputAzureBlobMode],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputAzureBlobMode.ALWAYS
+class PqAzureBlob(BaseModel):
+    mode: Optional[ModeAzureBlob] = ModeAzureBlob.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -15879,29 +15004,26 @@ class CreateInputInputAzureBlobPq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputAzureBlobCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputAzureBlobCompression.NONE
+    compress: Optional[CreateInputCompressionAzureBlob] = (
+        CreateInputCompressionAzureBlob.NONE
+    )
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputAzureBlobMetadatumTypedDict(TypedDict):
+class MetadatumAzureBlobTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputAzureBlobMetadatum(BaseModel):
+class MetadatumAzureBlob(BaseModel):
     name: str
 
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputAzureBlobAuthenticationMethod(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class CreateInputAuthenticationMethodAzureBlob(str, Enum):
     MANUAL = "manual"
     SECRET = "secret"
     CLIENT_SECRET = "clientSecret"
@@ -15921,7 +15043,7 @@ class CreateInputCertificate(BaseModel):
 class CreateInputInputAzureBlobTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputInputAzureBlobType
+    type: CreateInputTypeAzureBlob
     queue_name: str
     r"""The storage account queue name blob notifications will be read from. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myQueue-${C.vars.myVar}`"""
     disabled: NotRequired[bool]
@@ -15935,9 +15057,9 @@ class CreateInputInputAzureBlobTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[CreateInputInputAzureBlobConnectionTypedDict]]
+    connections: NotRequired[List[ConnectionAzureBlobTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[CreateInputInputAzureBlobPqTypedDict]
+    pq: NotRequired[PqAzureBlobTypedDict]
     file_filter: NotRequired[str]
     r"""Regex matching file names to download and process. Defaults to: .*"""
     visibility_timeout: NotRequired[float]
@@ -15950,7 +15072,7 @@ class CreateInputInputAzureBlobTypedDict(TypedDict):
     r"""The duration (in seconds) which pollers should be validated and restarted if exited"""
     skip_on_error: NotRequired[bool]
     r"""Skip files that trigger a processing error. Disabled by default, which allows retries after processing errors."""
-    metadata: NotRequired[List[CreateInputInputAzureBlobMetadatumTypedDict]]
+    metadata: NotRequired[List[MetadatumAzureBlobTypedDict]]
     r"""Fields to add to events from this input"""
     breaker_rulesets: NotRequired[List[str]]
     r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
@@ -15960,7 +15082,7 @@ class CreateInputInputAzureBlobTypedDict(TypedDict):
     r"""Maximum file size for each Parquet chunk"""
     parquet_chunk_download_timeout: NotRequired[float]
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
-    auth_type: NotRequired[CreateInputInputAzureBlobAuthenticationMethod]
+    auth_type: NotRequired[CreateInputAuthenticationMethodAzureBlob]
     description: NotRequired[str]
     connection_string: NotRequired[str]
     r"""Enter your Azure Storage account connection string. If left blank, Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING."""
@@ -15985,9 +15107,7 @@ class CreateInputInputAzureBlob(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: Annotated[
-        CreateInputInputAzureBlobType, PlainValidator(validate_open_enum(False))
-    ]
+    type: CreateInputTypeAzureBlob
 
     queue_name: Annotated[str, pydantic.Field(alias="queueName")]
     r"""The storage account queue name blob notifications will be read from. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myQueue-${C.vars.myVar}`"""
@@ -16011,10 +15131,10 @@ class CreateInputInputAzureBlob(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[CreateInputInputAzureBlobConnection]] = None
+    connections: Optional[List[ConnectionAzureBlob]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[CreateInputInputAzureBlobPq] = None
+    pq: Optional[PqAzureBlob] = None
 
     file_filter: Annotated[Optional[str], pydantic.Field(alias="fileFilter")] = "/.*/"
     r"""Regex matching file names to download and process. Defaults to: .*"""
@@ -16040,7 +15160,7 @@ class CreateInputInputAzureBlob(BaseModel):
     )
     r"""Skip files that trigger a processing error. Disabled by default, which allows retries after processing errors."""
 
-    metadata: Optional[List[CreateInputInputAzureBlobMetadatum]] = None
+    metadata: Optional[List[MetadatumAzureBlob]] = None
     r"""Fields to add to events from this input"""
 
     breaker_rulesets: Annotated[
@@ -16064,12 +15184,9 @@ class CreateInputInputAzureBlob(BaseModel):
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[CreateInputInputAzureBlobAuthenticationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[CreateInputAuthenticationMethodAzureBlob],
         pydantic.Field(alias="authType"),
-    ] = CreateInputInputAzureBlobAuthenticationMethod.MANUAL
+    ] = CreateInputAuthenticationMethodAzureBlob.MANUAL
 
     description: Optional[str] = None
 
@@ -16108,37 +15225,37 @@ class CreateInputInputAzureBlob(BaseModel):
     certificate: Optional[CreateInputCertificate] = None
 
 
-class CreateInputInputSplunkHecType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputTypeSplunkHec(str, Enum):
     SPLUNK_HEC = "splunk_hec"
 
 
-class CreateInputInputSplunkHecConnectionTypedDict(TypedDict):
+class ConnectionSplunkHecTypedDict(TypedDict):
     output: str
     pipeline: NotRequired[str]
 
 
-class CreateInputInputSplunkHecConnection(BaseModel):
+class ConnectionSplunkHec(BaseModel):
     output: str
 
     pipeline: Optional[str] = None
 
 
-class CreateInputInputSplunkHecMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ModeSplunkHec(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputSplunkHecCompression(str, Enum, metaclass=utils.OpenEnumMeta):
+class CompressionSplunkHec(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class CreateInputInputSplunkHecPqTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputSplunkHecMode]
+class PqSplunkHecTypedDict(TypedDict):
+    mode: NotRequired[ModeSplunkHec]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
@@ -16150,15 +15267,12 @@ class CreateInputInputSplunkHecPqTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
-    compress: NotRequired[CreateInputInputSplunkHecCompression]
+    compress: NotRequired[CompressionSplunkHec]
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputSplunkHecPq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputSplunkHecMode],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputSplunkHecMode.ALWAYS
+class PqSplunkHec(BaseModel):
+    mode: Optional[ModeSplunkHec] = ModeSplunkHec.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -16182,38 +15296,33 @@ class CreateInputInputSplunkHecPq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputSplunkHecCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputSplunkHecCompression.NONE
+    compress: Optional[CompressionSplunkHec] = CompressionSplunkHec.NONE
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputSplunkHecAuthenticationMethod(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class AuthenticationMethodSplunkHec(str, Enum):
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
     MANUAL = "manual"
     SECRET = "secret"
 
 
-class CreateInputInputSplunkHecAuthTokenMetadatumTypedDict(TypedDict):
+class AuthTokenMetadatumSplunkHecTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputSplunkHecAuthTokenMetadatum(BaseModel):
+class AuthTokenMetadatumSplunkHec(BaseModel):
     name: str
 
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputSplunkHecAuthTokenTypedDict(TypedDict):
+class AuthTokenSplunkHecTypedDict(TypedDict):
     token: Any
-    auth_type: NotRequired[CreateInputInputSplunkHecAuthenticationMethod]
+    auth_type: NotRequired[AuthenticationMethodSplunkHec]
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
     token_secret: NotRequired[Any]
     enabled: NotRequired[bool]
@@ -16221,20 +15330,16 @@ class CreateInputInputSplunkHecAuthTokenTypedDict(TypedDict):
     r"""Optional token description"""
     allowed_indexes_at_token: NotRequired[List[str]]
     r"""Enter the values you want to allow in the HEC event index field at the token level. Supports wildcards. To skip validation, leave blank."""
-    metadata: NotRequired[List[CreateInputInputSplunkHecAuthTokenMetadatumTypedDict]]
+    metadata: NotRequired[List[AuthTokenMetadatumSplunkHecTypedDict]]
     r"""Fields to add to events referencing this token"""
 
 
-class CreateInputInputSplunkHecAuthToken(BaseModel):
+class AuthTokenSplunkHec(BaseModel):
     token: Any
 
     auth_type: Annotated[
-        Annotated[
-            Optional[CreateInputInputSplunkHecAuthenticationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
-    ] = CreateInputInputSplunkHecAuthenticationMethod.MANUAL
+        Optional[AuthenticationMethodSplunkHec], pydantic.Field(alias="authType")
+    ] = AuthenticationMethodSplunkHec.MANUAL
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
     token_secret: Annotated[Optional[Any], pydantic.Field(alias="tokenSecret")] = None
@@ -16249,29 +15354,25 @@ class CreateInputInputSplunkHecAuthToken(BaseModel):
     ] = None
     r"""Enter the values you want to allow in the HEC event index field at the token level. Supports wildcards. To skip validation, leave blank."""
 
-    metadata: Optional[List[CreateInputInputSplunkHecAuthTokenMetadatum]] = None
+    metadata: Optional[List[AuthTokenMetadatumSplunkHec]] = None
     r"""Fields to add to events referencing this token"""
 
 
-class CreateInputInputSplunkHecMinimumTLSVersion(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class MinimumTLSVersionSplunkHec(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputSplunkHecMaximumTLSVersion(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class MaximumTLSVersionSplunkHec(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputSplunkHecTLSSettingsServerSideTypedDict(TypedDict):
+class TLSSettingsServerSideSplunkHecTypedDict(TypedDict):
     disabled: NotRequired[bool]
     certificate_name: NotRequired[str]
     r"""The name of the predefined certificate"""
@@ -16287,11 +15388,11 @@ class CreateInputInputSplunkHecTLSSettingsServerSideTypedDict(TypedDict):
     r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
     reject_unauthorized: NotRequired[Any]
     common_name_regex: NotRequired[Any]
-    min_version: NotRequired[CreateInputInputSplunkHecMinimumTLSVersion]
-    max_version: NotRequired[CreateInputInputSplunkHecMaximumTLSVersion]
+    min_version: NotRequired[MinimumTLSVersionSplunkHec]
+    max_version: NotRequired[MaximumTLSVersionSplunkHec]
 
 
-class CreateInputInputSplunkHecTLSSettingsServerSide(BaseModel):
+class TLSSettingsServerSideSplunkHec(BaseModel):
     disabled: Optional[bool] = True
 
     certificate_name: Annotated[
@@ -16323,29 +15424,21 @@ class CreateInputInputSplunkHecTLSSettingsServerSide(BaseModel):
     ] = None
 
     min_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputSplunkHecMinimumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="minVersion"),
+        Optional[MinimumTLSVersionSplunkHec], pydantic.Field(alias="minVersion")
     ] = None
 
     max_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputSplunkHecMaximumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="maxVersion"),
+        Optional[MaximumTLSVersionSplunkHec], pydantic.Field(alias="maxVersion")
     ] = None
 
 
-class CreateInputInputSplunkHecMetadatumTypedDict(TypedDict):
+class MetadatumSplunkHecTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputSplunkHecMetadatum(BaseModel):
+class MetadatumSplunkHec(BaseModel):
     name: str
 
     value: str
@@ -16357,7 +15450,7 @@ class CreateInputInputSplunkHecTypedDict(TypedDict):
     r"""Unique ID for this input"""
     port: float
     r"""Port to listen on"""
-    type: NotRequired[CreateInputInputSplunkHecType]
+    type: NotRequired[CreateInputTypeSplunkHec]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -16369,14 +15462,14 @@ class CreateInputInputSplunkHecTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[CreateInputInputSplunkHecConnectionTypedDict]]
+    connections: NotRequired[List[ConnectionSplunkHecTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[CreateInputInputSplunkHecPqTypedDict]
+    pq: NotRequired[PqSplunkHecTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-    auth_tokens: NotRequired[List[CreateInputInputSplunkHecAuthTokenTypedDict]]
+    auth_tokens: NotRequired[List[AuthTokenSplunkHecTypedDict]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
-    tls: NotRequired[CreateInputInputSplunkHecTLSSettingsServerSideTypedDict]
+    tls: NotRequired[TLSSettingsServerSideSplunkHecTypedDict]
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -16400,7 +15493,7 @@ class CreateInputInputSplunkHecTypedDict(TypedDict):
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
     splunk_hec_api: NotRequired[str]
     r"""Absolute path on which to listen for the Splunk HTTP Event Collector API requests. This input supports the /event, /raw and /s2s endpoints."""
-    metadata: NotRequired[List[CreateInputInputSplunkHecMetadatumTypedDict]]
+    metadata: NotRequired[List[MetadatumSplunkHecTypedDict]]
     r"""Fields to add to every event. Overrides fields added at the token or request level. See [the Source documentation](https://docs.cribl.io/stream/sources-splunk-hec/#fields) for more info."""
     allowed_indexes: NotRequired[List[str]]
     r"""List values allowed in HEC event index field. Leave blank to skip validation. Supports wildcards. The values here can expand index validation at the token level."""
@@ -16432,10 +15525,7 @@ class CreateInputInputSplunkHec(BaseModel):
     port: float
     r"""Port to listen on"""
 
-    type: Annotated[
-        Optional[CreateInputInputSplunkHecType],
-        PlainValidator(validate_open_enum(False)),
-    ] = None
+    type: Optional[CreateInputTypeSplunkHec] = None
 
     disabled: Optional[bool] = False
 
@@ -16456,21 +15546,20 @@ class CreateInputInputSplunkHec(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[CreateInputInputSplunkHecConnection]] = None
+    connections: Optional[List[ConnectionSplunkHec]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[CreateInputInputSplunkHecPq] = None
+    pq: Optional[PqSplunkHec] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
 
     auth_tokens: Annotated[
-        Optional[List[CreateInputInputSplunkHecAuthToken]],
-        pydantic.Field(alias="authTokens"),
+        Optional[List[AuthTokenSplunkHec]], pydantic.Field(alias="authTokens")
     ] = None
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
-    tls: Optional[CreateInputInputSplunkHecTLSSettingsServerSide] = None
+    tls: Optional[TLSSettingsServerSideSplunkHec] = None
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         256
@@ -16531,7 +15620,7 @@ class CreateInputInputSplunkHec(BaseModel):
     )
     r"""Absolute path on which to listen for the Splunk HTTP Event Collector API requests. This input supports the /event, /raw and /s2s endpoints."""
 
-    metadata: Optional[List[CreateInputInputSplunkHecMetadatum]] = None
+    metadata: Optional[List[MetadatumSplunkHec]] = None
     r"""Fields to add to every event. Overrides fields added at the token or request level. See [the Source documentation](https://docs.cribl.io/stream/sources-splunk-hec/#fields) for more info."""
 
     allowed_indexes: Annotated[
@@ -16587,37 +15676,37 @@ class CreateInputInputSplunkHec(BaseModel):
     description: Optional[str] = None
 
 
-class CreateInputInputSplunkSearchType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputTypeSplunkSearch(str, Enum):
     SPLUNK_SEARCH = "splunk_search"
 
 
-class CreateInputInputSplunkSearchConnectionTypedDict(TypedDict):
+class ConnectionSplunkSearchTypedDict(TypedDict):
     output: str
     pipeline: NotRequired[str]
 
 
-class CreateInputInputSplunkSearchConnection(BaseModel):
+class ConnectionSplunkSearch(BaseModel):
     output: str
 
     pipeline: Optional[str] = None
 
 
-class CreateInputInputSplunkSearchMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ModeSplunkSearch(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputSplunkSearchCompression(str, Enum, metaclass=utils.OpenEnumMeta):
+class CompressionSplunkSearch(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class CreateInputInputSplunkSearchPqTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputSplunkSearchMode]
+class PqSplunkSearchTypedDict(TypedDict):
+    mode: NotRequired[ModeSplunkSearch]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
@@ -16629,15 +15718,12 @@ class CreateInputInputSplunkSearchPqTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
-    compress: NotRequired[CreateInputInputSplunkSearchCompression]
+    compress: NotRequired[CompressionSplunkSearch]
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputSplunkSearchPq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputSplunkSearchMode],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputSplunkSearchMode.ALWAYS
+class PqSplunkSearch(BaseModel):
+    mode: Optional[ModeSplunkSearch] = ModeSplunkSearch.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -16661,14 +15747,11 @@ class CreateInputInputSplunkSearchPq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputSplunkSearchCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputSplunkSearchCompression.NONE
+    compress: Optional[CompressionSplunkSearch] = CompressionSplunkSearch.NONE
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputOutputMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputOutputMode(str, Enum):
     r"""Format of the returned output"""
 
     CSV = "csv"
@@ -16701,7 +15784,7 @@ class CreateInputEndpointHeader(BaseModel):
     r"""JavaScript expression to compute the header's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings."""
 
 
-class CreateInputInputSplunkSearchLogLevel(str, Enum, metaclass=utils.OpenEnumMeta):
+class LogLevelSplunkSearch(str, Enum):
     r"""Collector runtime log level (verbosity)"""
 
     ERROR = "error"
@@ -16710,20 +15793,20 @@ class CreateInputInputSplunkSearchLogLevel(str, Enum, metaclass=utils.OpenEnumMe
     DEBUG = "debug"
 
 
-class CreateInputInputSplunkSearchMetadatumTypedDict(TypedDict):
+class MetadatumSplunkSearchTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputSplunkSearchMetadatum(BaseModel):
+class MetadatumSplunkSearch(BaseModel):
     name: str
 
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputSplunkSearchRetryType(str, Enum, metaclass=utils.OpenEnumMeta):
+class RetryTypeSplunkSearch(str, Enum):
     r"""The algorithm to use when performing HTTP retries"""
 
     NONE = "none"
@@ -16731,8 +15814,8 @@ class CreateInputInputSplunkSearchRetryType(str, Enum, metaclass=utils.OpenEnumM
     STATIC = "static"
 
 
-class CreateInputInputSplunkSearchRetryRulesTypedDict(TypedDict):
-    type: NotRequired[CreateInputInputSplunkSearchRetryType]
+class RetryRulesSplunkSearchTypedDict(TypedDict):
+    type: NotRequired[RetryTypeSplunkSearch]
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[float]
     r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
@@ -16750,11 +15833,8 @@ class CreateInputInputSplunkSearchRetryRulesTypedDict(TypedDict):
     r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
-class CreateInputInputSplunkSearchRetryRules(BaseModel):
-    type: Annotated[
-        Optional[CreateInputInputSplunkSearchRetryType],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputSplunkSearchRetryType.BACKOFF
+class RetryRulesSplunkSearch(BaseModel):
+    type: Optional[RetryTypeSplunkSearch] = RetryTypeSplunkSearch.BACKOFF
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[float] = 1000
@@ -16785,9 +15865,7 @@ class CreateInputInputSplunkSearchRetryRules(BaseModel):
     r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
-class CreateInputInputSplunkSearchAuthenticationType(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class AuthenticationTypeSplunkSearch(str, Enum):
     r"""Splunk Search authentication type"""
 
     NONE = "none"
@@ -16798,14 +15876,14 @@ class CreateInputInputSplunkSearchAuthenticationType(
     OAUTH = "oauth"
 
 
-class CreateInputInputSplunkSearchOauthParamTypedDict(TypedDict):
+class OauthParamSplunkSearchTypedDict(TypedDict):
     name: str
     r"""OAuth parameter name"""
     value: str
     r"""OAuth parameter value"""
 
 
-class CreateInputInputSplunkSearchOauthParam(BaseModel):
+class OauthParamSplunkSearch(BaseModel):
     name: str
     r"""OAuth parameter name"""
 
@@ -16813,14 +15891,14 @@ class CreateInputInputSplunkSearchOauthParam(BaseModel):
     r"""OAuth parameter value"""
 
 
-class CreateInputInputSplunkSearchOauthHeaderTypedDict(TypedDict):
+class OauthHeaderSplunkSearchTypedDict(TypedDict):
     name: str
     r"""OAuth header name"""
     value: str
     r"""OAuth header value"""
 
 
-class CreateInputInputSplunkSearchOauthHeader(BaseModel):
+class OauthHeaderSplunkSearch(BaseModel):
     name: str
     r"""OAuth header name"""
 
@@ -16833,7 +15911,7 @@ class CreateInputInputSplunkSearchTypedDict(TypedDict):
     r"""Unique ID for this input"""
     search: str
     r"""Enter Splunk search here. Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'"""
-    type: NotRequired[CreateInputInputSplunkSearchType]
+    type: NotRequired[CreateInputTypeSplunkSearch]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -16845,9 +15923,9 @@ class CreateInputInputSplunkSearchTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[CreateInputInputSplunkSearchConnectionTypedDict]]
+    connections: NotRequired[List[ConnectionSplunkSearchTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[CreateInputInputSplunkSearchPqTypedDict]
+    pq: NotRequired[PqSplunkSearchTypedDict]
     search_head: NotRequired[str]
     r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
     earliest: NotRequired[str]
@@ -16864,7 +15942,7 @@ class CreateInputInputSplunkSearchTypedDict(TypedDict):
     r"""Optional request parameters to send to the endpoint"""
     endpoint_headers: NotRequired[List[CreateInputEndpointHeaderTypedDict]]
     r"""Optional request headers to send to the endpoint"""
-    log_level: NotRequired[CreateInputInputSplunkSearchLogLevel]
+    log_level: NotRequired[LogLevelSplunkSearch]
     r"""Collector runtime log level (verbosity)"""
     request_timeout: NotRequired[float]
     r"""HTTP request inactivity timeout. Use 0 for no timeout."""
@@ -16884,14 +15962,14 @@ class CreateInputInputSplunkSearchTypedDict(TypedDict):
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
     ignore_group_jobs_limit: NotRequired[bool]
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
-    metadata: NotRequired[List[CreateInputInputSplunkSearchMetadatumTypedDict]]
+    metadata: NotRequired[List[MetadatumSplunkSearchTypedDict]]
     r"""Fields to add to events from this input"""
-    retry_rules: NotRequired[CreateInputInputSplunkSearchRetryRulesTypedDict]
+    retry_rules: NotRequired[RetryRulesSplunkSearchTypedDict]
     breaker_rulesets: NotRequired[List[str]]
     r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
     stale_channel_flush_ms: NotRequired[float]
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
-    auth_type: NotRequired[CreateInputInputSplunkSearchAuthenticationType]
+    auth_type: NotRequired[AuthenticationTypeSplunkSearch]
     r"""Splunk Search authentication type"""
     description: NotRequired[str]
     username: NotRequired[str]
@@ -16914,9 +15992,9 @@ class CreateInputInputSplunkSearchTypedDict(TypedDict):
     r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
     token_timeout_secs: NotRequired[float]
     r"""How often the OAuth token should be refreshed."""
-    oauth_params: NotRequired[List[CreateInputInputSplunkSearchOauthParamTypedDict]]
+    oauth_params: NotRequired[List[OauthParamSplunkSearchTypedDict]]
     r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-    oauth_headers: NotRequired[List[CreateInputInputSplunkSearchOauthHeaderTypedDict]]
+    oauth_headers: NotRequired[List[OauthHeaderSplunkSearchTypedDict]]
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
 
@@ -16927,10 +16005,7 @@ class CreateInputInputSplunkSearch(BaseModel):
     search: str
     r"""Enter Splunk search here. Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'"""
 
-    type: Annotated[
-        Optional[CreateInputInputSplunkSearchType],
-        PlainValidator(validate_open_enum(False)),
-    ] = None
+    type: Optional[CreateInputTypeSplunkSearch] = None
 
     disabled: Optional[bool] = False
 
@@ -16951,10 +16026,10 @@ class CreateInputInputSplunkSearch(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[CreateInputInputSplunkSearchConnection]] = None
+    connections: Optional[List[ConnectionSplunkSearch]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[CreateInputInputSplunkSearchPq] = None
+    pq: Optional[PqSplunkSearch] = None
 
     search_head: Annotated[Optional[str], pydantic.Field(alias="searchHead")] = (
         "https://localhost:8089"
@@ -16976,10 +16051,7 @@ class CreateInputInputSplunkSearch(BaseModel):
     r"""REST API used to create a search"""
 
     output_mode: Annotated[
-        Annotated[
-            Optional[CreateInputOutputMode], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="outputMode"),
+        Optional[CreateInputOutputMode], pydantic.Field(alias="outputMode")
     ] = CreateInputOutputMode.JSON
     r"""Format of the returned output"""
 
@@ -16995,11 +16067,7 @@ class CreateInputInputSplunkSearch(BaseModel):
     r"""Optional request headers to send to the endpoint"""
 
     log_level: Annotated[
-        Annotated[
-            Optional[CreateInputInputSplunkSearchLogLevel],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="logLevel"),
+        Optional[LogLevelSplunkSearch], pydantic.Field(alias="logLevel")
     ] = None
     r"""Collector runtime log level (verbosity)"""
 
@@ -17042,12 +16110,11 @@ class CreateInputInputSplunkSearch(BaseModel):
     ] = False
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
 
-    metadata: Optional[List[CreateInputInputSplunkSearchMetadatum]] = None
+    metadata: Optional[List[MetadatumSplunkSearch]] = None
     r"""Fields to add to events from this input"""
 
     retry_rules: Annotated[
-        Optional[CreateInputInputSplunkSearchRetryRules],
-        pydantic.Field(alias="retryRules"),
+        Optional[RetryRulesSplunkSearch], pydantic.Field(alias="retryRules")
     ] = None
 
     breaker_rulesets: Annotated[
@@ -17061,12 +16128,8 @@ class CreateInputInputSplunkSearch(BaseModel):
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[CreateInputInputSplunkSearchAuthenticationType],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
-    ] = CreateInputInputSplunkSearchAuthenticationType.BASIC
+        Optional[AuthenticationTypeSplunkSearch], pydantic.Field(alias="authType")
+    ] = AuthenticationTypeSplunkSearch.BASIC
     r"""Splunk Search authentication type"""
 
     description: Optional[str] = None
@@ -17113,49 +16176,47 @@ class CreateInputInputSplunkSearch(BaseModel):
     r"""How often the OAuth token should be refreshed."""
 
     oauth_params: Annotated[
-        Optional[List[CreateInputInputSplunkSearchOauthParam]],
-        pydantic.Field(alias="oauthParams"),
+        Optional[List[OauthParamSplunkSearch]], pydantic.Field(alias="oauthParams")
     ] = None
     r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
     oauth_headers: Annotated[
-        Optional[List[CreateInputInputSplunkSearchOauthHeader]],
-        pydantic.Field(alias="oauthHeaders"),
+        Optional[List[OauthHeaderSplunkSearch]], pydantic.Field(alias="oauthHeaders")
     ] = None
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
 
-class CreateInputInputSplunkType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputTypeSplunk(str, Enum):
     SPLUNK = "splunk"
 
 
-class CreateInputInputSplunkConnectionTypedDict(TypedDict):
+class ConnectionSplunkTypedDict(TypedDict):
     output: str
     pipeline: NotRequired[str]
 
 
-class CreateInputInputSplunkConnection(BaseModel):
+class ConnectionSplunk(BaseModel):
     output: str
 
     pipeline: Optional[str] = None
 
 
-class CreateInputInputSplunkMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputModeSplunk(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputSplunkPqCompression(str, Enum, metaclass=utils.OpenEnumMeta):
+class PqCompressionSplunk(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class CreateInputInputSplunkPqTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputSplunkMode]
+class PqSplunkTypedDict(TypedDict):
+    mode: NotRequired[CreateInputModeSplunk]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
@@ -17167,14 +16228,12 @@ class CreateInputInputSplunkPqTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
-    compress: NotRequired[CreateInputInputSplunkPqCompression]
+    compress: NotRequired[PqCompressionSplunk]
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputSplunkPq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputSplunkMode], PlainValidator(validate_open_enum(False))
-    ] = CreateInputInputSplunkMode.ALWAYS
+class PqSplunk(BaseModel):
+    mode: Optional[CreateInputModeSplunk] = CreateInputModeSplunk.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -17198,28 +16257,25 @@ class CreateInputInputSplunkPq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputSplunkPqCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputSplunkPqCompression.NONE
+    compress: Optional[PqCompressionSplunk] = PqCompressionSplunk.NONE
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputSplunkMinimumTLSVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputMinimumTLSVersionSplunk(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputSplunkMaximumTLSVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputMaximumTLSVersionSplunk(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputSplunkTLSSettingsServerSideTypedDict(TypedDict):
+class TLSSettingsServerSideSplunkTypedDict(TypedDict):
     disabled: NotRequired[bool]
     certificate_name: NotRequired[str]
     r"""The name of the predefined certificate"""
@@ -17235,11 +16291,11 @@ class CreateInputInputSplunkTLSSettingsServerSideTypedDict(TypedDict):
     r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
     reject_unauthorized: NotRequired[Any]
     common_name_regex: NotRequired[Any]
-    min_version: NotRequired[CreateInputInputSplunkMinimumTLSVersion]
-    max_version: NotRequired[CreateInputInputSplunkMaximumTLSVersion]
+    min_version: NotRequired[CreateInputMinimumTLSVersionSplunk]
+    max_version: NotRequired[CreateInputMaximumTLSVersionSplunk]
 
 
-class CreateInputInputSplunkTLSSettingsServerSide(BaseModel):
+class TLSSettingsServerSideSplunk(BaseModel):
     disabled: Optional[bool] = True
 
     certificate_name: Annotated[
@@ -17271,56 +16327,48 @@ class CreateInputInputSplunkTLSSettingsServerSide(BaseModel):
     ] = None
 
     min_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputSplunkMinimumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="minVersion"),
+        Optional[CreateInputMinimumTLSVersionSplunk], pydantic.Field(alias="minVersion")
     ] = None
 
     max_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputSplunkMaximumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="maxVersion"),
+        Optional[CreateInputMaximumTLSVersionSplunk], pydantic.Field(alias="maxVersion")
     ] = None
 
 
-class CreateInputInputSplunkMetadatumTypedDict(TypedDict):
+class MetadatumSplunkTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputSplunkMetadatum(BaseModel):
+class MetadatumSplunk(BaseModel):
     name: str
 
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputSplunkAuthTokenTypedDict(TypedDict):
+class AuthTokenSplunkTypedDict(TypedDict):
     token: str
     r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
     description: NotRequired[str]
 
 
-class CreateInputInputSplunkAuthToken(BaseModel):
+class AuthTokenSplunk(BaseModel):
     token: str
     r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
 
     description: Optional[str] = None
 
 
-class CreateInputMaxS2SVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputMaxS2SVersion(str, Enum):
     r"""The highest S2S protocol version to advertise during handshake"""
 
     V3 = "v3"
     V4 = "v4"
 
 
-class CreateInputInputSplunkCompression(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputCompressionSplunk(str, Enum):
     r"""Controls whether to support reading compressed data from a forwarder. Select 'Automatic' to match the forwarder's configuration, or 'Disabled' to reject compressed connections."""
 
     DISABLED = "disabled"
@@ -17333,7 +16381,7 @@ class CreateInputInputSplunkTypedDict(TypedDict):
     r"""Unique ID for this input"""
     port: float
     r"""Port to listen on"""
-    type: NotRequired[CreateInputInputSplunkType]
+    type: NotRequired[CreateInputTypeSplunk]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -17345,12 +16393,12 @@ class CreateInputInputSplunkTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[CreateInputInputSplunkConnectionTypedDict]]
+    connections: NotRequired[List[ConnectionSplunkTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[CreateInputInputSplunkPqTypedDict]
+    pq: NotRequired[PqSplunkTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-    tls: NotRequired[CreateInputInputSplunkTLSSettingsServerSideTypedDict]
+    tls: NotRequired[TLSSettingsServerSideSplunkTypedDict]
     ip_whitelist_regex: NotRequired[str]
     r"""Regex matching IP addresses that are allowed to establish a connection"""
     max_active_cxn: NotRequired[float]
@@ -17363,13 +16411,13 @@ class CreateInputInputSplunkTypedDict(TypedDict):
     r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
     enable_proxy_header: NotRequired[bool]
     r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
-    metadata: NotRequired[List[CreateInputInputSplunkMetadatumTypedDict]]
+    metadata: NotRequired[List[MetadatumSplunkTypedDict]]
     r"""Fields to add to events from this input"""
     breaker_rulesets: NotRequired[List[str]]
     r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
     stale_channel_flush_ms: NotRequired[float]
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
-    auth_tokens: NotRequired[List[CreateInputInputSplunkAuthTokenTypedDict]]
+    auth_tokens: NotRequired[List[AuthTokenSplunkTypedDict]]
     r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
     max_s2_sversion: NotRequired[CreateInputMaxS2SVersion]
     r"""The highest S2S protocol version to advertise during handshake"""
@@ -17380,7 +16428,7 @@ class CreateInputInputSplunkTypedDict(TypedDict):
     r"""Drop Splunk control fields such as `crcSalt` and `_savedPort`. If disabled, control fields are stored in the internal field `__ctrlFields`."""
     extract_metrics: NotRequired[bool]
     r"""Extract and process Splunk-generated metrics as Cribl metrics"""
-    compress: NotRequired[CreateInputInputSplunkCompression]
+    compress: NotRequired[CreateInputCompressionSplunk]
     r"""Controls whether to support reading compressed data from a forwarder. Select 'Automatic' to match the forwarder's configuration, or 'Disabled' to reject compressed connections."""
 
 
@@ -17391,9 +16439,7 @@ class CreateInputInputSplunk(BaseModel):
     port: float
     r"""Port to listen on"""
 
-    type: Annotated[
-        Optional[CreateInputInputSplunkType], PlainValidator(validate_open_enum(False))
-    ] = None
+    type: Optional[CreateInputTypeSplunk] = None
 
     disabled: Optional[bool] = False
 
@@ -17414,15 +16460,15 @@ class CreateInputInputSplunk(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[CreateInputInputSplunkConnection]] = None
+    connections: Optional[List[ConnectionSplunk]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[CreateInputInputSplunkPq] = None
+    pq: Optional[PqSplunk] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
 
-    tls: Optional[CreateInputInputSplunkTLSSettingsServerSide] = None
+    tls: Optional[TLSSettingsServerSideSplunk] = None
 
     ip_whitelist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipWhitelistRegex")
@@ -17454,7 +16500,7 @@ class CreateInputInputSplunk(BaseModel):
     ] = False
     r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
 
-    metadata: Optional[List[CreateInputInputSplunkMetadatum]] = None
+    metadata: Optional[List[MetadatumSplunk]] = None
     r"""Fields to add to events from this input"""
 
     breaker_rulesets: Annotated[
@@ -17468,17 +16514,12 @@ class CreateInputInputSplunk(BaseModel):
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     auth_tokens: Annotated[
-        Optional[List[CreateInputInputSplunkAuthToken]],
-        pydantic.Field(alias="authTokens"),
+        Optional[List[AuthTokenSplunk]], pydantic.Field(alias="authTokens")
     ] = None
     r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
 
     max_s2_sversion: Annotated[
-        Annotated[
-            Optional[CreateInputMaxS2SVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="maxS2Sversion"),
+        Optional[CreateInputMaxS2SVersion], pydantic.Field(alias="maxS2Sversion")
     ] = CreateInputMaxS2SVersion.V3
     r"""The highest S2S protocol version to advertise during handshake"""
 
@@ -17499,44 +16540,43 @@ class CreateInputInputSplunk(BaseModel):
     ] = False
     r"""Extract and process Splunk-generated metrics as Cribl metrics"""
 
-    compress: Annotated[
-        Optional[CreateInputInputSplunkCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputSplunkCompression.DISABLED
+    compress: Optional[CreateInputCompressionSplunk] = (
+        CreateInputCompressionSplunk.DISABLED
+    )
     r"""Controls whether to support reading compressed data from a forwarder. Select 'Automatic' to match the forwarder's configuration, or 'Disabled' to reject compressed connections."""
 
 
-class CreateInputInputHTTPType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputTypeHTTP(str, Enum):
     HTTP = "http"
 
 
-class CreateInputInputHTTPConnectionTypedDict(TypedDict):
+class ConnectionHTTPTypedDict(TypedDict):
     output: str
     pipeline: NotRequired[str]
 
 
-class CreateInputInputHTTPConnection(BaseModel):
+class ConnectionHTTP(BaseModel):
     output: str
 
     pipeline: Optional[str] = None
 
 
-class CreateInputInputHTTPMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputModeHTTP(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputHTTPCompression(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputCompressionHTTP(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class CreateInputInputHTTPPqTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputHTTPMode]
+class PqHTTPTypedDict(TypedDict):
+    mode: NotRequired[CreateInputModeHTTP]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
@@ -17548,14 +16588,12 @@ class CreateInputInputHTTPPqTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
-    compress: NotRequired[CreateInputInputHTTPCompression]
+    compress: NotRequired[CreateInputCompressionHTTP]
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputHTTPPq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputHTTPMode], PlainValidator(validate_open_enum(False))
-    ] = CreateInputInputHTTPMode.ALWAYS
+class PqHTTP(BaseModel):
+    mode: Optional[CreateInputModeHTTP] = CreateInputModeHTTP.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -17579,28 +16617,25 @@ class CreateInputInputHTTPPq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputHTTPCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputHTTPCompression.NONE
+    compress: Optional[CreateInputCompressionHTTP] = CreateInputCompressionHTTP.NONE
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputHTTPMinimumTLSVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+class MinimumTLSVersionHTTP(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputHTTPMaximumTLSVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+class MaximumTLSVersionHTTP(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputHTTPTLSSettingsServerSideTypedDict(TypedDict):
+class TLSSettingsServerSideHTTPTypedDict(TypedDict):
     disabled: NotRequired[bool]
     certificate_name: NotRequired[str]
     r"""The name of the predefined certificate"""
@@ -17616,11 +16651,11 @@ class CreateInputInputHTTPTLSSettingsServerSideTypedDict(TypedDict):
     r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
     reject_unauthorized: NotRequired[Any]
     common_name_regex: NotRequired[Any]
-    min_version: NotRequired[CreateInputInputHTTPMinimumTLSVersion]
-    max_version: NotRequired[CreateInputInputHTTPMaximumTLSVersion]
+    min_version: NotRequired[MinimumTLSVersionHTTP]
+    max_version: NotRequired[MaximumTLSVersionHTTP]
 
 
-class CreateInputInputHTTPTLSSettingsServerSide(BaseModel):
+class TLSSettingsServerSideHTTP(BaseModel):
     disabled: Optional[bool] = True
 
     certificate_name: Annotated[
@@ -17652,63 +16687,55 @@ class CreateInputInputHTTPTLSSettingsServerSide(BaseModel):
     ] = None
 
     min_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputHTTPMinimumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="minVersion"),
+        Optional[MinimumTLSVersionHTTP], pydantic.Field(alias="minVersion")
     ] = None
 
     max_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputHTTPMaximumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="maxVersion"),
+        Optional[MaximumTLSVersionHTTP], pydantic.Field(alias="maxVersion")
     ] = None
 
 
-class CreateInputInputHTTPMetadatumTypedDict(TypedDict):
+class CreateInputMetadatumHTTPTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputHTTPMetadatum(BaseModel):
-    name: str
-
-    value: str
-    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
-
-
-class CreateInputInputHTTPAuthTokensExtMetadatumTypedDict(TypedDict):
-    name: str
-    value: str
-    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
-
-
-class CreateInputInputHTTPAuthTokensExtMetadatum(BaseModel):
+class CreateInputMetadatumHTTP(BaseModel):
     name: str
 
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputHTTPAuthTokensExtTypedDict(TypedDict):
+class AuthTokensExtMetadatumHTTPTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class AuthTokensExtMetadatumHTTP(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class AuthTokensExtHTTPTypedDict(TypedDict):
     token: str
     r"""Shared secret to be provided by any client (Authorization: <token>)"""
     description: NotRequired[str]
-    metadata: NotRequired[List[CreateInputInputHTTPAuthTokensExtMetadatumTypedDict]]
+    metadata: NotRequired[List[AuthTokensExtMetadatumHTTPTypedDict]]
     r"""Fields to add to events referencing this token"""
 
 
-class CreateInputInputHTTPAuthTokensExt(BaseModel):
+class AuthTokensExtHTTP(BaseModel):
     token: str
     r"""Shared secret to be provided by any client (Authorization: <token>)"""
 
     description: Optional[str] = None
 
-    metadata: Optional[List[CreateInputInputHTTPAuthTokensExtMetadatum]] = None
+    metadata: Optional[List[AuthTokensExtMetadatumHTTP]] = None
     r"""Fields to add to events referencing this token"""
 
 
@@ -17717,7 +16744,7 @@ class CreateInputInputHTTPTypedDict(TypedDict):
     r"""Unique ID for this input"""
     port: float
     r"""Port to listen on"""
-    type: NotRequired[CreateInputInputHTTPType]
+    type: NotRequired[CreateInputTypeHTTP]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -17729,14 +16756,14 @@ class CreateInputInputHTTPTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[CreateInputInputHTTPConnectionTypedDict]]
+    connections: NotRequired[List[ConnectionHTTPTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[CreateInputInputHTTPPqTypedDict]
+    pq: NotRequired[PqHTTPTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     auth_tokens: NotRequired[List[str]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
-    tls: NotRequired[CreateInputInputHTTPTLSSettingsServerSideTypedDict]
+    tls: NotRequired[TLSSettingsServerSideHTTPTypedDict]
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -17766,9 +16793,9 @@ class CreateInputInputHTTPTypedDict(TypedDict):
     splunk_hec_api: NotRequired[str]
     r"""Absolute path on which listen for the Splunk HTTP Event Collector API requests. Use empty string to disable."""
     splunk_hec_acks: NotRequired[bool]
-    metadata: NotRequired[List[CreateInputInputHTTPMetadatumTypedDict]]
+    metadata: NotRequired[List[CreateInputMetadatumHTTPTypedDict]]
     r"""Fields to add to events from this input"""
-    auth_tokens_ext: NotRequired[List[CreateInputInputHTTPAuthTokensExtTypedDict]]
+    auth_tokens_ext: NotRequired[List[AuthTokensExtHTTPTypedDict]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     description: NotRequired[str]
 
@@ -17780,9 +16807,7 @@ class CreateInputInputHTTP(BaseModel):
     port: float
     r"""Port to listen on"""
 
-    type: Annotated[
-        Optional[CreateInputInputHTTPType], PlainValidator(validate_open_enum(False))
-    ] = None
+    type: Optional[CreateInputTypeHTTP] = None
 
     disabled: Optional[bool] = False
 
@@ -17803,10 +16828,10 @@ class CreateInputInputHTTP(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[CreateInputInputHTTPConnection]] = None
+    connections: Optional[List[ConnectionHTTP]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[CreateInputInputHTTPPq] = None
+    pq: Optional[PqHTTP] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -17816,7 +16841,7 @@ class CreateInputInputHTTP(BaseModel):
     )
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
-    tls: Optional[CreateInputInputHTTPTLSSettingsServerSide] = None
+    tls: Optional[TLSSettingsServerSideHTTP] = None
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         256
@@ -17890,49 +16915,48 @@ class CreateInputInputHTTP(BaseModel):
         Optional[bool], pydantic.Field(alias="splunkHecAcks")
     ] = False
 
-    metadata: Optional[List[CreateInputInputHTTPMetadatum]] = None
+    metadata: Optional[List[CreateInputMetadatumHTTP]] = None
     r"""Fields to add to events from this input"""
 
     auth_tokens_ext: Annotated[
-        Optional[List[CreateInputInputHTTPAuthTokensExt]],
-        pydantic.Field(alias="authTokensExt"),
+        Optional[List[AuthTokensExtHTTP]], pydantic.Field(alias="authTokensExt")
     ] = None
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
     description: Optional[str] = None
 
 
-class CreateInputInputMskType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputTypeMsk(str, Enum):
     MSK = "msk"
 
 
-class CreateInputInputMskConnectionTypedDict(TypedDict):
+class ConnectionMskTypedDict(TypedDict):
     output: str
     pipeline: NotRequired[str]
 
 
-class CreateInputInputMskConnection(BaseModel):
+class ConnectionMsk(BaseModel):
     output: str
 
     pipeline: Optional[str] = None
 
 
-class CreateInputInputMskMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputModeMsk(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputMskCompression(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputCompressionMsk(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class CreateInputInputMskPqTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputMskMode]
+class PqMskTypedDict(TypedDict):
+    mode: NotRequired[CreateInputModeMsk]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
@@ -17944,14 +16968,12 @@ class CreateInputInputMskPqTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
-    compress: NotRequired[CreateInputInputMskCompression]
+    compress: NotRequired[CreateInputCompressionMsk]
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputMskPq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputMskMode], PlainValidator(validate_open_enum(False))
-    ] = CreateInputInputMskMode.ALWAYS
+class PqMsk(BaseModel):
+    mode: Optional[CreateInputModeMsk] = CreateInputModeMsk.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -17975,27 +16997,24 @@ class CreateInputInputMskPq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputMskCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputMskCompression.NONE
+    compress: Optional[CreateInputCompressionMsk] = CreateInputCompressionMsk.NONE
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputMskMetadatumTypedDict(TypedDict):
+class MetadatumMskTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputMskMetadatum(BaseModel):
+class MetadatumMsk(BaseModel):
     name: str
 
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputMskAuthTypedDict(TypedDict):
+class CreateInputAuthMskTypedDict(TypedDict):
     r"""Credentials to use when authenticating with the schema registry using basic HTTP authentication"""
 
     disabled: NotRequired[bool]
@@ -18003,7 +17022,7 @@ class CreateInputInputMskAuthTypedDict(TypedDict):
     r"""Select or create a secret that references your credentials"""
 
 
-class CreateInputInputMskAuth(BaseModel):
+class CreateInputAuthMsk(BaseModel):
     r"""Credentials to use when authenticating with the schema registry using basic HTTP authentication"""
 
     disabled: Optional[bool] = True
@@ -18014,25 +17033,21 @@ class CreateInputInputMskAuth(BaseModel):
     r"""Select or create a secret that references your credentials"""
 
 
-class CreateInputInputMskKafkaSchemaRegistryMinimumTLSVersion(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class CreateInputKafkaSchemaRegistryMinimumTLSVersionMsk(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputMskKafkaSchemaRegistryMaximumTLSVersion(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class CreateInputKafkaSchemaRegistryMaximumTLSVersionMsk(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputMskKafkaSchemaRegistryTLSSettingsClientSideTypedDict(TypedDict):
+class CreateInputKafkaSchemaRegistryTLSSettingsClientSideMskTypedDict(TypedDict):
     disabled: NotRequired[bool]
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates that are not authorized by a CA in the CA certificate path, or by another
@@ -18050,11 +17065,11 @@ class CreateInputInputMskKafkaSchemaRegistryTLSSettingsClientSideTypedDict(Typed
     r"""Path on client in which to find certificates to use. PEM format. Can reference $ENV_VARS."""
     passphrase: NotRequired[str]
     r"""Passphrase to use to decrypt private key"""
-    min_version: NotRequired[CreateInputInputMskKafkaSchemaRegistryMinimumTLSVersion]
-    max_version: NotRequired[CreateInputInputMskKafkaSchemaRegistryMaximumTLSVersion]
+    min_version: NotRequired[CreateInputKafkaSchemaRegistryMinimumTLSVersionMsk]
+    max_version: NotRequired[CreateInputKafkaSchemaRegistryMaximumTLSVersionMsk]
 
 
-class CreateInputInputMskKafkaSchemaRegistryTLSSettingsClientSide(BaseModel):
+class CreateInputKafkaSchemaRegistryTLSSettingsClientSideMsk(BaseModel):
     disabled: Optional[bool] = True
 
     reject_unauthorized: Annotated[
@@ -18085,23 +17100,17 @@ class CreateInputInputMskKafkaSchemaRegistryTLSSettingsClientSide(BaseModel):
     r"""Passphrase to use to decrypt private key"""
 
     min_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputMskKafkaSchemaRegistryMinimumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[CreateInputKafkaSchemaRegistryMinimumTLSVersionMsk],
         pydantic.Field(alias="minVersion"),
     ] = None
 
     max_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputMskKafkaSchemaRegistryMaximumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[CreateInputKafkaSchemaRegistryMaximumTLSVersionMsk],
         pydantic.Field(alias="maxVersion"),
     ] = None
 
 
-class CreateInputInputMskKafkaSchemaRegistryAuthenticationTypedDict(TypedDict):
+class CreateInputKafkaSchemaRegistryAuthenticationMskTypedDict(TypedDict):
     disabled: NotRequired[bool]
     schema_registry_url: NotRequired[str]
     r"""URL for accessing the Confluent Schema Registry. Example: http://localhost:8081. To connect over TLS, use https instead of http."""
@@ -18111,14 +17120,12 @@ class CreateInputInputMskKafkaSchemaRegistryAuthenticationTypedDict(TypedDict):
     r"""Maximum time to wait for the Schema Registry to respond to a request"""
     max_retries: NotRequired[float]
     r"""Maximum number of times to try fetching schemas from the Schema Registry"""
-    auth: NotRequired[CreateInputInputMskAuthTypedDict]
+    auth: NotRequired[CreateInputAuthMskTypedDict]
     r"""Credentials to use when authenticating with the schema registry using basic HTTP authentication"""
-    tls: NotRequired[
-        CreateInputInputMskKafkaSchemaRegistryTLSSettingsClientSideTypedDict
-    ]
+    tls: NotRequired[CreateInputKafkaSchemaRegistryTLSSettingsClientSideMskTypedDict]
 
 
-class CreateInputInputMskKafkaSchemaRegistryAuthentication(BaseModel):
+class CreateInputKafkaSchemaRegistryAuthenticationMsk(BaseModel):
     disabled: Optional[bool] = True
 
     schema_registry_url: Annotated[
@@ -18139,13 +17146,13 @@ class CreateInputInputMskKafkaSchemaRegistryAuthentication(BaseModel):
     max_retries: Annotated[Optional[float], pydantic.Field(alias="maxRetries")] = 1
     r"""Maximum number of times to try fetching schemas from the Schema Registry"""
 
-    auth: Optional[CreateInputInputMskAuth] = None
+    auth: Optional[CreateInputAuthMsk] = None
     r"""Credentials to use when authenticating with the schema registry using basic HTTP authentication"""
 
-    tls: Optional[CreateInputInputMskKafkaSchemaRegistryTLSSettingsClientSide] = None
+    tls: Optional[CreateInputKafkaSchemaRegistryTLSSettingsClientSideMsk] = None
 
 
-class CreateInputInputMskAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputAuthenticationMethodMsk(str, Enum):
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     AUTO = "auto"
@@ -18153,28 +17160,28 @@ class CreateInputInputMskAuthenticationMethod(str, Enum, metaclass=utils.OpenEnu
     SECRET = "secret"
 
 
-class CreateInputInputMskSignatureVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputSignatureVersionMsk(str, Enum):
     r"""Signature version to use for signing MSK cluster requests"""
 
     V2 = "v2"
     V4 = "v4"
 
 
-class CreateInputInputMskMinimumTLSVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputMinimumTLSVersionMsk(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputMskMaximumTLSVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputMaximumTLSVersionMsk(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputMskTLSSettingsClientSideTypedDict(TypedDict):
+class CreateInputTLSSettingsClientSideMskTypedDict(TypedDict):
     disabled: NotRequired[bool]
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates that are not authorized by a CA in the CA certificate path, or by another
@@ -18192,11 +17199,11 @@ class CreateInputInputMskTLSSettingsClientSideTypedDict(TypedDict):
     r"""Path on client in which to find certificates to use. PEM format. Can reference $ENV_VARS."""
     passphrase: NotRequired[str]
     r"""Passphrase to use to decrypt private key"""
-    min_version: NotRequired[CreateInputInputMskMinimumTLSVersion]
-    max_version: NotRequired[CreateInputInputMskMaximumTLSVersion]
+    min_version: NotRequired[CreateInputMinimumTLSVersionMsk]
+    max_version: NotRequired[CreateInputMaximumTLSVersionMsk]
 
 
-class CreateInputInputMskTLSSettingsClientSide(BaseModel):
+class CreateInputTLSSettingsClientSideMsk(BaseModel):
     disabled: Optional[bool] = False
 
     reject_unauthorized: Annotated[
@@ -18227,19 +17234,11 @@ class CreateInputInputMskTLSSettingsClientSide(BaseModel):
     r"""Passphrase to use to decrypt private key"""
 
     min_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputMskMinimumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="minVersion"),
+        Optional[CreateInputMinimumTLSVersionMsk], pydantic.Field(alias="minVersion")
     ] = None
 
     max_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputMskMaximumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="maxVersion"),
+        Optional[CreateInputMaximumTLSVersionMsk], pydantic.Field(alias="maxVersion")
     ] = None
 
 
@@ -18252,7 +17251,7 @@ class CreateInputInputMskTypedDict(TypedDict):
     r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
     region: str
     r"""Region where the MSK cluster is located"""
-    type: NotRequired[CreateInputInputMskType]
+    type: NotRequired[CreateInputTypeMsk]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -18264,9 +17263,9 @@ class CreateInputInputMskTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[CreateInputInputMskConnectionTypedDict]]
+    connections: NotRequired[List[ConnectionMskTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[CreateInputInputMskPqTypedDict]
+    pq: NotRequired[PqMskTypedDict]
     group_id: NotRequired[str]
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
     from_beginning: NotRequired[bool]
@@ -18288,10 +17287,10 @@ class CreateInputInputMskTypedDict(TypedDict):
     Value must be lower than sessionTimeout and typically should not exceed 1/3 of the sessionTimeout value.
     See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_heartbeat.interval.ms) for details.
     """
-    metadata: NotRequired[List[CreateInputInputMskMetadatumTypedDict]]
+    metadata: NotRequired[List[MetadatumMskTypedDict]]
     r"""Fields to add to events from this input"""
     kafka_schema_registry: NotRequired[
-        CreateInputInputMskKafkaSchemaRegistryAuthenticationTypedDict
+        CreateInputKafkaSchemaRegistryAuthenticationMskTypedDict
     ]
     connection_timeout: NotRequired[float]
     r"""Maximum time to wait for a connection to complete successfully"""
@@ -18309,12 +17308,12 @@ class CreateInputInputMskTypedDict(TypedDict):
     r"""Maximum time to wait for Kafka to respond to an authentication request"""
     reauthentication_threshold: NotRequired[float]
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
-    aws_authentication_method: NotRequired[CreateInputInputMskAuthenticationMethod]
+    aws_authentication_method: NotRequired[CreateInputAuthenticationMethodMsk]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     endpoint: NotRequired[str]
     r"""MSK cluster service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to MSK cluster-compatible endpoint."""
-    signature_version: NotRequired[CreateInputInputMskSignatureVersion]
+    signature_version: NotRequired[CreateInputSignatureVersionMsk]
     r"""Signature version to use for signing MSK cluster requests"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
@@ -18328,7 +17327,7 @@ class CreateInputInputMskTypedDict(TypedDict):
     r"""External ID to use when assuming role"""
     duration_seconds: NotRequired[float]
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
-    tls: NotRequired[CreateInputInputMskTLSSettingsClientSideTypedDict]
+    tls: NotRequired[CreateInputTLSSettingsClientSideMskTypedDict]
     auto_commit_interval: NotRequired[float]
     r"""How often to commit offsets. If both this and Offset commit threshold are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
     auto_commit_threshold: NotRequired[float]
@@ -18358,9 +17357,7 @@ class CreateInputInputMsk(BaseModel):
     region: str
     r"""Region where the MSK cluster is located"""
 
-    type: Annotated[
-        Optional[CreateInputInputMskType], PlainValidator(validate_open_enum(False))
-    ] = None
+    type: Optional[CreateInputTypeMsk] = None
 
     disabled: Optional[bool] = False
 
@@ -18381,10 +17378,10 @@ class CreateInputInputMsk(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[CreateInputInputMskConnection]] = None
+    connections: Optional[List[ConnectionMsk]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[CreateInputInputMskPq] = None
+    pq: Optional[PqMsk] = None
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = "Cribl"
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
@@ -18420,11 +17417,11 @@ class CreateInputInputMsk(BaseModel):
     See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_heartbeat.interval.ms) for details.
     """
 
-    metadata: Optional[List[CreateInputInputMskMetadatum]] = None
+    metadata: Optional[List[MetadatumMsk]] = None
     r"""Fields to add to events from this input"""
 
     kafka_schema_registry: Annotated[
-        Optional[CreateInputInputMskKafkaSchemaRegistryAuthentication],
+        Optional[CreateInputKafkaSchemaRegistryAuthenticationMsk],
         pydantic.Field(alias="kafkaSchemaRegistry"),
     ] = None
 
@@ -18463,12 +17460,9 @@ class CreateInputInputMsk(BaseModel):
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
 
     aws_authentication_method: Annotated[
-        Annotated[
-            Optional[CreateInputInputMskAuthenticationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[CreateInputAuthenticationMethodMsk],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = CreateInputInputMskAuthenticationMethod.AUTO
+    ] = CreateInputAuthenticationMethodMsk.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -18479,12 +17473,9 @@ class CreateInputInputMsk(BaseModel):
     r"""MSK cluster service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to MSK cluster-compatible endpoint."""
 
     signature_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputMskSignatureVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[CreateInputSignatureVersionMsk],
         pydantic.Field(alias="signatureVersion"),
-    ] = CreateInputInputMskSignatureVersion.V4
+    ] = CreateInputSignatureVersionMsk.V4
     r"""Signature version to use for signing MSK cluster requests"""
 
     reuse_connections: Annotated[
@@ -18517,7 +17508,7 @@ class CreateInputInputMsk(BaseModel):
     ] = 3600
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
 
-    tls: Optional[CreateInputInputMskTLSSettingsClientSide] = None
+    tls: Optional[CreateInputTLSSettingsClientSideMsk] = None
 
     auto_commit_interval: Annotated[
         Optional[float], pydantic.Field(alias="autoCommitInterval")
@@ -18550,37 +17541,37 @@ class CreateInputInputMsk(BaseModel):
     r"""Select or create a stored secret that references your access key and secret key"""
 
 
-class CreateInputInputKafkaType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputTypeKafka(str, Enum):
     KAFKA = "kafka"
 
 
-class CreateInputInputKafkaConnectionTypedDict(TypedDict):
+class ConnectionKafkaTypedDict(TypedDict):
     output: str
     pipeline: NotRequired[str]
 
 
-class CreateInputInputKafkaConnection(BaseModel):
+class ConnectionKafka(BaseModel):
     output: str
 
     pipeline: Optional[str] = None
 
 
-class CreateInputInputKafkaMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputModeKafka(str, Enum):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     SMART = "smart"
     ALWAYS = "always"
 
 
-class CreateInputInputKafkaCompression(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputCompressionKafka(str, Enum):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class CreateInputInputKafkaPqTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputKafkaMode]
+class PqKafkaTypedDict(TypedDict):
+    mode: NotRequired[CreateInputModeKafka]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
@@ -18592,14 +17583,12 @@ class CreateInputInputKafkaPqTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
-    compress: NotRequired[CreateInputInputKafkaCompression]
+    compress: NotRequired[CreateInputCompressionKafka]
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputKafkaPq(BaseModel):
-    mode: Annotated[
-        Optional[CreateInputInputKafkaMode], PlainValidator(validate_open_enum(False))
-    ] = CreateInputInputKafkaMode.ALWAYS
+class PqKafka(BaseModel):
+    mode: Optional[CreateInputModeKafka] = CreateInputModeKafka.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -18623,14 +17612,11 @@ class CreateInputInputKafkaPq(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CreateInputInputKafkaCompression],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputKafkaCompression.NONE
+    compress: Optional[CreateInputCompressionKafka] = CreateInputCompressionKafka.NONE
     r"""Codec to use to compress the persisted data"""
 
 
-class CreateInputInputKafkaAuthTypedDict(TypedDict):
+class CreateInputAuthKafkaTypedDict(TypedDict):
     r"""Credentials to use when authenticating with the schema registry using basic HTTP authentication"""
 
     disabled: NotRequired[bool]
@@ -18638,7 +17624,7 @@ class CreateInputInputKafkaAuthTypedDict(TypedDict):
     r"""Select or create a secret that references your credentials"""
 
 
-class CreateInputInputKafkaAuth(BaseModel):
+class CreateInputAuthKafka(BaseModel):
     r"""Credentials to use when authenticating with the schema registry using basic HTTP authentication"""
 
     disabled: Optional[bool] = True
@@ -18649,25 +17635,21 @@ class CreateInputInputKafkaAuth(BaseModel):
     r"""Select or create a secret that references your credentials"""
 
 
-class CreateInputInputKafkaKafkaSchemaRegistryMinimumTLSVersion(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class CreateInputKafkaSchemaRegistryMinimumTLSVersionKafka(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputKafkaKafkaSchemaRegistryMaximumTLSVersion(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class CreateInputKafkaSchemaRegistryMaximumTLSVersionKafka(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputKafkaKafkaSchemaRegistryTLSSettingsClientSideTypedDict(TypedDict):
+class CreateInputKafkaSchemaRegistryTLSSettingsClientSideKafkaTypedDict(TypedDict):
     disabled: NotRequired[bool]
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates that are not authorized by a CA in the CA certificate path, or by another
@@ -18685,11 +17667,11 @@ class CreateInputInputKafkaKafkaSchemaRegistryTLSSettingsClientSideTypedDict(Typ
     r"""Path on client in which to find certificates to use. PEM format. Can reference $ENV_VARS."""
     passphrase: NotRequired[str]
     r"""Passphrase to use to decrypt private key"""
-    min_version: NotRequired[CreateInputInputKafkaKafkaSchemaRegistryMinimumTLSVersion]
-    max_version: NotRequired[CreateInputInputKafkaKafkaSchemaRegistryMaximumTLSVersion]
+    min_version: NotRequired[CreateInputKafkaSchemaRegistryMinimumTLSVersionKafka]
+    max_version: NotRequired[CreateInputKafkaSchemaRegistryMaximumTLSVersionKafka]
 
 
-class CreateInputInputKafkaKafkaSchemaRegistryTLSSettingsClientSide(BaseModel):
+class CreateInputKafkaSchemaRegistryTLSSettingsClientSideKafka(BaseModel):
     disabled: Optional[bool] = True
 
     reject_unauthorized: Annotated[
@@ -18720,23 +17702,17 @@ class CreateInputInputKafkaKafkaSchemaRegistryTLSSettingsClientSide(BaseModel):
     r"""Passphrase to use to decrypt private key"""
 
     min_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputKafkaKafkaSchemaRegistryMinimumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[CreateInputKafkaSchemaRegistryMinimumTLSVersionKafka],
         pydantic.Field(alias="minVersion"),
     ] = None
 
     max_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputKafkaKafkaSchemaRegistryMaximumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[CreateInputKafkaSchemaRegistryMaximumTLSVersionKafka],
         pydantic.Field(alias="maxVersion"),
     ] = None
 
 
-class CreateInputInputKafkaKafkaSchemaRegistryAuthenticationTypedDict(TypedDict):
+class CreateInputKafkaSchemaRegistryAuthenticationKafkaTypedDict(TypedDict):
     disabled: NotRequired[bool]
     schema_registry_url: NotRequired[str]
     r"""URL for accessing the Confluent Schema Registry. Example: http://localhost:8081. To connect over TLS, use https instead of http."""
@@ -18746,14 +17722,12 @@ class CreateInputInputKafkaKafkaSchemaRegistryAuthenticationTypedDict(TypedDict)
     r"""Maximum time to wait for the Schema Registry to respond to a request"""
     max_retries: NotRequired[float]
     r"""Maximum number of times to try fetching schemas from the Schema Registry"""
-    auth: NotRequired[CreateInputInputKafkaAuthTypedDict]
+    auth: NotRequired[CreateInputAuthKafkaTypedDict]
     r"""Credentials to use when authenticating with the schema registry using basic HTTP authentication"""
-    tls: NotRequired[
-        CreateInputInputKafkaKafkaSchemaRegistryTLSSettingsClientSideTypedDict
-    ]
+    tls: NotRequired[CreateInputKafkaSchemaRegistryTLSSettingsClientSideKafkaTypedDict]
 
 
-class CreateInputInputKafkaKafkaSchemaRegistryAuthentication(BaseModel):
+class CreateInputKafkaSchemaRegistryAuthenticationKafka(BaseModel):
     disabled: Optional[bool] = True
 
     schema_registry_url: Annotated[
@@ -18774,52 +17748,51 @@ class CreateInputInputKafkaKafkaSchemaRegistryAuthentication(BaseModel):
     max_retries: Annotated[Optional[float], pydantic.Field(alias="maxRetries")] = 1
     r"""Maximum number of times to try fetching schemas from the Schema Registry"""
 
-    auth: Optional[CreateInputInputKafkaAuth] = None
+    auth: Optional[CreateInputAuthKafka] = None
     r"""Credentials to use when authenticating with the schema registry using basic HTTP authentication"""
 
-    tls: Optional[CreateInputInputKafkaKafkaSchemaRegistryTLSSettingsClientSide] = None
+    tls: Optional[CreateInputKafkaSchemaRegistryTLSSettingsClientSideKafka] = None
 
 
-class CreateInputInputKafkaSASLMechanism(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputSASLMechanismKafka(str, Enum):
     PLAIN = "plain"
     SCRAM_SHA_256 = "scram-sha-256"
     SCRAM_SHA_512 = "scram-sha-512"
     KERBEROS = "kerberos"
 
 
-class CreateInputInputKafkaAuthenticationTypedDict(TypedDict):
+class CreateInputAuthenticationKafkaTypedDict(TypedDict):
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
     disabled: NotRequired[bool]
-    mechanism: NotRequired[CreateInputInputKafkaSASLMechanism]
+    mechanism: NotRequired[CreateInputSASLMechanismKafka]
 
 
-class CreateInputInputKafkaAuthentication(BaseModel):
+class CreateInputAuthenticationKafka(BaseModel):
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
     disabled: Optional[bool] = True
 
-    mechanism: Annotated[
-        Optional[CreateInputInputKafkaSASLMechanism],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputInputKafkaSASLMechanism.PLAIN
+    mechanism: Optional[CreateInputSASLMechanismKafka] = (
+        CreateInputSASLMechanismKafka.PLAIN
+    )
 
 
-class CreateInputInputKafkaMinimumTLSVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputMinimumTLSVersionKafka(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputKafkaMaximumTLSVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputMaximumTLSVersionKafka(str, Enum):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"
     TL_SV1_3 = "TLSv1.3"
 
 
-class CreateInputInputKafkaTLSSettingsClientSideTypedDict(TypedDict):
+class CreateInputTLSSettingsClientSideKafkaTypedDict(TypedDict):
     disabled: NotRequired[bool]
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates that are not authorized by a CA in the CA certificate path, or by another
@@ -18837,11 +17810,11 @@ class CreateInputInputKafkaTLSSettingsClientSideTypedDict(TypedDict):
     r"""Path on client in which to find certificates to use. PEM format. Can reference $ENV_VARS."""
     passphrase: NotRequired[str]
     r"""Passphrase to use to decrypt private key"""
-    min_version: NotRequired[CreateInputInputKafkaMinimumTLSVersion]
-    max_version: NotRequired[CreateInputInputKafkaMaximumTLSVersion]
+    min_version: NotRequired[CreateInputMinimumTLSVersionKafka]
+    max_version: NotRequired[CreateInputMaximumTLSVersionKafka]
 
 
-class CreateInputInputKafkaTLSSettingsClientSide(BaseModel):
+class CreateInputTLSSettingsClientSideKafka(BaseModel):
     disabled: Optional[bool] = True
 
     reject_unauthorized: Annotated[
@@ -18872,29 +17845,21 @@ class CreateInputInputKafkaTLSSettingsClientSide(BaseModel):
     r"""Passphrase to use to decrypt private key"""
 
     min_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputKafkaMinimumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="minVersion"),
+        Optional[CreateInputMinimumTLSVersionKafka], pydantic.Field(alias="minVersion")
     ] = None
 
     max_version: Annotated[
-        Annotated[
-            Optional[CreateInputInputKafkaMaximumTLSVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="maxVersion"),
+        Optional[CreateInputMaximumTLSVersionKafka], pydantic.Field(alias="maxVersion")
     ] = None
 
 
-class CreateInputInputKafkaMetadatumTypedDict(TypedDict):
+class MetadatumKafkaTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class CreateInputInputKafkaMetadatum(BaseModel):
+class MetadatumKafka(BaseModel):
     name: str
 
     value: str
@@ -18908,7 +17873,7 @@ class CreateInputInputKafkaTypedDict(TypedDict):
     r"""Enter each Kafka bootstrap server you want to use. Specify the hostname and port (such as mykafkabroker:9092) or just the hostname (in which case @{product} will assign port 9092)."""
     topics: List[str]
     r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
-    type: NotRequired[CreateInputInputKafkaType]
+    type: NotRequired[CreateInputTypeKafka]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -18920,15 +17885,15 @@ class CreateInputInputKafkaTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[CreateInputInputKafkaConnectionTypedDict]]
+    connections: NotRequired[List[ConnectionKafkaTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[CreateInputInputKafkaPqTypedDict]
+    pq: NotRequired[PqKafkaTypedDict]
     group_id: NotRequired[str]
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
     from_beginning: NotRequired[bool]
     r"""Leave enabled if you want the Source, upon first subscribing to a topic, to read starting with the earliest available message"""
     kafka_schema_registry: NotRequired[
-        CreateInputInputKafkaKafkaSchemaRegistryAuthenticationTypedDict
+        CreateInputKafkaSchemaRegistryAuthenticationKafkaTypedDict
     ]
     connection_timeout: NotRequired[float]
     r"""Maximum time to wait for a connection to complete successfully"""
@@ -18946,9 +17911,9 @@ class CreateInputInputKafkaTypedDict(TypedDict):
     r"""Maximum time to wait for Kafka to respond to an authentication request"""
     reauthentication_threshold: NotRequired[float]
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
-    sasl: NotRequired[CreateInputInputKafkaAuthenticationTypedDict]
+    sasl: NotRequired[CreateInputAuthenticationKafkaTypedDict]
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
-    tls: NotRequired[CreateInputInputKafkaTLSSettingsClientSideTypedDict]
+    tls: NotRequired[CreateInputTLSSettingsClientSideKafkaTypedDict]
     session_timeout: NotRequired[float]
     r"""Timeout used to detect client failures when using Kafka's group-management facilities.
     If the client sends no heartbeats to the broker before the timeout expires,
@@ -18976,7 +17941,7 @@ class CreateInputInputKafkaTypedDict(TypedDict):
     r"""Maximum number of bytes that Kafka will return per fetch request. Defaults to 10485760 (10 MB)."""
     max_socket_errors: NotRequired[float]
     r"""Maximum number of network errors before the consumer re-creates a socket"""
-    metadata: NotRequired[List[CreateInputInputKafkaMetadatumTypedDict]]
+    metadata: NotRequired[List[MetadatumKafkaTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
 
@@ -18991,9 +17956,7 @@ class CreateInputInputKafka(BaseModel):
     topics: List[str]
     r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
 
-    type: Annotated[
-        Optional[CreateInputInputKafkaType], PlainValidator(validate_open_enum(False))
-    ] = None
+    type: Optional[CreateInputTypeKafka] = None
 
     disabled: Optional[bool] = False
 
@@ -19014,10 +17977,10 @@ class CreateInputInputKafka(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[CreateInputInputKafkaConnection]] = None
+    connections: Optional[List[ConnectionKafka]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[CreateInputInputKafkaPq] = None
+    pq: Optional[PqKafka] = None
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = "Cribl"
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
@@ -19028,7 +17991,7 @@ class CreateInputInputKafka(BaseModel):
     r"""Leave enabled if you want the Source, upon first subscribing to a topic, to read starting with the earliest available message"""
 
     kafka_schema_registry: Annotated[
-        Optional[CreateInputInputKafkaKafkaSchemaRegistryAuthentication],
+        Optional[CreateInputKafkaSchemaRegistryAuthenticationKafka],
         pydantic.Field(alias="kafkaSchemaRegistry"),
     ] = None
 
@@ -19066,10 +18029,10 @@ class CreateInputInputKafka(BaseModel):
     ] = 10000
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
 
-    sasl: Optional[CreateInputInputKafkaAuthentication] = None
+    sasl: Optional[CreateInputAuthenticationKafka] = None
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
-    tls: Optional[CreateInputInputKafkaTLSSettingsClientSide] = None
+    tls: Optional[CreateInputTLSSettingsClientSideKafka] = None
 
     session_timeout: Annotated[
         Optional[float], pydantic.Field(alias="sessionTimeout")
@@ -19120,7 +18083,7 @@ class CreateInputInputKafka(BaseModel):
     ] = 0
     r"""Maximum number of network errors before the consumer re-creates a socket"""
 
-    metadata: Optional[List[CreateInputInputKafkaMetadatum]] = None
+    metadata: Optional[List[MetadatumKafka]] = None
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None

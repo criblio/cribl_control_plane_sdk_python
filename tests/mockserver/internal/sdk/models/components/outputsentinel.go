@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -14,6 +16,19 @@ const (
 
 func (e OutputSentinelType) ToPointer() *OutputSentinelType {
 	return &e
+}
+func (e *OutputSentinelType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "sentinel":
+		*e = OutputSentinelType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSentinelType: %v", v)
+	}
 }
 
 type OutputSentinelExtraHTTPHeader struct {
@@ -46,6 +61,23 @@ const (
 
 func (e OutputSentinelFailedRequestLoggingMode) ToPointer() *OutputSentinelFailedRequestLoggingMode {
 	return &e
+}
+func (e *OutputSentinelFailedRequestLoggingMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "payload":
+		fallthrough
+	case "payloadAndHeaders":
+		fallthrough
+	case "none":
+		*e = OutputSentinelFailedRequestLoggingMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSentinelFailedRequestLoggingMode: %v", v)
+	}
 }
 
 type OutputSentinelResponseRetrySetting struct {
@@ -159,6 +191,23 @@ const (
 func (e OutputSentinelBackpressureBehavior) ToPointer() *OutputSentinelBackpressureBehavior {
 	return &e
 }
+func (e *OutputSentinelBackpressureBehavior) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		fallthrough
+	case "queue":
+		*e = OutputSentinelBackpressureBehavior(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSentinelBackpressureBehavior: %v", v)
+	}
+}
 
 type AuthType string
 
@@ -168,6 +217,19 @@ const (
 
 func (e AuthType) ToPointer() *AuthType {
 	return &e
+}
+func (e *AuthType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "oauth":
+		*e = AuthType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for AuthType: %v", v)
+	}
 }
 
 // EndpointConfiguration - Enter the data collection endpoint URL or the individual ID
@@ -180,6 +242,21 @@ const (
 
 func (e EndpointConfiguration) ToPointer() *EndpointConfiguration {
 	return &e
+}
+func (e *EndpointConfiguration) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "url":
+		fallthrough
+	case "ID":
+		*e = EndpointConfiguration(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for EndpointConfiguration: %v", v)
+	}
 }
 
 type OutputSentinelFormat string
@@ -194,6 +271,25 @@ const (
 func (e OutputSentinelFormat) ToPointer() *OutputSentinelFormat {
 	return &e
 }
+func (e *OutputSentinelFormat) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "ndjson":
+		fallthrough
+	case "json_array":
+		fallthrough
+	case "custom":
+		fallthrough
+	case "advanced":
+		*e = OutputSentinelFormat(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSentinelFormat: %v", v)
+	}
+}
 
 // OutputSentinelCompression - Codec to use to compress the persisted data
 type OutputSentinelCompression string
@@ -205,6 +301,21 @@ const (
 
 func (e OutputSentinelCompression) ToPointer() *OutputSentinelCompression {
 	return &e
+}
+func (e *OutputSentinelCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = OutputSentinelCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSentinelCompression: %v", v)
+	}
 }
 
 // OutputSentinelQueueFullBehavior - How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged.
@@ -218,6 +329,21 @@ const (
 func (e OutputSentinelQueueFullBehavior) ToPointer() *OutputSentinelQueueFullBehavior {
 	return &e
 }
+func (e *OutputSentinelQueueFullBehavior) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		*e = OutputSentinelQueueFullBehavior(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSentinelQueueFullBehavior: %v", v)
+	}
+}
 
 // OutputSentinelMode - In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem.
 type OutputSentinelMode string
@@ -230,6 +356,23 @@ const (
 
 func (e OutputSentinelMode) ToPointer() *OutputSentinelMode {
 	return &e
+}
+func (e *OutputSentinelMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "error":
+		fallthrough
+	case "backpressure":
+		fallthrough
+	case "always":
+		*e = OutputSentinelMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSentinelMode: %v", v)
+	}
 }
 
 type OutputSentinelPqControls struct {

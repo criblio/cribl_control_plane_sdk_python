@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -15,6 +17,19 @@ const (
 func (e OutputStatsdType) ToPointer() *OutputStatsdType {
 	return &e
 }
+func (e *OutputStatsdType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "statsd":
+		*e = OutputStatsdType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputStatsdType: %v", v)
+	}
+}
 
 // OutputStatsdDestinationProtocol - Protocol to use when communicating with the destination.
 type OutputStatsdDestinationProtocol string
@@ -26,6 +41,21 @@ const (
 
 func (e OutputStatsdDestinationProtocol) ToPointer() *OutputStatsdDestinationProtocol {
 	return &e
+}
+func (e *OutputStatsdDestinationProtocol) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "udp":
+		fallthrough
+	case "tcp":
+		*e = OutputStatsdDestinationProtocol(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputStatsdDestinationProtocol: %v", v)
+	}
 }
 
 // OutputStatsdBackpressureBehavior - How to handle events when all receivers are exerting backpressure
@@ -40,6 +70,23 @@ const (
 func (e OutputStatsdBackpressureBehavior) ToPointer() *OutputStatsdBackpressureBehavior {
 	return &e
 }
+func (e *OutputStatsdBackpressureBehavior) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		fallthrough
+	case "queue":
+		*e = OutputStatsdBackpressureBehavior(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputStatsdBackpressureBehavior: %v", v)
+	}
+}
 
 // OutputStatsdCompression - Codec to use to compress the persisted data
 type OutputStatsdCompression string
@@ -51,6 +98,21 @@ const (
 
 func (e OutputStatsdCompression) ToPointer() *OutputStatsdCompression {
 	return &e
+}
+func (e *OutputStatsdCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = OutputStatsdCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputStatsdCompression: %v", v)
+	}
 }
 
 // OutputStatsdQueueFullBehavior - How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged.
@@ -64,6 +126,21 @@ const (
 func (e OutputStatsdQueueFullBehavior) ToPointer() *OutputStatsdQueueFullBehavior {
 	return &e
 }
+func (e *OutputStatsdQueueFullBehavior) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		*e = OutputStatsdQueueFullBehavior(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputStatsdQueueFullBehavior: %v", v)
+	}
+}
 
 // OutputStatsdMode - In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem.
 type OutputStatsdMode string
@@ -76,6 +153,23 @@ const (
 
 func (e OutputStatsdMode) ToPointer() *OutputStatsdMode {
 	return &e
+}
+func (e *OutputStatsdMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "error":
+		fallthrough
+	case "backpressure":
+		fallthrough
+	case "always":
+		*e = OutputStatsdMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputStatsdMode: %v", v)
+	}
 }
 
 type OutputStatsdPqControls struct {

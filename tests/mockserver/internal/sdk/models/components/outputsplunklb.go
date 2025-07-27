@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -15,6 +17,19 @@ const (
 func (e OutputSplunkLbType) ToPointer() *OutputSplunkLbType {
 	return &e
 }
+func (e *OutputSplunkLbType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "splunk_lb":
+		*e = OutputSplunkLbType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSplunkLbType: %v", v)
+	}
+}
 
 // OutputSplunkLbNestedFieldSerialization - How to serialize nested fields into index-time fields
 type OutputSplunkLbNestedFieldSerialization string
@@ -26,6 +41,21 @@ const (
 
 func (e OutputSplunkLbNestedFieldSerialization) ToPointer() *OutputSplunkLbNestedFieldSerialization {
 	return &e
+}
+func (e *OutputSplunkLbNestedFieldSerialization) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "json":
+		fallthrough
+	case "none":
+		*e = OutputSplunkLbNestedFieldSerialization(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSplunkLbNestedFieldSerialization: %v", v)
+	}
 }
 
 type OutputSplunkLbMinimumTLSVersion string
@@ -40,6 +70,25 @@ const (
 func (e OutputSplunkLbMinimumTLSVersion) ToPointer() *OutputSplunkLbMinimumTLSVersion {
 	return &e
 }
+func (e *OutputSplunkLbMinimumTLSVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = OutputSplunkLbMinimumTLSVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSplunkLbMinimumTLSVersion: %v", v)
+	}
+}
 
 type OutputSplunkLbMaximumTLSVersion string
 
@@ -52,6 +101,25 @@ const (
 
 func (e OutputSplunkLbMaximumTLSVersion) ToPointer() *OutputSplunkLbMaximumTLSVersion {
 	return &e
+}
+func (e *OutputSplunkLbMaximumTLSVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = OutputSplunkLbMaximumTLSVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSplunkLbMaximumTLSVersion: %v", v)
+	}
 }
 
 type OutputSplunkLbTLSSettingsClientSide struct {
@@ -167,6 +235,21 @@ const (
 func (e OutputSplunkLbMaxS2SVersion) ToPointer() *OutputSplunkLbMaxS2SVersion {
 	return &e
 }
+func (e *OutputSplunkLbMaxS2SVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "v3":
+		fallthrough
+	case "v4":
+		*e = OutputSplunkLbMaxS2SVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSplunkLbMaxS2SVersion: %v", v)
+	}
+}
 
 // OutputSplunkLbBackpressureBehavior - How to handle events when all receivers are exerting backpressure
 type OutputSplunkLbBackpressureBehavior string
@@ -180,6 +263,23 @@ const (
 func (e OutputSplunkLbBackpressureBehavior) ToPointer() *OutputSplunkLbBackpressureBehavior {
 	return &e
 }
+func (e *OutputSplunkLbBackpressureBehavior) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		fallthrough
+	case "queue":
+		*e = OutputSplunkLbBackpressureBehavior(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSplunkLbBackpressureBehavior: %v", v)
+	}
+}
 
 // OutputSplunkLbAuthenticationMethod - Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate
 type OutputSplunkLbAuthenticationMethod string
@@ -191,6 +291,21 @@ const (
 
 func (e OutputSplunkLbAuthenticationMethod) ToPointer() *OutputSplunkLbAuthenticationMethod {
 	return &e
+}
+func (e *OutputSplunkLbAuthenticationMethod) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = OutputSplunkLbAuthenticationMethod(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSplunkLbAuthenticationMethod: %v", v)
+	}
 }
 
 // OutputSplunkLbCompressCompression - Controls whether the sender should send compressed data to the server. Select 'Disabled' to reject compressed connections or 'Always' to ignore server's configuration and send compressed data.
@@ -205,6 +320,23 @@ const (
 func (e OutputSplunkLbCompressCompression) ToPointer() *OutputSplunkLbCompressCompression {
 	return &e
 }
+func (e *OutputSplunkLbCompressCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "disabled":
+		fallthrough
+	case "auto":
+		fallthrough
+	case "always":
+		*e = OutputSplunkLbCompressCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSplunkLbCompressCompression: %v", v)
+	}
+}
 
 // IndexerDiscoveryConfigsAuthTokenAuthenticationMethod - Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate
 type IndexerDiscoveryConfigsAuthTokenAuthenticationMethod string
@@ -216,6 +348,21 @@ const (
 
 func (e IndexerDiscoveryConfigsAuthTokenAuthenticationMethod) ToPointer() *IndexerDiscoveryConfigsAuthTokenAuthenticationMethod {
 	return &e
+}
+func (e *IndexerDiscoveryConfigsAuthTokenAuthenticationMethod) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = IndexerDiscoveryConfigsAuthTokenAuthenticationMethod(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for IndexerDiscoveryConfigsAuthTokenAuthenticationMethod: %v", v)
+	}
 }
 
 type OutputSplunkLbAuthToken struct {
@@ -251,6 +398,21 @@ const (
 
 func (e IndexerDiscoveryConfigsAuthenticationMethod) ToPointer() *IndexerDiscoveryConfigsAuthenticationMethod {
 	return &e
+}
+func (e *IndexerDiscoveryConfigsAuthenticationMethod) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = IndexerDiscoveryConfigsAuthenticationMethod(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for IndexerDiscoveryConfigsAuthenticationMethod: %v", v)
+	}
 }
 
 // IndexerDiscoveryConfigs - List of configurations to set up indexer discovery in Splunk Indexer clustering environment.
@@ -351,6 +513,21 @@ const (
 func (e OutputSplunkLbTLS) ToPointer() *OutputSplunkLbTLS {
 	return &e
 }
+func (e *OutputSplunkLbTLS) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "inherit":
+		fallthrough
+	case "off":
+		*e = OutputSplunkLbTLS(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSplunkLbTLS: %v", v)
+	}
+}
 
 type OutputSplunkLbHost struct {
 	// The hostname of the receiver
@@ -422,6 +599,21 @@ const (
 func (e OutputSplunkLbPqCompressCompression) ToPointer() *OutputSplunkLbPqCompressCompression {
 	return &e
 }
+func (e *OutputSplunkLbPqCompressCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = OutputSplunkLbPqCompressCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSplunkLbPqCompressCompression: %v", v)
+	}
+}
 
 // OutputSplunkLbQueueFullBehavior - How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged.
 type OutputSplunkLbQueueFullBehavior string
@@ -433,6 +625,21 @@ const (
 
 func (e OutputSplunkLbQueueFullBehavior) ToPointer() *OutputSplunkLbQueueFullBehavior {
 	return &e
+}
+func (e *OutputSplunkLbQueueFullBehavior) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		*e = OutputSplunkLbQueueFullBehavior(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSplunkLbQueueFullBehavior: %v", v)
+	}
 }
 
 // OutputSplunkLbMode - In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem.
@@ -446,6 +653,23 @@ const (
 
 func (e OutputSplunkLbMode) ToPointer() *OutputSplunkLbMode {
 	return &e
+}
+func (e *OutputSplunkLbMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "error":
+		fallthrough
+	case "backpressure":
+		fallthrough
+	case "always":
+		*e = OutputSplunkLbMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSplunkLbMode: %v", v)
+	}
 }
 
 type OutputSplunkLbPqControls struct {

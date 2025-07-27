@@ -46,16 +46,16 @@ def test_destinations_create_output():
                 "reject_unauthorized": True,
                 "timeout_sec": 30,
                 "flush_period_sec": 1,
-                "failed_request_logging_mode": models.CreateOutputOutputElasticCloudFailedRequestLoggingMode.NONE,
+                "failed_request_logging_mode": models.FailedRequestLoggingModeElasticCloud.NONE,
                 "include_doc_id": True,
                 "response_honor_retry_after_header": False,
-                "on_backpressure": models.CreateOutputOutputElasticCloudBackpressureBehavior.BLOCK,
+                "on_backpressure": models.BackpressureBehaviorElasticCloud.BLOCK,
                 "pq_max_file_size": "1 MB",
                 "pq_max_size": "5GB",
                 "pq_path": "$CRIBL_HOME/state/queues",
-                "pq_compress": models.CreateOutputOutputElasticCloudCompression.NONE,
-                "pq_on_backpressure": models.CreateOutputOutputElasticCloudQueueFullBehavior.BLOCK,
-                "pq_mode": models.CreateOutputOutputElasticCloudMode.ERROR,
+                "pq_compress": models.CompressionElasticCloud.NONE,
+                "pq_on_backpressure": models.QueueFullBehaviorElasticCloud.BLOCK,
+                "pq_mode": models.ModeElasticCloud.ERROR,
             }
         )
         assert res is not None

@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -14,6 +16,19 @@ const (
 
 func (e InputZscalerHecType) ToPointer() *InputZscalerHecType {
 	return &e
+}
+func (e *InputZscalerHecType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "zscaler_hec":
+		*e = InputZscalerHecType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputZscalerHecType: %v", v)
+	}
 }
 
 type InputZscalerHecConnection struct {
@@ -46,6 +61,21 @@ const (
 func (e InputZscalerHecMode) ToPointer() *InputZscalerHecMode {
 	return &e
 }
+func (e *InputZscalerHecMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = InputZscalerHecMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputZscalerHecMode: %v", v)
+	}
+}
 
 // InputZscalerHecCompression - Codec to use to compress the persisted data
 type InputZscalerHecCompression string
@@ -57,6 +87,21 @@ const (
 
 func (e InputZscalerHecCompression) ToPointer() *InputZscalerHecCompression {
 	return &e
+}
+func (e *InputZscalerHecCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = InputZscalerHecCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputZscalerHecCompression: %v", v)
+	}
 }
 
 type InputZscalerHecPq struct {
@@ -146,6 +191,21 @@ const (
 
 func (e InputZscalerHecAuthenticationMethod) ToPointer() *InputZscalerHecAuthenticationMethod {
 	return &e
+}
+func (e *InputZscalerHecAuthenticationMethod) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = InputZscalerHecAuthenticationMethod(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputZscalerHecAuthenticationMethod: %v", v)
+	}
 }
 
 type InputZscalerHecAuthTokenMetadatum struct {
@@ -253,6 +313,25 @@ const (
 func (e InputZscalerHecMinimumTLSVersion) ToPointer() *InputZscalerHecMinimumTLSVersion {
 	return &e
 }
+func (e *InputZscalerHecMinimumTLSVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = InputZscalerHecMinimumTLSVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputZscalerHecMinimumTLSVersion: %v", v)
+	}
+}
 
 type InputZscalerHecMaximumTLSVersion string
 
@@ -265,6 +344,25 @@ const (
 
 func (e InputZscalerHecMaximumTLSVersion) ToPointer() *InputZscalerHecMaximumTLSVersion {
 	return &e
+}
+func (e *InputZscalerHecMaximumTLSVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = InputZscalerHecMaximumTLSVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputZscalerHecMaximumTLSVersion: %v", v)
+	}
 }
 
 type InputZscalerHecTLSSettingsServerSide struct {

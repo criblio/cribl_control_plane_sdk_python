@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -14,6 +16,19 @@ const (
 
 func (e InputMskType) ToPointer() *InputMskType {
 	return &e
+}
+func (e *InputMskType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "msk":
+		*e = InputMskType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputMskType: %v", v)
+	}
 }
 
 type InputMskConnection struct {
@@ -46,6 +61,21 @@ const (
 func (e InputMskMode) ToPointer() *InputMskMode {
 	return &e
 }
+func (e *InputMskMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = InputMskMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputMskMode: %v", v)
+	}
+}
 
 // InputMskCompression - Codec to use to compress the persisted data
 type InputMskCompression string
@@ -57,6 +87,21 @@ const (
 
 func (e InputMskCompression) ToPointer() *InputMskCompression {
 	return &e
+}
+func (e *InputMskCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = InputMskCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputMskCompression: %v", v)
+	}
 }
 
 type InputMskPq struct {
@@ -200,6 +245,25 @@ const (
 func (e InputMskKafkaSchemaRegistryMinimumTLSVersion) ToPointer() *InputMskKafkaSchemaRegistryMinimumTLSVersion {
 	return &e
 }
+func (e *InputMskKafkaSchemaRegistryMinimumTLSVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = InputMskKafkaSchemaRegistryMinimumTLSVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputMskKafkaSchemaRegistryMinimumTLSVersion: %v", v)
+	}
+}
 
 type InputMskKafkaSchemaRegistryMaximumTLSVersion string
 
@@ -212,6 +276,25 @@ const (
 
 func (e InputMskKafkaSchemaRegistryMaximumTLSVersion) ToPointer() *InputMskKafkaSchemaRegistryMaximumTLSVersion {
 	return &e
+}
+func (e *InputMskKafkaSchemaRegistryMaximumTLSVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = InputMskKafkaSchemaRegistryMaximumTLSVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputMskKafkaSchemaRegistryMaximumTLSVersion: %v", v)
+	}
 }
 
 type InputMskKafkaSchemaRegistryTLSSettingsClientSide struct {
@@ -403,6 +486,23 @@ const (
 func (e InputMskAuthenticationMethod) ToPointer() *InputMskAuthenticationMethod {
 	return &e
 }
+func (e *InputMskAuthenticationMethod) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "auto":
+		fallthrough
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = InputMskAuthenticationMethod(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputMskAuthenticationMethod: %v", v)
+	}
+}
 
 // InputMskSignatureVersion - Signature version to use for signing MSK cluster requests
 type InputMskSignatureVersion string
@@ -414,6 +514,21 @@ const (
 
 func (e InputMskSignatureVersion) ToPointer() *InputMskSignatureVersion {
 	return &e
+}
+func (e *InputMskSignatureVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "v2":
+		fallthrough
+	case "v4":
+		*e = InputMskSignatureVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputMskSignatureVersion: %v", v)
+	}
 }
 
 type InputMskMinimumTLSVersion string
@@ -428,6 +543,25 @@ const (
 func (e InputMskMinimumTLSVersion) ToPointer() *InputMskMinimumTLSVersion {
 	return &e
 }
+func (e *InputMskMinimumTLSVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = InputMskMinimumTLSVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputMskMinimumTLSVersion: %v", v)
+	}
+}
 
 type InputMskMaximumTLSVersion string
 
@@ -440,6 +574,25 @@ const (
 
 func (e InputMskMaximumTLSVersion) ToPointer() *InputMskMaximumTLSVersion {
 	return &e
+}
+func (e *InputMskMaximumTLSVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = InputMskMaximumTLSVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputMskMaximumTLSVersion: %v", v)
+	}
 }
 
 type InputMskTLSSettingsClientSide struct {

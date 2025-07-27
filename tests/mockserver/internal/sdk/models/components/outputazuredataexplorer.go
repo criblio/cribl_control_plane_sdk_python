@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -15,6 +17,19 @@ const (
 func (e OutputAzureDataExplorerType) ToPointer() *OutputAzureDataExplorerType {
 	return &e
 }
+func (e *OutputAzureDataExplorerType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "azure_data_explorer":
+		*e = OutputAzureDataExplorerType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputAzureDataExplorerType: %v", v)
+	}
+}
 
 type IngestionMode string
 
@@ -25,6 +40,21 @@ const (
 
 func (e IngestionMode) ToPointer() *IngestionMode {
 	return &e
+}
+func (e *IngestionMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "batching":
+		fallthrough
+	case "streaming":
+		*e = IngestionMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for IngestionMode: %v", v)
+	}
 }
 
 // MicrosoftEntraIDAuthenticationEndpoint - Endpoint used to acquire authentication tokens from Azure
@@ -39,6 +69,23 @@ const (
 func (e MicrosoftEntraIDAuthenticationEndpoint) ToPointer() *MicrosoftEntraIDAuthenticationEndpoint {
 	return &e
 }
+func (e *MicrosoftEntraIDAuthenticationEndpoint) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "https://login.microsoftonline.com":
+		fallthrough
+	case "https://login.microsoftonline.us":
+		fallthrough
+	case "https://login.partner.microsoftonline.cn":
+		*e = MicrosoftEntraIDAuthenticationEndpoint(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for MicrosoftEntraIDAuthenticationEndpoint: %v", v)
+	}
+}
 
 // OutputAzureDataExplorerAuthenticationMethod - The type of OAuth 2.0 client credentials grant flow to use
 type OutputAzureDataExplorerAuthenticationMethod string
@@ -51,6 +98,23 @@ const (
 
 func (e OutputAzureDataExplorerAuthenticationMethod) ToPointer() *OutputAzureDataExplorerAuthenticationMethod {
 	return &e
+}
+func (e *OutputAzureDataExplorerAuthenticationMethod) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "clientSecret":
+		fallthrough
+	case "clientTextSecret":
+		fallthrough
+	case "certificate":
+		*e = OutputAzureDataExplorerAuthenticationMethod(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputAzureDataExplorerAuthenticationMethod: %v", v)
+	}
 }
 
 type OutputAzureDataExplorerCertificate struct {
@@ -77,6 +141,23 @@ const (
 func (e OutputAzureDataExplorerBackpressureBehavior) ToPointer() *OutputAzureDataExplorerBackpressureBehavior {
 	return &e
 }
+func (e *OutputAzureDataExplorerBackpressureBehavior) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		fallthrough
+	case "queue":
+		*e = OutputAzureDataExplorerBackpressureBehavior(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputAzureDataExplorerBackpressureBehavior: %v", v)
+	}
+}
 
 // OutputAzureDataExplorerDataFormat - Format of the output data
 type OutputAzureDataExplorerDataFormat string
@@ -90,6 +171,23 @@ const (
 func (e OutputAzureDataExplorerDataFormat) ToPointer() *OutputAzureDataExplorerDataFormat {
 	return &e
 }
+func (e *OutputAzureDataExplorerDataFormat) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "json":
+		fallthrough
+	case "raw":
+		fallthrough
+	case "parquet":
+		*e = OutputAzureDataExplorerDataFormat(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputAzureDataExplorerDataFormat: %v", v)
+	}
+}
 
 // OutputAzureDataExplorerDiskSpaceProtection - How to handle events when disk space is below the global 'Min free disk space' limit
 type OutputAzureDataExplorerDiskSpaceProtection string
@@ -102,6 +200,21 @@ const (
 func (e OutputAzureDataExplorerDiskSpaceProtection) ToPointer() *OutputAzureDataExplorerDiskSpaceProtection {
 	return &e
 }
+func (e *OutputAzureDataExplorerDiskSpaceProtection) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		*e = OutputAzureDataExplorerDiskSpaceProtection(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputAzureDataExplorerDiskSpaceProtection: %v", v)
+	}
+}
 
 type PrefixOptional string
 
@@ -112,6 +225,21 @@ const (
 
 func (e PrefixOptional) ToPointer() *PrefixOptional {
 	return &e
+}
+func (e *PrefixOptional) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "dropBy":
+		fallthrough
+	case "ingestBy":
+		*e = PrefixOptional(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for PrefixOptional: %v", v)
+	}
 }
 
 type ExtentTag struct {
@@ -156,6 +284,23 @@ const (
 func (e ReportLevel) ToPointer() *ReportLevel {
 	return &e
 }
+func (e *ReportLevel) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "failuresOnly":
+		fallthrough
+	case "doNotReport":
+		fallthrough
+	case "failuresAndSuccesses":
+		*e = ReportLevel(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ReportLevel: %v", v)
+	}
+}
 
 // ReportMethod - Target of the ingestion status reporting. Defaults to Queue.
 type ReportMethod string
@@ -168,6 +313,23 @@ const (
 
 func (e ReportMethod) ToPointer() *ReportMethod {
 	return &e
+}
+func (e *ReportMethod) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "queue":
+		fallthrough
+	case "table":
+		fallthrough
+	case "queueAndTable":
+		*e = ReportMethod(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ReportMethod: %v", v)
+	}
 }
 
 type AdditionalProperty struct {
@@ -299,6 +461,21 @@ const (
 func (e OutputAzureDataExplorerCompressCompression) ToPointer() *OutputAzureDataExplorerCompressCompression {
 	return &e
 }
+func (e *OutputAzureDataExplorerCompressCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = OutputAzureDataExplorerCompressCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputAzureDataExplorerCompressCompression: %v", v)
+	}
+}
 
 // OutputAzureDataExplorerPqCompressCompression - Codec to use to compress the persisted data
 type OutputAzureDataExplorerPqCompressCompression string
@@ -310,6 +487,21 @@ const (
 
 func (e OutputAzureDataExplorerPqCompressCompression) ToPointer() *OutputAzureDataExplorerPqCompressCompression {
 	return &e
+}
+func (e *OutputAzureDataExplorerPqCompressCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = OutputAzureDataExplorerPqCompressCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputAzureDataExplorerPqCompressCompression: %v", v)
+	}
 }
 
 // OutputAzureDataExplorerQueueFullBehavior - How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged.
@@ -323,6 +515,21 @@ const (
 func (e OutputAzureDataExplorerQueueFullBehavior) ToPointer() *OutputAzureDataExplorerQueueFullBehavior {
 	return &e
 }
+func (e *OutputAzureDataExplorerQueueFullBehavior) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		*e = OutputAzureDataExplorerQueueFullBehavior(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputAzureDataExplorerQueueFullBehavior: %v", v)
+	}
+}
 
 // OutputAzureDataExplorerMode - In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem.
 type OutputAzureDataExplorerMode string
@@ -335,6 +542,23 @@ const (
 
 func (e OutputAzureDataExplorerMode) ToPointer() *OutputAzureDataExplorerMode {
 	return &e
+}
+func (e *OutputAzureDataExplorerMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "error":
+		fallthrough
+	case "backpressure":
+		fallthrough
+	case "always":
+		*e = OutputAzureDataExplorerMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputAzureDataExplorerMode: %v", v)
+	}
 }
 
 type OutputAzureDataExplorerPqControls struct {

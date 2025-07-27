@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -14,6 +16,19 @@ const (
 
 func (e OutputDlS3Type) ToPointer() *OutputDlS3Type {
 	return &e
+}
+func (e *OutputDlS3Type) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "dl_s3":
+		*e = OutputDlS3Type(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputDlS3Type: %v", v)
+	}
 }
 
 // OutputDlS3AuthenticationMethod - AWS authentication method. Choose Auto to use IAM roles.
@@ -28,6 +43,23 @@ const (
 func (e OutputDlS3AuthenticationMethod) ToPointer() *OutputDlS3AuthenticationMethod {
 	return &e
 }
+func (e *OutputDlS3AuthenticationMethod) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "auto":
+		fallthrough
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = OutputDlS3AuthenticationMethod(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputDlS3AuthenticationMethod: %v", v)
+	}
+}
 
 // OutputDlS3SignatureVersion - Signature version to use for signing S3 requests
 type OutputDlS3SignatureVersion string
@@ -39,6 +71,21 @@ const (
 
 func (e OutputDlS3SignatureVersion) ToPointer() *OutputDlS3SignatureVersion {
 	return &e
+}
+func (e *OutputDlS3SignatureVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "v2":
+		fallthrough
+	case "v4":
+		*e = OutputDlS3SignatureVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputDlS3SignatureVersion: %v", v)
+	}
 }
 
 // OutputDlS3ObjectACL - Object ACL to assign to uploaded objects
@@ -56,6 +103,31 @@ const (
 
 func (e OutputDlS3ObjectACL) ToPointer() *OutputDlS3ObjectACL {
 	return &e
+}
+func (e *OutputDlS3ObjectACL) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "private":
+		fallthrough
+	case "public-read":
+		fallthrough
+	case "public-read-write":
+		fallthrough
+	case "authenticated-read":
+		fallthrough
+	case "aws-exec-read":
+		fallthrough
+	case "bucket-owner-read":
+		fallthrough
+	case "bucket-owner-full-control":
+		*e = OutputDlS3ObjectACL(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputDlS3ObjectACL: %v", v)
+	}
 }
 
 // OutputDlS3StorageClass - Storage class to select for uploaded objects
@@ -75,6 +147,33 @@ const (
 func (e OutputDlS3StorageClass) ToPointer() *OutputDlS3StorageClass {
 	return &e
 }
+func (e *OutputDlS3StorageClass) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "STANDARD":
+		fallthrough
+	case "REDUCED_REDUNDANCY":
+		fallthrough
+	case "STANDARD_IA":
+		fallthrough
+	case "ONEZONE_IA":
+		fallthrough
+	case "INTELLIGENT_TIERING":
+		fallthrough
+	case "GLACIER":
+		fallthrough
+	case "GLACIER_IR":
+		fallthrough
+	case "DEEP_ARCHIVE":
+		*e = OutputDlS3StorageClass(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputDlS3StorageClass: %v", v)
+	}
+}
 
 type OutputDlS3ServerSideEncryptionForUploadedObjects string
 
@@ -85,6 +184,21 @@ const (
 
 func (e OutputDlS3ServerSideEncryptionForUploadedObjects) ToPointer() *OutputDlS3ServerSideEncryptionForUploadedObjects {
 	return &e
+}
+func (e *OutputDlS3ServerSideEncryptionForUploadedObjects) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "AES256":
+		fallthrough
+	case "aws:kms":
+		*e = OutputDlS3ServerSideEncryptionForUploadedObjects(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputDlS3ServerSideEncryptionForUploadedObjects: %v", v)
+	}
 }
 
 // OutputDlS3DataFormat - Format of the output data
@@ -99,6 +213,23 @@ const (
 func (e OutputDlS3DataFormat) ToPointer() *OutputDlS3DataFormat {
 	return &e
 }
+func (e *OutputDlS3DataFormat) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "json":
+		fallthrough
+	case "raw":
+		fallthrough
+	case "parquet":
+		*e = OutputDlS3DataFormat(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputDlS3DataFormat: %v", v)
+	}
+}
 
 // OutputDlS3BackpressureBehavior - How to handle events when all receivers are exerting backpressure
 type OutputDlS3BackpressureBehavior string
@@ -110,6 +241,21 @@ const (
 
 func (e OutputDlS3BackpressureBehavior) ToPointer() *OutputDlS3BackpressureBehavior {
 	return &e
+}
+func (e *OutputDlS3BackpressureBehavior) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		*e = OutputDlS3BackpressureBehavior(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputDlS3BackpressureBehavior: %v", v)
+	}
 }
 
 // OutputDlS3DiskSpaceProtection - How to handle events when disk space is below the global 'Min free disk space' limit
@@ -123,6 +269,21 @@ const (
 func (e OutputDlS3DiskSpaceProtection) ToPointer() *OutputDlS3DiskSpaceProtection {
 	return &e
 }
+func (e *OutputDlS3DiskSpaceProtection) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		*e = OutputDlS3DiskSpaceProtection(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputDlS3DiskSpaceProtection: %v", v)
+	}
+}
 
 // OutputDlS3Compression - Data compression format to apply to HTTP content before it is delivered
 type OutputDlS3Compression string
@@ -134,6 +295,21 @@ const (
 
 func (e OutputDlS3Compression) ToPointer() *OutputDlS3Compression {
 	return &e
+}
+func (e *OutputDlS3Compression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = OutputDlS3Compression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputDlS3Compression: %v", v)
+	}
 }
 
 // OutputDlS3CompressionLevel - Compression level to apply before moving files to final destination
@@ -148,6 +324,23 @@ const (
 func (e OutputDlS3CompressionLevel) ToPointer() *OutputDlS3CompressionLevel {
 	return &e
 }
+func (e *OutputDlS3CompressionLevel) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "best_speed":
+		fallthrough
+	case "normal":
+		fallthrough
+	case "best_compression":
+		*e = OutputDlS3CompressionLevel(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputDlS3CompressionLevel: %v", v)
+	}
+}
 
 // OutputDlS3ParquetVersion - Determines which data types are supported and how they are represented
 type OutputDlS3ParquetVersion string
@@ -161,6 +354,23 @@ const (
 func (e OutputDlS3ParquetVersion) ToPointer() *OutputDlS3ParquetVersion {
 	return &e
 }
+func (e *OutputDlS3ParquetVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "PARQUET_1_0":
+		fallthrough
+	case "PARQUET_2_4":
+		fallthrough
+	case "PARQUET_2_6":
+		*e = OutputDlS3ParquetVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputDlS3ParquetVersion: %v", v)
+	}
+}
 
 // OutputDlS3DataPageVersion - Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it.
 type OutputDlS3DataPageVersion string
@@ -172,6 +382,21 @@ const (
 
 func (e OutputDlS3DataPageVersion) ToPointer() *OutputDlS3DataPageVersion {
 	return &e
+}
+func (e *OutputDlS3DataPageVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "DATA_PAGE_V1":
+		fallthrough
+	case "DATA_PAGE_V2":
+		*e = OutputDlS3DataPageVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputDlS3DataPageVersion: %v", v)
+	}
 }
 
 type OutputDlS3KeyValueMetadatum struct {

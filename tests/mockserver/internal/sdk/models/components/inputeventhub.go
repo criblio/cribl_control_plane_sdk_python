@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -14,6 +16,19 @@ const (
 
 func (e InputEventhubType) ToPointer() *InputEventhubType {
 	return &e
+}
+func (e *InputEventhubType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "eventhub":
+		*e = InputEventhubType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputEventhubType: %v", v)
+	}
 }
 
 type InputEventhubConnection struct {
@@ -46,6 +61,21 @@ const (
 func (e InputEventhubMode) ToPointer() *InputEventhubMode {
 	return &e
 }
+func (e *InputEventhubMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = InputEventhubMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputEventhubMode: %v", v)
+	}
+}
 
 // InputEventhubCompression - Codec to use to compress the persisted data
 type InputEventhubCompression string
@@ -57,6 +87,21 @@ const (
 
 func (e InputEventhubCompression) ToPointer() *InputEventhubCompression {
 	return &e
+}
+func (e *InputEventhubCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = InputEventhubCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputEventhubCompression: %v", v)
+	}
 }
 
 type InputEventhubPq struct {
@@ -145,6 +190,21 @@ const (
 
 func (e InputEventhubSASLMechanism) ToPointer() *InputEventhubSASLMechanism {
 	return &e
+}
+func (e *InputEventhubSASLMechanism) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "plain":
+		fallthrough
+	case "oauthbearer":
+		*e = InputEventhubSASLMechanism(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputEventhubSASLMechanism: %v", v)
+	}
 }
 
 // InputEventhubAuthentication - Authentication parameters to use when connecting to brokers. Using TLS is highly recommended.

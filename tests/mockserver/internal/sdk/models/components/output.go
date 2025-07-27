@@ -54,7 +54,7 @@ const (
 	OutputTypeOutputSnmp                   OutputType = "OutputSnmp"
 	OutputTypeOutputSumoLogic              OutputType = "OutputSumoLogic"
 	OutputTypeOutputDatadog                OutputType = "OutputDatadog"
-	OutputTypeOutputGrafanaCloudUnion      OutputType = "OutputGrafanaCloud_union"
+	OutputTypeOutputGrafanaCloud           OutputType = "OutputGrafanaCloud"
 	OutputTypeOutputLoki                   OutputType = "OutputLoki"
 	OutputTypeOutputPrometheus             OutputType = "OutputPrometheus"
 	OutputTypeOutputRing                   OutputType = "OutputRing"
@@ -121,7 +121,7 @@ type Output struct {
 	OutputSnmp                   *OutputSnmp                   `queryParam:"inline"`
 	OutputSumoLogic              *OutputSumoLogic              `queryParam:"inline"`
 	OutputDatadog                *OutputDatadog                `queryParam:"inline"`
-	OutputGrafanaCloudUnion      *OutputGrafanaCloudUnion      `queryParam:"inline"`
+	OutputGrafanaCloud           *OutputGrafanaCloud           `queryParam:"inline"`
 	OutputLoki                   *OutputLoki                   `queryParam:"inline"`
 	OutputPrometheus             *OutputPrometheus             `queryParam:"inline"`
 	OutputRing                   *OutputRing                   `queryParam:"inline"`
@@ -533,12 +533,12 @@ func CreateOutputOutputDatadog(outputDatadog OutputDatadog) Output {
 	}
 }
 
-func CreateOutputOutputGrafanaCloudUnion(outputGrafanaCloudUnion OutputGrafanaCloudUnion) Output {
-	typ := OutputTypeOutputGrafanaCloudUnion
+func CreateOutputOutputGrafanaCloud(outputGrafanaCloud OutputGrafanaCloud) Output {
+	typ := OutputTypeOutputGrafanaCloud
 
 	return Output{
-		OutputGrafanaCloudUnion: &outputGrafanaCloudUnion,
-		Type:                    typ,
+		OutputGrafanaCloud: &outputGrafanaCloud,
+		Type:               typ,
 	}
 }
 
@@ -1165,10 +1165,10 @@ func (u *Output) UnmarshalJSON(data []byte) error {
 		return nil
 	}
 
-	var outputGrafanaCloudUnion OutputGrafanaCloudUnion = OutputGrafanaCloudUnion{}
-	if err := utils.UnmarshalJSON(data, &outputGrafanaCloudUnion, "", true, true); err == nil {
-		u.OutputGrafanaCloudUnion = &outputGrafanaCloudUnion
-		u.Type = OutputTypeOutputGrafanaCloudUnion
+	var outputGrafanaCloud OutputGrafanaCloud = OutputGrafanaCloud{}
+	if err := utils.UnmarshalJSON(data, &outputGrafanaCloud, "", true, true); err == nil {
+		u.OutputGrafanaCloud = &outputGrafanaCloud
+		u.Type = OutputTypeOutputGrafanaCloud
 		return nil
 	}
 
@@ -1348,8 +1348,8 @@ func (u Output) MarshalJSON() ([]byte, error) {
 		return utils.MarshalJSON(u.OutputDatadog, "", true)
 	}
 
-	if u.OutputGrafanaCloudUnion != nil {
-		return utils.MarshalJSON(u.OutputGrafanaCloudUnion, "", true)
+	if u.OutputGrafanaCloud != nil {
+		return utils.MarshalJSON(u.OutputGrafanaCloud, "", true)
 	}
 
 	if u.OutputLoki != nil {

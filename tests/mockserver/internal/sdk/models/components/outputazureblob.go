@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -14,6 +16,19 @@ const (
 
 func (e OutputAzureBlobType) ToPointer() *OutputAzureBlobType {
 	return &e
+}
+func (e *OutputAzureBlobType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "azure_blob":
+		*e = OutputAzureBlobType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputAzureBlobType: %v", v)
+	}
 }
 
 // OutputAzureBlobDataFormat - Format of the output data
@@ -28,6 +43,23 @@ const (
 func (e OutputAzureBlobDataFormat) ToPointer() *OutputAzureBlobDataFormat {
 	return &e
 }
+func (e *OutputAzureBlobDataFormat) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "json":
+		fallthrough
+	case "raw":
+		fallthrough
+	case "parquet":
+		*e = OutputAzureBlobDataFormat(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputAzureBlobDataFormat: %v", v)
+	}
+}
 
 // OutputAzureBlobBackpressureBehavior - How to handle events when all receivers are exerting backpressure
 type OutputAzureBlobBackpressureBehavior string
@@ -39,6 +71,21 @@ const (
 
 func (e OutputAzureBlobBackpressureBehavior) ToPointer() *OutputAzureBlobBackpressureBehavior {
 	return &e
+}
+func (e *OutputAzureBlobBackpressureBehavior) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		*e = OutputAzureBlobBackpressureBehavior(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputAzureBlobBackpressureBehavior: %v", v)
+	}
 }
 
 // OutputAzureBlobDiskSpaceProtection - How to handle events when disk space is below the global 'Min free disk space' limit
@@ -52,6 +99,21 @@ const (
 func (e OutputAzureBlobDiskSpaceProtection) ToPointer() *OutputAzureBlobDiskSpaceProtection {
 	return &e
 }
+func (e *OutputAzureBlobDiskSpaceProtection) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		*e = OutputAzureBlobDiskSpaceProtection(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputAzureBlobDiskSpaceProtection: %v", v)
+	}
+}
 
 type OutputAzureBlobAuthenticationMethod string
 
@@ -64,6 +126,25 @@ const (
 
 func (e OutputAzureBlobAuthenticationMethod) ToPointer() *OutputAzureBlobAuthenticationMethod {
 	return &e
+}
+func (e *OutputAzureBlobAuthenticationMethod) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "manual":
+		fallthrough
+	case "secret":
+		fallthrough
+	case "clientSecret":
+		fallthrough
+	case "clientCert":
+		*e = OutputAzureBlobAuthenticationMethod(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputAzureBlobAuthenticationMethod: %v", v)
+	}
 }
 
 type BlobAccessTier string
@@ -79,6 +160,27 @@ const (
 func (e BlobAccessTier) ToPointer() *BlobAccessTier {
 	return &e
 }
+func (e *BlobAccessTier) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "Inferred":
+		fallthrough
+	case "Hot":
+		fallthrough
+	case "Cool":
+		fallthrough
+	case "Cold":
+		fallthrough
+	case "Archive":
+		*e = BlobAccessTier(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for BlobAccessTier: %v", v)
+	}
+}
 
 // OutputAzureBlobCompression - Data compression format to apply to HTTP content before it is delivered
 type OutputAzureBlobCompression string
@@ -90,6 +192,21 @@ const (
 
 func (e OutputAzureBlobCompression) ToPointer() *OutputAzureBlobCompression {
 	return &e
+}
+func (e *OutputAzureBlobCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = OutputAzureBlobCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputAzureBlobCompression: %v", v)
+	}
 }
 
 // OutputAzureBlobCompressionLevel - Compression level to apply before moving files to final destination
@@ -104,6 +221,23 @@ const (
 func (e OutputAzureBlobCompressionLevel) ToPointer() *OutputAzureBlobCompressionLevel {
 	return &e
 }
+func (e *OutputAzureBlobCompressionLevel) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "best_speed":
+		fallthrough
+	case "normal":
+		fallthrough
+	case "best_compression":
+		*e = OutputAzureBlobCompressionLevel(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputAzureBlobCompressionLevel: %v", v)
+	}
+}
 
 // OutputAzureBlobParquetVersion - Determines which data types are supported and how they are represented
 type OutputAzureBlobParquetVersion string
@@ -117,6 +251,23 @@ const (
 func (e OutputAzureBlobParquetVersion) ToPointer() *OutputAzureBlobParquetVersion {
 	return &e
 }
+func (e *OutputAzureBlobParquetVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "PARQUET_1_0":
+		fallthrough
+	case "PARQUET_2_4":
+		fallthrough
+	case "PARQUET_2_6":
+		*e = OutputAzureBlobParquetVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputAzureBlobParquetVersion: %v", v)
+	}
+}
 
 // OutputAzureBlobDataPageVersion - Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it.
 type OutputAzureBlobDataPageVersion string
@@ -128,6 +279,21 @@ const (
 
 func (e OutputAzureBlobDataPageVersion) ToPointer() *OutputAzureBlobDataPageVersion {
 	return &e
+}
+func (e *OutputAzureBlobDataPageVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "DATA_PAGE_V1":
+		fallthrough
+	case "DATA_PAGE_V2":
+		*e = OutputAzureBlobDataPageVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputAzureBlobDataPageVersion: %v", v)
+	}
 }
 
 type OutputAzureBlobKeyValueMetadatum struct {

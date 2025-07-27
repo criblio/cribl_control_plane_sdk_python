@@ -21,7 +21,7 @@ const (
 	InputTypeInputAzureBlob            InputType = "InputAzureBlob"
 	InputTypeInputElastic              InputType = "InputElastic"
 	InputTypeInputConfluentCloud       InputType = "InputConfluentCloud"
-	InputTypeInputGrafanaUnion         InputType = "InputGrafana_union"
+	InputTypeInputGrafana              InputType = "InputGrafana"
 	InputTypeInputLoki                 InputType = "InputLoki"
 	InputTypeInputPrometheusRw         InputType = "InputPrometheusRw"
 	InputTypeInputPrometheus           InputType = "InputPrometheus"
@@ -57,7 +57,7 @@ const (
 	InputTypeInputOpenTelemetry        InputType = "InputOpenTelemetry"
 	InputTypeInputModelDrivenTelemetry InputType = "InputModelDrivenTelemetry"
 	InputTypeInputSqs                  InputType = "InputSqs"
-	InputTypeInputSyslogUnion          InputType = "InputSyslog_union"
+	InputTypeInputSyslog               InputType = "InputSyslog"
 	InputTypeInputFile                 InputType = "InputFile"
 	InputTypeInputTCP                  InputType = "InputTcp"
 	InputTypeInputAppscope             InputType = "InputAppscope"
@@ -82,7 +82,7 @@ type Input struct {
 	InputAzureBlob            *InputAzureBlob            `queryParam:"inline"`
 	InputElastic              *InputElastic              `queryParam:"inline"`
 	InputConfluentCloud       *InputConfluentCloud       `queryParam:"inline"`
-	InputGrafanaUnion         *InputGrafanaUnion         `queryParam:"inline"`
+	InputGrafana              *InputGrafana              `queryParam:"inline"`
 	InputLoki                 *InputLoki                 `queryParam:"inline"`
 	InputPrometheusRw         *InputPrometheusRw         `queryParam:"inline"`
 	InputPrometheus           *InputPrometheus           `queryParam:"inline"`
@@ -118,7 +118,7 @@ type Input struct {
 	InputOpenTelemetry        *InputOpenTelemetry        `queryParam:"inline"`
 	InputModelDrivenTelemetry *InputModelDrivenTelemetry `queryParam:"inline"`
 	InputSqs                  *InputSqs                  `queryParam:"inline"`
-	InputSyslogUnion          *InputSyslogUnion          `queryParam:"inline"`
+	InputSyslog               *InputSyslog               `queryParam:"inline"`
 	InputFile                 *InputFile                 `queryParam:"inline"`
 	InputTCP                  *InputTCP                  `queryParam:"inline"`
 	InputAppscope             *InputAppscope             `queryParam:"inline"`
@@ -224,12 +224,12 @@ func CreateInputInputConfluentCloud(inputConfluentCloud InputConfluentCloud) Inp
 	}
 }
 
-func CreateInputInputGrafanaUnion(inputGrafanaUnion InputGrafanaUnion) Input {
-	typ := InputTypeInputGrafanaUnion
+func CreateInputInputGrafana(inputGrafana InputGrafana) Input {
+	typ := InputTypeInputGrafana
 
 	return Input{
-		InputGrafanaUnion: &inputGrafanaUnion,
-		Type:              typ,
+		InputGrafana: &inputGrafana,
+		Type:         typ,
 	}
 }
 
@@ -548,12 +548,12 @@ func CreateInputInputSqs(inputSqs InputSqs) Input {
 	}
 }
 
-func CreateInputInputSyslogUnion(inputSyslogUnion InputSyslogUnion) Input {
-	typ := InputTypeInputSyslogUnion
+func CreateInputInputSyslog(inputSyslog InputSyslog) Input {
+	typ := InputTypeInputSyslog
 
 	return Input{
-		InputSyslogUnion: &inputSyslogUnion,
-		Type:             typ,
+		InputSyslog: &inputSyslog,
+		Type:        typ,
 	}
 }
 
@@ -1050,17 +1050,17 @@ func (u *Input) UnmarshalJSON(data []byte) error {
 		return nil
 	}
 
-	var inputSyslogUnion InputSyslogUnion = InputSyslogUnion{}
-	if err := utils.UnmarshalJSON(data, &inputSyslogUnion, "", true, true); err == nil {
-		u.InputSyslogUnion = &inputSyslogUnion
-		u.Type = InputTypeInputSyslogUnion
+	var inputSyslog InputSyslog = InputSyslog{}
+	if err := utils.UnmarshalJSON(data, &inputSyslog, "", true, true); err == nil {
+		u.InputSyslog = &inputSyslog
+		u.Type = InputTypeInputSyslog
 		return nil
 	}
 
-	var inputGrafanaUnion InputGrafanaUnion = InputGrafanaUnion{}
-	if err := utils.UnmarshalJSON(data, &inputGrafanaUnion, "", true, true); err == nil {
-		u.InputGrafanaUnion = &inputGrafanaUnion
-		u.Type = InputTypeInputGrafanaUnion
+	var inputGrafana InputGrafana = InputGrafana{}
+	if err := utils.UnmarshalJSON(data, &inputGrafana, "", true, true); err == nil {
+		u.InputGrafana = &inputGrafana
+		u.Type = InputTypeInputGrafana
 		return nil
 	}
 
@@ -1108,8 +1108,8 @@ func (u Input) MarshalJSON() ([]byte, error) {
 		return utils.MarshalJSON(u.InputConfluentCloud, "", true)
 	}
 
-	if u.InputGrafanaUnion != nil {
-		return utils.MarshalJSON(u.InputGrafanaUnion, "", true)
+	if u.InputGrafana != nil {
+		return utils.MarshalJSON(u.InputGrafana, "", true)
 	}
 
 	if u.InputLoki != nil {
@@ -1252,8 +1252,8 @@ func (u Input) MarshalJSON() ([]byte, error) {
 		return utils.MarshalJSON(u.InputSqs, "", true)
 	}
 
-	if u.InputSyslogUnion != nil {
-		return utils.MarshalJSON(u.InputSyslogUnion, "", true)
+	if u.InputSyslog != nil {
+		return utils.MarshalJSON(u.InputSyslog, "", true)
 	}
 
 	if u.InputFile != nil {

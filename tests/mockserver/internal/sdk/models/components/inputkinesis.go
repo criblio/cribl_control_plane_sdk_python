@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -14,6 +16,19 @@ const (
 
 func (e InputKinesisType) ToPointer() *InputKinesisType {
 	return &e
+}
+func (e *InputKinesisType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "kinesis":
+		*e = InputKinesisType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputKinesisType: %v", v)
+	}
 }
 
 type InputKinesisConnection struct {
@@ -46,6 +61,21 @@ const (
 func (e InputKinesisMode) ToPointer() *InputKinesisMode {
 	return &e
 }
+func (e *InputKinesisMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = InputKinesisMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputKinesisMode: %v", v)
+	}
+}
 
 // InputKinesisCompression - Codec to use to compress the persisted data
 type InputKinesisCompression string
@@ -57,6 +87,21 @@ const (
 
 func (e InputKinesisCompression) ToPointer() *InputKinesisCompression {
 	return &e
+}
+func (e *InputKinesisCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = InputKinesisCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputKinesisCompression: %v", v)
+	}
 }
 
 type InputKinesisPq struct {
@@ -147,6 +192,21 @@ const (
 func (e ShardIteratorStart) ToPointer() *ShardIteratorStart {
 	return &e
 }
+func (e *ShardIteratorStart) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TRIM_HORIZON":
+		fallthrough
+	case "LATEST":
+		*e = ShardIteratorStart(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ShardIteratorStart: %v", v)
+	}
+}
 
 // InputKinesisRecordDataFormat - Format of data inside the Kinesis Stream records. Gzip compression is automatically detected.
 type InputKinesisRecordDataFormat string
@@ -161,6 +221,25 @@ const (
 func (e InputKinesisRecordDataFormat) ToPointer() *InputKinesisRecordDataFormat {
 	return &e
 }
+func (e *InputKinesisRecordDataFormat) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "cribl":
+		fallthrough
+	case "ndjson":
+		fallthrough
+	case "cloudwatch":
+		fallthrough
+	case "line":
+		*e = InputKinesisRecordDataFormat(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputKinesisRecordDataFormat: %v", v)
+	}
+}
 
 // ShardLoadBalancing - The load-balancing algorithm to use for spreading out shards across Workers and Worker Processes
 type ShardLoadBalancing string
@@ -172,6 +251,21 @@ const (
 
 func (e ShardLoadBalancing) ToPointer() *ShardLoadBalancing {
 	return &e
+}
+func (e *ShardLoadBalancing) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "ConsistentHashing":
+		fallthrough
+	case "RoundRobin":
+		*e = ShardLoadBalancing(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ShardLoadBalancing: %v", v)
+	}
 }
 
 // InputKinesisAuthenticationMethod - AWS authentication method. Choose Auto to use IAM roles.
@@ -186,6 +280,23 @@ const (
 func (e InputKinesisAuthenticationMethod) ToPointer() *InputKinesisAuthenticationMethod {
 	return &e
 }
+func (e *InputKinesisAuthenticationMethod) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "auto":
+		fallthrough
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = InputKinesisAuthenticationMethod(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputKinesisAuthenticationMethod: %v", v)
+	}
+}
 
 // InputKinesisSignatureVersion - Signature version to use for signing Kinesis stream requests
 type InputKinesisSignatureVersion string
@@ -197,6 +308,21 @@ const (
 
 func (e InputKinesisSignatureVersion) ToPointer() *InputKinesisSignatureVersion {
 	return &e
+}
+func (e *InputKinesisSignatureVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "v2":
+		fallthrough
+	case "v4":
+		*e = InputKinesisSignatureVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputKinesisSignatureVersion: %v", v)
+	}
 }
 
 type InputKinesisMetadatum struct {

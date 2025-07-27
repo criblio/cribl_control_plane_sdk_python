@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -14,6 +16,19 @@ const (
 
 func (e InputHTTPType) ToPointer() *InputHTTPType {
 	return &e
+}
+func (e *InputHTTPType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "http":
+		*e = InputHTTPType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputHTTPType: %v", v)
+	}
 }
 
 type InputHTTPConnection struct {
@@ -46,6 +61,21 @@ const (
 func (e InputHTTPMode) ToPointer() *InputHTTPMode {
 	return &e
 }
+func (e *InputHTTPMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = InputHTTPMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputHTTPMode: %v", v)
+	}
+}
 
 // InputHTTPCompression - Codec to use to compress the persisted data
 type InputHTTPCompression string
@@ -57,6 +87,21 @@ const (
 
 func (e InputHTTPCompression) ToPointer() *InputHTTPCompression {
 	return &e
+}
+func (e *InputHTTPCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = InputHTTPCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputHTTPCompression: %v", v)
+	}
 }
 
 type InputHTTPPq struct {
@@ -148,6 +193,25 @@ const (
 func (e InputHTTPMinimumTLSVersion) ToPointer() *InputHTTPMinimumTLSVersion {
 	return &e
 }
+func (e *InputHTTPMinimumTLSVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = InputHTTPMinimumTLSVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputHTTPMinimumTLSVersion: %v", v)
+	}
+}
 
 type InputHTTPMaximumTLSVersion string
 
@@ -160,6 +224,25 @@ const (
 
 func (e InputHTTPMaximumTLSVersion) ToPointer() *InputHTTPMaximumTLSVersion {
 	return &e
+}
+func (e *InputHTTPMaximumTLSVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = InputHTTPMaximumTLSVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputHTTPMaximumTLSVersion: %v", v)
+	}
 }
 
 type InputHTTPTLSSettingsServerSide struct {

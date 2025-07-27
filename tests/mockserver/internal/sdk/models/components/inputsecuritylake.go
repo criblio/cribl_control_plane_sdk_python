@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -14,6 +16,19 @@ const (
 
 func (e InputSecurityLakeType) ToPointer() *InputSecurityLakeType {
 	return &e
+}
+func (e *InputSecurityLakeType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "security_lake":
+		*e = InputSecurityLakeType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputSecurityLakeType: %v", v)
+	}
 }
 
 type InputSecurityLakeConnection struct {
@@ -46,6 +61,21 @@ const (
 func (e InputSecurityLakeMode) ToPointer() *InputSecurityLakeMode {
 	return &e
 }
+func (e *InputSecurityLakeMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = InputSecurityLakeMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputSecurityLakeMode: %v", v)
+	}
+}
 
 // InputSecurityLakeCompression - Codec to use to compress the persisted data
 type InputSecurityLakeCompression string
@@ -57,6 +87,21 @@ const (
 
 func (e InputSecurityLakeCompression) ToPointer() *InputSecurityLakeCompression {
 	return &e
+}
+func (e *InputSecurityLakeCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = InputSecurityLakeCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputSecurityLakeCompression: %v", v)
+	}
 }
 
 type InputSecurityLakePq struct {
@@ -148,6 +193,23 @@ const (
 func (e InputSecurityLakeAuthenticationMethod) ToPointer() *InputSecurityLakeAuthenticationMethod {
 	return &e
 }
+func (e *InputSecurityLakeAuthenticationMethod) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "auto":
+		fallthrough
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = InputSecurityLakeAuthenticationMethod(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputSecurityLakeAuthenticationMethod: %v", v)
+	}
+}
 
 // InputSecurityLakeSignatureVersion - Signature version to use for signing S3 requests
 type InputSecurityLakeSignatureVersion string
@@ -159,6 +221,21 @@ const (
 
 func (e InputSecurityLakeSignatureVersion) ToPointer() *InputSecurityLakeSignatureVersion {
 	return &e
+}
+func (e *InputSecurityLakeSignatureVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "v2":
+		fallthrough
+	case "v4":
+		*e = InputSecurityLakeSignatureVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputSecurityLakeSignatureVersion: %v", v)
+	}
 }
 
 type InputSecurityLakePreprocess struct {
@@ -262,6 +339,21 @@ const (
 
 func (e InputSecurityLakeTagAfterProcessing) ToPointer() *InputSecurityLakeTagAfterProcessing {
 	return &e
+}
+func (e *InputSecurityLakeTagAfterProcessing) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "false":
+		fallthrough
+	case "true":
+		*e = InputSecurityLakeTagAfterProcessing(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputSecurityLakeTagAfterProcessing: %v", v)
+	}
 }
 
 type InputSecurityLake struct {

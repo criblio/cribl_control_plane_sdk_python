@@ -3,15 +3,15 @@
 
 ## Supported Types
 
-### `models.InputSyslog1`
+### `models.InputSyslogSyslog1`
 
 ```python
-value: models.InputSyslog1 = /* values here */
+value: models.InputSyslogSyslog1 = /* values here */
 ```
 
-### `models.InputSyslog2`
+### `models.InputSyslogSyslog2`
 
 ```python
-value: models.InputSyslog2 = /* values here */
+value: models.InputSyslogSyslog2 = /* values here */
 ```
 

@@ -3,68 +3,112 @@
 package operations
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"mockserver/internal/sdk/models/components"
 	"mockserver/internal/sdk/utils"
 )
 
-type InputZscalerHecType string
+type TypeZscalerHec string
 
 const (
-	InputZscalerHecTypeZscalerHec InputZscalerHecType = "zscaler_hec"
+	TypeZscalerHecZscalerHec TypeZscalerHec = "zscaler_hec"
 )
 
-func (e InputZscalerHecType) ToPointer() *InputZscalerHecType {
+func (e TypeZscalerHec) ToPointer() *TypeZscalerHec {
 	return &e
 }
+func (e *TypeZscalerHec) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "zscaler_hec":
+		*e = TypeZscalerHec(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for TypeZscalerHec: %v", v)
+	}
+}
 
-type InputZscalerHecConnection struct {
+type ConnectionZscalerHec struct {
 	Pipeline *string `json:"pipeline,omitempty"`
 	Output   string  `json:"output"`
 }
 
-func (o *InputZscalerHecConnection) GetPipeline() *string {
+func (o *ConnectionZscalerHec) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputZscalerHecConnection) GetOutput() string {
+func (o *ConnectionZscalerHec) GetOutput() string {
 	if o == nil {
 		return ""
 	}
 	return o.Output
 }
 
-// InputZscalerHecMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type InputZscalerHecMode string
+// ModeZscalerHec - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+type ModeZscalerHec string
 
 const (
-	InputZscalerHecModeSmart  InputZscalerHecMode = "smart"
-	InputZscalerHecModeAlways InputZscalerHecMode = "always"
+	ModeZscalerHecSmart  ModeZscalerHec = "smart"
+	ModeZscalerHecAlways ModeZscalerHec = "always"
 )
 
-func (e InputZscalerHecMode) ToPointer() *InputZscalerHecMode {
+func (e ModeZscalerHec) ToPointer() *ModeZscalerHec {
 	return &e
 }
+func (e *ModeZscalerHec) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = ModeZscalerHec(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ModeZscalerHec: %v", v)
+	}
+}
 
-// InputZscalerHecCompression - Codec to use to compress the persisted data
-type InputZscalerHecCompression string
+// CompressionZscalerHec - Codec to use to compress the persisted data
+type CompressionZscalerHec string
 
 const (
-	InputZscalerHecCompressionNone InputZscalerHecCompression = "none"
-	InputZscalerHecCompressionGzip InputZscalerHecCompression = "gzip"
+	CompressionZscalerHecNone CompressionZscalerHec = "none"
+	CompressionZscalerHecGzip CompressionZscalerHec = "gzip"
 )
 
-func (e InputZscalerHecCompression) ToPointer() *InputZscalerHecCompression {
+func (e CompressionZscalerHec) ToPointer() *CompressionZscalerHec {
 	return &e
 }
+func (e *CompressionZscalerHec) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = CompressionZscalerHec(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CompressionZscalerHec: %v", v)
+	}
+}
 
-type InputZscalerHecPq struct {
+type PqZscalerHec struct {
 	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *InputZscalerHecMode `default:"always" json:"mode"`
+	Mode *ModeZscalerHec `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
 	// The number of events to send downstream before committing that Stream has read them
@@ -76,201 +120,254 @@ type InputZscalerHecPq struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
 	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
 	// Codec to use to compress the persisted data
-	Compress *InputZscalerHecCompression `default:"none" json:"compress"`
+	Compress *CompressionZscalerHec `default:"none" json:"compress"`
 }
 
-func (i InputZscalerHecPq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PqZscalerHec) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputZscalerHecPq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PqZscalerHec) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputZscalerHecPq) GetMode() *InputZscalerHecMode {
+func (o *PqZscalerHec) GetMode() *ModeZscalerHec {
 	if o == nil {
 		return nil
 	}
 	return o.Mode
 }
 
-func (o *InputZscalerHecPq) GetMaxBufferSize() *float64 {
+func (o *PqZscalerHec) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputZscalerHecPq) GetCommitFrequency() *float64 {
+func (o *PqZscalerHec) GetCommitFrequency() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.CommitFrequency
 }
 
-func (o *InputZscalerHecPq) GetMaxFileSize() *string {
+func (o *PqZscalerHec) GetMaxFileSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxFileSize
 }
 
-func (o *InputZscalerHecPq) GetMaxSize() *string {
+func (o *PqZscalerHec) GetMaxSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxSize
 }
 
-func (o *InputZscalerHecPq) GetPath() *string {
+func (o *PqZscalerHec) GetPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Path
 }
 
-func (o *InputZscalerHecPq) GetCompress() *InputZscalerHecCompression {
+func (o *PqZscalerHec) GetCompress() *CompressionZscalerHec {
 	if o == nil {
 		return nil
 	}
 	return o.Compress
 }
 
-// InputZscalerHecAuthenticationMethod - Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate
-type InputZscalerHecAuthenticationMethod string
+// AuthenticationMethodZscalerHec - Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate
+type AuthenticationMethodZscalerHec string
 
 const (
-	InputZscalerHecAuthenticationMethodManual InputZscalerHecAuthenticationMethod = "manual"
-	InputZscalerHecAuthenticationMethodSecret InputZscalerHecAuthenticationMethod = "secret"
+	AuthenticationMethodZscalerHecManual AuthenticationMethodZscalerHec = "manual"
+	AuthenticationMethodZscalerHecSecret AuthenticationMethodZscalerHec = "secret"
 )
 
-func (e InputZscalerHecAuthenticationMethod) ToPointer() *InputZscalerHecAuthenticationMethod {
+func (e AuthenticationMethodZscalerHec) ToPointer() *AuthenticationMethodZscalerHec {
 	return &e
 }
+func (e *AuthenticationMethodZscalerHec) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = AuthenticationMethodZscalerHec(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for AuthenticationMethodZscalerHec: %v", v)
+	}
+}
 
-type InputZscalerHecAuthTokenMetadatum struct {
+type AuthTokenMetadatumZscalerHec struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputZscalerHecAuthTokenMetadatum) GetName() string {
+func (o *AuthTokenMetadatumZscalerHec) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputZscalerHecAuthTokenMetadatum) GetValue() string {
+func (o *AuthTokenMetadatumZscalerHec) GetValue() string {
 	if o == nil {
 		return ""
 	}
 	return o.Value
 }
 
-type InputZscalerHecAuthToken struct {
+type AuthTokenZscalerHec struct {
 	// Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate
-	AuthType    *InputZscalerHecAuthenticationMethod `default:"manual" json:"authType"`
-	TokenSecret any                                  `json:"tokenSecret,omitempty"`
-	Token       any                                  `json:"token"`
-	Enabled     *bool                                `default:"true" json:"enabled"`
-	Description *string                              `json:"description,omitempty"`
+	AuthType    *AuthenticationMethodZscalerHec `default:"manual" json:"authType"`
+	TokenSecret any                             `json:"tokenSecret,omitempty"`
+	Token       any                             `json:"token"`
+	Enabled     *bool                           `default:"true" json:"enabled"`
+	Description *string                         `json:"description,omitempty"`
 	// Enter the values you want to allow in the HEC event index field at the token level. Supports wildcards. To skip validation, leave blank.
 	AllowedIndexesAtToken []string `json:"allowedIndexesAtToken,omitempty"`
 	// Fields to add to events referencing this token
-	Metadata []InputZscalerHecAuthTokenMetadatum `json:"metadata,omitempty"`
+	Metadata []AuthTokenMetadatumZscalerHec `json:"metadata,omitempty"`
 }
 
-func (i InputZscalerHecAuthToken) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (a AuthTokenZscalerHec) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(a, "", false)
 }
 
-func (i *InputZscalerHecAuthToken) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (a *AuthTokenZscalerHec) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &a, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputZscalerHecAuthToken) GetAuthType() *InputZscalerHecAuthenticationMethod {
+func (o *AuthTokenZscalerHec) GetAuthType() *AuthenticationMethodZscalerHec {
 	if o == nil {
 		return nil
 	}
 	return o.AuthType
 }
 
-func (o *InputZscalerHecAuthToken) GetTokenSecret() any {
+func (o *AuthTokenZscalerHec) GetTokenSecret() any {
 	if o == nil {
 		return nil
 	}
 	return o.TokenSecret
 }
 
-func (o *InputZscalerHecAuthToken) GetToken() any {
+func (o *AuthTokenZscalerHec) GetToken() any {
 	if o == nil {
 		return nil
 	}
 	return o.Token
 }
 
-func (o *InputZscalerHecAuthToken) GetEnabled() *bool {
+func (o *AuthTokenZscalerHec) GetEnabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Enabled
 }
 
-func (o *InputZscalerHecAuthToken) GetDescription() *string {
+func (o *AuthTokenZscalerHec) GetDescription() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Description
 }
 
-func (o *InputZscalerHecAuthToken) GetAllowedIndexesAtToken() []string {
+func (o *AuthTokenZscalerHec) GetAllowedIndexesAtToken() []string {
 	if o == nil {
 		return nil
 	}
 	return o.AllowedIndexesAtToken
 }
 
-func (o *InputZscalerHecAuthToken) GetMetadata() []InputZscalerHecAuthTokenMetadatum {
+func (o *AuthTokenZscalerHec) GetMetadata() []AuthTokenMetadatumZscalerHec {
 	if o == nil {
 		return nil
 	}
 	return o.Metadata
 }
 
-type InputZscalerHecMinimumTLSVersion string
+type MinimumTLSVersionZscalerHec string
 
 const (
-	InputZscalerHecMinimumTLSVersionTlSv1  InputZscalerHecMinimumTLSVersion = "TLSv1"
-	InputZscalerHecMinimumTLSVersionTlSv11 InputZscalerHecMinimumTLSVersion = "TLSv1.1"
-	InputZscalerHecMinimumTLSVersionTlSv12 InputZscalerHecMinimumTLSVersion = "TLSv1.2"
-	InputZscalerHecMinimumTLSVersionTlSv13 InputZscalerHecMinimumTLSVersion = "TLSv1.3"
+	MinimumTLSVersionZscalerHecTlSv1  MinimumTLSVersionZscalerHec = "TLSv1"
+	MinimumTLSVersionZscalerHecTlSv11 MinimumTLSVersionZscalerHec = "TLSv1.1"
+	MinimumTLSVersionZscalerHecTlSv12 MinimumTLSVersionZscalerHec = "TLSv1.2"
+	MinimumTLSVersionZscalerHecTlSv13 MinimumTLSVersionZscalerHec = "TLSv1.3"
 )
 
-func (e InputZscalerHecMinimumTLSVersion) ToPointer() *InputZscalerHecMinimumTLSVersion {
+func (e MinimumTLSVersionZscalerHec) ToPointer() *MinimumTLSVersionZscalerHec {
 	return &e
 }
+func (e *MinimumTLSVersionZscalerHec) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = MinimumTLSVersionZscalerHec(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for MinimumTLSVersionZscalerHec: %v", v)
+	}
+}
 
-type InputZscalerHecMaximumTLSVersion string
+type MaximumTLSVersionZscalerHec string
 
 const (
-	InputZscalerHecMaximumTLSVersionTlSv1  InputZscalerHecMaximumTLSVersion = "TLSv1"
-	InputZscalerHecMaximumTLSVersionTlSv11 InputZscalerHecMaximumTLSVersion = "TLSv1.1"
-	InputZscalerHecMaximumTLSVersionTlSv12 InputZscalerHecMaximumTLSVersion = "TLSv1.2"
-	InputZscalerHecMaximumTLSVersionTlSv13 InputZscalerHecMaximumTLSVersion = "TLSv1.3"
+	MaximumTLSVersionZscalerHecTlSv1  MaximumTLSVersionZscalerHec = "TLSv1"
+	MaximumTLSVersionZscalerHecTlSv11 MaximumTLSVersionZscalerHec = "TLSv1.1"
+	MaximumTLSVersionZscalerHecTlSv12 MaximumTLSVersionZscalerHec = "TLSv1.2"
+	MaximumTLSVersionZscalerHecTlSv13 MaximumTLSVersionZscalerHec = "TLSv1.3"
 )
 
-func (e InputZscalerHecMaximumTLSVersion) ToPointer() *InputZscalerHecMaximumTLSVersion {
+func (e MaximumTLSVersionZscalerHec) ToPointer() *MaximumTLSVersionZscalerHec {
 	return &e
 }
+func (e *MaximumTLSVersionZscalerHec) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = MaximumTLSVersionZscalerHec(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for MaximumTLSVersionZscalerHec: %v", v)
+	}
+}
 
-type InputZscalerHecTLSSettingsServerSide struct {
+type TLSSettingsServerSideZscalerHec struct {
 	Disabled *bool `default:"true" json:"disabled"`
 	// The name of the predefined certificate
 	CertificateName *string `json:"certificateName,omitempty"`
@@ -283,115 +380,115 @@ type InputZscalerHecTLSSettingsServerSide struct {
 	// Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS.
 	CaPath *string `json:"caPath,omitempty"`
 	// Require clients to present their certificates. Used to perform client authentication using SSL certs.
-	RequestCert        *bool                             `default:"false" json:"requestCert"`
-	RejectUnauthorized any                               `json:"rejectUnauthorized,omitempty"`
-	CommonNameRegex    any                               `json:"commonNameRegex,omitempty"`
-	MinVersion         *InputZscalerHecMinimumTLSVersion `json:"minVersion,omitempty"`
-	MaxVersion         *InputZscalerHecMaximumTLSVersion `json:"maxVersion,omitempty"`
+	RequestCert        *bool                        `default:"false" json:"requestCert"`
+	RejectUnauthorized any                          `json:"rejectUnauthorized,omitempty"`
+	CommonNameRegex    any                          `json:"commonNameRegex,omitempty"`
+	MinVersion         *MinimumTLSVersionZscalerHec `json:"minVersion,omitempty"`
+	MaxVersion         *MaximumTLSVersionZscalerHec `json:"maxVersion,omitempty"`
 }
 
-func (i InputZscalerHecTLSSettingsServerSide) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (t TLSSettingsServerSideZscalerHec) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(t, "", false)
 }
 
-func (i *InputZscalerHecTLSSettingsServerSide) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (t *TLSSettingsServerSideZscalerHec) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &t, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputZscalerHecTLSSettingsServerSide) GetDisabled() *bool {
+func (o *TLSSettingsServerSideZscalerHec) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *InputZscalerHecTLSSettingsServerSide) GetCertificateName() *string {
+func (o *TLSSettingsServerSideZscalerHec) GetCertificateName() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertificateName
 }
 
-func (o *InputZscalerHecTLSSettingsServerSide) GetPrivKeyPath() *string {
+func (o *TLSSettingsServerSideZscalerHec) GetPrivKeyPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.PrivKeyPath
 }
 
-func (o *InputZscalerHecTLSSettingsServerSide) GetPassphrase() *string {
+func (o *TLSSettingsServerSideZscalerHec) GetPassphrase() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Passphrase
 }
 
-func (o *InputZscalerHecTLSSettingsServerSide) GetCertPath() *string {
+func (o *TLSSettingsServerSideZscalerHec) GetCertPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertPath
 }
 
-func (o *InputZscalerHecTLSSettingsServerSide) GetCaPath() *string {
+func (o *TLSSettingsServerSideZscalerHec) GetCaPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CaPath
 }
 
-func (o *InputZscalerHecTLSSettingsServerSide) GetRequestCert() *bool {
+func (o *TLSSettingsServerSideZscalerHec) GetRequestCert() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.RequestCert
 }
 
-func (o *InputZscalerHecTLSSettingsServerSide) GetRejectUnauthorized() any {
+func (o *TLSSettingsServerSideZscalerHec) GetRejectUnauthorized() any {
 	if o == nil {
 		return nil
 	}
 	return o.RejectUnauthorized
 }
 
-func (o *InputZscalerHecTLSSettingsServerSide) GetCommonNameRegex() any {
+func (o *TLSSettingsServerSideZscalerHec) GetCommonNameRegex() any {
 	if o == nil {
 		return nil
 	}
 	return o.CommonNameRegex
 }
 
-func (o *InputZscalerHecTLSSettingsServerSide) GetMinVersion() *InputZscalerHecMinimumTLSVersion {
+func (o *TLSSettingsServerSideZscalerHec) GetMinVersion() *MinimumTLSVersionZscalerHec {
 	if o == nil {
 		return nil
 	}
 	return o.MinVersion
 }
 
-func (o *InputZscalerHecTLSSettingsServerSide) GetMaxVersion() *InputZscalerHecMaximumTLSVersion {
+func (o *TLSSettingsServerSideZscalerHec) GetMaxVersion() *MaximumTLSVersionZscalerHec {
 	if o == nil {
 		return nil
 	}
 	return o.MaxVersion
 }
 
-type InputZscalerHecMetadatum struct {
+type MetadatumZscalerHec struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputZscalerHecMetadatum) GetName() string {
+func (o *MetadatumZscalerHec) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputZscalerHecMetadatum) GetValue() string {
+func (o *MetadatumZscalerHec) GetValue() string {
 	if o == nil {
 		return ""
 	}
@@ -400,9 +497,9 @@ func (o *InputZscalerHecMetadatum) GetValue() string {
 
 type InputZscalerHec struct {
 	// Unique ID for this input
-	ID       string               `json:"id"`
-	Type     *InputZscalerHecType `json:"type,omitempty"`
-	Disabled *bool                `default:"false" json:"disabled"`
+	ID       string          `json:"id"`
+	Type     *TypeZscalerHec `json:"type,omitempty"`
+	Disabled *bool           `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -414,15 +511,15 @@ type InputZscalerHec struct {
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputZscalerHecConnection `json:"connections,omitempty"`
-	Pq          *InputZscalerHecPq          `json:"pq,omitempty"`
+	Connections []ConnectionZscalerHec `json:"connections,omitempty"`
+	Pq          *PqZscalerHec          `json:"pq,omitempty"`
 	// Address to bind on. Defaults to 0.0.0.0 (all addresses).
 	Host *string `default:"0.0.0.0" json:"host"`
 	// Port to listen on
 	Port float64 `json:"port"`
 	// Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted.
-	AuthTokens []InputZscalerHecAuthToken            `json:"authTokens,omitempty"`
-	TLS        *InputZscalerHecTLSSettingsServerSide `json:"tls,omitempty"`
+	AuthTokens []AuthTokenZscalerHec            `json:"authTokens,omitempty"`
+	TLS        *TLSSettingsServerSideZscalerHec `json:"tls,omitempty"`
 	// Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput.
 	MaxActiveReq *float64 `default:"256" json:"maxActiveReq"`
 	// Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited).
@@ -447,7 +544,7 @@ type InputZscalerHec struct {
 	// Absolute path on which to listen for the Zscaler HTTP Event Collector API requests. This input supports the /event endpoint.
 	HecAPI *string `default:"/services/collector" json:"hecAPI"`
 	// Fields to add to every event. May be overridden by fields added at the token or request level.
-	Metadata []InputZscalerHecMetadatum `json:"metadata,omitempty"`
+	Metadata []MetadatumZscalerHec `json:"metadata,omitempty"`
 	// List values allowed in HEC event index field. Leave blank to skip validation. Supports wildcards. The values here can expand index validation at the token level.
 	AllowedIndexes []string `json:"allowedIndexes,omitempty"`
 	// Whether to enable Zscaler HEC acknowledgements
@@ -479,7 +576,7 @@ func (o *InputZscalerHec) GetID() string {
 	return o.ID
 }
 
-func (o *InputZscalerHec) GetType() *InputZscalerHecType {
+func (o *InputZscalerHec) GetType() *TypeZscalerHec {
 	if o == nil {
 		return nil
 	}
@@ -528,14 +625,14 @@ func (o *InputZscalerHec) GetStreamtags() []string {
 	return o.Streamtags
 }
 
-func (o *InputZscalerHec) GetConnections() []InputZscalerHecConnection {
+func (o *InputZscalerHec) GetConnections() []ConnectionZscalerHec {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputZscalerHec) GetPq() *InputZscalerHecPq {
+func (o *InputZscalerHec) GetPq() *PqZscalerHec {
 	if o == nil {
 		return nil
 	}
@@ -556,14 +653,14 @@ func (o *InputZscalerHec) GetPort() float64 {
 	return o.Port
 }
 
-func (o *InputZscalerHec) GetAuthTokens() []InputZscalerHecAuthToken {
+func (o *InputZscalerHec) GetAuthTokens() []AuthTokenZscalerHec {
 	if o == nil {
 		return nil
 	}
 	return o.AuthTokens
 }
 
-func (o *InputZscalerHec) GetTLS() *InputZscalerHecTLSSettingsServerSide {
+func (o *InputZscalerHec) GetTLS() *TLSSettingsServerSideZscalerHec {
 	if o == nil {
 		return nil
 	}
@@ -654,7 +751,7 @@ func (o *InputZscalerHec) GetHecAPI() *string {
 	return o.HecAPI
 }
 
-func (o *InputZscalerHec) GetMetadata() []InputZscalerHecMetadatum {
+func (o *InputZscalerHec) GetMetadata() []MetadatumZscalerHec {
 	if o == nil {
 		return nil
 	}
@@ -703,62 +800,105 @@ func (o *InputZscalerHec) GetDescription() *string {
 	return o.Description
 }
 
-type InputSecurityLakeType string
+type CreateInputTypeSecurityLake string
 
 const (
-	InputSecurityLakeTypeSecurityLake InputSecurityLakeType = "security_lake"
+	CreateInputTypeSecurityLakeSecurityLake CreateInputTypeSecurityLake = "security_lake"
 )
 
-func (e InputSecurityLakeType) ToPointer() *InputSecurityLakeType {
+func (e CreateInputTypeSecurityLake) ToPointer() *CreateInputTypeSecurityLake {
 	return &e
 }
+func (e *CreateInputTypeSecurityLake) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "security_lake":
+		*e = CreateInputTypeSecurityLake(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputTypeSecurityLake: %v", v)
+	}
+}
 
-type InputSecurityLakeConnection struct {
+type ConnectionSecurityLake struct {
 	Pipeline *string `json:"pipeline,omitempty"`
 	Output   string  `json:"output"`
 }
 
-func (o *InputSecurityLakeConnection) GetPipeline() *string {
+func (o *ConnectionSecurityLake) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputSecurityLakeConnection) GetOutput() string {
+func (o *ConnectionSecurityLake) GetOutput() string {
 	if o == nil {
 		return ""
 	}
 	return o.Output
 }
 
-// InputSecurityLakeMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type InputSecurityLakeMode string
+// ModeSecurityLake - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+type ModeSecurityLake string
 
 const (
-	InputSecurityLakeModeSmart  InputSecurityLakeMode = "smart"
-	InputSecurityLakeModeAlways InputSecurityLakeMode = "always"
+	ModeSecurityLakeSmart  ModeSecurityLake = "smart"
+	ModeSecurityLakeAlways ModeSecurityLake = "always"
 )
 
-func (e InputSecurityLakeMode) ToPointer() *InputSecurityLakeMode {
+func (e ModeSecurityLake) ToPointer() *ModeSecurityLake {
 	return &e
 }
+func (e *ModeSecurityLake) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = ModeSecurityLake(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ModeSecurityLake: %v", v)
+	}
+}
 
-// InputSecurityLakeCompression - Codec to use to compress the persisted data
-type InputSecurityLakeCompression string
+// CompressionSecurityLake - Codec to use to compress the persisted data
+type CompressionSecurityLake string
 
 const (
-	InputSecurityLakeCompressionNone InputSecurityLakeCompression = "none"
-	InputSecurityLakeCompressionGzip InputSecurityLakeCompression = "gzip"
+	CompressionSecurityLakeNone CompressionSecurityLake = "none"
+	CompressionSecurityLakeGzip CompressionSecurityLake = "gzip"
 )
 
-func (e InputSecurityLakeCompression) ToPointer() *InputSecurityLakeCompression {
+func (e CompressionSecurityLake) ToPointer() *CompressionSecurityLake {
 	return &e
 }
+func (e *CompressionSecurityLake) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = CompressionSecurityLake(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CompressionSecurityLake: %v", v)
+	}
+}
 
-type InputSecurityLakePq struct {
+type PqSecurityLake struct {
 	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *InputSecurityLakeMode `default:"always" json:"mode"`
+	Mode *ModeSecurityLake `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
 	// The number of events to send downstream before committing that Stream has read them
@@ -770,95 +910,127 @@ type InputSecurityLakePq struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
 	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
 	// Codec to use to compress the persisted data
-	Compress *InputSecurityLakeCompression `default:"none" json:"compress"`
+	Compress *CompressionSecurityLake `default:"none" json:"compress"`
 }
 
-func (i InputSecurityLakePq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PqSecurityLake) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputSecurityLakePq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PqSecurityLake) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputSecurityLakePq) GetMode() *InputSecurityLakeMode {
+func (o *PqSecurityLake) GetMode() *ModeSecurityLake {
 	if o == nil {
 		return nil
 	}
 	return o.Mode
 }
 
-func (o *InputSecurityLakePq) GetMaxBufferSize() *float64 {
+func (o *PqSecurityLake) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputSecurityLakePq) GetCommitFrequency() *float64 {
+func (o *PqSecurityLake) GetCommitFrequency() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.CommitFrequency
 }
 
-func (o *InputSecurityLakePq) GetMaxFileSize() *string {
+func (o *PqSecurityLake) GetMaxFileSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxFileSize
 }
 
-func (o *InputSecurityLakePq) GetMaxSize() *string {
+func (o *PqSecurityLake) GetMaxSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxSize
 }
 
-func (o *InputSecurityLakePq) GetPath() *string {
+func (o *PqSecurityLake) GetPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Path
 }
 
-func (o *InputSecurityLakePq) GetCompress() *InputSecurityLakeCompression {
+func (o *PqSecurityLake) GetCompress() *CompressionSecurityLake {
 	if o == nil {
 		return nil
 	}
 	return o.Compress
 }
 
-// InputSecurityLakeAuthenticationMethod - AWS authentication method. Choose Auto to use IAM roles.
-type InputSecurityLakeAuthenticationMethod string
+// CreateInputAuthenticationMethodSecurityLake - AWS authentication method. Choose Auto to use IAM roles.
+type CreateInputAuthenticationMethodSecurityLake string
 
 const (
-	InputSecurityLakeAuthenticationMethodAuto   InputSecurityLakeAuthenticationMethod = "auto"
-	InputSecurityLakeAuthenticationMethodManual InputSecurityLakeAuthenticationMethod = "manual"
-	InputSecurityLakeAuthenticationMethodSecret InputSecurityLakeAuthenticationMethod = "secret"
+	CreateInputAuthenticationMethodSecurityLakeAuto   CreateInputAuthenticationMethodSecurityLake = "auto"
+	CreateInputAuthenticationMethodSecurityLakeManual CreateInputAuthenticationMethodSecurityLake = "manual"
+	CreateInputAuthenticationMethodSecurityLakeSecret CreateInputAuthenticationMethodSecurityLake = "secret"
 )
 
-func (e InputSecurityLakeAuthenticationMethod) ToPointer() *InputSecurityLakeAuthenticationMethod {
+func (e CreateInputAuthenticationMethodSecurityLake) ToPointer() *CreateInputAuthenticationMethodSecurityLake {
 	return &e
 }
+func (e *CreateInputAuthenticationMethodSecurityLake) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "auto":
+		fallthrough
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = CreateInputAuthenticationMethodSecurityLake(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputAuthenticationMethodSecurityLake: %v", v)
+	}
+}
 
-// InputSecurityLakeSignatureVersion - Signature version to use for signing S3 requests
-type InputSecurityLakeSignatureVersion string
+// CreateInputSignatureVersionSecurityLake - Signature version to use for signing S3 requests
+type CreateInputSignatureVersionSecurityLake string
 
 const (
-	InputSecurityLakeSignatureVersionV2 InputSecurityLakeSignatureVersion = "v2"
-	InputSecurityLakeSignatureVersionV4 InputSecurityLakeSignatureVersion = "v4"
+	CreateInputSignatureVersionSecurityLakeV2 CreateInputSignatureVersionSecurityLake = "v2"
+	CreateInputSignatureVersionSecurityLakeV4 CreateInputSignatureVersionSecurityLake = "v4"
 )
 
-func (e InputSecurityLakeSignatureVersion) ToPointer() *InputSecurityLakeSignatureVersion {
+func (e CreateInputSignatureVersionSecurityLake) ToPointer() *CreateInputSignatureVersionSecurityLake {
 	return &e
 }
+func (e *CreateInputSignatureVersionSecurityLake) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "v2":
+		fallthrough
+	case "v4":
+		*e = CreateInputSignatureVersionSecurityLake(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputSignatureVersionSecurityLake: %v", v)
+	}
+}
 
-type InputSecurityLakePreprocess struct {
+type PreprocessSecurityLake struct {
 	Disabled *bool `default:"true" json:"disabled"`
 	// Command to feed the data through (via stdin) and process its output (stdout)
 	Command *string `json:"command,omitempty"`
@@ -866,106 +1038,121 @@ type InputSecurityLakePreprocess struct {
 	Args []string `json:"args,omitempty"`
 }
 
-func (i InputSecurityLakePreprocess) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PreprocessSecurityLake) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputSecurityLakePreprocess) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PreprocessSecurityLake) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputSecurityLakePreprocess) GetDisabled() *bool {
+func (o *PreprocessSecurityLake) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *InputSecurityLakePreprocess) GetCommand() *string {
+func (o *PreprocessSecurityLake) GetCommand() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Command
 }
 
-func (o *InputSecurityLakePreprocess) GetArgs() []string {
+func (o *PreprocessSecurityLake) GetArgs() []string {
 	if o == nil {
 		return nil
 	}
 	return o.Args
 }
 
-type InputSecurityLakeMetadatum struct {
+type MetadatumSecurityLake struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputSecurityLakeMetadatum) GetName() string {
+func (o *MetadatumSecurityLake) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputSecurityLakeMetadatum) GetValue() string {
+func (o *MetadatumSecurityLake) GetValue() string {
 	if o == nil {
 		return ""
 	}
 	return o.Value
 }
 
-type InputSecurityLakeCheckpointing struct {
+type CheckpointingSecurityLake struct {
 	// Resume processing files after an interruption
 	Enabled *bool `default:"false" json:"enabled"`
 	// The number of times to retry processing when a processing error occurs. If Skip file on error is enabled, this setting is ignored.
 	Retries *float64 `default:"5" json:"retries"`
 }
 
-func (i InputSecurityLakeCheckpointing) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (c CheckpointingSecurityLake) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(c, "", false)
 }
 
-func (i *InputSecurityLakeCheckpointing) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (c *CheckpointingSecurityLake) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &c, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputSecurityLakeCheckpointing) GetEnabled() *bool {
+func (o *CheckpointingSecurityLake) GetEnabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Enabled
 }
 
-func (o *InputSecurityLakeCheckpointing) GetRetries() *float64 {
+func (o *CheckpointingSecurityLake) GetRetries() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.Retries
 }
 
-type InputSecurityLakeTagAfterProcessing string
+type TagAfterProcessingSecurityLake string
 
 const (
-	InputSecurityLakeTagAfterProcessingFalse InputSecurityLakeTagAfterProcessing = "false"
-	InputSecurityLakeTagAfterProcessingTrue  InputSecurityLakeTagAfterProcessing = "true"
+	TagAfterProcessingSecurityLakeFalse TagAfterProcessingSecurityLake = "false"
+	TagAfterProcessingSecurityLakeTrue  TagAfterProcessingSecurityLake = "true"
 )
 
-func (e InputSecurityLakeTagAfterProcessing) ToPointer() *InputSecurityLakeTagAfterProcessing {
+func (e TagAfterProcessingSecurityLake) ToPointer() *TagAfterProcessingSecurityLake {
 	return &e
+}
+func (e *TagAfterProcessingSecurityLake) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "false":
+		fallthrough
+	case "true":
+		*e = TagAfterProcessingSecurityLake(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for TagAfterProcessingSecurityLake: %v", v)
+	}
 }
 
 type InputSecurityLake struct {
 	// Unique ID for this input
-	ID       string                `json:"id"`
-	Type     InputSecurityLakeType `json:"type"`
-	Disabled *bool                 `default:"false" json:"disabled"`
+	ID       string                      `json:"id"`
+	Type     CreateInputTypeSecurityLake `json:"type"`
+	Disabled *bool                       `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -977,8 +1164,8 @@ type InputSecurityLake struct {
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputSecurityLakeConnection `json:"connections,omitempty"`
-	Pq          *InputSecurityLakePq          `json:"pq,omitempty"`
+	Connections []ConnectionSecurityLake `json:"connections,omitempty"`
+	Pq          *PqSecurityLake          `json:"pq,omitempty"`
 	// The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`.
 	QueueName string `json:"queueName"`
 	// Regex matching file names to download and process. Defaults to: .*
@@ -986,14 +1173,14 @@ type InputSecurityLake struct {
 	// SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account.
 	AwsAccountID *string `json:"awsAccountId,omitempty"`
 	// AWS authentication method. Choose Auto to use IAM roles.
-	AwsAuthenticationMethod *InputSecurityLakeAuthenticationMethod `default:"auto" json:"awsAuthenticationMethod"`
-	AwsSecretKey            *string                                `json:"awsSecretKey,omitempty"`
+	AwsAuthenticationMethod *CreateInputAuthenticationMethodSecurityLake `default:"auto" json:"awsAuthenticationMethod"`
+	AwsSecretKey            *string                                      `json:"awsSecretKey,omitempty"`
 	// AWS Region where the S3 bucket and SQS queue are located. Required, unless the Queue entry is a URL or ARN that includes a Region.
 	Region *string `json:"region,omitempty"`
 	// S3 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint.
 	Endpoint *string `json:"endpoint,omitempty"`
 	// Signature version to use for signing S3 requests
-	SignatureVersion *InputSecurityLakeSignatureVersion `default:"v4" json:"signatureVersion"`
+	SignatureVersion *CreateInputSignatureVersionSecurityLake `default:"v4" json:"signatureVersion"`
 	// Reuse connections between requests, which can improve performance
 	ReuseConnections *bool `default:"true" json:"reuseConnections"`
 	// Reject certificates that cannot be verified against a valid CA, such as self-signed certificates
@@ -1021,15 +1208,15 @@ type InputSecurityLake struct {
 	// Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours).
 	DurationSeconds *float64 `default:"3600" json:"durationSeconds"`
 	// Use Assume Role credentials when accessing Amazon SQS
-	EnableSQSAssumeRole *bool                        `default:"false" json:"enableSQSAssumeRole"`
-	Preprocess          *InputSecurityLakePreprocess `json:"preprocess,omitempty"`
+	EnableSQSAssumeRole *bool                   `default:"false" json:"enableSQSAssumeRole"`
+	Preprocess          *PreprocessSecurityLake `json:"preprocess,omitempty"`
 	// Fields to add to events from this input
-	Metadata []InputSecurityLakeMetadatum `json:"metadata,omitempty"`
+	Metadata []MetadatumSecurityLake `json:"metadata,omitempty"`
 	// Maximum file size for each Parquet chunk
 	ParquetChunkSizeMB *float64 `default:"5" json:"parquetChunkSizeMB"`
 	// The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified.
-	ParquetChunkDownloadTimeout *float64                        `default:"600" json:"parquetChunkDownloadTimeout"`
-	Checkpointing               *InputSecurityLakeCheckpointing `json:"checkpointing,omitempty"`
+	ParquetChunkDownloadTimeout *float64                   `default:"600" json:"parquetChunkDownloadTimeout"`
+	Checkpointing               *CheckpointingSecurityLake `json:"checkpointing,omitempty"`
 	// How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts.
 	PollTimeout *float64 `default:"10" json:"pollTimeout"`
 	// Character encoding to use when parsing ingested data. When not set, @{product} will default to UTF-8 but may incorrectly interpret multi-byte characters.
@@ -1037,8 +1224,8 @@ type InputSecurityLake struct {
 	Description *string `json:"description,omitempty"`
 	AwsAPIKey   *string `json:"awsApiKey,omitempty"`
 	// Select or create a stored secret that references your access key and secret key
-	AwsSecret          *string                              `json:"awsSecret,omitempty"`
-	TagAfterProcessing *InputSecurityLakeTagAfterProcessing `json:"tagAfterProcessing,omitempty"`
+	AwsSecret          *string                         `json:"awsSecret,omitempty"`
+	TagAfterProcessing *TagAfterProcessingSecurityLake `json:"tagAfterProcessing,omitempty"`
 	// The key for the S3 object tag applied after processing. This field accepts an expression for dynamic generation.
 	ProcessedTagKey *string `json:"processedTagKey,omitempty"`
 	// The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation.
@@ -1063,9 +1250,9 @@ func (o *InputSecurityLake) GetID() string {
 	return o.ID
 }
 
-func (o *InputSecurityLake) GetType() InputSecurityLakeType {
+func (o *InputSecurityLake) GetType() CreateInputTypeSecurityLake {
 	if o == nil {
-		return InputSecurityLakeType("")
+		return CreateInputTypeSecurityLake("")
 	}
 	return o.Type
 }
@@ -1112,14 +1299,14 @@ func (o *InputSecurityLake) GetStreamtags() []string {
 	return o.Streamtags
 }
 
-func (o *InputSecurityLake) GetConnections() []InputSecurityLakeConnection {
+func (o *InputSecurityLake) GetConnections() []ConnectionSecurityLake {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputSecurityLake) GetPq() *InputSecurityLakePq {
+func (o *InputSecurityLake) GetPq() *PqSecurityLake {
 	if o == nil {
 		return nil
 	}
@@ -1147,7 +1334,7 @@ func (o *InputSecurityLake) GetAwsAccountID() *string {
 	return o.AwsAccountID
 }
 
-func (o *InputSecurityLake) GetAwsAuthenticationMethod() *InputSecurityLakeAuthenticationMethod {
+func (o *InputSecurityLake) GetAwsAuthenticationMethod() *CreateInputAuthenticationMethodSecurityLake {
 	if o == nil {
 		return nil
 	}
@@ -1175,7 +1362,7 @@ func (o *InputSecurityLake) GetEndpoint() *string {
 	return o.Endpoint
 }
 
-func (o *InputSecurityLake) GetSignatureVersion() *InputSecurityLakeSignatureVersion {
+func (o *InputSecurityLake) GetSignatureVersion() *CreateInputSignatureVersionSecurityLake {
 	if o == nil {
 		return nil
 	}
@@ -1280,14 +1467,14 @@ func (o *InputSecurityLake) GetEnableSQSAssumeRole() *bool {
 	return o.EnableSQSAssumeRole
 }
 
-func (o *InputSecurityLake) GetPreprocess() *InputSecurityLakePreprocess {
+func (o *InputSecurityLake) GetPreprocess() *PreprocessSecurityLake {
 	if o == nil {
 		return nil
 	}
 	return o.Preprocess
 }
 
-func (o *InputSecurityLake) GetMetadata() []InputSecurityLakeMetadatum {
+func (o *InputSecurityLake) GetMetadata() []MetadatumSecurityLake {
 	if o == nil {
 		return nil
 	}
@@ -1308,7 +1495,7 @@ func (o *InputSecurityLake) GetParquetChunkDownloadTimeout() *float64 {
 	return o.ParquetChunkDownloadTimeout
 }
 
-func (o *InputSecurityLake) GetCheckpointing() *InputSecurityLakeCheckpointing {
+func (o *InputSecurityLake) GetCheckpointing() *CheckpointingSecurityLake {
 	if o == nil {
 		return nil
 	}
@@ -1350,7 +1537,7 @@ func (o *InputSecurityLake) GetAwsSecret() *string {
 	return o.AwsSecret
 }
 
-func (o *InputSecurityLake) GetTagAfterProcessing() *InputSecurityLakeTagAfterProcessing {
+func (o *InputSecurityLake) GetTagAfterProcessing() *TagAfterProcessingSecurityLake {
 	if o == nil {
 		return nil
 	}
@@ -1371,62 +1558,105 @@ func (o *InputSecurityLake) GetProcessedTagValue() *string {
 	return o.ProcessedTagValue
 }
 
-type InputNetflowType string
+type CreateInputTypeNetflow string
 
 const (
-	InputNetflowTypeNetflow InputNetflowType = "netflow"
+	CreateInputTypeNetflowNetflow CreateInputTypeNetflow = "netflow"
 )
 
-func (e InputNetflowType) ToPointer() *InputNetflowType {
+func (e CreateInputTypeNetflow) ToPointer() *CreateInputTypeNetflow {
 	return &e
 }
+func (e *CreateInputTypeNetflow) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "netflow":
+		*e = CreateInputTypeNetflow(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputTypeNetflow: %v", v)
+	}
+}
 
-type InputNetflowConnection struct {
+type ConnectionNetflow struct {
 	Pipeline *string `json:"pipeline,omitempty"`
 	Output   string  `json:"output"`
 }
 
-func (o *InputNetflowConnection) GetPipeline() *string {
+func (o *ConnectionNetflow) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputNetflowConnection) GetOutput() string {
+func (o *ConnectionNetflow) GetOutput() string {
 	if o == nil {
 		return ""
 	}
 	return o.Output
 }
 
-// InputNetflowMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type InputNetflowMode string
+// ModeNetflow - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+type ModeNetflow string
 
 const (
-	InputNetflowModeSmart  InputNetflowMode = "smart"
-	InputNetflowModeAlways InputNetflowMode = "always"
+	ModeNetflowSmart  ModeNetflow = "smart"
+	ModeNetflowAlways ModeNetflow = "always"
 )
 
-func (e InputNetflowMode) ToPointer() *InputNetflowMode {
+func (e ModeNetflow) ToPointer() *ModeNetflow {
 	return &e
 }
+func (e *ModeNetflow) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = ModeNetflow(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ModeNetflow: %v", v)
+	}
+}
 
-// InputNetflowCompression - Codec to use to compress the persisted data
-type InputNetflowCompression string
+// CompressionNetflow - Codec to use to compress the persisted data
+type CompressionNetflow string
 
 const (
-	InputNetflowCompressionNone InputNetflowCompression = "none"
-	InputNetflowCompressionGzip InputNetflowCompression = "gzip"
+	CompressionNetflowNone CompressionNetflow = "none"
+	CompressionNetflowGzip CompressionNetflow = "gzip"
 )
 
-func (e InputNetflowCompression) ToPointer() *InputNetflowCompression {
+func (e CompressionNetflow) ToPointer() *CompressionNetflow {
 	return &e
 }
+func (e *CompressionNetflow) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = CompressionNetflow(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CompressionNetflow: %v", v)
+	}
+}
 
-type InputNetflowPq struct {
+type PqNetflow struct {
 	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *InputNetflowMode `default:"always" json:"mode"`
+	Mode *ModeNetflow `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
 	// The number of events to send downstream before committing that Stream has read them
@@ -1438,83 +1668,83 @@ type InputNetflowPq struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
 	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
 	// Codec to use to compress the persisted data
-	Compress *InputNetflowCompression `default:"none" json:"compress"`
+	Compress *CompressionNetflow `default:"none" json:"compress"`
 }
 
-func (i InputNetflowPq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PqNetflow) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputNetflowPq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PqNetflow) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputNetflowPq) GetMode() *InputNetflowMode {
+func (o *PqNetflow) GetMode() *ModeNetflow {
 	if o == nil {
 		return nil
 	}
 	return o.Mode
 }
 
-func (o *InputNetflowPq) GetMaxBufferSize() *float64 {
+func (o *PqNetflow) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputNetflowPq) GetCommitFrequency() *float64 {
+func (o *PqNetflow) GetCommitFrequency() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.CommitFrequency
 }
 
-func (o *InputNetflowPq) GetMaxFileSize() *string {
+func (o *PqNetflow) GetMaxFileSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxFileSize
 }
 
-func (o *InputNetflowPq) GetMaxSize() *string {
+func (o *PqNetflow) GetMaxSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxSize
 }
 
-func (o *InputNetflowPq) GetPath() *string {
+func (o *PqNetflow) GetPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Path
 }
 
-func (o *InputNetflowPq) GetCompress() *InputNetflowCompression {
+func (o *PqNetflow) GetCompress() *CompressionNetflow {
 	if o == nil {
 		return nil
 	}
 	return o.Compress
 }
 
-type InputNetflowMetadatum struct {
+type MetadatumNetflow struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputNetflowMetadatum) GetName() string {
+func (o *MetadatumNetflow) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputNetflowMetadatum) GetValue() string {
+func (o *MetadatumNetflow) GetValue() string {
 	if o == nil {
 		return ""
 	}
@@ -1523,9 +1753,9 @@ func (o *InputNetflowMetadatum) GetValue() string {
 
 type InputNetflow struct {
 	// Unique ID for this input
-	ID       string            `json:"id"`
-	Type     *InputNetflowType `json:"type,omitempty"`
-	Disabled *bool             `default:"false" json:"disabled"`
+	ID       string                  `json:"id"`
+	Type     *CreateInputTypeNetflow `json:"type,omitempty"`
+	Disabled *bool                   `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -1537,8 +1767,8 @@ type InputNetflow struct {
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputNetflowConnection `json:"connections,omitempty"`
-	Pq          *InputNetflowPq          `json:"pq,omitempty"`
+	Connections []ConnectionNetflow `json:"connections,omitempty"`
+	Pq          *PqNetflow          `json:"pq,omitempty"`
 	// Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address.
 	Host *string `default:"0.0.0.0" json:"host"`
 	// Port to listen on
@@ -1560,8 +1790,8 @@ type InputNetflow struct {
 	// Accept messages in IPFIX format.
 	IpfixEnabled *bool `default:"false" json:"ipfixEnabled"`
 	// Fields to add to events from this input
-	Metadata    []InputNetflowMetadatum `json:"metadata,omitempty"`
-	Description *string                 `json:"description,omitempty"`
+	Metadata    []MetadatumNetflow `json:"metadata,omitempty"`
+	Description *string            `json:"description,omitempty"`
 }
 
 func (i InputNetflow) MarshalJSON() ([]byte, error) {
@@ -1582,7 +1812,7 @@ func (o *InputNetflow) GetID() string {
 	return o.ID
 }
 
-func (o *InputNetflow) GetType() *InputNetflowType {
+func (o *InputNetflow) GetType() *CreateInputTypeNetflow {
 	if o == nil {
 		return nil
 	}
@@ -1631,14 +1861,14 @@ func (o *InputNetflow) GetStreamtags() []string {
 	return o.Streamtags
 }
 
-func (o *InputNetflow) GetConnections() []InputNetflowConnection {
+func (o *InputNetflow) GetConnections() []ConnectionNetflow {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputNetflow) GetPq() *InputNetflowPq {
+func (o *InputNetflow) GetPq() *PqNetflow {
 	if o == nil {
 		return nil
 	}
@@ -1715,7 +1945,7 @@ func (o *InputNetflow) GetIpfixEnabled() *bool {
 	return o.IpfixEnabled
 }
 
-func (o *InputNetflow) GetMetadata() []InputNetflowMetadatum {
+func (o *InputNetflow) GetMetadata() []MetadatumNetflow {
 	if o == nil {
 		return nil
 	}
@@ -1729,62 +1959,105 @@ func (o *InputNetflow) GetDescription() *string {
 	return o.Description
 }
 
-type InputWizType string
+type TypeWiz string
 
 const (
-	InputWizTypeWiz InputWizType = "wiz"
+	TypeWizWiz TypeWiz = "wiz"
 )
 
-func (e InputWizType) ToPointer() *InputWizType {
+func (e TypeWiz) ToPointer() *TypeWiz {
 	return &e
 }
+func (e *TypeWiz) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "wiz":
+		*e = TypeWiz(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for TypeWiz: %v", v)
+	}
+}
 
-type InputWizConnection struct {
+type ConnectionWiz struct {
 	Pipeline *string `json:"pipeline,omitempty"`
 	Output   string  `json:"output"`
 }
 
-func (o *InputWizConnection) GetPipeline() *string {
+func (o *ConnectionWiz) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputWizConnection) GetOutput() string {
+func (o *ConnectionWiz) GetOutput() string {
 	if o == nil {
 		return ""
 	}
 	return o.Output
 }
 
-// InputWizMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type InputWizMode string
+// ModeWiz - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+type ModeWiz string
 
 const (
-	InputWizModeSmart  InputWizMode = "smart"
-	InputWizModeAlways InputWizMode = "always"
+	ModeWizSmart  ModeWiz = "smart"
+	ModeWizAlways ModeWiz = "always"
 )
 
-func (e InputWizMode) ToPointer() *InputWizMode {
+func (e ModeWiz) ToPointer() *ModeWiz {
 	return &e
 }
+func (e *ModeWiz) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = ModeWiz(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ModeWiz: %v", v)
+	}
+}
 
-// InputWizCompression - Codec to use to compress the persisted data
-type InputWizCompression string
+// CompressionWiz - Codec to use to compress the persisted data
+type CompressionWiz string
 
 const (
-	InputWizCompressionNone InputWizCompression = "none"
-	InputWizCompressionGzip InputWizCompression = "gzip"
+	CompressionWizNone CompressionWiz = "none"
+	CompressionWizGzip CompressionWiz = "gzip"
 )
 
-func (e InputWizCompression) ToPointer() *InputWizCompression {
+func (e CompressionWiz) ToPointer() *CompressionWiz {
 	return &e
 }
+func (e *CompressionWiz) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = CompressionWiz(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CompressionWiz: %v", v)
+	}
+}
 
-type InputWizPq struct {
+type PqWiz struct {
 	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *InputWizMode `default:"always" json:"mode"`
+	Mode *ModeWiz `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
 	// The number of events to send downstream before committing that Stream has read them
@@ -1796,144 +2069,161 @@ type InputWizPq struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
 	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
 	// Codec to use to compress the persisted data
-	Compress *InputWizCompression `default:"none" json:"compress"`
+	Compress *CompressionWiz `default:"none" json:"compress"`
 }
 
-func (i InputWizPq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PqWiz) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputWizPq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PqWiz) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputWizPq) GetMode() *InputWizMode {
+func (o *PqWiz) GetMode() *ModeWiz {
 	if o == nil {
 		return nil
 	}
 	return o.Mode
 }
 
-func (o *InputWizPq) GetMaxBufferSize() *float64 {
+func (o *PqWiz) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputWizPq) GetCommitFrequency() *float64 {
+func (o *PqWiz) GetCommitFrequency() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.CommitFrequency
 }
 
-func (o *InputWizPq) GetMaxFileSize() *string {
+func (o *PqWiz) GetMaxFileSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxFileSize
 }
 
-func (o *InputWizPq) GetMaxSize() *string {
+func (o *PqWiz) GetMaxSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxSize
 }
 
-func (o *InputWizPq) GetPath() *string {
+func (o *PqWiz) GetPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Path
 }
 
-func (o *InputWizPq) GetCompress() *InputWizCompression {
+func (o *PqWiz) GetCompress() *CompressionWiz {
 	if o == nil {
 		return nil
 	}
 	return o.Compress
 }
 
-type InputWizContentConfig struct {
+type ContentConfigWiz struct {
 	// The name of the Wiz query
 	ContentType        string  `json:"contentType"`
 	ContentDescription *string `json:"contentDescription,omitempty"`
 	Enabled            *bool   `default:"false" json:"enabled"`
 }
 
-func (i InputWizContentConfig) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (c ContentConfigWiz) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(c, "", false)
 }
 
-func (i *InputWizContentConfig) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (c *ContentConfigWiz) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &c, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputWizContentConfig) GetContentType() string {
+func (o *ContentConfigWiz) GetContentType() string {
 	if o == nil {
 		return ""
 	}
 	return o.ContentType
 }
 
-func (o *InputWizContentConfig) GetContentDescription() *string {
+func (o *ContentConfigWiz) GetContentDescription() *string {
 	if o == nil {
 		return nil
 	}
 	return o.ContentDescription
 }
 
-func (o *InputWizContentConfig) GetEnabled() *bool {
+func (o *ContentConfigWiz) GetEnabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Enabled
 }
 
-type InputWizMetadatum struct {
+type MetadatumWiz struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputWizMetadatum) GetName() string {
+func (o *MetadatumWiz) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputWizMetadatum) GetValue() string {
+func (o *MetadatumWiz) GetValue() string {
 	if o == nil {
 		return ""
 	}
 	return o.Value
 }
 
-// InputWizRetryType - The algorithm to use when performing HTTP retries
-type InputWizRetryType string
+// RetryTypeWiz - The algorithm to use when performing HTTP retries
+type RetryTypeWiz string
 
 const (
-	InputWizRetryTypeNone    InputWizRetryType = "none"
-	InputWizRetryTypeBackoff InputWizRetryType = "backoff"
-	InputWizRetryTypeStatic  InputWizRetryType = "static"
+	RetryTypeWizNone    RetryTypeWiz = "none"
+	RetryTypeWizBackoff RetryTypeWiz = "backoff"
+	RetryTypeWizStatic  RetryTypeWiz = "static"
 )
 
-func (e InputWizRetryType) ToPointer() *InputWizRetryType {
+func (e RetryTypeWiz) ToPointer() *RetryTypeWiz {
 	return &e
 }
+func (e *RetryTypeWiz) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "backoff":
+		fallthrough
+	case "static":
+		*e = RetryTypeWiz(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for RetryTypeWiz: %v", v)
+	}
+}
 
-type InputWizRetryRules struct {
+type RetryRulesWiz struct {
 	// The algorithm to use when performing HTTP retries
-	Type *InputWizRetryType `default:"backoff" json:"type"`
+	Type *RetryTypeWiz `default:"backoff" json:"type"`
 	// Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute).
 	Interval *float64 `default:"1000" json:"interval"`
 	// The maximum number of times to retry a failed HTTP request
@@ -1950,90 +2240,105 @@ type InputWizRetryRules struct {
 	RetryConnectReset *bool `default:"false" json:"retryConnectReset"`
 }
 
-func (i InputWizRetryRules) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (r RetryRulesWiz) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(r, "", false)
 }
 
-func (i *InputWizRetryRules) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (r *RetryRulesWiz) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &r, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputWizRetryRules) GetType() *InputWizRetryType {
+func (o *RetryRulesWiz) GetType() *RetryTypeWiz {
 	if o == nil {
 		return nil
 	}
 	return o.Type
 }
 
-func (o *InputWizRetryRules) GetInterval() *float64 {
+func (o *RetryRulesWiz) GetInterval() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.Interval
 }
 
-func (o *InputWizRetryRules) GetLimit() *float64 {
+func (o *RetryRulesWiz) GetLimit() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.Limit
 }
 
-func (o *InputWizRetryRules) GetMultiplier() *float64 {
+func (o *RetryRulesWiz) GetMultiplier() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.Multiplier
 }
 
-func (o *InputWizRetryRules) GetCodes() []float64 {
+func (o *RetryRulesWiz) GetCodes() []float64 {
 	if o == nil {
 		return nil
 	}
 	return o.Codes
 }
 
-func (o *InputWizRetryRules) GetEnableHeader() *bool {
+func (o *RetryRulesWiz) GetEnableHeader() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.EnableHeader
 }
 
-func (o *InputWizRetryRules) GetRetryConnectTimeout() *bool {
+func (o *RetryRulesWiz) GetRetryConnectTimeout() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.RetryConnectTimeout
 }
 
-func (o *InputWizRetryRules) GetRetryConnectReset() *bool {
+func (o *RetryRulesWiz) GetRetryConnectReset() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.RetryConnectReset
 }
 
-// InputWizAuthenticationMethod - Enter client secret directly, or select a stored secret
-type InputWizAuthenticationMethod string
+// AuthenticationMethodWiz - Enter client secret directly, or select a stored secret
+type AuthenticationMethodWiz string
 
 const (
-	InputWizAuthenticationMethodManual InputWizAuthenticationMethod = "manual"
-	InputWizAuthenticationMethodSecret InputWizAuthenticationMethod = "secret"
+	AuthenticationMethodWizManual AuthenticationMethodWiz = "manual"
+	AuthenticationMethodWizSecret AuthenticationMethodWiz = "secret"
 )
 
-func (e InputWizAuthenticationMethod) ToPointer() *InputWizAuthenticationMethod {
+func (e AuthenticationMethodWiz) ToPointer() *AuthenticationMethodWiz {
 	return &e
+}
+func (e *AuthenticationMethodWiz) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = AuthenticationMethodWiz(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for AuthenticationMethodWiz: %v", v)
+	}
 }
 
 type InputWiz struct {
 	// Unique ID for this input
-	ID       string        `json:"id"`
-	Type     *InputWizType `json:"type,omitempty"`
-	Disabled *bool         `default:"false" json:"disabled"`
+	ID       string   `json:"id"`
+	Type     *TypeWiz `json:"type,omitempty"`
+	Disabled *bool    `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -2045,8 +2350,8 @@ type InputWiz struct {
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputWizConnection `json:"connections,omitempty"`
-	Pq          *InputWizPq          `json:"pq,omitempty"`
+	Connections []ConnectionWiz `json:"connections,omitempty"`
+	Pq          *PqWiz          `json:"pq,omitempty"`
 	// The Wiz GraphQL API endpoint. Example: https://api.us1.app.wiz.io/graphql
 	Endpoint *string `default:"https://api.<region>.app.wiz.io/graphql" json:"endpoint"`
 	// The authentication URL to generate an OAuth token
@@ -2054,8 +2359,8 @@ type InputWiz struct {
 	// The audience to use when requesting an OAuth token for a custom auth URL. When not specified, `wiz-api` will be used.
 	AuthAudienceOverride *string `json:"authAudienceOverride,omitempty"`
 	// The client ID of the Wiz application
-	ClientID      string                  `json:"clientId"`
-	ContentConfig []InputWizContentConfig `json:"contentConfig"`
+	ClientID      string             `json:"clientId"`
+	ContentConfig []ContentConfigWiz `json:"contentConfig"`
 	// HTTP request inactivity timeout. Use 0 to disable.
 	RequestTimeout *float64 `default:"300" json:"requestTimeout"`
 	// How often workers should check in with the scheduler to keep job subscription alive
@@ -2067,11 +2372,11 @@ type InputWiz struct {
 	// When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live.
 	IgnoreGroupJobsLimit *bool `default:"false" json:"ignoreGroupJobsLimit"`
 	// Fields to add to events from this input
-	Metadata   []InputWizMetadatum `json:"metadata,omitempty"`
-	RetryRules *InputWizRetryRules `json:"retryRules,omitempty"`
+	Metadata   []MetadatumWiz `json:"metadata,omitempty"`
+	RetryRules *RetryRulesWiz `json:"retryRules,omitempty"`
 	// Enter client secret directly, or select a stored secret
-	AuthType    *InputWizAuthenticationMethod `default:"manual" json:"authType"`
-	Description *string                       `json:"description,omitempty"`
+	AuthType    *AuthenticationMethodWiz `default:"manual" json:"authType"`
+	Description *string                  `json:"description,omitempty"`
 	// The client secret of the Wiz application
 	ClientSecret *string `json:"clientSecret,omitempty"`
 	// Select or create a stored text secret
@@ -2096,7 +2401,7 @@ func (o *InputWiz) GetID() string {
 	return o.ID
 }
 
-func (o *InputWiz) GetType() *InputWizType {
+func (o *InputWiz) GetType() *TypeWiz {
 	if o == nil {
 		return nil
 	}
@@ -2145,14 +2450,14 @@ func (o *InputWiz) GetStreamtags() []string {
 	return o.Streamtags
 }
 
-func (o *InputWiz) GetConnections() []InputWizConnection {
+func (o *InputWiz) GetConnections() []ConnectionWiz {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputWiz) GetPq() *InputWizPq {
+func (o *InputWiz) GetPq() *PqWiz {
 	if o == nil {
 		return nil
 	}
@@ -2187,9 +2492,9 @@ func (o *InputWiz) GetClientID() string {
 	return o.ClientID
 }
 
-func (o *InputWiz) GetContentConfig() []InputWizContentConfig {
+func (o *InputWiz) GetContentConfig() []ContentConfigWiz {
 	if o == nil {
-		return []InputWizContentConfig{}
+		return []ContentConfigWiz{}
 	}
 	return o.ContentConfig
 }
@@ -2229,21 +2534,21 @@ func (o *InputWiz) GetIgnoreGroupJobsLimit() *bool {
 	return o.IgnoreGroupJobsLimit
 }
 
-func (o *InputWiz) GetMetadata() []InputWizMetadatum {
+func (o *InputWiz) GetMetadata() []MetadatumWiz {
 	if o == nil {
 		return nil
 	}
 	return o.Metadata
 }
 
-func (o *InputWiz) GetRetryRules() *InputWizRetryRules {
+func (o *InputWiz) GetRetryRules() *RetryRulesWiz {
 	if o == nil {
 		return nil
 	}
 	return o.RetryRules
 }
 
-func (o *InputWiz) GetAuthType() *InputWizAuthenticationMethod {
+func (o *InputWiz) GetAuthType() *AuthenticationMethodWiz {
 	if o == nil {
 		return nil
 	}
@@ -2280,6 +2585,19 @@ const (
 func (e InputJournalFilesType) ToPointer() *InputJournalFilesType {
 	return &e
 }
+func (e *InputJournalFilesType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "journal_files":
+		*e = InputJournalFilesType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputJournalFilesType: %v", v)
+	}
+}
 
 type InputJournalFilesConnection struct {
 	Pipeline *string `json:"pipeline,omitempty"`
@@ -2311,6 +2629,21 @@ const (
 func (e InputJournalFilesMode) ToPointer() *InputJournalFilesMode {
 	return &e
 }
+func (e *InputJournalFilesMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = InputJournalFilesMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputJournalFilesMode: %v", v)
+	}
+}
 
 // InputJournalFilesCompression - Codec to use to compress the persisted data
 type InputJournalFilesCompression string
@@ -2322,6 +2655,21 @@ const (
 
 func (e InputJournalFilesCompression) ToPointer() *InputJournalFilesCompression {
 	return &e
+}
+func (e *InputJournalFilesCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = InputJournalFilesCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputJournalFilesCompression: %v", v)
+	}
 }
 
 type InputJournalFilesPq struct {
@@ -2614,62 +2962,105 @@ func (o *InputJournalFiles) GetDescription() *string {
 	return o.Description
 }
 
-type InputRawUDPType string
+type TypeRawUDP string
 
 const (
-	InputRawUDPTypeRawUDP InputRawUDPType = "raw_udp"
+	TypeRawUDPRawUDP TypeRawUDP = "raw_udp"
 )
 
-func (e InputRawUDPType) ToPointer() *InputRawUDPType {
+func (e TypeRawUDP) ToPointer() *TypeRawUDP {
 	return &e
 }
+func (e *TypeRawUDP) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "raw_udp":
+		*e = TypeRawUDP(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for TypeRawUDP: %v", v)
+	}
+}
 
-type InputRawUDPConnection struct {
+type ConnectionRawUDP struct {
 	Pipeline *string `json:"pipeline,omitempty"`
 	Output   string  `json:"output"`
 }
 
-func (o *InputRawUDPConnection) GetPipeline() *string {
+func (o *ConnectionRawUDP) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputRawUDPConnection) GetOutput() string {
+func (o *ConnectionRawUDP) GetOutput() string {
 	if o == nil {
 		return ""
 	}
 	return o.Output
 }
 
-// InputRawUDPMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type InputRawUDPMode string
+// ModeRawUDP - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+type ModeRawUDP string
 
 const (
-	InputRawUDPModeSmart  InputRawUDPMode = "smart"
-	InputRawUDPModeAlways InputRawUDPMode = "always"
+	ModeRawUDPSmart  ModeRawUDP = "smart"
+	ModeRawUDPAlways ModeRawUDP = "always"
 )
 
-func (e InputRawUDPMode) ToPointer() *InputRawUDPMode {
+func (e ModeRawUDP) ToPointer() *ModeRawUDP {
 	return &e
 }
+func (e *ModeRawUDP) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = ModeRawUDP(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ModeRawUDP: %v", v)
+	}
+}
 
-// InputRawUDPCompression - Codec to use to compress the persisted data
-type InputRawUDPCompression string
+// CompressionRawUDP - Codec to use to compress the persisted data
+type CompressionRawUDP string
 
 const (
-	InputRawUDPCompressionNone InputRawUDPCompression = "none"
-	InputRawUDPCompressionGzip InputRawUDPCompression = "gzip"
+	CompressionRawUDPNone CompressionRawUDP = "none"
+	CompressionRawUDPGzip CompressionRawUDP = "gzip"
 )
 
-func (e InputRawUDPCompression) ToPointer() *InputRawUDPCompression {
+func (e CompressionRawUDP) ToPointer() *CompressionRawUDP {
 	return &e
 }
+func (e *CompressionRawUDP) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = CompressionRawUDP(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CompressionRawUDP: %v", v)
+	}
+}
 
-type InputRawUDPPq struct {
+type PqRawUDP struct {
 	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *InputRawUDPMode `default:"always" json:"mode"`
+	Mode *ModeRawUDP `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
 	// The number of events to send downstream before committing that Stream has read them
@@ -2681,83 +3072,83 @@ type InputRawUDPPq struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
 	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
 	// Codec to use to compress the persisted data
-	Compress *InputRawUDPCompression `default:"none" json:"compress"`
+	Compress *CompressionRawUDP `default:"none" json:"compress"`
 }
 
-func (i InputRawUDPPq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PqRawUDP) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputRawUDPPq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PqRawUDP) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputRawUDPPq) GetMode() *InputRawUDPMode {
+func (o *PqRawUDP) GetMode() *ModeRawUDP {
 	if o == nil {
 		return nil
 	}
 	return o.Mode
 }
 
-func (o *InputRawUDPPq) GetMaxBufferSize() *float64 {
+func (o *PqRawUDP) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputRawUDPPq) GetCommitFrequency() *float64 {
+func (o *PqRawUDP) GetCommitFrequency() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.CommitFrequency
 }
 
-func (o *InputRawUDPPq) GetMaxFileSize() *string {
+func (o *PqRawUDP) GetMaxFileSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxFileSize
 }
 
-func (o *InputRawUDPPq) GetMaxSize() *string {
+func (o *PqRawUDP) GetMaxSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxSize
 }
 
-func (o *InputRawUDPPq) GetPath() *string {
+func (o *PqRawUDP) GetPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Path
 }
 
-func (o *InputRawUDPPq) GetCompress() *InputRawUDPCompression {
+func (o *PqRawUDP) GetCompress() *CompressionRawUDP {
 	if o == nil {
 		return nil
 	}
 	return o.Compress
 }
 
-type InputRawUDPMetadatum struct {
+type MetadatumRawUDP struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputRawUDPMetadatum) GetName() string {
+func (o *MetadatumRawUDP) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputRawUDPMetadatum) GetValue() string {
+func (o *MetadatumRawUDP) GetValue() string {
 	if o == nil {
 		return ""
 	}
@@ -2766,9 +3157,9 @@ func (o *InputRawUDPMetadatum) GetValue() string {
 
 type InputRawUDP struct {
 	// Unique ID for this input
-	ID       string           `json:"id"`
-	Type     *InputRawUDPType `json:"type,omitempty"`
-	Disabled *bool            `default:"false" json:"disabled"`
+	ID       string      `json:"id"`
+	Type     *TypeRawUDP `json:"type,omitempty"`
+	Disabled *bool       `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -2780,8 +3171,8 @@ type InputRawUDP struct {
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputRawUDPConnection `json:"connections,omitempty"`
-	Pq          *InputRawUDPPq          `json:"pq,omitempty"`
+	Connections []ConnectionRawUDP `json:"connections,omitempty"`
+	Pq          *PqRawUDP          `json:"pq,omitempty"`
 	// Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address.
 	Host *string `default:"0.0.0.0" json:"host"`
 	// Port to listen on
@@ -2797,8 +3188,8 @@ type InputRawUDP struct {
 	// Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization.
 	UDPSocketRxBufSize *float64 `json:"udpSocketRxBufSize,omitempty"`
 	// Fields to add to events from this input
-	Metadata    []InputRawUDPMetadatum `json:"metadata,omitempty"`
-	Description *string                `json:"description,omitempty"`
+	Metadata    []MetadatumRawUDP `json:"metadata,omitempty"`
+	Description *string           `json:"description,omitempty"`
 }
 
 func (i InputRawUDP) MarshalJSON() ([]byte, error) {
@@ -2819,7 +3210,7 @@ func (o *InputRawUDP) GetID() string {
 	return o.ID
 }
 
-func (o *InputRawUDP) GetType() *InputRawUDPType {
+func (o *InputRawUDP) GetType() *TypeRawUDP {
 	if o == nil {
 		return nil
 	}
@@ -2868,14 +3259,14 @@ func (o *InputRawUDP) GetStreamtags() []string {
 	return o.Streamtags
 }
 
-func (o *InputRawUDP) GetConnections() []InputRawUDPConnection {
+func (o *InputRawUDP) GetConnections() []ConnectionRawUDP {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputRawUDP) GetPq() *InputRawUDPPq {
+func (o *InputRawUDP) GetPq() *PqRawUDP {
 	if o == nil {
 		return nil
 	}
@@ -2931,7 +3322,7 @@ func (o *InputRawUDP) GetUDPSocketRxBufSize() *float64 {
 	return o.UDPSocketRxBufSize
 }
 
-func (o *InputRawUDP) GetMetadata() []InputRawUDPMetadatum {
+func (o *InputRawUDP) GetMetadata() []MetadatumRawUDP {
 	if o == nil {
 		return nil
 	}
@@ -2945,62 +3336,105 @@ func (o *InputRawUDP) GetDescription() *string {
 	return o.Description
 }
 
-type InputWinEventLogsType string
+type TypeWinEventLogs string
 
 const (
-	InputWinEventLogsTypeWinEventLogs InputWinEventLogsType = "win_event_logs"
+	TypeWinEventLogsWinEventLogs TypeWinEventLogs = "win_event_logs"
 )
 
-func (e InputWinEventLogsType) ToPointer() *InputWinEventLogsType {
+func (e TypeWinEventLogs) ToPointer() *TypeWinEventLogs {
 	return &e
 }
+func (e *TypeWinEventLogs) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "win_event_logs":
+		*e = TypeWinEventLogs(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for TypeWinEventLogs: %v", v)
+	}
+}
 
-type InputWinEventLogsConnection struct {
+type ConnectionWinEventLogs struct {
 	Pipeline *string `json:"pipeline,omitempty"`
 	Output   string  `json:"output"`
 }
 
-func (o *InputWinEventLogsConnection) GetPipeline() *string {
+func (o *ConnectionWinEventLogs) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputWinEventLogsConnection) GetOutput() string {
+func (o *ConnectionWinEventLogs) GetOutput() string {
 	if o == nil {
 		return ""
 	}
 	return o.Output
 }
 
-// InputWinEventLogsMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type InputWinEventLogsMode string
+// ModeWinEventLogs - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+type ModeWinEventLogs string
 
 const (
-	InputWinEventLogsModeSmart  InputWinEventLogsMode = "smart"
-	InputWinEventLogsModeAlways InputWinEventLogsMode = "always"
+	ModeWinEventLogsSmart  ModeWinEventLogs = "smart"
+	ModeWinEventLogsAlways ModeWinEventLogs = "always"
 )
 
-func (e InputWinEventLogsMode) ToPointer() *InputWinEventLogsMode {
+func (e ModeWinEventLogs) ToPointer() *ModeWinEventLogs {
 	return &e
 }
+func (e *ModeWinEventLogs) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = ModeWinEventLogs(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ModeWinEventLogs: %v", v)
+	}
+}
 
-// InputWinEventLogsCompression - Codec to use to compress the persisted data
-type InputWinEventLogsCompression string
+// CompressionWinEventLogs - Codec to use to compress the persisted data
+type CompressionWinEventLogs string
 
 const (
-	InputWinEventLogsCompressionNone InputWinEventLogsCompression = "none"
-	InputWinEventLogsCompressionGzip InputWinEventLogsCompression = "gzip"
+	CompressionWinEventLogsNone CompressionWinEventLogs = "none"
+	CompressionWinEventLogsGzip CompressionWinEventLogs = "gzip"
 )
 
-func (e InputWinEventLogsCompression) ToPointer() *InputWinEventLogsCompression {
+func (e CompressionWinEventLogs) ToPointer() *CompressionWinEventLogs {
 	return &e
 }
+func (e *CompressionWinEventLogs) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = CompressionWinEventLogs(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CompressionWinEventLogs: %v", v)
+	}
+}
 
-type InputWinEventLogsPq struct {
+type PqWinEventLogs struct {
 	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *InputWinEventLogsMode `default:"always" json:"mode"`
+	Mode *ModeWinEventLogs `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
 	// The number of events to send downstream before committing that Stream has read them
@@ -3012,63 +3446,63 @@ type InputWinEventLogsPq struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
 	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
 	// Codec to use to compress the persisted data
-	Compress *InputWinEventLogsCompression `default:"none" json:"compress"`
+	Compress *CompressionWinEventLogs `default:"none" json:"compress"`
 }
 
-func (i InputWinEventLogsPq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PqWinEventLogs) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputWinEventLogsPq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PqWinEventLogs) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputWinEventLogsPq) GetMode() *InputWinEventLogsMode {
+func (o *PqWinEventLogs) GetMode() *ModeWinEventLogs {
 	if o == nil {
 		return nil
 	}
 	return o.Mode
 }
 
-func (o *InputWinEventLogsPq) GetMaxBufferSize() *float64 {
+func (o *PqWinEventLogs) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputWinEventLogsPq) GetCommitFrequency() *float64 {
+func (o *PqWinEventLogs) GetCommitFrequency() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.CommitFrequency
 }
 
-func (o *InputWinEventLogsPq) GetMaxFileSize() *string {
+func (o *PqWinEventLogs) GetMaxFileSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxFileSize
 }
 
-func (o *InputWinEventLogsPq) GetMaxSize() *string {
+func (o *PqWinEventLogs) GetMaxSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxSize
 }
 
-func (o *InputWinEventLogsPq) GetPath() *string {
+func (o *PqWinEventLogs) GetPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Path
 }
 
-func (o *InputWinEventLogsPq) GetCompress() *InputWinEventLogsCompression {
+func (o *PqWinEventLogs) GetCompress() *CompressionWinEventLogs {
 	if o == nil {
 		return nil
 	}
@@ -3086,6 +3520,21 @@ const (
 func (e ReadMode) ToPointer() *ReadMode {
 	return &e
 }
+func (e *ReadMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "oldest":
+		fallthrough
+	case "newest":
+		*e = ReadMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ReadMode: %v", v)
+	}
+}
 
 // EventFormat - Format of individual events
 type EventFormat string
@@ -3098,21 +3547,36 @@ const (
 func (e EventFormat) ToPointer() *EventFormat {
 	return &e
 }
+func (e *EventFormat) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "json":
+		fallthrough
+	case "xml":
+		*e = EventFormat(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for EventFormat: %v", v)
+	}
+}
 
-type InputWinEventLogsMetadatum struct {
+type MetadatumWinEventLogs struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputWinEventLogsMetadatum) GetName() string {
+func (o *MetadatumWinEventLogs) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputWinEventLogsMetadatum) GetValue() string {
+func (o *MetadatumWinEventLogs) GetValue() string {
 	if o == nil {
 		return ""
 	}
@@ -3121,9 +3585,9 @@ func (o *InputWinEventLogsMetadatum) GetValue() string {
 
 type InputWinEventLogs struct {
 	// Unique ID for this input
-	ID       string                `json:"id"`
-	Type     InputWinEventLogsType `json:"type"`
-	Disabled *bool                 `default:"false" json:"disabled"`
+	ID       string           `json:"id"`
+	Type     TypeWinEventLogs `json:"type"`
+	Disabled *bool            `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -3135,8 +3599,8 @@ type InputWinEventLogs struct {
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputWinEventLogsConnection `json:"connections,omitempty"`
-	Pq          *InputWinEventLogsPq          `json:"pq,omitempty"`
+	Connections []ConnectionWinEventLogs `json:"connections,omitempty"`
+	Pq          *PqWinEventLogs          `json:"pq,omitempty"`
 	// Enter the event logs to collect. Run "Get-WinEvent -ListLog *" in PowerShell to see the available logs.
 	LogNames []string `json:"logNames"`
 	// Read all stored and future event logs, or only future events
@@ -3150,7 +3614,7 @@ type InputWinEventLogs struct {
 	// The maximum number of events to read in one polling interval. A batch size higher than 500 can cause delays when pulling from multiple event logs. (Applicable for pre-4.8.0 nodes that use Windows Tools)
 	BatchSize *float64 `default:"500" json:"batchSize"`
 	// Fields to add to events from this input
-	Metadata []InputWinEventLogsMetadatum `json:"metadata,omitempty"`
+	Metadata []MetadatumWinEventLogs `json:"metadata,omitempty"`
 	// The maximum number of bytes in an event before it is flushed to the pipelines
 	MaxEventBytes *float64 `default:"51200" json:"maxEventBytes"`
 	Description   *string  `json:"description,omitempty"`
@@ -3174,9 +3638,9 @@ func (o *InputWinEventLogs) GetID() string {
 	return o.ID
 }
 
-func (o *InputWinEventLogs) GetType() InputWinEventLogsType {
+func (o *InputWinEventLogs) GetType() TypeWinEventLogs {
 	if o == nil {
-		return InputWinEventLogsType("")
+		return TypeWinEventLogs("")
 	}
 	return o.Type
 }
@@ -3223,14 +3687,14 @@ func (o *InputWinEventLogs) GetStreamtags() []string {
 	return o.Streamtags
 }
 
-func (o *InputWinEventLogs) GetConnections() []InputWinEventLogsConnection {
+func (o *InputWinEventLogs) GetConnections() []ConnectionWinEventLogs {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputWinEventLogs) GetPq() *InputWinEventLogsPq {
+func (o *InputWinEventLogs) GetPq() *PqWinEventLogs {
 	if o == nil {
 		return nil
 	}
@@ -3279,7 +3743,7 @@ func (o *InputWinEventLogs) GetBatchSize() *float64 {
 	return o.BatchSize
 }
 
-func (o *InputWinEventLogs) GetMetadata() []InputWinEventLogsMetadatum {
+func (o *InputWinEventLogs) GetMetadata() []MetadatumWinEventLogs {
 	if o == nil {
 		return nil
 	}
@@ -3300,62 +3764,105 @@ func (o *InputWinEventLogs) GetDescription() *string {
 	return o.Description
 }
 
-type InputWefType string
+type TypeWef string
 
 const (
-	InputWefTypeWef InputWefType = "wef"
+	TypeWefWef TypeWef = "wef"
 )
 
-func (e InputWefType) ToPointer() *InputWefType {
+func (e TypeWef) ToPointer() *TypeWef {
 	return &e
 }
+func (e *TypeWef) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "wef":
+		*e = TypeWef(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for TypeWef: %v", v)
+	}
+}
 
-type InputWefConnection struct {
+type ConnectionWef struct {
 	Pipeline *string `json:"pipeline,omitempty"`
 	Output   string  `json:"output"`
 }
 
-func (o *InputWefConnection) GetPipeline() *string {
+func (o *ConnectionWef) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputWefConnection) GetOutput() string {
+func (o *ConnectionWef) GetOutput() string {
 	if o == nil {
 		return ""
 	}
 	return o.Output
 }
 
-// InputWefMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type InputWefMode string
+// ModeWef - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+type ModeWef string
 
 const (
-	InputWefModeSmart  InputWefMode = "smart"
-	InputWefModeAlways InputWefMode = "always"
+	ModeWefSmart  ModeWef = "smart"
+	ModeWefAlways ModeWef = "always"
 )
 
-func (e InputWefMode) ToPointer() *InputWefMode {
+func (e ModeWef) ToPointer() *ModeWef {
 	return &e
 }
+func (e *ModeWef) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = ModeWef(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ModeWef: %v", v)
+	}
+}
 
-// InputWefCompression - Codec to use to compress the persisted data
-type InputWefCompression string
+// CompressionWef - Codec to use to compress the persisted data
+type CompressionWef string
 
 const (
-	InputWefCompressionNone InputWefCompression = "none"
-	InputWefCompressionGzip InputWefCompression = "gzip"
+	CompressionWefNone CompressionWef = "none"
+	CompressionWefGzip CompressionWef = "gzip"
 )
 
-func (e InputWefCompression) ToPointer() *InputWefCompression {
+func (e CompressionWef) ToPointer() *CompressionWef {
 	return &e
 }
+func (e *CompressionWef) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = CompressionWef(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CompressionWef: %v", v)
+	}
+}
 
-type InputWefPq struct {
+type PqWef struct {
 	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *InputWefMode `default:"always" json:"mode"`
+	Mode *ModeWef `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
 	// The number of events to send downstream before committing that Stream has read them
@@ -3367,105 +3874,158 @@ type InputWefPq struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
 	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
 	// Codec to use to compress the persisted data
-	Compress *InputWefCompression `default:"none" json:"compress"`
+	Compress *CompressionWef `default:"none" json:"compress"`
 }
 
-func (i InputWefPq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PqWef) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputWefPq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PqWef) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputWefPq) GetMode() *InputWefMode {
+func (o *PqWef) GetMode() *ModeWef {
 	if o == nil {
 		return nil
 	}
 	return o.Mode
 }
 
-func (o *InputWefPq) GetMaxBufferSize() *float64 {
+func (o *PqWef) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputWefPq) GetCommitFrequency() *float64 {
+func (o *PqWef) GetCommitFrequency() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.CommitFrequency
 }
 
-func (o *InputWefPq) GetMaxFileSize() *string {
+func (o *PqWef) GetMaxFileSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxFileSize
 }
 
-func (o *InputWefPq) GetMaxSize() *string {
+func (o *PqWef) GetMaxSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxSize
 }
 
-func (o *InputWefPq) GetPath() *string {
+func (o *PqWef) GetPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Path
 }
 
-func (o *InputWefPq) GetCompress() *InputWefCompression {
+func (o *PqWef) GetCompress() *CompressionWef {
 	if o == nil {
 		return nil
 	}
 	return o.Compress
 }
 
-// InputWefAuthenticationMethod - How to authenticate incoming client connections
-type InputWefAuthenticationMethod string
+// AuthMethodAuthenticationMethod - How to authenticate incoming client connections
+type AuthMethodAuthenticationMethod string
 
 const (
-	InputWefAuthenticationMethodClientCert InputWefAuthenticationMethod = "clientCert"
-	InputWefAuthenticationMethodKerberos   InputWefAuthenticationMethod = "kerberos"
+	AuthMethodAuthenticationMethodClientCert AuthMethodAuthenticationMethod = "clientCert"
+	AuthMethodAuthenticationMethodKerberos   AuthMethodAuthenticationMethod = "kerberos"
 )
 
-func (e InputWefAuthenticationMethod) ToPointer() *InputWefAuthenticationMethod {
+func (e AuthMethodAuthenticationMethod) ToPointer() *AuthMethodAuthenticationMethod {
 	return &e
 }
-
-type InputWefMinimumTLSVersion string
-
-const (
-	InputWefMinimumTLSVersionTlSv1  InputWefMinimumTLSVersion = "TLSv1"
-	InputWefMinimumTLSVersionTlSv11 InputWefMinimumTLSVersion = "TLSv1.1"
-	InputWefMinimumTLSVersionTlSv12 InputWefMinimumTLSVersion = "TLSv1.2"
-	InputWefMinimumTLSVersionTlSv13 InputWefMinimumTLSVersion = "TLSv1.3"
-)
-
-func (e InputWefMinimumTLSVersion) ToPointer() *InputWefMinimumTLSVersion {
-	return &e
+func (e *AuthMethodAuthenticationMethod) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "clientCert":
+		fallthrough
+	case "kerberos":
+		*e = AuthMethodAuthenticationMethod(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for AuthMethodAuthenticationMethod: %v", v)
+	}
 }
 
-type InputWefMaximumTLSVersion string
+type MinimumTLSVersionWef string
 
 const (
-	InputWefMaximumTLSVersionTlSv1  InputWefMaximumTLSVersion = "TLSv1"
-	InputWefMaximumTLSVersionTlSv11 InputWefMaximumTLSVersion = "TLSv1.1"
-	InputWefMaximumTLSVersionTlSv12 InputWefMaximumTLSVersion = "TLSv1.2"
-	InputWefMaximumTLSVersionTlSv13 InputWefMaximumTLSVersion = "TLSv1.3"
+	MinimumTLSVersionWefTlSv1  MinimumTLSVersionWef = "TLSv1"
+	MinimumTLSVersionWefTlSv11 MinimumTLSVersionWef = "TLSv1.1"
+	MinimumTLSVersionWefTlSv12 MinimumTLSVersionWef = "TLSv1.2"
+	MinimumTLSVersionWefTlSv13 MinimumTLSVersionWef = "TLSv1.3"
 )
 
-func (e InputWefMaximumTLSVersion) ToPointer() *InputWefMaximumTLSVersion {
+func (e MinimumTLSVersionWef) ToPointer() *MinimumTLSVersionWef {
 	return &e
+}
+func (e *MinimumTLSVersionWef) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = MinimumTLSVersionWef(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for MinimumTLSVersionWef: %v", v)
+	}
+}
+
+type MaximumTLSVersionWef string
+
+const (
+	MaximumTLSVersionWefTlSv1  MaximumTLSVersionWef = "TLSv1"
+	MaximumTLSVersionWefTlSv11 MaximumTLSVersionWef = "TLSv1.1"
+	MaximumTLSVersionWefTlSv12 MaximumTLSVersionWef = "TLSv1.2"
+	MaximumTLSVersionWefTlSv13 MaximumTLSVersionWef = "TLSv1.3"
+)
+
+func (e MaximumTLSVersionWef) ToPointer() *MaximumTLSVersionWef {
+	return &e
+}
+func (e *MaximumTLSVersionWef) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = MaximumTLSVersionWef(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for MaximumTLSVersionWef: %v", v)
+	}
 }
 
 type MTLSSettings struct {
@@ -3486,9 +4046,9 @@ type MTLSSettings struct {
 	// Server path containing CA certificates (in PEM format) to use. Can reference $ENV_VARS. If multiple certificates are present in a .pem, each must directly certify the one preceding it.
 	CaPath string `json:"caPath"`
 	// Regex matching allowable common names in peer certificates' subject attribute
-	CommonNameRegex *string                    `default:"/.*/" json:"commonNameRegex"`
-	MinVersion      *InputWefMinimumTLSVersion `json:"minVersion,omitempty"`
-	MaxVersion      *InputWefMaximumTLSVersion `json:"maxVersion,omitempty"`
+	CommonNameRegex *string               `default:"/.*/" json:"commonNameRegex"`
+	MinVersion      *MinimumTLSVersionWef `json:"minVersion,omitempty"`
+	MaxVersion      *MaximumTLSVersionWef `json:"maxVersion,omitempty"`
 	// Enable OCSP check of certificate
 	OcspCheck *bool `default:"false" json:"ocspCheck"`
 	Keytab    any   `json:"keytab,omitempty"`
@@ -3571,14 +4131,14 @@ func (o *MTLSSettings) GetCommonNameRegex() *string {
 	return o.CommonNameRegex
 }
 
-func (o *MTLSSettings) GetMinVersion() *InputWefMinimumTLSVersion {
+func (o *MTLSSettings) GetMinVersion() *MinimumTLSVersionWef {
 	if o == nil {
 		return nil
 	}
 	return o.MinVersion
 }
 
-func (o *MTLSSettings) GetMaxVersion() *InputWefMaximumTLSVersion {
+func (o *MTLSSettings) GetMaxVersion() *MaximumTLSVersionWef {
 	if o == nil {
 		return nil
 	}
@@ -3624,6 +4184,21 @@ const (
 func (e CreateInputFormat) ToPointer() *CreateInputFormat {
 	return &e
 }
+func (e *CreateInputFormat) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "Raw":
+		fallthrough
+	case "RenderedText":
+		*e = CreateInputFormat(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputFormat: %v", v)
+	}
+}
 
 type QueryBuilderMode string
 
@@ -3634,6 +4209,21 @@ const (
 
 func (e QueryBuilderMode) ToPointer() *QueryBuilderMode {
 	return &e
+}
+func (e *QueryBuilderMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "simple":
+		fallthrough
+	case "xml":
+		*e = QueryBuilderMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for QueryBuilderMode: %v", v)
+	}
 }
 
 type SubscriptionMetadatum struct {
@@ -3776,20 +4366,20 @@ func (o *Subscription) GetMetadata() []SubscriptionMetadatum {
 	return o.Metadata
 }
 
-type InputWefMetadatum struct {
+type MetadatumWef struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputWefMetadatum) GetName() string {
+func (o *MetadatumWef) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputWefMetadatum) GetValue() string {
+func (o *MetadatumWef) GetValue() string {
 	if o == nil {
 		return ""
 	}
@@ -3798,9 +4388,9 @@ func (o *InputWefMetadatum) GetValue() string {
 
 type InputWef struct {
 	// Unique ID for this input
-	ID       string        `json:"id"`
-	Type     *InputWefType `json:"type,omitempty"`
-	Disabled *bool         `default:"false" json:"disabled"`
+	ID       string   `json:"id"`
+	Type     *TypeWef `json:"type,omitempty"`
+	Disabled *bool    `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -3812,15 +4402,15 @@ type InputWef struct {
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputWefConnection `json:"connections,omitempty"`
-	Pq          *InputWefPq          `json:"pq,omitempty"`
+	Connections []ConnectionWef `json:"connections,omitempty"`
+	Pq          *PqWef          `json:"pq,omitempty"`
 	// Address to bind on. Defaults to 0.0.0.0 (all addresses).
 	Host *string `default:"0.0.0.0" json:"host"`
 	// Port to listen on
 	Port *float64 `default:"5986" json:"port"`
 	// How to authenticate incoming client connections
-	AuthMethod *InputWefAuthenticationMethod `default:"clientCert" json:"authMethod"`
-	TLS        *MTLSSettings                 `json:"tls,omitempty"`
+	AuthMethod *AuthMethodAuthenticationMethod `default:"clientCert" json:"authMethod"`
+	TLS        *MTLSSettings                   `json:"tls,omitempty"`
 	// Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput.
 	MaxActiveReq *float64 `default:"256" json:"maxActiveReq"`
 	// Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited).
@@ -3850,8 +4440,8 @@ type InputWef struct {
 	// Subscriptions to events on forwarding endpoints
 	Subscriptions []Subscription `json:"subscriptions"`
 	// Fields to add to events from this input
-	Metadata    []InputWefMetadatum `json:"metadata,omitempty"`
-	Description *string             `json:"description,omitempty"`
+	Metadata    []MetadatumWef `json:"metadata,omitempty"`
+	Description *string        `json:"description,omitempty"`
 	// Log a warning if the client certificate authority (CA) fingerprint does not match the expected value. A mismatch prevents Cribl from receiving events from the Windows Event Forwarder.
 	LogFingerprintMismatch *bool `default:"false" json:"logFingerprintMismatch"`
 }
@@ -3874,7 +4464,7 @@ func (o *InputWef) GetID() string {
 	return o.ID
 }
 
-func (o *InputWef) GetType() *InputWefType {
+func (o *InputWef) GetType() *TypeWef {
 	if o == nil {
 		return nil
 	}
@@ -3923,14 +4513,14 @@ func (o *InputWef) GetStreamtags() []string {
 	return o.Streamtags
 }
 
-func (o *InputWef) GetConnections() []InputWefConnection {
+func (o *InputWef) GetConnections() []ConnectionWef {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputWef) GetPq() *InputWefPq {
+func (o *InputWef) GetPq() *PqWef {
 	if o == nil {
 		return nil
 	}
@@ -3951,7 +4541,7 @@ func (o *InputWef) GetPort() *float64 {
 	return o.Port
 }
 
-func (o *InputWef) GetAuthMethod() *InputWefAuthenticationMethod {
+func (o *InputWef) GetAuthMethod() *AuthMethodAuthenticationMethod {
 	if o == nil {
 		return nil
 	}
@@ -4063,7 +4653,7 @@ func (o *InputWef) GetSubscriptions() []Subscription {
 	return o.Subscriptions
 }
 
-func (o *InputWef) GetMetadata() []InputWefMetadatum {
+func (o *InputWef) GetMetadata() []MetadatumWef {
 	if o == nil {
 		return nil
 	}
@@ -4084,62 +4674,105 @@ func (o *InputWef) GetLogFingerprintMismatch() *bool {
 	return o.LogFingerprintMismatch
 }
 
-type InputTCPType string
+type TypeTCP string
 
 const (
-	InputTCPTypeTCP InputTCPType = "tcp"
+	TypeTCPTCP TypeTCP = "tcp"
 )
 
-func (e InputTCPType) ToPointer() *InputTCPType {
+func (e TypeTCP) ToPointer() *TypeTCP {
 	return &e
 }
+func (e *TypeTCP) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "tcp":
+		*e = TypeTCP(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for TypeTCP: %v", v)
+	}
+}
 
-type InputTCPConnection struct {
+type ConnectionTCP struct {
 	Pipeline *string `json:"pipeline,omitempty"`
 	Output   string  `json:"output"`
 }
 
-func (o *InputTCPConnection) GetPipeline() *string {
+func (o *ConnectionTCP) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputTCPConnection) GetOutput() string {
+func (o *ConnectionTCP) GetOutput() string {
 	if o == nil {
 		return ""
 	}
 	return o.Output
 }
 
-// InputTCPMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type InputTCPMode string
+// ModeTCP - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+type ModeTCP string
 
 const (
-	InputTCPModeSmart  InputTCPMode = "smart"
-	InputTCPModeAlways InputTCPMode = "always"
+	ModeTCPSmart  ModeTCP = "smart"
+	ModeTCPAlways ModeTCP = "always"
 )
 
-func (e InputTCPMode) ToPointer() *InputTCPMode {
+func (e ModeTCP) ToPointer() *ModeTCP {
 	return &e
 }
+func (e *ModeTCP) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = ModeTCP(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ModeTCP: %v", v)
+	}
+}
 
-// InputTCPCompression - Codec to use to compress the persisted data
-type InputTCPCompression string
+// CompressionTCP - Codec to use to compress the persisted data
+type CompressionTCP string
 
 const (
-	InputTCPCompressionNone InputTCPCompression = "none"
-	InputTCPCompressionGzip InputTCPCompression = "gzip"
+	CompressionTCPNone CompressionTCP = "none"
+	CompressionTCPGzip CompressionTCP = "gzip"
 )
 
-func (e InputTCPCompression) ToPointer() *InputTCPCompression {
+func (e CompressionTCP) ToPointer() *CompressionTCP {
 	return &e
 }
+func (e *CompressionTCP) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = CompressionTCP(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CompressionTCP: %v", v)
+	}
+}
 
-type InputTCPPq struct {
+type PqTCP struct {
 	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *InputTCPMode `default:"always" json:"mode"`
+	Mode *ModeTCP `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
 	// The number of events to send downstream before committing that Stream has read them
@@ -4151,96 +4784,134 @@ type InputTCPPq struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
 	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
 	// Codec to use to compress the persisted data
-	Compress *InputTCPCompression `default:"none" json:"compress"`
+	Compress *CompressionTCP `default:"none" json:"compress"`
 }
 
-func (i InputTCPPq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PqTCP) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputTCPPq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PqTCP) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputTCPPq) GetMode() *InputTCPMode {
+func (o *PqTCP) GetMode() *ModeTCP {
 	if o == nil {
 		return nil
 	}
 	return o.Mode
 }
 
-func (o *InputTCPPq) GetMaxBufferSize() *float64 {
+func (o *PqTCP) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputTCPPq) GetCommitFrequency() *float64 {
+func (o *PqTCP) GetCommitFrequency() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.CommitFrequency
 }
 
-func (o *InputTCPPq) GetMaxFileSize() *string {
+func (o *PqTCP) GetMaxFileSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxFileSize
 }
 
-func (o *InputTCPPq) GetMaxSize() *string {
+func (o *PqTCP) GetMaxSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxSize
 }
 
-func (o *InputTCPPq) GetPath() *string {
+func (o *PqTCP) GetPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Path
 }
 
-func (o *InputTCPPq) GetCompress() *InputTCPCompression {
+func (o *PqTCP) GetCompress() *CompressionTCP {
 	if o == nil {
 		return nil
 	}
 	return o.Compress
 }
 
-type InputTCPMinimumTLSVersion string
+type MinimumTLSVersionTCP string
 
 const (
-	InputTCPMinimumTLSVersionTlSv1  InputTCPMinimumTLSVersion = "TLSv1"
-	InputTCPMinimumTLSVersionTlSv11 InputTCPMinimumTLSVersion = "TLSv1.1"
-	InputTCPMinimumTLSVersionTlSv12 InputTCPMinimumTLSVersion = "TLSv1.2"
-	InputTCPMinimumTLSVersionTlSv13 InputTCPMinimumTLSVersion = "TLSv1.3"
+	MinimumTLSVersionTCPTlSv1  MinimumTLSVersionTCP = "TLSv1"
+	MinimumTLSVersionTCPTlSv11 MinimumTLSVersionTCP = "TLSv1.1"
+	MinimumTLSVersionTCPTlSv12 MinimumTLSVersionTCP = "TLSv1.2"
+	MinimumTLSVersionTCPTlSv13 MinimumTLSVersionTCP = "TLSv1.3"
 )
 
-func (e InputTCPMinimumTLSVersion) ToPointer() *InputTCPMinimumTLSVersion {
+func (e MinimumTLSVersionTCP) ToPointer() *MinimumTLSVersionTCP {
 	return &e
 }
+func (e *MinimumTLSVersionTCP) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = MinimumTLSVersionTCP(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for MinimumTLSVersionTCP: %v", v)
+	}
+}
 
-type InputTCPMaximumTLSVersion string
+type MaximumTLSVersionTCP string
 
 const (
-	InputTCPMaximumTLSVersionTlSv1  InputTCPMaximumTLSVersion = "TLSv1"
-	InputTCPMaximumTLSVersionTlSv11 InputTCPMaximumTLSVersion = "TLSv1.1"
-	InputTCPMaximumTLSVersionTlSv12 InputTCPMaximumTLSVersion = "TLSv1.2"
-	InputTCPMaximumTLSVersionTlSv13 InputTCPMaximumTLSVersion = "TLSv1.3"
+	MaximumTLSVersionTCPTlSv1  MaximumTLSVersionTCP = "TLSv1"
+	MaximumTLSVersionTCPTlSv11 MaximumTLSVersionTCP = "TLSv1.1"
+	MaximumTLSVersionTCPTlSv12 MaximumTLSVersionTCP = "TLSv1.2"
+	MaximumTLSVersionTCPTlSv13 MaximumTLSVersionTCP = "TLSv1.3"
 )
 
-func (e InputTCPMaximumTLSVersion) ToPointer() *InputTCPMaximumTLSVersion {
+func (e MaximumTLSVersionTCP) ToPointer() *MaximumTLSVersionTCP {
 	return &e
 }
+func (e *MaximumTLSVersionTCP) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = MaximumTLSVersionTCP(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for MaximumTLSVersionTCP: %v", v)
+	}
+}
 
-type InputTCPTLSSettingsServerSide struct {
+type TLSSettingsServerSideTCP struct {
 	Disabled *bool `default:"true" json:"disabled"`
 	// The name of the predefined certificate
 	CertificateName *string `json:"certificateName,omitempty"`
@@ -4253,122 +4924,122 @@ type InputTCPTLSSettingsServerSide struct {
 	// Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS.
 	CaPath *string `json:"caPath,omitempty"`
 	// Require clients to present their certificates. Used to perform client authentication using SSL certs.
-	RequestCert        *bool                      `default:"false" json:"requestCert"`
-	RejectUnauthorized any                        `json:"rejectUnauthorized,omitempty"`
-	CommonNameRegex    any                        `json:"commonNameRegex,omitempty"`
-	MinVersion         *InputTCPMinimumTLSVersion `json:"minVersion,omitempty"`
-	MaxVersion         *InputTCPMaximumTLSVersion `json:"maxVersion,omitempty"`
+	RequestCert        *bool                 `default:"false" json:"requestCert"`
+	RejectUnauthorized any                   `json:"rejectUnauthorized,omitempty"`
+	CommonNameRegex    any                   `json:"commonNameRegex,omitempty"`
+	MinVersion         *MinimumTLSVersionTCP `json:"minVersion,omitempty"`
+	MaxVersion         *MaximumTLSVersionTCP `json:"maxVersion,omitempty"`
 }
 
-func (i InputTCPTLSSettingsServerSide) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (t TLSSettingsServerSideTCP) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(t, "", false)
 }
 
-func (i *InputTCPTLSSettingsServerSide) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (t *TLSSettingsServerSideTCP) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &t, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputTCPTLSSettingsServerSide) GetDisabled() *bool {
+func (o *TLSSettingsServerSideTCP) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *InputTCPTLSSettingsServerSide) GetCertificateName() *string {
+func (o *TLSSettingsServerSideTCP) GetCertificateName() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertificateName
 }
 
-func (o *InputTCPTLSSettingsServerSide) GetPrivKeyPath() *string {
+func (o *TLSSettingsServerSideTCP) GetPrivKeyPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.PrivKeyPath
 }
 
-func (o *InputTCPTLSSettingsServerSide) GetPassphrase() *string {
+func (o *TLSSettingsServerSideTCP) GetPassphrase() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Passphrase
 }
 
-func (o *InputTCPTLSSettingsServerSide) GetCertPath() *string {
+func (o *TLSSettingsServerSideTCP) GetCertPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertPath
 }
 
-func (o *InputTCPTLSSettingsServerSide) GetCaPath() *string {
+func (o *TLSSettingsServerSideTCP) GetCaPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CaPath
 }
 
-func (o *InputTCPTLSSettingsServerSide) GetRequestCert() *bool {
+func (o *TLSSettingsServerSideTCP) GetRequestCert() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.RequestCert
 }
 
-func (o *InputTCPTLSSettingsServerSide) GetRejectUnauthorized() any {
+func (o *TLSSettingsServerSideTCP) GetRejectUnauthorized() any {
 	if o == nil {
 		return nil
 	}
 	return o.RejectUnauthorized
 }
 
-func (o *InputTCPTLSSettingsServerSide) GetCommonNameRegex() any {
+func (o *TLSSettingsServerSideTCP) GetCommonNameRegex() any {
 	if o == nil {
 		return nil
 	}
 	return o.CommonNameRegex
 }
 
-func (o *InputTCPTLSSettingsServerSide) GetMinVersion() *InputTCPMinimumTLSVersion {
+func (o *TLSSettingsServerSideTCP) GetMinVersion() *MinimumTLSVersionTCP {
 	if o == nil {
 		return nil
 	}
 	return o.MinVersion
 }
 
-func (o *InputTCPTLSSettingsServerSide) GetMaxVersion() *InputTCPMaximumTLSVersion {
+func (o *TLSSettingsServerSideTCP) GetMaxVersion() *MaximumTLSVersionTCP {
 	if o == nil {
 		return nil
 	}
 	return o.MaxVersion
 }
 
-type InputTCPMetadatum struct {
+type MetadatumTCP struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputTCPMetadatum) GetName() string {
+func (o *MetadatumTCP) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputTCPMetadatum) GetValue() string {
+func (o *MetadatumTCP) GetValue() string {
 	if o == nil {
 		return ""
 	}
 	return o.Value
 }
 
-type InputTCPPreprocess struct {
+type PreprocessTCP struct {
 	Disabled *bool `default:"true" json:"disabled"`
 	// Command to feed the data through (via stdin) and process its output (stdout)
 	Command *string `json:"command,omitempty"`
@@ -4376,55 +5047,70 @@ type InputTCPPreprocess struct {
 	Args []string `json:"args,omitempty"`
 }
 
-func (i InputTCPPreprocess) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PreprocessTCP) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputTCPPreprocess) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PreprocessTCP) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputTCPPreprocess) GetDisabled() *bool {
+func (o *PreprocessTCP) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *InputTCPPreprocess) GetCommand() *string {
+func (o *PreprocessTCP) GetCommand() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Command
 }
 
-func (o *InputTCPPreprocess) GetArgs() []string {
+func (o *PreprocessTCP) GetArgs() []string {
 	if o == nil {
 		return nil
 	}
 	return o.Args
 }
 
-// InputTCPAuthenticationMethod - Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate
-type InputTCPAuthenticationMethod string
+// AuthenticationMethodTCP - Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate
+type AuthenticationMethodTCP string
 
 const (
-	InputTCPAuthenticationMethodManual InputTCPAuthenticationMethod = "manual"
-	InputTCPAuthenticationMethodSecret InputTCPAuthenticationMethod = "secret"
+	AuthenticationMethodTCPManual AuthenticationMethodTCP = "manual"
+	AuthenticationMethodTCPSecret AuthenticationMethodTCP = "secret"
 )
 
-func (e InputTCPAuthenticationMethod) ToPointer() *InputTCPAuthenticationMethod {
+func (e AuthenticationMethodTCP) ToPointer() *AuthenticationMethodTCP {
 	return &e
+}
+func (e *AuthenticationMethodTCP) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = AuthenticationMethodTCP(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for AuthenticationMethodTCP: %v", v)
+	}
 }
 
 type InputTCP struct {
 	// Unique ID for this input
-	ID       string        `json:"id"`
-	Type     *InputTCPType `json:"type,omitempty"`
-	Disabled *bool         `default:"false" json:"disabled"`
+	ID       string   `json:"id"`
+	Type     *TypeTCP `json:"type,omitempty"`
+	Disabled *bool    `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -4436,13 +5122,13 @@ type InputTCP struct {
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputTCPConnection `json:"connections,omitempty"`
-	Pq          *InputTCPPq          `json:"pq,omitempty"`
+	Connections []ConnectionTCP `json:"connections,omitempty"`
+	Pq          *PqTCP          `json:"pq,omitempty"`
 	// Address to bind on. Defaults to 0.0.0.0 (all addresses).
 	Host *string `default:"0.0.0.0" json:"host"`
 	// Port to listen on
-	Port float64                        `json:"port"`
-	TLS  *InputTCPTLSSettingsServerSide `json:"tls,omitempty"`
+	Port float64                   `json:"port"`
+	TLS  *TLSSettingsServerSideTCP `json:"tls,omitempty"`
 	// Regex matching IP addresses that are allowed to establish a connection
 	IPWhitelistRegex *string `default:"/.*/" json:"ipWhitelistRegex"`
 	// Maximum number of active connections allowed per Worker Process. Use 0 for unlimited.
@@ -4456,17 +5142,17 @@ type InputTCP struct {
 	// Enable if the connection is proxied by a device that supports proxy protocol v1 or v2
 	EnableProxyHeader *bool `default:"false" json:"enableProxyHeader"`
 	// Fields to add to events from this input
-	Metadata []InputTCPMetadatum `json:"metadata,omitempty"`
+	Metadata []MetadatumTCP `json:"metadata,omitempty"`
 	// A list of event-breaking rulesets that will be applied, in order, to the input data stream
 	BreakerRulesets []string `json:"breakerRulesets,omitempty"`
 	// How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines
 	StaleChannelFlushMs *float64 `default:"10000" json:"staleChannelFlushMs"`
 	// Client will pass the header record with every new connection. The header can contain an authToken, and an object with a list of fields and values to add to every event. These fields can be used to simplify Event Breaker selection, routing, etc. Header has this format, and must be followed by a newline: { "authToken" : "myToken", "fields": { "field1": "value1", "field2": "value2" } }
-	EnableHeader *bool               `default:"false" json:"enableHeader"`
-	Preprocess   *InputTCPPreprocess `json:"preprocess,omitempty"`
-	Description  *string             `json:"description,omitempty"`
+	EnableHeader *bool          `default:"false" json:"enableHeader"`
+	Preprocess   *PreprocessTCP `json:"preprocess,omitempty"`
+	Description  *string        `json:"description,omitempty"`
 	// Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate
-	AuthType *InputTCPAuthenticationMethod `default:"manual" json:"authType"`
+	AuthType *AuthenticationMethodTCP `default:"manual" json:"authType"`
 }
 
 func (i InputTCP) MarshalJSON() ([]byte, error) {
@@ -4487,7 +5173,7 @@ func (o *InputTCP) GetID() string {
 	return o.ID
 }
 
-func (o *InputTCP) GetType() *InputTCPType {
+func (o *InputTCP) GetType() *TypeTCP {
 	if o == nil {
 		return nil
 	}
@@ -4536,14 +5222,14 @@ func (o *InputTCP) GetStreamtags() []string {
 	return o.Streamtags
 }
 
-func (o *InputTCP) GetConnections() []InputTCPConnection {
+func (o *InputTCP) GetConnections() []ConnectionTCP {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputTCP) GetPq() *InputTCPPq {
+func (o *InputTCP) GetPq() *PqTCP {
 	if o == nil {
 		return nil
 	}
@@ -4564,7 +5250,7 @@ func (o *InputTCP) GetPort() float64 {
 	return o.Port
 }
 
-func (o *InputTCP) GetTLS() *InputTCPTLSSettingsServerSide {
+func (o *InputTCP) GetTLS() *TLSSettingsServerSideTCP {
 	if o == nil {
 		return nil
 	}
@@ -4613,7 +5299,7 @@ func (o *InputTCP) GetEnableProxyHeader() *bool {
 	return o.EnableProxyHeader
 }
 
-func (o *InputTCP) GetMetadata() []InputTCPMetadatum {
+func (o *InputTCP) GetMetadata() []MetadatumTCP {
 	if o == nil {
 		return nil
 	}
@@ -4641,7 +5327,7 @@ func (o *InputTCP) GetEnableHeader() *bool {
 	return o.EnableHeader
 }
 
-func (o *InputTCP) GetPreprocess() *InputTCPPreprocess {
+func (o *InputTCP) GetPreprocess() *PreprocessTCP {
 	if o == nil {
 		return nil
 	}
@@ -4655,7 +5341,7 @@ func (o *InputTCP) GetDescription() *string {
 	return o.Description
 }
 
-func (o *InputTCP) GetAuthType() *InputTCPAuthenticationMethod {
+func (o *InputTCP) GetAuthType() *AuthenticationMethodTCP {
 	if o == nil {
 		return nil
 	}
@@ -4670,6 +5356,19 @@ const (
 
 func (e InputSyslogType2) ToPointer() *InputSyslogType2 {
 	return &e
+}
+func (e *InputSyslogType2) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "syslog":
+		*e = InputSyslogType2(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputSyslogType2: %v", v)
+	}
 }
 
 type InputSyslogConnection2 struct {
@@ -4702,6 +5401,21 @@ const (
 func (e InputSyslogMode2) ToPointer() *InputSyslogMode2 {
 	return &e
 }
+func (e *InputSyslogMode2) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = InputSyslogMode2(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputSyslogMode2: %v", v)
+	}
+}
 
 // InputSyslogCompression2 - Codec to use to compress the persisted data
 type InputSyslogCompression2 string
@@ -4713,6 +5427,21 @@ const (
 
 func (e InputSyslogCompression2) ToPointer() *InputSyslogCompression2 {
 	return &e
+}
+func (e *InputSyslogCompression2) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = InputSyslogCompression2(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputSyslogCompression2: %v", v)
+	}
 }
 
 type InputSyslogPq2 struct {
@@ -4804,6 +5533,25 @@ const (
 func (e InputSyslogMinimumTLSVersion2) ToPointer() *InputSyslogMinimumTLSVersion2 {
 	return &e
 }
+func (e *InputSyslogMinimumTLSVersion2) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = InputSyslogMinimumTLSVersion2(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputSyslogMinimumTLSVersion2: %v", v)
+	}
+}
 
 type InputSyslogMaximumTLSVersion2 string
 
@@ -4816,6 +5564,25 @@ const (
 
 func (e InputSyslogMaximumTLSVersion2) ToPointer() *InputSyslogMaximumTLSVersion2 {
 	return &e
+}
+func (e *InputSyslogMaximumTLSVersion2) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = InputSyslogMaximumTLSVersion2(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputSyslogMaximumTLSVersion2: %v", v)
+	}
 }
 
 type InputSyslogTLSSettingsServerSide2 struct {
@@ -4946,7 +5713,7 @@ func (o *InputSyslogMetadatum2) GetValue() string {
 	return o.Value
 }
 
-type InputSyslog2 struct {
+type InputSyslogSyslog2 struct {
 	// Unique ID for this input
 	ID       string           `json:"id"`
 	Type     InputSyslogType2 `json:"type"`
@@ -5010,242 +5777,242 @@ type InputSyslog2 struct {
 	EnableEnhancedProxyHeaderParsing *bool `json:"enableEnhancedProxyHeaderParsing,omitempty"`
 }
 
-func (i InputSyslog2) MarshalJSON() ([]byte, error) {
+func (i InputSyslogSyslog2) MarshalJSON() ([]byte, error) {
 	return utils.MarshalJSON(i, "", false)
 }
 
-func (i *InputSyslog2) UnmarshalJSON(data []byte) error {
+func (i *InputSyslogSyslog2) UnmarshalJSON(data []byte) error {
 	if err := utils.UnmarshalJSON(data, &i, "", false, true); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputSyslog2) GetID() string {
+func (o *InputSyslogSyslog2) GetID() string {
 	if o == nil {
 		return ""
 	}
 	return o.ID
 }
 
-func (o *InputSyslog2) GetType() InputSyslogType2 {
+func (o *InputSyslogSyslog2) GetType() InputSyslogType2 {
 	if o == nil {
 		return InputSyslogType2("")
 	}
 	return o.Type
 }
 
-func (o *InputSyslog2) GetDisabled() *bool {
+func (o *InputSyslogSyslog2) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *InputSyslog2) GetPipeline() *string {
+func (o *InputSyslogSyslog2) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputSyslog2) GetSendToRoutes() *bool {
+func (o *InputSyslogSyslog2) GetSendToRoutes() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.SendToRoutes
 }
 
-func (o *InputSyslog2) GetEnvironment() *string {
+func (o *InputSyslogSyslog2) GetEnvironment() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Environment
 }
 
-func (o *InputSyslog2) GetPqEnabled() *bool {
+func (o *InputSyslogSyslog2) GetPqEnabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.PqEnabled
 }
 
-func (o *InputSyslog2) GetStreamtags() []string {
+func (o *InputSyslogSyslog2) GetStreamtags() []string {
 	if o == nil {
 		return nil
 	}
 	return o.Streamtags
 }
 
-func (o *InputSyslog2) GetConnections() []InputSyslogConnection2 {
+func (o *InputSyslogSyslog2) GetConnections() []InputSyslogConnection2 {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputSyslog2) GetPq() *InputSyslogPq2 {
+func (o *InputSyslogSyslog2) GetPq() *InputSyslogPq2 {
 	if o == nil {
 		return nil
 	}
 	return o.Pq
 }
 
-func (o *InputSyslog2) GetHost() *string {
+func (o *InputSyslogSyslog2) GetHost() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Host
 }
 
-func (o *InputSyslog2) GetUDPPort() *float64 {
+func (o *InputSyslogSyslog2) GetUDPPort() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.UDPPort
 }
 
-func (o *InputSyslog2) GetTCPPort() float64 {
+func (o *InputSyslogSyslog2) GetTCPPort() float64 {
 	if o == nil {
 		return 0.0
 	}
 	return o.TCPPort
 }
 
-func (o *InputSyslog2) GetMaxBufferSize() *float64 {
+func (o *InputSyslogSyslog2) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputSyslog2) GetIPWhitelistRegex() *string {
+func (o *InputSyslogSyslog2) GetIPWhitelistRegex() *string {
 	if o == nil {
 		return nil
 	}
 	return o.IPWhitelistRegex
 }
 
-func (o *InputSyslog2) GetTimestampTimezone() *string {
+func (o *InputSyslogSyslog2) GetTimestampTimezone() *string {
 	if o == nil {
 		return nil
 	}
 	return o.TimestampTimezone
 }
 
-func (o *InputSyslog2) GetSingleMsgUDPPackets() *bool {
+func (o *InputSyslogSyslog2) GetSingleMsgUDPPackets() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.SingleMsgUDPPackets
 }
 
-func (o *InputSyslog2) GetEnableProxyHeader() *bool {
+func (o *InputSyslogSyslog2) GetEnableProxyHeader() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.EnableProxyHeader
 }
 
-func (o *InputSyslog2) GetKeepFieldsList() []string {
+func (o *InputSyslogSyslog2) GetKeepFieldsList() []string {
 	if o == nil {
 		return nil
 	}
 	return o.KeepFieldsList
 }
 
-func (o *InputSyslog2) GetOctetCounting() *bool {
+func (o *InputSyslogSyslog2) GetOctetCounting() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.OctetCounting
 }
 
-func (o *InputSyslog2) GetInferFraming() *bool {
+func (o *InputSyslogSyslog2) GetInferFraming() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.InferFraming
 }
 
-func (o *InputSyslog2) GetStrictlyInferOctetCounting() *bool {
+func (o *InputSyslogSyslog2) GetStrictlyInferOctetCounting() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.StrictlyInferOctetCounting
 }
 
-func (o *InputSyslog2) GetAllowNonStandardAppName() *bool {
+func (o *InputSyslogSyslog2) GetAllowNonStandardAppName() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.AllowNonStandardAppName
 }
 
-func (o *InputSyslog2) GetMaxActiveCxn() *float64 {
+func (o *InputSyslogSyslog2) GetMaxActiveCxn() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxActiveCxn
 }
 
-func (o *InputSyslog2) GetSocketIdleTimeout() *float64 {
+func (o *InputSyslogSyslog2) GetSocketIdleTimeout() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.SocketIdleTimeout
 }
 
-func (o *InputSyslog2) GetSocketEndingMaxWait() *float64 {
+func (o *InputSyslogSyslog2) GetSocketEndingMaxWait() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.SocketEndingMaxWait
 }
 
-func (o *InputSyslog2) GetSocketMaxLifespan() *float64 {
+func (o *InputSyslogSyslog2) GetSocketMaxLifespan() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.SocketMaxLifespan
 }
 
-func (o *InputSyslog2) GetTLS() *InputSyslogTLSSettingsServerSide2 {
+func (o *InputSyslogSyslog2) GetTLS() *InputSyslogTLSSettingsServerSide2 {
 	if o == nil {
 		return nil
 	}
 	return o.TLS
 }
 
-func (o *InputSyslog2) GetMetadata() []InputSyslogMetadatum2 {
+func (o *InputSyslogSyslog2) GetMetadata() []InputSyslogMetadatum2 {
 	if o == nil {
 		return nil
 	}
 	return o.Metadata
 }
 
-func (o *InputSyslog2) GetUDPSocketRxBufSize() *float64 {
+func (o *InputSyslogSyslog2) GetUDPSocketRxBufSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.UDPSocketRxBufSize
 }
 
-func (o *InputSyslog2) GetEnableLoadBalancing() *bool {
+func (o *InputSyslogSyslog2) GetEnableLoadBalancing() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.EnableLoadBalancing
 }
 
-func (o *InputSyslog2) GetDescription() *string {
+func (o *InputSyslogSyslog2) GetDescription() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Description
 }
 
-func (o *InputSyslog2) GetEnableEnhancedProxyHeaderParsing() *bool {
+func (o *InputSyslogSyslog2) GetEnableEnhancedProxyHeaderParsing() *bool {
 	if o == nil {
 		return nil
 	}
@@ -5260,6 +6027,19 @@ const (
 
 func (e InputSyslogType1) ToPointer() *InputSyslogType1 {
 	return &e
+}
+func (e *InputSyslogType1) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "syslog":
+		*e = InputSyslogType1(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputSyslogType1: %v", v)
+	}
 }
 
 type InputSyslogConnection1 struct {
@@ -5292,6 +6072,21 @@ const (
 func (e InputSyslogMode1) ToPointer() *InputSyslogMode1 {
 	return &e
 }
+func (e *InputSyslogMode1) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = InputSyslogMode1(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputSyslogMode1: %v", v)
+	}
+}
 
 // InputSyslogCompression1 - Codec to use to compress the persisted data
 type InputSyslogCompression1 string
@@ -5303,6 +6098,21 @@ const (
 
 func (e InputSyslogCompression1) ToPointer() *InputSyslogCompression1 {
 	return &e
+}
+func (e *InputSyslogCompression1) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = InputSyslogCompression1(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputSyslogCompression1: %v", v)
+	}
 }
 
 type InputSyslogPq1 struct {
@@ -5394,6 +6204,25 @@ const (
 func (e InputSyslogMinimumTLSVersion1) ToPointer() *InputSyslogMinimumTLSVersion1 {
 	return &e
 }
+func (e *InputSyslogMinimumTLSVersion1) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = InputSyslogMinimumTLSVersion1(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputSyslogMinimumTLSVersion1: %v", v)
+	}
+}
 
 type InputSyslogMaximumTLSVersion1 string
 
@@ -5406,6 +6235,25 @@ const (
 
 func (e InputSyslogMaximumTLSVersion1) ToPointer() *InputSyslogMaximumTLSVersion1 {
 	return &e
+}
+func (e *InputSyslogMaximumTLSVersion1) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = InputSyslogMaximumTLSVersion1(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputSyslogMaximumTLSVersion1: %v", v)
+	}
 }
 
 type InputSyslogTLSSettingsServerSide1 struct {
@@ -5536,7 +6384,7 @@ func (o *InputSyslogMetadatum1) GetValue() string {
 	return o.Value
 }
 
-type InputSyslog1 struct {
+type InputSyslogSyslog1 struct {
 	// Unique ID for this input
 	ID       string           `json:"id"`
 	Type     InputSyslogType1 `json:"type"`
@@ -5600,367 +6448,410 @@ type InputSyslog1 struct {
 	EnableEnhancedProxyHeaderParsing *bool `json:"enableEnhancedProxyHeaderParsing,omitempty"`
 }
 
-func (i InputSyslog1) MarshalJSON() ([]byte, error) {
+func (i InputSyslogSyslog1) MarshalJSON() ([]byte, error) {
 	return utils.MarshalJSON(i, "", false)
 }
 
-func (i *InputSyslog1) UnmarshalJSON(data []byte) error {
+func (i *InputSyslogSyslog1) UnmarshalJSON(data []byte) error {
 	if err := utils.UnmarshalJSON(data, &i, "", false, true); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputSyslog1) GetID() string {
+func (o *InputSyslogSyslog1) GetID() string {
 	if o == nil {
 		return ""
 	}
 	return o.ID
 }
 
-func (o *InputSyslog1) GetType() InputSyslogType1 {
+func (o *InputSyslogSyslog1) GetType() InputSyslogType1 {
 	if o == nil {
 		return InputSyslogType1("")
 	}
 	return o.Type
 }
 
-func (o *InputSyslog1) GetDisabled() *bool {
+func (o *InputSyslogSyslog1) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *InputSyslog1) GetPipeline() *string {
+func (o *InputSyslogSyslog1) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputSyslog1) GetSendToRoutes() *bool {
+func (o *InputSyslogSyslog1) GetSendToRoutes() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.SendToRoutes
 }
 
-func (o *InputSyslog1) GetEnvironment() *string {
+func (o *InputSyslogSyslog1) GetEnvironment() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Environment
 }
 
-func (o *InputSyslog1) GetPqEnabled() *bool {
+func (o *InputSyslogSyslog1) GetPqEnabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.PqEnabled
 }
 
-func (o *InputSyslog1) GetStreamtags() []string {
+func (o *InputSyslogSyslog1) GetStreamtags() []string {
 	if o == nil {
 		return nil
 	}
 	return o.Streamtags
 }
 
-func (o *InputSyslog1) GetConnections() []InputSyslogConnection1 {
+func (o *InputSyslogSyslog1) GetConnections() []InputSyslogConnection1 {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputSyslog1) GetPq() *InputSyslogPq1 {
+func (o *InputSyslogSyslog1) GetPq() *InputSyslogPq1 {
 	if o == nil {
 		return nil
 	}
 	return o.Pq
 }
 
-func (o *InputSyslog1) GetHost() *string {
+func (o *InputSyslogSyslog1) GetHost() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Host
 }
 
-func (o *InputSyslog1) GetUDPPort() float64 {
+func (o *InputSyslogSyslog1) GetUDPPort() float64 {
 	if o == nil {
 		return 0.0
 	}
 	return o.UDPPort
 }
 
-func (o *InputSyslog1) GetTCPPort() *float64 {
+func (o *InputSyslogSyslog1) GetTCPPort() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.TCPPort
 }
 
-func (o *InputSyslog1) GetMaxBufferSize() *float64 {
+func (o *InputSyslogSyslog1) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputSyslog1) GetIPWhitelistRegex() *string {
+func (o *InputSyslogSyslog1) GetIPWhitelistRegex() *string {
 	if o == nil {
 		return nil
 	}
 	return o.IPWhitelistRegex
 }
 
-func (o *InputSyslog1) GetTimestampTimezone() *string {
+func (o *InputSyslogSyslog1) GetTimestampTimezone() *string {
 	if o == nil {
 		return nil
 	}
 	return o.TimestampTimezone
 }
 
-func (o *InputSyslog1) GetSingleMsgUDPPackets() *bool {
+func (o *InputSyslogSyslog1) GetSingleMsgUDPPackets() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.SingleMsgUDPPackets
 }
 
-func (o *InputSyslog1) GetEnableProxyHeader() *bool {
+func (o *InputSyslogSyslog1) GetEnableProxyHeader() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.EnableProxyHeader
 }
 
-func (o *InputSyslog1) GetKeepFieldsList() []string {
+func (o *InputSyslogSyslog1) GetKeepFieldsList() []string {
 	if o == nil {
 		return nil
 	}
 	return o.KeepFieldsList
 }
 
-func (o *InputSyslog1) GetOctetCounting() *bool {
+func (o *InputSyslogSyslog1) GetOctetCounting() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.OctetCounting
 }
 
-func (o *InputSyslog1) GetInferFraming() *bool {
+func (o *InputSyslogSyslog1) GetInferFraming() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.InferFraming
 }
 
-func (o *InputSyslog1) GetStrictlyInferOctetCounting() *bool {
+func (o *InputSyslogSyslog1) GetStrictlyInferOctetCounting() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.StrictlyInferOctetCounting
 }
 
-func (o *InputSyslog1) GetAllowNonStandardAppName() *bool {
+func (o *InputSyslogSyslog1) GetAllowNonStandardAppName() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.AllowNonStandardAppName
 }
 
-func (o *InputSyslog1) GetMaxActiveCxn() *float64 {
+func (o *InputSyslogSyslog1) GetMaxActiveCxn() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxActiveCxn
 }
 
-func (o *InputSyslog1) GetSocketIdleTimeout() *float64 {
+func (o *InputSyslogSyslog1) GetSocketIdleTimeout() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.SocketIdleTimeout
 }
 
-func (o *InputSyslog1) GetSocketEndingMaxWait() *float64 {
+func (o *InputSyslogSyslog1) GetSocketEndingMaxWait() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.SocketEndingMaxWait
 }
 
-func (o *InputSyslog1) GetSocketMaxLifespan() *float64 {
+func (o *InputSyslogSyslog1) GetSocketMaxLifespan() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.SocketMaxLifespan
 }
 
-func (o *InputSyslog1) GetTLS() *InputSyslogTLSSettingsServerSide1 {
+func (o *InputSyslogSyslog1) GetTLS() *InputSyslogTLSSettingsServerSide1 {
 	if o == nil {
 		return nil
 	}
 	return o.TLS
 }
 
-func (o *InputSyslog1) GetMetadata() []InputSyslogMetadatum1 {
+func (o *InputSyslogSyslog1) GetMetadata() []InputSyslogMetadatum1 {
 	if o == nil {
 		return nil
 	}
 	return o.Metadata
 }
 
-func (o *InputSyslog1) GetUDPSocketRxBufSize() *float64 {
+func (o *InputSyslogSyslog1) GetUDPSocketRxBufSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.UDPSocketRxBufSize
 }
 
-func (o *InputSyslog1) GetEnableLoadBalancing() *bool {
+func (o *InputSyslogSyslog1) GetEnableLoadBalancing() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.EnableLoadBalancing
 }
 
-func (o *InputSyslog1) GetDescription() *string {
+func (o *InputSyslogSyslog1) GetDescription() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Description
 }
 
-func (o *InputSyslog1) GetEnableEnhancedProxyHeaderParsing() *bool {
+func (o *InputSyslogSyslog1) GetEnableEnhancedProxyHeaderParsing() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.EnableEnhancedProxyHeaderParsing
 }
 
-type InputSyslogUnionType string
+type InputSyslogType string
 
 const (
-	InputSyslogUnionTypeInputSyslog1 InputSyslogUnionType = "InputSyslog_1"
-	InputSyslogUnionTypeInputSyslog2 InputSyslogUnionType = "InputSyslog_2"
+	InputSyslogTypeInputSyslogSyslog1 InputSyslogType = "InputSyslog_Syslog_1"
+	InputSyslogTypeInputSyslogSyslog2 InputSyslogType = "InputSyslog_Syslog_2"
 )
 
-type InputSyslogUnion struct {
-	InputSyslog1 *InputSyslog1 `queryParam:"inline"`
-	InputSyslog2 *InputSyslog2 `queryParam:"inline"`
+type InputSyslog struct {
+	InputSyslogSyslog1 *InputSyslogSyslog1 `queryParam:"inline"`
+	InputSyslogSyslog2 *InputSyslogSyslog2 `queryParam:"inline"`
 
-	Type InputSyslogUnionType
+	Type InputSyslogType
 }
 
-func CreateInputSyslogUnionInputSyslog1(inputSyslog1 InputSyslog1) InputSyslogUnion {
-	typ := InputSyslogUnionTypeInputSyslog1
+func CreateInputSyslogInputSyslogSyslog1(inputSyslogSyslog1 InputSyslogSyslog1) InputSyslog {
+	typ := InputSyslogTypeInputSyslogSyslog1
 
-	return InputSyslogUnion{
-		InputSyslog1: &inputSyslog1,
-		Type:         typ,
+	return InputSyslog{
+		InputSyslogSyslog1: &inputSyslogSyslog1,
+		Type:               typ,
 	}
 }
 
-func CreateInputSyslogUnionInputSyslog2(inputSyslog2 InputSyslog2) InputSyslogUnion {
-	typ := InputSyslogUnionTypeInputSyslog2
+func CreateInputSyslogInputSyslogSyslog2(inputSyslogSyslog2 InputSyslogSyslog2) InputSyslog {
+	typ := InputSyslogTypeInputSyslogSyslog2
 
-	return InputSyslogUnion{
-		InputSyslog2: &inputSyslog2,
-		Type:         typ,
+	return InputSyslog{
+		InputSyslogSyslog2: &inputSyslogSyslog2,
+		Type:               typ,
 	}
 }
 
-func (u *InputSyslogUnion) UnmarshalJSON(data []byte) error {
+func (u *InputSyslog) UnmarshalJSON(data []byte) error {
 
-	var inputSyslog1 InputSyslog1 = InputSyslog1{}
-	if err := utils.UnmarshalJSON(data, &inputSyslog1, "", true, true); err == nil {
-		u.InputSyslog1 = &inputSyslog1
-		u.Type = InputSyslogUnionTypeInputSyslog1
+	var inputSyslogSyslog1 InputSyslogSyslog1 = InputSyslogSyslog1{}
+	if err := utils.UnmarshalJSON(data, &inputSyslogSyslog1, "", true, true); err == nil {
+		u.InputSyslogSyslog1 = &inputSyslogSyslog1
+		u.Type = InputSyslogTypeInputSyslogSyslog1
 		return nil
 	}
 
-	var inputSyslog2 InputSyslog2 = InputSyslog2{}
-	if err := utils.UnmarshalJSON(data, &inputSyslog2, "", true, true); err == nil {
-		u.InputSyslog2 = &inputSyslog2
-		u.Type = InputSyslogUnionTypeInputSyslog2
+	var inputSyslogSyslog2 InputSyslogSyslog2 = InputSyslogSyslog2{}
+	if err := utils.UnmarshalJSON(data, &inputSyslogSyslog2, "", true, true); err == nil {
+		u.InputSyslogSyslog2 = &inputSyslogSyslog2
+		u.Type = InputSyslogTypeInputSyslogSyslog2
 		return nil
 	}
 
-	return fmt.Errorf("could not unmarshal `%s` into any supported union types for InputSyslogUnion", string(data))
+	return fmt.Errorf("could not unmarshal `%s` into any supported union types for InputSyslog", string(data))
 }
 
-func (u InputSyslogUnion) MarshalJSON() ([]byte, error) {
-	if u.InputSyslog1 != nil {
-		return utils.MarshalJSON(u.InputSyslog1, "", true)
+func (u InputSyslog) MarshalJSON() ([]byte, error) {
+	if u.InputSyslogSyslog1 != nil {
+		return utils.MarshalJSON(u.InputSyslogSyslog1, "", true)
 	}
 
-	if u.InputSyslog2 != nil {
-		return utils.MarshalJSON(u.InputSyslog2, "", true)
+	if u.InputSyslogSyslog2 != nil {
+		return utils.MarshalJSON(u.InputSyslogSyslog2, "", true)
 	}
 
-	return nil, errors.New("could not marshal union type InputSyslogUnion: all fields are null")
+	return nil, errors.New("could not marshal union type InputSyslog: all fields are null")
 }
 
-type InputSqsType string
+type CreateInputTypeSqs string
 
 const (
-	InputSqsTypeSqs InputSqsType = "sqs"
+	CreateInputTypeSqsSqs CreateInputTypeSqs = "sqs"
 )
 
-func (e InputSqsType) ToPointer() *InputSqsType {
+func (e CreateInputTypeSqs) ToPointer() *CreateInputTypeSqs {
 	return &e
 }
+func (e *CreateInputTypeSqs) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "sqs":
+		*e = CreateInputTypeSqs(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputTypeSqs: %v", v)
+	}
+}
 
-type InputSqsConnection struct {
+type ConnectionSqs struct {
 	Pipeline *string `json:"pipeline,omitempty"`
 	Output   string  `json:"output"`
 }
 
-func (o *InputSqsConnection) GetPipeline() *string {
+func (o *ConnectionSqs) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputSqsConnection) GetOutput() string {
+func (o *ConnectionSqs) GetOutput() string {
 	if o == nil {
 		return ""
 	}
 	return o.Output
 }
 
-// InputSqsMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type InputSqsMode string
+// CreateInputModeSqs - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+type CreateInputModeSqs string
 
 const (
-	InputSqsModeSmart  InputSqsMode = "smart"
-	InputSqsModeAlways InputSqsMode = "always"
+	CreateInputModeSqsSmart  CreateInputModeSqs = "smart"
+	CreateInputModeSqsAlways CreateInputModeSqs = "always"
 )
 
-func (e InputSqsMode) ToPointer() *InputSqsMode {
+func (e CreateInputModeSqs) ToPointer() *CreateInputModeSqs {
 	return &e
 }
+func (e *CreateInputModeSqs) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = CreateInputModeSqs(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputModeSqs: %v", v)
+	}
+}
 
-// InputSqsCompression - Codec to use to compress the persisted data
-type InputSqsCompression string
+// PqCompressionSqs - Codec to use to compress the persisted data
+type PqCompressionSqs string
 
 const (
-	InputSqsCompressionNone InputSqsCompression = "none"
-	InputSqsCompressionGzip InputSqsCompression = "gzip"
+	PqCompressionSqsNone PqCompressionSqs = "none"
+	PqCompressionSqsGzip PqCompressionSqs = "gzip"
 )
 
-func (e InputSqsCompression) ToPointer() *InputSqsCompression {
+func (e PqCompressionSqs) ToPointer() *PqCompressionSqs {
 	return &e
 }
+func (e *PqCompressionSqs) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = PqCompressionSqs(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for PqCompressionSqs: %v", v)
+	}
+}
 
-type InputSqsPq struct {
+type PqSqs struct {
 	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *InputSqsMode `default:"always" json:"mode"`
+	Mode *CreateInputModeSqs `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
 	// The number of events to send downstream before committing that Stream has read them
@@ -5972,63 +6863,63 @@ type InputSqsPq struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
 	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
 	// Codec to use to compress the persisted data
-	Compress *InputSqsCompression `default:"none" json:"compress"`
+	Compress *PqCompressionSqs `default:"none" json:"compress"`
 }
 
-func (i InputSqsPq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PqSqs) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputSqsPq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PqSqs) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputSqsPq) GetMode() *InputSqsMode {
+func (o *PqSqs) GetMode() *CreateInputModeSqs {
 	if o == nil {
 		return nil
 	}
 	return o.Mode
 }
 
-func (o *InputSqsPq) GetMaxBufferSize() *float64 {
+func (o *PqSqs) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputSqsPq) GetCommitFrequency() *float64 {
+func (o *PqSqs) GetCommitFrequency() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.CommitFrequency
 }
 
-func (o *InputSqsPq) GetMaxFileSize() *string {
+func (o *PqSqs) GetMaxFileSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxFileSize
 }
 
-func (o *InputSqsPq) GetMaxSize() *string {
+func (o *PqSqs) GetMaxSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxSize
 }
 
-func (o *InputSqsPq) GetPath() *string {
+func (o *PqSqs) GetPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Path
 }
 
-func (o *InputSqsPq) GetCompress() *InputSqsCompression {
+func (o *PqSqs) GetCompress() *PqCompressionSqs {
 	if o == nil {
 		return nil
 	}
@@ -6046,46 +6937,93 @@ const (
 func (e CreateInputQueueType) ToPointer() *CreateInputQueueType {
 	return &e
 }
-
-// InputSqsAuthenticationMethod - AWS authentication method. Choose Auto to use IAM roles.
-type InputSqsAuthenticationMethod string
-
-const (
-	InputSqsAuthenticationMethodAuto   InputSqsAuthenticationMethod = "auto"
-	InputSqsAuthenticationMethodManual InputSqsAuthenticationMethod = "manual"
-	InputSqsAuthenticationMethodSecret InputSqsAuthenticationMethod = "secret"
-)
-
-func (e InputSqsAuthenticationMethod) ToPointer() *InputSqsAuthenticationMethod {
-	return &e
+func (e *CreateInputQueueType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "standard":
+		fallthrough
+	case "fifo":
+		*e = CreateInputQueueType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputQueueType: %v", v)
+	}
 }
 
-// InputSqsSignatureVersion - Signature version to use for signing SQS requests
-type InputSqsSignatureVersion string
+// CreateInputAuthenticationMethodSqs - AWS authentication method. Choose Auto to use IAM roles.
+type CreateInputAuthenticationMethodSqs string
 
 const (
-	InputSqsSignatureVersionV2 InputSqsSignatureVersion = "v2"
-	InputSqsSignatureVersionV4 InputSqsSignatureVersion = "v4"
+	CreateInputAuthenticationMethodSqsAuto   CreateInputAuthenticationMethodSqs = "auto"
+	CreateInputAuthenticationMethodSqsManual CreateInputAuthenticationMethodSqs = "manual"
+	CreateInputAuthenticationMethodSqsSecret CreateInputAuthenticationMethodSqs = "secret"
 )
 
-func (e InputSqsSignatureVersion) ToPointer() *InputSqsSignatureVersion {
+func (e CreateInputAuthenticationMethodSqs) ToPointer() *CreateInputAuthenticationMethodSqs {
 	return &e
 }
+func (e *CreateInputAuthenticationMethodSqs) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "auto":
+		fallthrough
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = CreateInputAuthenticationMethodSqs(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputAuthenticationMethodSqs: %v", v)
+	}
+}
 
-type InputSqsMetadatum struct {
+// CreateInputSignatureVersionSqs - Signature version to use for signing SQS requests
+type CreateInputSignatureVersionSqs string
+
+const (
+	CreateInputSignatureVersionSqsV2 CreateInputSignatureVersionSqs = "v2"
+	CreateInputSignatureVersionSqsV4 CreateInputSignatureVersionSqs = "v4"
+)
+
+func (e CreateInputSignatureVersionSqs) ToPointer() *CreateInputSignatureVersionSqs {
+	return &e
+}
+func (e *CreateInputSignatureVersionSqs) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "v2":
+		fallthrough
+	case "v4":
+		*e = CreateInputSignatureVersionSqs(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputSignatureVersionSqs: %v", v)
+	}
+}
+
+type MetadatumSqs struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputSqsMetadatum) GetName() string {
+func (o *MetadatumSqs) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputSqsMetadatum) GetValue() string {
+func (o *MetadatumSqs) GetValue() string {
 	if o == nil {
 		return ""
 	}
@@ -6094,9 +7032,9 @@ func (o *InputSqsMetadatum) GetValue() string {
 
 type InputSqs struct {
 	// Unique ID for this input
-	ID       string        `json:"id"`
-	Type     *InputSqsType `json:"type,omitempty"`
-	Disabled *bool         `default:"false" json:"disabled"`
+	ID       string              `json:"id"`
+	Type     *CreateInputTypeSqs `json:"type,omitempty"`
+	Disabled *bool               `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -6108,8 +7046,8 @@ type InputSqs struct {
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputSqsConnection `json:"connections,omitempty"`
-	Pq          *InputSqsPq          `json:"pq,omitempty"`
+	Connections []ConnectionSqs `json:"connections,omitempty"`
+	Pq          *PqSqs          `json:"pq,omitempty"`
 	// The name, URL, or ARN of the SQS queue to read events from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can only be evaluated at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`.
 	QueueName string `json:"queueName"`
 	// The queue type used (or created)
@@ -6119,14 +7057,14 @@ type InputSqs struct {
 	// Create queue if it does not exist
 	CreateQueue *bool `default:"false" json:"createQueue"`
 	// AWS authentication method. Choose Auto to use IAM roles.
-	AwsAuthenticationMethod *InputSqsAuthenticationMethod `default:"auto" json:"awsAuthenticationMethod"`
-	AwsSecretKey            *string                       `json:"awsSecretKey,omitempty"`
+	AwsAuthenticationMethod *CreateInputAuthenticationMethodSqs `default:"auto" json:"awsAuthenticationMethod"`
+	AwsSecretKey            *string                             `json:"awsSecretKey,omitempty"`
 	// AWS Region where the SQS queue is located. Required, unless the Queue entry is a URL or ARN that includes a Region.
 	Region *string `json:"region,omitempty"`
 	// SQS service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to SQS-compatible endpoint.
 	Endpoint *string `json:"endpoint,omitempty"`
 	// Signature version to use for signing SQS requests
-	SignatureVersion *InputSqsSignatureVersion `default:"v4" json:"signatureVersion"`
+	SignatureVersion *CreateInputSignatureVersionSqs `default:"v4" json:"signatureVersion"`
 	// Reuse connections between requests, which can improve performance
 	ReuseConnections *bool `default:"true" json:"reuseConnections"`
 	// Reject certificates that cannot be verified against a valid CA, such as self-signed certificates
@@ -6144,7 +7082,7 @@ type InputSqs struct {
 	// After messages are retrieved by a ReceiveMessage request, @{product} will hide them from subsequent retrieve requests for at least this duration. You can set this as high as 43200 sec. (12 hours).
 	VisibilityTimeout *float64 `default:"600" json:"visibilityTimeout"`
 	// Fields to add to events from this input
-	Metadata []InputSqsMetadatum `json:"metadata,omitempty"`
+	Metadata []MetadatumSqs `json:"metadata,omitempty"`
 	// How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts.
 	PollTimeout *float64 `default:"10" json:"pollTimeout"`
 	Description *string  `json:"description,omitempty"`
@@ -6173,7 +7111,7 @@ func (o *InputSqs) GetID() string {
 	return o.ID
 }
 
-func (o *InputSqs) GetType() *InputSqsType {
+func (o *InputSqs) GetType() *CreateInputTypeSqs {
 	if o == nil {
 		return nil
 	}
@@ -6222,14 +7160,14 @@ func (o *InputSqs) GetStreamtags() []string {
 	return o.Streamtags
 }
 
-func (o *InputSqs) GetConnections() []InputSqsConnection {
+func (o *InputSqs) GetConnections() []ConnectionSqs {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputSqs) GetPq() *InputSqsPq {
+func (o *InputSqs) GetPq() *PqSqs {
 	if o == nil {
 		return nil
 	}
@@ -6264,7 +7202,7 @@ func (o *InputSqs) GetCreateQueue() *bool {
 	return o.CreateQueue
 }
 
-func (o *InputSqs) GetAwsAuthenticationMethod() *InputSqsAuthenticationMethod {
+func (o *InputSqs) GetAwsAuthenticationMethod() *CreateInputAuthenticationMethodSqs {
 	if o == nil {
 		return nil
 	}
@@ -6292,7 +7230,7 @@ func (o *InputSqs) GetEndpoint() *string {
 	return o.Endpoint
 }
 
-func (o *InputSqs) GetSignatureVersion() *InputSqsSignatureVersion {
+func (o *InputSqs) GetSignatureVersion() *CreateInputSignatureVersionSqs {
 	if o == nil {
 		return nil
 	}
@@ -6355,7 +7293,7 @@ func (o *InputSqs) GetVisibilityTimeout() *float64 {
 	return o.VisibilityTimeout
 }
 
-func (o *InputSqs) GetMetadata() []InputSqsMetadatum {
+func (o *InputSqs) GetMetadata() []MetadatumSqs {
 	if o == nil {
 		return nil
 	}
@@ -6397,62 +7335,105 @@ func (o *InputSqs) GetNumReceivers() *float64 {
 	return o.NumReceivers
 }
 
-type InputModelDrivenTelemetryType string
+type TypeModelDrivenTelemetry string
 
 const (
-	InputModelDrivenTelemetryTypeModelDrivenTelemetry InputModelDrivenTelemetryType = "model_driven_telemetry"
+	TypeModelDrivenTelemetryModelDrivenTelemetry TypeModelDrivenTelemetry = "model_driven_telemetry"
 )
 
-func (e InputModelDrivenTelemetryType) ToPointer() *InputModelDrivenTelemetryType {
+func (e TypeModelDrivenTelemetry) ToPointer() *TypeModelDrivenTelemetry {
 	return &e
 }
+func (e *TypeModelDrivenTelemetry) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "model_driven_telemetry":
+		*e = TypeModelDrivenTelemetry(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for TypeModelDrivenTelemetry: %v", v)
+	}
+}
 
-type InputModelDrivenTelemetryConnection struct {
+type ConnectionModelDrivenTelemetry struct {
 	Pipeline *string `json:"pipeline,omitempty"`
 	Output   string  `json:"output"`
 }
 
-func (o *InputModelDrivenTelemetryConnection) GetPipeline() *string {
+func (o *ConnectionModelDrivenTelemetry) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputModelDrivenTelemetryConnection) GetOutput() string {
+func (o *ConnectionModelDrivenTelemetry) GetOutput() string {
 	if o == nil {
 		return ""
 	}
 	return o.Output
 }
 
-// InputModelDrivenTelemetryMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type InputModelDrivenTelemetryMode string
+// ModeModelDrivenTelemetry - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+type ModeModelDrivenTelemetry string
 
 const (
-	InputModelDrivenTelemetryModeSmart  InputModelDrivenTelemetryMode = "smart"
-	InputModelDrivenTelemetryModeAlways InputModelDrivenTelemetryMode = "always"
+	ModeModelDrivenTelemetrySmart  ModeModelDrivenTelemetry = "smart"
+	ModeModelDrivenTelemetryAlways ModeModelDrivenTelemetry = "always"
 )
 
-func (e InputModelDrivenTelemetryMode) ToPointer() *InputModelDrivenTelemetryMode {
+func (e ModeModelDrivenTelemetry) ToPointer() *ModeModelDrivenTelemetry {
 	return &e
 }
+func (e *ModeModelDrivenTelemetry) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = ModeModelDrivenTelemetry(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ModeModelDrivenTelemetry: %v", v)
+	}
+}
 
-// InputModelDrivenTelemetryCompression - Codec to use to compress the persisted data
-type InputModelDrivenTelemetryCompression string
+// CompressionModelDrivenTelemetry - Codec to use to compress the persisted data
+type CompressionModelDrivenTelemetry string
 
 const (
-	InputModelDrivenTelemetryCompressionNone InputModelDrivenTelemetryCompression = "none"
-	InputModelDrivenTelemetryCompressionGzip InputModelDrivenTelemetryCompression = "gzip"
+	CompressionModelDrivenTelemetryNone CompressionModelDrivenTelemetry = "none"
+	CompressionModelDrivenTelemetryGzip CompressionModelDrivenTelemetry = "gzip"
 )
 
-func (e InputModelDrivenTelemetryCompression) ToPointer() *InputModelDrivenTelemetryCompression {
+func (e CompressionModelDrivenTelemetry) ToPointer() *CompressionModelDrivenTelemetry {
 	return &e
 }
+func (e *CompressionModelDrivenTelemetry) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = CompressionModelDrivenTelemetry(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CompressionModelDrivenTelemetry: %v", v)
+	}
+}
 
-type InputModelDrivenTelemetryPq struct {
+type PqModelDrivenTelemetry struct {
 	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *InputModelDrivenTelemetryMode `default:"always" json:"mode"`
+	Mode *ModeModelDrivenTelemetry `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
 	// The number of events to send downstream before committing that Stream has read them
@@ -6464,96 +7445,134 @@ type InputModelDrivenTelemetryPq struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
 	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
 	// Codec to use to compress the persisted data
-	Compress *InputModelDrivenTelemetryCompression `default:"none" json:"compress"`
+	Compress *CompressionModelDrivenTelemetry `default:"none" json:"compress"`
 }
 
-func (i InputModelDrivenTelemetryPq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PqModelDrivenTelemetry) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputModelDrivenTelemetryPq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PqModelDrivenTelemetry) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputModelDrivenTelemetryPq) GetMode() *InputModelDrivenTelemetryMode {
+func (o *PqModelDrivenTelemetry) GetMode() *ModeModelDrivenTelemetry {
 	if o == nil {
 		return nil
 	}
 	return o.Mode
 }
 
-func (o *InputModelDrivenTelemetryPq) GetMaxBufferSize() *float64 {
+func (o *PqModelDrivenTelemetry) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputModelDrivenTelemetryPq) GetCommitFrequency() *float64 {
+func (o *PqModelDrivenTelemetry) GetCommitFrequency() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.CommitFrequency
 }
 
-func (o *InputModelDrivenTelemetryPq) GetMaxFileSize() *string {
+func (o *PqModelDrivenTelemetry) GetMaxFileSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxFileSize
 }
 
-func (o *InputModelDrivenTelemetryPq) GetMaxSize() *string {
+func (o *PqModelDrivenTelemetry) GetMaxSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxSize
 }
 
-func (o *InputModelDrivenTelemetryPq) GetPath() *string {
+func (o *PqModelDrivenTelemetry) GetPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Path
 }
 
-func (o *InputModelDrivenTelemetryPq) GetCompress() *InputModelDrivenTelemetryCompression {
+func (o *PqModelDrivenTelemetry) GetCompress() *CompressionModelDrivenTelemetry {
 	if o == nil {
 		return nil
 	}
 	return o.Compress
 }
 
-type InputModelDrivenTelemetryMinimumTLSVersion string
+type MinimumTLSVersionModelDrivenTelemetry string
 
 const (
-	InputModelDrivenTelemetryMinimumTLSVersionTlSv1  InputModelDrivenTelemetryMinimumTLSVersion = "TLSv1"
-	InputModelDrivenTelemetryMinimumTLSVersionTlSv11 InputModelDrivenTelemetryMinimumTLSVersion = "TLSv1.1"
-	InputModelDrivenTelemetryMinimumTLSVersionTlSv12 InputModelDrivenTelemetryMinimumTLSVersion = "TLSv1.2"
-	InputModelDrivenTelemetryMinimumTLSVersionTlSv13 InputModelDrivenTelemetryMinimumTLSVersion = "TLSv1.3"
+	MinimumTLSVersionModelDrivenTelemetryTlSv1  MinimumTLSVersionModelDrivenTelemetry = "TLSv1"
+	MinimumTLSVersionModelDrivenTelemetryTlSv11 MinimumTLSVersionModelDrivenTelemetry = "TLSv1.1"
+	MinimumTLSVersionModelDrivenTelemetryTlSv12 MinimumTLSVersionModelDrivenTelemetry = "TLSv1.2"
+	MinimumTLSVersionModelDrivenTelemetryTlSv13 MinimumTLSVersionModelDrivenTelemetry = "TLSv1.3"
 )
 
-func (e InputModelDrivenTelemetryMinimumTLSVersion) ToPointer() *InputModelDrivenTelemetryMinimumTLSVersion {
+func (e MinimumTLSVersionModelDrivenTelemetry) ToPointer() *MinimumTLSVersionModelDrivenTelemetry {
 	return &e
 }
+func (e *MinimumTLSVersionModelDrivenTelemetry) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = MinimumTLSVersionModelDrivenTelemetry(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for MinimumTLSVersionModelDrivenTelemetry: %v", v)
+	}
+}
 
-type InputModelDrivenTelemetryMaximumTLSVersion string
+type MaximumTLSVersionModelDrivenTelemetry string
 
 const (
-	InputModelDrivenTelemetryMaximumTLSVersionTlSv1  InputModelDrivenTelemetryMaximumTLSVersion = "TLSv1"
-	InputModelDrivenTelemetryMaximumTLSVersionTlSv11 InputModelDrivenTelemetryMaximumTLSVersion = "TLSv1.1"
-	InputModelDrivenTelemetryMaximumTLSVersionTlSv12 InputModelDrivenTelemetryMaximumTLSVersion = "TLSv1.2"
-	InputModelDrivenTelemetryMaximumTLSVersionTlSv13 InputModelDrivenTelemetryMaximumTLSVersion = "TLSv1.3"
+	MaximumTLSVersionModelDrivenTelemetryTlSv1  MaximumTLSVersionModelDrivenTelemetry = "TLSv1"
+	MaximumTLSVersionModelDrivenTelemetryTlSv11 MaximumTLSVersionModelDrivenTelemetry = "TLSv1.1"
+	MaximumTLSVersionModelDrivenTelemetryTlSv12 MaximumTLSVersionModelDrivenTelemetry = "TLSv1.2"
+	MaximumTLSVersionModelDrivenTelemetryTlSv13 MaximumTLSVersionModelDrivenTelemetry = "TLSv1.3"
 )
 
-func (e InputModelDrivenTelemetryMaximumTLSVersion) ToPointer() *InputModelDrivenTelemetryMaximumTLSVersion {
+func (e MaximumTLSVersionModelDrivenTelemetry) ToPointer() *MaximumTLSVersionModelDrivenTelemetry {
 	return &e
 }
+func (e *MaximumTLSVersionModelDrivenTelemetry) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = MaximumTLSVersionModelDrivenTelemetry(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for MaximumTLSVersionModelDrivenTelemetry: %v", v)
+	}
+}
 
-type InputModelDrivenTelemetryTLSSettingsServerSide struct {
+type TLSSettingsServerSideModelDrivenTelemetry struct {
 	Disabled *bool `default:"true" json:"disabled"`
 	// The name of the predefined certificate
 	CertificateName *string `json:"certificateName,omitempty"`
@@ -6564,108 +7583,108 @@ type InputModelDrivenTelemetryTLSSettingsServerSide struct {
 	// Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS.
 	CaPath *string `json:"caPath,omitempty"`
 	// Require clients to present their certificates. Used to perform client authentication using SSL certs.
-	RequestCert        *bool                                       `default:"false" json:"requestCert"`
-	RejectUnauthorized any                                         `json:"rejectUnauthorized,omitempty"`
-	CommonNameRegex    any                                         `json:"commonNameRegex,omitempty"`
-	MinVersion         *InputModelDrivenTelemetryMinimumTLSVersion `json:"minVersion,omitempty"`
-	MaxVersion         *InputModelDrivenTelemetryMaximumTLSVersion `json:"maxVersion,omitempty"`
+	RequestCert        *bool                                  `default:"false" json:"requestCert"`
+	RejectUnauthorized any                                    `json:"rejectUnauthorized,omitempty"`
+	CommonNameRegex    any                                    `json:"commonNameRegex,omitempty"`
+	MinVersion         *MinimumTLSVersionModelDrivenTelemetry `json:"minVersion,omitempty"`
+	MaxVersion         *MaximumTLSVersionModelDrivenTelemetry `json:"maxVersion,omitempty"`
 }
 
-func (i InputModelDrivenTelemetryTLSSettingsServerSide) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (t TLSSettingsServerSideModelDrivenTelemetry) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(t, "", false)
 }
 
-func (i *InputModelDrivenTelemetryTLSSettingsServerSide) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (t *TLSSettingsServerSideModelDrivenTelemetry) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &t, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputModelDrivenTelemetryTLSSettingsServerSide) GetDisabled() *bool {
+func (o *TLSSettingsServerSideModelDrivenTelemetry) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *InputModelDrivenTelemetryTLSSettingsServerSide) GetCertificateName() *string {
+func (o *TLSSettingsServerSideModelDrivenTelemetry) GetCertificateName() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertificateName
 }
 
-func (o *InputModelDrivenTelemetryTLSSettingsServerSide) GetPrivKeyPath() *string {
+func (o *TLSSettingsServerSideModelDrivenTelemetry) GetPrivKeyPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.PrivKeyPath
 }
 
-func (o *InputModelDrivenTelemetryTLSSettingsServerSide) GetCertPath() *string {
+func (o *TLSSettingsServerSideModelDrivenTelemetry) GetCertPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertPath
 }
 
-func (o *InputModelDrivenTelemetryTLSSettingsServerSide) GetCaPath() *string {
+func (o *TLSSettingsServerSideModelDrivenTelemetry) GetCaPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CaPath
 }
 
-func (o *InputModelDrivenTelemetryTLSSettingsServerSide) GetRequestCert() *bool {
+func (o *TLSSettingsServerSideModelDrivenTelemetry) GetRequestCert() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.RequestCert
 }
 
-func (o *InputModelDrivenTelemetryTLSSettingsServerSide) GetRejectUnauthorized() any {
+func (o *TLSSettingsServerSideModelDrivenTelemetry) GetRejectUnauthorized() any {
 	if o == nil {
 		return nil
 	}
 	return o.RejectUnauthorized
 }
 
-func (o *InputModelDrivenTelemetryTLSSettingsServerSide) GetCommonNameRegex() any {
+func (o *TLSSettingsServerSideModelDrivenTelemetry) GetCommonNameRegex() any {
 	if o == nil {
 		return nil
 	}
 	return o.CommonNameRegex
 }
 
-func (o *InputModelDrivenTelemetryTLSSettingsServerSide) GetMinVersion() *InputModelDrivenTelemetryMinimumTLSVersion {
+func (o *TLSSettingsServerSideModelDrivenTelemetry) GetMinVersion() *MinimumTLSVersionModelDrivenTelemetry {
 	if o == nil {
 		return nil
 	}
 	return o.MinVersion
 }
 
-func (o *InputModelDrivenTelemetryTLSSettingsServerSide) GetMaxVersion() *InputModelDrivenTelemetryMaximumTLSVersion {
+func (o *TLSSettingsServerSideModelDrivenTelemetry) GetMaxVersion() *MaximumTLSVersionModelDrivenTelemetry {
 	if o == nil {
 		return nil
 	}
 	return o.MaxVersion
 }
 
-type InputModelDrivenTelemetryMetadatum struct {
+type MetadatumModelDrivenTelemetry struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputModelDrivenTelemetryMetadatum) GetName() string {
+func (o *MetadatumModelDrivenTelemetry) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputModelDrivenTelemetryMetadatum) GetValue() string {
+func (o *MetadatumModelDrivenTelemetry) GetValue() string {
 	if o == nil {
 		return ""
 	}
@@ -6674,9 +7693,9 @@ func (o *InputModelDrivenTelemetryMetadatum) GetValue() string {
 
 type InputModelDrivenTelemetry struct {
 	// Unique ID for this input
-	ID       string                         `json:"id"`
-	Type     *InputModelDrivenTelemetryType `json:"type,omitempty"`
-	Disabled *bool                          `default:"false" json:"disabled"`
+	ID       string                    `json:"id"`
+	Type     *TypeModelDrivenTelemetry `json:"type,omitempty"`
+	Disabled *bool                     `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -6688,15 +7707,15 @@ type InputModelDrivenTelemetry struct {
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputModelDrivenTelemetryConnection `json:"connections,omitempty"`
-	Pq          *InputModelDrivenTelemetryPq          `json:"pq,omitempty"`
+	Connections []ConnectionModelDrivenTelemetry `json:"connections,omitempty"`
+	Pq          *PqModelDrivenTelemetry          `json:"pq,omitempty"`
 	// Address to bind on. Defaults to 0.0.0.0 (all addresses).
 	Host *string `default:"0.0.0.0" json:"host"`
 	// Port to listen on
-	Port *float64                                        `default:"57000" json:"port"`
-	TLS  *InputModelDrivenTelemetryTLSSettingsServerSide `json:"tls,omitempty"`
+	Port *float64                                   `default:"57000" json:"port"`
+	TLS  *TLSSettingsServerSideModelDrivenTelemetry `json:"tls,omitempty"`
 	// Fields to add to events from this input
-	Metadata []InputModelDrivenTelemetryMetadatum `json:"metadata,omitempty"`
+	Metadata []MetadatumModelDrivenTelemetry `json:"metadata,omitempty"`
 	// Maximum number of active connections allowed per Worker Process. Use 0 for unlimited.
 	MaxActiveCxn *float64 `default:"1000" json:"maxActiveCxn"`
 	// Time in milliseconds to allow the server to shutdown gracefully before forcing shutdown. Defaults to 5000.
@@ -6722,7 +7741,7 @@ func (o *InputModelDrivenTelemetry) GetID() string {
 	return o.ID
 }
 
-func (o *InputModelDrivenTelemetry) GetType() *InputModelDrivenTelemetryType {
+func (o *InputModelDrivenTelemetry) GetType() *TypeModelDrivenTelemetry {
 	if o == nil {
 		return nil
 	}
@@ -6771,14 +7790,14 @@ func (o *InputModelDrivenTelemetry) GetStreamtags() []string {
 	return o.Streamtags
 }
 
-func (o *InputModelDrivenTelemetry) GetConnections() []InputModelDrivenTelemetryConnection {
+func (o *InputModelDrivenTelemetry) GetConnections() []ConnectionModelDrivenTelemetry {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputModelDrivenTelemetry) GetPq() *InputModelDrivenTelemetryPq {
+func (o *InputModelDrivenTelemetry) GetPq() *PqModelDrivenTelemetry {
 	if o == nil {
 		return nil
 	}
@@ -6799,14 +7818,14 @@ func (o *InputModelDrivenTelemetry) GetPort() *float64 {
 	return o.Port
 }
 
-func (o *InputModelDrivenTelemetry) GetTLS() *InputModelDrivenTelemetryTLSSettingsServerSide {
+func (o *InputModelDrivenTelemetry) GetTLS() *TLSSettingsServerSideModelDrivenTelemetry {
 	if o == nil {
 		return nil
 	}
 	return o.TLS
 }
 
-func (o *InputModelDrivenTelemetry) GetMetadata() []InputModelDrivenTelemetryMetadatum {
+func (o *InputModelDrivenTelemetry) GetMetadata() []MetadatumModelDrivenTelemetry {
 	if o == nil {
 		return nil
 	}
@@ -6834,62 +7853,105 @@ func (o *InputModelDrivenTelemetry) GetDescription() *string {
 	return o.Description
 }
 
-type InputOpenTelemetryType string
+type CreateInputTypeOpenTelemetry string
 
 const (
-	InputOpenTelemetryTypeOpenTelemetry InputOpenTelemetryType = "open_telemetry"
+	CreateInputTypeOpenTelemetryOpenTelemetry CreateInputTypeOpenTelemetry = "open_telemetry"
 )
 
-func (e InputOpenTelemetryType) ToPointer() *InputOpenTelemetryType {
+func (e CreateInputTypeOpenTelemetry) ToPointer() *CreateInputTypeOpenTelemetry {
 	return &e
 }
+func (e *CreateInputTypeOpenTelemetry) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "open_telemetry":
+		*e = CreateInputTypeOpenTelemetry(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputTypeOpenTelemetry: %v", v)
+	}
+}
 
-type InputOpenTelemetryConnection struct {
+type ConnectionOpenTelemetry struct {
 	Pipeline *string `json:"pipeline,omitempty"`
 	Output   string  `json:"output"`
 }
 
-func (o *InputOpenTelemetryConnection) GetPipeline() *string {
+func (o *ConnectionOpenTelemetry) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputOpenTelemetryConnection) GetOutput() string {
+func (o *ConnectionOpenTelemetry) GetOutput() string {
 	if o == nil {
 		return ""
 	}
 	return o.Output
 }
 
-// InputOpenTelemetryMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type InputOpenTelemetryMode string
+// CreateInputModeOpenTelemetry - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+type CreateInputModeOpenTelemetry string
 
 const (
-	InputOpenTelemetryModeSmart  InputOpenTelemetryMode = "smart"
-	InputOpenTelemetryModeAlways InputOpenTelemetryMode = "always"
+	CreateInputModeOpenTelemetrySmart  CreateInputModeOpenTelemetry = "smart"
+	CreateInputModeOpenTelemetryAlways CreateInputModeOpenTelemetry = "always"
 )
 
-func (e InputOpenTelemetryMode) ToPointer() *InputOpenTelemetryMode {
+func (e CreateInputModeOpenTelemetry) ToPointer() *CreateInputModeOpenTelemetry {
 	return &e
 }
+func (e *CreateInputModeOpenTelemetry) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = CreateInputModeOpenTelemetry(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputModeOpenTelemetry: %v", v)
+	}
+}
 
-// InputOpenTelemetryCompression - Codec to use to compress the persisted data
-type InputOpenTelemetryCompression string
+// PqCompressionOpenTelemetry - Codec to use to compress the persisted data
+type PqCompressionOpenTelemetry string
 
 const (
-	InputOpenTelemetryCompressionNone InputOpenTelemetryCompression = "none"
-	InputOpenTelemetryCompressionGzip InputOpenTelemetryCompression = "gzip"
+	PqCompressionOpenTelemetryNone PqCompressionOpenTelemetry = "none"
+	PqCompressionOpenTelemetryGzip PqCompressionOpenTelemetry = "gzip"
 )
 
-func (e InputOpenTelemetryCompression) ToPointer() *InputOpenTelemetryCompression {
+func (e PqCompressionOpenTelemetry) ToPointer() *PqCompressionOpenTelemetry {
 	return &e
 }
+func (e *PqCompressionOpenTelemetry) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = PqCompressionOpenTelemetry(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for PqCompressionOpenTelemetry: %v", v)
+	}
+}
 
-type InputOpenTelemetryPq struct {
+type PqOpenTelemetry struct {
 	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *InputOpenTelemetryMode `default:"always" json:"mode"`
+	Mode *CreateInputModeOpenTelemetry `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
 	// The number of events to send downstream before committing that Stream has read them
@@ -6901,96 +7963,134 @@ type InputOpenTelemetryPq struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
 	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
 	// Codec to use to compress the persisted data
-	Compress *InputOpenTelemetryCompression `default:"none" json:"compress"`
+	Compress *PqCompressionOpenTelemetry `default:"none" json:"compress"`
 }
 
-func (i InputOpenTelemetryPq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PqOpenTelemetry) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputOpenTelemetryPq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PqOpenTelemetry) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputOpenTelemetryPq) GetMode() *InputOpenTelemetryMode {
+func (o *PqOpenTelemetry) GetMode() *CreateInputModeOpenTelemetry {
 	if o == nil {
 		return nil
 	}
 	return o.Mode
 }
 
-func (o *InputOpenTelemetryPq) GetMaxBufferSize() *float64 {
+func (o *PqOpenTelemetry) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputOpenTelemetryPq) GetCommitFrequency() *float64 {
+func (o *PqOpenTelemetry) GetCommitFrequency() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.CommitFrequency
 }
 
-func (o *InputOpenTelemetryPq) GetMaxFileSize() *string {
+func (o *PqOpenTelemetry) GetMaxFileSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxFileSize
 }
 
-func (o *InputOpenTelemetryPq) GetMaxSize() *string {
+func (o *PqOpenTelemetry) GetMaxSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxSize
 }
 
-func (o *InputOpenTelemetryPq) GetPath() *string {
+func (o *PqOpenTelemetry) GetPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Path
 }
 
-func (o *InputOpenTelemetryPq) GetCompress() *InputOpenTelemetryCompression {
+func (o *PqOpenTelemetry) GetCompress() *PqCompressionOpenTelemetry {
 	if o == nil {
 		return nil
 	}
 	return o.Compress
 }
 
-type InputOpenTelemetryMinimumTLSVersion string
+type CreateInputMinimumTLSVersionOpenTelemetry string
 
 const (
-	InputOpenTelemetryMinimumTLSVersionTlSv1  InputOpenTelemetryMinimumTLSVersion = "TLSv1"
-	InputOpenTelemetryMinimumTLSVersionTlSv11 InputOpenTelemetryMinimumTLSVersion = "TLSv1.1"
-	InputOpenTelemetryMinimumTLSVersionTlSv12 InputOpenTelemetryMinimumTLSVersion = "TLSv1.2"
-	InputOpenTelemetryMinimumTLSVersionTlSv13 InputOpenTelemetryMinimumTLSVersion = "TLSv1.3"
+	CreateInputMinimumTLSVersionOpenTelemetryTlSv1  CreateInputMinimumTLSVersionOpenTelemetry = "TLSv1"
+	CreateInputMinimumTLSVersionOpenTelemetryTlSv11 CreateInputMinimumTLSVersionOpenTelemetry = "TLSv1.1"
+	CreateInputMinimumTLSVersionOpenTelemetryTlSv12 CreateInputMinimumTLSVersionOpenTelemetry = "TLSv1.2"
+	CreateInputMinimumTLSVersionOpenTelemetryTlSv13 CreateInputMinimumTLSVersionOpenTelemetry = "TLSv1.3"
 )
 
-func (e InputOpenTelemetryMinimumTLSVersion) ToPointer() *InputOpenTelemetryMinimumTLSVersion {
+func (e CreateInputMinimumTLSVersionOpenTelemetry) ToPointer() *CreateInputMinimumTLSVersionOpenTelemetry {
 	return &e
 }
+func (e *CreateInputMinimumTLSVersionOpenTelemetry) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = CreateInputMinimumTLSVersionOpenTelemetry(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputMinimumTLSVersionOpenTelemetry: %v", v)
+	}
+}
 
-type InputOpenTelemetryMaximumTLSVersion string
+type CreateInputMaximumTLSVersionOpenTelemetry string
 
 const (
-	InputOpenTelemetryMaximumTLSVersionTlSv1  InputOpenTelemetryMaximumTLSVersion = "TLSv1"
-	InputOpenTelemetryMaximumTLSVersionTlSv11 InputOpenTelemetryMaximumTLSVersion = "TLSv1.1"
-	InputOpenTelemetryMaximumTLSVersionTlSv12 InputOpenTelemetryMaximumTLSVersion = "TLSv1.2"
-	InputOpenTelemetryMaximumTLSVersionTlSv13 InputOpenTelemetryMaximumTLSVersion = "TLSv1.3"
+	CreateInputMaximumTLSVersionOpenTelemetryTlSv1  CreateInputMaximumTLSVersionOpenTelemetry = "TLSv1"
+	CreateInputMaximumTLSVersionOpenTelemetryTlSv11 CreateInputMaximumTLSVersionOpenTelemetry = "TLSv1.1"
+	CreateInputMaximumTLSVersionOpenTelemetryTlSv12 CreateInputMaximumTLSVersionOpenTelemetry = "TLSv1.2"
+	CreateInputMaximumTLSVersionOpenTelemetryTlSv13 CreateInputMaximumTLSVersionOpenTelemetry = "TLSv1.3"
 )
 
-func (e InputOpenTelemetryMaximumTLSVersion) ToPointer() *InputOpenTelemetryMaximumTLSVersion {
+func (e CreateInputMaximumTLSVersionOpenTelemetry) ToPointer() *CreateInputMaximumTLSVersionOpenTelemetry {
 	return &e
 }
+func (e *CreateInputMaximumTLSVersionOpenTelemetry) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = CreateInputMaximumTLSVersionOpenTelemetry(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputMaximumTLSVersionOpenTelemetry: %v", v)
+	}
+}
 
-type InputOpenTelemetryTLSSettingsServerSide struct {
+type TLSSettingsServerSideOpenTelemetry struct {
 	Disabled *bool `default:"true" json:"disabled"`
 	// The name of the predefined certificate
 	CertificateName *string `json:"certificateName,omitempty"`
@@ -7003,111 +8103,126 @@ type InputOpenTelemetryTLSSettingsServerSide struct {
 	// Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS.
 	CaPath *string `json:"caPath,omitempty"`
 	// Require clients to present their certificates. Used to perform client authentication using SSL certs.
-	RequestCert        *bool                                `default:"false" json:"requestCert"`
-	RejectUnauthorized any                                  `json:"rejectUnauthorized,omitempty"`
-	CommonNameRegex    any                                  `json:"commonNameRegex,omitempty"`
-	MinVersion         *InputOpenTelemetryMinimumTLSVersion `json:"minVersion,omitempty"`
-	MaxVersion         *InputOpenTelemetryMaximumTLSVersion `json:"maxVersion,omitempty"`
+	RequestCert        *bool                                      `default:"false" json:"requestCert"`
+	RejectUnauthorized any                                        `json:"rejectUnauthorized,omitempty"`
+	CommonNameRegex    any                                        `json:"commonNameRegex,omitempty"`
+	MinVersion         *CreateInputMinimumTLSVersionOpenTelemetry `json:"minVersion,omitempty"`
+	MaxVersion         *CreateInputMaximumTLSVersionOpenTelemetry `json:"maxVersion,omitempty"`
 }
 
-func (i InputOpenTelemetryTLSSettingsServerSide) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (t TLSSettingsServerSideOpenTelemetry) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(t, "", false)
 }
 
-func (i *InputOpenTelemetryTLSSettingsServerSide) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (t *TLSSettingsServerSideOpenTelemetry) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &t, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputOpenTelemetryTLSSettingsServerSide) GetDisabled() *bool {
+func (o *TLSSettingsServerSideOpenTelemetry) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *InputOpenTelemetryTLSSettingsServerSide) GetCertificateName() *string {
+func (o *TLSSettingsServerSideOpenTelemetry) GetCertificateName() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertificateName
 }
 
-func (o *InputOpenTelemetryTLSSettingsServerSide) GetPrivKeyPath() *string {
+func (o *TLSSettingsServerSideOpenTelemetry) GetPrivKeyPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.PrivKeyPath
 }
 
-func (o *InputOpenTelemetryTLSSettingsServerSide) GetPassphrase() *string {
+func (o *TLSSettingsServerSideOpenTelemetry) GetPassphrase() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Passphrase
 }
 
-func (o *InputOpenTelemetryTLSSettingsServerSide) GetCertPath() *string {
+func (o *TLSSettingsServerSideOpenTelemetry) GetCertPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertPath
 }
 
-func (o *InputOpenTelemetryTLSSettingsServerSide) GetCaPath() *string {
+func (o *TLSSettingsServerSideOpenTelemetry) GetCaPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CaPath
 }
 
-func (o *InputOpenTelemetryTLSSettingsServerSide) GetRequestCert() *bool {
+func (o *TLSSettingsServerSideOpenTelemetry) GetRequestCert() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.RequestCert
 }
 
-func (o *InputOpenTelemetryTLSSettingsServerSide) GetRejectUnauthorized() any {
+func (o *TLSSettingsServerSideOpenTelemetry) GetRejectUnauthorized() any {
 	if o == nil {
 		return nil
 	}
 	return o.RejectUnauthorized
 }
 
-func (o *InputOpenTelemetryTLSSettingsServerSide) GetCommonNameRegex() any {
+func (o *TLSSettingsServerSideOpenTelemetry) GetCommonNameRegex() any {
 	if o == nil {
 		return nil
 	}
 	return o.CommonNameRegex
 }
 
-func (o *InputOpenTelemetryTLSSettingsServerSide) GetMinVersion() *InputOpenTelemetryMinimumTLSVersion {
+func (o *TLSSettingsServerSideOpenTelemetry) GetMinVersion() *CreateInputMinimumTLSVersionOpenTelemetry {
 	if o == nil {
 		return nil
 	}
 	return o.MinVersion
 }
 
-func (o *InputOpenTelemetryTLSSettingsServerSide) GetMaxVersion() *InputOpenTelemetryMaximumTLSVersion {
+func (o *TLSSettingsServerSideOpenTelemetry) GetMaxVersion() *CreateInputMaximumTLSVersionOpenTelemetry {
 	if o == nil {
 		return nil
 	}
 	return o.MaxVersion
 }
 
-// InputOpenTelemetryProtocol - Select whether to leverage gRPC or HTTP for OpenTelemetry
-type InputOpenTelemetryProtocol string
+// CreateInputProtocolOpenTelemetry - Select whether to leverage gRPC or HTTP for OpenTelemetry
+type CreateInputProtocolOpenTelemetry string
 
 const (
-	InputOpenTelemetryProtocolGrpc InputOpenTelemetryProtocol = "grpc"
-	InputOpenTelemetryProtocolHTTP InputOpenTelemetryProtocol = "http"
+	CreateInputProtocolOpenTelemetryGrpc CreateInputProtocolOpenTelemetry = "grpc"
+	CreateInputProtocolOpenTelemetryHTTP CreateInputProtocolOpenTelemetry = "http"
 )
 
-func (e InputOpenTelemetryProtocol) ToPointer() *InputOpenTelemetryProtocol {
+func (e CreateInputProtocolOpenTelemetry) ToPointer() *CreateInputProtocolOpenTelemetry {
 	return &e
+}
+func (e *CreateInputProtocolOpenTelemetry) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "grpc":
+		fallthrough
+	case "http":
+		*e = CreateInputProtocolOpenTelemetry(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputProtocolOpenTelemetry: %v", v)
+	}
 }
 
 // CreateInputOTLPVersion - The version of OTLP Protobuf definitions to use when interpreting received data
@@ -7121,79 +8236,117 @@ const (
 func (e CreateInputOTLPVersion) ToPointer() *CreateInputOTLPVersion {
 	return &e
 }
-
-// InputOpenTelemetryAuthenticationType - OpenTelemetry authentication type
-type InputOpenTelemetryAuthenticationType string
-
-const (
-	InputOpenTelemetryAuthenticationTypeNone              InputOpenTelemetryAuthenticationType = "none"
-	InputOpenTelemetryAuthenticationTypeBasic             InputOpenTelemetryAuthenticationType = "basic"
-	InputOpenTelemetryAuthenticationTypeCredentialsSecret InputOpenTelemetryAuthenticationType = "credentialsSecret"
-	InputOpenTelemetryAuthenticationTypeToken             InputOpenTelemetryAuthenticationType = "token"
-	InputOpenTelemetryAuthenticationTypeTextSecret        InputOpenTelemetryAuthenticationType = "textSecret"
-	InputOpenTelemetryAuthenticationTypeOauth             InputOpenTelemetryAuthenticationType = "oauth"
-)
-
-func (e InputOpenTelemetryAuthenticationType) ToPointer() *InputOpenTelemetryAuthenticationType {
-	return &e
+func (e *CreateInputOTLPVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "0.10.0":
+		fallthrough
+	case "1.3.1":
+		*e = CreateInputOTLPVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputOTLPVersion: %v", v)
+	}
 }
 
-type InputOpenTelemetryMetadatum struct {
+// CreateInputAuthenticationTypeOpenTelemetry - OpenTelemetry authentication type
+type CreateInputAuthenticationTypeOpenTelemetry string
+
+const (
+	CreateInputAuthenticationTypeOpenTelemetryNone              CreateInputAuthenticationTypeOpenTelemetry = "none"
+	CreateInputAuthenticationTypeOpenTelemetryBasic             CreateInputAuthenticationTypeOpenTelemetry = "basic"
+	CreateInputAuthenticationTypeOpenTelemetryCredentialsSecret CreateInputAuthenticationTypeOpenTelemetry = "credentialsSecret"
+	CreateInputAuthenticationTypeOpenTelemetryToken             CreateInputAuthenticationTypeOpenTelemetry = "token"
+	CreateInputAuthenticationTypeOpenTelemetryTextSecret        CreateInputAuthenticationTypeOpenTelemetry = "textSecret"
+	CreateInputAuthenticationTypeOpenTelemetryOauth             CreateInputAuthenticationTypeOpenTelemetry = "oauth"
+)
+
+func (e CreateInputAuthenticationTypeOpenTelemetry) ToPointer() *CreateInputAuthenticationTypeOpenTelemetry {
+	return &e
+}
+func (e *CreateInputAuthenticationTypeOpenTelemetry) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "basic":
+		fallthrough
+	case "credentialsSecret":
+		fallthrough
+	case "token":
+		fallthrough
+	case "textSecret":
+		fallthrough
+	case "oauth":
+		*e = CreateInputAuthenticationTypeOpenTelemetry(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputAuthenticationTypeOpenTelemetry: %v", v)
+	}
+}
+
+type CreateInputMetadatumOpenTelemetry struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputOpenTelemetryMetadatum) GetName() string {
+func (o *CreateInputMetadatumOpenTelemetry) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputOpenTelemetryMetadatum) GetValue() string {
+func (o *CreateInputMetadatumOpenTelemetry) GetValue() string {
 	if o == nil {
 		return ""
 	}
 	return o.Value
 }
 
-type InputOpenTelemetryOauthParam struct {
+type CreateInputOauthParamOpenTelemetry struct {
 	// OAuth parameter name
 	Name string `json:"name"`
 	// OAuth parameter value
 	Value string `json:"value"`
 }
 
-func (o *InputOpenTelemetryOauthParam) GetName() string {
+func (o *CreateInputOauthParamOpenTelemetry) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputOpenTelemetryOauthParam) GetValue() string {
+func (o *CreateInputOauthParamOpenTelemetry) GetValue() string {
 	if o == nil {
 		return ""
 	}
 	return o.Value
 }
 
-type InputOpenTelemetryOauthHeader struct {
+type CreateInputOauthHeaderOpenTelemetry struct {
 	// OAuth header name
 	Name string `json:"name"`
 	// OAuth header value
 	Value string `json:"value"`
 }
 
-func (o *InputOpenTelemetryOauthHeader) GetName() string {
+func (o *CreateInputOauthHeaderOpenTelemetry) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputOpenTelemetryOauthHeader) GetValue() string {
+func (o *CreateInputOauthHeaderOpenTelemetry) GetValue() string {
 	if o == nil {
 		return ""
 	}
@@ -7202,9 +8355,9 @@ func (o *InputOpenTelemetryOauthHeader) GetValue() string {
 
 type InputOpenTelemetry struct {
 	// Unique ID for this input
-	ID       string                  `json:"id"`
-	Type     *InputOpenTelemetryType `json:"type,omitempty"`
-	Disabled *bool                   `default:"false" json:"disabled"`
+	ID       string                        `json:"id"`
+	Type     *CreateInputTypeOpenTelemetry `json:"type,omitempty"`
+	Disabled *bool                         `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -7216,13 +8369,13 @@ type InputOpenTelemetry struct {
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputOpenTelemetryConnection `json:"connections,omitempty"`
-	Pq          *InputOpenTelemetryPq          `json:"pq,omitempty"`
+	Connections []ConnectionOpenTelemetry `json:"connections,omitempty"`
+	Pq          *PqOpenTelemetry          `json:"pq,omitempty"`
 	// Address to bind on. Defaults to 0.0.0.0 (all addresses).
 	Host *string `default:"0.0.0.0" json:"host"`
 	// Port to listen on
-	Port *float64                                 `default:"4317" json:"port"`
-	TLS  *InputOpenTelemetryTLSSettingsServerSide `json:"tls,omitempty"`
+	Port *float64                            `default:"4317" json:"port"`
+	TLS  *TLSSettingsServerSideOpenTelemetry `json:"tls,omitempty"`
 	// Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput.
 	MaxActiveReq *float64 `default:"256" json:"maxActiveReq"`
 	// Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited).
@@ -7243,7 +8396,7 @@ type InputOpenTelemetry struct {
 	// Messages from matched IP addresses will be ignored. This takes precedence over the allowlist.
 	IPDenylistRegex *string `default:"/^\\$/" json:"ipDenylistRegex"`
 	// Select whether to leverage gRPC or HTTP for OpenTelemetry
-	Protocol *InputOpenTelemetryProtocol `default:"grpc" json:"protocol"`
+	Protocol *CreateInputProtocolOpenTelemetry `default:"grpc" json:"protocol"`
 	// Enable to extract each incoming span to a separate event
 	ExtractSpans *bool `default:"false" json:"extractSpans"`
 	// Enable to extract each incoming Gauge or IntGauge metric to multiple events, one per data point
@@ -7251,9 +8404,9 @@ type InputOpenTelemetry struct {
 	// The version of OTLP Protobuf definitions to use when interpreting received data
 	OtlpVersion *CreateInputOTLPVersion `default:"0.10.0" json:"otlpVersion"`
 	// OpenTelemetry authentication type
-	AuthType *InputOpenTelemetryAuthenticationType `default:"none" json:"authType"`
+	AuthType *CreateInputAuthenticationTypeOpenTelemetry `default:"none" json:"authType"`
 	// Fields to add to events from this input
-	Metadata []InputOpenTelemetryMetadatum `json:"metadata,omitempty"`
+	Metadata []CreateInputMetadatumOpenTelemetry `json:"metadata,omitempty"`
 	// Maximum number of active connections allowed per Worker Process. Use 0 for unlimited.
 	MaxActiveCxn *float64 `default:"1000" json:"maxActiveCxn"`
 	Description  *string  `json:"description,omitempty"`
@@ -7278,9 +8431,9 @@ type InputOpenTelemetry struct {
 	// How often the OAuth token should be refreshed.
 	TokenTimeoutSecs *float64 `default:"3600" json:"tokenTimeoutSecs"`
 	// Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request.
-	OauthParams []InputOpenTelemetryOauthParam `json:"oauthParams,omitempty"`
+	OauthParams []CreateInputOauthParamOpenTelemetry `json:"oauthParams,omitempty"`
 	// Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request.
-	OauthHeaders []InputOpenTelemetryOauthHeader `json:"oauthHeaders,omitempty"`
+	OauthHeaders []CreateInputOauthHeaderOpenTelemetry `json:"oauthHeaders,omitempty"`
 	// Enable to extract each incoming log record to a separate event
 	ExtractLogs *bool `default:"false" json:"extractLogs"`
 }
@@ -7303,7 +8456,7 @@ func (o *InputOpenTelemetry) GetID() string {
 	return o.ID
 }
 
-func (o *InputOpenTelemetry) GetType() *InputOpenTelemetryType {
+func (o *InputOpenTelemetry) GetType() *CreateInputTypeOpenTelemetry {
 	if o == nil {
 		return nil
 	}
@@ -7352,14 +8505,14 @@ func (o *InputOpenTelemetry) GetStreamtags() []string {
 	return o.Streamtags
 }
 
-func (o *InputOpenTelemetry) GetConnections() []InputOpenTelemetryConnection {
+func (o *InputOpenTelemetry) GetConnections() []ConnectionOpenTelemetry {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputOpenTelemetry) GetPq() *InputOpenTelemetryPq {
+func (o *InputOpenTelemetry) GetPq() *PqOpenTelemetry {
 	if o == nil {
 		return nil
 	}
@@ -7380,7 +8533,7 @@ func (o *InputOpenTelemetry) GetPort() *float64 {
 	return o.Port
 }
 
-func (o *InputOpenTelemetry) GetTLS() *InputOpenTelemetryTLSSettingsServerSide {
+func (o *InputOpenTelemetry) GetTLS() *TLSSettingsServerSideOpenTelemetry {
 	if o == nil {
 		return nil
 	}
@@ -7464,7 +8617,7 @@ func (o *InputOpenTelemetry) GetIPDenylistRegex() *string {
 	return o.IPDenylistRegex
 }
 
-func (o *InputOpenTelemetry) GetProtocol() *InputOpenTelemetryProtocol {
+func (o *InputOpenTelemetry) GetProtocol() *CreateInputProtocolOpenTelemetry {
 	if o == nil {
 		return nil
 	}
@@ -7492,14 +8645,14 @@ func (o *InputOpenTelemetry) GetOtlpVersion() *CreateInputOTLPVersion {
 	return o.OtlpVersion
 }
 
-func (o *InputOpenTelemetry) GetAuthType() *InputOpenTelemetryAuthenticationType {
+func (o *InputOpenTelemetry) GetAuthType() *CreateInputAuthenticationTypeOpenTelemetry {
 	if o == nil {
 		return nil
 	}
 	return o.AuthType
 }
 
-func (o *InputOpenTelemetry) GetMetadata() []InputOpenTelemetryMetadatum {
+func (o *InputOpenTelemetry) GetMetadata() []CreateInputMetadatumOpenTelemetry {
 	if o == nil {
 		return nil
 	}
@@ -7597,14 +8750,14 @@ func (o *InputOpenTelemetry) GetTokenTimeoutSecs() *float64 {
 	return o.TokenTimeoutSecs
 }
 
-func (o *InputOpenTelemetry) GetOauthParams() []InputOpenTelemetryOauthParam {
+func (o *InputOpenTelemetry) GetOauthParams() []CreateInputOauthParamOpenTelemetry {
 	if o == nil {
 		return nil
 	}
 	return o.OauthParams
 }
 
-func (o *InputOpenTelemetry) GetOauthHeaders() []InputOpenTelemetryOauthHeader {
+func (o *InputOpenTelemetry) GetOauthHeaders() []CreateInputOauthHeaderOpenTelemetry {
 	if o == nil {
 		return nil
 	}
@@ -7618,62 +8771,105 @@ func (o *InputOpenTelemetry) GetExtractLogs() *bool {
 	return o.ExtractLogs
 }
 
-type InputSnmpType string
+type CreateInputTypeSnmp string
 
 const (
-	InputSnmpTypeSnmp InputSnmpType = "snmp"
+	CreateInputTypeSnmpSnmp CreateInputTypeSnmp = "snmp"
 )
 
-func (e InputSnmpType) ToPointer() *InputSnmpType {
+func (e CreateInputTypeSnmp) ToPointer() *CreateInputTypeSnmp {
 	return &e
 }
+func (e *CreateInputTypeSnmp) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "snmp":
+		*e = CreateInputTypeSnmp(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputTypeSnmp: %v", v)
+	}
+}
 
-type InputSnmpConnection struct {
+type ConnectionSnmp struct {
 	Pipeline *string `json:"pipeline,omitempty"`
 	Output   string  `json:"output"`
 }
 
-func (o *InputSnmpConnection) GetPipeline() *string {
+func (o *ConnectionSnmp) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputSnmpConnection) GetOutput() string {
+func (o *ConnectionSnmp) GetOutput() string {
 	if o == nil {
 		return ""
 	}
 	return o.Output
 }
 
-// InputSnmpMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type InputSnmpMode string
+// ModeSnmp - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+type ModeSnmp string
 
 const (
-	InputSnmpModeSmart  InputSnmpMode = "smart"
-	InputSnmpModeAlways InputSnmpMode = "always"
+	ModeSnmpSmart  ModeSnmp = "smart"
+	ModeSnmpAlways ModeSnmp = "always"
 )
 
-func (e InputSnmpMode) ToPointer() *InputSnmpMode {
+func (e ModeSnmp) ToPointer() *ModeSnmp {
 	return &e
 }
+func (e *ModeSnmp) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = ModeSnmp(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ModeSnmp: %v", v)
+	}
+}
 
-// InputSnmpCompression - Codec to use to compress the persisted data
-type InputSnmpCompression string
+// CompressionSnmp - Codec to use to compress the persisted data
+type CompressionSnmp string
 
 const (
-	InputSnmpCompressionNone InputSnmpCompression = "none"
-	InputSnmpCompressionGzip InputSnmpCompression = "gzip"
+	CompressionSnmpNone CompressionSnmp = "none"
+	CompressionSnmpGzip CompressionSnmp = "gzip"
 )
 
-func (e InputSnmpCompression) ToPointer() *InputSnmpCompression {
+func (e CompressionSnmp) ToPointer() *CompressionSnmp {
 	return &e
 }
+func (e *CompressionSnmp) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = CompressionSnmp(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CompressionSnmp: %v", v)
+	}
+}
 
-type InputSnmpPq struct {
+type PqSnmp struct {
 	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *InputSnmpMode `default:"always" json:"mode"`
+	Mode *ModeSnmp `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
 	// The number of events to send downstream before committing that Stream has read them
@@ -7685,63 +8881,63 @@ type InputSnmpPq struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
 	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
 	// Codec to use to compress the persisted data
-	Compress *InputSnmpCompression `default:"none" json:"compress"`
+	Compress *CompressionSnmp `default:"none" json:"compress"`
 }
 
-func (i InputSnmpPq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PqSnmp) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputSnmpPq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PqSnmp) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputSnmpPq) GetMode() *InputSnmpMode {
+func (o *PqSnmp) GetMode() *ModeSnmp {
 	if o == nil {
 		return nil
 	}
 	return o.Mode
 }
 
-func (o *InputSnmpPq) GetMaxBufferSize() *float64 {
+func (o *PqSnmp) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputSnmpPq) GetCommitFrequency() *float64 {
+func (o *PqSnmp) GetCommitFrequency() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.CommitFrequency
 }
 
-func (o *InputSnmpPq) GetMaxFileSize() *string {
+func (o *PqSnmp) GetMaxFileSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxFileSize
 }
 
-func (o *InputSnmpPq) GetMaxSize() *string {
+func (o *PqSnmp) GetMaxSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxSize
 }
 
-func (o *InputSnmpPq) GetPath() *string {
+func (o *PqSnmp) GetPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Path
 }
 
-func (o *InputSnmpPq) GetCompress() *InputSnmpCompression {
+func (o *PqSnmp) GetCompress() *CompressionSnmp {
 	if o == nil {
 		return nil
 	}
@@ -7762,6 +8958,31 @@ const (
 
 func (e AuthenticationProtocol) ToPointer() *AuthenticationProtocol {
 	return &e
+}
+func (e *AuthenticationProtocol) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "md5":
+		fallthrough
+	case "sha":
+		fallthrough
+	case "sha224":
+		fallthrough
+	case "sha256":
+		fallthrough
+	case "sha384":
+		fallthrough
+	case "sha512":
+		*e = AuthenticationProtocol(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for AuthenticationProtocol: %v", v)
+	}
 }
 
 type V3User struct {
@@ -7851,20 +9072,20 @@ func (o *SNMPv3Authentication) GetV3Users() []V3User {
 	return o.V3Users
 }
 
-type InputSnmpMetadatum struct {
+type MetadatumSnmp struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputSnmpMetadatum) GetName() string {
+func (o *MetadatumSnmp) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputSnmpMetadatum) GetValue() string {
+func (o *MetadatumSnmp) GetValue() string {
 	if o == nil {
 		return ""
 	}
@@ -7873,9 +9094,9 @@ func (o *InputSnmpMetadatum) GetValue() string {
 
 type InputSnmp struct {
 	// Unique ID for this input
-	ID       string         `json:"id"`
-	Type     *InputSnmpType `json:"type,omitempty"`
-	Disabled *bool          `default:"false" json:"disabled"`
+	ID       string               `json:"id"`
+	Type     *CreateInputTypeSnmp `json:"type,omitempty"`
+	Disabled *bool                `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -7887,8 +9108,8 @@ type InputSnmp struct {
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputSnmpConnection `json:"connections,omitempty"`
-	Pq          *InputSnmpPq          `json:"pq,omitempty"`
+	Connections []ConnectionSnmp `json:"connections,omitempty"`
+	Pq          *PqSnmp          `json:"pq,omitempty"`
 	// Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address.
 	Host *string `default:"0.0.0.0" json:"host"`
 	// UDP port to receive SNMP traps on. Defaults to 162.
@@ -7900,7 +9121,7 @@ type InputSnmp struct {
 	// Regex matching IP addresses that are allowed to send data
 	IPWhitelistRegex *string `default:"/.*/" json:"ipWhitelistRegex"`
 	// Fields to add to events from this input
-	Metadata []InputSnmpMetadatum `json:"metadata,omitempty"`
+	Metadata []MetadatumSnmp `json:"metadata,omitempty"`
 	// Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization.
 	UDPSocketRxBufSize *float64 `json:"udpSocketRxBufSize,omitempty"`
 	// If enabled, parses varbinds as an array of objects that include OID, value, and type
@@ -7928,7 +9149,7 @@ func (o *InputSnmp) GetID() string {
 	return o.ID
 }
 
-func (o *InputSnmp) GetType() *InputSnmpType {
+func (o *InputSnmp) GetType() *CreateInputTypeSnmp {
 	if o == nil {
 		return nil
 	}
@@ -7977,14 +9198,14 @@ func (o *InputSnmp) GetStreamtags() []string {
 	return o.Streamtags
 }
 
-func (o *InputSnmp) GetConnections() []InputSnmpConnection {
+func (o *InputSnmp) GetConnections() []ConnectionSnmp {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputSnmp) GetPq() *InputSnmpPq {
+func (o *InputSnmp) GetPq() *PqSnmp {
 	if o == nil {
 		return nil
 	}
@@ -8026,7 +9247,7 @@ func (o *InputSnmp) GetIPWhitelistRegex() *string {
 	return o.IPWhitelistRegex
 }
 
-func (o *InputSnmp) GetMetadata() []InputSnmpMetadatum {
+func (o *InputSnmp) GetMetadata() []MetadatumSnmp {
 	if o == nil {
 		return nil
 	}
@@ -8061,62 +9282,105 @@ func (o *InputSnmp) GetDescription() *string {
 	return o.Description
 }
 
-type InputS3InventoryType string
+type TypeS3Inventory string
 
 const (
-	InputS3InventoryTypeS3Inventory InputS3InventoryType = "s3_inventory"
+	TypeS3InventoryS3Inventory TypeS3Inventory = "s3_inventory"
 )
 
-func (e InputS3InventoryType) ToPointer() *InputS3InventoryType {
+func (e TypeS3Inventory) ToPointer() *TypeS3Inventory {
 	return &e
 }
+func (e *TypeS3Inventory) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "s3_inventory":
+		*e = TypeS3Inventory(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for TypeS3Inventory: %v", v)
+	}
+}
 
-type InputS3InventoryConnection struct {
+type ConnectionS3Inventory struct {
 	Pipeline *string `json:"pipeline,omitempty"`
 	Output   string  `json:"output"`
 }
 
-func (o *InputS3InventoryConnection) GetPipeline() *string {
+func (o *ConnectionS3Inventory) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputS3InventoryConnection) GetOutput() string {
+func (o *ConnectionS3Inventory) GetOutput() string {
 	if o == nil {
 		return ""
 	}
 	return o.Output
 }
 
-// InputS3InventoryMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type InputS3InventoryMode string
+// ModeS3Inventory - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+type ModeS3Inventory string
 
 const (
-	InputS3InventoryModeSmart  InputS3InventoryMode = "smart"
-	InputS3InventoryModeAlways InputS3InventoryMode = "always"
+	ModeS3InventorySmart  ModeS3Inventory = "smart"
+	ModeS3InventoryAlways ModeS3Inventory = "always"
 )
 
-func (e InputS3InventoryMode) ToPointer() *InputS3InventoryMode {
+func (e ModeS3Inventory) ToPointer() *ModeS3Inventory {
 	return &e
 }
+func (e *ModeS3Inventory) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = ModeS3Inventory(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ModeS3Inventory: %v", v)
+	}
+}
 
-// InputS3InventoryCompression - Codec to use to compress the persisted data
-type InputS3InventoryCompression string
+// CompressionS3Inventory - Codec to use to compress the persisted data
+type CompressionS3Inventory string
 
 const (
-	InputS3InventoryCompressionNone InputS3InventoryCompression = "none"
-	InputS3InventoryCompressionGzip InputS3InventoryCompression = "gzip"
+	CompressionS3InventoryNone CompressionS3Inventory = "none"
+	CompressionS3InventoryGzip CompressionS3Inventory = "gzip"
 )
 
-func (e InputS3InventoryCompression) ToPointer() *InputS3InventoryCompression {
+func (e CompressionS3Inventory) ToPointer() *CompressionS3Inventory {
 	return &e
 }
+func (e *CompressionS3Inventory) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = CompressionS3Inventory(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CompressionS3Inventory: %v", v)
+	}
+}
 
-type InputS3InventoryPq struct {
+type PqS3Inventory struct {
 	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *InputS3InventoryMode `default:"always" json:"mode"`
+	Mode *ModeS3Inventory `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
 	// The number of events to send downstream before committing that Stream has read them
@@ -8128,95 +9392,127 @@ type InputS3InventoryPq struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
 	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
 	// Codec to use to compress the persisted data
-	Compress *InputS3InventoryCompression `default:"none" json:"compress"`
+	Compress *CompressionS3Inventory `default:"none" json:"compress"`
 }
 
-func (i InputS3InventoryPq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PqS3Inventory) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputS3InventoryPq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PqS3Inventory) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputS3InventoryPq) GetMode() *InputS3InventoryMode {
+func (o *PqS3Inventory) GetMode() *ModeS3Inventory {
 	if o == nil {
 		return nil
 	}
 	return o.Mode
 }
 
-func (o *InputS3InventoryPq) GetMaxBufferSize() *float64 {
+func (o *PqS3Inventory) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputS3InventoryPq) GetCommitFrequency() *float64 {
+func (o *PqS3Inventory) GetCommitFrequency() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.CommitFrequency
 }
 
-func (o *InputS3InventoryPq) GetMaxFileSize() *string {
+func (o *PqS3Inventory) GetMaxFileSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxFileSize
 }
 
-func (o *InputS3InventoryPq) GetMaxSize() *string {
+func (o *PqS3Inventory) GetMaxSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxSize
 }
 
-func (o *InputS3InventoryPq) GetPath() *string {
+func (o *PqS3Inventory) GetPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Path
 }
 
-func (o *InputS3InventoryPq) GetCompress() *InputS3InventoryCompression {
+func (o *PqS3Inventory) GetCompress() *CompressionS3Inventory {
 	if o == nil {
 		return nil
 	}
 	return o.Compress
 }
 
-// InputS3InventoryAuthenticationMethod - AWS authentication method. Choose Auto to use IAM roles.
-type InputS3InventoryAuthenticationMethod string
+// AuthenticationMethodS3Inventory - AWS authentication method. Choose Auto to use IAM roles.
+type AuthenticationMethodS3Inventory string
 
 const (
-	InputS3InventoryAuthenticationMethodAuto   InputS3InventoryAuthenticationMethod = "auto"
-	InputS3InventoryAuthenticationMethodManual InputS3InventoryAuthenticationMethod = "manual"
-	InputS3InventoryAuthenticationMethodSecret InputS3InventoryAuthenticationMethod = "secret"
+	AuthenticationMethodS3InventoryAuto   AuthenticationMethodS3Inventory = "auto"
+	AuthenticationMethodS3InventoryManual AuthenticationMethodS3Inventory = "manual"
+	AuthenticationMethodS3InventorySecret AuthenticationMethodS3Inventory = "secret"
 )
 
-func (e InputS3InventoryAuthenticationMethod) ToPointer() *InputS3InventoryAuthenticationMethod {
+func (e AuthenticationMethodS3Inventory) ToPointer() *AuthenticationMethodS3Inventory {
 	return &e
 }
+func (e *AuthenticationMethodS3Inventory) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "auto":
+		fallthrough
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = AuthenticationMethodS3Inventory(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for AuthenticationMethodS3Inventory: %v", v)
+	}
+}
 
-// InputS3InventorySignatureVersion - Signature version to use for signing S3 requests
-type InputS3InventorySignatureVersion string
+// SignatureVersionS3Inventory - Signature version to use for signing S3 requests
+type SignatureVersionS3Inventory string
 
 const (
-	InputS3InventorySignatureVersionV2 InputS3InventorySignatureVersion = "v2"
-	InputS3InventorySignatureVersionV4 InputS3InventorySignatureVersion = "v4"
+	SignatureVersionS3InventoryV2 SignatureVersionS3Inventory = "v2"
+	SignatureVersionS3InventoryV4 SignatureVersionS3Inventory = "v4"
 )
 
-func (e InputS3InventorySignatureVersion) ToPointer() *InputS3InventorySignatureVersion {
+func (e SignatureVersionS3Inventory) ToPointer() *SignatureVersionS3Inventory {
 	return &e
 }
+func (e *SignatureVersionS3Inventory) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "v2":
+		fallthrough
+	case "v4":
+		*e = SignatureVersionS3Inventory(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for SignatureVersionS3Inventory: %v", v)
+	}
+}
 
-type InputS3InventoryPreprocess struct {
+type PreprocessS3Inventory struct {
 	Disabled *bool `default:"true" json:"disabled"`
 	// Command to feed the data through (via stdin) and process its output (stdout)
 	Command *string `json:"command,omitempty"`
@@ -8224,106 +9520,121 @@ type InputS3InventoryPreprocess struct {
 	Args []string `json:"args,omitempty"`
 }
 
-func (i InputS3InventoryPreprocess) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PreprocessS3Inventory) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputS3InventoryPreprocess) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PreprocessS3Inventory) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputS3InventoryPreprocess) GetDisabled() *bool {
+func (o *PreprocessS3Inventory) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *InputS3InventoryPreprocess) GetCommand() *string {
+func (o *PreprocessS3Inventory) GetCommand() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Command
 }
 
-func (o *InputS3InventoryPreprocess) GetArgs() []string {
+func (o *PreprocessS3Inventory) GetArgs() []string {
 	if o == nil {
 		return nil
 	}
 	return o.Args
 }
 
-type InputS3InventoryMetadatum struct {
+type MetadatumS3Inventory struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputS3InventoryMetadatum) GetName() string {
+func (o *MetadatumS3Inventory) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputS3InventoryMetadatum) GetValue() string {
+func (o *MetadatumS3Inventory) GetValue() string {
 	if o == nil {
 		return ""
 	}
 	return o.Value
 }
 
-type InputS3InventoryCheckpointing struct {
+type CheckpointingS3Inventory struct {
 	// Resume processing files after an interruption
 	Enabled *bool `default:"false" json:"enabled"`
 	// The number of times to retry processing when a processing error occurs. If Skip file on error is enabled, this setting is ignored.
 	Retries *float64 `default:"5" json:"retries"`
 }
 
-func (i InputS3InventoryCheckpointing) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (c CheckpointingS3Inventory) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(c, "", false)
 }
 
-func (i *InputS3InventoryCheckpointing) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (c *CheckpointingS3Inventory) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &c, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputS3InventoryCheckpointing) GetEnabled() *bool {
+func (o *CheckpointingS3Inventory) GetEnabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Enabled
 }
 
-func (o *InputS3InventoryCheckpointing) GetRetries() *float64 {
+func (o *CheckpointingS3Inventory) GetRetries() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.Retries
 }
 
-type InputS3InventoryTagAfterProcessing string
+type TagAfterProcessingS3Inventory string
 
 const (
-	InputS3InventoryTagAfterProcessingFalse InputS3InventoryTagAfterProcessing = "false"
-	InputS3InventoryTagAfterProcessingTrue  InputS3InventoryTagAfterProcessing = "true"
+	TagAfterProcessingS3InventoryFalse TagAfterProcessingS3Inventory = "false"
+	TagAfterProcessingS3InventoryTrue  TagAfterProcessingS3Inventory = "true"
 )
 
-func (e InputS3InventoryTagAfterProcessing) ToPointer() *InputS3InventoryTagAfterProcessing {
+func (e TagAfterProcessingS3Inventory) ToPointer() *TagAfterProcessingS3Inventory {
 	return &e
+}
+func (e *TagAfterProcessingS3Inventory) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "false":
+		fallthrough
+	case "true":
+		*e = TagAfterProcessingS3Inventory(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for TagAfterProcessingS3Inventory: %v", v)
+	}
 }
 
 type InputS3Inventory struct {
 	// Unique ID for this input
-	ID       string               `json:"id"`
-	Type     InputS3InventoryType `json:"type"`
-	Disabled *bool                `default:"false" json:"disabled"`
+	ID       string          `json:"id"`
+	Type     TypeS3Inventory `json:"type"`
+	Disabled *bool           `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -8335,8 +9646,8 @@ type InputS3Inventory struct {
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputS3InventoryConnection `json:"connections,omitempty"`
-	Pq          *InputS3InventoryPq          `json:"pq,omitempty"`
+	Connections []ConnectionS3Inventory `json:"connections,omitempty"`
+	Pq          *PqS3Inventory          `json:"pq,omitempty"`
 	// The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`.
 	QueueName string `json:"queueName"`
 	// Regex matching file names to download and process. Defaults to: .*
@@ -8344,14 +9655,14 @@ type InputS3Inventory struct {
 	// SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account.
 	AwsAccountID *string `json:"awsAccountId,omitempty"`
 	// AWS authentication method. Choose Auto to use IAM roles.
-	AwsAuthenticationMethod *InputS3InventoryAuthenticationMethod `default:"auto" json:"awsAuthenticationMethod"`
-	AwsSecretKey            *string                               `json:"awsSecretKey,omitempty"`
+	AwsAuthenticationMethod *AuthenticationMethodS3Inventory `default:"auto" json:"awsAuthenticationMethod"`
+	AwsSecretKey            *string                          `json:"awsSecretKey,omitempty"`
 	// AWS Region where the S3 bucket and SQS queue are located. Required, unless the Queue entry is a URL or ARN that includes a Region.
 	Region *string `json:"region,omitempty"`
 	// S3 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint.
 	Endpoint *string `json:"endpoint,omitempty"`
 	// Signature version to use for signing S3 requests
-	SignatureVersion *InputS3InventorySignatureVersion `default:"v4" json:"signatureVersion"`
+	SignatureVersion *SignatureVersionS3Inventory `default:"v4" json:"signatureVersion"`
 	// Reuse connections between requests, which can improve performance
 	ReuseConnections *bool `default:"true" json:"reuseConnections"`
 	// Reject certificates that cannot be verified against a valid CA, such as self-signed certificates
@@ -8379,15 +9690,15 @@ type InputS3Inventory struct {
 	// Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours).
 	DurationSeconds *float64 `default:"3600" json:"durationSeconds"`
 	// Use Assume Role credentials when accessing Amazon SQS
-	EnableSQSAssumeRole *bool                       `default:"false" json:"enableSQSAssumeRole"`
-	Preprocess          *InputS3InventoryPreprocess `json:"preprocess,omitempty"`
+	EnableSQSAssumeRole *bool                  `default:"false" json:"enableSQSAssumeRole"`
+	Preprocess          *PreprocessS3Inventory `json:"preprocess,omitempty"`
 	// Fields to add to events from this input
-	Metadata []InputS3InventoryMetadatum `json:"metadata,omitempty"`
+	Metadata []MetadatumS3Inventory `json:"metadata,omitempty"`
 	// Maximum file size for each Parquet chunk
 	ParquetChunkSizeMB *float64 `default:"5" json:"parquetChunkSizeMB"`
 	// The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified.
-	ParquetChunkDownloadTimeout *float64                       `default:"600" json:"parquetChunkDownloadTimeout"`
-	Checkpointing               *InputS3InventoryCheckpointing `json:"checkpointing,omitempty"`
+	ParquetChunkDownloadTimeout *float64                  `default:"600" json:"parquetChunkDownloadTimeout"`
+	Checkpointing               *CheckpointingS3Inventory `json:"checkpointing,omitempty"`
 	// How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts.
 	PollTimeout *float64 `default:"10" json:"pollTimeout"`
 	// Filename suffix of the manifest checksum file. If a filename matching this suffix is received        in the queue, the matching manifest file will be downloaded and validated against its value. Defaults to "checksum"
@@ -8399,8 +9710,8 @@ type InputS3Inventory struct {
 	Description            *string `json:"description,omitempty"`
 	AwsAPIKey              *string `json:"awsApiKey,omitempty"`
 	// Select or create a stored secret that references your access key and secret key
-	AwsSecret          *string                             `json:"awsSecret,omitempty"`
-	TagAfterProcessing *InputS3InventoryTagAfterProcessing `json:"tagAfterProcessing,omitempty"`
+	AwsSecret          *string                        `json:"awsSecret,omitempty"`
+	TagAfterProcessing *TagAfterProcessingS3Inventory `json:"tagAfterProcessing,omitempty"`
 	// The key for the S3 object tag applied after processing. This field accepts an expression for dynamic generation.
 	ProcessedTagKey *string `json:"processedTagKey,omitempty"`
 	// The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation.
@@ -8425,9 +9736,9 @@ func (o *InputS3Inventory) GetID() string {
 	return o.ID
 }
 
-func (o *InputS3Inventory) GetType() InputS3InventoryType {
+func (o *InputS3Inventory) GetType() TypeS3Inventory {
 	if o == nil {
-		return InputS3InventoryType("")
+		return TypeS3Inventory("")
 	}
 	return o.Type
 }
@@ -8474,14 +9785,14 @@ func (o *InputS3Inventory) GetStreamtags() []string {
 	return o.Streamtags
 }
 
-func (o *InputS3Inventory) GetConnections() []InputS3InventoryConnection {
+func (o *InputS3Inventory) GetConnections() []ConnectionS3Inventory {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputS3Inventory) GetPq() *InputS3InventoryPq {
+func (o *InputS3Inventory) GetPq() *PqS3Inventory {
 	if o == nil {
 		return nil
 	}
@@ -8509,7 +9820,7 @@ func (o *InputS3Inventory) GetAwsAccountID() *string {
 	return o.AwsAccountID
 }
 
-func (o *InputS3Inventory) GetAwsAuthenticationMethod() *InputS3InventoryAuthenticationMethod {
+func (o *InputS3Inventory) GetAwsAuthenticationMethod() *AuthenticationMethodS3Inventory {
 	if o == nil {
 		return nil
 	}
@@ -8537,7 +9848,7 @@ func (o *InputS3Inventory) GetEndpoint() *string {
 	return o.Endpoint
 }
 
-func (o *InputS3Inventory) GetSignatureVersion() *InputS3InventorySignatureVersion {
+func (o *InputS3Inventory) GetSignatureVersion() *SignatureVersionS3Inventory {
 	if o == nil {
 		return nil
 	}
@@ -8642,14 +9953,14 @@ func (o *InputS3Inventory) GetEnableSQSAssumeRole() *bool {
 	return o.EnableSQSAssumeRole
 }
 
-func (o *InputS3Inventory) GetPreprocess() *InputS3InventoryPreprocess {
+func (o *InputS3Inventory) GetPreprocess() *PreprocessS3Inventory {
 	if o == nil {
 		return nil
 	}
 	return o.Preprocess
 }
 
-func (o *InputS3Inventory) GetMetadata() []InputS3InventoryMetadatum {
+func (o *InputS3Inventory) GetMetadata() []MetadatumS3Inventory {
 	if o == nil {
 		return nil
 	}
@@ -8670,7 +9981,7 @@ func (o *InputS3Inventory) GetParquetChunkDownloadTimeout() *float64 {
 	return o.ParquetChunkDownloadTimeout
 }
 
-func (o *InputS3Inventory) GetCheckpointing() *InputS3InventoryCheckpointing {
+func (o *InputS3Inventory) GetCheckpointing() *CheckpointingS3Inventory {
 	if o == nil {
 		return nil
 	}
@@ -8726,7 +10037,7 @@ func (o *InputS3Inventory) GetAwsSecret() *string {
 	return o.AwsSecret
 }
 
-func (o *InputS3Inventory) GetTagAfterProcessing() *InputS3InventoryTagAfterProcessing {
+func (o *InputS3Inventory) GetTagAfterProcessing() *TagAfterProcessingS3Inventory {
 	if o == nil {
 		return nil
 	}
@@ -8747,62 +10058,105 @@ func (o *InputS3Inventory) GetProcessedTagValue() *string {
 	return o.ProcessedTagValue
 }
 
-type InputS3Type string
+type CreateInputTypeS3 string
 
 const (
-	InputS3TypeS3 InputS3Type = "s3"
+	CreateInputTypeS3S3 CreateInputTypeS3 = "s3"
 )
 
-func (e InputS3Type) ToPointer() *InputS3Type {
+func (e CreateInputTypeS3) ToPointer() *CreateInputTypeS3 {
 	return &e
 }
+func (e *CreateInputTypeS3) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "s3":
+		*e = CreateInputTypeS3(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputTypeS3: %v", v)
+	}
+}
 
-type InputS3Connection struct {
+type ConnectionS3 struct {
 	Pipeline *string `json:"pipeline,omitempty"`
 	Output   string  `json:"output"`
 }
 
-func (o *InputS3Connection) GetPipeline() *string {
+func (o *ConnectionS3) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputS3Connection) GetOutput() string {
+func (o *ConnectionS3) GetOutput() string {
 	if o == nil {
 		return ""
 	}
 	return o.Output
 }
 
-// InputS3Mode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type InputS3Mode string
+// ModeS3 - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+type ModeS3 string
 
 const (
-	InputS3ModeSmart  InputS3Mode = "smart"
-	InputS3ModeAlways InputS3Mode = "always"
+	ModeS3Smart  ModeS3 = "smart"
+	ModeS3Always ModeS3 = "always"
 )
 
-func (e InputS3Mode) ToPointer() *InputS3Mode {
+func (e ModeS3) ToPointer() *ModeS3 {
 	return &e
 }
+func (e *ModeS3) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = ModeS3(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ModeS3: %v", v)
+	}
+}
 
-// InputS3Compression - Codec to use to compress the persisted data
-type InputS3Compression string
+// PqCompressionS3 - Codec to use to compress the persisted data
+type PqCompressionS3 string
 
 const (
-	InputS3CompressionNone InputS3Compression = "none"
-	InputS3CompressionGzip InputS3Compression = "gzip"
+	PqCompressionS3None PqCompressionS3 = "none"
+	PqCompressionS3Gzip PqCompressionS3 = "gzip"
 )
 
-func (e InputS3Compression) ToPointer() *InputS3Compression {
+func (e PqCompressionS3) ToPointer() *PqCompressionS3 {
 	return &e
 }
+func (e *PqCompressionS3) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = PqCompressionS3(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for PqCompressionS3: %v", v)
+	}
+}
 
-type InputS3Pq struct {
+type PqS3 struct {
 	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *InputS3Mode `default:"always" json:"mode"`
+	Mode *ModeS3 `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
 	// The number of events to send downstream before committing that Stream has read them
@@ -8814,95 +10168,127 @@ type InputS3Pq struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
 	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
 	// Codec to use to compress the persisted data
-	Compress *InputS3Compression `default:"none" json:"compress"`
+	Compress *PqCompressionS3 `default:"none" json:"compress"`
 }
 
-func (i InputS3Pq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PqS3) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputS3Pq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PqS3) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputS3Pq) GetMode() *InputS3Mode {
+func (o *PqS3) GetMode() *ModeS3 {
 	if o == nil {
 		return nil
 	}
 	return o.Mode
 }
 
-func (o *InputS3Pq) GetMaxBufferSize() *float64 {
+func (o *PqS3) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputS3Pq) GetCommitFrequency() *float64 {
+func (o *PqS3) GetCommitFrequency() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.CommitFrequency
 }
 
-func (o *InputS3Pq) GetMaxFileSize() *string {
+func (o *PqS3) GetMaxFileSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxFileSize
 }
 
-func (o *InputS3Pq) GetMaxSize() *string {
+func (o *PqS3) GetMaxSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxSize
 }
 
-func (o *InputS3Pq) GetPath() *string {
+func (o *PqS3) GetPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Path
 }
 
-func (o *InputS3Pq) GetCompress() *InputS3Compression {
+func (o *PqS3) GetCompress() *PqCompressionS3 {
 	if o == nil {
 		return nil
 	}
 	return o.Compress
 }
 
-// InputS3AuthenticationMethod - AWS authentication method. Choose Auto to use IAM roles.
-type InputS3AuthenticationMethod string
+// CreateInputAuthenticationMethodS3 - AWS authentication method. Choose Auto to use IAM roles.
+type CreateInputAuthenticationMethodS3 string
 
 const (
-	InputS3AuthenticationMethodAuto   InputS3AuthenticationMethod = "auto"
-	InputS3AuthenticationMethodManual InputS3AuthenticationMethod = "manual"
-	InputS3AuthenticationMethodSecret InputS3AuthenticationMethod = "secret"
+	CreateInputAuthenticationMethodS3Auto   CreateInputAuthenticationMethodS3 = "auto"
+	CreateInputAuthenticationMethodS3Manual CreateInputAuthenticationMethodS3 = "manual"
+	CreateInputAuthenticationMethodS3Secret CreateInputAuthenticationMethodS3 = "secret"
 )
 
-func (e InputS3AuthenticationMethod) ToPointer() *InputS3AuthenticationMethod {
+func (e CreateInputAuthenticationMethodS3) ToPointer() *CreateInputAuthenticationMethodS3 {
 	return &e
 }
+func (e *CreateInputAuthenticationMethodS3) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "auto":
+		fallthrough
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = CreateInputAuthenticationMethodS3(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputAuthenticationMethodS3: %v", v)
+	}
+}
 
-// InputS3SignatureVersion - Signature version to use for signing S3 requests
-type InputS3SignatureVersion string
+// CreateInputSignatureVersionS3 - Signature version to use for signing S3 requests
+type CreateInputSignatureVersionS3 string
 
 const (
-	InputS3SignatureVersionV2 InputS3SignatureVersion = "v2"
-	InputS3SignatureVersionV4 InputS3SignatureVersion = "v4"
+	CreateInputSignatureVersionS3V2 CreateInputSignatureVersionS3 = "v2"
+	CreateInputSignatureVersionS3V4 CreateInputSignatureVersionS3 = "v4"
 )
 
-func (e InputS3SignatureVersion) ToPointer() *InputS3SignatureVersion {
+func (e CreateInputSignatureVersionS3) ToPointer() *CreateInputSignatureVersionS3 {
 	return &e
 }
+func (e *CreateInputSignatureVersionS3) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "v2":
+		fallthrough
+	case "v4":
+		*e = CreateInputSignatureVersionS3(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputSignatureVersionS3: %v", v)
+	}
+}
 
-type InputS3Preprocess struct {
+type PreprocessS3 struct {
 	Disabled *bool `default:"true" json:"disabled"`
 	// Command to feed the data through (via stdin) and process its output (stdout)
 	Command *string `json:"command,omitempty"`
@@ -8910,84 +10296,84 @@ type InputS3Preprocess struct {
 	Args []string `json:"args,omitempty"`
 }
 
-func (i InputS3Preprocess) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PreprocessS3) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputS3Preprocess) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PreprocessS3) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputS3Preprocess) GetDisabled() *bool {
+func (o *PreprocessS3) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *InputS3Preprocess) GetCommand() *string {
+func (o *PreprocessS3) GetCommand() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Command
 }
 
-func (o *InputS3Preprocess) GetArgs() []string {
+func (o *PreprocessS3) GetArgs() []string {
 	if o == nil {
 		return nil
 	}
 	return o.Args
 }
 
-type InputS3Metadatum struct {
+type MetadatumS3 struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputS3Metadatum) GetName() string {
+func (o *MetadatumS3) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputS3Metadatum) GetValue() string {
+func (o *MetadatumS3) GetValue() string {
 	if o == nil {
 		return ""
 	}
 	return o.Value
 }
 
-type InputS3Checkpointing struct {
+type CheckpointingS3 struct {
 	// Resume processing files after an interruption
 	Enabled *bool `default:"false" json:"enabled"`
 	// The number of times to retry processing when a processing error occurs. If Skip file on error is enabled, this setting is ignored.
 	Retries *float64 `default:"5" json:"retries"`
 }
 
-func (i InputS3Checkpointing) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (c CheckpointingS3) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(c, "", false)
 }
 
-func (i *InputS3Checkpointing) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (c *CheckpointingS3) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &c, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputS3Checkpointing) GetEnabled() *bool {
+func (o *CheckpointingS3) GetEnabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Enabled
 }
 
-func (o *InputS3Checkpointing) GetRetries() *float64 {
+func (o *CheckpointingS3) GetRetries() *float64 {
 	if o == nil {
 		return nil
 	}
@@ -8996,9 +10382,9 @@ func (o *InputS3Checkpointing) GetRetries() *float64 {
 
 type InputS3 struct {
 	// Unique ID for this input
-	ID       string      `json:"id"`
-	Type     InputS3Type `json:"type"`
-	Disabled *bool       `default:"false" json:"disabled"`
+	ID       string            `json:"id"`
+	Type     CreateInputTypeS3 `json:"type"`
+	Disabled *bool             `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -9010,8 +10396,8 @@ type InputS3 struct {
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputS3Connection `json:"connections,omitempty"`
-	Pq          *InputS3Pq          `json:"pq,omitempty"`
+	Connections []ConnectionS3 `json:"connections,omitempty"`
+	Pq          *PqS3          `json:"pq,omitempty"`
 	// The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`.
 	QueueName string `json:"queueName"`
 	// Regex matching file names to download and process. Defaults to: .*
@@ -9019,14 +10405,14 @@ type InputS3 struct {
 	// SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account.
 	AwsAccountID *string `json:"awsAccountId,omitempty"`
 	// AWS authentication method. Choose Auto to use IAM roles.
-	AwsAuthenticationMethod *InputS3AuthenticationMethod `default:"auto" json:"awsAuthenticationMethod"`
-	AwsSecretKey            *string                      `json:"awsSecretKey,omitempty"`
+	AwsAuthenticationMethod *CreateInputAuthenticationMethodS3 `default:"auto" json:"awsAuthenticationMethod"`
+	AwsSecretKey            *string                            `json:"awsSecretKey,omitempty"`
 	// AWS Region where the S3 bucket and SQS queue are located. Required, unless the Queue entry is a URL or ARN that includes a Region.
 	Region *string `json:"region,omitempty"`
 	// S3 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint.
 	Endpoint *string `json:"endpoint,omitempty"`
 	// Signature version to use for signing S3 requests
-	SignatureVersion *InputS3SignatureVersion `default:"v4" json:"signatureVersion"`
+	SignatureVersion *CreateInputSignatureVersionS3 `default:"v4" json:"signatureVersion"`
 	// Reuse connections between requests, which can improve performance
 	ReuseConnections *bool `default:"true" json:"reuseConnections"`
 	// Reject certificates that cannot be verified against a valid CA, such as self-signed certificates
@@ -9054,15 +10440,15 @@ type InputS3 struct {
 	// Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours).
 	DurationSeconds *float64 `default:"3600" json:"durationSeconds"`
 	// Use Assume Role credentials when accessing Amazon SQS
-	EnableSQSAssumeRole *bool              `default:"false" json:"enableSQSAssumeRole"`
-	Preprocess          *InputS3Preprocess `json:"preprocess,omitempty"`
+	EnableSQSAssumeRole *bool         `default:"false" json:"enableSQSAssumeRole"`
+	Preprocess          *PreprocessS3 `json:"preprocess,omitempty"`
 	// Fields to add to events from this input
-	Metadata []InputS3Metadatum `json:"metadata,omitempty"`
+	Metadata []MetadatumS3 `json:"metadata,omitempty"`
 	// Maximum file size for each Parquet chunk
 	ParquetChunkSizeMB *float64 `default:"5" json:"parquetChunkSizeMB"`
 	// The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified.
-	ParquetChunkDownloadTimeout *float64              `default:"600" json:"parquetChunkDownloadTimeout"`
-	Checkpointing               *InputS3Checkpointing `json:"checkpointing,omitempty"`
+	ParquetChunkDownloadTimeout *float64         `default:"600" json:"parquetChunkDownloadTimeout"`
+	Checkpointing               *CheckpointingS3 `json:"checkpointing,omitempty"`
 	// How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts.
 	PollTimeout *float64 `default:"10" json:"pollTimeout"`
 	// Character encoding to use when parsing ingested data. When not set, @{product} will default to UTF-8 but may incorrectly interpret multi-byte characters.
@@ -9097,9 +10483,9 @@ func (o *InputS3) GetID() string {
 	return o.ID
 }
 
-func (o *InputS3) GetType() InputS3Type {
+func (o *InputS3) GetType() CreateInputTypeS3 {
 	if o == nil {
-		return InputS3Type("")
+		return CreateInputTypeS3("")
 	}
 	return o.Type
 }
@@ -9146,14 +10532,14 @@ func (o *InputS3) GetStreamtags() []string {
 	return o.Streamtags
 }
 
-func (o *InputS3) GetConnections() []InputS3Connection {
+func (o *InputS3) GetConnections() []ConnectionS3 {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputS3) GetPq() *InputS3Pq {
+func (o *InputS3) GetPq() *PqS3 {
 	if o == nil {
 		return nil
 	}
@@ -9181,7 +10567,7 @@ func (o *InputS3) GetAwsAccountID() *string {
 	return o.AwsAccountID
 }
 
-func (o *InputS3) GetAwsAuthenticationMethod() *InputS3AuthenticationMethod {
+func (o *InputS3) GetAwsAuthenticationMethod() *CreateInputAuthenticationMethodS3 {
 	if o == nil {
 		return nil
 	}
@@ -9209,7 +10595,7 @@ func (o *InputS3) GetEndpoint() *string {
 	return o.Endpoint
 }
 
-func (o *InputS3) GetSignatureVersion() *InputS3SignatureVersion {
+func (o *InputS3) GetSignatureVersion() *CreateInputSignatureVersionS3 {
 	if o == nil {
 		return nil
 	}
@@ -9314,14 +10700,14 @@ func (o *InputS3) GetEnableSQSAssumeRole() *bool {
 	return o.EnableSQSAssumeRole
 }
 
-func (o *InputS3) GetPreprocess() *InputS3Preprocess {
+func (o *InputS3) GetPreprocess() *PreprocessS3 {
 	if o == nil {
 		return nil
 	}
 	return o.Preprocess
 }
 
-func (o *InputS3) GetMetadata() []InputS3Metadatum {
+func (o *InputS3) GetMetadata() []MetadatumS3 {
 	if o == nil {
 		return nil
 	}
@@ -9342,7 +10728,7 @@ func (o *InputS3) GetParquetChunkDownloadTimeout() *float64 {
 	return o.ParquetChunkDownloadTimeout
 }
 
-func (o *InputS3) GetCheckpointing() *InputS3Checkpointing {
+func (o *InputS3) GetCheckpointing() *CheckpointingS3 {
 	if o == nil {
 		return nil
 	}
@@ -9405,62 +10791,105 @@ func (o *InputS3) GetProcessedTagValue() *string {
 	return o.ProcessedTagValue
 }
 
-type InputMetricsType string
+type TypeMetrics string
 
 const (
-	InputMetricsTypeMetrics InputMetricsType = "metrics"
+	TypeMetricsMetrics TypeMetrics = "metrics"
 )
 
-func (e InputMetricsType) ToPointer() *InputMetricsType {
+func (e TypeMetrics) ToPointer() *TypeMetrics {
 	return &e
 }
+func (e *TypeMetrics) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "metrics":
+		*e = TypeMetrics(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for TypeMetrics: %v", v)
+	}
+}
 
-type InputMetricsConnection struct {
+type ConnectionMetrics struct {
 	Pipeline *string `json:"pipeline,omitempty"`
 	Output   string  `json:"output"`
 }
 
-func (o *InputMetricsConnection) GetPipeline() *string {
+func (o *ConnectionMetrics) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputMetricsConnection) GetOutput() string {
+func (o *ConnectionMetrics) GetOutput() string {
 	if o == nil {
 		return ""
 	}
 	return o.Output
 }
 
-// InputMetricsMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type InputMetricsMode string
+// ModeMetrics - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+type ModeMetrics string
 
 const (
-	InputMetricsModeSmart  InputMetricsMode = "smart"
-	InputMetricsModeAlways InputMetricsMode = "always"
+	ModeMetricsSmart  ModeMetrics = "smart"
+	ModeMetricsAlways ModeMetrics = "always"
 )
 
-func (e InputMetricsMode) ToPointer() *InputMetricsMode {
+func (e ModeMetrics) ToPointer() *ModeMetrics {
 	return &e
 }
+func (e *ModeMetrics) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = ModeMetrics(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ModeMetrics: %v", v)
+	}
+}
 
-// InputMetricsCompression - Codec to use to compress the persisted data
-type InputMetricsCompression string
+// CompressionMetrics - Codec to use to compress the persisted data
+type CompressionMetrics string
 
 const (
-	InputMetricsCompressionNone InputMetricsCompression = "none"
-	InputMetricsCompressionGzip InputMetricsCompression = "gzip"
+	CompressionMetricsNone CompressionMetrics = "none"
+	CompressionMetricsGzip CompressionMetrics = "gzip"
 )
 
-func (e InputMetricsCompression) ToPointer() *InputMetricsCompression {
+func (e CompressionMetrics) ToPointer() *CompressionMetrics {
 	return &e
 }
+func (e *CompressionMetrics) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = CompressionMetrics(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CompressionMetrics: %v", v)
+	}
+}
 
-type InputMetricsPq struct {
+type PqMetrics struct {
 	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *InputMetricsMode `default:"always" json:"mode"`
+	Mode *ModeMetrics `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
 	// The number of events to send downstream before committing that Stream has read them
@@ -9472,96 +10901,134 @@ type InputMetricsPq struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
 	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
 	// Codec to use to compress the persisted data
-	Compress *InputMetricsCompression `default:"none" json:"compress"`
+	Compress *CompressionMetrics `default:"none" json:"compress"`
 }
 
-func (i InputMetricsPq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PqMetrics) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputMetricsPq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PqMetrics) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputMetricsPq) GetMode() *InputMetricsMode {
+func (o *PqMetrics) GetMode() *ModeMetrics {
 	if o == nil {
 		return nil
 	}
 	return o.Mode
 }
 
-func (o *InputMetricsPq) GetMaxBufferSize() *float64 {
+func (o *PqMetrics) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputMetricsPq) GetCommitFrequency() *float64 {
+func (o *PqMetrics) GetCommitFrequency() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.CommitFrequency
 }
 
-func (o *InputMetricsPq) GetMaxFileSize() *string {
+func (o *PqMetrics) GetMaxFileSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxFileSize
 }
 
-func (o *InputMetricsPq) GetMaxSize() *string {
+func (o *PqMetrics) GetMaxSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxSize
 }
 
-func (o *InputMetricsPq) GetPath() *string {
+func (o *PqMetrics) GetPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Path
 }
 
-func (o *InputMetricsPq) GetCompress() *InputMetricsCompression {
+func (o *PqMetrics) GetCompress() *CompressionMetrics {
 	if o == nil {
 		return nil
 	}
 	return o.Compress
 }
 
-type InputMetricsMinimumTLSVersion string
+type MinimumTLSVersionMetrics string
 
 const (
-	InputMetricsMinimumTLSVersionTlSv1  InputMetricsMinimumTLSVersion = "TLSv1"
-	InputMetricsMinimumTLSVersionTlSv11 InputMetricsMinimumTLSVersion = "TLSv1.1"
-	InputMetricsMinimumTLSVersionTlSv12 InputMetricsMinimumTLSVersion = "TLSv1.2"
-	InputMetricsMinimumTLSVersionTlSv13 InputMetricsMinimumTLSVersion = "TLSv1.3"
+	MinimumTLSVersionMetricsTlSv1  MinimumTLSVersionMetrics = "TLSv1"
+	MinimumTLSVersionMetricsTlSv11 MinimumTLSVersionMetrics = "TLSv1.1"
+	MinimumTLSVersionMetricsTlSv12 MinimumTLSVersionMetrics = "TLSv1.2"
+	MinimumTLSVersionMetricsTlSv13 MinimumTLSVersionMetrics = "TLSv1.3"
 )
 
-func (e InputMetricsMinimumTLSVersion) ToPointer() *InputMetricsMinimumTLSVersion {
+func (e MinimumTLSVersionMetrics) ToPointer() *MinimumTLSVersionMetrics {
 	return &e
 }
+func (e *MinimumTLSVersionMetrics) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = MinimumTLSVersionMetrics(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for MinimumTLSVersionMetrics: %v", v)
+	}
+}
 
-type InputMetricsMaximumTLSVersion string
+type MaximumTLSVersionMetrics string
 
 const (
-	InputMetricsMaximumTLSVersionTlSv1  InputMetricsMaximumTLSVersion = "TLSv1"
-	InputMetricsMaximumTLSVersionTlSv11 InputMetricsMaximumTLSVersion = "TLSv1.1"
-	InputMetricsMaximumTLSVersionTlSv12 InputMetricsMaximumTLSVersion = "TLSv1.2"
-	InputMetricsMaximumTLSVersionTlSv13 InputMetricsMaximumTLSVersion = "TLSv1.3"
+	MaximumTLSVersionMetricsTlSv1  MaximumTLSVersionMetrics = "TLSv1"
+	MaximumTLSVersionMetricsTlSv11 MaximumTLSVersionMetrics = "TLSv1.1"
+	MaximumTLSVersionMetricsTlSv12 MaximumTLSVersionMetrics = "TLSv1.2"
+	MaximumTLSVersionMetricsTlSv13 MaximumTLSVersionMetrics = "TLSv1.3"
 )
 
-func (e InputMetricsMaximumTLSVersion) ToPointer() *InputMetricsMaximumTLSVersion {
+func (e MaximumTLSVersionMetrics) ToPointer() *MaximumTLSVersionMetrics {
 	return &e
 }
+func (e *MaximumTLSVersionMetrics) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = MaximumTLSVersionMetrics(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for MaximumTLSVersionMetrics: %v", v)
+	}
+}
 
-type InputMetricsTLSSettingsServerSide struct {
+type TLSSettingsServerSideMetrics struct {
 	Disabled *bool `default:"true" json:"disabled"`
 	// The name of the predefined certificate
 	CertificateName *string `json:"certificateName,omitempty"`
@@ -9574,115 +11041,115 @@ type InputMetricsTLSSettingsServerSide struct {
 	// Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS.
 	CaPath *string `json:"caPath,omitempty"`
 	// Require clients to present their certificates. Used to perform client authentication using SSL certs.
-	RequestCert        *bool                          `default:"false" json:"requestCert"`
-	RejectUnauthorized any                            `json:"rejectUnauthorized,omitempty"`
-	CommonNameRegex    any                            `json:"commonNameRegex,omitempty"`
-	MinVersion         *InputMetricsMinimumTLSVersion `json:"minVersion,omitempty"`
-	MaxVersion         *InputMetricsMaximumTLSVersion `json:"maxVersion,omitempty"`
+	RequestCert        *bool                     `default:"false" json:"requestCert"`
+	RejectUnauthorized any                       `json:"rejectUnauthorized,omitempty"`
+	CommonNameRegex    any                       `json:"commonNameRegex,omitempty"`
+	MinVersion         *MinimumTLSVersionMetrics `json:"minVersion,omitempty"`
+	MaxVersion         *MaximumTLSVersionMetrics `json:"maxVersion,omitempty"`
 }
 
-func (i InputMetricsTLSSettingsServerSide) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (t TLSSettingsServerSideMetrics) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(t, "", false)
 }
 
-func (i *InputMetricsTLSSettingsServerSide) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (t *TLSSettingsServerSideMetrics) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &t, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputMetricsTLSSettingsServerSide) GetDisabled() *bool {
+func (o *TLSSettingsServerSideMetrics) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *InputMetricsTLSSettingsServerSide) GetCertificateName() *string {
+func (o *TLSSettingsServerSideMetrics) GetCertificateName() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertificateName
 }
 
-func (o *InputMetricsTLSSettingsServerSide) GetPrivKeyPath() *string {
+func (o *TLSSettingsServerSideMetrics) GetPrivKeyPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.PrivKeyPath
 }
 
-func (o *InputMetricsTLSSettingsServerSide) GetPassphrase() *string {
+func (o *TLSSettingsServerSideMetrics) GetPassphrase() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Passphrase
 }
 
-func (o *InputMetricsTLSSettingsServerSide) GetCertPath() *string {
+func (o *TLSSettingsServerSideMetrics) GetCertPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertPath
 }
 
-func (o *InputMetricsTLSSettingsServerSide) GetCaPath() *string {
+func (o *TLSSettingsServerSideMetrics) GetCaPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CaPath
 }
 
-func (o *InputMetricsTLSSettingsServerSide) GetRequestCert() *bool {
+func (o *TLSSettingsServerSideMetrics) GetRequestCert() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.RequestCert
 }
 
-func (o *InputMetricsTLSSettingsServerSide) GetRejectUnauthorized() any {
+func (o *TLSSettingsServerSideMetrics) GetRejectUnauthorized() any {
 	if o == nil {
 		return nil
 	}
 	return o.RejectUnauthorized
 }
 
-func (o *InputMetricsTLSSettingsServerSide) GetCommonNameRegex() any {
+func (o *TLSSettingsServerSideMetrics) GetCommonNameRegex() any {
 	if o == nil {
 		return nil
 	}
 	return o.CommonNameRegex
 }
 
-func (o *InputMetricsTLSSettingsServerSide) GetMinVersion() *InputMetricsMinimumTLSVersion {
+func (o *TLSSettingsServerSideMetrics) GetMinVersion() *MinimumTLSVersionMetrics {
 	if o == nil {
 		return nil
 	}
 	return o.MinVersion
 }
 
-func (o *InputMetricsTLSSettingsServerSide) GetMaxVersion() *InputMetricsMaximumTLSVersion {
+func (o *TLSSettingsServerSideMetrics) GetMaxVersion() *MaximumTLSVersionMetrics {
 	if o == nil {
 		return nil
 	}
 	return o.MaxVersion
 }
 
-type InputMetricsMetadatum struct {
+type MetadatumMetrics struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputMetricsMetadatum) GetName() string {
+func (o *MetadatumMetrics) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputMetricsMetadatum) GetValue() string {
+func (o *MetadatumMetrics) GetValue() string {
 	if o == nil {
 		return ""
 	}
@@ -9691,9 +11158,9 @@ func (o *InputMetricsMetadatum) GetValue() string {
 
 type InputMetrics struct {
 	// Unique ID for this input
-	ID       string           `json:"id"`
-	Type     InputMetricsType `json:"type"`
-	Disabled *bool            `default:"false" json:"disabled"`
+	ID       string      `json:"id"`
+	Type     TypeMetrics `json:"type"`
+	Disabled *bool       `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -9705,8 +11172,8 @@ type InputMetrics struct {
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputMetricsConnection `json:"connections,omitempty"`
-	Pq          *InputMetricsPq          `json:"pq,omitempty"`
+	Connections []ConnectionMetrics `json:"connections,omitempty"`
+	Pq          *PqMetrics          `json:"pq,omitempty"`
 	// Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address.
 	Host *string `default:"0.0.0.0" json:"host"`
 	// Enter UDP port number to listen on. Not required if listening on TCP.
@@ -9718,10 +11185,10 @@ type InputMetrics struct {
 	// Regex matching IP addresses that are allowed to send data
 	IPWhitelistRegex *string `default:"/.*/" json:"ipWhitelistRegex"`
 	// Enable if the connection is proxied by a device that supports Proxy Protocol V1 or V2
-	EnableProxyHeader *bool                              `default:"false" json:"enableProxyHeader"`
-	TLS               *InputMetricsTLSSettingsServerSide `json:"tls,omitempty"`
+	EnableProxyHeader *bool                         `default:"false" json:"enableProxyHeader"`
+	TLS               *TLSSettingsServerSideMetrics `json:"tls,omitempty"`
 	// Fields to add to events from this input
-	Metadata []InputMetricsMetadatum `json:"metadata,omitempty"`
+	Metadata []MetadatumMetrics `json:"metadata,omitempty"`
 	// Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization.
 	UDPSocketRxBufSize *float64 `json:"udpSocketRxBufSize,omitempty"`
 	Description        *string  `json:"description,omitempty"`
@@ -9745,9 +11212,9 @@ func (o *InputMetrics) GetID() string {
 	return o.ID
 }
 
-func (o *InputMetrics) GetType() InputMetricsType {
+func (o *InputMetrics) GetType() TypeMetrics {
 	if o == nil {
-		return InputMetricsType("")
+		return TypeMetrics("")
 	}
 	return o.Type
 }
@@ -9794,14 +11261,14 @@ func (o *InputMetrics) GetStreamtags() []string {
 	return o.Streamtags
 }
 
-func (o *InputMetrics) GetConnections() []InputMetricsConnection {
+func (o *InputMetrics) GetConnections() []ConnectionMetrics {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputMetrics) GetPq() *InputMetricsPq {
+func (o *InputMetrics) GetPq() *PqMetrics {
 	if o == nil {
 		return nil
 	}
@@ -9850,14 +11317,14 @@ func (o *InputMetrics) GetEnableProxyHeader() *bool {
 	return o.EnableProxyHeader
 }
 
-func (o *InputMetrics) GetTLS() *InputMetricsTLSSettingsServerSide {
+func (o *InputMetrics) GetTLS() *TLSSettingsServerSideMetrics {
 	if o == nil {
 		return nil
 	}
 	return o.TLS
 }
 
-func (o *InputMetrics) GetMetadata() []InputMetricsMetadatum {
+func (o *InputMetrics) GetMetadata() []MetadatumMetrics {
 	if o == nil {
 		return nil
 	}
@@ -9878,62 +11345,105 @@ func (o *InputMetrics) GetDescription() *string {
 	return o.Description
 }
 
-type InputKinesisType string
+type CreateInputTypeKinesis string
 
 const (
-	InputKinesisTypeKinesis InputKinesisType = "kinesis"
+	CreateInputTypeKinesisKinesis CreateInputTypeKinesis = "kinesis"
 )
 
-func (e InputKinesisType) ToPointer() *InputKinesisType {
+func (e CreateInputTypeKinesis) ToPointer() *CreateInputTypeKinesis {
 	return &e
 }
+func (e *CreateInputTypeKinesis) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "kinesis":
+		*e = CreateInputTypeKinesis(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputTypeKinesis: %v", v)
+	}
+}
 
-type InputKinesisConnection struct {
+type ConnectionKinesis struct {
 	Pipeline *string `json:"pipeline,omitempty"`
 	Output   string  `json:"output"`
 }
 
-func (o *InputKinesisConnection) GetPipeline() *string {
+func (o *ConnectionKinesis) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputKinesisConnection) GetOutput() string {
+func (o *ConnectionKinesis) GetOutput() string {
 	if o == nil {
 		return ""
 	}
 	return o.Output
 }
 
-// InputKinesisMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type InputKinesisMode string
+// CreateInputModeKinesis - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+type CreateInputModeKinesis string
 
 const (
-	InputKinesisModeSmart  InputKinesisMode = "smart"
-	InputKinesisModeAlways InputKinesisMode = "always"
+	CreateInputModeKinesisSmart  CreateInputModeKinesis = "smart"
+	CreateInputModeKinesisAlways CreateInputModeKinesis = "always"
 )
 
-func (e InputKinesisMode) ToPointer() *InputKinesisMode {
+func (e CreateInputModeKinesis) ToPointer() *CreateInputModeKinesis {
 	return &e
 }
+func (e *CreateInputModeKinesis) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = CreateInputModeKinesis(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputModeKinesis: %v", v)
+	}
+}
 
-// InputKinesisCompression - Codec to use to compress the persisted data
-type InputKinesisCompression string
+// PqCompressionKinesis - Codec to use to compress the persisted data
+type PqCompressionKinesis string
 
 const (
-	InputKinesisCompressionNone InputKinesisCompression = "none"
-	InputKinesisCompressionGzip InputKinesisCompression = "gzip"
+	PqCompressionKinesisNone PqCompressionKinesis = "none"
+	PqCompressionKinesisGzip PqCompressionKinesis = "gzip"
 )
 
-func (e InputKinesisCompression) ToPointer() *InputKinesisCompression {
+func (e PqCompressionKinesis) ToPointer() *PqCompressionKinesis {
 	return &e
 }
+func (e *PqCompressionKinesis) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = PqCompressionKinesis(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for PqCompressionKinesis: %v", v)
+	}
+}
 
-type InputKinesisPq struct {
+type PqKinesis struct {
 	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *InputKinesisMode `default:"always" json:"mode"`
+	Mode *CreateInputModeKinesis `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
 	// The number of events to send downstream before committing that Stream has read them
@@ -9945,63 +11455,63 @@ type InputKinesisPq struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
 	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
 	// Codec to use to compress the persisted data
-	Compress *InputKinesisCompression `default:"none" json:"compress"`
+	Compress *PqCompressionKinesis `default:"none" json:"compress"`
 }
 
-func (i InputKinesisPq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PqKinesis) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputKinesisPq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PqKinesis) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputKinesisPq) GetMode() *InputKinesisMode {
+func (o *PqKinesis) GetMode() *CreateInputModeKinesis {
 	if o == nil {
 		return nil
 	}
 	return o.Mode
 }
 
-func (o *InputKinesisPq) GetMaxBufferSize() *float64 {
+func (o *PqKinesis) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputKinesisPq) GetCommitFrequency() *float64 {
+func (o *PqKinesis) GetCommitFrequency() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.CommitFrequency
 }
 
-func (o *InputKinesisPq) GetMaxFileSize() *string {
+func (o *PqKinesis) GetMaxFileSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxFileSize
 }
 
-func (o *InputKinesisPq) GetMaxSize() *string {
+func (o *PqKinesis) GetMaxSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxSize
 }
 
-func (o *InputKinesisPq) GetPath() *string {
+func (o *PqKinesis) GetPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Path
 }
 
-func (o *InputKinesisPq) GetCompress() *InputKinesisCompression {
+func (o *PqKinesis) GetCompress() *PqCompressionKinesis {
 	if o == nil {
 		return nil
 	}
@@ -10019,6 +11529,21 @@ const (
 func (e ShardIteratorStart) ToPointer() *ShardIteratorStart {
 	return &e
 }
+func (e *ShardIteratorStart) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TRIM_HORIZON":
+		fallthrough
+	case "LATEST":
+		*e = ShardIteratorStart(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ShardIteratorStart: %v", v)
+	}
+}
 
 // CreateInputRecordDataFormat - Format of data inside the Kinesis Stream records. Gzip compression is automatically detected.
 type CreateInputRecordDataFormat string
@@ -10033,6 +11558,25 @@ const (
 func (e CreateInputRecordDataFormat) ToPointer() *CreateInputRecordDataFormat {
 	return &e
 }
+func (e *CreateInputRecordDataFormat) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "cribl":
+		fallthrough
+	case "ndjson":
+		fallthrough
+	case "cloudwatch":
+		fallthrough
+	case "line":
+		*e = CreateInputRecordDataFormat(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputRecordDataFormat: %v", v)
+	}
+}
 
 // ShardLoadBalancing - The load-balancing algorithm to use for spreading out shards across Workers and Worker Processes
 type ShardLoadBalancing string
@@ -10045,46 +11589,93 @@ const (
 func (e ShardLoadBalancing) ToPointer() *ShardLoadBalancing {
 	return &e
 }
-
-// InputKinesisAuthenticationMethod - AWS authentication method. Choose Auto to use IAM roles.
-type InputKinesisAuthenticationMethod string
-
-const (
-	InputKinesisAuthenticationMethodAuto   InputKinesisAuthenticationMethod = "auto"
-	InputKinesisAuthenticationMethodManual InputKinesisAuthenticationMethod = "manual"
-	InputKinesisAuthenticationMethodSecret InputKinesisAuthenticationMethod = "secret"
-)
-
-func (e InputKinesisAuthenticationMethod) ToPointer() *InputKinesisAuthenticationMethod {
-	return &e
+func (e *ShardLoadBalancing) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "ConsistentHashing":
+		fallthrough
+	case "RoundRobin":
+		*e = ShardLoadBalancing(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ShardLoadBalancing: %v", v)
+	}
 }
 
-// InputKinesisSignatureVersion - Signature version to use for signing Kinesis stream requests
-type InputKinesisSignatureVersion string
+// CreateInputAuthenticationMethodKinesis - AWS authentication method. Choose Auto to use IAM roles.
+type CreateInputAuthenticationMethodKinesis string
 
 const (
-	InputKinesisSignatureVersionV2 InputKinesisSignatureVersion = "v2"
-	InputKinesisSignatureVersionV4 InputKinesisSignatureVersion = "v4"
+	CreateInputAuthenticationMethodKinesisAuto   CreateInputAuthenticationMethodKinesis = "auto"
+	CreateInputAuthenticationMethodKinesisManual CreateInputAuthenticationMethodKinesis = "manual"
+	CreateInputAuthenticationMethodKinesisSecret CreateInputAuthenticationMethodKinesis = "secret"
 )
 
-func (e InputKinesisSignatureVersion) ToPointer() *InputKinesisSignatureVersion {
+func (e CreateInputAuthenticationMethodKinesis) ToPointer() *CreateInputAuthenticationMethodKinesis {
 	return &e
 }
+func (e *CreateInputAuthenticationMethodKinesis) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "auto":
+		fallthrough
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = CreateInputAuthenticationMethodKinesis(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputAuthenticationMethodKinesis: %v", v)
+	}
+}
 
-type InputKinesisMetadatum struct {
+// CreateInputSignatureVersionKinesis - Signature version to use for signing Kinesis stream requests
+type CreateInputSignatureVersionKinesis string
+
+const (
+	CreateInputSignatureVersionKinesisV2 CreateInputSignatureVersionKinesis = "v2"
+	CreateInputSignatureVersionKinesisV4 CreateInputSignatureVersionKinesis = "v4"
+)
+
+func (e CreateInputSignatureVersionKinesis) ToPointer() *CreateInputSignatureVersionKinesis {
+	return &e
+}
+func (e *CreateInputSignatureVersionKinesis) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "v2":
+		fallthrough
+	case "v4":
+		*e = CreateInputSignatureVersionKinesis(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputSignatureVersionKinesis: %v", v)
+	}
+}
+
+type MetadatumKinesis struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputKinesisMetadatum) GetName() string {
+func (o *MetadatumKinesis) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputKinesisMetadatum) GetValue() string {
+func (o *MetadatumKinesis) GetValue() string {
 	if o == nil {
 		return ""
 	}
@@ -10093,9 +11684,9 @@ func (o *InputKinesisMetadatum) GetValue() string {
 
 type InputKinesis struct {
 	// Unique ID for this input
-	ID       string            `json:"id"`
-	Type     *InputKinesisType `json:"type,omitempty"`
-	Disabled *bool             `default:"false" json:"disabled"`
+	ID       string                  `json:"id"`
+	Type     *CreateInputTypeKinesis `json:"type,omitempty"`
+	Disabled *bool                   `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -10107,8 +11698,8 @@ type InputKinesis struct {
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputKinesisConnection `json:"connections,omitempty"`
-	Pq          *InputKinesisPq          `json:"pq,omitempty"`
+	Connections []ConnectionKinesis `json:"connections,omitempty"`
+	Pq          *PqKinesis          `json:"pq,omitempty"`
 	// Kinesis Data Stream to read data from
 	StreamName string `json:"streamName"`
 	// Time interval in minutes between consecutive service calls
@@ -10126,14 +11717,14 @@ type InputKinesis struct {
 	// The load-balancing algorithm to use for spreading out shards across Workers and Worker Processes
 	LoadBalancingAlgorithm *ShardLoadBalancing `default:"ConsistentHashing" json:"loadBalancingAlgorithm"`
 	// AWS authentication method. Choose Auto to use IAM roles.
-	AwsAuthenticationMethod *InputKinesisAuthenticationMethod `default:"auto" json:"awsAuthenticationMethod"`
-	AwsSecretKey            *string                           `json:"awsSecretKey,omitempty"`
+	AwsAuthenticationMethod *CreateInputAuthenticationMethodKinesis `default:"auto" json:"awsAuthenticationMethod"`
+	AwsSecretKey            *string                                 `json:"awsSecretKey,omitempty"`
 	// Region where the Kinesis stream is located
 	Region string `json:"region"`
 	// Kinesis stream service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Kinesis stream-compatible endpoint.
 	Endpoint *string `json:"endpoint,omitempty"`
 	// Signature version to use for signing Kinesis stream requests
-	SignatureVersion *InputKinesisSignatureVersion `default:"v4" json:"signatureVersion"`
+	SignatureVersion *CreateInputSignatureVersionKinesis `default:"v4" json:"signatureVersion"`
 	// Reuse connections between requests, which can improve performance
 	ReuseConnections *bool `default:"true" json:"reuseConnections"`
 	// Reject certificates that cannot be verified against a valid CA, such as self-signed certificates
@@ -10151,9 +11742,9 @@ type InputKinesis struct {
 	// When resuming streaming from a stored state, Stream will read the next available record, rather than rereading the last-read record. Enabling this setting can cause data loss after a Worker Node's unexpected shutdown or restart.
 	AvoidDuplicates *bool `default:"false" json:"avoidDuplicates"`
 	// Fields to add to events from this input
-	Metadata    []InputKinesisMetadatum `json:"metadata,omitempty"`
-	Description *string                 `json:"description,omitempty"`
-	AwsAPIKey   *string                 `json:"awsApiKey,omitempty"`
+	Metadata    []MetadatumKinesis `json:"metadata,omitempty"`
+	Description *string            `json:"description,omitempty"`
+	AwsAPIKey   *string            `json:"awsApiKey,omitempty"`
 	// Select or create a stored secret that references your access key and secret key
 	AwsSecret *string `json:"awsSecret,omitempty"`
 }
@@ -10176,7 +11767,7 @@ func (o *InputKinesis) GetID() string {
 	return o.ID
 }
 
-func (o *InputKinesis) GetType() *InputKinesisType {
+func (o *InputKinesis) GetType() *CreateInputTypeKinesis {
 	if o == nil {
 		return nil
 	}
@@ -10225,14 +11816,14 @@ func (o *InputKinesis) GetStreamtags() []string {
 	return o.Streamtags
 }
 
-func (o *InputKinesis) GetConnections() []InputKinesisConnection {
+func (o *InputKinesis) GetConnections() []ConnectionKinesis {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputKinesis) GetPq() *InputKinesisPq {
+func (o *InputKinesis) GetPq() *PqKinesis {
 	if o == nil {
 		return nil
 	}
@@ -10295,7 +11886,7 @@ func (o *InputKinesis) GetLoadBalancingAlgorithm() *ShardLoadBalancing {
 	return o.LoadBalancingAlgorithm
 }
 
-func (o *InputKinesis) GetAwsAuthenticationMethod() *InputKinesisAuthenticationMethod {
+func (o *InputKinesis) GetAwsAuthenticationMethod() *CreateInputAuthenticationMethodKinesis {
 	if o == nil {
 		return nil
 	}
@@ -10323,7 +11914,7 @@ func (o *InputKinesis) GetEndpoint() *string {
 	return o.Endpoint
 }
 
-func (o *InputKinesis) GetSignatureVersion() *InputKinesisSignatureVersion {
+func (o *InputKinesis) GetSignatureVersion() *CreateInputSignatureVersionKinesis {
 	if o == nil {
 		return nil
 	}
@@ -10386,7 +11977,7 @@ func (o *InputKinesis) GetAvoidDuplicates() *bool {
 	return o.AvoidDuplicates
 }
 
-func (o *InputKinesis) GetMetadata() []InputKinesisMetadatum {
+func (o *InputKinesis) GetMetadata() []MetadatumKinesis {
 	if o == nil {
 		return nil
 	}
@@ -10414,62 +12005,105 @@ func (o *InputKinesis) GetAwsSecret() *string {
 	return o.AwsSecret
 }
 
-type InputHTTPRawType string
+type TypeHTTPRaw string
 
 const (
-	InputHTTPRawTypeHTTPRaw InputHTTPRawType = "http_raw"
+	TypeHTTPRawHTTPRaw TypeHTTPRaw = "http_raw"
 )
 
-func (e InputHTTPRawType) ToPointer() *InputHTTPRawType {
+func (e TypeHTTPRaw) ToPointer() *TypeHTTPRaw {
 	return &e
 }
+func (e *TypeHTTPRaw) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "http_raw":
+		*e = TypeHTTPRaw(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for TypeHTTPRaw: %v", v)
+	}
+}
 
-type InputHTTPRawConnection struct {
+type ConnectionHTTPRaw struct {
 	Pipeline *string `json:"pipeline,omitempty"`
 	Output   string  `json:"output"`
 }
 
-func (o *InputHTTPRawConnection) GetPipeline() *string {
+func (o *ConnectionHTTPRaw) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputHTTPRawConnection) GetOutput() string {
+func (o *ConnectionHTTPRaw) GetOutput() string {
 	if o == nil {
 		return ""
 	}
 	return o.Output
 }
 
-// InputHTTPRawMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type InputHTTPRawMode string
+// ModeHTTPRaw - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+type ModeHTTPRaw string
 
 const (
-	InputHTTPRawModeSmart  InputHTTPRawMode = "smart"
-	InputHTTPRawModeAlways InputHTTPRawMode = "always"
+	ModeHTTPRawSmart  ModeHTTPRaw = "smart"
+	ModeHTTPRawAlways ModeHTTPRaw = "always"
 )
 
-func (e InputHTTPRawMode) ToPointer() *InputHTTPRawMode {
+func (e ModeHTTPRaw) ToPointer() *ModeHTTPRaw {
 	return &e
 }
+func (e *ModeHTTPRaw) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = ModeHTTPRaw(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ModeHTTPRaw: %v", v)
+	}
+}
 
-// InputHTTPRawCompression - Codec to use to compress the persisted data
-type InputHTTPRawCompression string
+// CompressionHTTPRaw - Codec to use to compress the persisted data
+type CompressionHTTPRaw string
 
 const (
-	InputHTTPRawCompressionNone InputHTTPRawCompression = "none"
-	InputHTTPRawCompressionGzip InputHTTPRawCompression = "gzip"
+	CompressionHTTPRawNone CompressionHTTPRaw = "none"
+	CompressionHTTPRawGzip CompressionHTTPRaw = "gzip"
 )
 
-func (e InputHTTPRawCompression) ToPointer() *InputHTTPRawCompression {
+func (e CompressionHTTPRaw) ToPointer() *CompressionHTTPRaw {
 	return &e
 }
+func (e *CompressionHTTPRaw) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = CompressionHTTPRaw(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CompressionHTTPRaw: %v", v)
+	}
+}
 
-type InputHTTPRawPq struct {
+type PqHTTPRaw struct {
 	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *InputHTTPRawMode `default:"always" json:"mode"`
+	Mode *ModeHTTPRaw `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
 	// The number of events to send downstream before committing that Stream has read them
@@ -10481,96 +12115,134 @@ type InputHTTPRawPq struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
 	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
 	// Codec to use to compress the persisted data
-	Compress *InputHTTPRawCompression `default:"none" json:"compress"`
+	Compress *CompressionHTTPRaw `default:"none" json:"compress"`
 }
 
-func (i InputHTTPRawPq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PqHTTPRaw) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputHTTPRawPq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PqHTTPRaw) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputHTTPRawPq) GetMode() *InputHTTPRawMode {
+func (o *PqHTTPRaw) GetMode() *ModeHTTPRaw {
 	if o == nil {
 		return nil
 	}
 	return o.Mode
 }
 
-func (o *InputHTTPRawPq) GetMaxBufferSize() *float64 {
+func (o *PqHTTPRaw) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputHTTPRawPq) GetCommitFrequency() *float64 {
+func (o *PqHTTPRaw) GetCommitFrequency() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.CommitFrequency
 }
 
-func (o *InputHTTPRawPq) GetMaxFileSize() *string {
+func (o *PqHTTPRaw) GetMaxFileSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxFileSize
 }
 
-func (o *InputHTTPRawPq) GetMaxSize() *string {
+func (o *PqHTTPRaw) GetMaxSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxSize
 }
 
-func (o *InputHTTPRawPq) GetPath() *string {
+func (o *PqHTTPRaw) GetPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Path
 }
 
-func (o *InputHTTPRawPq) GetCompress() *InputHTTPRawCompression {
+func (o *PqHTTPRaw) GetCompress() *CompressionHTTPRaw {
 	if o == nil {
 		return nil
 	}
 	return o.Compress
 }
 
-type InputHTTPRawMinimumTLSVersion string
+type MinimumTLSVersionHTTPRaw string
 
 const (
-	InputHTTPRawMinimumTLSVersionTlSv1  InputHTTPRawMinimumTLSVersion = "TLSv1"
-	InputHTTPRawMinimumTLSVersionTlSv11 InputHTTPRawMinimumTLSVersion = "TLSv1.1"
-	InputHTTPRawMinimumTLSVersionTlSv12 InputHTTPRawMinimumTLSVersion = "TLSv1.2"
-	InputHTTPRawMinimumTLSVersionTlSv13 InputHTTPRawMinimumTLSVersion = "TLSv1.3"
+	MinimumTLSVersionHTTPRawTlSv1  MinimumTLSVersionHTTPRaw = "TLSv1"
+	MinimumTLSVersionHTTPRawTlSv11 MinimumTLSVersionHTTPRaw = "TLSv1.1"
+	MinimumTLSVersionHTTPRawTlSv12 MinimumTLSVersionHTTPRaw = "TLSv1.2"
+	MinimumTLSVersionHTTPRawTlSv13 MinimumTLSVersionHTTPRaw = "TLSv1.3"
 )
 
-func (e InputHTTPRawMinimumTLSVersion) ToPointer() *InputHTTPRawMinimumTLSVersion {
+func (e MinimumTLSVersionHTTPRaw) ToPointer() *MinimumTLSVersionHTTPRaw {
 	return &e
 }
+func (e *MinimumTLSVersionHTTPRaw) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = MinimumTLSVersionHTTPRaw(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for MinimumTLSVersionHTTPRaw: %v", v)
+	}
+}
 
-type InputHTTPRawMaximumTLSVersion string
+type MaximumTLSVersionHTTPRaw string
 
 const (
-	InputHTTPRawMaximumTLSVersionTlSv1  InputHTTPRawMaximumTLSVersion = "TLSv1"
-	InputHTTPRawMaximumTLSVersionTlSv11 InputHTTPRawMaximumTLSVersion = "TLSv1.1"
-	InputHTTPRawMaximumTLSVersionTlSv12 InputHTTPRawMaximumTLSVersion = "TLSv1.2"
-	InputHTTPRawMaximumTLSVersionTlSv13 InputHTTPRawMaximumTLSVersion = "TLSv1.3"
+	MaximumTLSVersionHTTPRawTlSv1  MaximumTLSVersionHTTPRaw = "TLSv1"
+	MaximumTLSVersionHTTPRawTlSv11 MaximumTLSVersionHTTPRaw = "TLSv1.1"
+	MaximumTLSVersionHTTPRawTlSv12 MaximumTLSVersionHTTPRaw = "TLSv1.2"
+	MaximumTLSVersionHTTPRawTlSv13 MaximumTLSVersionHTTPRaw = "TLSv1.3"
 )
 
-func (e InputHTTPRawMaximumTLSVersion) ToPointer() *InputHTTPRawMaximumTLSVersion {
+func (e MaximumTLSVersionHTTPRaw) ToPointer() *MaximumTLSVersionHTTPRaw {
 	return &e
 }
+func (e *MaximumTLSVersionHTTPRaw) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = MaximumTLSVersionHTTPRaw(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for MaximumTLSVersionHTTPRaw: %v", v)
+	}
+}
 
-type InputHTTPRawTLSSettingsServerSide struct {
+type TLSSettingsServerSideHTTPRaw struct {
 	Disabled *bool `default:"true" json:"disabled"`
 	// The name of the predefined certificate
 	CertificateName *string `json:"certificateName,omitempty"`
@@ -10583,164 +12255,164 @@ type InputHTTPRawTLSSettingsServerSide struct {
 	// Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS.
 	CaPath *string `json:"caPath,omitempty"`
 	// Require clients to present their certificates. Used to perform client authentication using SSL certs.
-	RequestCert        *bool                          `default:"false" json:"requestCert"`
-	RejectUnauthorized any                            `json:"rejectUnauthorized,omitempty"`
-	CommonNameRegex    any                            `json:"commonNameRegex,omitempty"`
-	MinVersion         *InputHTTPRawMinimumTLSVersion `json:"minVersion,omitempty"`
-	MaxVersion         *InputHTTPRawMaximumTLSVersion `json:"maxVersion,omitempty"`
+	RequestCert        *bool                     `default:"false" json:"requestCert"`
+	RejectUnauthorized any                       `json:"rejectUnauthorized,omitempty"`
+	CommonNameRegex    any                       `json:"commonNameRegex,omitempty"`
+	MinVersion         *MinimumTLSVersionHTTPRaw `json:"minVersion,omitempty"`
+	MaxVersion         *MaximumTLSVersionHTTPRaw `json:"maxVersion,omitempty"`
 }
 
-func (i InputHTTPRawTLSSettingsServerSide) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (t TLSSettingsServerSideHTTPRaw) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(t, "", false)
 }
 
-func (i *InputHTTPRawTLSSettingsServerSide) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (t *TLSSettingsServerSideHTTPRaw) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &t, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputHTTPRawTLSSettingsServerSide) GetDisabled() *bool {
+func (o *TLSSettingsServerSideHTTPRaw) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *InputHTTPRawTLSSettingsServerSide) GetCertificateName() *string {
+func (o *TLSSettingsServerSideHTTPRaw) GetCertificateName() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertificateName
 }
 
-func (o *InputHTTPRawTLSSettingsServerSide) GetPrivKeyPath() *string {
+func (o *TLSSettingsServerSideHTTPRaw) GetPrivKeyPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.PrivKeyPath
 }
 
-func (o *InputHTTPRawTLSSettingsServerSide) GetPassphrase() *string {
+func (o *TLSSettingsServerSideHTTPRaw) GetPassphrase() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Passphrase
 }
 
-func (o *InputHTTPRawTLSSettingsServerSide) GetCertPath() *string {
+func (o *TLSSettingsServerSideHTTPRaw) GetCertPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertPath
 }
 
-func (o *InputHTTPRawTLSSettingsServerSide) GetCaPath() *string {
+func (o *TLSSettingsServerSideHTTPRaw) GetCaPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CaPath
 }
 
-func (o *InputHTTPRawTLSSettingsServerSide) GetRequestCert() *bool {
+func (o *TLSSettingsServerSideHTTPRaw) GetRequestCert() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.RequestCert
 }
 
-func (o *InputHTTPRawTLSSettingsServerSide) GetRejectUnauthorized() any {
+func (o *TLSSettingsServerSideHTTPRaw) GetRejectUnauthorized() any {
 	if o == nil {
 		return nil
 	}
 	return o.RejectUnauthorized
 }
 
-func (o *InputHTTPRawTLSSettingsServerSide) GetCommonNameRegex() any {
+func (o *TLSSettingsServerSideHTTPRaw) GetCommonNameRegex() any {
 	if o == nil {
 		return nil
 	}
 	return o.CommonNameRegex
 }
 
-func (o *InputHTTPRawTLSSettingsServerSide) GetMinVersion() *InputHTTPRawMinimumTLSVersion {
+func (o *TLSSettingsServerSideHTTPRaw) GetMinVersion() *MinimumTLSVersionHTTPRaw {
 	if o == nil {
 		return nil
 	}
 	return o.MinVersion
 }
 
-func (o *InputHTTPRawTLSSettingsServerSide) GetMaxVersion() *InputHTTPRawMaximumTLSVersion {
+func (o *TLSSettingsServerSideHTTPRaw) GetMaxVersion() *MaximumTLSVersionHTTPRaw {
 	if o == nil {
 		return nil
 	}
 	return o.MaxVersion
 }
 
-type InputHTTPRawMetadatum struct {
+type MetadatumHTTPRaw struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputHTTPRawMetadatum) GetName() string {
+func (o *MetadatumHTTPRaw) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputHTTPRawMetadatum) GetValue() string {
+func (o *MetadatumHTTPRaw) GetValue() string {
 	if o == nil {
 		return ""
 	}
 	return o.Value
 }
 
-type InputHTTPRawAuthTokensExtMetadatum struct {
+type AuthTokensExtMetadatumHTTPRaw struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputHTTPRawAuthTokensExtMetadatum) GetName() string {
+func (o *AuthTokensExtMetadatumHTTPRaw) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputHTTPRawAuthTokensExtMetadatum) GetValue() string {
+func (o *AuthTokensExtMetadatumHTTPRaw) GetValue() string {
 	if o == nil {
 		return ""
 	}
 	return o.Value
 }
 
-type InputHTTPRawAuthTokensExt struct {
+type AuthTokensExtHTTPRaw struct {
 	// Shared secret to be provided by any client (Authorization: <token>)
 	Token       string  `json:"token"`
 	Description *string `json:"description,omitempty"`
 	// Fields to add to events referencing this token
-	Metadata []InputHTTPRawAuthTokensExtMetadatum `json:"metadata,omitempty"`
+	Metadata []AuthTokensExtMetadatumHTTPRaw `json:"metadata,omitempty"`
 }
 
-func (o *InputHTTPRawAuthTokensExt) GetToken() string {
+func (o *AuthTokensExtHTTPRaw) GetToken() string {
 	if o == nil {
 		return ""
 	}
 	return o.Token
 }
 
-func (o *InputHTTPRawAuthTokensExt) GetDescription() *string {
+func (o *AuthTokensExtHTTPRaw) GetDescription() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Description
 }
 
-func (o *InputHTTPRawAuthTokensExt) GetMetadata() []InputHTTPRawAuthTokensExtMetadatum {
+func (o *AuthTokensExtHTTPRaw) GetMetadata() []AuthTokensExtMetadatumHTTPRaw {
 	if o == nil {
 		return nil
 	}
@@ -10749,9 +12421,9 @@ func (o *InputHTTPRawAuthTokensExt) GetMetadata() []InputHTTPRawAuthTokensExtMet
 
 type InputHTTPRaw struct {
 	// Unique ID for this input
-	ID       string            `json:"id"`
-	Type     *InputHTTPRawType `json:"type,omitempty"`
-	Disabled *bool             `default:"false" json:"disabled"`
+	ID       string       `json:"id"`
+	Type     *TypeHTTPRaw `json:"type,omitempty"`
+	Disabled *bool        `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -10763,15 +12435,15 @@ type InputHTTPRaw struct {
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputHTTPRawConnection `json:"connections,omitempty"`
-	Pq          *InputHTTPRawPq          `json:"pq,omitempty"`
+	Connections []ConnectionHTTPRaw `json:"connections,omitempty"`
+	Pq          *PqHTTPRaw          `json:"pq,omitempty"`
 	// Address to bind on. Defaults to 0.0.0.0 (all addresses).
 	Host *string `default:"0.0.0.0" json:"host"`
 	// Port to listen on
 	Port float64 `json:"port"`
 	// Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted.
-	AuthTokens []string                           `json:"authTokens,omitempty"`
-	TLS        *InputHTTPRawTLSSettingsServerSide `json:"tls,omitempty"`
+	AuthTokens []string                      `json:"authTokens,omitempty"`
+	TLS        *TLSSettingsServerSideHTTPRaw `json:"tls,omitempty"`
 	// Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput.
 	MaxActiveReq *float64 `default:"256" json:"maxActiveReq"`
 	// Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited).
@@ -10799,14 +12471,14 @@ type InputHTTPRaw struct {
 	// How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines
 	StaleChannelFlushMs *float64 `default:"10000" json:"staleChannelFlushMs"`
 	// Fields to add to events from this input
-	Metadata []InputHTTPRawMetadatum `json:"metadata,omitempty"`
+	Metadata []MetadatumHTTPRaw `json:"metadata,omitempty"`
 	// List of URI paths accepted by this input, wildcards are supported, e.g /api/v*/hook. Defaults to allow all.
 	AllowedPaths []string `json:"allowedPaths,omitempty"`
 	// List of HTTP methods accepted by this input. Wildcards are supported (such as P*, GET). Defaults to allow all.
 	AllowedMethods []string `json:"allowedMethods,omitempty"`
 	// Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted.
-	AuthTokensExt []InputHTTPRawAuthTokensExt `json:"authTokensExt,omitempty"`
-	Description   *string                     `json:"description,omitempty"`
+	AuthTokensExt []AuthTokensExtHTTPRaw `json:"authTokensExt,omitempty"`
+	Description   *string                `json:"description,omitempty"`
 }
 
 func (i InputHTTPRaw) MarshalJSON() ([]byte, error) {
@@ -10827,7 +12499,7 @@ func (o *InputHTTPRaw) GetID() string {
 	return o.ID
 }
 
-func (o *InputHTTPRaw) GetType() *InputHTTPRawType {
+func (o *InputHTTPRaw) GetType() *TypeHTTPRaw {
 	if o == nil {
 		return nil
 	}
@@ -10876,14 +12548,14 @@ func (o *InputHTTPRaw) GetStreamtags() []string {
 	return o.Streamtags
 }
 
-func (o *InputHTTPRaw) GetConnections() []InputHTTPRawConnection {
+func (o *InputHTTPRaw) GetConnections() []ConnectionHTTPRaw {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputHTTPRaw) GetPq() *InputHTTPRawPq {
+func (o *InputHTTPRaw) GetPq() *PqHTTPRaw {
 	if o == nil {
 		return nil
 	}
@@ -10911,7 +12583,7 @@ func (o *InputHTTPRaw) GetAuthTokens() []string {
 	return o.AuthTokens
 }
 
-func (o *InputHTTPRaw) GetTLS() *InputHTTPRawTLSSettingsServerSide {
+func (o *InputHTTPRaw) GetTLS() *TLSSettingsServerSideHTTPRaw {
 	if o == nil {
 		return nil
 	}
@@ -11009,7 +12681,7 @@ func (o *InputHTTPRaw) GetStaleChannelFlushMs() *float64 {
 	return o.StaleChannelFlushMs
 }
 
-func (o *InputHTTPRaw) GetMetadata() []InputHTTPRawMetadatum {
+func (o *InputHTTPRaw) GetMetadata() []MetadatumHTTPRaw {
 	if o == nil {
 		return nil
 	}
@@ -11030,7 +12702,7 @@ func (o *InputHTTPRaw) GetAllowedMethods() []string {
 	return o.AllowedMethods
 }
 
-func (o *InputHTTPRaw) GetAuthTokensExt() []InputHTTPRawAuthTokensExt {
+func (o *InputHTTPRaw) GetAuthTokensExt() []AuthTokensExtHTTPRaw {
 	if o == nil {
 		return nil
 	}
@@ -11044,62 +12716,105 @@ func (o *InputHTTPRaw) GetDescription() *string {
 	return o.Description
 }
 
-type InputDatagenType string
+type TypeDatagen string
 
 const (
-	InputDatagenTypeDatagen InputDatagenType = "datagen"
+	TypeDatagenDatagen TypeDatagen = "datagen"
 )
 
-func (e InputDatagenType) ToPointer() *InputDatagenType {
+func (e TypeDatagen) ToPointer() *TypeDatagen {
 	return &e
 }
+func (e *TypeDatagen) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "datagen":
+		*e = TypeDatagen(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for TypeDatagen: %v", v)
+	}
+}
 
-type InputDatagenConnection struct {
+type ConnectionDatagen struct {
 	Pipeline *string `json:"pipeline,omitempty"`
 	Output   string  `json:"output"`
 }
 
-func (o *InputDatagenConnection) GetPipeline() *string {
+func (o *ConnectionDatagen) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputDatagenConnection) GetOutput() string {
+func (o *ConnectionDatagen) GetOutput() string {
 	if o == nil {
 		return ""
 	}
 	return o.Output
 }
 
-// InputDatagenMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type InputDatagenMode string
+// ModeDatagen - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+type ModeDatagen string
 
 const (
-	InputDatagenModeSmart  InputDatagenMode = "smart"
-	InputDatagenModeAlways InputDatagenMode = "always"
+	ModeDatagenSmart  ModeDatagen = "smart"
+	ModeDatagenAlways ModeDatagen = "always"
 )
 
-func (e InputDatagenMode) ToPointer() *InputDatagenMode {
+func (e ModeDatagen) ToPointer() *ModeDatagen {
 	return &e
 }
+func (e *ModeDatagen) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = ModeDatagen(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ModeDatagen: %v", v)
+	}
+}
 
-// InputDatagenCompression - Codec to use to compress the persisted data
-type InputDatagenCompression string
+// CompressionDatagen - Codec to use to compress the persisted data
+type CompressionDatagen string
 
 const (
-	InputDatagenCompressionNone InputDatagenCompression = "none"
-	InputDatagenCompressionGzip InputDatagenCompression = "gzip"
+	CompressionDatagenNone CompressionDatagen = "none"
+	CompressionDatagenGzip CompressionDatagen = "gzip"
 )
 
-func (e InputDatagenCompression) ToPointer() *InputDatagenCompression {
+func (e CompressionDatagen) ToPointer() *CompressionDatagen {
 	return &e
 }
+func (e *CompressionDatagen) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = CompressionDatagen(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CompressionDatagen: %v", v)
+	}
+}
 
-type InputDatagenPq struct {
+type PqDatagen struct {
 	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *InputDatagenMode `default:"always" json:"mode"`
+	Mode *ModeDatagen `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
 	// The number of events to send downstream before committing that Stream has read them
@@ -11111,63 +12826,63 @@ type InputDatagenPq struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
 	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
 	// Codec to use to compress the persisted data
-	Compress *InputDatagenCompression `default:"none" json:"compress"`
+	Compress *CompressionDatagen `default:"none" json:"compress"`
 }
 
-func (i InputDatagenPq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PqDatagen) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputDatagenPq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PqDatagen) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputDatagenPq) GetMode() *InputDatagenMode {
+func (o *PqDatagen) GetMode() *ModeDatagen {
 	if o == nil {
 		return nil
 	}
 	return o.Mode
 }
 
-func (o *InputDatagenPq) GetMaxBufferSize() *float64 {
+func (o *PqDatagen) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputDatagenPq) GetCommitFrequency() *float64 {
+func (o *PqDatagen) GetCommitFrequency() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.CommitFrequency
 }
 
-func (o *InputDatagenPq) GetMaxFileSize() *string {
+func (o *PqDatagen) GetMaxFileSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxFileSize
 }
 
-func (o *InputDatagenPq) GetMaxSize() *string {
+func (o *PqDatagen) GetMaxSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxSize
 }
 
-func (o *InputDatagenPq) GetPath() *string {
+func (o *PqDatagen) GetPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Path
 }
 
-func (o *InputDatagenPq) GetCompress() *InputDatagenCompression {
+func (o *PqDatagen) GetCompress() *CompressionDatagen {
 	if o == nil {
 		return nil
 	}
@@ -11205,20 +12920,20 @@ func (o *Sample) GetEventsPerSec() *float64 {
 	return o.EventsPerSec
 }
 
-type InputDatagenMetadatum struct {
+type MetadatumDatagen struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputDatagenMetadatum) GetName() string {
+func (o *MetadatumDatagen) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputDatagenMetadatum) GetValue() string {
+func (o *MetadatumDatagen) GetValue() string {
 	if o == nil {
 		return ""
 	}
@@ -11227,9 +12942,9 @@ func (o *InputDatagenMetadatum) GetValue() string {
 
 type InputDatagen struct {
 	// Unique ID for this input
-	ID       string           `json:"id"`
-	Type     InputDatagenType `json:"type"`
-	Disabled *bool            `default:"false" json:"disabled"`
+	ID       string      `json:"id"`
+	Type     TypeDatagen `json:"type"`
+	Disabled *bool       `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -11241,12 +12956,12 @@ type InputDatagen struct {
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputDatagenConnection `json:"connections,omitempty"`
-	Pq          *InputDatagenPq          `json:"pq,omitempty"`
-	Samples     []Sample                 `json:"samples"`
+	Connections []ConnectionDatagen `json:"connections,omitempty"`
+	Pq          *PqDatagen          `json:"pq,omitempty"`
+	Samples     []Sample            `json:"samples"`
 	// Fields to add to events from this input
-	Metadata    []InputDatagenMetadatum `json:"metadata,omitempty"`
-	Description *string                 `json:"description,omitempty"`
+	Metadata    []MetadatumDatagen `json:"metadata,omitempty"`
+	Description *string            `json:"description,omitempty"`
 }
 
 func (i InputDatagen) MarshalJSON() ([]byte, error) {
@@ -11267,9 +12982,9 @@ func (o *InputDatagen) GetID() string {
 	return o.ID
 }
 
-func (o *InputDatagen) GetType() InputDatagenType {
+func (o *InputDatagen) GetType() TypeDatagen {
 	if o == nil {
-		return InputDatagenType("")
+		return TypeDatagen("")
 	}
 	return o.Type
 }
@@ -11316,14 +13031,14 @@ func (o *InputDatagen) GetStreamtags() []string {
 	return o.Streamtags
 }
 
-func (o *InputDatagen) GetConnections() []InputDatagenConnection {
+func (o *InputDatagen) GetConnections() []ConnectionDatagen {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputDatagen) GetPq() *InputDatagenPq {
+func (o *InputDatagen) GetPq() *PqDatagen {
 	if o == nil {
 		return nil
 	}
@@ -11337,7 +13052,7 @@ func (o *InputDatagen) GetSamples() []Sample {
 	return o.Samples
 }
 
-func (o *InputDatagen) GetMetadata() []InputDatagenMetadatum {
+func (o *InputDatagen) GetMetadata() []MetadatumDatagen {
 	if o == nil {
 		return nil
 	}
@@ -11351,62 +13066,105 @@ func (o *InputDatagen) GetDescription() *string {
 	return o.Description
 }
 
-type InputDatadogAgentType string
+type TypeDatadogAgent string
 
 const (
-	InputDatadogAgentTypeDatadogAgent InputDatadogAgentType = "datadog_agent"
+	TypeDatadogAgentDatadogAgent TypeDatadogAgent = "datadog_agent"
 )
 
-func (e InputDatadogAgentType) ToPointer() *InputDatadogAgentType {
+func (e TypeDatadogAgent) ToPointer() *TypeDatadogAgent {
 	return &e
 }
+func (e *TypeDatadogAgent) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "datadog_agent":
+		*e = TypeDatadogAgent(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for TypeDatadogAgent: %v", v)
+	}
+}
 
-type InputDatadogAgentConnection struct {
+type ConnectionDatadogAgent struct {
 	Pipeline *string `json:"pipeline,omitempty"`
 	Output   string  `json:"output"`
 }
 
-func (o *InputDatadogAgentConnection) GetPipeline() *string {
+func (o *ConnectionDatadogAgent) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputDatadogAgentConnection) GetOutput() string {
+func (o *ConnectionDatadogAgent) GetOutput() string {
 	if o == nil {
 		return ""
 	}
 	return o.Output
 }
 
-// InputDatadogAgentMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type InputDatadogAgentMode string
+// ModeDatadogAgent - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+type ModeDatadogAgent string
 
 const (
-	InputDatadogAgentModeSmart  InputDatadogAgentMode = "smart"
-	InputDatadogAgentModeAlways InputDatadogAgentMode = "always"
+	ModeDatadogAgentSmart  ModeDatadogAgent = "smart"
+	ModeDatadogAgentAlways ModeDatadogAgent = "always"
 )
 
-func (e InputDatadogAgentMode) ToPointer() *InputDatadogAgentMode {
+func (e ModeDatadogAgent) ToPointer() *ModeDatadogAgent {
 	return &e
 }
+func (e *ModeDatadogAgent) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = ModeDatadogAgent(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ModeDatadogAgent: %v", v)
+	}
+}
 
-// InputDatadogAgentCompression - Codec to use to compress the persisted data
-type InputDatadogAgentCompression string
+// CompressionDatadogAgent - Codec to use to compress the persisted data
+type CompressionDatadogAgent string
 
 const (
-	InputDatadogAgentCompressionNone InputDatadogAgentCompression = "none"
-	InputDatadogAgentCompressionGzip InputDatadogAgentCompression = "gzip"
+	CompressionDatadogAgentNone CompressionDatadogAgent = "none"
+	CompressionDatadogAgentGzip CompressionDatadogAgent = "gzip"
 )
 
-func (e InputDatadogAgentCompression) ToPointer() *InputDatadogAgentCompression {
+func (e CompressionDatadogAgent) ToPointer() *CompressionDatadogAgent {
 	return &e
 }
+func (e *CompressionDatadogAgent) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = CompressionDatadogAgent(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CompressionDatadogAgent: %v", v)
+	}
+}
 
-type InputDatadogAgentPq struct {
+type PqDatadogAgent struct {
 	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *InputDatadogAgentMode `default:"always" json:"mode"`
+	Mode *ModeDatadogAgent `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
 	// The number of events to send downstream before committing that Stream has read them
@@ -11418,96 +13176,134 @@ type InputDatadogAgentPq struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
 	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
 	// Codec to use to compress the persisted data
-	Compress *InputDatadogAgentCompression `default:"none" json:"compress"`
+	Compress *CompressionDatadogAgent `default:"none" json:"compress"`
 }
 
-func (i InputDatadogAgentPq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PqDatadogAgent) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputDatadogAgentPq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PqDatadogAgent) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputDatadogAgentPq) GetMode() *InputDatadogAgentMode {
+func (o *PqDatadogAgent) GetMode() *ModeDatadogAgent {
 	if o == nil {
 		return nil
 	}
 	return o.Mode
 }
 
-func (o *InputDatadogAgentPq) GetMaxBufferSize() *float64 {
+func (o *PqDatadogAgent) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputDatadogAgentPq) GetCommitFrequency() *float64 {
+func (o *PqDatadogAgent) GetCommitFrequency() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.CommitFrequency
 }
 
-func (o *InputDatadogAgentPq) GetMaxFileSize() *string {
+func (o *PqDatadogAgent) GetMaxFileSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxFileSize
 }
 
-func (o *InputDatadogAgentPq) GetMaxSize() *string {
+func (o *PqDatadogAgent) GetMaxSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxSize
 }
 
-func (o *InputDatadogAgentPq) GetPath() *string {
+func (o *PqDatadogAgent) GetPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Path
 }
 
-func (o *InputDatadogAgentPq) GetCompress() *InputDatadogAgentCompression {
+func (o *PqDatadogAgent) GetCompress() *CompressionDatadogAgent {
 	if o == nil {
 		return nil
 	}
 	return o.Compress
 }
 
-type InputDatadogAgentMinimumTLSVersion string
+type MinimumTLSVersionDatadogAgent string
 
 const (
-	InputDatadogAgentMinimumTLSVersionTlSv1  InputDatadogAgentMinimumTLSVersion = "TLSv1"
-	InputDatadogAgentMinimumTLSVersionTlSv11 InputDatadogAgentMinimumTLSVersion = "TLSv1.1"
-	InputDatadogAgentMinimumTLSVersionTlSv12 InputDatadogAgentMinimumTLSVersion = "TLSv1.2"
-	InputDatadogAgentMinimumTLSVersionTlSv13 InputDatadogAgentMinimumTLSVersion = "TLSv1.3"
+	MinimumTLSVersionDatadogAgentTlSv1  MinimumTLSVersionDatadogAgent = "TLSv1"
+	MinimumTLSVersionDatadogAgentTlSv11 MinimumTLSVersionDatadogAgent = "TLSv1.1"
+	MinimumTLSVersionDatadogAgentTlSv12 MinimumTLSVersionDatadogAgent = "TLSv1.2"
+	MinimumTLSVersionDatadogAgentTlSv13 MinimumTLSVersionDatadogAgent = "TLSv1.3"
 )
 
-func (e InputDatadogAgentMinimumTLSVersion) ToPointer() *InputDatadogAgentMinimumTLSVersion {
+func (e MinimumTLSVersionDatadogAgent) ToPointer() *MinimumTLSVersionDatadogAgent {
 	return &e
 }
+func (e *MinimumTLSVersionDatadogAgent) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = MinimumTLSVersionDatadogAgent(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for MinimumTLSVersionDatadogAgent: %v", v)
+	}
+}
 
-type InputDatadogAgentMaximumTLSVersion string
+type MaximumTLSVersionDatadogAgent string
 
 const (
-	InputDatadogAgentMaximumTLSVersionTlSv1  InputDatadogAgentMaximumTLSVersion = "TLSv1"
-	InputDatadogAgentMaximumTLSVersionTlSv11 InputDatadogAgentMaximumTLSVersion = "TLSv1.1"
-	InputDatadogAgentMaximumTLSVersionTlSv12 InputDatadogAgentMaximumTLSVersion = "TLSv1.2"
-	InputDatadogAgentMaximumTLSVersionTlSv13 InputDatadogAgentMaximumTLSVersion = "TLSv1.3"
+	MaximumTLSVersionDatadogAgentTlSv1  MaximumTLSVersionDatadogAgent = "TLSv1"
+	MaximumTLSVersionDatadogAgentTlSv11 MaximumTLSVersionDatadogAgent = "TLSv1.1"
+	MaximumTLSVersionDatadogAgentTlSv12 MaximumTLSVersionDatadogAgent = "TLSv1.2"
+	MaximumTLSVersionDatadogAgentTlSv13 MaximumTLSVersionDatadogAgent = "TLSv1.3"
 )
 
-func (e InputDatadogAgentMaximumTLSVersion) ToPointer() *InputDatadogAgentMaximumTLSVersion {
+func (e MaximumTLSVersionDatadogAgent) ToPointer() *MaximumTLSVersionDatadogAgent {
 	return &e
 }
+func (e *MaximumTLSVersionDatadogAgent) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = MaximumTLSVersionDatadogAgent(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for MaximumTLSVersionDatadogAgent: %v", v)
+	}
+}
 
-type InputDatadogAgentTLSSettingsServerSide struct {
+type TLSSettingsServerSideDatadogAgent struct {
 	Disabled *bool `default:"true" json:"disabled"`
 	// The name of the predefined certificate
 	CertificateName *string `json:"certificateName,omitempty"`
@@ -11520,147 +13316,147 @@ type InputDatadogAgentTLSSettingsServerSide struct {
 	// Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS.
 	CaPath *string `json:"caPath,omitempty"`
 	// Require clients to present their certificates. Used to perform client authentication using SSL certs.
-	RequestCert        *bool                               `default:"false" json:"requestCert"`
-	RejectUnauthorized any                                 `json:"rejectUnauthorized,omitempty"`
-	CommonNameRegex    any                                 `json:"commonNameRegex,omitempty"`
-	MinVersion         *InputDatadogAgentMinimumTLSVersion `json:"minVersion,omitempty"`
-	MaxVersion         *InputDatadogAgentMaximumTLSVersion `json:"maxVersion,omitempty"`
+	RequestCert        *bool                          `default:"false" json:"requestCert"`
+	RejectUnauthorized any                            `json:"rejectUnauthorized,omitempty"`
+	CommonNameRegex    any                            `json:"commonNameRegex,omitempty"`
+	MinVersion         *MinimumTLSVersionDatadogAgent `json:"minVersion,omitempty"`
+	MaxVersion         *MaximumTLSVersionDatadogAgent `json:"maxVersion,omitempty"`
 }
 
-func (i InputDatadogAgentTLSSettingsServerSide) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (t TLSSettingsServerSideDatadogAgent) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(t, "", false)
 }
 
-func (i *InputDatadogAgentTLSSettingsServerSide) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (t *TLSSettingsServerSideDatadogAgent) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &t, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputDatadogAgentTLSSettingsServerSide) GetDisabled() *bool {
+func (o *TLSSettingsServerSideDatadogAgent) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *InputDatadogAgentTLSSettingsServerSide) GetCertificateName() *string {
+func (o *TLSSettingsServerSideDatadogAgent) GetCertificateName() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertificateName
 }
 
-func (o *InputDatadogAgentTLSSettingsServerSide) GetPrivKeyPath() *string {
+func (o *TLSSettingsServerSideDatadogAgent) GetPrivKeyPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.PrivKeyPath
 }
 
-func (o *InputDatadogAgentTLSSettingsServerSide) GetPassphrase() *string {
+func (o *TLSSettingsServerSideDatadogAgent) GetPassphrase() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Passphrase
 }
 
-func (o *InputDatadogAgentTLSSettingsServerSide) GetCertPath() *string {
+func (o *TLSSettingsServerSideDatadogAgent) GetCertPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertPath
 }
 
-func (o *InputDatadogAgentTLSSettingsServerSide) GetCaPath() *string {
+func (o *TLSSettingsServerSideDatadogAgent) GetCaPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CaPath
 }
 
-func (o *InputDatadogAgentTLSSettingsServerSide) GetRequestCert() *bool {
+func (o *TLSSettingsServerSideDatadogAgent) GetRequestCert() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.RequestCert
 }
 
-func (o *InputDatadogAgentTLSSettingsServerSide) GetRejectUnauthorized() any {
+func (o *TLSSettingsServerSideDatadogAgent) GetRejectUnauthorized() any {
 	if o == nil {
 		return nil
 	}
 	return o.RejectUnauthorized
 }
 
-func (o *InputDatadogAgentTLSSettingsServerSide) GetCommonNameRegex() any {
+func (o *TLSSettingsServerSideDatadogAgent) GetCommonNameRegex() any {
 	if o == nil {
 		return nil
 	}
 	return o.CommonNameRegex
 }
 
-func (o *InputDatadogAgentTLSSettingsServerSide) GetMinVersion() *InputDatadogAgentMinimumTLSVersion {
+func (o *TLSSettingsServerSideDatadogAgent) GetMinVersion() *MinimumTLSVersionDatadogAgent {
 	if o == nil {
 		return nil
 	}
 	return o.MinVersion
 }
 
-func (o *InputDatadogAgentTLSSettingsServerSide) GetMaxVersion() *InputDatadogAgentMaximumTLSVersion {
+func (o *TLSSettingsServerSideDatadogAgent) GetMaxVersion() *MaximumTLSVersionDatadogAgent {
 	if o == nil {
 		return nil
 	}
 	return o.MaxVersion
 }
 
-type InputDatadogAgentMetadatum struct {
+type MetadatumDatadogAgent struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputDatadogAgentMetadatum) GetName() string {
+func (o *MetadatumDatadogAgent) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputDatadogAgentMetadatum) GetValue() string {
+func (o *MetadatumDatadogAgent) GetValue() string {
 	if o == nil {
 		return ""
 	}
 	return o.Value
 }
 
-type InputDatadogAgentProxyMode struct {
+type ProxyModeDatadogAgent struct {
 	// Toggle to Yes to send key validation requests from Datadog Agent to the Datadog API. If toggled to No (the default), Stream handles key validation requests by always responding that the key is valid.
 	Enabled *bool `default:"false" json:"enabled"`
 	// Whether to reject certificates that cannot be verified against a valid CA (e.g., self-signed certificates).
 	RejectUnauthorized *bool `default:"true" json:"rejectUnauthorized"`
 }
 
-func (i InputDatadogAgentProxyMode) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p ProxyModeDatadogAgent) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputDatadogAgentProxyMode) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *ProxyModeDatadogAgent) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputDatadogAgentProxyMode) GetEnabled() *bool {
+func (o *ProxyModeDatadogAgent) GetEnabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Enabled
 }
 
-func (o *InputDatadogAgentProxyMode) GetRejectUnauthorized() *bool {
+func (o *ProxyModeDatadogAgent) GetRejectUnauthorized() *bool {
 	if o == nil {
 		return nil
 	}
@@ -11669,9 +13465,9 @@ func (o *InputDatadogAgentProxyMode) GetRejectUnauthorized() *bool {
 
 type InputDatadogAgent struct {
 	// Unique ID for this input
-	ID       string                 `json:"id"`
-	Type     *InputDatadogAgentType `json:"type,omitempty"`
-	Disabled *bool                  `default:"false" json:"disabled"`
+	ID       string            `json:"id"`
+	Type     *TypeDatadogAgent `json:"type,omitempty"`
+	Disabled *bool             `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -11683,13 +13479,13 @@ type InputDatadogAgent struct {
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputDatadogAgentConnection `json:"connections,omitempty"`
-	Pq          *InputDatadogAgentPq          `json:"pq,omitempty"`
+	Connections []ConnectionDatadogAgent `json:"connections,omitempty"`
+	Pq          *PqDatadogAgent          `json:"pq,omitempty"`
 	// Address to bind on. Defaults to 0.0.0.0 (all addresses).
 	Host *string `default:"0.0.0.0" json:"host"`
 	// Port to listen on
-	Port float64                                 `json:"port"`
-	TLS  *InputDatadogAgentTLSSettingsServerSide `json:"tls,omitempty"`
+	Port float64                            `json:"port"`
+	TLS  *TLSSettingsServerSideDatadogAgent `json:"tls,omitempty"`
 	// Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput.
 	MaxActiveReq *float64 `default:"256" json:"maxActiveReq"`
 	// Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited).
@@ -11715,9 +13511,9 @@ type InputDatadogAgent struct {
 	// Toggle to Yes to extract each incoming metric to multiple events, one per data point. This works well when sending metrics to a statsd-type output. If sending metrics to DatadogHQ or any destination that accepts arbitrary JSON, leave toggled to No (the default).
 	ExtractMetrics *bool `default:"false" json:"extractMetrics"`
 	// Fields to add to events from this input
-	Metadata    []InputDatadogAgentMetadatum `json:"metadata,omitempty"`
-	ProxyMode   *InputDatadogAgentProxyMode  `json:"proxyMode,omitempty"`
-	Description *string                      `json:"description,omitempty"`
+	Metadata    []MetadatumDatadogAgent `json:"metadata,omitempty"`
+	ProxyMode   *ProxyModeDatadogAgent  `json:"proxyMode,omitempty"`
+	Description *string                 `json:"description,omitempty"`
 }
 
 func (i InputDatadogAgent) MarshalJSON() ([]byte, error) {
@@ -11738,7 +13534,7 @@ func (o *InputDatadogAgent) GetID() string {
 	return o.ID
 }
 
-func (o *InputDatadogAgent) GetType() *InputDatadogAgentType {
+func (o *InputDatadogAgent) GetType() *TypeDatadogAgent {
 	if o == nil {
 		return nil
 	}
@@ -11787,14 +13583,14 @@ func (o *InputDatadogAgent) GetStreamtags() []string {
 	return o.Streamtags
 }
 
-func (o *InputDatadogAgent) GetConnections() []InputDatadogAgentConnection {
+func (o *InputDatadogAgent) GetConnections() []ConnectionDatadogAgent {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputDatadogAgent) GetPq() *InputDatadogAgentPq {
+func (o *InputDatadogAgent) GetPq() *PqDatadogAgent {
 	if o == nil {
 		return nil
 	}
@@ -11815,7 +13611,7 @@ func (o *InputDatadogAgent) GetPort() float64 {
 	return o.Port
 }
 
-func (o *InputDatadogAgent) GetTLS() *InputDatadogAgentTLSSettingsServerSide {
+func (o *InputDatadogAgent) GetTLS() *TLSSettingsServerSideDatadogAgent {
 	if o == nil {
 		return nil
 	}
@@ -11906,14 +13702,14 @@ func (o *InputDatadogAgent) GetExtractMetrics() *bool {
 	return o.ExtractMetrics
 }
 
-func (o *InputDatadogAgent) GetMetadata() []InputDatadogAgentMetadatum {
+func (o *InputDatadogAgent) GetMetadata() []MetadatumDatadogAgent {
 	if o == nil {
 		return nil
 	}
 	return o.Metadata
 }
 
-func (o *InputDatadogAgent) GetProxyMode() *InputDatadogAgentProxyMode {
+func (o *InputDatadogAgent) GetProxyMode() *ProxyModeDatadogAgent {
 	if o == nil {
 		return nil
 	}
@@ -11927,62 +13723,105 @@ func (o *InputDatadogAgent) GetDescription() *string {
 	return o.Description
 }
 
-type InputCrowdstrikeType string
+type TypeCrowdstrike string
 
 const (
-	InputCrowdstrikeTypeCrowdstrike InputCrowdstrikeType = "crowdstrike"
+	TypeCrowdstrikeCrowdstrike TypeCrowdstrike = "crowdstrike"
 )
 
-func (e InputCrowdstrikeType) ToPointer() *InputCrowdstrikeType {
+func (e TypeCrowdstrike) ToPointer() *TypeCrowdstrike {
 	return &e
 }
+func (e *TypeCrowdstrike) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "crowdstrike":
+		*e = TypeCrowdstrike(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for TypeCrowdstrike: %v", v)
+	}
+}
 
-type InputCrowdstrikeConnection struct {
+type ConnectionCrowdstrike struct {
 	Pipeline *string `json:"pipeline,omitempty"`
 	Output   string  `json:"output"`
 }
 
-func (o *InputCrowdstrikeConnection) GetPipeline() *string {
+func (o *ConnectionCrowdstrike) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputCrowdstrikeConnection) GetOutput() string {
+func (o *ConnectionCrowdstrike) GetOutput() string {
 	if o == nil {
 		return ""
 	}
 	return o.Output
 }
 
-// InputCrowdstrikeMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type InputCrowdstrikeMode string
+// ModeCrowdstrike - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+type ModeCrowdstrike string
 
 const (
-	InputCrowdstrikeModeSmart  InputCrowdstrikeMode = "smart"
-	InputCrowdstrikeModeAlways InputCrowdstrikeMode = "always"
+	ModeCrowdstrikeSmart  ModeCrowdstrike = "smart"
+	ModeCrowdstrikeAlways ModeCrowdstrike = "always"
 )
 
-func (e InputCrowdstrikeMode) ToPointer() *InputCrowdstrikeMode {
+func (e ModeCrowdstrike) ToPointer() *ModeCrowdstrike {
 	return &e
 }
+func (e *ModeCrowdstrike) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = ModeCrowdstrike(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ModeCrowdstrike: %v", v)
+	}
+}
 
-// InputCrowdstrikeCompression - Codec to use to compress the persisted data
-type InputCrowdstrikeCompression string
+// CompressionCrowdstrike - Codec to use to compress the persisted data
+type CompressionCrowdstrike string
 
 const (
-	InputCrowdstrikeCompressionNone InputCrowdstrikeCompression = "none"
-	InputCrowdstrikeCompressionGzip InputCrowdstrikeCompression = "gzip"
+	CompressionCrowdstrikeNone CompressionCrowdstrike = "none"
+	CompressionCrowdstrikeGzip CompressionCrowdstrike = "gzip"
 )
 
-func (e InputCrowdstrikeCompression) ToPointer() *InputCrowdstrikeCompression {
+func (e CompressionCrowdstrike) ToPointer() *CompressionCrowdstrike {
 	return &e
 }
+func (e *CompressionCrowdstrike) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = CompressionCrowdstrike(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CompressionCrowdstrike: %v", v)
+	}
+}
 
-type InputCrowdstrikePq struct {
+type PqCrowdstrike struct {
 	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *InputCrowdstrikeMode `default:"always" json:"mode"`
+	Mode *ModeCrowdstrike `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
 	// The number of events to send downstream before committing that Stream has read them
@@ -11994,95 +13833,127 @@ type InputCrowdstrikePq struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
 	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
 	// Codec to use to compress the persisted data
-	Compress *InputCrowdstrikeCompression `default:"none" json:"compress"`
+	Compress *CompressionCrowdstrike `default:"none" json:"compress"`
 }
 
-func (i InputCrowdstrikePq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PqCrowdstrike) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputCrowdstrikePq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PqCrowdstrike) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputCrowdstrikePq) GetMode() *InputCrowdstrikeMode {
+func (o *PqCrowdstrike) GetMode() *ModeCrowdstrike {
 	if o == nil {
 		return nil
 	}
 	return o.Mode
 }
 
-func (o *InputCrowdstrikePq) GetMaxBufferSize() *float64 {
+func (o *PqCrowdstrike) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputCrowdstrikePq) GetCommitFrequency() *float64 {
+func (o *PqCrowdstrike) GetCommitFrequency() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.CommitFrequency
 }
 
-func (o *InputCrowdstrikePq) GetMaxFileSize() *string {
+func (o *PqCrowdstrike) GetMaxFileSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxFileSize
 }
 
-func (o *InputCrowdstrikePq) GetMaxSize() *string {
+func (o *PqCrowdstrike) GetMaxSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxSize
 }
 
-func (o *InputCrowdstrikePq) GetPath() *string {
+func (o *PqCrowdstrike) GetPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Path
 }
 
-func (o *InputCrowdstrikePq) GetCompress() *InputCrowdstrikeCompression {
+func (o *PqCrowdstrike) GetCompress() *CompressionCrowdstrike {
 	if o == nil {
 		return nil
 	}
 	return o.Compress
 }
 
-// InputCrowdstrikeAuthenticationMethod - AWS authentication method. Choose Auto to use IAM roles.
-type InputCrowdstrikeAuthenticationMethod string
+// AuthenticationMethodCrowdstrike - AWS authentication method. Choose Auto to use IAM roles.
+type AuthenticationMethodCrowdstrike string
 
 const (
-	InputCrowdstrikeAuthenticationMethodAuto   InputCrowdstrikeAuthenticationMethod = "auto"
-	InputCrowdstrikeAuthenticationMethodManual InputCrowdstrikeAuthenticationMethod = "manual"
-	InputCrowdstrikeAuthenticationMethodSecret InputCrowdstrikeAuthenticationMethod = "secret"
+	AuthenticationMethodCrowdstrikeAuto   AuthenticationMethodCrowdstrike = "auto"
+	AuthenticationMethodCrowdstrikeManual AuthenticationMethodCrowdstrike = "manual"
+	AuthenticationMethodCrowdstrikeSecret AuthenticationMethodCrowdstrike = "secret"
 )
 
-func (e InputCrowdstrikeAuthenticationMethod) ToPointer() *InputCrowdstrikeAuthenticationMethod {
+func (e AuthenticationMethodCrowdstrike) ToPointer() *AuthenticationMethodCrowdstrike {
 	return &e
 }
+func (e *AuthenticationMethodCrowdstrike) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "auto":
+		fallthrough
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = AuthenticationMethodCrowdstrike(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for AuthenticationMethodCrowdstrike: %v", v)
+	}
+}
 
-// InputCrowdstrikeSignatureVersion - Signature version to use for signing S3 requests
-type InputCrowdstrikeSignatureVersion string
+// SignatureVersionCrowdstrike - Signature version to use for signing S3 requests
+type SignatureVersionCrowdstrike string
 
 const (
-	InputCrowdstrikeSignatureVersionV2 InputCrowdstrikeSignatureVersion = "v2"
-	InputCrowdstrikeSignatureVersionV4 InputCrowdstrikeSignatureVersion = "v4"
+	SignatureVersionCrowdstrikeV2 SignatureVersionCrowdstrike = "v2"
+	SignatureVersionCrowdstrikeV4 SignatureVersionCrowdstrike = "v4"
 )
 
-func (e InputCrowdstrikeSignatureVersion) ToPointer() *InputCrowdstrikeSignatureVersion {
+func (e SignatureVersionCrowdstrike) ToPointer() *SignatureVersionCrowdstrike {
 	return &e
 }
+func (e *SignatureVersionCrowdstrike) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "v2":
+		fallthrough
+	case "v4":
+		*e = SignatureVersionCrowdstrike(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for SignatureVersionCrowdstrike: %v", v)
+	}
+}
 
-type InputCrowdstrikePreprocess struct {
+type PreprocessCrowdstrike struct {
 	Disabled *bool `default:"true" json:"disabled"`
 	// Command to feed the data through (via stdin) and process its output (stdout)
 	Command *string `json:"command,omitempty"`
@@ -12090,106 +13961,121 @@ type InputCrowdstrikePreprocess struct {
 	Args []string `json:"args,omitempty"`
 }
 
-func (i InputCrowdstrikePreprocess) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PreprocessCrowdstrike) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputCrowdstrikePreprocess) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PreprocessCrowdstrike) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputCrowdstrikePreprocess) GetDisabled() *bool {
+func (o *PreprocessCrowdstrike) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *InputCrowdstrikePreprocess) GetCommand() *string {
+func (o *PreprocessCrowdstrike) GetCommand() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Command
 }
 
-func (o *InputCrowdstrikePreprocess) GetArgs() []string {
+func (o *PreprocessCrowdstrike) GetArgs() []string {
 	if o == nil {
 		return nil
 	}
 	return o.Args
 }
 
-type InputCrowdstrikeMetadatum struct {
+type MetadatumCrowdstrike struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputCrowdstrikeMetadatum) GetName() string {
+func (o *MetadatumCrowdstrike) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputCrowdstrikeMetadatum) GetValue() string {
+func (o *MetadatumCrowdstrike) GetValue() string {
 	if o == nil {
 		return ""
 	}
 	return o.Value
 }
 
-type InputCrowdstrikeCheckpointing struct {
+type CheckpointingCrowdstrike struct {
 	// Resume processing files after an interruption
 	Enabled *bool `default:"false" json:"enabled"`
 	// The number of times to retry processing when a processing error occurs. If Skip file on error is enabled, this setting is ignored.
 	Retries *float64 `default:"5" json:"retries"`
 }
 
-func (i InputCrowdstrikeCheckpointing) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (c CheckpointingCrowdstrike) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(c, "", false)
 }
 
-func (i *InputCrowdstrikeCheckpointing) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (c *CheckpointingCrowdstrike) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &c, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputCrowdstrikeCheckpointing) GetEnabled() *bool {
+func (o *CheckpointingCrowdstrike) GetEnabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Enabled
 }
 
-func (o *InputCrowdstrikeCheckpointing) GetRetries() *float64 {
+func (o *CheckpointingCrowdstrike) GetRetries() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.Retries
 }
 
-type InputCrowdstrikeTagAfterProcessing string
+type TagAfterProcessingCrowdstrike string
 
 const (
-	InputCrowdstrikeTagAfterProcessingFalse InputCrowdstrikeTagAfterProcessing = "false"
-	InputCrowdstrikeTagAfterProcessingTrue  InputCrowdstrikeTagAfterProcessing = "true"
+	TagAfterProcessingCrowdstrikeFalse TagAfterProcessingCrowdstrike = "false"
+	TagAfterProcessingCrowdstrikeTrue  TagAfterProcessingCrowdstrike = "true"
 )
 
-func (e InputCrowdstrikeTagAfterProcessing) ToPointer() *InputCrowdstrikeTagAfterProcessing {
+func (e TagAfterProcessingCrowdstrike) ToPointer() *TagAfterProcessingCrowdstrike {
 	return &e
+}
+func (e *TagAfterProcessingCrowdstrike) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "false":
+		fallthrough
+	case "true":
+		*e = TagAfterProcessingCrowdstrike(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for TagAfterProcessingCrowdstrike: %v", v)
+	}
 }
 
 type InputCrowdstrike struct {
 	// Unique ID for this input
-	ID       string               `json:"id"`
-	Type     InputCrowdstrikeType `json:"type"`
-	Disabled *bool                `default:"false" json:"disabled"`
+	ID       string          `json:"id"`
+	Type     TypeCrowdstrike `json:"type"`
+	Disabled *bool           `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -12201,8 +14087,8 @@ type InputCrowdstrike struct {
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputCrowdstrikeConnection `json:"connections,omitempty"`
-	Pq          *InputCrowdstrikePq          `json:"pq,omitempty"`
+	Connections []ConnectionCrowdstrike `json:"connections,omitempty"`
+	Pq          *PqCrowdstrike          `json:"pq,omitempty"`
 	// The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`.
 	QueueName string `json:"queueName"`
 	// Regex matching file names to download and process. Defaults to: .*
@@ -12210,14 +14096,14 @@ type InputCrowdstrike struct {
 	// SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account.
 	AwsAccountID *string `json:"awsAccountId,omitempty"`
 	// AWS authentication method. Choose Auto to use IAM roles.
-	AwsAuthenticationMethod *InputCrowdstrikeAuthenticationMethod `default:"auto" json:"awsAuthenticationMethod"`
-	AwsSecretKey            *string                               `json:"awsSecretKey,omitempty"`
+	AwsAuthenticationMethod *AuthenticationMethodCrowdstrike `default:"auto" json:"awsAuthenticationMethod"`
+	AwsSecretKey            *string                          `json:"awsSecretKey,omitempty"`
 	// AWS Region where the S3 bucket and SQS queue are located. Required, unless the Queue entry is a URL or ARN that includes a Region.
 	Region *string `json:"region,omitempty"`
 	// S3 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint.
 	Endpoint *string `json:"endpoint,omitempty"`
 	// Signature version to use for signing S3 requests
-	SignatureVersion *InputCrowdstrikeSignatureVersion `default:"v4" json:"signatureVersion"`
+	SignatureVersion *SignatureVersionCrowdstrike `default:"v4" json:"signatureVersion"`
 	// Reuse connections between requests, which can improve performance
 	ReuseConnections *bool `default:"true" json:"reuseConnections"`
 	// Reject certificates that cannot be verified against a valid CA, such as self-signed certificates
@@ -12245,11 +14131,11 @@ type InputCrowdstrike struct {
 	// Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours).
 	DurationSeconds *float64 `default:"3600" json:"durationSeconds"`
 	// Use Assume Role credentials when accessing Amazon SQS
-	EnableSQSAssumeRole *bool                       `default:"false" json:"enableSQSAssumeRole"`
-	Preprocess          *InputCrowdstrikePreprocess `json:"preprocess,omitempty"`
+	EnableSQSAssumeRole *bool                  `default:"false" json:"enableSQSAssumeRole"`
+	Preprocess          *PreprocessCrowdstrike `json:"preprocess,omitempty"`
 	// Fields to add to events from this input
-	Metadata      []InputCrowdstrikeMetadatum    `json:"metadata,omitempty"`
-	Checkpointing *InputCrowdstrikeCheckpointing `json:"checkpointing,omitempty"`
+	Metadata      []MetadatumCrowdstrike    `json:"metadata,omitempty"`
+	Checkpointing *CheckpointingCrowdstrike `json:"checkpointing,omitempty"`
 	// How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts.
 	PollTimeout *float64 `default:"10" json:"pollTimeout"`
 	// Character encoding to use when parsing ingested data. When not set, @{product} will default to UTF-8 but may incorrectly interpret multi-byte characters.
@@ -12257,8 +14143,8 @@ type InputCrowdstrike struct {
 	Description *string `json:"description,omitempty"`
 	AwsAPIKey   *string `json:"awsApiKey,omitempty"`
 	// Select or create a stored secret that references your access key and secret key
-	AwsSecret          *string                             `json:"awsSecret,omitempty"`
-	TagAfterProcessing *InputCrowdstrikeTagAfterProcessing `json:"tagAfterProcessing,omitempty"`
+	AwsSecret          *string                        `json:"awsSecret,omitempty"`
+	TagAfterProcessing *TagAfterProcessingCrowdstrike `json:"tagAfterProcessing,omitempty"`
 	// The key for the S3 object tag applied after processing. This field accepts an expression for dynamic generation.
 	ProcessedTagKey *string `json:"processedTagKey,omitempty"`
 	// The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation.
@@ -12283,9 +14169,9 @@ func (o *InputCrowdstrike) GetID() string {
 	return o.ID
 }
 
-func (o *InputCrowdstrike) GetType() InputCrowdstrikeType {
+func (o *InputCrowdstrike) GetType() TypeCrowdstrike {
 	if o == nil {
-		return InputCrowdstrikeType("")
+		return TypeCrowdstrike("")
 	}
 	return o.Type
 }
@@ -12332,14 +14218,14 @@ func (o *InputCrowdstrike) GetStreamtags() []string {
 	return o.Streamtags
 }
 
-func (o *InputCrowdstrike) GetConnections() []InputCrowdstrikeConnection {
+func (o *InputCrowdstrike) GetConnections() []ConnectionCrowdstrike {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputCrowdstrike) GetPq() *InputCrowdstrikePq {
+func (o *InputCrowdstrike) GetPq() *PqCrowdstrike {
 	if o == nil {
 		return nil
 	}
@@ -12367,7 +14253,7 @@ func (o *InputCrowdstrike) GetAwsAccountID() *string {
 	return o.AwsAccountID
 }
 
-func (o *InputCrowdstrike) GetAwsAuthenticationMethod() *InputCrowdstrikeAuthenticationMethod {
+func (o *InputCrowdstrike) GetAwsAuthenticationMethod() *AuthenticationMethodCrowdstrike {
 	if o == nil {
 		return nil
 	}
@@ -12395,7 +14281,7 @@ func (o *InputCrowdstrike) GetEndpoint() *string {
 	return o.Endpoint
 }
 
-func (o *InputCrowdstrike) GetSignatureVersion() *InputCrowdstrikeSignatureVersion {
+func (o *InputCrowdstrike) GetSignatureVersion() *SignatureVersionCrowdstrike {
 	if o == nil {
 		return nil
 	}
@@ -12500,21 +14386,21 @@ func (o *InputCrowdstrike) GetEnableSQSAssumeRole() *bool {
 	return o.EnableSQSAssumeRole
 }
 
-func (o *InputCrowdstrike) GetPreprocess() *InputCrowdstrikePreprocess {
+func (o *InputCrowdstrike) GetPreprocess() *PreprocessCrowdstrike {
 	if o == nil {
 		return nil
 	}
 	return o.Preprocess
 }
 
-func (o *InputCrowdstrike) GetMetadata() []InputCrowdstrikeMetadatum {
+func (o *InputCrowdstrike) GetMetadata() []MetadatumCrowdstrike {
 	if o == nil {
 		return nil
 	}
 	return o.Metadata
 }
 
-func (o *InputCrowdstrike) GetCheckpointing() *InputCrowdstrikeCheckpointing {
+func (o *InputCrowdstrike) GetCheckpointing() *CheckpointingCrowdstrike {
 	if o == nil {
 		return nil
 	}
@@ -12556,7 +14442,7 @@ func (o *InputCrowdstrike) GetAwsSecret() *string {
 	return o.AwsSecret
 }
 
-func (o *InputCrowdstrike) GetTagAfterProcessing() *InputCrowdstrikeTagAfterProcessing {
+func (o *InputCrowdstrike) GetTagAfterProcessing() *TagAfterProcessingCrowdstrike {
 	if o == nil {
 		return nil
 	}
@@ -12577,62 +14463,105 @@ func (o *InputCrowdstrike) GetProcessedTagValue() *string {
 	return o.ProcessedTagValue
 }
 
-type InputTcpjsonType string
+type TypeTcpjson string
 
 const (
-	InputTcpjsonTypeTcpjson InputTcpjsonType = "tcpjson"
+	TypeTcpjsonTcpjson TypeTcpjson = "tcpjson"
 )
 
-func (e InputTcpjsonType) ToPointer() *InputTcpjsonType {
+func (e TypeTcpjson) ToPointer() *TypeTcpjson {
 	return &e
 }
+func (e *TypeTcpjson) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "tcpjson":
+		*e = TypeTcpjson(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for TypeTcpjson: %v", v)
+	}
+}
 
-type InputTcpjsonConnection struct {
+type ConnectionTcpjson struct {
 	Pipeline *string `json:"pipeline,omitempty"`
 	Output   string  `json:"output"`
 }
 
-func (o *InputTcpjsonConnection) GetPipeline() *string {
+func (o *ConnectionTcpjson) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputTcpjsonConnection) GetOutput() string {
+func (o *ConnectionTcpjson) GetOutput() string {
 	if o == nil {
 		return ""
 	}
 	return o.Output
 }
 
-// InputTcpjsonMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type InputTcpjsonMode string
+// ModeTcpjson - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+type ModeTcpjson string
 
 const (
-	InputTcpjsonModeSmart  InputTcpjsonMode = "smart"
-	InputTcpjsonModeAlways InputTcpjsonMode = "always"
+	ModeTcpjsonSmart  ModeTcpjson = "smart"
+	ModeTcpjsonAlways ModeTcpjson = "always"
 )
 
-func (e InputTcpjsonMode) ToPointer() *InputTcpjsonMode {
+func (e ModeTcpjson) ToPointer() *ModeTcpjson {
 	return &e
 }
+func (e *ModeTcpjson) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = ModeTcpjson(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ModeTcpjson: %v", v)
+	}
+}
 
-// InputTcpjsonCompression - Codec to use to compress the persisted data
-type InputTcpjsonCompression string
+// CompressionTcpjson - Codec to use to compress the persisted data
+type CompressionTcpjson string
 
 const (
-	InputTcpjsonCompressionNone InputTcpjsonCompression = "none"
-	InputTcpjsonCompressionGzip InputTcpjsonCompression = "gzip"
+	CompressionTcpjsonNone CompressionTcpjson = "none"
+	CompressionTcpjsonGzip CompressionTcpjson = "gzip"
 )
 
-func (e InputTcpjsonCompression) ToPointer() *InputTcpjsonCompression {
+func (e CompressionTcpjson) ToPointer() *CompressionTcpjson {
 	return &e
 }
+func (e *CompressionTcpjson) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = CompressionTcpjson(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CompressionTcpjson: %v", v)
+	}
+}
 
-type InputTcpjsonPq struct {
+type PqTcpjson struct {
 	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *InputTcpjsonMode `default:"always" json:"mode"`
+	Mode *ModeTcpjson `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
 	// The number of events to send downstream before committing that Stream has read them
@@ -12644,96 +14573,134 @@ type InputTcpjsonPq struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
 	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
 	// Codec to use to compress the persisted data
-	Compress *InputTcpjsonCompression `default:"none" json:"compress"`
+	Compress *CompressionTcpjson `default:"none" json:"compress"`
 }
 
-func (i InputTcpjsonPq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PqTcpjson) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputTcpjsonPq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PqTcpjson) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputTcpjsonPq) GetMode() *InputTcpjsonMode {
+func (o *PqTcpjson) GetMode() *ModeTcpjson {
 	if o == nil {
 		return nil
 	}
 	return o.Mode
 }
 
-func (o *InputTcpjsonPq) GetMaxBufferSize() *float64 {
+func (o *PqTcpjson) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputTcpjsonPq) GetCommitFrequency() *float64 {
+func (o *PqTcpjson) GetCommitFrequency() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.CommitFrequency
 }
 
-func (o *InputTcpjsonPq) GetMaxFileSize() *string {
+func (o *PqTcpjson) GetMaxFileSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxFileSize
 }
 
-func (o *InputTcpjsonPq) GetMaxSize() *string {
+func (o *PqTcpjson) GetMaxSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxSize
 }
 
-func (o *InputTcpjsonPq) GetPath() *string {
+func (o *PqTcpjson) GetPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Path
 }
 
-func (o *InputTcpjsonPq) GetCompress() *InputTcpjsonCompression {
+func (o *PqTcpjson) GetCompress() *CompressionTcpjson {
 	if o == nil {
 		return nil
 	}
 	return o.Compress
 }
 
-type InputTcpjsonMinimumTLSVersion string
+type MinimumTLSVersionTcpjson string
 
 const (
-	InputTcpjsonMinimumTLSVersionTlSv1  InputTcpjsonMinimumTLSVersion = "TLSv1"
-	InputTcpjsonMinimumTLSVersionTlSv11 InputTcpjsonMinimumTLSVersion = "TLSv1.1"
-	InputTcpjsonMinimumTLSVersionTlSv12 InputTcpjsonMinimumTLSVersion = "TLSv1.2"
-	InputTcpjsonMinimumTLSVersionTlSv13 InputTcpjsonMinimumTLSVersion = "TLSv1.3"
+	MinimumTLSVersionTcpjsonTlSv1  MinimumTLSVersionTcpjson = "TLSv1"
+	MinimumTLSVersionTcpjsonTlSv11 MinimumTLSVersionTcpjson = "TLSv1.1"
+	MinimumTLSVersionTcpjsonTlSv12 MinimumTLSVersionTcpjson = "TLSv1.2"
+	MinimumTLSVersionTcpjsonTlSv13 MinimumTLSVersionTcpjson = "TLSv1.3"
 )
 
-func (e InputTcpjsonMinimumTLSVersion) ToPointer() *InputTcpjsonMinimumTLSVersion {
+func (e MinimumTLSVersionTcpjson) ToPointer() *MinimumTLSVersionTcpjson {
 	return &e
 }
+func (e *MinimumTLSVersionTcpjson) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = MinimumTLSVersionTcpjson(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for MinimumTLSVersionTcpjson: %v", v)
+	}
+}
 
-type InputTcpjsonMaximumTLSVersion string
+type MaximumTLSVersionTcpjson string
 
 const (
-	InputTcpjsonMaximumTLSVersionTlSv1  InputTcpjsonMaximumTLSVersion = "TLSv1"
-	InputTcpjsonMaximumTLSVersionTlSv11 InputTcpjsonMaximumTLSVersion = "TLSv1.1"
-	InputTcpjsonMaximumTLSVersionTlSv12 InputTcpjsonMaximumTLSVersion = "TLSv1.2"
-	InputTcpjsonMaximumTLSVersionTlSv13 InputTcpjsonMaximumTLSVersion = "TLSv1.3"
+	MaximumTLSVersionTcpjsonTlSv1  MaximumTLSVersionTcpjson = "TLSv1"
+	MaximumTLSVersionTcpjsonTlSv11 MaximumTLSVersionTcpjson = "TLSv1.1"
+	MaximumTLSVersionTcpjsonTlSv12 MaximumTLSVersionTcpjson = "TLSv1.2"
+	MaximumTLSVersionTcpjsonTlSv13 MaximumTLSVersionTcpjson = "TLSv1.3"
 )
 
-func (e InputTcpjsonMaximumTLSVersion) ToPointer() *InputTcpjsonMaximumTLSVersion {
+func (e MaximumTLSVersionTcpjson) ToPointer() *MaximumTLSVersionTcpjson {
 	return &e
 }
+func (e *MaximumTLSVersionTcpjson) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = MaximumTLSVersionTcpjson(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for MaximumTLSVersionTcpjson: %v", v)
+	}
+}
 
-type InputTcpjsonTLSSettingsServerSide struct {
+type TLSSettingsServerSideTcpjson struct {
 	Disabled *bool `default:"true" json:"disabled"`
 	// The name of the predefined certificate
 	CertificateName *string `json:"certificateName,omitempty"`
@@ -12746,138 +14713,153 @@ type InputTcpjsonTLSSettingsServerSide struct {
 	// Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS.
 	CaPath *string `json:"caPath,omitempty"`
 	// Require clients to present their certificates. Used to perform client authentication using SSL certs.
-	RequestCert        *bool                          `default:"false" json:"requestCert"`
-	RejectUnauthorized any                            `json:"rejectUnauthorized,omitempty"`
-	CommonNameRegex    any                            `json:"commonNameRegex,omitempty"`
-	MinVersion         *InputTcpjsonMinimumTLSVersion `json:"minVersion,omitempty"`
-	MaxVersion         *InputTcpjsonMaximumTLSVersion `json:"maxVersion,omitempty"`
+	RequestCert        *bool                     `default:"false" json:"requestCert"`
+	RejectUnauthorized any                       `json:"rejectUnauthorized,omitempty"`
+	CommonNameRegex    any                       `json:"commonNameRegex,omitempty"`
+	MinVersion         *MinimumTLSVersionTcpjson `json:"minVersion,omitempty"`
+	MaxVersion         *MaximumTLSVersionTcpjson `json:"maxVersion,omitempty"`
 }
 
-func (i InputTcpjsonTLSSettingsServerSide) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (t TLSSettingsServerSideTcpjson) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(t, "", false)
 }
 
-func (i *InputTcpjsonTLSSettingsServerSide) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (t *TLSSettingsServerSideTcpjson) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &t, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputTcpjsonTLSSettingsServerSide) GetDisabled() *bool {
+func (o *TLSSettingsServerSideTcpjson) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *InputTcpjsonTLSSettingsServerSide) GetCertificateName() *string {
+func (o *TLSSettingsServerSideTcpjson) GetCertificateName() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertificateName
 }
 
-func (o *InputTcpjsonTLSSettingsServerSide) GetPrivKeyPath() *string {
+func (o *TLSSettingsServerSideTcpjson) GetPrivKeyPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.PrivKeyPath
 }
 
-func (o *InputTcpjsonTLSSettingsServerSide) GetPassphrase() *string {
+func (o *TLSSettingsServerSideTcpjson) GetPassphrase() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Passphrase
 }
 
-func (o *InputTcpjsonTLSSettingsServerSide) GetCertPath() *string {
+func (o *TLSSettingsServerSideTcpjson) GetCertPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertPath
 }
 
-func (o *InputTcpjsonTLSSettingsServerSide) GetCaPath() *string {
+func (o *TLSSettingsServerSideTcpjson) GetCaPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CaPath
 }
 
-func (o *InputTcpjsonTLSSettingsServerSide) GetRequestCert() *bool {
+func (o *TLSSettingsServerSideTcpjson) GetRequestCert() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.RequestCert
 }
 
-func (o *InputTcpjsonTLSSettingsServerSide) GetRejectUnauthorized() any {
+func (o *TLSSettingsServerSideTcpjson) GetRejectUnauthorized() any {
 	if o == nil {
 		return nil
 	}
 	return o.RejectUnauthorized
 }
 
-func (o *InputTcpjsonTLSSettingsServerSide) GetCommonNameRegex() any {
+func (o *TLSSettingsServerSideTcpjson) GetCommonNameRegex() any {
 	if o == nil {
 		return nil
 	}
 	return o.CommonNameRegex
 }
 
-func (o *InputTcpjsonTLSSettingsServerSide) GetMinVersion() *InputTcpjsonMinimumTLSVersion {
+func (o *TLSSettingsServerSideTcpjson) GetMinVersion() *MinimumTLSVersionTcpjson {
 	if o == nil {
 		return nil
 	}
 	return o.MinVersion
 }
 
-func (o *InputTcpjsonTLSSettingsServerSide) GetMaxVersion() *InputTcpjsonMaximumTLSVersion {
+func (o *TLSSettingsServerSideTcpjson) GetMaxVersion() *MaximumTLSVersionTcpjson {
 	if o == nil {
 		return nil
 	}
 	return o.MaxVersion
 }
 
-type InputTcpjsonMetadatum struct {
+type MetadatumTcpjson struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputTcpjsonMetadatum) GetName() string {
+func (o *MetadatumTcpjson) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputTcpjsonMetadatum) GetValue() string {
+func (o *MetadatumTcpjson) GetValue() string {
 	if o == nil {
 		return ""
 	}
 	return o.Value
 }
 
-// InputTcpjsonAuthenticationMethod - Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate
-type InputTcpjsonAuthenticationMethod string
+// AuthenticationMethodTcpjson - Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate
+type AuthenticationMethodTcpjson string
 
 const (
-	InputTcpjsonAuthenticationMethodManual InputTcpjsonAuthenticationMethod = "manual"
-	InputTcpjsonAuthenticationMethodSecret InputTcpjsonAuthenticationMethod = "secret"
+	AuthenticationMethodTcpjsonManual AuthenticationMethodTcpjson = "manual"
+	AuthenticationMethodTcpjsonSecret AuthenticationMethodTcpjson = "secret"
 )
 
-func (e InputTcpjsonAuthenticationMethod) ToPointer() *InputTcpjsonAuthenticationMethod {
+func (e AuthenticationMethodTcpjson) ToPointer() *AuthenticationMethodTcpjson {
 	return &e
+}
+func (e *AuthenticationMethodTcpjson) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = AuthenticationMethodTcpjson(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for AuthenticationMethodTcpjson: %v", v)
+	}
 }
 
 type InputTcpjson struct {
 	// Unique ID for this input
-	ID       string            `json:"id"`
-	Type     *InputTcpjsonType `json:"type,omitempty"`
-	Disabled *bool             `default:"false" json:"disabled"`
+	ID       string       `json:"id"`
+	Type     *TypeTcpjson `json:"type,omitempty"`
+	Disabled *bool        `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -12889,13 +14871,13 @@ type InputTcpjson struct {
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputTcpjsonConnection `json:"connections,omitempty"`
-	Pq          *InputTcpjsonPq          `json:"pq,omitempty"`
+	Connections []ConnectionTcpjson `json:"connections,omitempty"`
+	Pq          *PqTcpjson          `json:"pq,omitempty"`
 	// Address to bind on. Defaults to 0.0.0.0 (all addresses).
 	Host *string `default:"0.0.0.0" json:"host"`
 	// Port to listen on
-	Port float64                            `json:"port"`
-	TLS  *InputTcpjsonTLSSettingsServerSide `json:"tls,omitempty"`
+	Port float64                       `json:"port"`
+	TLS  *TLSSettingsServerSideTcpjson `json:"tls,omitempty"`
 	// Regex matching IP addresses that are allowed to establish a connection
 	IPWhitelistRegex *string `default:"/.*/" json:"ipWhitelistRegex"`
 	// Maximum number of active connections allowed per Worker Process. Use 0 for unlimited.
@@ -12909,12 +14891,12 @@ type InputTcpjson struct {
 	// Enable if the connection is proxied by a device that supports proxy protocol v1 or v2
 	EnableProxyHeader *bool `default:"false" json:"enableProxyHeader"`
 	// Fields to add to events from this input
-	Metadata []InputTcpjsonMetadatum `json:"metadata,omitempty"`
+	Metadata []MetadatumTcpjson `json:"metadata,omitempty"`
 	// Load balance traffic across all Worker Processes
 	EnableLoadBalancing *bool `default:"false" json:"enableLoadBalancing"`
 	// Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate
-	AuthType    *InputTcpjsonAuthenticationMethod `default:"manual" json:"authType"`
-	Description *string                           `json:"description,omitempty"`
+	AuthType    *AuthenticationMethodTcpjson `default:"manual" json:"authType"`
+	Description *string                      `json:"description,omitempty"`
 	// Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted.
 	AuthToken *string `default:"" json:"authToken"`
 	// Select or create a stored text secret
@@ -12939,7 +14921,7 @@ func (o *InputTcpjson) GetID() string {
 	return o.ID
 }
 
-func (o *InputTcpjson) GetType() *InputTcpjsonType {
+func (o *InputTcpjson) GetType() *TypeTcpjson {
 	if o == nil {
 		return nil
 	}
@@ -12988,14 +14970,14 @@ func (o *InputTcpjson) GetStreamtags() []string {
 	return o.Streamtags
 }
 
-func (o *InputTcpjson) GetConnections() []InputTcpjsonConnection {
+func (o *InputTcpjson) GetConnections() []ConnectionTcpjson {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputTcpjson) GetPq() *InputTcpjsonPq {
+func (o *InputTcpjson) GetPq() *PqTcpjson {
 	if o == nil {
 		return nil
 	}
@@ -13016,7 +14998,7 @@ func (o *InputTcpjson) GetPort() float64 {
 	return o.Port
 }
 
-func (o *InputTcpjson) GetTLS() *InputTcpjsonTLSSettingsServerSide {
+func (o *InputTcpjson) GetTLS() *TLSSettingsServerSideTcpjson {
 	if o == nil {
 		return nil
 	}
@@ -13065,7 +15047,7 @@ func (o *InputTcpjson) GetEnableProxyHeader() *bool {
 	return o.EnableProxyHeader
 }
 
-func (o *InputTcpjson) GetMetadata() []InputTcpjsonMetadatum {
+func (o *InputTcpjson) GetMetadata() []MetadatumTcpjson {
 	if o == nil {
 		return nil
 	}
@@ -13079,7 +15061,7 @@ func (o *InputTcpjson) GetEnableLoadBalancing() *bool {
 	return o.EnableLoadBalancing
 }
 
-func (o *InputTcpjson) GetAuthType() *InputTcpjsonAuthenticationMethod {
+func (o *InputTcpjson) GetAuthType() *AuthenticationMethodTcpjson {
 	if o == nil {
 		return nil
 	}
@@ -13107,62 +15089,105 @@ func (o *InputTcpjson) GetTextSecret() *string {
 	return o.TextSecret
 }
 
-type InputCriblLakeHTTPType string
+type TypeCriblLakeHTTP string
 
 const (
-	InputCriblLakeHTTPTypeCriblLakeHTTP InputCriblLakeHTTPType = "cribl_lake_http"
+	TypeCriblLakeHTTPCriblLakeHTTP TypeCriblLakeHTTP = "cribl_lake_http"
 )
 
-func (e InputCriblLakeHTTPType) ToPointer() *InputCriblLakeHTTPType {
+func (e TypeCriblLakeHTTP) ToPointer() *TypeCriblLakeHTTP {
 	return &e
 }
+func (e *TypeCriblLakeHTTP) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "cribl_lake_http":
+		*e = TypeCriblLakeHTTP(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for TypeCriblLakeHTTP: %v", v)
+	}
+}
 
-type InputCriblLakeHTTPConnection struct {
+type ConnectionCriblLakeHTTP struct {
 	Pipeline *string `json:"pipeline,omitempty"`
 	Output   string  `json:"output"`
 }
 
-func (o *InputCriblLakeHTTPConnection) GetPipeline() *string {
+func (o *ConnectionCriblLakeHTTP) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputCriblLakeHTTPConnection) GetOutput() string {
+func (o *ConnectionCriblLakeHTTP) GetOutput() string {
 	if o == nil {
 		return ""
 	}
 	return o.Output
 }
 
-// InputCriblLakeHTTPMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type InputCriblLakeHTTPMode string
+// ModeCriblLakeHTTP - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+type ModeCriblLakeHTTP string
 
 const (
-	InputCriblLakeHTTPModeSmart  InputCriblLakeHTTPMode = "smart"
-	InputCriblLakeHTTPModeAlways InputCriblLakeHTTPMode = "always"
+	ModeCriblLakeHTTPSmart  ModeCriblLakeHTTP = "smart"
+	ModeCriblLakeHTTPAlways ModeCriblLakeHTTP = "always"
 )
 
-func (e InputCriblLakeHTTPMode) ToPointer() *InputCriblLakeHTTPMode {
+func (e ModeCriblLakeHTTP) ToPointer() *ModeCriblLakeHTTP {
 	return &e
 }
+func (e *ModeCriblLakeHTTP) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = ModeCriblLakeHTTP(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ModeCriblLakeHTTP: %v", v)
+	}
+}
 
-// InputCriblLakeHTTPCompression - Codec to use to compress the persisted data
-type InputCriblLakeHTTPCompression string
+// CompressionCriblLakeHTTP - Codec to use to compress the persisted data
+type CompressionCriblLakeHTTP string
 
 const (
-	InputCriblLakeHTTPCompressionNone InputCriblLakeHTTPCompression = "none"
-	InputCriblLakeHTTPCompressionGzip InputCriblLakeHTTPCompression = "gzip"
+	CompressionCriblLakeHTTPNone CompressionCriblLakeHTTP = "none"
+	CompressionCriblLakeHTTPGzip CompressionCriblLakeHTTP = "gzip"
 )
 
-func (e InputCriblLakeHTTPCompression) ToPointer() *InputCriblLakeHTTPCompression {
+func (e CompressionCriblLakeHTTP) ToPointer() *CompressionCriblLakeHTTP {
 	return &e
 }
+func (e *CompressionCriblLakeHTTP) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = CompressionCriblLakeHTTP(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CompressionCriblLakeHTTP: %v", v)
+	}
+}
 
-type InputCriblLakeHTTPPq struct {
+type PqCriblLakeHTTP struct {
 	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *InputCriblLakeHTTPMode `default:"always" json:"mode"`
+	Mode *ModeCriblLakeHTTP `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
 	// The number of events to send downstream before committing that Stream has read them
@@ -13174,96 +15199,134 @@ type InputCriblLakeHTTPPq struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
 	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
 	// Codec to use to compress the persisted data
-	Compress *InputCriblLakeHTTPCompression `default:"none" json:"compress"`
+	Compress *CompressionCriblLakeHTTP `default:"none" json:"compress"`
 }
 
-func (i InputCriblLakeHTTPPq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PqCriblLakeHTTP) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputCriblLakeHTTPPq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PqCriblLakeHTTP) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputCriblLakeHTTPPq) GetMode() *InputCriblLakeHTTPMode {
+func (o *PqCriblLakeHTTP) GetMode() *ModeCriblLakeHTTP {
 	if o == nil {
 		return nil
 	}
 	return o.Mode
 }
 
-func (o *InputCriblLakeHTTPPq) GetMaxBufferSize() *float64 {
+func (o *PqCriblLakeHTTP) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputCriblLakeHTTPPq) GetCommitFrequency() *float64 {
+func (o *PqCriblLakeHTTP) GetCommitFrequency() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.CommitFrequency
 }
 
-func (o *InputCriblLakeHTTPPq) GetMaxFileSize() *string {
+func (o *PqCriblLakeHTTP) GetMaxFileSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxFileSize
 }
 
-func (o *InputCriblLakeHTTPPq) GetMaxSize() *string {
+func (o *PqCriblLakeHTTP) GetMaxSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxSize
 }
 
-func (o *InputCriblLakeHTTPPq) GetPath() *string {
+func (o *PqCriblLakeHTTP) GetPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Path
 }
 
-func (o *InputCriblLakeHTTPPq) GetCompress() *InputCriblLakeHTTPCompression {
+func (o *PqCriblLakeHTTP) GetCompress() *CompressionCriblLakeHTTP {
 	if o == nil {
 		return nil
 	}
 	return o.Compress
 }
 
-type InputCriblLakeHTTPMinimumTLSVersion string
+type MinimumTLSVersionCriblLakeHTTP string
 
 const (
-	InputCriblLakeHTTPMinimumTLSVersionTlSv1  InputCriblLakeHTTPMinimumTLSVersion = "TLSv1"
-	InputCriblLakeHTTPMinimumTLSVersionTlSv11 InputCriblLakeHTTPMinimumTLSVersion = "TLSv1.1"
-	InputCriblLakeHTTPMinimumTLSVersionTlSv12 InputCriblLakeHTTPMinimumTLSVersion = "TLSv1.2"
-	InputCriblLakeHTTPMinimumTLSVersionTlSv13 InputCriblLakeHTTPMinimumTLSVersion = "TLSv1.3"
+	MinimumTLSVersionCriblLakeHTTPTlSv1  MinimumTLSVersionCriblLakeHTTP = "TLSv1"
+	MinimumTLSVersionCriblLakeHTTPTlSv11 MinimumTLSVersionCriblLakeHTTP = "TLSv1.1"
+	MinimumTLSVersionCriblLakeHTTPTlSv12 MinimumTLSVersionCriblLakeHTTP = "TLSv1.2"
+	MinimumTLSVersionCriblLakeHTTPTlSv13 MinimumTLSVersionCriblLakeHTTP = "TLSv1.3"
 )
 
-func (e InputCriblLakeHTTPMinimumTLSVersion) ToPointer() *InputCriblLakeHTTPMinimumTLSVersion {
+func (e MinimumTLSVersionCriblLakeHTTP) ToPointer() *MinimumTLSVersionCriblLakeHTTP {
 	return &e
 }
+func (e *MinimumTLSVersionCriblLakeHTTP) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = MinimumTLSVersionCriblLakeHTTP(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for MinimumTLSVersionCriblLakeHTTP: %v", v)
+	}
+}
 
-type InputCriblLakeHTTPMaximumTLSVersion string
+type MaximumTLSVersionCriblLakeHTTP string
 
 const (
-	InputCriblLakeHTTPMaximumTLSVersionTlSv1  InputCriblLakeHTTPMaximumTLSVersion = "TLSv1"
-	InputCriblLakeHTTPMaximumTLSVersionTlSv11 InputCriblLakeHTTPMaximumTLSVersion = "TLSv1.1"
-	InputCriblLakeHTTPMaximumTLSVersionTlSv12 InputCriblLakeHTTPMaximumTLSVersion = "TLSv1.2"
-	InputCriblLakeHTTPMaximumTLSVersionTlSv13 InputCriblLakeHTTPMaximumTLSVersion = "TLSv1.3"
+	MaximumTLSVersionCriblLakeHTTPTlSv1  MaximumTLSVersionCriblLakeHTTP = "TLSv1"
+	MaximumTLSVersionCriblLakeHTTPTlSv11 MaximumTLSVersionCriblLakeHTTP = "TLSv1.1"
+	MaximumTLSVersionCriblLakeHTTPTlSv12 MaximumTLSVersionCriblLakeHTTP = "TLSv1.2"
+	MaximumTLSVersionCriblLakeHTTPTlSv13 MaximumTLSVersionCriblLakeHTTP = "TLSv1.3"
 )
 
-func (e InputCriblLakeHTTPMaximumTLSVersion) ToPointer() *InputCriblLakeHTTPMaximumTLSVersion {
+func (e MaximumTLSVersionCriblLakeHTTP) ToPointer() *MaximumTLSVersionCriblLakeHTTP {
 	return &e
 }
+func (e *MaximumTLSVersionCriblLakeHTTP) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = MaximumTLSVersionCriblLakeHTTP(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for MaximumTLSVersionCriblLakeHTTP: %v", v)
+	}
+}
 
-type InputCriblLakeHTTPTLSSettingsServerSide struct {
+type TLSSettingsServerSideCriblLakeHTTP struct {
 	Disabled *bool `default:"true" json:"disabled"`
 	// The name of the predefined certificate
 	CertificateName *string `json:"certificateName,omitempty"`
@@ -13276,115 +15339,115 @@ type InputCriblLakeHTTPTLSSettingsServerSide struct {
 	// Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS.
 	CaPath *string `json:"caPath,omitempty"`
 	// Require clients to present their certificates. Used to perform client authentication using SSL certs.
-	RequestCert        *bool                                `default:"false" json:"requestCert"`
-	RejectUnauthorized any                                  `json:"rejectUnauthorized,omitempty"`
-	CommonNameRegex    any                                  `json:"commonNameRegex,omitempty"`
-	MinVersion         *InputCriblLakeHTTPMinimumTLSVersion `json:"minVersion,omitempty"`
-	MaxVersion         *InputCriblLakeHTTPMaximumTLSVersion `json:"maxVersion,omitempty"`
+	RequestCert        *bool                           `default:"false" json:"requestCert"`
+	RejectUnauthorized any                             `json:"rejectUnauthorized,omitempty"`
+	CommonNameRegex    any                             `json:"commonNameRegex,omitempty"`
+	MinVersion         *MinimumTLSVersionCriblLakeHTTP `json:"minVersion,omitempty"`
+	MaxVersion         *MaximumTLSVersionCriblLakeHTTP `json:"maxVersion,omitempty"`
 }
 
-func (i InputCriblLakeHTTPTLSSettingsServerSide) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (t TLSSettingsServerSideCriblLakeHTTP) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(t, "", false)
 }
 
-func (i *InputCriblLakeHTTPTLSSettingsServerSide) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (t *TLSSettingsServerSideCriblLakeHTTP) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &t, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputCriblLakeHTTPTLSSettingsServerSide) GetDisabled() *bool {
+func (o *TLSSettingsServerSideCriblLakeHTTP) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *InputCriblLakeHTTPTLSSettingsServerSide) GetCertificateName() *string {
+func (o *TLSSettingsServerSideCriblLakeHTTP) GetCertificateName() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertificateName
 }
 
-func (o *InputCriblLakeHTTPTLSSettingsServerSide) GetPrivKeyPath() *string {
+func (o *TLSSettingsServerSideCriblLakeHTTP) GetPrivKeyPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.PrivKeyPath
 }
 
-func (o *InputCriblLakeHTTPTLSSettingsServerSide) GetPassphrase() *string {
+func (o *TLSSettingsServerSideCriblLakeHTTP) GetPassphrase() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Passphrase
 }
 
-func (o *InputCriblLakeHTTPTLSSettingsServerSide) GetCertPath() *string {
+func (o *TLSSettingsServerSideCriblLakeHTTP) GetCertPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertPath
 }
 
-func (o *InputCriblLakeHTTPTLSSettingsServerSide) GetCaPath() *string {
+func (o *TLSSettingsServerSideCriblLakeHTTP) GetCaPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CaPath
 }
 
-func (o *InputCriblLakeHTTPTLSSettingsServerSide) GetRequestCert() *bool {
+func (o *TLSSettingsServerSideCriblLakeHTTP) GetRequestCert() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.RequestCert
 }
 
-func (o *InputCriblLakeHTTPTLSSettingsServerSide) GetRejectUnauthorized() any {
+func (o *TLSSettingsServerSideCriblLakeHTTP) GetRejectUnauthorized() any {
 	if o == nil {
 		return nil
 	}
 	return o.RejectUnauthorized
 }
 
-func (o *InputCriblLakeHTTPTLSSettingsServerSide) GetCommonNameRegex() any {
+func (o *TLSSettingsServerSideCriblLakeHTTP) GetCommonNameRegex() any {
 	if o == nil {
 		return nil
 	}
 	return o.CommonNameRegex
 }
 
-func (o *InputCriblLakeHTTPTLSSettingsServerSide) GetMinVersion() *InputCriblLakeHTTPMinimumTLSVersion {
+func (o *TLSSettingsServerSideCriblLakeHTTP) GetMinVersion() *MinimumTLSVersionCriblLakeHTTP {
 	if o == nil {
 		return nil
 	}
 	return o.MinVersion
 }
 
-func (o *InputCriblLakeHTTPTLSSettingsServerSide) GetMaxVersion() *InputCriblLakeHTTPMaximumTLSVersion {
+func (o *TLSSettingsServerSideCriblLakeHTTP) GetMaxVersion() *MaximumTLSVersionCriblLakeHTTP {
 	if o == nil {
 		return nil
 	}
 	return o.MaxVersion
 }
 
-type InputCriblLakeHTTPMetadatum struct {
+type MetadatumCriblLakeHTTP struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputCriblLakeHTTPMetadatum) GetName() string {
+func (o *MetadatumCriblLakeHTTP) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputCriblLakeHTTPMetadatum) GetValue() string {
+func (o *MetadatumCriblLakeHTTP) GetValue() string {
 	if o == nil {
 		return ""
 	}
@@ -13393,9 +15456,9 @@ func (o *InputCriblLakeHTTPMetadatum) GetValue() string {
 
 type InputCriblLakeHTTP struct {
 	// Unique ID for this input
-	ID       string                  `json:"id"`
-	Type     *InputCriblLakeHTTPType `json:"type,omitempty"`
-	Disabled *bool                   `default:"false" json:"disabled"`
+	ID       string             `json:"id"`
+	Type     *TypeCriblLakeHTTP `json:"type,omitempty"`
+	Disabled *bool              `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -13407,15 +15470,15 @@ type InputCriblLakeHTTP struct {
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputCriblLakeHTTPConnection `json:"connections,omitempty"`
-	Pq          *InputCriblLakeHTTPPq          `json:"pq,omitempty"`
+	Connections []ConnectionCriblLakeHTTP `json:"connections,omitempty"`
+	Pq          *PqCriblLakeHTTP          `json:"pq,omitempty"`
 	// Address to bind on. Defaults to 0.0.0.0 (all addresses).
 	Host *string `default:"0.0.0.0" json:"host"`
 	// Port to listen on
 	Port float64 `json:"port"`
 	// Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted.
-	AuthTokens []string                                 `json:"authTokens,omitempty"`
-	TLS        *InputCriblLakeHTTPTLSSettingsServerSide `json:"tls,omitempty"`
+	AuthTokens []string                            `json:"authTokens,omitempty"`
+	TLS        *TLSSettingsServerSideCriblLakeHTTP `json:"tls,omitempty"`
 	// Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput.
 	MaxActiveReq *float64 `default:"256" json:"maxActiveReq"`
 	// Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited).
@@ -13439,8 +15502,8 @@ type InputCriblLakeHTTP struct {
 	// Messages from matched IP addresses will be ignored. This takes precedence over the allowlist.
 	IPDenylistRegex *string `default:"/^\\$/" json:"ipDenylistRegex"`
 	// Fields to add to events from this input
-	Metadata    []InputCriblLakeHTTPMetadatum `json:"metadata,omitempty"`
-	Description *string                       `json:"description,omitempty"`
+	Metadata    []MetadatumCriblLakeHTTP `json:"metadata,omitempty"`
+	Description *string                  `json:"description,omitempty"`
 }
 
 func (i InputCriblLakeHTTP) MarshalJSON() ([]byte, error) {
@@ -13461,7 +15524,7 @@ func (o *InputCriblLakeHTTP) GetID() string {
 	return o.ID
 }
 
-func (o *InputCriblLakeHTTP) GetType() *InputCriblLakeHTTPType {
+func (o *InputCriblLakeHTTP) GetType() *TypeCriblLakeHTTP {
 	if o == nil {
 		return nil
 	}
@@ -13510,14 +15573,14 @@ func (o *InputCriblLakeHTTP) GetStreamtags() []string {
 	return o.Streamtags
 }
 
-func (o *InputCriblLakeHTTP) GetConnections() []InputCriblLakeHTTPConnection {
+func (o *InputCriblLakeHTTP) GetConnections() []ConnectionCriblLakeHTTP {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputCriblLakeHTTP) GetPq() *InputCriblLakeHTTPPq {
+func (o *InputCriblLakeHTTP) GetPq() *PqCriblLakeHTTP {
 	if o == nil {
 		return nil
 	}
@@ -13545,7 +15608,7 @@ func (o *InputCriblLakeHTTP) GetAuthTokens() []string {
 	return o.AuthTokens
 }
 
-func (o *InputCriblLakeHTTP) GetTLS() *InputCriblLakeHTTPTLSSettingsServerSide {
+func (o *InputCriblLakeHTTP) GetTLS() *TLSSettingsServerSideCriblLakeHTTP {
 	if o == nil {
 		return nil
 	}
@@ -13629,7 +15692,7 @@ func (o *InputCriblLakeHTTP) GetIPDenylistRegex() *string {
 	return o.IPDenylistRegex
 }
 
-func (o *InputCriblLakeHTTP) GetMetadata() []InputCriblLakeHTTPMetadatum {
+func (o *InputCriblLakeHTTP) GetMetadata() []MetadatumCriblLakeHTTP {
 	if o == nil {
 		return nil
 	}
@@ -13643,62 +15706,105 @@ func (o *InputCriblLakeHTTP) GetDescription() *string {
 	return o.Description
 }
 
-type InputCriblHTTPType string
+type TypeCriblHTTP string
 
 const (
-	InputCriblHTTPTypeCriblHTTP InputCriblHTTPType = "cribl_http"
+	TypeCriblHTTPCriblHTTP TypeCriblHTTP = "cribl_http"
 )
 
-func (e InputCriblHTTPType) ToPointer() *InputCriblHTTPType {
+func (e TypeCriblHTTP) ToPointer() *TypeCriblHTTP {
 	return &e
 }
+func (e *TypeCriblHTTP) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "cribl_http":
+		*e = TypeCriblHTTP(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for TypeCriblHTTP: %v", v)
+	}
+}
 
-type InputCriblHTTPConnection struct {
+type ConnectionCriblHTTP struct {
 	Pipeline *string `json:"pipeline,omitempty"`
 	Output   string  `json:"output"`
 }
 
-func (o *InputCriblHTTPConnection) GetPipeline() *string {
+func (o *ConnectionCriblHTTP) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputCriblHTTPConnection) GetOutput() string {
+func (o *ConnectionCriblHTTP) GetOutput() string {
 	if o == nil {
 		return ""
 	}
 	return o.Output
 }
 
-// InputCriblHTTPMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type InputCriblHTTPMode string
+// ModeCriblHTTP - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+type ModeCriblHTTP string
 
 const (
-	InputCriblHTTPModeSmart  InputCriblHTTPMode = "smart"
-	InputCriblHTTPModeAlways InputCriblHTTPMode = "always"
+	ModeCriblHTTPSmart  ModeCriblHTTP = "smart"
+	ModeCriblHTTPAlways ModeCriblHTTP = "always"
 )
 
-func (e InputCriblHTTPMode) ToPointer() *InputCriblHTTPMode {
+func (e ModeCriblHTTP) ToPointer() *ModeCriblHTTP {
 	return &e
 }
+func (e *ModeCriblHTTP) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = ModeCriblHTTP(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ModeCriblHTTP: %v", v)
+	}
+}
 
-// InputCriblHTTPCompression - Codec to use to compress the persisted data
-type InputCriblHTTPCompression string
+// CompressionCriblHTTP - Codec to use to compress the persisted data
+type CompressionCriblHTTP string
 
 const (
-	InputCriblHTTPCompressionNone InputCriblHTTPCompression = "none"
-	InputCriblHTTPCompressionGzip InputCriblHTTPCompression = "gzip"
+	CompressionCriblHTTPNone CompressionCriblHTTP = "none"
+	CompressionCriblHTTPGzip CompressionCriblHTTP = "gzip"
 )
 
-func (e InputCriblHTTPCompression) ToPointer() *InputCriblHTTPCompression {
+func (e CompressionCriblHTTP) ToPointer() *CompressionCriblHTTP {
 	return &e
 }
+func (e *CompressionCriblHTTP) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = CompressionCriblHTTP(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CompressionCriblHTTP: %v", v)
+	}
+}
 
-type InputCriblHTTPPq struct {
+type PqCriblHTTP struct {
 	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *InputCriblHTTPMode `default:"always" json:"mode"`
+	Mode *ModeCriblHTTP `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
 	// The number of events to send downstream before committing that Stream has read them
@@ -13710,96 +15816,134 @@ type InputCriblHTTPPq struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
 	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
 	// Codec to use to compress the persisted data
-	Compress *InputCriblHTTPCompression `default:"none" json:"compress"`
+	Compress *CompressionCriblHTTP `default:"none" json:"compress"`
 }
 
-func (i InputCriblHTTPPq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PqCriblHTTP) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputCriblHTTPPq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PqCriblHTTP) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputCriblHTTPPq) GetMode() *InputCriblHTTPMode {
+func (o *PqCriblHTTP) GetMode() *ModeCriblHTTP {
 	if o == nil {
 		return nil
 	}
 	return o.Mode
 }
 
-func (o *InputCriblHTTPPq) GetMaxBufferSize() *float64 {
+func (o *PqCriblHTTP) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputCriblHTTPPq) GetCommitFrequency() *float64 {
+func (o *PqCriblHTTP) GetCommitFrequency() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.CommitFrequency
 }
 
-func (o *InputCriblHTTPPq) GetMaxFileSize() *string {
+func (o *PqCriblHTTP) GetMaxFileSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxFileSize
 }
 
-func (o *InputCriblHTTPPq) GetMaxSize() *string {
+func (o *PqCriblHTTP) GetMaxSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxSize
 }
 
-func (o *InputCriblHTTPPq) GetPath() *string {
+func (o *PqCriblHTTP) GetPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Path
 }
 
-func (o *InputCriblHTTPPq) GetCompress() *InputCriblHTTPCompression {
+func (o *PqCriblHTTP) GetCompress() *CompressionCriblHTTP {
 	if o == nil {
 		return nil
 	}
 	return o.Compress
 }
 
-type InputCriblHTTPMinimumTLSVersion string
+type MinimumTLSVersionCriblHTTP string
 
 const (
-	InputCriblHTTPMinimumTLSVersionTlSv1  InputCriblHTTPMinimumTLSVersion = "TLSv1"
-	InputCriblHTTPMinimumTLSVersionTlSv11 InputCriblHTTPMinimumTLSVersion = "TLSv1.1"
-	InputCriblHTTPMinimumTLSVersionTlSv12 InputCriblHTTPMinimumTLSVersion = "TLSv1.2"
-	InputCriblHTTPMinimumTLSVersionTlSv13 InputCriblHTTPMinimumTLSVersion = "TLSv1.3"
+	MinimumTLSVersionCriblHTTPTlSv1  MinimumTLSVersionCriblHTTP = "TLSv1"
+	MinimumTLSVersionCriblHTTPTlSv11 MinimumTLSVersionCriblHTTP = "TLSv1.1"
+	MinimumTLSVersionCriblHTTPTlSv12 MinimumTLSVersionCriblHTTP = "TLSv1.2"
+	MinimumTLSVersionCriblHTTPTlSv13 MinimumTLSVersionCriblHTTP = "TLSv1.3"
 )
 
-func (e InputCriblHTTPMinimumTLSVersion) ToPointer() *InputCriblHTTPMinimumTLSVersion {
+func (e MinimumTLSVersionCriblHTTP) ToPointer() *MinimumTLSVersionCriblHTTP {
 	return &e
 }
+func (e *MinimumTLSVersionCriblHTTP) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = MinimumTLSVersionCriblHTTP(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for MinimumTLSVersionCriblHTTP: %v", v)
+	}
+}
 
-type InputCriblHTTPMaximumTLSVersion string
+type MaximumTLSVersionCriblHTTP string
 
 const (
-	InputCriblHTTPMaximumTLSVersionTlSv1  InputCriblHTTPMaximumTLSVersion = "TLSv1"
-	InputCriblHTTPMaximumTLSVersionTlSv11 InputCriblHTTPMaximumTLSVersion = "TLSv1.1"
-	InputCriblHTTPMaximumTLSVersionTlSv12 InputCriblHTTPMaximumTLSVersion = "TLSv1.2"
-	InputCriblHTTPMaximumTLSVersionTlSv13 InputCriblHTTPMaximumTLSVersion = "TLSv1.3"
+	MaximumTLSVersionCriblHTTPTlSv1  MaximumTLSVersionCriblHTTP = "TLSv1"
+	MaximumTLSVersionCriblHTTPTlSv11 MaximumTLSVersionCriblHTTP = "TLSv1.1"
+	MaximumTLSVersionCriblHTTPTlSv12 MaximumTLSVersionCriblHTTP = "TLSv1.2"
+	MaximumTLSVersionCriblHTTPTlSv13 MaximumTLSVersionCriblHTTP = "TLSv1.3"
 )
 
-func (e InputCriblHTTPMaximumTLSVersion) ToPointer() *InputCriblHTTPMaximumTLSVersion {
+func (e MaximumTLSVersionCriblHTTP) ToPointer() *MaximumTLSVersionCriblHTTP {
 	return &e
 }
+func (e *MaximumTLSVersionCriblHTTP) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = MaximumTLSVersionCriblHTTP(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for MaximumTLSVersionCriblHTTP: %v", v)
+	}
+}
 
-type InputCriblHTTPTLSSettingsServerSide struct {
+type TLSSettingsServerSideCriblHTTP struct {
 	Disabled *bool `default:"true" json:"disabled"`
 	// The name of the predefined certificate
 	CertificateName *string `json:"certificateName,omitempty"`
@@ -13812,115 +15956,115 @@ type InputCriblHTTPTLSSettingsServerSide struct {
 	// Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS.
 	CaPath *string `json:"caPath,omitempty"`
 	// Require clients to present their certificates. Used to perform client authentication using SSL certs.
-	RequestCert        *bool                            `default:"false" json:"requestCert"`
-	RejectUnauthorized any                              `json:"rejectUnauthorized,omitempty"`
-	CommonNameRegex    any                              `json:"commonNameRegex,omitempty"`
-	MinVersion         *InputCriblHTTPMinimumTLSVersion `json:"minVersion,omitempty"`
-	MaxVersion         *InputCriblHTTPMaximumTLSVersion `json:"maxVersion,omitempty"`
+	RequestCert        *bool                       `default:"false" json:"requestCert"`
+	RejectUnauthorized any                         `json:"rejectUnauthorized,omitempty"`
+	CommonNameRegex    any                         `json:"commonNameRegex,omitempty"`
+	MinVersion         *MinimumTLSVersionCriblHTTP `json:"minVersion,omitempty"`
+	MaxVersion         *MaximumTLSVersionCriblHTTP `json:"maxVersion,omitempty"`
 }
 
-func (i InputCriblHTTPTLSSettingsServerSide) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (t TLSSettingsServerSideCriblHTTP) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(t, "", false)
 }
 
-func (i *InputCriblHTTPTLSSettingsServerSide) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (t *TLSSettingsServerSideCriblHTTP) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &t, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputCriblHTTPTLSSettingsServerSide) GetDisabled() *bool {
+func (o *TLSSettingsServerSideCriblHTTP) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *InputCriblHTTPTLSSettingsServerSide) GetCertificateName() *string {
+func (o *TLSSettingsServerSideCriblHTTP) GetCertificateName() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertificateName
 }
 
-func (o *InputCriblHTTPTLSSettingsServerSide) GetPrivKeyPath() *string {
+func (o *TLSSettingsServerSideCriblHTTP) GetPrivKeyPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.PrivKeyPath
 }
 
-func (o *InputCriblHTTPTLSSettingsServerSide) GetPassphrase() *string {
+func (o *TLSSettingsServerSideCriblHTTP) GetPassphrase() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Passphrase
 }
 
-func (o *InputCriblHTTPTLSSettingsServerSide) GetCertPath() *string {
+func (o *TLSSettingsServerSideCriblHTTP) GetCertPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertPath
 }
 
-func (o *InputCriblHTTPTLSSettingsServerSide) GetCaPath() *string {
+func (o *TLSSettingsServerSideCriblHTTP) GetCaPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CaPath
 }
 
-func (o *InputCriblHTTPTLSSettingsServerSide) GetRequestCert() *bool {
+func (o *TLSSettingsServerSideCriblHTTP) GetRequestCert() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.RequestCert
 }
 
-func (o *InputCriblHTTPTLSSettingsServerSide) GetRejectUnauthorized() any {
+func (o *TLSSettingsServerSideCriblHTTP) GetRejectUnauthorized() any {
 	if o == nil {
 		return nil
 	}
 	return o.RejectUnauthorized
 }
 
-func (o *InputCriblHTTPTLSSettingsServerSide) GetCommonNameRegex() any {
+func (o *TLSSettingsServerSideCriblHTTP) GetCommonNameRegex() any {
 	if o == nil {
 		return nil
 	}
 	return o.CommonNameRegex
 }
 
-func (o *InputCriblHTTPTLSSettingsServerSide) GetMinVersion() *InputCriblHTTPMinimumTLSVersion {
+func (o *TLSSettingsServerSideCriblHTTP) GetMinVersion() *MinimumTLSVersionCriblHTTP {
 	if o == nil {
 		return nil
 	}
 	return o.MinVersion
 }
 
-func (o *InputCriblHTTPTLSSettingsServerSide) GetMaxVersion() *InputCriblHTTPMaximumTLSVersion {
+func (o *TLSSettingsServerSideCriblHTTP) GetMaxVersion() *MaximumTLSVersionCriblHTTP {
 	if o == nil {
 		return nil
 	}
 	return o.MaxVersion
 }
 
-type InputCriblHTTPMetadatum struct {
+type MetadatumCriblHTTP struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputCriblHTTPMetadatum) GetName() string {
+func (o *MetadatumCriblHTTP) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputCriblHTTPMetadatum) GetValue() string {
+func (o *MetadatumCriblHTTP) GetValue() string {
 	if o == nil {
 		return ""
 	}
@@ -13929,9 +16073,9 @@ func (o *InputCriblHTTPMetadatum) GetValue() string {
 
 type InputCriblHTTP struct {
 	// Unique ID for this input
-	ID       string              `json:"id"`
-	Type     *InputCriblHTTPType `json:"type,omitempty"`
-	Disabled *bool               `default:"false" json:"disabled"`
+	ID       string         `json:"id"`
+	Type     *TypeCriblHTTP `json:"type,omitempty"`
+	Disabled *bool          `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -13943,15 +16087,15 @@ type InputCriblHTTP struct {
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputCriblHTTPConnection `json:"connections,omitempty"`
-	Pq          *InputCriblHTTPPq          `json:"pq,omitempty"`
+	Connections []ConnectionCriblHTTP `json:"connections,omitempty"`
+	Pq          *PqCriblHTTP          `json:"pq,omitempty"`
 	// Address to bind on. Defaults to 0.0.0.0 (all addresses).
 	Host *string `default:"0.0.0.0" json:"host"`
 	// Port to listen on
 	Port float64 `json:"port"`
 	// Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted.
-	AuthTokens []string                             `json:"authTokens,omitempty"`
-	TLS        *InputCriblHTTPTLSSettingsServerSide `json:"tls,omitempty"`
+	AuthTokens []string                        `json:"authTokens,omitempty"`
+	TLS        *TLSSettingsServerSideCriblHTTP `json:"tls,omitempty"`
 	// Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput.
 	MaxActiveReq *float64 `default:"256" json:"maxActiveReq"`
 	// Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited).
@@ -13975,8 +16119,8 @@ type InputCriblHTTP struct {
 	// Messages from matched IP addresses will be ignored. This takes precedence over the allowlist.
 	IPDenylistRegex *string `default:"/^\\$/" json:"ipDenylistRegex"`
 	// Fields to add to events from this input
-	Metadata    []InputCriblHTTPMetadatum `json:"metadata,omitempty"`
-	Description *string                   `json:"description,omitempty"`
+	Metadata    []MetadatumCriblHTTP `json:"metadata,omitempty"`
+	Description *string              `json:"description,omitempty"`
 }
 
 func (i InputCriblHTTP) MarshalJSON() ([]byte, error) {
@@ -13997,7 +16141,7 @@ func (o *InputCriblHTTP) GetID() string {
 	return o.ID
 }
 
-func (o *InputCriblHTTP) GetType() *InputCriblHTTPType {
+func (o *InputCriblHTTP) GetType() *TypeCriblHTTP {
 	if o == nil {
 		return nil
 	}
@@ -14046,14 +16190,14 @@ func (o *InputCriblHTTP) GetStreamtags() []string {
 	return o.Streamtags
 }
 
-func (o *InputCriblHTTP) GetConnections() []InputCriblHTTPConnection {
+func (o *InputCriblHTTP) GetConnections() []ConnectionCriblHTTP {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputCriblHTTP) GetPq() *InputCriblHTTPPq {
+func (o *InputCriblHTTP) GetPq() *PqCriblHTTP {
 	if o == nil {
 		return nil
 	}
@@ -14081,7 +16225,7 @@ func (o *InputCriblHTTP) GetAuthTokens() []string {
 	return o.AuthTokens
 }
 
-func (o *InputCriblHTTP) GetTLS() *InputCriblHTTPTLSSettingsServerSide {
+func (o *InputCriblHTTP) GetTLS() *TLSSettingsServerSideCriblHTTP {
 	if o == nil {
 		return nil
 	}
@@ -14165,7 +16309,7 @@ func (o *InputCriblHTTP) GetIPDenylistRegex() *string {
 	return o.IPDenylistRegex
 }
 
-func (o *InputCriblHTTP) GetMetadata() []InputCriblHTTPMetadatum {
+func (o *InputCriblHTTP) GetMetadata() []MetadatumCriblHTTP {
 	if o == nil {
 		return nil
 	}
@@ -14179,62 +16323,105 @@ func (o *InputCriblHTTP) GetDescription() *string {
 	return o.Description
 }
 
-type InputCriblTCPType string
+type TypeCriblTCP string
 
 const (
-	InputCriblTCPTypeCriblTCP InputCriblTCPType = "cribl_tcp"
+	TypeCriblTCPCriblTCP TypeCriblTCP = "cribl_tcp"
 )
 
-func (e InputCriblTCPType) ToPointer() *InputCriblTCPType {
+func (e TypeCriblTCP) ToPointer() *TypeCriblTCP {
 	return &e
 }
+func (e *TypeCriblTCP) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "cribl_tcp":
+		*e = TypeCriblTCP(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for TypeCriblTCP: %v", v)
+	}
+}
 
-type InputCriblTCPConnection struct {
+type ConnectionCriblTCP struct {
 	Pipeline *string `json:"pipeline,omitempty"`
 	Output   string  `json:"output"`
 }
 
-func (o *InputCriblTCPConnection) GetPipeline() *string {
+func (o *ConnectionCriblTCP) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputCriblTCPConnection) GetOutput() string {
+func (o *ConnectionCriblTCP) GetOutput() string {
 	if o == nil {
 		return ""
 	}
 	return o.Output
 }
 
-// InputCriblTCPMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type InputCriblTCPMode string
+// ModeCriblTCP - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+type ModeCriblTCP string
 
 const (
-	InputCriblTCPModeSmart  InputCriblTCPMode = "smart"
-	InputCriblTCPModeAlways InputCriblTCPMode = "always"
+	ModeCriblTCPSmart  ModeCriblTCP = "smart"
+	ModeCriblTCPAlways ModeCriblTCP = "always"
 )
 
-func (e InputCriblTCPMode) ToPointer() *InputCriblTCPMode {
+func (e ModeCriblTCP) ToPointer() *ModeCriblTCP {
 	return &e
 }
+func (e *ModeCriblTCP) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = ModeCriblTCP(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ModeCriblTCP: %v", v)
+	}
+}
 
-// InputCriblTCPCompression - Codec to use to compress the persisted data
-type InputCriblTCPCompression string
+// CompressionCriblTCP - Codec to use to compress the persisted data
+type CompressionCriblTCP string
 
 const (
-	InputCriblTCPCompressionNone InputCriblTCPCompression = "none"
-	InputCriblTCPCompressionGzip InputCriblTCPCompression = "gzip"
+	CompressionCriblTCPNone CompressionCriblTCP = "none"
+	CompressionCriblTCPGzip CompressionCriblTCP = "gzip"
 )
 
-func (e InputCriblTCPCompression) ToPointer() *InputCriblTCPCompression {
+func (e CompressionCriblTCP) ToPointer() *CompressionCriblTCP {
 	return &e
 }
+func (e *CompressionCriblTCP) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = CompressionCriblTCP(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CompressionCriblTCP: %v", v)
+	}
+}
 
-type InputCriblTCPPq struct {
+type PqCriblTCP struct {
 	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *InputCriblTCPMode `default:"always" json:"mode"`
+	Mode *ModeCriblTCP `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
 	// The number of events to send downstream before committing that Stream has read them
@@ -14246,96 +16433,134 @@ type InputCriblTCPPq struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
 	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
 	// Codec to use to compress the persisted data
-	Compress *InputCriblTCPCompression `default:"none" json:"compress"`
+	Compress *CompressionCriblTCP `default:"none" json:"compress"`
 }
 
-func (i InputCriblTCPPq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PqCriblTCP) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputCriblTCPPq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PqCriblTCP) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputCriblTCPPq) GetMode() *InputCriblTCPMode {
+func (o *PqCriblTCP) GetMode() *ModeCriblTCP {
 	if o == nil {
 		return nil
 	}
 	return o.Mode
 }
 
-func (o *InputCriblTCPPq) GetMaxBufferSize() *float64 {
+func (o *PqCriblTCP) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputCriblTCPPq) GetCommitFrequency() *float64 {
+func (o *PqCriblTCP) GetCommitFrequency() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.CommitFrequency
 }
 
-func (o *InputCriblTCPPq) GetMaxFileSize() *string {
+func (o *PqCriblTCP) GetMaxFileSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxFileSize
 }
 
-func (o *InputCriblTCPPq) GetMaxSize() *string {
+func (o *PqCriblTCP) GetMaxSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxSize
 }
 
-func (o *InputCriblTCPPq) GetPath() *string {
+func (o *PqCriblTCP) GetPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Path
 }
 
-func (o *InputCriblTCPPq) GetCompress() *InputCriblTCPCompression {
+func (o *PqCriblTCP) GetCompress() *CompressionCriblTCP {
 	if o == nil {
 		return nil
 	}
 	return o.Compress
 }
 
-type InputCriblTCPMinimumTLSVersion string
+type MinimumTLSVersionCriblTCP string
 
 const (
-	InputCriblTCPMinimumTLSVersionTlSv1  InputCriblTCPMinimumTLSVersion = "TLSv1"
-	InputCriblTCPMinimumTLSVersionTlSv11 InputCriblTCPMinimumTLSVersion = "TLSv1.1"
-	InputCriblTCPMinimumTLSVersionTlSv12 InputCriblTCPMinimumTLSVersion = "TLSv1.2"
-	InputCriblTCPMinimumTLSVersionTlSv13 InputCriblTCPMinimumTLSVersion = "TLSv1.3"
+	MinimumTLSVersionCriblTCPTlSv1  MinimumTLSVersionCriblTCP = "TLSv1"
+	MinimumTLSVersionCriblTCPTlSv11 MinimumTLSVersionCriblTCP = "TLSv1.1"
+	MinimumTLSVersionCriblTCPTlSv12 MinimumTLSVersionCriblTCP = "TLSv1.2"
+	MinimumTLSVersionCriblTCPTlSv13 MinimumTLSVersionCriblTCP = "TLSv1.3"
 )
 
-func (e InputCriblTCPMinimumTLSVersion) ToPointer() *InputCriblTCPMinimumTLSVersion {
+func (e MinimumTLSVersionCriblTCP) ToPointer() *MinimumTLSVersionCriblTCP {
 	return &e
 }
+func (e *MinimumTLSVersionCriblTCP) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = MinimumTLSVersionCriblTCP(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for MinimumTLSVersionCriblTCP: %v", v)
+	}
+}
 
-type InputCriblTCPMaximumTLSVersion string
+type MaximumTLSVersionCriblTCP string
 
 const (
-	InputCriblTCPMaximumTLSVersionTlSv1  InputCriblTCPMaximumTLSVersion = "TLSv1"
-	InputCriblTCPMaximumTLSVersionTlSv11 InputCriblTCPMaximumTLSVersion = "TLSv1.1"
-	InputCriblTCPMaximumTLSVersionTlSv12 InputCriblTCPMaximumTLSVersion = "TLSv1.2"
-	InputCriblTCPMaximumTLSVersionTlSv13 InputCriblTCPMaximumTLSVersion = "TLSv1.3"
+	MaximumTLSVersionCriblTCPTlSv1  MaximumTLSVersionCriblTCP = "TLSv1"
+	MaximumTLSVersionCriblTCPTlSv11 MaximumTLSVersionCriblTCP = "TLSv1.1"
+	MaximumTLSVersionCriblTCPTlSv12 MaximumTLSVersionCriblTCP = "TLSv1.2"
+	MaximumTLSVersionCriblTCPTlSv13 MaximumTLSVersionCriblTCP = "TLSv1.3"
 )
 
-func (e InputCriblTCPMaximumTLSVersion) ToPointer() *InputCriblTCPMaximumTLSVersion {
+func (e MaximumTLSVersionCriblTCP) ToPointer() *MaximumTLSVersionCriblTCP {
 	return &e
 }
+func (e *MaximumTLSVersionCriblTCP) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = MaximumTLSVersionCriblTCP(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for MaximumTLSVersionCriblTCP: %v", v)
+	}
+}
 
-type InputCriblTCPTLSSettingsServerSide struct {
+type TLSSettingsServerSideCriblTCP struct {
 	Disabled *bool `default:"true" json:"disabled"`
 	// The name of the predefined certificate
 	CertificateName *string `json:"certificateName,omitempty"`
@@ -14348,115 +16573,115 @@ type InputCriblTCPTLSSettingsServerSide struct {
 	// Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS.
 	CaPath *string `json:"caPath,omitempty"`
 	// Require clients to present their certificates. Used to perform client authentication using SSL certs.
-	RequestCert        *bool                           `default:"false" json:"requestCert"`
-	RejectUnauthorized any                             `json:"rejectUnauthorized,omitempty"`
-	CommonNameRegex    any                             `json:"commonNameRegex,omitempty"`
-	MinVersion         *InputCriblTCPMinimumTLSVersion `json:"minVersion,omitempty"`
-	MaxVersion         *InputCriblTCPMaximumTLSVersion `json:"maxVersion,omitempty"`
+	RequestCert        *bool                      `default:"false" json:"requestCert"`
+	RejectUnauthorized any                        `json:"rejectUnauthorized,omitempty"`
+	CommonNameRegex    any                        `json:"commonNameRegex,omitempty"`
+	MinVersion         *MinimumTLSVersionCriblTCP `json:"minVersion,omitempty"`
+	MaxVersion         *MaximumTLSVersionCriblTCP `json:"maxVersion,omitempty"`
 }
 
-func (i InputCriblTCPTLSSettingsServerSide) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (t TLSSettingsServerSideCriblTCP) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(t, "", false)
 }
 
-func (i *InputCriblTCPTLSSettingsServerSide) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (t *TLSSettingsServerSideCriblTCP) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &t, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputCriblTCPTLSSettingsServerSide) GetDisabled() *bool {
+func (o *TLSSettingsServerSideCriblTCP) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *InputCriblTCPTLSSettingsServerSide) GetCertificateName() *string {
+func (o *TLSSettingsServerSideCriblTCP) GetCertificateName() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertificateName
 }
 
-func (o *InputCriblTCPTLSSettingsServerSide) GetPrivKeyPath() *string {
+func (o *TLSSettingsServerSideCriblTCP) GetPrivKeyPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.PrivKeyPath
 }
 
-func (o *InputCriblTCPTLSSettingsServerSide) GetPassphrase() *string {
+func (o *TLSSettingsServerSideCriblTCP) GetPassphrase() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Passphrase
 }
 
-func (o *InputCriblTCPTLSSettingsServerSide) GetCertPath() *string {
+func (o *TLSSettingsServerSideCriblTCP) GetCertPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertPath
 }
 
-func (o *InputCriblTCPTLSSettingsServerSide) GetCaPath() *string {
+func (o *TLSSettingsServerSideCriblTCP) GetCaPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CaPath
 }
 
-func (o *InputCriblTCPTLSSettingsServerSide) GetRequestCert() *bool {
+func (o *TLSSettingsServerSideCriblTCP) GetRequestCert() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.RequestCert
 }
 
-func (o *InputCriblTCPTLSSettingsServerSide) GetRejectUnauthorized() any {
+func (o *TLSSettingsServerSideCriblTCP) GetRejectUnauthorized() any {
 	if o == nil {
 		return nil
 	}
 	return o.RejectUnauthorized
 }
 
-func (o *InputCriblTCPTLSSettingsServerSide) GetCommonNameRegex() any {
+func (o *TLSSettingsServerSideCriblTCP) GetCommonNameRegex() any {
 	if o == nil {
 		return nil
 	}
 	return o.CommonNameRegex
 }
 
-func (o *InputCriblTCPTLSSettingsServerSide) GetMinVersion() *InputCriblTCPMinimumTLSVersion {
+func (o *TLSSettingsServerSideCriblTCP) GetMinVersion() *MinimumTLSVersionCriblTCP {
 	if o == nil {
 		return nil
 	}
 	return o.MinVersion
 }
 
-func (o *InputCriblTCPTLSSettingsServerSide) GetMaxVersion() *InputCriblTCPMaximumTLSVersion {
+func (o *TLSSettingsServerSideCriblTCP) GetMaxVersion() *MaximumTLSVersionCriblTCP {
 	if o == nil {
 		return nil
 	}
 	return o.MaxVersion
 }
 
-type InputCriblTCPMetadatum struct {
+type MetadatumCriblTCP struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputCriblTCPMetadatum) GetName() string {
+func (o *MetadatumCriblTCP) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputCriblTCPMetadatum) GetValue() string {
+func (o *MetadatumCriblTCP) GetValue() string {
 	if o == nil {
 		return ""
 	}
@@ -14465,9 +16690,9 @@ func (o *InputCriblTCPMetadatum) GetValue() string {
 
 type InputCriblTCP struct {
 	// Unique ID for this input
-	ID       string             `json:"id"`
-	Type     *InputCriblTCPType `json:"type,omitempty"`
-	Disabled *bool              `default:"false" json:"disabled"`
+	ID       string        `json:"id"`
+	Type     *TypeCriblTCP `json:"type,omitempty"`
+	Disabled *bool         `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -14479,13 +16704,13 @@ type InputCriblTCP struct {
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputCriblTCPConnection `json:"connections,omitempty"`
-	Pq          *InputCriblTCPPq          `json:"pq,omitempty"`
+	Connections []ConnectionCriblTCP `json:"connections,omitempty"`
+	Pq          *PqCriblTCP          `json:"pq,omitempty"`
 	// Address to bind on. Defaults to 0.0.0.0 (all addresses).
 	Host *string `default:"0.0.0.0" json:"host"`
 	// Port to listen on
-	Port float64                             `json:"port"`
-	TLS  *InputCriblTCPTLSSettingsServerSide `json:"tls,omitempty"`
+	Port float64                        `json:"port"`
+	TLS  *TLSSettingsServerSideCriblTCP `json:"tls,omitempty"`
 	// Maximum number of active connections allowed per Worker Process. Use 0 for unlimited.
 	MaxActiveCxn *float64 `default:"1000" json:"maxActiveCxn"`
 	// How long @{product} should wait before assuming that an inactive socket has timed out. After this time, the connection will be closed. Leave at 0 for no inactive socket monitoring.
@@ -14497,7 +16722,7 @@ type InputCriblTCP struct {
 	// Enable if the connection is proxied by a device that supports proxy protocol v1 or v2
 	EnableProxyHeader *bool `default:"false" json:"enableProxyHeader"`
 	// Fields to add to events from this input
-	Metadata []InputCriblTCPMetadatum `json:"metadata,omitempty"`
+	Metadata []MetadatumCriblTCP `json:"metadata,omitempty"`
 	// Load balance traffic across all Worker Processes
 	EnableLoadBalancing *bool   `default:"false" json:"enableLoadBalancing"`
 	Description         *string `json:"description,omitempty"`
@@ -14521,7 +16746,7 @@ func (o *InputCriblTCP) GetID() string {
 	return o.ID
 }
 
-func (o *InputCriblTCP) GetType() *InputCriblTCPType {
+func (o *InputCriblTCP) GetType() *TypeCriblTCP {
 	if o == nil {
 		return nil
 	}
@@ -14570,14 +16795,14 @@ func (o *InputCriblTCP) GetStreamtags() []string {
 	return o.Streamtags
 }
 
-func (o *InputCriblTCP) GetConnections() []InputCriblTCPConnection {
+func (o *InputCriblTCP) GetConnections() []ConnectionCriblTCP {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputCriblTCP) GetPq() *InputCriblTCPPq {
+func (o *InputCriblTCP) GetPq() *PqCriblTCP {
 	if o == nil {
 		return nil
 	}
@@ -14598,7 +16823,7 @@ func (o *InputCriblTCP) GetPort() float64 {
 	return o.Port
 }
 
-func (o *InputCriblTCP) GetTLS() *InputCriblTCPTLSSettingsServerSide {
+func (o *InputCriblTCP) GetTLS() *TLSSettingsServerSideCriblTCP {
 	if o == nil {
 		return nil
 	}
@@ -14640,7 +16865,7 @@ func (o *InputCriblTCP) GetEnableProxyHeader() *bool {
 	return o.EnableProxyHeader
 }
 
-func (o *InputCriblTCP) GetMetadata() []InputCriblTCPMetadatum {
+func (o *InputCriblTCP) GetMetadata() []MetadatumCriblTCP {
 	if o == nil {
 		return nil
 	}
@@ -14661,62 +16886,105 @@ func (o *InputCriblTCP) GetDescription() *string {
 	return o.Description
 }
 
-type InputGooglePubsubType string
+type CreateInputTypeGooglePubsub string
 
 const (
-	InputGooglePubsubTypeGooglePubsub InputGooglePubsubType = "google_pubsub"
+	CreateInputTypeGooglePubsubGooglePubsub CreateInputTypeGooglePubsub = "google_pubsub"
 )
 
-func (e InputGooglePubsubType) ToPointer() *InputGooglePubsubType {
+func (e CreateInputTypeGooglePubsub) ToPointer() *CreateInputTypeGooglePubsub {
 	return &e
 }
+func (e *CreateInputTypeGooglePubsub) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "google_pubsub":
+		*e = CreateInputTypeGooglePubsub(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputTypeGooglePubsub: %v", v)
+	}
+}
 
-type InputGooglePubsubConnection struct {
+type ConnectionGooglePubsub struct {
 	Pipeline *string `json:"pipeline,omitempty"`
 	Output   string  `json:"output"`
 }
 
-func (o *InputGooglePubsubConnection) GetPipeline() *string {
+func (o *ConnectionGooglePubsub) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputGooglePubsubConnection) GetOutput() string {
+func (o *ConnectionGooglePubsub) GetOutput() string {
 	if o == nil {
 		return ""
 	}
 	return o.Output
 }
 
-// InputGooglePubsubMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type InputGooglePubsubMode string
+// CreateInputModeGooglePubsub - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+type CreateInputModeGooglePubsub string
 
 const (
-	InputGooglePubsubModeSmart  InputGooglePubsubMode = "smart"
-	InputGooglePubsubModeAlways InputGooglePubsubMode = "always"
+	CreateInputModeGooglePubsubSmart  CreateInputModeGooglePubsub = "smart"
+	CreateInputModeGooglePubsubAlways CreateInputModeGooglePubsub = "always"
 )
 
-func (e InputGooglePubsubMode) ToPointer() *InputGooglePubsubMode {
+func (e CreateInputModeGooglePubsub) ToPointer() *CreateInputModeGooglePubsub {
 	return &e
 }
+func (e *CreateInputModeGooglePubsub) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = CreateInputModeGooglePubsub(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputModeGooglePubsub: %v", v)
+	}
+}
 
-// InputGooglePubsubCompression - Codec to use to compress the persisted data
-type InputGooglePubsubCompression string
+// PqCompressionGooglePubsub - Codec to use to compress the persisted data
+type PqCompressionGooglePubsub string
 
 const (
-	InputGooglePubsubCompressionNone InputGooglePubsubCompression = "none"
-	InputGooglePubsubCompressionGzip InputGooglePubsubCompression = "gzip"
+	PqCompressionGooglePubsubNone PqCompressionGooglePubsub = "none"
+	PqCompressionGooglePubsubGzip PqCompressionGooglePubsub = "gzip"
 )
 
-func (e InputGooglePubsubCompression) ToPointer() *InputGooglePubsubCompression {
+func (e PqCompressionGooglePubsub) ToPointer() *PqCompressionGooglePubsub {
 	return &e
 }
+func (e *PqCompressionGooglePubsub) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = PqCompressionGooglePubsub(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for PqCompressionGooglePubsub: %v", v)
+	}
+}
 
-type InputGooglePubsubPq struct {
+type PqGooglePubsub struct {
 	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *InputGooglePubsubMode `default:"always" json:"mode"`
+	Mode *CreateInputModeGooglePubsub `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
 	// The number of events to send downstream before committing that Stream has read them
@@ -14728,63 +16996,63 @@ type InputGooglePubsubPq struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
 	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
 	// Codec to use to compress the persisted data
-	Compress *InputGooglePubsubCompression `default:"none" json:"compress"`
+	Compress *PqCompressionGooglePubsub `default:"none" json:"compress"`
 }
 
-func (i InputGooglePubsubPq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PqGooglePubsub) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputGooglePubsubPq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PqGooglePubsub) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputGooglePubsubPq) GetMode() *InputGooglePubsubMode {
+func (o *PqGooglePubsub) GetMode() *CreateInputModeGooglePubsub {
 	if o == nil {
 		return nil
 	}
 	return o.Mode
 }
 
-func (o *InputGooglePubsubPq) GetMaxBufferSize() *float64 {
+func (o *PqGooglePubsub) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputGooglePubsubPq) GetCommitFrequency() *float64 {
+func (o *PqGooglePubsub) GetCommitFrequency() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.CommitFrequency
 }
 
-func (o *InputGooglePubsubPq) GetMaxFileSize() *string {
+func (o *PqGooglePubsub) GetMaxFileSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxFileSize
 }
 
-func (o *InputGooglePubsubPq) GetMaxSize() *string {
+func (o *PqGooglePubsub) GetMaxSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxSize
 }
 
-func (o *InputGooglePubsubPq) GetPath() *string {
+func (o *PqGooglePubsub) GetPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Path
 }
 
-func (o *InputGooglePubsubPq) GetCompress() *InputGooglePubsubCompression {
+func (o *PqGooglePubsub) GetCompress() *PqCompressionGooglePubsub {
 	if o == nil {
 		return nil
 	}
@@ -14803,21 +17071,38 @@ const (
 func (e CreateInputGoogleAuthenticationMethod) ToPointer() *CreateInputGoogleAuthenticationMethod {
 	return &e
 }
+func (e *CreateInputGoogleAuthenticationMethod) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "auto":
+		fallthrough
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = CreateInputGoogleAuthenticationMethod(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputGoogleAuthenticationMethod: %v", v)
+	}
+}
 
-type InputGooglePubsubMetadatum struct {
+type MetadatumGooglePubsub struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputGooglePubsubMetadatum) GetName() string {
+func (o *MetadatumGooglePubsub) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputGooglePubsubMetadatum) GetValue() string {
+func (o *MetadatumGooglePubsub) GetValue() string {
 	if o == nil {
 		return ""
 	}
@@ -14826,9 +17111,9 @@ func (o *InputGooglePubsubMetadatum) GetValue() string {
 
 type InputGooglePubsub struct {
 	// Unique ID for this input
-	ID       string                 `json:"id"`
-	Type     *InputGooglePubsubType `json:"type,omitempty"`
-	Disabled *bool                  `default:"false" json:"disabled"`
+	ID       string                       `json:"id"`
+	Type     *CreateInputTypeGooglePubsub `json:"type,omitempty"`
+	Disabled *bool                        `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -14840,8 +17125,8 @@ type InputGooglePubsub struct {
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputGooglePubsubConnection `json:"connections,omitempty"`
-	Pq          *InputGooglePubsubPq          `json:"pq,omitempty"`
+	Connections []ConnectionGooglePubsub `json:"connections,omitempty"`
+	Pq          *PqGooglePubsub          `json:"pq,omitempty"`
 	// ID of the topic to receive events from
 	TopicName string `json:"topicName"`
 	// ID of the subscription to use when receiving events
@@ -14865,8 +17150,8 @@ type InputGooglePubsub struct {
 	// Pull request timeout, in milliseconds
 	RequestTimeout *float64 `default:"60000" json:"requestTimeout"`
 	// Fields to add to events from this input
-	Metadata    []InputGooglePubsubMetadatum `json:"metadata,omitempty"`
-	Description *string                      `json:"description,omitempty"`
+	Metadata    []MetadatumGooglePubsub `json:"metadata,omitempty"`
+	Description *string                 `json:"description,omitempty"`
 	// Receive events in the order they were added to the queue. The process sending events must have ordering enabled.
 	OrderedDelivery *bool `default:"false" json:"orderedDelivery"`
 }
@@ -14889,7 +17174,7 @@ func (o *InputGooglePubsub) GetID() string {
 	return o.ID
 }
 
-func (o *InputGooglePubsub) GetType() *InputGooglePubsubType {
+func (o *InputGooglePubsub) GetType() *CreateInputTypeGooglePubsub {
 	if o == nil {
 		return nil
 	}
@@ -14938,14 +17223,14 @@ func (o *InputGooglePubsub) GetStreamtags() []string {
 	return o.Streamtags
 }
 
-func (o *InputGooglePubsub) GetConnections() []InputGooglePubsubConnection {
+func (o *InputGooglePubsub) GetConnections() []ConnectionGooglePubsub {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputGooglePubsub) GetPq() *InputGooglePubsubPq {
+func (o *InputGooglePubsub) GetPq() *PqGooglePubsub {
 	if o == nil {
 		return nil
 	}
@@ -15029,7 +17314,7 @@ func (o *InputGooglePubsub) GetRequestTimeout() *float64 {
 	return o.RequestTimeout
 }
 
-func (o *InputGooglePubsub) GetMetadata() []InputGooglePubsubMetadatum {
+func (o *InputGooglePubsub) GetMetadata() []MetadatumGooglePubsub {
 	if o == nil {
 		return nil
 	}
@@ -15050,62 +17335,105 @@ func (o *InputGooglePubsub) GetOrderedDelivery() *bool {
 	return o.OrderedDelivery
 }
 
-type InputFirehoseType string
+type TypeFirehose string
 
 const (
-	InputFirehoseTypeFirehose InputFirehoseType = "firehose"
+	TypeFirehoseFirehose TypeFirehose = "firehose"
 )
 
-func (e InputFirehoseType) ToPointer() *InputFirehoseType {
+func (e TypeFirehose) ToPointer() *TypeFirehose {
 	return &e
 }
+func (e *TypeFirehose) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "firehose":
+		*e = TypeFirehose(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for TypeFirehose: %v", v)
+	}
+}
 
-type InputFirehoseConnection struct {
+type ConnectionFirehose struct {
 	Pipeline *string `json:"pipeline,omitempty"`
 	Output   string  `json:"output"`
 }
 
-func (o *InputFirehoseConnection) GetPipeline() *string {
+func (o *ConnectionFirehose) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputFirehoseConnection) GetOutput() string {
+func (o *ConnectionFirehose) GetOutput() string {
 	if o == nil {
 		return ""
 	}
 	return o.Output
 }
 
-// InputFirehoseMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type InputFirehoseMode string
+// ModeFirehose - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+type ModeFirehose string
 
 const (
-	InputFirehoseModeSmart  InputFirehoseMode = "smart"
-	InputFirehoseModeAlways InputFirehoseMode = "always"
+	ModeFirehoseSmart  ModeFirehose = "smart"
+	ModeFirehoseAlways ModeFirehose = "always"
 )
 
-func (e InputFirehoseMode) ToPointer() *InputFirehoseMode {
+func (e ModeFirehose) ToPointer() *ModeFirehose {
 	return &e
 }
+func (e *ModeFirehose) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = ModeFirehose(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ModeFirehose: %v", v)
+	}
+}
 
-// InputFirehoseCompression - Codec to use to compress the persisted data
-type InputFirehoseCompression string
+// CompressionFirehose - Codec to use to compress the persisted data
+type CompressionFirehose string
 
 const (
-	InputFirehoseCompressionNone InputFirehoseCompression = "none"
-	InputFirehoseCompressionGzip InputFirehoseCompression = "gzip"
+	CompressionFirehoseNone CompressionFirehose = "none"
+	CompressionFirehoseGzip CompressionFirehose = "gzip"
 )
 
-func (e InputFirehoseCompression) ToPointer() *InputFirehoseCompression {
+func (e CompressionFirehose) ToPointer() *CompressionFirehose {
 	return &e
 }
+func (e *CompressionFirehose) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = CompressionFirehose(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CompressionFirehose: %v", v)
+	}
+}
 
-type InputFirehosePq struct {
+type PqFirehose struct {
 	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *InputFirehoseMode `default:"always" json:"mode"`
+	Mode *ModeFirehose `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
 	// The number of events to send downstream before committing that Stream has read them
@@ -15117,96 +17445,134 @@ type InputFirehosePq struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
 	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
 	// Codec to use to compress the persisted data
-	Compress *InputFirehoseCompression `default:"none" json:"compress"`
+	Compress *CompressionFirehose `default:"none" json:"compress"`
 }
 
-func (i InputFirehosePq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PqFirehose) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputFirehosePq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PqFirehose) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputFirehosePq) GetMode() *InputFirehoseMode {
+func (o *PqFirehose) GetMode() *ModeFirehose {
 	if o == nil {
 		return nil
 	}
 	return o.Mode
 }
 
-func (o *InputFirehosePq) GetMaxBufferSize() *float64 {
+func (o *PqFirehose) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputFirehosePq) GetCommitFrequency() *float64 {
+func (o *PqFirehose) GetCommitFrequency() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.CommitFrequency
 }
 
-func (o *InputFirehosePq) GetMaxFileSize() *string {
+func (o *PqFirehose) GetMaxFileSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxFileSize
 }
 
-func (o *InputFirehosePq) GetMaxSize() *string {
+func (o *PqFirehose) GetMaxSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxSize
 }
 
-func (o *InputFirehosePq) GetPath() *string {
+func (o *PqFirehose) GetPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Path
 }
 
-func (o *InputFirehosePq) GetCompress() *InputFirehoseCompression {
+func (o *PqFirehose) GetCompress() *CompressionFirehose {
 	if o == nil {
 		return nil
 	}
 	return o.Compress
 }
 
-type InputFirehoseMinimumTLSVersion string
+type MinimumTLSVersionFirehose string
 
 const (
-	InputFirehoseMinimumTLSVersionTlSv1  InputFirehoseMinimumTLSVersion = "TLSv1"
-	InputFirehoseMinimumTLSVersionTlSv11 InputFirehoseMinimumTLSVersion = "TLSv1.1"
-	InputFirehoseMinimumTLSVersionTlSv12 InputFirehoseMinimumTLSVersion = "TLSv1.2"
-	InputFirehoseMinimumTLSVersionTlSv13 InputFirehoseMinimumTLSVersion = "TLSv1.3"
+	MinimumTLSVersionFirehoseTlSv1  MinimumTLSVersionFirehose = "TLSv1"
+	MinimumTLSVersionFirehoseTlSv11 MinimumTLSVersionFirehose = "TLSv1.1"
+	MinimumTLSVersionFirehoseTlSv12 MinimumTLSVersionFirehose = "TLSv1.2"
+	MinimumTLSVersionFirehoseTlSv13 MinimumTLSVersionFirehose = "TLSv1.3"
 )
 
-func (e InputFirehoseMinimumTLSVersion) ToPointer() *InputFirehoseMinimumTLSVersion {
+func (e MinimumTLSVersionFirehose) ToPointer() *MinimumTLSVersionFirehose {
 	return &e
 }
+func (e *MinimumTLSVersionFirehose) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = MinimumTLSVersionFirehose(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for MinimumTLSVersionFirehose: %v", v)
+	}
+}
 
-type InputFirehoseMaximumTLSVersion string
+type MaximumTLSVersionFirehose string
 
 const (
-	InputFirehoseMaximumTLSVersionTlSv1  InputFirehoseMaximumTLSVersion = "TLSv1"
-	InputFirehoseMaximumTLSVersionTlSv11 InputFirehoseMaximumTLSVersion = "TLSv1.1"
-	InputFirehoseMaximumTLSVersionTlSv12 InputFirehoseMaximumTLSVersion = "TLSv1.2"
-	InputFirehoseMaximumTLSVersionTlSv13 InputFirehoseMaximumTLSVersion = "TLSv1.3"
+	MaximumTLSVersionFirehoseTlSv1  MaximumTLSVersionFirehose = "TLSv1"
+	MaximumTLSVersionFirehoseTlSv11 MaximumTLSVersionFirehose = "TLSv1.1"
+	MaximumTLSVersionFirehoseTlSv12 MaximumTLSVersionFirehose = "TLSv1.2"
+	MaximumTLSVersionFirehoseTlSv13 MaximumTLSVersionFirehose = "TLSv1.3"
 )
 
-func (e InputFirehoseMaximumTLSVersion) ToPointer() *InputFirehoseMaximumTLSVersion {
+func (e MaximumTLSVersionFirehose) ToPointer() *MaximumTLSVersionFirehose {
 	return &e
 }
+func (e *MaximumTLSVersionFirehose) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = MaximumTLSVersionFirehose(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for MaximumTLSVersionFirehose: %v", v)
+	}
+}
 
-type InputFirehoseTLSSettingsServerSide struct {
+type TLSSettingsServerSideFirehose struct {
 	Disabled *bool `default:"true" json:"disabled"`
 	// The name of the predefined certificate
 	CertificateName *string `json:"certificateName,omitempty"`
@@ -15219,115 +17585,115 @@ type InputFirehoseTLSSettingsServerSide struct {
 	// Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS.
 	CaPath *string `json:"caPath,omitempty"`
 	// Require clients to present their certificates. Used to perform client authentication using SSL certs.
-	RequestCert        *bool                           `default:"false" json:"requestCert"`
-	RejectUnauthorized any                             `json:"rejectUnauthorized,omitempty"`
-	CommonNameRegex    any                             `json:"commonNameRegex,omitempty"`
-	MinVersion         *InputFirehoseMinimumTLSVersion `json:"minVersion,omitempty"`
-	MaxVersion         *InputFirehoseMaximumTLSVersion `json:"maxVersion,omitempty"`
+	RequestCert        *bool                      `default:"false" json:"requestCert"`
+	RejectUnauthorized any                        `json:"rejectUnauthorized,omitempty"`
+	CommonNameRegex    any                        `json:"commonNameRegex,omitempty"`
+	MinVersion         *MinimumTLSVersionFirehose `json:"minVersion,omitempty"`
+	MaxVersion         *MaximumTLSVersionFirehose `json:"maxVersion,omitempty"`
 }
 
-func (i InputFirehoseTLSSettingsServerSide) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (t TLSSettingsServerSideFirehose) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(t, "", false)
 }
 
-func (i *InputFirehoseTLSSettingsServerSide) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (t *TLSSettingsServerSideFirehose) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &t, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputFirehoseTLSSettingsServerSide) GetDisabled() *bool {
+func (o *TLSSettingsServerSideFirehose) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *InputFirehoseTLSSettingsServerSide) GetCertificateName() *string {
+func (o *TLSSettingsServerSideFirehose) GetCertificateName() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertificateName
 }
 
-func (o *InputFirehoseTLSSettingsServerSide) GetPrivKeyPath() *string {
+func (o *TLSSettingsServerSideFirehose) GetPrivKeyPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.PrivKeyPath
 }
 
-func (o *InputFirehoseTLSSettingsServerSide) GetPassphrase() *string {
+func (o *TLSSettingsServerSideFirehose) GetPassphrase() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Passphrase
 }
 
-func (o *InputFirehoseTLSSettingsServerSide) GetCertPath() *string {
+func (o *TLSSettingsServerSideFirehose) GetCertPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertPath
 }
 
-func (o *InputFirehoseTLSSettingsServerSide) GetCaPath() *string {
+func (o *TLSSettingsServerSideFirehose) GetCaPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CaPath
 }
 
-func (o *InputFirehoseTLSSettingsServerSide) GetRequestCert() *bool {
+func (o *TLSSettingsServerSideFirehose) GetRequestCert() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.RequestCert
 }
 
-func (o *InputFirehoseTLSSettingsServerSide) GetRejectUnauthorized() any {
+func (o *TLSSettingsServerSideFirehose) GetRejectUnauthorized() any {
 	if o == nil {
 		return nil
 	}
 	return o.RejectUnauthorized
 }
 
-func (o *InputFirehoseTLSSettingsServerSide) GetCommonNameRegex() any {
+func (o *TLSSettingsServerSideFirehose) GetCommonNameRegex() any {
 	if o == nil {
 		return nil
 	}
 	return o.CommonNameRegex
 }
 
-func (o *InputFirehoseTLSSettingsServerSide) GetMinVersion() *InputFirehoseMinimumTLSVersion {
+func (o *TLSSettingsServerSideFirehose) GetMinVersion() *MinimumTLSVersionFirehose {
 	if o == nil {
 		return nil
 	}
 	return o.MinVersion
 }
 
-func (o *InputFirehoseTLSSettingsServerSide) GetMaxVersion() *InputFirehoseMaximumTLSVersion {
+func (o *TLSSettingsServerSideFirehose) GetMaxVersion() *MaximumTLSVersionFirehose {
 	if o == nil {
 		return nil
 	}
 	return o.MaxVersion
 }
 
-type InputFirehoseMetadatum struct {
+type MetadatumFirehose struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputFirehoseMetadatum) GetName() string {
+func (o *MetadatumFirehose) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputFirehoseMetadatum) GetValue() string {
+func (o *MetadatumFirehose) GetValue() string {
 	if o == nil {
 		return ""
 	}
@@ -15336,9 +17702,9 @@ func (o *InputFirehoseMetadatum) GetValue() string {
 
 type InputFirehose struct {
 	// Unique ID for this input
-	ID       string             `json:"id"`
-	Type     *InputFirehoseType `json:"type,omitempty"`
-	Disabled *bool              `default:"false" json:"disabled"`
+	ID       string        `json:"id"`
+	Type     *TypeFirehose `json:"type,omitempty"`
+	Disabled *bool         `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -15350,15 +17716,15 @@ type InputFirehose struct {
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputFirehoseConnection `json:"connections,omitempty"`
-	Pq          *InputFirehosePq          `json:"pq,omitempty"`
+	Connections []ConnectionFirehose `json:"connections,omitempty"`
+	Pq          *PqFirehose          `json:"pq,omitempty"`
 	// Address to bind on. Defaults to 0.0.0.0 (all addresses).
 	Host *string `default:"0.0.0.0" json:"host"`
 	// Port to listen on
 	Port float64 `json:"port"`
 	// Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted.
-	AuthTokens []string                            `json:"authTokens,omitempty"`
-	TLS        *InputFirehoseTLSSettingsServerSide `json:"tls,omitempty"`
+	AuthTokens []string                       `json:"authTokens,omitempty"`
+	TLS        *TLSSettingsServerSideFirehose `json:"tls,omitempty"`
 	// Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput.
 	MaxActiveReq *float64 `default:"256" json:"maxActiveReq"`
 	// Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited).
@@ -15382,8 +17748,8 @@ type InputFirehose struct {
 	// Messages from matched IP addresses will be ignored. This takes precedence over the allowlist.
 	IPDenylistRegex *string `default:"/^\\$/" json:"ipDenylistRegex"`
 	// Fields to add to events from this input
-	Metadata    []InputFirehoseMetadatum `json:"metadata,omitempty"`
-	Description *string                  `json:"description,omitempty"`
+	Metadata    []MetadatumFirehose `json:"metadata,omitempty"`
+	Description *string             `json:"description,omitempty"`
 }
 
 func (i InputFirehose) MarshalJSON() ([]byte, error) {
@@ -15404,7 +17770,7 @@ func (o *InputFirehose) GetID() string {
 	return o.ID
 }
 
-func (o *InputFirehose) GetType() *InputFirehoseType {
+func (o *InputFirehose) GetType() *TypeFirehose {
 	if o == nil {
 		return nil
 	}
@@ -15453,14 +17819,14 @@ func (o *InputFirehose) GetStreamtags() []string {
 	return o.Streamtags
 }
 
-func (o *InputFirehose) GetConnections() []InputFirehoseConnection {
+func (o *InputFirehose) GetConnections() []ConnectionFirehose {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputFirehose) GetPq() *InputFirehosePq {
+func (o *InputFirehose) GetPq() *PqFirehose {
 	if o == nil {
 		return nil
 	}
@@ -15488,7 +17854,7 @@ func (o *InputFirehose) GetAuthTokens() []string {
 	return o.AuthTokens
 }
 
-func (o *InputFirehose) GetTLS() *InputFirehoseTLSSettingsServerSide {
+func (o *InputFirehose) GetTLS() *TLSSettingsServerSideFirehose {
 	if o == nil {
 		return nil
 	}
@@ -15572,7 +17938,7 @@ func (o *InputFirehose) GetIPDenylistRegex() *string {
 	return o.IPDenylistRegex
 }
 
-func (o *InputFirehose) GetMetadata() []InputFirehoseMetadatum {
+func (o *InputFirehose) GetMetadata() []MetadatumFirehose {
 	if o == nil {
 		return nil
 	}
@@ -15594,6 +17960,19 @@ const (
 
 func (e InputExecType) ToPointer() *InputExecType {
 	return &e
+}
+func (e *InputExecType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "exec":
+		*e = InputExecType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputExecType: %v", v)
+	}
 }
 
 type InputExecConnection struct {
@@ -15626,6 +18005,21 @@ const (
 func (e InputExecMode) ToPointer() *InputExecMode {
 	return &e
 }
+func (e *InputExecMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = InputExecMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputExecMode: %v", v)
+	}
+}
 
 // InputExecCompression - Codec to use to compress the persisted data
 type InputExecCompression string
@@ -15637,6 +18031,21 @@ const (
 
 func (e InputExecCompression) ToPointer() *InputExecCompression {
 	return &e
+}
+func (e *InputExecCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = InputExecCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputExecCompression: %v", v)
+	}
 }
 
 type InputExecPq struct {
@@ -15726,6 +18135,21 @@ const (
 
 func (e ScheduleType) ToPointer() *ScheduleType {
 	return &e
+}
+func (e *ScheduleType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "interval":
+		fallthrough
+	case "cronSchedule":
+		*e = ScheduleType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ScheduleType: %v", v)
+	}
 }
 
 type InputExecMetadatum struct {
@@ -15929,62 +18353,105 @@ func (o *InputExec) GetCronSchedule() *string {
 	return o.CronSchedule
 }
 
-type InputEventhubType string
+type TypeEventhub string
 
 const (
-	InputEventhubTypeEventhub InputEventhubType = "eventhub"
+	TypeEventhubEventhub TypeEventhub = "eventhub"
 )
 
-func (e InputEventhubType) ToPointer() *InputEventhubType {
+func (e TypeEventhub) ToPointer() *TypeEventhub {
 	return &e
 }
+func (e *TypeEventhub) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "eventhub":
+		*e = TypeEventhub(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for TypeEventhub: %v", v)
+	}
+}
 
-type InputEventhubConnection struct {
+type ConnectionEventhub struct {
 	Pipeline *string `json:"pipeline,omitempty"`
 	Output   string  `json:"output"`
 }
 
-func (o *InputEventhubConnection) GetPipeline() *string {
+func (o *ConnectionEventhub) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputEventhubConnection) GetOutput() string {
+func (o *ConnectionEventhub) GetOutput() string {
 	if o == nil {
 		return ""
 	}
 	return o.Output
 }
 
-// InputEventhubMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type InputEventhubMode string
+// ModeEventhub - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+type ModeEventhub string
 
 const (
-	InputEventhubModeSmart  InputEventhubMode = "smart"
-	InputEventhubModeAlways InputEventhubMode = "always"
+	ModeEventhubSmart  ModeEventhub = "smart"
+	ModeEventhubAlways ModeEventhub = "always"
 )
 
-func (e InputEventhubMode) ToPointer() *InputEventhubMode {
+func (e ModeEventhub) ToPointer() *ModeEventhub {
 	return &e
 }
+func (e *ModeEventhub) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = ModeEventhub(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ModeEventhub: %v", v)
+	}
+}
 
-// InputEventhubCompression - Codec to use to compress the persisted data
-type InputEventhubCompression string
+// CompressionEventhub - Codec to use to compress the persisted data
+type CompressionEventhub string
 
 const (
-	InputEventhubCompressionNone InputEventhubCompression = "none"
-	InputEventhubCompressionGzip InputEventhubCompression = "gzip"
+	CompressionEventhubNone CompressionEventhub = "none"
+	CompressionEventhubGzip CompressionEventhub = "gzip"
 )
 
-func (e InputEventhubCompression) ToPointer() *InputEventhubCompression {
+func (e CompressionEventhub) ToPointer() *CompressionEventhub {
 	return &e
 }
+func (e *CompressionEventhub) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = CompressionEventhub(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CompressionEventhub: %v", v)
+	}
+}
 
-type InputEventhubPq struct {
+type PqEventhub struct {
 	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *InputEventhubMode `default:"always" json:"mode"`
+	Mode *ModeEventhub `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
 	// The number of events to send downstream before committing that Stream has read them
@@ -15996,156 +18463,171 @@ type InputEventhubPq struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
 	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
 	// Codec to use to compress the persisted data
-	Compress *InputEventhubCompression `default:"none" json:"compress"`
+	Compress *CompressionEventhub `default:"none" json:"compress"`
 }
 
-func (i InputEventhubPq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PqEventhub) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputEventhubPq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PqEventhub) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputEventhubPq) GetMode() *InputEventhubMode {
+func (o *PqEventhub) GetMode() *ModeEventhub {
 	if o == nil {
 		return nil
 	}
 	return o.Mode
 }
 
-func (o *InputEventhubPq) GetMaxBufferSize() *float64 {
+func (o *PqEventhub) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputEventhubPq) GetCommitFrequency() *float64 {
+func (o *PqEventhub) GetCommitFrequency() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.CommitFrequency
 }
 
-func (o *InputEventhubPq) GetMaxFileSize() *string {
+func (o *PqEventhub) GetMaxFileSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxFileSize
 }
 
-func (o *InputEventhubPq) GetMaxSize() *string {
+func (o *PqEventhub) GetMaxSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxSize
 }
 
-func (o *InputEventhubPq) GetPath() *string {
+func (o *PqEventhub) GetPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Path
 }
 
-func (o *InputEventhubPq) GetCompress() *InputEventhubCompression {
+func (o *PqEventhub) GetCompress() *CompressionEventhub {
 	if o == nil {
 		return nil
 	}
 	return o.Compress
 }
 
-type InputEventhubSASLMechanism string
+type SASLMechanismEventhub string
 
 const (
-	InputEventhubSASLMechanismPlain       InputEventhubSASLMechanism = "plain"
-	InputEventhubSASLMechanismOauthbearer InputEventhubSASLMechanism = "oauthbearer"
+	SASLMechanismEventhubPlain       SASLMechanismEventhub = "plain"
+	SASLMechanismEventhubOauthbearer SASLMechanismEventhub = "oauthbearer"
 )
 
-func (e InputEventhubSASLMechanism) ToPointer() *InputEventhubSASLMechanism {
+func (e SASLMechanismEventhub) ToPointer() *SASLMechanismEventhub {
 	return &e
 }
-
-// InputEventhubAuthentication - Authentication parameters to use when connecting to brokers. Using TLS is highly recommended.
-type InputEventhubAuthentication struct {
-	Disabled  *bool                       `default:"false" json:"disabled"`
-	Mechanism *InputEventhubSASLMechanism `default:"plain" json:"mechanism"`
+func (e *SASLMechanismEventhub) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "plain":
+		fallthrough
+	case "oauthbearer":
+		*e = SASLMechanismEventhub(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for SASLMechanismEventhub: %v", v)
+	}
 }
 
-func (i InputEventhubAuthentication) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+// AuthenticationEventhub - Authentication parameters to use when connecting to brokers. Using TLS is highly recommended.
+type AuthenticationEventhub struct {
+	Disabled  *bool                  `default:"false" json:"disabled"`
+	Mechanism *SASLMechanismEventhub `default:"plain" json:"mechanism"`
 }
 
-func (i *InputEventhubAuthentication) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (a AuthenticationEventhub) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(a, "", false)
+}
+
+func (a *AuthenticationEventhub) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &a, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputEventhubAuthentication) GetDisabled() *bool {
+func (o *AuthenticationEventhub) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *InputEventhubAuthentication) GetMechanism() *InputEventhubSASLMechanism {
+func (o *AuthenticationEventhub) GetMechanism() *SASLMechanismEventhub {
 	if o == nil {
 		return nil
 	}
 	return o.Mechanism
 }
 
-type InputEventhubTLSSettingsClientSide struct {
+type TLSSettingsClientSideEventhub struct {
 	Disabled *bool `default:"false" json:"disabled"`
 	// Reject certificates that are not authorized by a CA in the CA certificate path, or by another trusted CA (such as the system's)
 	RejectUnauthorized *bool `default:"true" json:"rejectUnauthorized"`
 }
 
-func (i InputEventhubTLSSettingsClientSide) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (t TLSSettingsClientSideEventhub) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(t, "", false)
 }
 
-func (i *InputEventhubTLSSettingsClientSide) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (t *TLSSettingsClientSideEventhub) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &t, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputEventhubTLSSettingsClientSide) GetDisabled() *bool {
+func (o *TLSSettingsClientSideEventhub) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *InputEventhubTLSSettingsClientSide) GetRejectUnauthorized() *bool {
+func (o *TLSSettingsClientSideEventhub) GetRejectUnauthorized() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.RejectUnauthorized
 }
 
-type InputEventhubMetadatum struct {
+type MetadatumEventhub struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputEventhubMetadatum) GetName() string {
+func (o *MetadatumEventhub) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputEventhubMetadatum) GetValue() string {
+func (o *MetadatumEventhub) GetValue() string {
 	if o == nil {
 		return ""
 	}
@@ -16154,9 +18636,9 @@ func (o *InputEventhubMetadatum) GetValue() string {
 
 type InputEventhub struct {
 	// Unique ID for this input
-	ID       string             `json:"id"`
-	Type     *InputEventhubType `json:"type,omitempty"`
-	Disabled *bool              `default:"false" json:"disabled"`
+	ID       string        `json:"id"`
+	Type     *TypeEventhub `json:"type,omitempty"`
+	Disabled *bool         `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -16168,8 +18650,8 @@ type InputEventhub struct {
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputEventhubConnection `json:"connections,omitempty"`
-	Pq          *InputEventhubPq          `json:"pq,omitempty"`
+	Connections []ConnectionEventhub `json:"connections,omitempty"`
+	Pq          *PqEventhub          `json:"pq,omitempty"`
 	// List of Event Hubs Kafka brokers to connect to (example: yourdomain.servicebus.windows.net:9093). The hostname can be found in the host portion of the primary or secondary connection string in Shared Access Policies.
 	Brokers []string `json:"brokers"`
 	// The name of the Event Hub (Kafka topic) to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Event Hubs Source to only a single topic.
@@ -16195,8 +18677,8 @@ type InputEventhub struct {
 	// Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire.
 	ReauthenticationThreshold *float64 `default:"10000" json:"reauthenticationThreshold"`
 	// Authentication parameters to use when connecting to brokers. Using TLS is highly recommended.
-	Sasl *InputEventhubAuthentication        `json:"sasl,omitempty"`
-	TLS  *InputEventhubTLSSettingsClientSide `json:"tls,omitempty"`
+	Sasl *AuthenticationEventhub        `json:"sasl,omitempty"`
+	TLS  *TLSSettingsClientSideEventhub `json:"tls,omitempty"`
 	//       Timeout (session.timeout.ms in Kafka domain) used to detect client failures when using Kafka's group-management facilities.
 	//       If the client sends no heartbeats to the broker before the timeout expires, the broker will remove the client from the group and initiate a rebalance.
 	//       Value must be lower than rebalanceTimeout.
@@ -16223,8 +18705,8 @@ type InputEventhub struct {
 	// Minimize duplicate events by starting only one consumer for each topic partition
 	MinimizeDuplicates *bool `default:"false" json:"minimizeDuplicates"`
 	// Fields to add to events from this input
-	Metadata    []InputEventhubMetadatum `json:"metadata,omitempty"`
-	Description *string                  `json:"description,omitempty"`
+	Metadata    []MetadatumEventhub `json:"metadata,omitempty"`
+	Description *string             `json:"description,omitempty"`
 }
 
 func (i InputEventhub) MarshalJSON() ([]byte, error) {
@@ -16245,7 +18727,7 @@ func (o *InputEventhub) GetID() string {
 	return o.ID
 }
 
-func (o *InputEventhub) GetType() *InputEventhubType {
+func (o *InputEventhub) GetType() *TypeEventhub {
 	if o == nil {
 		return nil
 	}
@@ -16294,14 +18776,14 @@ func (o *InputEventhub) GetStreamtags() []string {
 	return o.Streamtags
 }
 
-func (o *InputEventhub) GetConnections() []InputEventhubConnection {
+func (o *InputEventhub) GetConnections() []ConnectionEventhub {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputEventhub) GetPq() *InputEventhubPq {
+func (o *InputEventhub) GetPq() *PqEventhub {
 	if o == nil {
 		return nil
 	}
@@ -16392,14 +18874,14 @@ func (o *InputEventhub) GetReauthenticationThreshold() *float64 {
 	return o.ReauthenticationThreshold
 }
 
-func (o *InputEventhub) GetSasl() *InputEventhubAuthentication {
+func (o *InputEventhub) GetSasl() *AuthenticationEventhub {
 	if o == nil {
 		return nil
 	}
 	return o.Sasl
 }
 
-func (o *InputEventhub) GetTLS() *InputEventhubTLSSettingsClientSide {
+func (o *InputEventhub) GetTLS() *TLSSettingsClientSideEventhub {
 	if o == nil {
 		return nil
 	}
@@ -16469,7 +18951,7 @@ func (o *InputEventhub) GetMinimizeDuplicates() *bool {
 	return o.MinimizeDuplicates
 }
 
-func (o *InputEventhub) GetMetadata() []InputEventhubMetadatum {
+func (o *InputEventhub) GetMetadata() []MetadatumEventhub {
 	if o == nil {
 		return nil
 	}
@@ -16483,62 +18965,105 @@ func (o *InputEventhub) GetDescription() *string {
 	return o.Description
 }
 
-type InputOffice365MsgTraceType string
+type TypeOffice365MsgTrace string
 
 const (
-	InputOffice365MsgTraceTypeOffice365MsgTrace InputOffice365MsgTraceType = "office365_msg_trace"
+	TypeOffice365MsgTraceOffice365MsgTrace TypeOffice365MsgTrace = "office365_msg_trace"
 )
 
-func (e InputOffice365MsgTraceType) ToPointer() *InputOffice365MsgTraceType {
+func (e TypeOffice365MsgTrace) ToPointer() *TypeOffice365MsgTrace {
 	return &e
 }
+func (e *TypeOffice365MsgTrace) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "office365_msg_trace":
+		*e = TypeOffice365MsgTrace(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for TypeOffice365MsgTrace: %v", v)
+	}
+}
 
-type InputOffice365MsgTraceConnection struct {
+type ConnectionOffice365MsgTrace struct {
 	Pipeline *string `json:"pipeline,omitempty"`
 	Output   string  `json:"output"`
 }
 
-func (o *InputOffice365MsgTraceConnection) GetPipeline() *string {
+func (o *ConnectionOffice365MsgTrace) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputOffice365MsgTraceConnection) GetOutput() string {
+func (o *ConnectionOffice365MsgTrace) GetOutput() string {
 	if o == nil {
 		return ""
 	}
 	return o.Output
 }
 
-// InputOffice365MsgTraceMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type InputOffice365MsgTraceMode string
+// ModeOffice365MsgTrace - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+type ModeOffice365MsgTrace string
 
 const (
-	InputOffice365MsgTraceModeSmart  InputOffice365MsgTraceMode = "smart"
-	InputOffice365MsgTraceModeAlways InputOffice365MsgTraceMode = "always"
+	ModeOffice365MsgTraceSmart  ModeOffice365MsgTrace = "smart"
+	ModeOffice365MsgTraceAlways ModeOffice365MsgTrace = "always"
 )
 
-func (e InputOffice365MsgTraceMode) ToPointer() *InputOffice365MsgTraceMode {
+func (e ModeOffice365MsgTrace) ToPointer() *ModeOffice365MsgTrace {
 	return &e
 }
+func (e *ModeOffice365MsgTrace) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = ModeOffice365MsgTrace(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ModeOffice365MsgTrace: %v", v)
+	}
+}
 
-// InputOffice365MsgTraceCompression - Codec to use to compress the persisted data
-type InputOffice365MsgTraceCompression string
+// CompressionOffice365MsgTrace - Codec to use to compress the persisted data
+type CompressionOffice365MsgTrace string
 
 const (
-	InputOffice365MsgTraceCompressionNone InputOffice365MsgTraceCompression = "none"
-	InputOffice365MsgTraceCompressionGzip InputOffice365MsgTraceCompression = "gzip"
+	CompressionOffice365MsgTraceNone CompressionOffice365MsgTrace = "none"
+	CompressionOffice365MsgTraceGzip CompressionOffice365MsgTrace = "gzip"
 )
 
-func (e InputOffice365MsgTraceCompression) ToPointer() *InputOffice365MsgTraceCompression {
+func (e CompressionOffice365MsgTrace) ToPointer() *CompressionOffice365MsgTrace {
 	return &e
 }
+func (e *CompressionOffice365MsgTrace) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = CompressionOffice365MsgTrace(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CompressionOffice365MsgTrace: %v", v)
+	}
+}
 
-type InputOffice365MsgTracePq struct {
+type PqOffice365MsgTrace struct {
 	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *InputOffice365MsgTraceMode `default:"always" json:"mode"`
+	Mode *ModeOffice365MsgTrace `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
 	// The number of events to send downstream before committing that Stream has read them
@@ -16550,135 +19075,194 @@ type InputOffice365MsgTracePq struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
 	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
 	// Codec to use to compress the persisted data
-	Compress *InputOffice365MsgTraceCompression `default:"none" json:"compress"`
+	Compress *CompressionOffice365MsgTrace `default:"none" json:"compress"`
 }
 
-func (i InputOffice365MsgTracePq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PqOffice365MsgTrace) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputOffice365MsgTracePq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PqOffice365MsgTrace) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputOffice365MsgTracePq) GetMode() *InputOffice365MsgTraceMode {
+func (o *PqOffice365MsgTrace) GetMode() *ModeOffice365MsgTrace {
 	if o == nil {
 		return nil
 	}
 	return o.Mode
 }
 
-func (o *InputOffice365MsgTracePq) GetMaxBufferSize() *float64 {
+func (o *PqOffice365MsgTrace) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputOffice365MsgTracePq) GetCommitFrequency() *float64 {
+func (o *PqOffice365MsgTrace) GetCommitFrequency() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.CommitFrequency
 }
 
-func (o *InputOffice365MsgTracePq) GetMaxFileSize() *string {
+func (o *PqOffice365MsgTrace) GetMaxFileSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxFileSize
 }
 
-func (o *InputOffice365MsgTracePq) GetMaxSize() *string {
+func (o *PqOffice365MsgTrace) GetMaxSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxSize
 }
 
-func (o *InputOffice365MsgTracePq) GetPath() *string {
+func (o *PqOffice365MsgTrace) GetPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Path
 }
 
-func (o *InputOffice365MsgTracePq) GetCompress() *InputOffice365MsgTraceCompression {
+func (o *PqOffice365MsgTrace) GetCompress() *CompressionOffice365MsgTrace {
 	if o == nil {
 		return nil
 	}
 	return o.Compress
 }
 
-// InputOffice365MsgTraceAuthenticationMethod - Select authentication method.
-type InputOffice365MsgTraceAuthenticationMethod string
+// AuthenticationMethodOffice365MsgTrace - Select authentication method.
+type AuthenticationMethodOffice365MsgTrace string
 
 const (
-	InputOffice365MsgTraceAuthenticationMethodManual      InputOffice365MsgTraceAuthenticationMethod = "manual"
-	InputOffice365MsgTraceAuthenticationMethodSecret      InputOffice365MsgTraceAuthenticationMethod = "secret"
-	InputOffice365MsgTraceAuthenticationMethodOauth       InputOffice365MsgTraceAuthenticationMethod = "oauth"
-	InputOffice365MsgTraceAuthenticationMethodOauthSecret InputOffice365MsgTraceAuthenticationMethod = "oauthSecret"
-	InputOffice365MsgTraceAuthenticationMethodOauthCert   InputOffice365MsgTraceAuthenticationMethod = "oauthCert"
+	AuthenticationMethodOffice365MsgTraceManual      AuthenticationMethodOffice365MsgTrace = "manual"
+	AuthenticationMethodOffice365MsgTraceSecret      AuthenticationMethodOffice365MsgTrace = "secret"
+	AuthenticationMethodOffice365MsgTraceOauth       AuthenticationMethodOffice365MsgTrace = "oauth"
+	AuthenticationMethodOffice365MsgTraceOauthSecret AuthenticationMethodOffice365MsgTrace = "oauthSecret"
+	AuthenticationMethodOffice365MsgTraceOauthCert   AuthenticationMethodOffice365MsgTrace = "oauthCert"
 )
 
-func (e InputOffice365MsgTraceAuthenticationMethod) ToPointer() *InputOffice365MsgTraceAuthenticationMethod {
+func (e AuthenticationMethodOffice365MsgTrace) ToPointer() *AuthenticationMethodOffice365MsgTrace {
 	return &e
 }
+func (e *AuthenticationMethodOffice365MsgTrace) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "manual":
+		fallthrough
+	case "secret":
+		fallthrough
+	case "oauth":
+		fallthrough
+	case "oauthSecret":
+		fallthrough
+	case "oauthCert":
+		*e = AuthenticationMethodOffice365MsgTrace(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for AuthenticationMethodOffice365MsgTrace: %v", v)
+	}
+}
 
-// InputOffice365MsgTraceLogLevel - Log Level (verbosity) for collection runtime behavior.
-type InputOffice365MsgTraceLogLevel string
+// LogLevelOffice365MsgTrace - Log Level (verbosity) for collection runtime behavior.
+type LogLevelOffice365MsgTrace string
 
 const (
-	InputOffice365MsgTraceLogLevelError InputOffice365MsgTraceLogLevel = "error"
-	InputOffice365MsgTraceLogLevelWarn  InputOffice365MsgTraceLogLevel = "warn"
-	InputOffice365MsgTraceLogLevelInfo  InputOffice365MsgTraceLogLevel = "info"
-	InputOffice365MsgTraceLogLevelDebug InputOffice365MsgTraceLogLevel = "debug"
-	InputOffice365MsgTraceLogLevelSilly InputOffice365MsgTraceLogLevel = "silly"
+	LogLevelOffice365MsgTraceError LogLevelOffice365MsgTrace = "error"
+	LogLevelOffice365MsgTraceWarn  LogLevelOffice365MsgTrace = "warn"
+	LogLevelOffice365MsgTraceInfo  LogLevelOffice365MsgTrace = "info"
+	LogLevelOffice365MsgTraceDebug LogLevelOffice365MsgTrace = "debug"
+	LogLevelOffice365MsgTraceSilly LogLevelOffice365MsgTrace = "silly"
 )
 
-func (e InputOffice365MsgTraceLogLevel) ToPointer() *InputOffice365MsgTraceLogLevel {
+func (e LogLevelOffice365MsgTrace) ToPointer() *LogLevelOffice365MsgTrace {
 	return &e
 }
+func (e *LogLevelOffice365MsgTrace) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "error":
+		fallthrough
+	case "warn":
+		fallthrough
+	case "info":
+		fallthrough
+	case "debug":
+		fallthrough
+	case "silly":
+		*e = LogLevelOffice365MsgTrace(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for LogLevelOffice365MsgTrace: %v", v)
+	}
+}
 
-type InputOffice365MsgTraceMetadatum struct {
+type MetadatumOffice365MsgTrace struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputOffice365MsgTraceMetadatum) GetName() string {
+func (o *MetadatumOffice365MsgTrace) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputOffice365MsgTraceMetadatum) GetValue() string {
+func (o *MetadatumOffice365MsgTrace) GetValue() string {
 	if o == nil {
 		return ""
 	}
 	return o.Value
 }
 
-// InputOffice365MsgTraceRetryType - The algorithm to use when performing HTTP retries
-type InputOffice365MsgTraceRetryType string
+// RetryTypeOffice365MsgTrace - The algorithm to use when performing HTTP retries
+type RetryTypeOffice365MsgTrace string
 
 const (
-	InputOffice365MsgTraceRetryTypeNone    InputOffice365MsgTraceRetryType = "none"
-	InputOffice365MsgTraceRetryTypeBackoff InputOffice365MsgTraceRetryType = "backoff"
-	InputOffice365MsgTraceRetryTypeStatic  InputOffice365MsgTraceRetryType = "static"
+	RetryTypeOffice365MsgTraceNone    RetryTypeOffice365MsgTrace = "none"
+	RetryTypeOffice365MsgTraceBackoff RetryTypeOffice365MsgTrace = "backoff"
+	RetryTypeOffice365MsgTraceStatic  RetryTypeOffice365MsgTrace = "static"
 )
 
-func (e InputOffice365MsgTraceRetryType) ToPointer() *InputOffice365MsgTraceRetryType {
+func (e RetryTypeOffice365MsgTrace) ToPointer() *RetryTypeOffice365MsgTrace {
 	return &e
 }
+func (e *RetryTypeOffice365MsgTrace) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "backoff":
+		fallthrough
+	case "static":
+		*e = RetryTypeOffice365MsgTrace(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for RetryTypeOffice365MsgTrace: %v", v)
+	}
+}
 
-type InputOffice365MsgTraceRetryRules struct {
+type RetryRulesOffice365MsgTrace struct {
 	// The algorithm to use when performing HTTP retries
-	Type *InputOffice365MsgTraceRetryType `default:"backoff" json:"type"`
+	Type *RetryTypeOffice365MsgTrace `default:"backoff" json:"type"`
 	// Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute).
 	Interval *float64 `default:"1000" json:"interval"`
 	// The maximum number of times to retry a failed HTTP request
@@ -16695,85 +19279,104 @@ type InputOffice365MsgTraceRetryRules struct {
 	RetryConnectReset *bool `default:"false" json:"retryConnectReset"`
 }
 
-func (i InputOffice365MsgTraceRetryRules) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (r RetryRulesOffice365MsgTrace) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(r, "", false)
 }
 
-func (i *InputOffice365MsgTraceRetryRules) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (r *RetryRulesOffice365MsgTrace) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &r, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputOffice365MsgTraceRetryRules) GetType() *InputOffice365MsgTraceRetryType {
+func (o *RetryRulesOffice365MsgTrace) GetType() *RetryTypeOffice365MsgTrace {
 	if o == nil {
 		return nil
 	}
 	return o.Type
 }
 
-func (o *InputOffice365MsgTraceRetryRules) GetInterval() *float64 {
+func (o *RetryRulesOffice365MsgTrace) GetInterval() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.Interval
 }
 
-func (o *InputOffice365MsgTraceRetryRules) GetLimit() *float64 {
+func (o *RetryRulesOffice365MsgTrace) GetLimit() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.Limit
 }
 
-func (o *InputOffice365MsgTraceRetryRules) GetMultiplier() *float64 {
+func (o *RetryRulesOffice365MsgTrace) GetMultiplier() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.Multiplier
 }
 
-func (o *InputOffice365MsgTraceRetryRules) GetCodes() []float64 {
+func (o *RetryRulesOffice365MsgTrace) GetCodes() []float64 {
 	if o == nil {
 		return nil
 	}
 	return o.Codes
 }
 
-func (o *InputOffice365MsgTraceRetryRules) GetEnableHeader() *bool {
+func (o *RetryRulesOffice365MsgTrace) GetEnableHeader() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.EnableHeader
 }
 
-func (o *InputOffice365MsgTraceRetryRules) GetRetryConnectTimeout() *bool {
+func (o *RetryRulesOffice365MsgTrace) GetRetryConnectTimeout() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.RetryConnectTimeout
 }
 
-func (o *InputOffice365MsgTraceRetryRules) GetRetryConnectReset() *bool {
+func (o *RetryRulesOffice365MsgTrace) GetRetryConnectReset() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.RetryConnectReset
 }
 
-// InputOffice365MsgTraceSubscriptionPlan - Office 365 subscription plan for your organization, typically Office 365 Enterprise
-type InputOffice365MsgTraceSubscriptionPlan string
+// SubscriptionPlanOffice365MsgTrace - Office 365 subscription plan for your organization, typically Office 365 Enterprise
+type SubscriptionPlanOffice365MsgTrace string
 
 const (
-	InputOffice365MsgTraceSubscriptionPlanEnterpriseGcc InputOffice365MsgTraceSubscriptionPlan = "enterprise_gcc"
-	InputOffice365MsgTraceSubscriptionPlanGcc           InputOffice365MsgTraceSubscriptionPlan = "gcc"
-	InputOffice365MsgTraceSubscriptionPlanGccHigh       InputOffice365MsgTraceSubscriptionPlan = "gcc_high"
-	InputOffice365MsgTraceSubscriptionPlanDod           InputOffice365MsgTraceSubscriptionPlan = "dod"
+	SubscriptionPlanOffice365MsgTraceEnterpriseGcc SubscriptionPlanOffice365MsgTrace = "enterprise_gcc"
+	SubscriptionPlanOffice365MsgTraceGcc           SubscriptionPlanOffice365MsgTrace = "gcc"
+	SubscriptionPlanOffice365MsgTraceGccHigh       SubscriptionPlanOffice365MsgTrace = "gcc_high"
+	SubscriptionPlanOffice365MsgTraceDod           SubscriptionPlanOffice365MsgTrace = "dod"
 )
 
-func (e InputOffice365MsgTraceSubscriptionPlan) ToPointer() *InputOffice365MsgTraceSubscriptionPlan {
+func (e SubscriptionPlanOffice365MsgTrace) ToPointer() *SubscriptionPlanOffice365MsgTrace {
 	return &e
+}
+func (e *SubscriptionPlanOffice365MsgTrace) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "enterprise_gcc":
+		fallthrough
+	case "gcc":
+		fallthrough
+	case "gcc_high":
+		fallthrough
+	case "dod":
+		*e = SubscriptionPlanOffice365MsgTrace(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for SubscriptionPlanOffice365MsgTrace: %v", v)
+	}
 }
 
 type CertOptions struct {
@@ -16817,9 +19420,9 @@ func (o *CertOptions) GetCertPath() string {
 
 type InputOffice365MsgTrace struct {
 	// Unique ID for this input
-	ID       string                      `json:"id"`
-	Type     *InputOffice365MsgTraceType `json:"type,omitempty"`
-	Disabled *bool                       `default:"false" json:"disabled"`
+	ID       string                 `json:"id"`
+	Type     *TypeOffice365MsgTrace `json:"type,omitempty"`
+	Disabled *bool                  `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -16831,8 +19434,8 @@ type InputOffice365MsgTrace struct {
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputOffice365MsgTraceConnection `json:"connections,omitempty"`
-	Pq          *InputOffice365MsgTracePq          `json:"pq,omitempty"`
+	Connections []ConnectionOffice365MsgTrace `json:"connections,omitempty"`
+	Pq          *PqOffice365MsgTrace          `json:"pq,omitempty"`
 	// URL to use when retrieving report data.
 	URL *string `default:"https://reports.office365.com/ecp/reportingwebservice/reporting.svc/MessageTrace" json:"url"`
 	// How often (in minutes) to run the report. Must divide evenly into 60 minutes to create a predictable schedule, or Save will fail.
@@ -16846,13 +19449,13 @@ type InputOffice365MsgTrace struct {
 	// Disables time filtering of events when a date range is specified.
 	DisableTimeFilter *bool `default:"true" json:"disableTimeFilter"`
 	// Select authentication method.
-	AuthType *InputOffice365MsgTraceAuthenticationMethod `default:"oauth" json:"authType"`
+	AuthType *AuthenticationMethodOffice365MsgTrace `default:"oauth" json:"authType"`
 	// Reschedule tasks that failed with non-fatal errors
 	RescheduleDroppedTasks *bool `default:"true" json:"rescheduleDroppedTasks"`
 	// Maximum number of times a task can be rescheduled
 	MaxTaskReschedule *float64 `default:"1" json:"maxTaskReschedule"`
 	// Log Level (verbosity) for collection runtime behavior.
-	LogLevel *InputOffice365MsgTraceLogLevel `default:"info" json:"logLevel"`
+	LogLevel *LogLevelOffice365MsgTrace `default:"info" json:"logLevel"`
 	// Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time.
 	JobTimeout *string `default:"0" json:"jobTimeout"`
 	// How often workers should check in with the scheduler to keep job subscription alive
@@ -16864,9 +19467,9 @@ type InputOffice365MsgTrace struct {
 	// When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live.
 	IgnoreGroupJobsLimit *bool `default:"false" json:"ignoreGroupJobsLimit"`
 	// Fields to add to events from this input
-	Metadata    []InputOffice365MsgTraceMetadatum `json:"metadata,omitempty"`
-	RetryRules  *InputOffice365MsgTraceRetryRules `json:"retryRules,omitempty"`
-	Description *string                           `json:"description,omitempty"`
+	Metadata    []MetadatumOffice365MsgTrace `json:"metadata,omitempty"`
+	RetryRules  *RetryRulesOffice365MsgTrace `json:"retryRules,omitempty"`
+	Description *string                      `json:"description,omitempty"`
 	// Username to run Message Trace API call.
 	Username *string `json:"username,omitempty"`
 	// Password to run Message Trace API call.
@@ -16882,7 +19485,7 @@ type InputOffice365MsgTrace struct {
 	// Resource to pass in the OAuth request parameter.
 	Resource *string `default:"https://outlook.office365.com" json:"resource"`
 	// Office 365 subscription plan for your organization, typically Office 365 Enterprise
-	PlanType *InputOffice365MsgTraceSubscriptionPlan `default:"enterprise_gcc" json:"planType"`
+	PlanType *SubscriptionPlanOffice365MsgTrace `default:"enterprise_gcc" json:"planType"`
 	// Select or create a secret that references your client_secret to pass in the OAuth request parameter.
 	TextSecret  *string      `json:"textSecret,omitempty"`
 	CertOptions *CertOptions `json:"certOptions,omitempty"`
@@ -16906,7 +19509,7 @@ func (o *InputOffice365MsgTrace) GetID() string {
 	return o.ID
 }
 
-func (o *InputOffice365MsgTrace) GetType() *InputOffice365MsgTraceType {
+func (o *InputOffice365MsgTrace) GetType() *TypeOffice365MsgTrace {
 	if o == nil {
 		return nil
 	}
@@ -16955,14 +19558,14 @@ func (o *InputOffice365MsgTrace) GetStreamtags() []string {
 	return o.Streamtags
 }
 
-func (o *InputOffice365MsgTrace) GetConnections() []InputOffice365MsgTraceConnection {
+func (o *InputOffice365MsgTrace) GetConnections() []ConnectionOffice365MsgTrace {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputOffice365MsgTrace) GetPq() *InputOffice365MsgTracePq {
+func (o *InputOffice365MsgTrace) GetPq() *PqOffice365MsgTrace {
 	if o == nil {
 		return nil
 	}
@@ -17011,7 +19614,7 @@ func (o *InputOffice365MsgTrace) GetDisableTimeFilter() *bool {
 	return o.DisableTimeFilter
 }
 
-func (o *InputOffice365MsgTrace) GetAuthType() *InputOffice365MsgTraceAuthenticationMethod {
+func (o *InputOffice365MsgTrace) GetAuthType() *AuthenticationMethodOffice365MsgTrace {
 	if o == nil {
 		return nil
 	}
@@ -17032,7 +19635,7 @@ func (o *InputOffice365MsgTrace) GetMaxTaskReschedule() *float64 {
 	return o.MaxTaskReschedule
 }
 
-func (o *InputOffice365MsgTrace) GetLogLevel() *InputOffice365MsgTraceLogLevel {
+func (o *InputOffice365MsgTrace) GetLogLevel() *LogLevelOffice365MsgTrace {
 	if o == nil {
 		return nil
 	}
@@ -17074,14 +19677,14 @@ func (o *InputOffice365MsgTrace) GetIgnoreGroupJobsLimit() *bool {
 	return o.IgnoreGroupJobsLimit
 }
 
-func (o *InputOffice365MsgTrace) GetMetadata() []InputOffice365MsgTraceMetadatum {
+func (o *InputOffice365MsgTrace) GetMetadata() []MetadatumOffice365MsgTrace {
 	if o == nil {
 		return nil
 	}
 	return o.Metadata
 }
 
-func (o *InputOffice365MsgTrace) GetRetryRules() *InputOffice365MsgTraceRetryRules {
+func (o *InputOffice365MsgTrace) GetRetryRules() *RetryRulesOffice365MsgTrace {
 	if o == nil {
 		return nil
 	}
@@ -17144,7 +19747,7 @@ func (o *InputOffice365MsgTrace) GetResource() *string {
 	return o.Resource
 }
 
-func (o *InputOffice365MsgTrace) GetPlanType() *InputOffice365MsgTraceSubscriptionPlan {
+func (o *InputOffice365MsgTrace) GetPlanType() *SubscriptionPlanOffice365MsgTrace {
 	if o == nil {
 		return nil
 	}
@@ -17165,62 +19768,105 @@ func (o *InputOffice365MsgTrace) GetCertOptions() *CertOptions {
 	return o.CertOptions
 }
 
-type InputOffice365ServiceType string
+type TypeOffice365Service string
 
 const (
-	InputOffice365ServiceTypeOffice365Service InputOffice365ServiceType = "office365_service"
+	TypeOffice365ServiceOffice365Service TypeOffice365Service = "office365_service"
 )
 
-func (e InputOffice365ServiceType) ToPointer() *InputOffice365ServiceType {
+func (e TypeOffice365Service) ToPointer() *TypeOffice365Service {
 	return &e
 }
+func (e *TypeOffice365Service) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "office365_service":
+		*e = TypeOffice365Service(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for TypeOffice365Service: %v", v)
+	}
+}
 
-type InputOffice365ServiceConnection struct {
+type ConnectionOffice365Service struct {
 	Pipeline *string `json:"pipeline,omitempty"`
 	Output   string  `json:"output"`
 }
 
-func (o *InputOffice365ServiceConnection) GetPipeline() *string {
+func (o *ConnectionOffice365Service) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputOffice365ServiceConnection) GetOutput() string {
+func (o *ConnectionOffice365Service) GetOutput() string {
 	if o == nil {
 		return ""
 	}
 	return o.Output
 }
 
-// InputOffice365ServiceMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type InputOffice365ServiceMode string
+// ModeOffice365Service - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+type ModeOffice365Service string
 
 const (
-	InputOffice365ServiceModeSmart  InputOffice365ServiceMode = "smart"
-	InputOffice365ServiceModeAlways InputOffice365ServiceMode = "always"
+	ModeOffice365ServiceSmart  ModeOffice365Service = "smart"
+	ModeOffice365ServiceAlways ModeOffice365Service = "always"
 )
 
-func (e InputOffice365ServiceMode) ToPointer() *InputOffice365ServiceMode {
+func (e ModeOffice365Service) ToPointer() *ModeOffice365Service {
 	return &e
 }
+func (e *ModeOffice365Service) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = ModeOffice365Service(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ModeOffice365Service: %v", v)
+	}
+}
 
-// InputOffice365ServiceCompression - Codec to use to compress the persisted data
-type InputOffice365ServiceCompression string
+// CompressionOffice365Service - Codec to use to compress the persisted data
+type CompressionOffice365Service string
 
 const (
-	InputOffice365ServiceCompressionNone InputOffice365ServiceCompression = "none"
-	InputOffice365ServiceCompressionGzip InputOffice365ServiceCompression = "gzip"
+	CompressionOffice365ServiceNone CompressionOffice365Service = "none"
+	CompressionOffice365ServiceGzip CompressionOffice365Service = "gzip"
 )
 
-func (e InputOffice365ServiceCompression) ToPointer() *InputOffice365ServiceCompression {
+func (e CompressionOffice365Service) ToPointer() *CompressionOffice365Service {
 	return &e
 }
+func (e *CompressionOffice365Service) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = CompressionOffice365Service(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CompressionOffice365Service: %v", v)
+	}
+}
 
-type InputOffice365ServicePq struct {
+type PqOffice365Service struct {
 	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *InputOffice365ServiceMode `default:"always" json:"mode"`
+	Mode *ModeOffice365Service `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
 	// The number of events to send downstream before committing that Stream has read them
@@ -17232,179 +19878,234 @@ type InputOffice365ServicePq struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
 	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
 	// Codec to use to compress the persisted data
-	Compress *InputOffice365ServiceCompression `default:"none" json:"compress"`
+	Compress *CompressionOffice365Service `default:"none" json:"compress"`
 }
 
-func (i InputOffice365ServicePq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PqOffice365Service) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputOffice365ServicePq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PqOffice365Service) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputOffice365ServicePq) GetMode() *InputOffice365ServiceMode {
+func (o *PqOffice365Service) GetMode() *ModeOffice365Service {
 	if o == nil {
 		return nil
 	}
 	return o.Mode
 }
 
-func (o *InputOffice365ServicePq) GetMaxBufferSize() *float64 {
+func (o *PqOffice365Service) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputOffice365ServicePq) GetCommitFrequency() *float64 {
+func (o *PqOffice365Service) GetCommitFrequency() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.CommitFrequency
 }
 
-func (o *InputOffice365ServicePq) GetMaxFileSize() *string {
+func (o *PqOffice365Service) GetMaxFileSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxFileSize
 }
 
-func (o *InputOffice365ServicePq) GetMaxSize() *string {
+func (o *PqOffice365Service) GetMaxSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxSize
 }
 
-func (o *InputOffice365ServicePq) GetPath() *string {
+func (o *PqOffice365Service) GetPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Path
 }
 
-func (o *InputOffice365ServicePq) GetCompress() *InputOffice365ServiceCompression {
+func (o *PqOffice365Service) GetCompress() *CompressionOffice365Service {
 	if o == nil {
 		return nil
 	}
 	return o.Compress
 }
 
-// InputOffice365ServiceSubscriptionPlan - Office 365 subscription plan for your organization, typically Office 365 Enterprise
-type InputOffice365ServiceSubscriptionPlan string
+// SubscriptionPlanOffice365Service - Office 365 subscription plan for your organization, typically Office 365 Enterprise
+type SubscriptionPlanOffice365Service string
 
 const (
-	InputOffice365ServiceSubscriptionPlanEnterpriseGcc InputOffice365ServiceSubscriptionPlan = "enterprise_gcc"
-	InputOffice365ServiceSubscriptionPlanGcc           InputOffice365ServiceSubscriptionPlan = "gcc"
-	InputOffice365ServiceSubscriptionPlanGccHigh       InputOffice365ServiceSubscriptionPlan = "gcc_high"
-	InputOffice365ServiceSubscriptionPlanDod           InputOffice365ServiceSubscriptionPlan = "dod"
+	SubscriptionPlanOffice365ServiceEnterpriseGcc SubscriptionPlanOffice365Service = "enterprise_gcc"
+	SubscriptionPlanOffice365ServiceGcc           SubscriptionPlanOffice365Service = "gcc"
+	SubscriptionPlanOffice365ServiceGccHigh       SubscriptionPlanOffice365Service = "gcc_high"
+	SubscriptionPlanOffice365ServiceDod           SubscriptionPlanOffice365Service = "dod"
 )
 
-func (e InputOffice365ServiceSubscriptionPlan) ToPointer() *InputOffice365ServiceSubscriptionPlan {
+func (e SubscriptionPlanOffice365Service) ToPointer() *SubscriptionPlanOffice365Service {
 	return &e
 }
+func (e *SubscriptionPlanOffice365Service) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "enterprise_gcc":
+		fallthrough
+	case "gcc":
+		fallthrough
+	case "gcc_high":
+		fallthrough
+	case "dod":
+		*e = SubscriptionPlanOffice365Service(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for SubscriptionPlanOffice365Service: %v", v)
+	}
+}
 
-type InputOffice365ServiceMetadatum struct {
+type MetadatumOffice365Service struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputOffice365ServiceMetadatum) GetName() string {
+func (o *MetadatumOffice365Service) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputOffice365ServiceMetadatum) GetValue() string {
+func (o *MetadatumOffice365Service) GetValue() string {
 	if o == nil {
 		return ""
 	}
 	return o.Value
 }
 
-// InputOffice365ServiceLogLevel - Collector runtime Log Level
-type InputOffice365ServiceLogLevel string
+// LogLevelOffice365Service - Collector runtime Log Level
+type LogLevelOffice365Service string
 
 const (
-	InputOffice365ServiceLogLevelError InputOffice365ServiceLogLevel = "error"
-	InputOffice365ServiceLogLevelWarn  InputOffice365ServiceLogLevel = "warn"
-	InputOffice365ServiceLogLevelInfo  InputOffice365ServiceLogLevel = "info"
-	InputOffice365ServiceLogLevelDebug InputOffice365ServiceLogLevel = "debug"
+	LogLevelOffice365ServiceError LogLevelOffice365Service = "error"
+	LogLevelOffice365ServiceWarn  LogLevelOffice365Service = "warn"
+	LogLevelOffice365ServiceInfo  LogLevelOffice365Service = "info"
+	LogLevelOffice365ServiceDebug LogLevelOffice365Service = "debug"
 )
 
-func (e InputOffice365ServiceLogLevel) ToPointer() *InputOffice365ServiceLogLevel {
+func (e LogLevelOffice365Service) ToPointer() *LogLevelOffice365Service {
 	return &e
 }
+func (e *LogLevelOffice365Service) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "error":
+		fallthrough
+	case "warn":
+		fallthrough
+	case "info":
+		fallthrough
+	case "debug":
+		*e = LogLevelOffice365Service(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for LogLevelOffice365Service: %v", v)
+	}
+}
 
-type InputOffice365ServiceContentConfig struct {
+type ContentConfigOffice365Service struct {
 	// Office 365 Services API Content Type
 	ContentType *string `json:"contentType,omitempty"`
 	// If interval type is minutes the value entered must evenly divisible by 60 or save will fail
 	Description *string  `json:"description,omitempty"`
 	Interval    *float64 `json:"interval,omitempty"`
 	// Collector runtime Log Level
-	LogLevel *InputOffice365ServiceLogLevel `json:"logLevel,omitempty"`
-	Enabled  *bool                          `json:"enabled,omitempty"`
+	LogLevel *LogLevelOffice365Service `json:"logLevel,omitempty"`
+	Enabled  *bool                     `json:"enabled,omitempty"`
 }
 
-func (o *InputOffice365ServiceContentConfig) GetContentType() *string {
+func (o *ContentConfigOffice365Service) GetContentType() *string {
 	if o == nil {
 		return nil
 	}
 	return o.ContentType
 }
 
-func (o *InputOffice365ServiceContentConfig) GetDescription() *string {
+func (o *ContentConfigOffice365Service) GetDescription() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Description
 }
 
-func (o *InputOffice365ServiceContentConfig) GetInterval() *float64 {
+func (o *ContentConfigOffice365Service) GetInterval() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.Interval
 }
 
-func (o *InputOffice365ServiceContentConfig) GetLogLevel() *InputOffice365ServiceLogLevel {
+func (o *ContentConfigOffice365Service) GetLogLevel() *LogLevelOffice365Service {
 	if o == nil {
 		return nil
 	}
 	return o.LogLevel
 }
 
-func (o *InputOffice365ServiceContentConfig) GetEnabled() *bool {
+func (o *ContentConfigOffice365Service) GetEnabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Enabled
 }
 
-// InputOffice365ServiceRetryType - The algorithm to use when performing HTTP retries
-type InputOffice365ServiceRetryType string
+// RetryTypeOffice365Service - The algorithm to use when performing HTTP retries
+type RetryTypeOffice365Service string
 
 const (
-	InputOffice365ServiceRetryTypeNone    InputOffice365ServiceRetryType = "none"
-	InputOffice365ServiceRetryTypeBackoff InputOffice365ServiceRetryType = "backoff"
-	InputOffice365ServiceRetryTypeStatic  InputOffice365ServiceRetryType = "static"
+	RetryTypeOffice365ServiceNone    RetryTypeOffice365Service = "none"
+	RetryTypeOffice365ServiceBackoff RetryTypeOffice365Service = "backoff"
+	RetryTypeOffice365ServiceStatic  RetryTypeOffice365Service = "static"
 )
 
-func (e InputOffice365ServiceRetryType) ToPointer() *InputOffice365ServiceRetryType {
+func (e RetryTypeOffice365Service) ToPointer() *RetryTypeOffice365Service {
 	return &e
 }
+func (e *RetryTypeOffice365Service) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "backoff":
+		fallthrough
+	case "static":
+		*e = RetryTypeOffice365Service(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for RetryTypeOffice365Service: %v", v)
+	}
+}
 
-type InputOffice365ServiceRetryRules struct {
+type RetryRulesOffice365Service struct {
 	// The algorithm to use when performing HTTP retries
-	Type *InputOffice365ServiceRetryType `default:"backoff" json:"type"`
+	Type *RetryTypeOffice365Service `default:"backoff" json:"type"`
 	// Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute).
 	Interval *float64 `default:"1000" json:"interval"`
 	// The maximum number of times to retry a failed HTTP request
@@ -17421,90 +20122,105 @@ type InputOffice365ServiceRetryRules struct {
 	RetryConnectReset *bool `default:"false" json:"retryConnectReset"`
 }
 
-func (i InputOffice365ServiceRetryRules) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (r RetryRulesOffice365Service) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(r, "", false)
 }
 
-func (i *InputOffice365ServiceRetryRules) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (r *RetryRulesOffice365Service) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &r, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputOffice365ServiceRetryRules) GetType() *InputOffice365ServiceRetryType {
+func (o *RetryRulesOffice365Service) GetType() *RetryTypeOffice365Service {
 	if o == nil {
 		return nil
 	}
 	return o.Type
 }
 
-func (o *InputOffice365ServiceRetryRules) GetInterval() *float64 {
+func (o *RetryRulesOffice365Service) GetInterval() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.Interval
 }
 
-func (o *InputOffice365ServiceRetryRules) GetLimit() *float64 {
+func (o *RetryRulesOffice365Service) GetLimit() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.Limit
 }
 
-func (o *InputOffice365ServiceRetryRules) GetMultiplier() *float64 {
+func (o *RetryRulesOffice365Service) GetMultiplier() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.Multiplier
 }
 
-func (o *InputOffice365ServiceRetryRules) GetCodes() []float64 {
+func (o *RetryRulesOffice365Service) GetCodes() []float64 {
 	if o == nil {
 		return nil
 	}
 	return o.Codes
 }
 
-func (o *InputOffice365ServiceRetryRules) GetEnableHeader() *bool {
+func (o *RetryRulesOffice365Service) GetEnableHeader() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.EnableHeader
 }
 
-func (o *InputOffice365ServiceRetryRules) GetRetryConnectTimeout() *bool {
+func (o *RetryRulesOffice365Service) GetRetryConnectTimeout() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.RetryConnectTimeout
 }
 
-func (o *InputOffice365ServiceRetryRules) GetRetryConnectReset() *bool {
+func (o *RetryRulesOffice365Service) GetRetryConnectReset() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.RetryConnectReset
 }
 
-// InputOffice365ServiceAuthenticationMethod - Enter client secret directly, or select a stored secret
-type InputOffice365ServiceAuthenticationMethod string
+// AuthenticationMethodOffice365Service - Enter client secret directly, or select a stored secret
+type AuthenticationMethodOffice365Service string
 
 const (
-	InputOffice365ServiceAuthenticationMethodManual InputOffice365ServiceAuthenticationMethod = "manual"
-	InputOffice365ServiceAuthenticationMethodSecret InputOffice365ServiceAuthenticationMethod = "secret"
+	AuthenticationMethodOffice365ServiceManual AuthenticationMethodOffice365Service = "manual"
+	AuthenticationMethodOffice365ServiceSecret AuthenticationMethodOffice365Service = "secret"
 )
 
-func (e InputOffice365ServiceAuthenticationMethod) ToPointer() *InputOffice365ServiceAuthenticationMethod {
+func (e AuthenticationMethodOffice365Service) ToPointer() *AuthenticationMethodOffice365Service {
 	return &e
+}
+func (e *AuthenticationMethodOffice365Service) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = AuthenticationMethodOffice365Service(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for AuthenticationMethodOffice365Service: %v", v)
+	}
 }
 
 type InputOffice365Service struct {
 	// Unique ID for this input
-	ID       string                     `json:"id"`
-	Type     *InputOffice365ServiceType `json:"type,omitempty"`
-	Disabled *bool                      `default:"false" json:"disabled"`
+	ID       string                `json:"id"`
+	Type     *TypeOffice365Service `json:"type,omitempty"`
+	Disabled *bool                 `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -17516,10 +20232,10 @@ type InputOffice365Service struct {
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputOffice365ServiceConnection `json:"connections,omitempty"`
-	Pq          *InputOffice365ServicePq          `json:"pq,omitempty"`
+	Connections []ConnectionOffice365Service `json:"connections,omitempty"`
+	Pq          *PqOffice365Service          `json:"pq,omitempty"`
 	// Office 365 subscription plan for your organization, typically Office 365 Enterprise
-	PlanType *InputOffice365ServiceSubscriptionPlan `default:"enterprise_gcc" json:"planType"`
+	PlanType *SubscriptionPlanOffice365Service `default:"enterprise_gcc" json:"planType"`
 	// Office 365 Azure Tenant ID
 	TenantID string `json:"tenantId"`
 	// Office 365 Azure Application ID
@@ -17537,13 +20253,13 @@ type InputOffice365Service struct {
 	// When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live.
 	IgnoreGroupJobsLimit *bool `default:"false" json:"ignoreGroupJobsLimit"`
 	// Fields to add to events from this input
-	Metadata []InputOffice365ServiceMetadatum `json:"metadata,omitempty"`
+	Metadata []MetadatumOffice365Service `json:"metadata,omitempty"`
 	// Enable Office 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule.
-	ContentConfig []InputOffice365ServiceContentConfig `json:"contentConfig,omitempty"`
-	RetryRules    *InputOffice365ServiceRetryRules     `json:"retryRules,omitempty"`
+	ContentConfig []ContentConfigOffice365Service `json:"contentConfig,omitempty"`
+	RetryRules    *RetryRulesOffice365Service     `json:"retryRules,omitempty"`
 	// Enter client secret directly, or select a stored secret
-	AuthType    *InputOffice365ServiceAuthenticationMethod `default:"manual" json:"authType"`
-	Description *string                                    `json:"description,omitempty"`
+	AuthType    *AuthenticationMethodOffice365Service `default:"manual" json:"authType"`
+	Description *string                               `json:"description,omitempty"`
 	// Office 365 Azure client secret
 	ClientSecret *string `json:"clientSecret,omitempty"`
 	// Select or create a stored text secret
@@ -17568,7 +20284,7 @@ func (o *InputOffice365Service) GetID() string {
 	return o.ID
 }
 
-func (o *InputOffice365Service) GetType() *InputOffice365ServiceType {
+func (o *InputOffice365Service) GetType() *TypeOffice365Service {
 	if o == nil {
 		return nil
 	}
@@ -17617,21 +20333,21 @@ func (o *InputOffice365Service) GetStreamtags() []string {
 	return o.Streamtags
 }
 
-func (o *InputOffice365Service) GetConnections() []InputOffice365ServiceConnection {
+func (o *InputOffice365Service) GetConnections() []ConnectionOffice365Service {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputOffice365Service) GetPq() *InputOffice365ServicePq {
+func (o *InputOffice365Service) GetPq() *PqOffice365Service {
 	if o == nil {
 		return nil
 	}
 	return o.Pq
 }
 
-func (o *InputOffice365Service) GetPlanType() *InputOffice365ServiceSubscriptionPlan {
+func (o *InputOffice365Service) GetPlanType() *SubscriptionPlanOffice365Service {
 	if o == nil {
 		return nil
 	}
@@ -17694,28 +20410,28 @@ func (o *InputOffice365Service) GetIgnoreGroupJobsLimit() *bool {
 	return o.IgnoreGroupJobsLimit
 }
 
-func (o *InputOffice365Service) GetMetadata() []InputOffice365ServiceMetadatum {
+func (o *InputOffice365Service) GetMetadata() []MetadatumOffice365Service {
 	if o == nil {
 		return nil
 	}
 	return o.Metadata
 }
 
-func (o *InputOffice365Service) GetContentConfig() []InputOffice365ServiceContentConfig {
+func (o *InputOffice365Service) GetContentConfig() []ContentConfigOffice365Service {
 	if o == nil {
 		return nil
 	}
 	return o.ContentConfig
 }
 
-func (o *InputOffice365Service) GetRetryRules() *InputOffice365ServiceRetryRules {
+func (o *InputOffice365Service) GetRetryRules() *RetryRulesOffice365Service {
 	if o == nil {
 		return nil
 	}
 	return o.RetryRules
 }
 
-func (o *InputOffice365Service) GetAuthType() *InputOffice365ServiceAuthenticationMethod {
+func (o *InputOffice365Service) GetAuthType() *AuthenticationMethodOffice365Service {
 	if o == nil {
 		return nil
 	}
@@ -17743,62 +20459,105 @@ func (o *InputOffice365Service) GetTextSecret() *string {
 	return o.TextSecret
 }
 
-type InputOffice365MgmtType string
+type TypeOffice365Mgmt string
 
 const (
-	InputOffice365MgmtTypeOffice365Mgmt InputOffice365MgmtType = "office365_mgmt"
+	TypeOffice365MgmtOffice365Mgmt TypeOffice365Mgmt = "office365_mgmt"
 )
 
-func (e InputOffice365MgmtType) ToPointer() *InputOffice365MgmtType {
+func (e TypeOffice365Mgmt) ToPointer() *TypeOffice365Mgmt {
 	return &e
 }
+func (e *TypeOffice365Mgmt) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "office365_mgmt":
+		*e = TypeOffice365Mgmt(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for TypeOffice365Mgmt: %v", v)
+	}
+}
 
-type InputOffice365MgmtConnection struct {
+type ConnectionOffice365Mgmt struct {
 	Pipeline *string `json:"pipeline,omitempty"`
 	Output   string  `json:"output"`
 }
 
-func (o *InputOffice365MgmtConnection) GetPipeline() *string {
+func (o *ConnectionOffice365Mgmt) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputOffice365MgmtConnection) GetOutput() string {
+func (o *ConnectionOffice365Mgmt) GetOutput() string {
 	if o == nil {
 		return ""
 	}
 	return o.Output
 }
 
-// InputOffice365MgmtMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type InputOffice365MgmtMode string
+// ModeOffice365Mgmt - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+type ModeOffice365Mgmt string
 
 const (
-	InputOffice365MgmtModeSmart  InputOffice365MgmtMode = "smart"
-	InputOffice365MgmtModeAlways InputOffice365MgmtMode = "always"
+	ModeOffice365MgmtSmart  ModeOffice365Mgmt = "smart"
+	ModeOffice365MgmtAlways ModeOffice365Mgmt = "always"
 )
 
-func (e InputOffice365MgmtMode) ToPointer() *InputOffice365MgmtMode {
+func (e ModeOffice365Mgmt) ToPointer() *ModeOffice365Mgmt {
 	return &e
 }
+func (e *ModeOffice365Mgmt) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = ModeOffice365Mgmt(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ModeOffice365Mgmt: %v", v)
+	}
+}
 
-// InputOffice365MgmtCompression - Codec to use to compress the persisted data
-type InputOffice365MgmtCompression string
+// CompressionOffice365Mgmt - Codec to use to compress the persisted data
+type CompressionOffice365Mgmt string
 
 const (
-	InputOffice365MgmtCompressionNone InputOffice365MgmtCompression = "none"
-	InputOffice365MgmtCompressionGzip InputOffice365MgmtCompression = "gzip"
+	CompressionOffice365MgmtNone CompressionOffice365Mgmt = "none"
+	CompressionOffice365MgmtGzip CompressionOffice365Mgmt = "gzip"
 )
 
-func (e InputOffice365MgmtCompression) ToPointer() *InputOffice365MgmtCompression {
+func (e CompressionOffice365Mgmt) ToPointer() *CompressionOffice365Mgmt {
 	return &e
 }
+func (e *CompressionOffice365Mgmt) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = CompressionOffice365Mgmt(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CompressionOffice365Mgmt: %v", v)
+	}
+}
 
-type InputOffice365MgmtPq struct {
+type PqOffice365Mgmt struct {
 	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *InputOffice365MgmtMode `default:"always" json:"mode"`
+	Mode *ModeOffice365Mgmt `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
 	// The number of events to send downstream before committing that Stream has read them
@@ -17810,179 +20569,234 @@ type InputOffice365MgmtPq struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
 	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
 	// Codec to use to compress the persisted data
-	Compress *InputOffice365MgmtCompression `default:"none" json:"compress"`
+	Compress *CompressionOffice365Mgmt `default:"none" json:"compress"`
 }
 
-func (i InputOffice365MgmtPq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PqOffice365Mgmt) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputOffice365MgmtPq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PqOffice365Mgmt) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputOffice365MgmtPq) GetMode() *InputOffice365MgmtMode {
+func (o *PqOffice365Mgmt) GetMode() *ModeOffice365Mgmt {
 	if o == nil {
 		return nil
 	}
 	return o.Mode
 }
 
-func (o *InputOffice365MgmtPq) GetMaxBufferSize() *float64 {
+func (o *PqOffice365Mgmt) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputOffice365MgmtPq) GetCommitFrequency() *float64 {
+func (o *PqOffice365Mgmt) GetCommitFrequency() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.CommitFrequency
 }
 
-func (o *InputOffice365MgmtPq) GetMaxFileSize() *string {
+func (o *PqOffice365Mgmt) GetMaxFileSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxFileSize
 }
 
-func (o *InputOffice365MgmtPq) GetMaxSize() *string {
+func (o *PqOffice365Mgmt) GetMaxSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxSize
 }
 
-func (o *InputOffice365MgmtPq) GetPath() *string {
+func (o *PqOffice365Mgmt) GetPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Path
 }
 
-func (o *InputOffice365MgmtPq) GetCompress() *InputOffice365MgmtCompression {
+func (o *PqOffice365Mgmt) GetCompress() *CompressionOffice365Mgmt {
 	if o == nil {
 		return nil
 	}
 	return o.Compress
 }
 
-// InputOffice365MgmtSubscriptionPlan - Office 365 subscription plan for your organization, typically Office 365 Enterprise
-type InputOffice365MgmtSubscriptionPlan string
+// SubscriptionPlanOffice365Mgmt - Office 365 subscription plan for your organization, typically Office 365 Enterprise
+type SubscriptionPlanOffice365Mgmt string
 
 const (
-	InputOffice365MgmtSubscriptionPlanEnterpriseGcc InputOffice365MgmtSubscriptionPlan = "enterprise_gcc"
-	InputOffice365MgmtSubscriptionPlanGcc           InputOffice365MgmtSubscriptionPlan = "gcc"
-	InputOffice365MgmtSubscriptionPlanGccHigh       InputOffice365MgmtSubscriptionPlan = "gcc_high"
-	InputOffice365MgmtSubscriptionPlanDod           InputOffice365MgmtSubscriptionPlan = "dod"
+	SubscriptionPlanOffice365MgmtEnterpriseGcc SubscriptionPlanOffice365Mgmt = "enterprise_gcc"
+	SubscriptionPlanOffice365MgmtGcc           SubscriptionPlanOffice365Mgmt = "gcc"
+	SubscriptionPlanOffice365MgmtGccHigh       SubscriptionPlanOffice365Mgmt = "gcc_high"
+	SubscriptionPlanOffice365MgmtDod           SubscriptionPlanOffice365Mgmt = "dod"
 )
 
-func (e InputOffice365MgmtSubscriptionPlan) ToPointer() *InputOffice365MgmtSubscriptionPlan {
+func (e SubscriptionPlanOffice365Mgmt) ToPointer() *SubscriptionPlanOffice365Mgmt {
 	return &e
 }
+func (e *SubscriptionPlanOffice365Mgmt) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "enterprise_gcc":
+		fallthrough
+	case "gcc":
+		fallthrough
+	case "gcc_high":
+		fallthrough
+	case "dod":
+		*e = SubscriptionPlanOffice365Mgmt(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for SubscriptionPlanOffice365Mgmt: %v", v)
+	}
+}
 
-type InputOffice365MgmtMetadatum struct {
+type MetadatumOffice365Mgmt struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputOffice365MgmtMetadatum) GetName() string {
+func (o *MetadatumOffice365Mgmt) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputOffice365MgmtMetadatum) GetValue() string {
+func (o *MetadatumOffice365Mgmt) GetValue() string {
 	if o == nil {
 		return ""
 	}
 	return o.Value
 }
 
-// InputOffice365MgmtLogLevel - Collector runtime Log Level
-type InputOffice365MgmtLogLevel string
+// LogLevelOffice365Mgmt - Collector runtime Log Level
+type LogLevelOffice365Mgmt string
 
 const (
-	InputOffice365MgmtLogLevelError InputOffice365MgmtLogLevel = "error"
-	InputOffice365MgmtLogLevelWarn  InputOffice365MgmtLogLevel = "warn"
-	InputOffice365MgmtLogLevelInfo  InputOffice365MgmtLogLevel = "info"
-	InputOffice365MgmtLogLevelDebug InputOffice365MgmtLogLevel = "debug"
+	LogLevelOffice365MgmtError LogLevelOffice365Mgmt = "error"
+	LogLevelOffice365MgmtWarn  LogLevelOffice365Mgmt = "warn"
+	LogLevelOffice365MgmtInfo  LogLevelOffice365Mgmt = "info"
+	LogLevelOffice365MgmtDebug LogLevelOffice365Mgmt = "debug"
 )
 
-func (e InputOffice365MgmtLogLevel) ToPointer() *InputOffice365MgmtLogLevel {
+func (e LogLevelOffice365Mgmt) ToPointer() *LogLevelOffice365Mgmt {
 	return &e
 }
+func (e *LogLevelOffice365Mgmt) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "error":
+		fallthrough
+	case "warn":
+		fallthrough
+	case "info":
+		fallthrough
+	case "debug":
+		*e = LogLevelOffice365Mgmt(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for LogLevelOffice365Mgmt: %v", v)
+	}
+}
 
-type InputOffice365MgmtContentConfig struct {
+type ContentConfigOffice365Mgmt struct {
 	// Office 365 Management Activity API Content Type
 	ContentType *string `json:"contentType,omitempty"`
 	// If interval type is minutes the value entered must evenly divisible by 60 or save will fail
 	Description *string  `json:"description,omitempty"`
 	Interval    *float64 `json:"interval,omitempty"`
 	// Collector runtime Log Level
-	LogLevel *InputOffice365MgmtLogLevel `json:"logLevel,omitempty"`
-	Enabled  *bool                       `json:"enabled,omitempty"`
+	LogLevel *LogLevelOffice365Mgmt `json:"logLevel,omitempty"`
+	Enabled  *bool                  `json:"enabled,omitempty"`
 }
 
-func (o *InputOffice365MgmtContentConfig) GetContentType() *string {
+func (o *ContentConfigOffice365Mgmt) GetContentType() *string {
 	if o == nil {
 		return nil
 	}
 	return o.ContentType
 }
 
-func (o *InputOffice365MgmtContentConfig) GetDescription() *string {
+func (o *ContentConfigOffice365Mgmt) GetDescription() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Description
 }
 
-func (o *InputOffice365MgmtContentConfig) GetInterval() *float64 {
+func (o *ContentConfigOffice365Mgmt) GetInterval() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.Interval
 }
 
-func (o *InputOffice365MgmtContentConfig) GetLogLevel() *InputOffice365MgmtLogLevel {
+func (o *ContentConfigOffice365Mgmt) GetLogLevel() *LogLevelOffice365Mgmt {
 	if o == nil {
 		return nil
 	}
 	return o.LogLevel
 }
 
-func (o *InputOffice365MgmtContentConfig) GetEnabled() *bool {
+func (o *ContentConfigOffice365Mgmt) GetEnabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Enabled
 }
 
-// InputOffice365MgmtRetryType - The algorithm to use when performing HTTP retries
-type InputOffice365MgmtRetryType string
+// RetryTypeOffice365Mgmt - The algorithm to use when performing HTTP retries
+type RetryTypeOffice365Mgmt string
 
 const (
-	InputOffice365MgmtRetryTypeNone    InputOffice365MgmtRetryType = "none"
-	InputOffice365MgmtRetryTypeBackoff InputOffice365MgmtRetryType = "backoff"
-	InputOffice365MgmtRetryTypeStatic  InputOffice365MgmtRetryType = "static"
+	RetryTypeOffice365MgmtNone    RetryTypeOffice365Mgmt = "none"
+	RetryTypeOffice365MgmtBackoff RetryTypeOffice365Mgmt = "backoff"
+	RetryTypeOffice365MgmtStatic  RetryTypeOffice365Mgmt = "static"
 )
 
-func (e InputOffice365MgmtRetryType) ToPointer() *InputOffice365MgmtRetryType {
+func (e RetryTypeOffice365Mgmt) ToPointer() *RetryTypeOffice365Mgmt {
 	return &e
 }
+func (e *RetryTypeOffice365Mgmt) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "backoff":
+		fallthrough
+	case "static":
+		*e = RetryTypeOffice365Mgmt(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for RetryTypeOffice365Mgmt: %v", v)
+	}
+}
 
-type InputOffice365MgmtRetryRules struct {
+type RetryRulesOffice365Mgmt struct {
 	// The algorithm to use when performing HTTP retries
-	Type *InputOffice365MgmtRetryType `default:"backoff" json:"type"`
+	Type *RetryTypeOffice365Mgmt `default:"backoff" json:"type"`
 	// Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute).
 	Interval *float64 `default:"1000" json:"interval"`
 	// The maximum number of times to retry a failed HTTP request
@@ -17999,90 +20813,105 @@ type InputOffice365MgmtRetryRules struct {
 	RetryConnectReset *bool `default:"false" json:"retryConnectReset"`
 }
 
-func (i InputOffice365MgmtRetryRules) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (r RetryRulesOffice365Mgmt) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(r, "", false)
 }
 
-func (i *InputOffice365MgmtRetryRules) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (r *RetryRulesOffice365Mgmt) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &r, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputOffice365MgmtRetryRules) GetType() *InputOffice365MgmtRetryType {
+func (o *RetryRulesOffice365Mgmt) GetType() *RetryTypeOffice365Mgmt {
 	if o == nil {
 		return nil
 	}
 	return o.Type
 }
 
-func (o *InputOffice365MgmtRetryRules) GetInterval() *float64 {
+func (o *RetryRulesOffice365Mgmt) GetInterval() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.Interval
 }
 
-func (o *InputOffice365MgmtRetryRules) GetLimit() *float64 {
+func (o *RetryRulesOffice365Mgmt) GetLimit() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.Limit
 }
 
-func (o *InputOffice365MgmtRetryRules) GetMultiplier() *float64 {
+func (o *RetryRulesOffice365Mgmt) GetMultiplier() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.Multiplier
 }
 
-func (o *InputOffice365MgmtRetryRules) GetCodes() []float64 {
+func (o *RetryRulesOffice365Mgmt) GetCodes() []float64 {
 	if o == nil {
 		return nil
 	}
 	return o.Codes
 }
 
-func (o *InputOffice365MgmtRetryRules) GetEnableHeader() *bool {
+func (o *RetryRulesOffice365Mgmt) GetEnableHeader() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.EnableHeader
 }
 
-func (o *InputOffice365MgmtRetryRules) GetRetryConnectTimeout() *bool {
+func (o *RetryRulesOffice365Mgmt) GetRetryConnectTimeout() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.RetryConnectTimeout
 }
 
-func (o *InputOffice365MgmtRetryRules) GetRetryConnectReset() *bool {
+func (o *RetryRulesOffice365Mgmt) GetRetryConnectReset() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.RetryConnectReset
 }
 
-// InputOffice365MgmtAuthenticationMethod - Enter client secret directly, or select a stored secret
-type InputOffice365MgmtAuthenticationMethod string
+// AuthenticationMethodOffice365Mgmt - Enter client secret directly, or select a stored secret
+type AuthenticationMethodOffice365Mgmt string
 
 const (
-	InputOffice365MgmtAuthenticationMethodManual InputOffice365MgmtAuthenticationMethod = "manual"
-	InputOffice365MgmtAuthenticationMethodSecret InputOffice365MgmtAuthenticationMethod = "secret"
+	AuthenticationMethodOffice365MgmtManual AuthenticationMethodOffice365Mgmt = "manual"
+	AuthenticationMethodOffice365MgmtSecret AuthenticationMethodOffice365Mgmt = "secret"
 )
 
-func (e InputOffice365MgmtAuthenticationMethod) ToPointer() *InputOffice365MgmtAuthenticationMethod {
+func (e AuthenticationMethodOffice365Mgmt) ToPointer() *AuthenticationMethodOffice365Mgmt {
 	return &e
+}
+func (e *AuthenticationMethodOffice365Mgmt) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = AuthenticationMethodOffice365Mgmt(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for AuthenticationMethodOffice365Mgmt: %v", v)
+	}
 }
 
 type InputOffice365Mgmt struct {
 	// Unique ID for this input
-	ID       string                  `json:"id"`
-	Type     *InputOffice365MgmtType `json:"type,omitempty"`
-	Disabled *bool                   `default:"false" json:"disabled"`
+	ID       string             `json:"id"`
+	Type     *TypeOffice365Mgmt `json:"type,omitempty"`
+	Disabled *bool              `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -18094,10 +20923,10 @@ type InputOffice365Mgmt struct {
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputOffice365MgmtConnection `json:"connections,omitempty"`
-	Pq          *InputOffice365MgmtPq          `json:"pq,omitempty"`
+	Connections []ConnectionOffice365Mgmt `json:"connections,omitempty"`
+	Pq          *PqOffice365Mgmt          `json:"pq,omitempty"`
 	// Office 365 subscription plan for your organization, typically Office 365 Enterprise
-	PlanType *InputOffice365MgmtSubscriptionPlan `default:"enterprise_gcc" json:"planType"`
+	PlanType *SubscriptionPlanOffice365Mgmt `default:"enterprise_gcc" json:"planType"`
 	// Office 365 Azure Tenant ID
 	TenantID string `json:"tenantId"`
 	// Office 365 Azure Application ID
@@ -18115,17 +20944,17 @@ type InputOffice365Mgmt struct {
 	// When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live.
 	IgnoreGroupJobsLimit *bool `default:"false" json:"ignoreGroupJobsLimit"`
 	// Fields to add to events from this input
-	Metadata []InputOffice365MgmtMetadatum `json:"metadata,omitempty"`
+	Metadata []MetadatumOffice365Mgmt `json:"metadata,omitempty"`
 	// Optional Publisher Identifier to use in API requests, defaults to tenant id if not defined. For more information see [here](https://docs.microsoft.com/en-us/office/office-365-management-api/office-365-management-activity-api-reference#start-a-subscription)
 	PublisherIdentifier *string `json:"publisherIdentifier,omitempty"`
 	// Enable Office 365 Management Activity API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered must be evenly divisible by 60 to give a predictable schedule.
-	ContentConfig []InputOffice365MgmtContentConfig `json:"contentConfig,omitempty"`
+	ContentConfig []ContentConfigOffice365Mgmt `json:"contentConfig,omitempty"`
 	// Use this setting to account for ingestion lag. This is necessary because there can be a lag of 60 - 90 minutes (or longer) before Office 365 events are available for retrieval.
-	IngestionLag *float64                      `default:"0" json:"ingestionLag"`
-	RetryRules   *InputOffice365MgmtRetryRules `json:"retryRules,omitempty"`
+	IngestionLag *float64                 `default:"0" json:"ingestionLag"`
+	RetryRules   *RetryRulesOffice365Mgmt `json:"retryRules,omitempty"`
 	// Enter client secret directly, or select a stored secret
-	AuthType    *InputOffice365MgmtAuthenticationMethod `default:"manual" json:"authType"`
-	Description *string                                 `json:"description,omitempty"`
+	AuthType    *AuthenticationMethodOffice365Mgmt `default:"manual" json:"authType"`
+	Description *string                            `json:"description,omitempty"`
 	// Office 365 Azure client secret
 	ClientSecret *string `json:"clientSecret,omitempty"`
 	// Select or create a stored text secret
@@ -18150,7 +20979,7 @@ func (o *InputOffice365Mgmt) GetID() string {
 	return o.ID
 }
 
-func (o *InputOffice365Mgmt) GetType() *InputOffice365MgmtType {
+func (o *InputOffice365Mgmt) GetType() *TypeOffice365Mgmt {
 	if o == nil {
 		return nil
 	}
@@ -18199,21 +21028,21 @@ func (o *InputOffice365Mgmt) GetStreamtags() []string {
 	return o.Streamtags
 }
 
-func (o *InputOffice365Mgmt) GetConnections() []InputOffice365MgmtConnection {
+func (o *InputOffice365Mgmt) GetConnections() []ConnectionOffice365Mgmt {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputOffice365Mgmt) GetPq() *InputOffice365MgmtPq {
+func (o *InputOffice365Mgmt) GetPq() *PqOffice365Mgmt {
 	if o == nil {
 		return nil
 	}
 	return o.Pq
 }
 
-func (o *InputOffice365Mgmt) GetPlanType() *InputOffice365MgmtSubscriptionPlan {
+func (o *InputOffice365Mgmt) GetPlanType() *SubscriptionPlanOffice365Mgmt {
 	if o == nil {
 		return nil
 	}
@@ -18276,7 +21105,7 @@ func (o *InputOffice365Mgmt) GetIgnoreGroupJobsLimit() *bool {
 	return o.IgnoreGroupJobsLimit
 }
 
-func (o *InputOffice365Mgmt) GetMetadata() []InputOffice365MgmtMetadatum {
+func (o *InputOffice365Mgmt) GetMetadata() []MetadatumOffice365Mgmt {
 	if o == nil {
 		return nil
 	}
@@ -18290,7 +21119,7 @@ func (o *InputOffice365Mgmt) GetPublisherIdentifier() *string {
 	return o.PublisherIdentifier
 }
 
-func (o *InputOffice365Mgmt) GetContentConfig() []InputOffice365MgmtContentConfig {
+func (o *InputOffice365Mgmt) GetContentConfig() []ContentConfigOffice365Mgmt {
 	if o == nil {
 		return nil
 	}
@@ -18304,14 +21133,14 @@ func (o *InputOffice365Mgmt) GetIngestionLag() *float64 {
 	return o.IngestionLag
 }
 
-func (o *InputOffice365Mgmt) GetRetryRules() *InputOffice365MgmtRetryRules {
+func (o *InputOffice365Mgmt) GetRetryRules() *RetryRulesOffice365Mgmt {
 	if o == nil {
 		return nil
 	}
 	return o.RetryRules
 }
 
-func (o *InputOffice365Mgmt) GetAuthType() *InputOffice365MgmtAuthenticationMethod {
+func (o *InputOffice365Mgmt) GetAuthType() *AuthenticationMethodOffice365Mgmt {
 	if o == nil {
 		return nil
 	}
@@ -18339,62 +21168,105 @@ func (o *InputOffice365Mgmt) GetTextSecret() *string {
 	return o.TextSecret
 }
 
-type InputEdgePrometheusType string
+type TypeEdgePrometheus string
 
 const (
-	InputEdgePrometheusTypeEdgePrometheus InputEdgePrometheusType = "edge_prometheus"
+	TypeEdgePrometheusEdgePrometheus TypeEdgePrometheus = "edge_prometheus"
 )
 
-func (e InputEdgePrometheusType) ToPointer() *InputEdgePrometheusType {
+func (e TypeEdgePrometheus) ToPointer() *TypeEdgePrometheus {
 	return &e
 }
+func (e *TypeEdgePrometheus) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "edge_prometheus":
+		*e = TypeEdgePrometheus(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for TypeEdgePrometheus: %v", v)
+	}
+}
 
-type InputEdgePrometheusConnection struct {
+type ConnectionEdgePrometheus struct {
 	Pipeline *string `json:"pipeline,omitempty"`
 	Output   string  `json:"output"`
 }
 
-func (o *InputEdgePrometheusConnection) GetPipeline() *string {
+func (o *ConnectionEdgePrometheus) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputEdgePrometheusConnection) GetOutput() string {
+func (o *ConnectionEdgePrometheus) GetOutput() string {
 	if o == nil {
 		return ""
 	}
 	return o.Output
 }
 
-// InputEdgePrometheusMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type InputEdgePrometheusMode string
+// ModeEdgePrometheus - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+type ModeEdgePrometheus string
 
 const (
-	InputEdgePrometheusModeSmart  InputEdgePrometheusMode = "smart"
-	InputEdgePrometheusModeAlways InputEdgePrometheusMode = "always"
+	ModeEdgePrometheusSmart  ModeEdgePrometheus = "smart"
+	ModeEdgePrometheusAlways ModeEdgePrometheus = "always"
 )
 
-func (e InputEdgePrometheusMode) ToPointer() *InputEdgePrometheusMode {
+func (e ModeEdgePrometheus) ToPointer() *ModeEdgePrometheus {
 	return &e
 }
+func (e *ModeEdgePrometheus) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = ModeEdgePrometheus(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ModeEdgePrometheus: %v", v)
+	}
+}
 
-// InputEdgePrometheusPqCompression - Codec to use to compress the persisted data
-type InputEdgePrometheusPqCompression string
+// PqCompressionEdgePrometheus - Codec to use to compress the persisted data
+type PqCompressionEdgePrometheus string
 
 const (
-	InputEdgePrometheusPqCompressionNone InputEdgePrometheusPqCompression = "none"
-	InputEdgePrometheusPqCompressionGzip InputEdgePrometheusPqCompression = "gzip"
+	PqCompressionEdgePrometheusNone PqCompressionEdgePrometheus = "none"
+	PqCompressionEdgePrometheusGzip PqCompressionEdgePrometheus = "gzip"
 )
 
-func (e InputEdgePrometheusPqCompression) ToPointer() *InputEdgePrometheusPqCompression {
+func (e PqCompressionEdgePrometheus) ToPointer() *PqCompressionEdgePrometheus {
 	return &e
 }
+func (e *PqCompressionEdgePrometheus) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = PqCompressionEdgePrometheus(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for PqCompressionEdgePrometheus: %v", v)
+	}
+}
 
-type InputEdgePrometheusPq struct {
+type PqEdgePrometheus struct {
 	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *InputEdgePrometheusMode `default:"always" json:"mode"`
+	Mode *ModeEdgePrometheus `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
 	// The number of events to send downstream before committing that Stream has read them
@@ -18406,82 +21278,103 @@ type InputEdgePrometheusPq struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
 	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
 	// Codec to use to compress the persisted data
-	Compress *InputEdgePrometheusPqCompression `default:"none" json:"compress"`
+	Compress *PqCompressionEdgePrometheus `default:"none" json:"compress"`
 }
 
-func (i InputEdgePrometheusPq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PqEdgePrometheus) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputEdgePrometheusPq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PqEdgePrometheus) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputEdgePrometheusPq) GetMode() *InputEdgePrometheusMode {
+func (o *PqEdgePrometheus) GetMode() *ModeEdgePrometheus {
 	if o == nil {
 		return nil
 	}
 	return o.Mode
 }
 
-func (o *InputEdgePrometheusPq) GetMaxBufferSize() *float64 {
+func (o *PqEdgePrometheus) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputEdgePrometheusPq) GetCommitFrequency() *float64 {
+func (o *PqEdgePrometheus) GetCommitFrequency() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.CommitFrequency
 }
 
-func (o *InputEdgePrometheusPq) GetMaxFileSize() *string {
+func (o *PqEdgePrometheus) GetMaxFileSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxFileSize
 }
 
-func (o *InputEdgePrometheusPq) GetMaxSize() *string {
+func (o *PqEdgePrometheus) GetMaxSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxSize
 }
 
-func (o *InputEdgePrometheusPq) GetPath() *string {
+func (o *PqEdgePrometheus) GetPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Path
 }
 
-func (o *InputEdgePrometheusPq) GetCompress() *InputEdgePrometheusPqCompression {
+func (o *PqEdgePrometheus) GetCompress() *PqCompressionEdgePrometheus {
 	if o == nil {
 		return nil
 	}
 	return o.Compress
 }
 
-// InputEdgePrometheusDiscoveryType - Target discovery mechanism. Use static to manually enter a list of targets.
-type InputEdgePrometheusDiscoveryType string
+// DiscoveryTypeEdgePrometheus - Target discovery mechanism. Use static to manually enter a list of targets.
+type DiscoveryTypeEdgePrometheus string
 
 const (
-	InputEdgePrometheusDiscoveryTypeStatic  InputEdgePrometheusDiscoveryType = "static"
-	InputEdgePrometheusDiscoveryTypeDNS     InputEdgePrometheusDiscoveryType = "dns"
-	InputEdgePrometheusDiscoveryTypeEc2     InputEdgePrometheusDiscoveryType = "ec2"
-	InputEdgePrometheusDiscoveryTypeK8sNode InputEdgePrometheusDiscoveryType = "k8s-node"
-	InputEdgePrometheusDiscoveryTypeK8sPods InputEdgePrometheusDiscoveryType = "k8s-pods"
+	DiscoveryTypeEdgePrometheusStatic  DiscoveryTypeEdgePrometheus = "static"
+	DiscoveryTypeEdgePrometheusDNS     DiscoveryTypeEdgePrometheus = "dns"
+	DiscoveryTypeEdgePrometheusEc2     DiscoveryTypeEdgePrometheus = "ec2"
+	DiscoveryTypeEdgePrometheusK8sNode DiscoveryTypeEdgePrometheus = "k8s-node"
+	DiscoveryTypeEdgePrometheusK8sPods DiscoveryTypeEdgePrometheus = "k8s-pods"
 )
 
-func (e InputEdgePrometheusDiscoveryType) ToPointer() *InputEdgePrometheusDiscoveryType {
+func (e DiscoveryTypeEdgePrometheus) ToPointer() *DiscoveryTypeEdgePrometheus {
 	return &e
+}
+func (e *DiscoveryTypeEdgePrometheus) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "static":
+		fallthrough
+	case "dns":
+		fallthrough
+	case "ec2":
+		fallthrough
+	case "k8s-node":
+		fallthrough
+	case "k8s-pods":
+		*e = DiscoveryTypeEdgePrometheus(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for DiscoveryTypeEdgePrometheus: %v", v)
+	}
 }
 
 // PersistenceCompression - Data compression format. Default is gzip.
@@ -18494,6 +21387,21 @@ const (
 
 func (e PersistenceCompression) ToPointer() *PersistenceCompression {
 	return &e
+}
+func (e *PersistenceCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = PersistenceCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for PersistenceCompression: %v", v)
+	}
 }
 
 type DiskSpooling struct {
@@ -18555,37 +21463,54 @@ func (o *DiskSpooling) GetCompress() *PersistenceCompression {
 	return o.Compress
 }
 
-type InputEdgePrometheusMetadatum struct {
+type MetadatumEdgePrometheus struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputEdgePrometheusMetadatum) GetName() string {
+func (o *MetadatumEdgePrometheus) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputEdgePrometheusMetadatum) GetValue() string {
+func (o *MetadatumEdgePrometheus) GetValue() string {
 	if o == nil {
 		return ""
 	}
 	return o.Value
 }
 
-// InputEdgePrometheusAuthTypeAuthenticationMethod - Enter credentials directly, or select a stored secret
-type InputEdgePrometheusAuthTypeAuthenticationMethod string
+// AuthTypeAuthenticationMethodEdgePrometheus - Enter credentials directly, or select a stored secret
+type AuthTypeAuthenticationMethodEdgePrometheus string
 
 const (
-	InputEdgePrometheusAuthTypeAuthenticationMethodManual     InputEdgePrometheusAuthTypeAuthenticationMethod = "manual"
-	InputEdgePrometheusAuthTypeAuthenticationMethodSecret     InputEdgePrometheusAuthTypeAuthenticationMethod = "secret"
-	InputEdgePrometheusAuthTypeAuthenticationMethodKubernetes InputEdgePrometheusAuthTypeAuthenticationMethod = "kubernetes"
+	AuthTypeAuthenticationMethodEdgePrometheusManual     AuthTypeAuthenticationMethodEdgePrometheus = "manual"
+	AuthTypeAuthenticationMethodEdgePrometheusSecret     AuthTypeAuthenticationMethodEdgePrometheus = "secret"
+	AuthTypeAuthenticationMethodEdgePrometheusKubernetes AuthTypeAuthenticationMethodEdgePrometheus = "kubernetes"
 )
 
-func (e InputEdgePrometheusAuthTypeAuthenticationMethod) ToPointer() *InputEdgePrometheusAuthTypeAuthenticationMethod {
+func (e AuthTypeAuthenticationMethodEdgePrometheus) ToPointer() *AuthTypeAuthenticationMethodEdgePrometheus {
 	return &e
+}
+func (e *AuthTypeAuthenticationMethodEdgePrometheus) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "manual":
+		fallthrough
+	case "secret":
+		fallthrough
+	case "kubernetes":
+		*e = AuthTypeAuthenticationMethodEdgePrometheus(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for AuthTypeAuthenticationMethodEdgePrometheus: %v", v)
+	}
 }
 
 // TargetProtocol - Protocol to use when collecting metrics
@@ -18598,6 +21523,21 @@ const (
 
 func (e TargetProtocol) ToPointer() *TargetProtocol {
 	return &e
+}
+func (e *TargetProtocol) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "http":
+		fallthrough
+	case "https":
+		*e = TargetProtocol(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for TargetProtocol: %v", v)
+	}
 }
 
 type Target struct {
@@ -18650,17 +21590,34 @@ func (o *Target) GetPath() *string {
 	return o.Path
 }
 
-// InputEdgePrometheusRecordType - DNS Record type to resolve
-type InputEdgePrometheusRecordType string
+// RecordTypeEdgePrometheus - DNS Record type to resolve
+type RecordTypeEdgePrometheus string
 
 const (
-	InputEdgePrometheusRecordTypeSrv  InputEdgePrometheusRecordType = "SRV"
-	InputEdgePrometheusRecordTypeA    InputEdgePrometheusRecordType = "A"
-	InputEdgePrometheusRecordTypeAaaa InputEdgePrometheusRecordType = "AAAA"
+	RecordTypeEdgePrometheusSrv  RecordTypeEdgePrometheus = "SRV"
+	RecordTypeEdgePrometheusA    RecordTypeEdgePrometheus = "A"
+	RecordTypeEdgePrometheusAaaa RecordTypeEdgePrometheus = "AAAA"
 )
 
-func (e InputEdgePrometheusRecordType) ToPointer() *InputEdgePrometheusRecordType {
+func (e RecordTypeEdgePrometheus) ToPointer() *RecordTypeEdgePrometheus {
 	return &e
+}
+func (e *RecordTypeEdgePrometheus) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "SRV":
+		fallthrough
+	case "A":
+		fallthrough
+	case "AAAA":
+		*e = RecordTypeEdgePrometheus(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for RecordTypeEdgePrometheus: %v", v)
+	}
 }
 
 // ScrapeProtocolProtocol - Protocol to use when collecting metrics
@@ -18674,51 +21631,98 @@ const (
 func (e ScrapeProtocolProtocol) ToPointer() *ScrapeProtocolProtocol {
 	return &e
 }
+func (e *ScrapeProtocolProtocol) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "http":
+		fallthrough
+	case "https":
+		*e = ScrapeProtocolProtocol(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ScrapeProtocolProtocol: %v", v)
+	}
+}
 
-type InputEdgePrometheusSearchFilter struct {
+type SearchFilterEdgePrometheus struct {
 	// Search filter attribute name, see: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html for more information. Attributes can be manually entered if not present in the drop down list
 	Name string `json:"Name"`
 	// Search Filter Values, if empty only "running" EC2 instances will be returned
 	Values []string `json:"Values"`
 }
 
-func (o *InputEdgePrometheusSearchFilter) GetName() string {
+func (o *SearchFilterEdgePrometheus) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputEdgePrometheusSearchFilter) GetValues() []string {
+func (o *SearchFilterEdgePrometheus) GetValues() []string {
 	if o == nil {
 		return []string{}
 	}
 	return o.Values
 }
 
-// InputEdgePrometheusAwsAuthenticationMethodAuthenticationMethod - AWS authentication method. Choose Auto to use IAM roles.
-type InputEdgePrometheusAwsAuthenticationMethodAuthenticationMethod string
+// AwsAuthenticationMethodAuthenticationMethodEdgePrometheus - AWS authentication method. Choose Auto to use IAM roles.
+type AwsAuthenticationMethodAuthenticationMethodEdgePrometheus string
 
 const (
-	InputEdgePrometheusAwsAuthenticationMethodAuthenticationMethodAuto   InputEdgePrometheusAwsAuthenticationMethodAuthenticationMethod = "auto"
-	InputEdgePrometheusAwsAuthenticationMethodAuthenticationMethodManual InputEdgePrometheusAwsAuthenticationMethodAuthenticationMethod = "manual"
-	InputEdgePrometheusAwsAuthenticationMethodAuthenticationMethodSecret InputEdgePrometheusAwsAuthenticationMethodAuthenticationMethod = "secret"
+	AwsAuthenticationMethodAuthenticationMethodEdgePrometheusAuto   AwsAuthenticationMethodAuthenticationMethodEdgePrometheus = "auto"
+	AwsAuthenticationMethodAuthenticationMethodEdgePrometheusManual AwsAuthenticationMethodAuthenticationMethodEdgePrometheus = "manual"
+	AwsAuthenticationMethodAuthenticationMethodEdgePrometheusSecret AwsAuthenticationMethodAuthenticationMethodEdgePrometheus = "secret"
 )
 
-func (e InputEdgePrometheusAwsAuthenticationMethodAuthenticationMethod) ToPointer() *InputEdgePrometheusAwsAuthenticationMethodAuthenticationMethod {
+func (e AwsAuthenticationMethodAuthenticationMethodEdgePrometheus) ToPointer() *AwsAuthenticationMethodAuthenticationMethodEdgePrometheus {
 	return &e
 }
+func (e *AwsAuthenticationMethodAuthenticationMethodEdgePrometheus) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "auto":
+		fallthrough
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = AwsAuthenticationMethodAuthenticationMethodEdgePrometheus(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for AwsAuthenticationMethodAuthenticationMethodEdgePrometheus: %v", v)
+	}
+}
 
-// InputEdgePrometheusSignatureVersion - Signature version to use for signing EC2 requests
-type InputEdgePrometheusSignatureVersion string
+// SignatureVersionEdgePrometheus - Signature version to use for signing EC2 requests
+type SignatureVersionEdgePrometheus string
 
 const (
-	InputEdgePrometheusSignatureVersionV2 InputEdgePrometheusSignatureVersion = "v2"
-	InputEdgePrometheusSignatureVersionV4 InputEdgePrometheusSignatureVersion = "v4"
+	SignatureVersionEdgePrometheusV2 SignatureVersionEdgePrometheus = "v2"
+	SignatureVersionEdgePrometheusV4 SignatureVersionEdgePrometheus = "v4"
 )
 
-func (e InputEdgePrometheusSignatureVersion) ToPointer() *InputEdgePrometheusSignatureVersion {
+func (e SignatureVersionEdgePrometheus) ToPointer() *SignatureVersionEdgePrometheus {
 	return &e
+}
+func (e *SignatureVersionEdgePrometheus) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "v2":
+		fallthrough
+	case "v4":
+		*e = SignatureVersionEdgePrometheus(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for SignatureVersionEdgePrometheus: %v", v)
+	}
 }
 
 type PodFilter struct {
@@ -18744,9 +21748,9 @@ func (o *PodFilter) GetDescription() *string {
 
 type InputEdgePrometheus struct {
 	// Unique ID for this input
-	ID       string                   `json:"id"`
-	Type     *InputEdgePrometheusType `json:"type,omitempty"`
-	Disabled *bool                    `default:"false" json:"disabled"`
+	ID       string              `json:"id"`
+	Type     *TypeEdgePrometheus `json:"type,omitempty"`
+	Disabled *bool               `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -18758,27 +21762,27 @@ type InputEdgePrometheus struct {
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputEdgePrometheusConnection `json:"connections,omitempty"`
-	Pq          *InputEdgePrometheusPq          `json:"pq,omitempty"`
+	Connections []ConnectionEdgePrometheus `json:"connections,omitempty"`
+	Pq          *PqEdgePrometheus          `json:"pq,omitempty"`
 	// Other dimensions to include in events
 	DimensionList []string `json:"dimensionList,omitempty"`
 	// Target discovery mechanism. Use static to manually enter a list of targets.
-	DiscoveryType *InputEdgePrometheusDiscoveryType `default:"static" json:"discoveryType"`
+	DiscoveryType *DiscoveryTypeEdgePrometheus `default:"static" json:"discoveryType"`
 	// How often in seconds to scrape targets for metrics.
 	Interval *float64 `default:"15" json:"interval"`
 	// Timeout, in milliseconds, before aborting HTTP connection attempts; 1-60000 or 0 to disable
 	Timeout     *float64      `default:"5000" json:"timeout"`
 	Persistence *DiskSpooling `json:"persistence,omitempty"`
 	// Fields to add to events from this input
-	Metadata []InputEdgePrometheusMetadatum `json:"metadata,omitempty"`
+	Metadata []MetadatumEdgePrometheus `json:"metadata,omitempty"`
 	// Enter credentials directly, or select a stored secret
-	AuthType    *InputEdgePrometheusAuthTypeAuthenticationMethod `default:"manual" json:"authType"`
-	Description *string                                          `json:"description,omitempty"`
-	Targets     []Target                                         `json:"targets,omitempty"`
+	AuthType    *AuthTypeAuthenticationMethodEdgePrometheus `default:"manual" json:"authType"`
+	Description *string                                     `json:"description,omitempty"`
+	Targets     []Target                                    `json:"targets,omitempty"`
 	// List of DNS names to resolve
 	NameList []string `json:"nameList,omitempty"`
 	// DNS Record type to resolve
-	RecordType *InputEdgePrometheusRecordType `default:"SRV" json:"recordType"`
+	RecordType *RecordTypeEdgePrometheus `default:"SRV" json:"recordType"`
 	// Protocol to use when collecting metrics
 	ScrapeProtocol *ScrapeProtocolProtocol `default:"http" json:"scrapeProtocol"`
 	// Path to use when collecting metrics from discovered targets
@@ -18788,16 +21792,16 @@ type InputEdgePrometheus struct {
 	// The port number in the metrics URL for discovered targets.
 	ScrapePort *float64 `default:"9090" json:"scrapePort"`
 	// EC2 Instance Search Filter
-	SearchFilter []InputEdgePrometheusSearchFilter `json:"searchFilter,omitempty"`
+	SearchFilter []SearchFilterEdgePrometheus `json:"searchFilter,omitempty"`
 	// AWS authentication method. Choose Auto to use IAM roles.
-	AwsAuthenticationMethod *InputEdgePrometheusAwsAuthenticationMethodAuthenticationMethod `default:"auto" json:"awsAuthenticationMethod"`
-	AwsSecretKey            *string                                                         `json:"awsSecretKey,omitempty"`
+	AwsAuthenticationMethod *AwsAuthenticationMethodAuthenticationMethodEdgePrometheus `default:"auto" json:"awsAuthenticationMethod"`
+	AwsSecretKey            *string                                                    `json:"awsSecretKey,omitempty"`
 	// Region where the EC2 is located
 	Region *string `json:"region,omitempty"`
 	// EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint.
 	Endpoint *string `json:"endpoint,omitempty"`
 	// Signature version to use for signing EC2 requests
-	SignatureVersion *InputEdgePrometheusSignatureVersion `default:"v4" json:"signatureVersion"`
+	SignatureVersion *SignatureVersionEdgePrometheus `default:"v4" json:"signatureVersion"`
 	// Reuse connections between requests, which can improve performance
 	ReuseConnections *bool `default:"true" json:"reuseConnections"`
 	// Reject certificates that cannot be verified against a valid CA, such as self-signed certificates
@@ -18847,7 +21851,7 @@ func (o *InputEdgePrometheus) GetID() string {
 	return o.ID
 }
 
-func (o *InputEdgePrometheus) GetType() *InputEdgePrometheusType {
+func (o *InputEdgePrometheus) GetType() *TypeEdgePrometheus {
 	if o == nil {
 		return nil
 	}
@@ -18896,14 +21900,14 @@ func (o *InputEdgePrometheus) GetStreamtags() []string {
 	return o.Streamtags
 }
 
-func (o *InputEdgePrometheus) GetConnections() []InputEdgePrometheusConnection {
+func (o *InputEdgePrometheus) GetConnections() []ConnectionEdgePrometheus {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputEdgePrometheus) GetPq() *InputEdgePrometheusPq {
+func (o *InputEdgePrometheus) GetPq() *PqEdgePrometheus {
 	if o == nil {
 		return nil
 	}
@@ -18917,7 +21921,7 @@ func (o *InputEdgePrometheus) GetDimensionList() []string {
 	return o.DimensionList
 }
 
-func (o *InputEdgePrometheus) GetDiscoveryType() *InputEdgePrometheusDiscoveryType {
+func (o *InputEdgePrometheus) GetDiscoveryType() *DiscoveryTypeEdgePrometheus {
 	if o == nil {
 		return nil
 	}
@@ -18945,14 +21949,14 @@ func (o *InputEdgePrometheus) GetPersistence() *DiskSpooling {
 	return o.Persistence
 }
 
-func (o *InputEdgePrometheus) GetMetadata() []InputEdgePrometheusMetadatum {
+func (o *InputEdgePrometheus) GetMetadata() []MetadatumEdgePrometheus {
 	if o == nil {
 		return nil
 	}
 	return o.Metadata
 }
 
-func (o *InputEdgePrometheus) GetAuthType() *InputEdgePrometheusAuthTypeAuthenticationMethod {
+func (o *InputEdgePrometheus) GetAuthType() *AuthTypeAuthenticationMethodEdgePrometheus {
 	if o == nil {
 		return nil
 	}
@@ -18980,7 +21984,7 @@ func (o *InputEdgePrometheus) GetNameList() []string {
 	return o.NameList
 }
 
-func (o *InputEdgePrometheus) GetRecordType() *InputEdgePrometheusRecordType {
+func (o *InputEdgePrometheus) GetRecordType() *RecordTypeEdgePrometheus {
 	if o == nil {
 		return nil
 	}
@@ -19015,14 +22019,14 @@ func (o *InputEdgePrometheus) GetScrapePort() *float64 {
 	return o.ScrapePort
 }
 
-func (o *InputEdgePrometheus) GetSearchFilter() []InputEdgePrometheusSearchFilter {
+func (o *InputEdgePrometheus) GetSearchFilter() []SearchFilterEdgePrometheus {
 	if o == nil {
 		return nil
 	}
 	return o.SearchFilter
 }
 
-func (o *InputEdgePrometheus) GetAwsAuthenticationMethod() *InputEdgePrometheusAwsAuthenticationMethodAuthenticationMethod {
+func (o *InputEdgePrometheus) GetAwsAuthenticationMethod() *AwsAuthenticationMethodAuthenticationMethodEdgePrometheus {
 	if o == nil {
 		return nil
 	}
@@ -19050,7 +22054,7 @@ func (o *InputEdgePrometheus) GetEndpoint() *string {
 	return o.Endpoint
 }
 
-func (o *InputEdgePrometheus) GetSignatureVersion() *InputEdgePrometheusSignatureVersion {
+func (o *InputEdgePrometheus) GetSignatureVersion() *SignatureVersionEdgePrometheus {
 	if o == nil {
 		return nil
 	}
@@ -19148,62 +22152,105 @@ func (o *InputEdgePrometheus) GetCredentialsSecret() *string {
 	return o.CredentialsSecret
 }
 
-type InputPrometheusType string
+type CreateInputTypePrometheus string
 
 const (
-	InputPrometheusTypePrometheus InputPrometheusType = "prometheus"
+	CreateInputTypePrometheusPrometheus CreateInputTypePrometheus = "prometheus"
 )
 
-func (e InputPrometheusType) ToPointer() *InputPrometheusType {
+func (e CreateInputTypePrometheus) ToPointer() *CreateInputTypePrometheus {
 	return &e
 }
+func (e *CreateInputTypePrometheus) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "prometheus":
+		*e = CreateInputTypePrometheus(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputTypePrometheus: %v", v)
+	}
+}
 
-type InputPrometheusConnection struct {
+type ConnectionPrometheus struct {
 	Pipeline *string `json:"pipeline,omitempty"`
 	Output   string  `json:"output"`
 }
 
-func (o *InputPrometheusConnection) GetPipeline() *string {
+func (o *ConnectionPrometheus) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputPrometheusConnection) GetOutput() string {
+func (o *ConnectionPrometheus) GetOutput() string {
 	if o == nil {
 		return ""
 	}
 	return o.Output
 }
 
-// InputPrometheusMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type InputPrometheusMode string
+// CreateInputModePrometheus - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+type CreateInputModePrometheus string
 
 const (
-	InputPrometheusModeSmart  InputPrometheusMode = "smart"
-	InputPrometheusModeAlways InputPrometheusMode = "always"
+	CreateInputModePrometheusSmart  CreateInputModePrometheus = "smart"
+	CreateInputModePrometheusAlways CreateInputModePrometheus = "always"
 )
 
-func (e InputPrometheusMode) ToPointer() *InputPrometheusMode {
+func (e CreateInputModePrometheus) ToPointer() *CreateInputModePrometheus {
 	return &e
 }
+func (e *CreateInputModePrometheus) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = CreateInputModePrometheus(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputModePrometheus: %v", v)
+	}
+}
 
-// InputPrometheusCompression - Codec to use to compress the persisted data
-type InputPrometheusCompression string
+// PqCompressionPrometheus - Codec to use to compress the persisted data
+type PqCompressionPrometheus string
 
 const (
-	InputPrometheusCompressionNone InputPrometheusCompression = "none"
-	InputPrometheusCompressionGzip InputPrometheusCompression = "gzip"
+	PqCompressionPrometheusNone PqCompressionPrometheus = "none"
+	PqCompressionPrometheusGzip PqCompressionPrometheus = "gzip"
 )
 
-func (e InputPrometheusCompression) ToPointer() *InputPrometheusCompression {
+func (e PqCompressionPrometheus) ToPointer() *PqCompressionPrometheus {
 	return &e
 }
+func (e *PqCompressionPrometheus) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = PqCompressionPrometheus(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for PqCompressionPrometheus: %v", v)
+	}
+}
 
-type InputPrometheusPq struct {
+type PqPrometheus struct {
 	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *InputPrometheusMode `default:"always" json:"mode"`
+	Mode *CreateInputModePrometheus `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
 	// The number of events to send downstream before committing that Stream has read them
@@ -19215,139 +22262,207 @@ type InputPrometheusPq struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
 	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
 	// Codec to use to compress the persisted data
-	Compress *InputPrometheusCompression `default:"none" json:"compress"`
+	Compress *PqCompressionPrometheus `default:"none" json:"compress"`
 }
 
-func (i InputPrometheusPq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PqPrometheus) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputPrometheusPq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PqPrometheus) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputPrometheusPq) GetMode() *InputPrometheusMode {
+func (o *PqPrometheus) GetMode() *CreateInputModePrometheus {
 	if o == nil {
 		return nil
 	}
 	return o.Mode
 }
 
-func (o *InputPrometheusPq) GetMaxBufferSize() *float64 {
+func (o *PqPrometheus) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputPrometheusPq) GetCommitFrequency() *float64 {
+func (o *PqPrometheus) GetCommitFrequency() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.CommitFrequency
 }
 
-func (o *InputPrometheusPq) GetMaxFileSize() *string {
+func (o *PqPrometheus) GetMaxFileSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxFileSize
 }
 
-func (o *InputPrometheusPq) GetMaxSize() *string {
+func (o *PqPrometheus) GetMaxSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxSize
 }
 
-func (o *InputPrometheusPq) GetPath() *string {
+func (o *PqPrometheus) GetPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Path
 }
 
-func (o *InputPrometheusPq) GetCompress() *InputPrometheusCompression {
+func (o *PqPrometheus) GetCompress() *PqCompressionPrometheus {
 	if o == nil {
 		return nil
 	}
 	return o.Compress
 }
 
-// InputPrometheusDiscoveryType - Target discovery mechanism. Use static to manually enter a list of targets.
-type InputPrometheusDiscoveryType string
+// DiscoveryTypePrometheus - Target discovery mechanism. Use static to manually enter a list of targets.
+type DiscoveryTypePrometheus string
 
 const (
-	InputPrometheusDiscoveryTypeStatic InputPrometheusDiscoveryType = "static"
-	InputPrometheusDiscoveryTypeDNS    InputPrometheusDiscoveryType = "dns"
-	InputPrometheusDiscoveryTypeEc2    InputPrometheusDiscoveryType = "ec2"
+	DiscoveryTypePrometheusStatic DiscoveryTypePrometheus = "static"
+	DiscoveryTypePrometheusDNS    DiscoveryTypePrometheus = "dns"
+	DiscoveryTypePrometheusEc2    DiscoveryTypePrometheus = "ec2"
 )
 
-func (e InputPrometheusDiscoveryType) ToPointer() *InputPrometheusDiscoveryType {
+func (e DiscoveryTypePrometheus) ToPointer() *DiscoveryTypePrometheus {
 	return &e
 }
+func (e *DiscoveryTypePrometheus) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "static":
+		fallthrough
+	case "dns":
+		fallthrough
+	case "ec2":
+		*e = DiscoveryTypePrometheus(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for DiscoveryTypePrometheus: %v", v)
+	}
+}
 
-// InputPrometheusLogLevel - Collector runtime Log Level
-type InputPrometheusLogLevel string
+// LogLevelPrometheus - Collector runtime Log Level
+type LogLevelPrometheus string
 
 const (
-	InputPrometheusLogLevelError InputPrometheusLogLevel = "error"
-	InputPrometheusLogLevelWarn  InputPrometheusLogLevel = "warn"
-	InputPrometheusLogLevelInfo  InputPrometheusLogLevel = "info"
-	InputPrometheusLogLevelDebug InputPrometheusLogLevel = "debug"
+	LogLevelPrometheusError LogLevelPrometheus = "error"
+	LogLevelPrometheusWarn  LogLevelPrometheus = "warn"
+	LogLevelPrometheusInfo  LogLevelPrometheus = "info"
+	LogLevelPrometheusDebug LogLevelPrometheus = "debug"
 )
 
-func (e InputPrometheusLogLevel) ToPointer() *InputPrometheusLogLevel {
+func (e LogLevelPrometheus) ToPointer() *LogLevelPrometheus {
 	return &e
 }
+func (e *LogLevelPrometheus) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "error":
+		fallthrough
+	case "warn":
+		fallthrough
+	case "info":
+		fallthrough
+	case "debug":
+		*e = LogLevelPrometheus(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for LogLevelPrometheus: %v", v)
+	}
+}
 
-type InputPrometheusMetadatum struct {
+type MetadatumPrometheus struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputPrometheusMetadatum) GetName() string {
+func (o *MetadatumPrometheus) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputPrometheusMetadatum) GetValue() string {
+func (o *MetadatumPrometheus) GetValue() string {
 	if o == nil {
 		return ""
 	}
 	return o.Value
 }
 
-// InputPrometheusAuthTypeAuthenticationMethod - Enter credentials directly, or select a stored secret
-type InputPrometheusAuthTypeAuthenticationMethod string
+// AuthTypeAuthenticationMethodPrometheus - Enter credentials directly, or select a stored secret
+type AuthTypeAuthenticationMethodPrometheus string
 
 const (
-	InputPrometheusAuthTypeAuthenticationMethodManual InputPrometheusAuthTypeAuthenticationMethod = "manual"
-	InputPrometheusAuthTypeAuthenticationMethodSecret InputPrometheusAuthTypeAuthenticationMethod = "secret"
+	AuthTypeAuthenticationMethodPrometheusManual AuthTypeAuthenticationMethodPrometheus = "manual"
+	AuthTypeAuthenticationMethodPrometheusSecret AuthTypeAuthenticationMethodPrometheus = "secret"
 )
 
-func (e InputPrometheusAuthTypeAuthenticationMethod) ToPointer() *InputPrometheusAuthTypeAuthenticationMethod {
+func (e AuthTypeAuthenticationMethodPrometheus) ToPointer() *AuthTypeAuthenticationMethodPrometheus {
 	return &e
 }
+func (e *AuthTypeAuthenticationMethodPrometheus) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = AuthTypeAuthenticationMethodPrometheus(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for AuthTypeAuthenticationMethodPrometheus: %v", v)
+	}
+}
 
-// InputPrometheusRecordType - DNS Record type to resolve
-type InputPrometheusRecordType string
+// RecordTypePrometheus - DNS Record type to resolve
+type RecordTypePrometheus string
 
 const (
-	InputPrometheusRecordTypeSrv  InputPrometheusRecordType = "SRV"
-	InputPrometheusRecordTypeA    InputPrometheusRecordType = "A"
-	InputPrometheusRecordTypeAaaa InputPrometheusRecordType = "AAAA"
+	RecordTypePrometheusSrv  RecordTypePrometheus = "SRV"
+	RecordTypePrometheusA    RecordTypePrometheus = "A"
+	RecordTypePrometheusAaaa RecordTypePrometheus = "AAAA"
 )
 
-func (e InputPrometheusRecordType) ToPointer() *InputPrometheusRecordType {
+func (e RecordTypePrometheus) ToPointer() *RecordTypePrometheus {
 	return &e
+}
+func (e *RecordTypePrometheus) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "SRV":
+		fallthrough
+	case "A":
+		fallthrough
+	case "AAAA":
+		*e = RecordTypePrometheus(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for RecordTypePrometheus: %v", v)
+	}
 }
 
 // MetricsProtocol - Protocol to use when collecting metrics
@@ -19361,58 +22476,105 @@ const (
 func (e MetricsProtocol) ToPointer() *MetricsProtocol {
 	return &e
 }
+func (e *MetricsProtocol) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "http":
+		fallthrough
+	case "https":
+		*e = MetricsProtocol(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for MetricsProtocol: %v", v)
+	}
+}
 
-type InputPrometheusSearchFilter struct {
+type SearchFilterPrometheus struct {
 	// Search filter attribute name, see: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html for more information. Attributes can be manually entered if not present in the drop down list
 	Name string `json:"Name"`
 	// Search Filter Values, if empty only "running" EC2 instances will be returned
 	Values []string `json:"Values"`
 }
 
-func (o *InputPrometheusSearchFilter) GetName() string {
+func (o *SearchFilterPrometheus) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputPrometheusSearchFilter) GetValues() []string {
+func (o *SearchFilterPrometheus) GetValues() []string {
 	if o == nil {
 		return []string{}
 	}
 	return o.Values
 }
 
-// InputPrometheusAwsAuthenticationMethodAuthenticationMethod - AWS authentication method. Choose Auto to use IAM roles.
-type InputPrometheusAwsAuthenticationMethodAuthenticationMethod string
+// AwsAuthenticationMethodAuthenticationMethodPrometheus - AWS authentication method. Choose Auto to use IAM roles.
+type AwsAuthenticationMethodAuthenticationMethodPrometheus string
 
 const (
-	InputPrometheusAwsAuthenticationMethodAuthenticationMethodAuto   InputPrometheusAwsAuthenticationMethodAuthenticationMethod = "auto"
-	InputPrometheusAwsAuthenticationMethodAuthenticationMethodManual InputPrometheusAwsAuthenticationMethodAuthenticationMethod = "manual"
-	InputPrometheusAwsAuthenticationMethodAuthenticationMethodSecret InputPrometheusAwsAuthenticationMethodAuthenticationMethod = "secret"
+	AwsAuthenticationMethodAuthenticationMethodPrometheusAuto   AwsAuthenticationMethodAuthenticationMethodPrometheus = "auto"
+	AwsAuthenticationMethodAuthenticationMethodPrometheusManual AwsAuthenticationMethodAuthenticationMethodPrometheus = "manual"
+	AwsAuthenticationMethodAuthenticationMethodPrometheusSecret AwsAuthenticationMethodAuthenticationMethodPrometheus = "secret"
 )
 
-func (e InputPrometheusAwsAuthenticationMethodAuthenticationMethod) ToPointer() *InputPrometheusAwsAuthenticationMethodAuthenticationMethod {
+func (e AwsAuthenticationMethodAuthenticationMethodPrometheus) ToPointer() *AwsAuthenticationMethodAuthenticationMethodPrometheus {
 	return &e
 }
+func (e *AwsAuthenticationMethodAuthenticationMethodPrometheus) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "auto":
+		fallthrough
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = AwsAuthenticationMethodAuthenticationMethodPrometheus(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for AwsAuthenticationMethodAuthenticationMethodPrometheus: %v", v)
+	}
+}
 
-// InputPrometheusSignatureVersion - Signature version to use for signing EC2 requests
-type InputPrometheusSignatureVersion string
+// SignatureVersionPrometheus - Signature version to use for signing EC2 requests
+type SignatureVersionPrometheus string
 
 const (
-	InputPrometheusSignatureVersionV2 InputPrometheusSignatureVersion = "v2"
-	InputPrometheusSignatureVersionV4 InputPrometheusSignatureVersion = "v4"
+	SignatureVersionPrometheusV2 SignatureVersionPrometheus = "v2"
+	SignatureVersionPrometheusV4 SignatureVersionPrometheus = "v4"
 )
 
-func (e InputPrometheusSignatureVersion) ToPointer() *InputPrometheusSignatureVersion {
+func (e SignatureVersionPrometheus) ToPointer() *SignatureVersionPrometheus {
 	return &e
+}
+func (e *SignatureVersionPrometheus) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "v2":
+		fallthrough
+	case "v4":
+		*e = SignatureVersionPrometheus(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for SignatureVersionPrometheus: %v", v)
+	}
 }
 
 type InputPrometheus struct {
 	// Unique ID for this input
-	ID       string               `json:"id"`
-	Type     *InputPrometheusType `json:"type,omitempty"`
-	Disabled *bool                `default:"false" json:"disabled"`
+	ID       string                     `json:"id"`
+	Type     *CreateInputTypePrometheus `json:"type,omitempty"`
+	Disabled *bool                      `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -19424,16 +22586,16 @@ type InputPrometheus struct {
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputPrometheusConnection `json:"connections,omitempty"`
-	Pq          *InputPrometheusPq          `json:"pq,omitempty"`
+	Connections []ConnectionPrometheus `json:"connections,omitempty"`
+	Pq          *PqPrometheus          `json:"pq,omitempty"`
 	// Other dimensions to include in events
 	DimensionList []string `json:"dimensionList,omitempty"`
 	// Target discovery mechanism. Use static to manually enter a list of targets.
-	DiscoveryType *InputPrometheusDiscoveryType `default:"static" json:"discoveryType"`
+	DiscoveryType *DiscoveryTypePrometheus `default:"static" json:"discoveryType"`
 	// How often in minutes to scrape targets for metrics, 60 must be evenly divisible by the value or save will fail.
 	Interval *float64 `default:"15" json:"interval"`
 	// Collector runtime Log Level
-	LogLevel *InputPrometheusLogLevel `default:"info" json:"logLevel"`
+	LogLevel *LogLevelPrometheus `default:"info" json:"logLevel"`
 	// Reject certificates that cannot be verified against a valid CA, such as self-signed certificates
 	RejectUnauthorized *bool `default:"true" json:"rejectUnauthorized"`
 	// How often workers should check in with the scheduler to keep job subscription alive
@@ -19447,16 +22609,16 @@ type InputPrometheus struct {
 	// When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live.
 	IgnoreGroupJobsLimit *bool `default:"false" json:"ignoreGroupJobsLimit"`
 	// Fields to add to events from this input
-	Metadata []InputPrometheusMetadatum `json:"metadata,omitempty"`
+	Metadata []MetadatumPrometheus `json:"metadata,omitempty"`
 	// Enter credentials directly, or select a stored secret
-	AuthType    *InputPrometheusAuthTypeAuthenticationMethod `default:"manual" json:"authType"`
-	Description *string                                      `json:"description,omitempty"`
+	AuthType    *AuthTypeAuthenticationMethodPrometheus `default:"manual" json:"authType"`
+	Description *string                                 `json:"description,omitempty"`
 	// List of Prometheus targets to pull metrics from. Values can be in URL or host[:port] format. For example: http://localhost:9090/metrics, localhost:9090, or localhost. In cases where just host[:port] is specified, the endpoint will resolve to 'http://host[:port]/metrics'.
 	TargetList []string `json:"targetList,omitempty"`
 	// List of DNS names to resolve
 	NameList []string `json:"nameList,omitempty"`
 	// DNS Record type to resolve
-	RecordType *InputPrometheusRecordType `default:"SRV" json:"recordType"`
+	RecordType *RecordTypePrometheus `default:"SRV" json:"recordType"`
 	// Protocol to use when collecting metrics
 	ScrapeProtocol *MetricsProtocol `default:"http" json:"scrapeProtocol"`
 	// Path to use when collecting metrics from discovered targets
@@ -19466,16 +22628,16 @@ type InputPrometheus struct {
 	// The port number in the metrics URL for discovered targets.
 	ScrapePort *float64 `default:"9090" json:"scrapePort"`
 	// EC2 Instance Search Filter
-	SearchFilter []InputPrometheusSearchFilter `json:"searchFilter,omitempty"`
+	SearchFilter []SearchFilterPrometheus `json:"searchFilter,omitempty"`
 	// AWS authentication method. Choose Auto to use IAM roles.
-	AwsAuthenticationMethod *InputPrometheusAwsAuthenticationMethodAuthenticationMethod `default:"auto" json:"awsAuthenticationMethod"`
-	AwsSecretKey            *string                                                     `json:"awsSecretKey,omitempty"`
+	AwsAuthenticationMethod *AwsAuthenticationMethodAuthenticationMethodPrometheus `default:"auto" json:"awsAuthenticationMethod"`
+	AwsSecretKey            *string                                                `json:"awsSecretKey,omitempty"`
 	// Region where the EC2 is located
 	Region *string `json:"region,omitempty"`
 	// EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint.
 	Endpoint *string `json:"endpoint,omitempty"`
 	// Signature version to use for signing EC2 requests
-	SignatureVersion *InputPrometheusSignatureVersion `default:"v4" json:"signatureVersion"`
+	SignatureVersion *SignatureVersionPrometheus `default:"v4" json:"signatureVersion"`
 	// Reuse connections between requests, which can improve performance
 	ReuseConnections *bool `default:"true" json:"reuseConnections"`
 	// Use Assume Role credentials to access EC2
@@ -19512,7 +22674,7 @@ func (o *InputPrometheus) GetID() string {
 	return o.ID
 }
 
-func (o *InputPrometheus) GetType() *InputPrometheusType {
+func (o *InputPrometheus) GetType() *CreateInputTypePrometheus {
 	if o == nil {
 		return nil
 	}
@@ -19561,14 +22723,14 @@ func (o *InputPrometheus) GetStreamtags() []string {
 	return o.Streamtags
 }
 
-func (o *InputPrometheus) GetConnections() []InputPrometheusConnection {
+func (o *InputPrometheus) GetConnections() []ConnectionPrometheus {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputPrometheus) GetPq() *InputPrometheusPq {
+func (o *InputPrometheus) GetPq() *PqPrometheus {
 	if o == nil {
 		return nil
 	}
@@ -19582,7 +22744,7 @@ func (o *InputPrometheus) GetDimensionList() []string {
 	return o.DimensionList
 }
 
-func (o *InputPrometheus) GetDiscoveryType() *InputPrometheusDiscoveryType {
+func (o *InputPrometheus) GetDiscoveryType() *DiscoveryTypePrometheus {
 	if o == nil {
 		return nil
 	}
@@ -19596,7 +22758,7 @@ func (o *InputPrometheus) GetInterval() *float64 {
 	return o.Interval
 }
 
-func (o *InputPrometheus) GetLogLevel() *InputPrometheusLogLevel {
+func (o *InputPrometheus) GetLogLevel() *LogLevelPrometheus {
 	if o == nil {
 		return nil
 	}
@@ -19645,14 +22807,14 @@ func (o *InputPrometheus) GetIgnoreGroupJobsLimit() *bool {
 	return o.IgnoreGroupJobsLimit
 }
 
-func (o *InputPrometheus) GetMetadata() []InputPrometheusMetadatum {
+func (o *InputPrometheus) GetMetadata() []MetadatumPrometheus {
 	if o == nil {
 		return nil
 	}
 	return o.Metadata
 }
 
-func (o *InputPrometheus) GetAuthType() *InputPrometheusAuthTypeAuthenticationMethod {
+func (o *InputPrometheus) GetAuthType() *AuthTypeAuthenticationMethodPrometheus {
 	if o == nil {
 		return nil
 	}
@@ -19680,7 +22842,7 @@ func (o *InputPrometheus) GetNameList() []string {
 	return o.NameList
 }
 
-func (o *InputPrometheus) GetRecordType() *InputPrometheusRecordType {
+func (o *InputPrometheus) GetRecordType() *RecordTypePrometheus {
 	if o == nil {
 		return nil
 	}
@@ -19715,14 +22877,14 @@ func (o *InputPrometheus) GetScrapePort() *float64 {
 	return o.ScrapePort
 }
 
-func (o *InputPrometheus) GetSearchFilter() []InputPrometheusSearchFilter {
+func (o *InputPrometheus) GetSearchFilter() []SearchFilterPrometheus {
 	if o == nil {
 		return nil
 	}
 	return o.SearchFilter
 }
 
-func (o *InputPrometheus) GetAwsAuthenticationMethod() *InputPrometheusAwsAuthenticationMethodAuthenticationMethod {
+func (o *InputPrometheus) GetAwsAuthenticationMethod() *AwsAuthenticationMethodAuthenticationMethodPrometheus {
 	if o == nil {
 		return nil
 	}
@@ -19750,7 +22912,7 @@ func (o *InputPrometheus) GetEndpoint() *string {
 	return o.Endpoint
 }
 
-func (o *InputPrometheus) GetSignatureVersion() *InputPrometheusSignatureVersion {
+func (o *InputPrometheus) GetSignatureVersion() *SignatureVersionPrometheus {
 	if o == nil {
 		return nil
 	}
@@ -19813,62 +22975,105 @@ func (o *InputPrometheus) GetCredentialsSecret() *string {
 	return o.CredentialsSecret
 }
 
-type InputPrometheusRwType string
+type TypePrometheusRw string
 
 const (
-	InputPrometheusRwTypePrometheusRw InputPrometheusRwType = "prometheus_rw"
+	TypePrometheusRwPrometheusRw TypePrometheusRw = "prometheus_rw"
 )
 
-func (e InputPrometheusRwType) ToPointer() *InputPrometheusRwType {
+func (e TypePrometheusRw) ToPointer() *TypePrometheusRw {
 	return &e
 }
+func (e *TypePrometheusRw) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "prometheus_rw":
+		*e = TypePrometheusRw(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for TypePrometheusRw: %v", v)
+	}
+}
 
-type InputPrometheusRwConnection struct {
+type ConnectionPrometheusRw struct {
 	Pipeline *string `json:"pipeline,omitempty"`
 	Output   string  `json:"output"`
 }
 
-func (o *InputPrometheusRwConnection) GetPipeline() *string {
+func (o *ConnectionPrometheusRw) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputPrometheusRwConnection) GetOutput() string {
+func (o *ConnectionPrometheusRw) GetOutput() string {
 	if o == nil {
 		return ""
 	}
 	return o.Output
 }
 
-// InputPrometheusRwMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type InputPrometheusRwMode string
+// ModePrometheusRw - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+type ModePrometheusRw string
 
 const (
-	InputPrometheusRwModeSmart  InputPrometheusRwMode = "smart"
-	InputPrometheusRwModeAlways InputPrometheusRwMode = "always"
+	ModePrometheusRwSmart  ModePrometheusRw = "smart"
+	ModePrometheusRwAlways ModePrometheusRw = "always"
 )
 
-func (e InputPrometheusRwMode) ToPointer() *InputPrometheusRwMode {
+func (e ModePrometheusRw) ToPointer() *ModePrometheusRw {
 	return &e
 }
+func (e *ModePrometheusRw) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = ModePrometheusRw(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ModePrometheusRw: %v", v)
+	}
+}
 
-// InputPrometheusRwCompression - Codec to use to compress the persisted data
-type InputPrometheusRwCompression string
+// CompressionPrometheusRw - Codec to use to compress the persisted data
+type CompressionPrometheusRw string
 
 const (
-	InputPrometheusRwCompressionNone InputPrometheusRwCompression = "none"
-	InputPrometheusRwCompressionGzip InputPrometheusRwCompression = "gzip"
+	CompressionPrometheusRwNone CompressionPrometheusRw = "none"
+	CompressionPrometheusRwGzip CompressionPrometheusRw = "gzip"
 )
 
-func (e InputPrometheusRwCompression) ToPointer() *InputPrometheusRwCompression {
+func (e CompressionPrometheusRw) ToPointer() *CompressionPrometheusRw {
 	return &e
 }
+func (e *CompressionPrometheusRw) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = CompressionPrometheusRw(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CompressionPrometheusRw: %v", v)
+	}
+}
 
-type InputPrometheusRwPq struct {
+type PqPrometheusRw struct {
 	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *InputPrometheusRwMode `default:"always" json:"mode"`
+	Mode *ModePrometheusRw `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
 	// The number of events to send downstream before committing that Stream has read them
@@ -19880,96 +23085,134 @@ type InputPrometheusRwPq struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
 	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
 	// Codec to use to compress the persisted data
-	Compress *InputPrometheusRwCompression `default:"none" json:"compress"`
+	Compress *CompressionPrometheusRw `default:"none" json:"compress"`
 }
 
-func (i InputPrometheusRwPq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PqPrometheusRw) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputPrometheusRwPq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PqPrometheusRw) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputPrometheusRwPq) GetMode() *InputPrometheusRwMode {
+func (o *PqPrometheusRw) GetMode() *ModePrometheusRw {
 	if o == nil {
 		return nil
 	}
 	return o.Mode
 }
 
-func (o *InputPrometheusRwPq) GetMaxBufferSize() *float64 {
+func (o *PqPrometheusRw) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputPrometheusRwPq) GetCommitFrequency() *float64 {
+func (o *PqPrometheusRw) GetCommitFrequency() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.CommitFrequency
 }
 
-func (o *InputPrometheusRwPq) GetMaxFileSize() *string {
+func (o *PqPrometheusRw) GetMaxFileSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxFileSize
 }
 
-func (o *InputPrometheusRwPq) GetMaxSize() *string {
+func (o *PqPrometheusRw) GetMaxSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxSize
 }
 
-func (o *InputPrometheusRwPq) GetPath() *string {
+func (o *PqPrometheusRw) GetPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Path
 }
 
-func (o *InputPrometheusRwPq) GetCompress() *InputPrometheusRwCompression {
+func (o *PqPrometheusRw) GetCompress() *CompressionPrometheusRw {
 	if o == nil {
 		return nil
 	}
 	return o.Compress
 }
 
-type InputPrometheusRwMinimumTLSVersion string
+type MinimumTLSVersionPrometheusRw string
 
 const (
-	InputPrometheusRwMinimumTLSVersionTlSv1  InputPrometheusRwMinimumTLSVersion = "TLSv1"
-	InputPrometheusRwMinimumTLSVersionTlSv11 InputPrometheusRwMinimumTLSVersion = "TLSv1.1"
-	InputPrometheusRwMinimumTLSVersionTlSv12 InputPrometheusRwMinimumTLSVersion = "TLSv1.2"
-	InputPrometheusRwMinimumTLSVersionTlSv13 InputPrometheusRwMinimumTLSVersion = "TLSv1.3"
+	MinimumTLSVersionPrometheusRwTlSv1  MinimumTLSVersionPrometheusRw = "TLSv1"
+	MinimumTLSVersionPrometheusRwTlSv11 MinimumTLSVersionPrometheusRw = "TLSv1.1"
+	MinimumTLSVersionPrometheusRwTlSv12 MinimumTLSVersionPrometheusRw = "TLSv1.2"
+	MinimumTLSVersionPrometheusRwTlSv13 MinimumTLSVersionPrometheusRw = "TLSv1.3"
 )
 
-func (e InputPrometheusRwMinimumTLSVersion) ToPointer() *InputPrometheusRwMinimumTLSVersion {
+func (e MinimumTLSVersionPrometheusRw) ToPointer() *MinimumTLSVersionPrometheusRw {
 	return &e
 }
+func (e *MinimumTLSVersionPrometheusRw) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = MinimumTLSVersionPrometheusRw(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for MinimumTLSVersionPrometheusRw: %v", v)
+	}
+}
 
-type InputPrometheusRwMaximumTLSVersion string
+type MaximumTLSVersionPrometheusRw string
 
 const (
-	InputPrometheusRwMaximumTLSVersionTlSv1  InputPrometheusRwMaximumTLSVersion = "TLSv1"
-	InputPrometheusRwMaximumTLSVersionTlSv11 InputPrometheusRwMaximumTLSVersion = "TLSv1.1"
-	InputPrometheusRwMaximumTLSVersionTlSv12 InputPrometheusRwMaximumTLSVersion = "TLSv1.2"
-	InputPrometheusRwMaximumTLSVersionTlSv13 InputPrometheusRwMaximumTLSVersion = "TLSv1.3"
+	MaximumTLSVersionPrometheusRwTlSv1  MaximumTLSVersionPrometheusRw = "TLSv1"
+	MaximumTLSVersionPrometheusRwTlSv11 MaximumTLSVersionPrometheusRw = "TLSv1.1"
+	MaximumTLSVersionPrometheusRwTlSv12 MaximumTLSVersionPrometheusRw = "TLSv1.2"
+	MaximumTLSVersionPrometheusRwTlSv13 MaximumTLSVersionPrometheusRw = "TLSv1.3"
 )
 
-func (e InputPrometheusRwMaximumTLSVersion) ToPointer() *InputPrometheusRwMaximumTLSVersion {
+func (e MaximumTLSVersionPrometheusRw) ToPointer() *MaximumTLSVersionPrometheusRw {
 	return &e
 }
+func (e *MaximumTLSVersionPrometheusRw) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = MaximumTLSVersionPrometheusRw(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for MaximumTLSVersionPrometheusRw: %v", v)
+	}
+}
 
-type InputPrometheusRwTLSSettingsServerSide struct {
+type TLSSettingsServerSidePrometheusRw struct {
 	Disabled *bool `default:"true" json:"disabled"`
 	// The name of the predefined certificate
 	CertificateName *string `json:"certificateName,omitempty"`
@@ -19982,173 +23225,196 @@ type InputPrometheusRwTLSSettingsServerSide struct {
 	// Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS.
 	CaPath *string `json:"caPath,omitempty"`
 	// Require clients to present their certificates. Used to perform client authentication using SSL certs.
-	RequestCert        *bool                               `default:"false" json:"requestCert"`
-	RejectUnauthorized any                                 `json:"rejectUnauthorized,omitempty"`
-	CommonNameRegex    any                                 `json:"commonNameRegex,omitempty"`
-	MinVersion         *InputPrometheusRwMinimumTLSVersion `json:"minVersion,omitempty"`
-	MaxVersion         *InputPrometheusRwMaximumTLSVersion `json:"maxVersion,omitempty"`
+	RequestCert        *bool                          `default:"false" json:"requestCert"`
+	RejectUnauthorized any                            `json:"rejectUnauthorized,omitempty"`
+	CommonNameRegex    any                            `json:"commonNameRegex,omitempty"`
+	MinVersion         *MinimumTLSVersionPrometheusRw `json:"minVersion,omitempty"`
+	MaxVersion         *MaximumTLSVersionPrometheusRw `json:"maxVersion,omitempty"`
 }
 
-func (i InputPrometheusRwTLSSettingsServerSide) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (t TLSSettingsServerSidePrometheusRw) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(t, "", false)
 }
 
-func (i *InputPrometheusRwTLSSettingsServerSide) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (t *TLSSettingsServerSidePrometheusRw) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &t, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputPrometheusRwTLSSettingsServerSide) GetDisabled() *bool {
+func (o *TLSSettingsServerSidePrometheusRw) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *InputPrometheusRwTLSSettingsServerSide) GetCertificateName() *string {
+func (o *TLSSettingsServerSidePrometheusRw) GetCertificateName() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertificateName
 }
 
-func (o *InputPrometheusRwTLSSettingsServerSide) GetPrivKeyPath() *string {
+func (o *TLSSettingsServerSidePrometheusRw) GetPrivKeyPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.PrivKeyPath
 }
 
-func (o *InputPrometheusRwTLSSettingsServerSide) GetPassphrase() *string {
+func (o *TLSSettingsServerSidePrometheusRw) GetPassphrase() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Passphrase
 }
 
-func (o *InputPrometheusRwTLSSettingsServerSide) GetCertPath() *string {
+func (o *TLSSettingsServerSidePrometheusRw) GetCertPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertPath
 }
 
-func (o *InputPrometheusRwTLSSettingsServerSide) GetCaPath() *string {
+func (o *TLSSettingsServerSidePrometheusRw) GetCaPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CaPath
 }
 
-func (o *InputPrometheusRwTLSSettingsServerSide) GetRequestCert() *bool {
+func (o *TLSSettingsServerSidePrometheusRw) GetRequestCert() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.RequestCert
 }
 
-func (o *InputPrometheusRwTLSSettingsServerSide) GetRejectUnauthorized() any {
+func (o *TLSSettingsServerSidePrometheusRw) GetRejectUnauthorized() any {
 	if o == nil {
 		return nil
 	}
 	return o.RejectUnauthorized
 }
 
-func (o *InputPrometheusRwTLSSettingsServerSide) GetCommonNameRegex() any {
+func (o *TLSSettingsServerSidePrometheusRw) GetCommonNameRegex() any {
 	if o == nil {
 		return nil
 	}
 	return o.CommonNameRegex
 }
 
-func (o *InputPrometheusRwTLSSettingsServerSide) GetMinVersion() *InputPrometheusRwMinimumTLSVersion {
+func (o *TLSSettingsServerSidePrometheusRw) GetMinVersion() *MinimumTLSVersionPrometheusRw {
 	if o == nil {
 		return nil
 	}
 	return o.MinVersion
 }
 
-func (o *InputPrometheusRwTLSSettingsServerSide) GetMaxVersion() *InputPrometheusRwMaximumTLSVersion {
+func (o *TLSSettingsServerSidePrometheusRw) GetMaxVersion() *MaximumTLSVersionPrometheusRw {
 	if o == nil {
 		return nil
 	}
 	return o.MaxVersion
 }
 
-// InputPrometheusRwAuthenticationType - Remote Write authentication type
-type InputPrometheusRwAuthenticationType string
+// AuthenticationTypePrometheusRw - Remote Write authentication type
+type AuthenticationTypePrometheusRw string
 
 const (
-	InputPrometheusRwAuthenticationTypeNone              InputPrometheusRwAuthenticationType = "none"
-	InputPrometheusRwAuthenticationTypeBasic             InputPrometheusRwAuthenticationType = "basic"
-	InputPrometheusRwAuthenticationTypeCredentialsSecret InputPrometheusRwAuthenticationType = "credentialsSecret"
-	InputPrometheusRwAuthenticationTypeToken             InputPrometheusRwAuthenticationType = "token"
-	InputPrometheusRwAuthenticationTypeTextSecret        InputPrometheusRwAuthenticationType = "textSecret"
-	InputPrometheusRwAuthenticationTypeOauth             InputPrometheusRwAuthenticationType = "oauth"
+	AuthenticationTypePrometheusRwNone              AuthenticationTypePrometheusRw = "none"
+	AuthenticationTypePrometheusRwBasic             AuthenticationTypePrometheusRw = "basic"
+	AuthenticationTypePrometheusRwCredentialsSecret AuthenticationTypePrometheusRw = "credentialsSecret"
+	AuthenticationTypePrometheusRwToken             AuthenticationTypePrometheusRw = "token"
+	AuthenticationTypePrometheusRwTextSecret        AuthenticationTypePrometheusRw = "textSecret"
+	AuthenticationTypePrometheusRwOauth             AuthenticationTypePrometheusRw = "oauth"
 )
 
-func (e InputPrometheusRwAuthenticationType) ToPointer() *InputPrometheusRwAuthenticationType {
+func (e AuthenticationTypePrometheusRw) ToPointer() *AuthenticationTypePrometheusRw {
 	return &e
 }
+func (e *AuthenticationTypePrometheusRw) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "basic":
+		fallthrough
+	case "credentialsSecret":
+		fallthrough
+	case "token":
+		fallthrough
+	case "textSecret":
+		fallthrough
+	case "oauth":
+		*e = AuthenticationTypePrometheusRw(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for AuthenticationTypePrometheusRw: %v", v)
+	}
+}
 
-type InputPrometheusRwMetadatum struct {
+type MetadatumPrometheusRw struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputPrometheusRwMetadatum) GetName() string {
+func (o *MetadatumPrometheusRw) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputPrometheusRwMetadatum) GetValue() string {
+func (o *MetadatumPrometheusRw) GetValue() string {
 	if o == nil {
 		return ""
 	}
 	return o.Value
 }
 
-type InputPrometheusRwOauthParam struct {
+type OauthParamPrometheusRw struct {
 	// OAuth parameter name
 	Name string `json:"name"`
 	// OAuth parameter value
 	Value string `json:"value"`
 }
 
-func (o *InputPrometheusRwOauthParam) GetName() string {
+func (o *OauthParamPrometheusRw) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputPrometheusRwOauthParam) GetValue() string {
+func (o *OauthParamPrometheusRw) GetValue() string {
 	if o == nil {
 		return ""
 	}
 	return o.Value
 }
 
-type InputPrometheusRwOauthHeader struct {
+type OauthHeaderPrometheusRw struct {
 	// OAuth header name
 	Name string `json:"name"`
 	// OAuth header value
 	Value string `json:"value"`
 }
 
-func (o *InputPrometheusRwOauthHeader) GetName() string {
+func (o *OauthHeaderPrometheusRw) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputPrometheusRwOauthHeader) GetValue() string {
+func (o *OauthHeaderPrometheusRw) GetValue() string {
 	if o == nil {
 		return ""
 	}
@@ -20157,9 +23423,9 @@ func (o *InputPrometheusRwOauthHeader) GetValue() string {
 
 type InputPrometheusRw struct {
 	// Unique ID for this input
-	ID       string                 `json:"id"`
-	Type     *InputPrometheusRwType `json:"type,omitempty"`
-	Disabled *bool                  `default:"false" json:"disabled"`
+	ID       string            `json:"id"`
+	Type     *TypePrometheusRw `json:"type,omitempty"`
+	Disabled *bool             `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -20171,13 +23437,13 @@ type InputPrometheusRw struct {
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputPrometheusRwConnection `json:"connections,omitempty"`
-	Pq          *InputPrometheusRwPq          `json:"pq,omitempty"`
+	Connections []ConnectionPrometheusRw `json:"connections,omitempty"`
+	Pq          *PqPrometheusRw          `json:"pq,omitempty"`
 	// Address to bind on. Defaults to 0.0.0.0 (all addresses).
 	Host *string `default:"0.0.0.0" json:"host"`
 	// Port to listen on
-	Port float64                                 `json:"port"`
-	TLS  *InputPrometheusRwTLSSettingsServerSide `json:"tls,omitempty"`
+	Port float64                            `json:"port"`
+	TLS  *TLSSettingsServerSidePrometheusRw `json:"tls,omitempty"`
 	// Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput.
 	MaxActiveReq *float64 `default:"256" json:"maxActiveReq"`
 	// Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited).
@@ -20203,12 +23469,12 @@ type InputPrometheusRw struct {
 	// Absolute path on which to listen for Prometheus requests. Defaults to /write, which will expand as: http://<your‑upstream‑URL>:<your‑port>/write.
 	PrometheusAPI *string `default:"/write" json:"prometheusAPI"`
 	// Remote Write authentication type
-	AuthType *InputPrometheusRwAuthenticationType `default:"none" json:"authType"`
+	AuthType *AuthenticationTypePrometheusRw `default:"none" json:"authType"`
 	// Fields to add to events from this input
-	Metadata    []InputPrometheusRwMetadatum `json:"metadata,omitempty"`
-	Description *string                      `json:"description,omitempty"`
-	Username    *string                      `json:"username,omitempty"`
-	Password    *string                      `json:"password,omitempty"`
+	Metadata    []MetadatumPrometheusRw `json:"metadata,omitempty"`
+	Description *string                 `json:"description,omitempty"`
+	Username    *string                 `json:"username,omitempty"`
+	Password    *string                 `json:"password,omitempty"`
 	// Bearer token to include in the authorization header
 	Token *string `json:"token,omitempty"`
 	// Select or create a secret that references your credentials
@@ -20228,9 +23494,9 @@ type InputPrometheusRw struct {
 	// How often the OAuth token should be refreshed.
 	TokenTimeoutSecs *float64 `default:"3600" json:"tokenTimeoutSecs"`
 	// Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request.
-	OauthParams []InputPrometheusRwOauthParam `json:"oauthParams,omitempty"`
+	OauthParams []OauthParamPrometheusRw `json:"oauthParams,omitempty"`
 	// Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request.
-	OauthHeaders []InputPrometheusRwOauthHeader `json:"oauthHeaders,omitempty"`
+	OauthHeaders []OauthHeaderPrometheusRw `json:"oauthHeaders,omitempty"`
 }
 
 func (i InputPrometheusRw) MarshalJSON() ([]byte, error) {
@@ -20251,7 +23517,7 @@ func (o *InputPrometheusRw) GetID() string {
 	return o.ID
 }
 
-func (o *InputPrometheusRw) GetType() *InputPrometheusRwType {
+func (o *InputPrometheusRw) GetType() *TypePrometheusRw {
 	if o == nil {
 		return nil
 	}
@@ -20300,14 +23566,14 @@ func (o *InputPrometheusRw) GetStreamtags() []string {
 	return o.Streamtags
 }
 
-func (o *InputPrometheusRw) GetConnections() []InputPrometheusRwConnection {
+func (o *InputPrometheusRw) GetConnections() []ConnectionPrometheusRw {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputPrometheusRw) GetPq() *InputPrometheusRwPq {
+func (o *InputPrometheusRw) GetPq() *PqPrometheusRw {
 	if o == nil {
 		return nil
 	}
@@ -20328,7 +23594,7 @@ func (o *InputPrometheusRw) GetPort() float64 {
 	return o.Port
 }
 
-func (o *InputPrometheusRw) GetTLS() *InputPrometheusRwTLSSettingsServerSide {
+func (o *InputPrometheusRw) GetTLS() *TLSSettingsServerSidePrometheusRw {
 	if o == nil {
 		return nil
 	}
@@ -20419,14 +23685,14 @@ func (o *InputPrometheusRw) GetPrometheusAPI() *string {
 	return o.PrometheusAPI
 }
 
-func (o *InputPrometheusRw) GetAuthType() *InputPrometheusRwAuthenticationType {
+func (o *InputPrometheusRw) GetAuthType() *AuthenticationTypePrometheusRw {
 	if o == nil {
 		return nil
 	}
 	return o.AuthType
 }
 
-func (o *InputPrometheusRw) GetMetadata() []InputPrometheusRwMetadatum {
+func (o *InputPrometheusRw) GetMetadata() []MetadatumPrometheusRw {
 	if o == nil {
 		return nil
 	}
@@ -20517,76 +23783,119 @@ func (o *InputPrometheusRw) GetTokenTimeoutSecs() *float64 {
 	return o.TokenTimeoutSecs
 }
 
-func (o *InputPrometheusRw) GetOauthParams() []InputPrometheusRwOauthParam {
+func (o *InputPrometheusRw) GetOauthParams() []OauthParamPrometheusRw {
 	if o == nil {
 		return nil
 	}
 	return o.OauthParams
 }
 
-func (o *InputPrometheusRw) GetOauthHeaders() []InputPrometheusRwOauthHeader {
+func (o *InputPrometheusRw) GetOauthHeaders() []OauthHeaderPrometheusRw {
 	if o == nil {
 		return nil
 	}
 	return o.OauthHeaders
 }
 
-type InputLokiType string
+type CreateInputTypeLoki string
 
 const (
-	InputLokiTypeLoki InputLokiType = "loki"
+	CreateInputTypeLokiLoki CreateInputTypeLoki = "loki"
 )
 
-func (e InputLokiType) ToPointer() *InputLokiType {
+func (e CreateInputTypeLoki) ToPointer() *CreateInputTypeLoki {
 	return &e
 }
+func (e *CreateInputTypeLoki) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "loki":
+		*e = CreateInputTypeLoki(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputTypeLoki: %v", v)
+	}
+}
 
-type InputLokiConnection struct {
+type ConnectionLoki struct {
 	Pipeline *string `json:"pipeline,omitempty"`
 	Output   string  `json:"output"`
 }
 
-func (o *InputLokiConnection) GetPipeline() *string {
+func (o *ConnectionLoki) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputLokiConnection) GetOutput() string {
+func (o *ConnectionLoki) GetOutput() string {
 	if o == nil {
 		return ""
 	}
 	return o.Output
 }
 
-// InputLokiMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type InputLokiMode string
+// CreateInputModeLoki - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+type CreateInputModeLoki string
 
 const (
-	InputLokiModeSmart  InputLokiMode = "smart"
-	InputLokiModeAlways InputLokiMode = "always"
+	CreateInputModeLokiSmart  CreateInputModeLoki = "smart"
+	CreateInputModeLokiAlways CreateInputModeLoki = "always"
 )
 
-func (e InputLokiMode) ToPointer() *InputLokiMode {
+func (e CreateInputModeLoki) ToPointer() *CreateInputModeLoki {
 	return &e
 }
+func (e *CreateInputModeLoki) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = CreateInputModeLoki(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputModeLoki: %v", v)
+	}
+}
 
-// InputLokiCompression - Codec to use to compress the persisted data
-type InputLokiCompression string
+// PqCompressionLoki - Codec to use to compress the persisted data
+type PqCompressionLoki string
 
 const (
-	InputLokiCompressionNone InputLokiCompression = "none"
-	InputLokiCompressionGzip InputLokiCompression = "gzip"
+	PqCompressionLokiNone PqCompressionLoki = "none"
+	PqCompressionLokiGzip PqCompressionLoki = "gzip"
 )
 
-func (e InputLokiCompression) ToPointer() *InputLokiCompression {
+func (e PqCompressionLoki) ToPointer() *PqCompressionLoki {
 	return &e
 }
+func (e *PqCompressionLoki) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = PqCompressionLoki(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for PqCompressionLoki: %v", v)
+	}
+}
 
-type InputLokiPq struct {
+type PqLoki struct {
 	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *InputLokiMode `default:"always" json:"mode"`
+	Mode *CreateInputModeLoki `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
 	// The number of events to send downstream before committing that Stream has read them
@@ -20598,96 +23907,134 @@ type InputLokiPq struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
 	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
 	// Codec to use to compress the persisted data
-	Compress *InputLokiCompression `default:"none" json:"compress"`
+	Compress *PqCompressionLoki `default:"none" json:"compress"`
 }
 
-func (i InputLokiPq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PqLoki) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputLokiPq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PqLoki) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputLokiPq) GetMode() *InputLokiMode {
+func (o *PqLoki) GetMode() *CreateInputModeLoki {
 	if o == nil {
 		return nil
 	}
 	return o.Mode
 }
 
-func (o *InputLokiPq) GetMaxBufferSize() *float64 {
+func (o *PqLoki) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputLokiPq) GetCommitFrequency() *float64 {
+func (o *PqLoki) GetCommitFrequency() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.CommitFrequency
 }
 
-func (o *InputLokiPq) GetMaxFileSize() *string {
+func (o *PqLoki) GetMaxFileSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxFileSize
 }
 
-func (o *InputLokiPq) GetMaxSize() *string {
+func (o *PqLoki) GetMaxSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxSize
 }
 
-func (o *InputLokiPq) GetPath() *string {
+func (o *PqLoki) GetPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Path
 }
 
-func (o *InputLokiPq) GetCompress() *InputLokiCompression {
+func (o *PqLoki) GetCompress() *PqCompressionLoki {
 	if o == nil {
 		return nil
 	}
 	return o.Compress
 }
 
-type InputLokiMinimumTLSVersion string
+type MinimumTLSVersionLoki string
 
 const (
-	InputLokiMinimumTLSVersionTlSv1  InputLokiMinimumTLSVersion = "TLSv1"
-	InputLokiMinimumTLSVersionTlSv11 InputLokiMinimumTLSVersion = "TLSv1.1"
-	InputLokiMinimumTLSVersionTlSv12 InputLokiMinimumTLSVersion = "TLSv1.2"
-	InputLokiMinimumTLSVersionTlSv13 InputLokiMinimumTLSVersion = "TLSv1.3"
+	MinimumTLSVersionLokiTlSv1  MinimumTLSVersionLoki = "TLSv1"
+	MinimumTLSVersionLokiTlSv11 MinimumTLSVersionLoki = "TLSv1.1"
+	MinimumTLSVersionLokiTlSv12 MinimumTLSVersionLoki = "TLSv1.2"
+	MinimumTLSVersionLokiTlSv13 MinimumTLSVersionLoki = "TLSv1.3"
 )
 
-func (e InputLokiMinimumTLSVersion) ToPointer() *InputLokiMinimumTLSVersion {
+func (e MinimumTLSVersionLoki) ToPointer() *MinimumTLSVersionLoki {
 	return &e
 }
+func (e *MinimumTLSVersionLoki) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = MinimumTLSVersionLoki(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for MinimumTLSVersionLoki: %v", v)
+	}
+}
 
-type InputLokiMaximumTLSVersion string
+type MaximumTLSVersionLoki string
 
 const (
-	InputLokiMaximumTLSVersionTlSv1  InputLokiMaximumTLSVersion = "TLSv1"
-	InputLokiMaximumTLSVersionTlSv11 InputLokiMaximumTLSVersion = "TLSv1.1"
-	InputLokiMaximumTLSVersionTlSv12 InputLokiMaximumTLSVersion = "TLSv1.2"
-	InputLokiMaximumTLSVersionTlSv13 InputLokiMaximumTLSVersion = "TLSv1.3"
+	MaximumTLSVersionLokiTlSv1  MaximumTLSVersionLoki = "TLSv1"
+	MaximumTLSVersionLokiTlSv11 MaximumTLSVersionLoki = "TLSv1.1"
+	MaximumTLSVersionLokiTlSv12 MaximumTLSVersionLoki = "TLSv1.2"
+	MaximumTLSVersionLokiTlSv13 MaximumTLSVersionLoki = "TLSv1.3"
 )
 
-func (e InputLokiMaximumTLSVersion) ToPointer() *InputLokiMaximumTLSVersion {
+func (e MaximumTLSVersionLoki) ToPointer() *MaximumTLSVersionLoki {
 	return &e
 }
+func (e *MaximumTLSVersionLoki) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = MaximumTLSVersionLoki(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for MaximumTLSVersionLoki: %v", v)
+	}
+}
 
-type InputLokiTLSSettingsServerSide struct {
+type TLSSettingsServerSideLoki struct {
 	Disabled *bool `default:"true" json:"disabled"`
 	// The name of the predefined certificate
 	CertificateName *string `json:"certificateName,omitempty"`
@@ -20700,173 +24047,196 @@ type InputLokiTLSSettingsServerSide struct {
 	// Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS.
 	CaPath *string `json:"caPath,omitempty"`
 	// Require clients to present their certificates. Used to perform client authentication using SSL certs.
-	RequestCert        *bool                       `default:"false" json:"requestCert"`
-	RejectUnauthorized any                         `json:"rejectUnauthorized,omitempty"`
-	CommonNameRegex    any                         `json:"commonNameRegex,omitempty"`
-	MinVersion         *InputLokiMinimumTLSVersion `json:"minVersion,omitempty"`
-	MaxVersion         *InputLokiMaximumTLSVersion `json:"maxVersion,omitempty"`
+	RequestCert        *bool                  `default:"false" json:"requestCert"`
+	RejectUnauthorized any                    `json:"rejectUnauthorized,omitempty"`
+	CommonNameRegex    any                    `json:"commonNameRegex,omitempty"`
+	MinVersion         *MinimumTLSVersionLoki `json:"minVersion,omitempty"`
+	MaxVersion         *MaximumTLSVersionLoki `json:"maxVersion,omitempty"`
 }
 
-func (i InputLokiTLSSettingsServerSide) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (t TLSSettingsServerSideLoki) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(t, "", false)
 }
 
-func (i *InputLokiTLSSettingsServerSide) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (t *TLSSettingsServerSideLoki) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &t, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputLokiTLSSettingsServerSide) GetDisabled() *bool {
+func (o *TLSSettingsServerSideLoki) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *InputLokiTLSSettingsServerSide) GetCertificateName() *string {
+func (o *TLSSettingsServerSideLoki) GetCertificateName() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertificateName
 }
 
-func (o *InputLokiTLSSettingsServerSide) GetPrivKeyPath() *string {
+func (o *TLSSettingsServerSideLoki) GetPrivKeyPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.PrivKeyPath
 }
 
-func (o *InputLokiTLSSettingsServerSide) GetPassphrase() *string {
+func (o *TLSSettingsServerSideLoki) GetPassphrase() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Passphrase
 }
 
-func (o *InputLokiTLSSettingsServerSide) GetCertPath() *string {
+func (o *TLSSettingsServerSideLoki) GetCertPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertPath
 }
 
-func (o *InputLokiTLSSettingsServerSide) GetCaPath() *string {
+func (o *TLSSettingsServerSideLoki) GetCaPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CaPath
 }
 
-func (o *InputLokiTLSSettingsServerSide) GetRequestCert() *bool {
+func (o *TLSSettingsServerSideLoki) GetRequestCert() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.RequestCert
 }
 
-func (o *InputLokiTLSSettingsServerSide) GetRejectUnauthorized() any {
+func (o *TLSSettingsServerSideLoki) GetRejectUnauthorized() any {
 	if o == nil {
 		return nil
 	}
 	return o.RejectUnauthorized
 }
 
-func (o *InputLokiTLSSettingsServerSide) GetCommonNameRegex() any {
+func (o *TLSSettingsServerSideLoki) GetCommonNameRegex() any {
 	if o == nil {
 		return nil
 	}
 	return o.CommonNameRegex
 }
 
-func (o *InputLokiTLSSettingsServerSide) GetMinVersion() *InputLokiMinimumTLSVersion {
+func (o *TLSSettingsServerSideLoki) GetMinVersion() *MinimumTLSVersionLoki {
 	if o == nil {
 		return nil
 	}
 	return o.MinVersion
 }
 
-func (o *InputLokiTLSSettingsServerSide) GetMaxVersion() *InputLokiMaximumTLSVersion {
+func (o *TLSSettingsServerSideLoki) GetMaxVersion() *MaximumTLSVersionLoki {
 	if o == nil {
 		return nil
 	}
 	return o.MaxVersion
 }
 
-// InputLokiAuthenticationType - Loki logs authentication type
-type InputLokiAuthenticationType string
+// CreateInputAuthenticationTypeLoki - Loki logs authentication type
+type CreateInputAuthenticationTypeLoki string
 
 const (
-	InputLokiAuthenticationTypeNone              InputLokiAuthenticationType = "none"
-	InputLokiAuthenticationTypeBasic             InputLokiAuthenticationType = "basic"
-	InputLokiAuthenticationTypeCredentialsSecret InputLokiAuthenticationType = "credentialsSecret"
-	InputLokiAuthenticationTypeToken             InputLokiAuthenticationType = "token"
-	InputLokiAuthenticationTypeTextSecret        InputLokiAuthenticationType = "textSecret"
-	InputLokiAuthenticationTypeOauth             InputLokiAuthenticationType = "oauth"
+	CreateInputAuthenticationTypeLokiNone              CreateInputAuthenticationTypeLoki = "none"
+	CreateInputAuthenticationTypeLokiBasic             CreateInputAuthenticationTypeLoki = "basic"
+	CreateInputAuthenticationTypeLokiCredentialsSecret CreateInputAuthenticationTypeLoki = "credentialsSecret"
+	CreateInputAuthenticationTypeLokiToken             CreateInputAuthenticationTypeLoki = "token"
+	CreateInputAuthenticationTypeLokiTextSecret        CreateInputAuthenticationTypeLoki = "textSecret"
+	CreateInputAuthenticationTypeLokiOauth             CreateInputAuthenticationTypeLoki = "oauth"
 )
 
-func (e InputLokiAuthenticationType) ToPointer() *InputLokiAuthenticationType {
+func (e CreateInputAuthenticationTypeLoki) ToPointer() *CreateInputAuthenticationTypeLoki {
 	return &e
 }
+func (e *CreateInputAuthenticationTypeLoki) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "basic":
+		fallthrough
+	case "credentialsSecret":
+		fallthrough
+	case "token":
+		fallthrough
+	case "textSecret":
+		fallthrough
+	case "oauth":
+		*e = CreateInputAuthenticationTypeLoki(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputAuthenticationTypeLoki: %v", v)
+	}
+}
 
-type InputLokiMetadatum struct {
+type MetadatumLoki struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputLokiMetadatum) GetName() string {
+func (o *MetadatumLoki) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputLokiMetadatum) GetValue() string {
+func (o *MetadatumLoki) GetValue() string {
 	if o == nil {
 		return ""
 	}
 	return o.Value
 }
 
-type InputLokiOauthParam struct {
+type OauthParamLoki struct {
 	// OAuth parameter name
 	Name string `json:"name"`
 	// OAuth parameter value
 	Value string `json:"value"`
 }
 
-func (o *InputLokiOauthParam) GetName() string {
+func (o *OauthParamLoki) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputLokiOauthParam) GetValue() string {
+func (o *OauthParamLoki) GetValue() string {
 	if o == nil {
 		return ""
 	}
 	return o.Value
 }
 
-type InputLokiOauthHeader struct {
+type OauthHeaderLoki struct {
 	// OAuth header name
 	Name string `json:"name"`
 	// OAuth header value
 	Value string `json:"value"`
 }
 
-func (o *InputLokiOauthHeader) GetName() string {
+func (o *OauthHeaderLoki) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputLokiOauthHeader) GetValue() string {
+func (o *OauthHeaderLoki) GetValue() string {
 	if o == nil {
 		return ""
 	}
@@ -20875,9 +24245,9 @@ func (o *InputLokiOauthHeader) GetValue() string {
 
 type InputLoki struct {
 	// Unique ID for this input
-	ID       string         `json:"id"`
-	Type     *InputLokiType `json:"type,omitempty"`
-	Disabled *bool          `default:"false" json:"disabled"`
+	ID       string               `json:"id"`
+	Type     *CreateInputTypeLoki `json:"type,omitempty"`
+	Disabled *bool                `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -20889,13 +24259,13 @@ type InputLoki struct {
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputLokiConnection `json:"connections,omitempty"`
-	Pq          *InputLokiPq          `json:"pq,omitempty"`
+	Connections []ConnectionLoki `json:"connections,omitempty"`
+	Pq          *PqLoki          `json:"pq,omitempty"`
 	// Address to bind on. Defaults to 0.0.0.0 (all addresses).
 	Host *string `default:"0.0.0.0" json:"host"`
 	// Port to listen on
-	Port float64                         `json:"port"`
-	TLS  *InputLokiTLSSettingsServerSide `json:"tls,omitempty"`
+	Port float64                    `json:"port"`
+	TLS  *TLSSettingsServerSideLoki `json:"tls,omitempty"`
 	// Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput.
 	MaxActiveReq *float64 `default:"256" json:"maxActiveReq"`
 	// Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited).
@@ -20921,12 +24291,12 @@ type InputLoki struct {
 	// Absolute path on which to listen for Loki logs requests. Defaults to /loki/api/v1/push, which will (in this example) expand as: 'http://<your‑upstream‑URL>:<your‑port>/loki/api/v1/push'.
 	LokiAPI *string `default:"/loki/api/v1/push" json:"lokiAPI"`
 	// Loki logs authentication type
-	AuthType *InputLokiAuthenticationType `default:"none" json:"authType"`
+	AuthType *CreateInputAuthenticationTypeLoki `default:"none" json:"authType"`
 	// Fields to add to events from this input
-	Metadata    []InputLokiMetadatum `json:"metadata,omitempty"`
-	Description *string              `json:"description,omitempty"`
-	Username    *string              `json:"username,omitempty"`
-	Password    *string              `json:"password,omitempty"`
+	Metadata    []MetadatumLoki `json:"metadata,omitempty"`
+	Description *string         `json:"description,omitempty"`
+	Username    *string         `json:"username,omitempty"`
+	Password    *string         `json:"password,omitempty"`
 	// Bearer token to include in the authorization header
 	Token *string `json:"token,omitempty"`
 	// Select or create a secret that references your credentials
@@ -20946,9 +24316,9 @@ type InputLoki struct {
 	// How often the OAuth token should be refreshed.
 	TokenTimeoutSecs *float64 `default:"3600" json:"tokenTimeoutSecs"`
 	// Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request.
-	OauthParams []InputLokiOauthParam `json:"oauthParams,omitempty"`
+	OauthParams []OauthParamLoki `json:"oauthParams,omitempty"`
 	// Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request.
-	OauthHeaders []InputLokiOauthHeader `json:"oauthHeaders,omitempty"`
+	OauthHeaders []OauthHeaderLoki `json:"oauthHeaders,omitempty"`
 }
 
 func (i InputLoki) MarshalJSON() ([]byte, error) {
@@ -20969,7 +24339,7 @@ func (o *InputLoki) GetID() string {
 	return o.ID
 }
 
-func (o *InputLoki) GetType() *InputLokiType {
+func (o *InputLoki) GetType() *CreateInputTypeLoki {
 	if o == nil {
 		return nil
 	}
@@ -21018,14 +24388,14 @@ func (o *InputLoki) GetStreamtags() []string {
 	return o.Streamtags
 }
 
-func (o *InputLoki) GetConnections() []InputLokiConnection {
+func (o *InputLoki) GetConnections() []ConnectionLoki {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputLoki) GetPq() *InputLokiPq {
+func (o *InputLoki) GetPq() *PqLoki {
 	if o == nil {
 		return nil
 	}
@@ -21046,7 +24416,7 @@ func (o *InputLoki) GetPort() float64 {
 	return o.Port
 }
 
-func (o *InputLoki) GetTLS() *InputLokiTLSSettingsServerSide {
+func (o *InputLoki) GetTLS() *TLSSettingsServerSideLoki {
 	if o == nil {
 		return nil
 	}
@@ -21137,14 +24507,14 @@ func (o *InputLoki) GetLokiAPI() *string {
 	return o.LokiAPI
 }
 
-func (o *InputLoki) GetAuthType() *InputLokiAuthenticationType {
+func (o *InputLoki) GetAuthType() *CreateInputAuthenticationTypeLoki {
 	if o == nil {
 		return nil
 	}
 	return o.AuthType
 }
 
-func (o *InputLoki) GetMetadata() []InputLokiMetadatum {
+func (o *InputLoki) GetMetadata() []MetadatumLoki {
 	if o == nil {
 		return nil
 	}
@@ -21235,14 +24605,14 @@ func (o *InputLoki) GetTokenTimeoutSecs() *float64 {
 	return o.TokenTimeoutSecs
 }
 
-func (o *InputLoki) GetOauthParams() []InputLokiOauthParam {
+func (o *InputLoki) GetOauthParams() []OauthParamLoki {
 	if o == nil {
 		return nil
 	}
 	return o.OauthParams
 }
 
-func (o *InputLoki) GetOauthHeaders() []InputLokiOauthHeader {
+func (o *InputLoki) GetOauthHeaders() []OauthHeaderLoki {
 	if o == nil {
 		return nil
 	}
@@ -21257,6 +24627,19 @@ const (
 
 func (e InputGrafanaType2) ToPointer() *InputGrafanaType2 {
 	return &e
+}
+func (e *InputGrafanaType2) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "grafana":
+		*e = InputGrafanaType2(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputGrafanaType2: %v", v)
+	}
 }
 
 type InputGrafanaConnection2 struct {
@@ -21289,6 +24672,21 @@ const (
 func (e InputGrafanaMode2) ToPointer() *InputGrafanaMode2 {
 	return &e
 }
+func (e *InputGrafanaMode2) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = InputGrafanaMode2(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputGrafanaMode2: %v", v)
+	}
+}
 
 // InputGrafanaCompression2 - Codec to use to compress the persisted data
 type InputGrafanaCompression2 string
@@ -21300,6 +24698,21 @@ const (
 
 func (e InputGrafanaCompression2) ToPointer() *InputGrafanaCompression2 {
 	return &e
+}
+func (e *InputGrafanaCompression2) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = InputGrafanaCompression2(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputGrafanaCompression2: %v", v)
+	}
 }
 
 type InputGrafanaPq2 struct {
@@ -21391,6 +24804,25 @@ const (
 func (e InputGrafanaMinimumTLSVersion2) ToPointer() *InputGrafanaMinimumTLSVersion2 {
 	return &e
 }
+func (e *InputGrafanaMinimumTLSVersion2) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = InputGrafanaMinimumTLSVersion2(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputGrafanaMinimumTLSVersion2: %v", v)
+	}
+}
 
 type InputGrafanaMaximumTLSVersion2 string
 
@@ -21403,6 +24835,25 @@ const (
 
 func (e InputGrafanaMaximumTLSVersion2) ToPointer() *InputGrafanaMaximumTLSVersion2 {
 	return &e
+}
+func (e *InputGrafanaMaximumTLSVersion2) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = InputGrafanaMaximumTLSVersion2(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputGrafanaMaximumTLSVersion2: %v", v)
+	}
 }
 
 type InputGrafanaTLSSettingsServerSide2 struct {
@@ -21527,6 +24978,29 @@ const (
 
 func (e PrometheusAuthAuthenticationType2) ToPointer() *PrometheusAuthAuthenticationType2 {
 	return &e
+}
+func (e *PrometheusAuthAuthenticationType2) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "basic":
+		fallthrough
+	case "credentialsSecret":
+		fallthrough
+	case "token":
+		fallthrough
+	case "textSecret":
+		fallthrough
+	case "oauth":
+		*e = PrometheusAuthAuthenticationType2(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for PrometheusAuthAuthenticationType2: %v", v)
+	}
 }
 
 type PrometheusAuthOauthParam2 struct {
@@ -21723,6 +25197,29 @@ const (
 
 func (e LokiAuthAuthenticationType2) ToPointer() *LokiAuthAuthenticationType2 {
 	return &e
+}
+func (e *LokiAuthAuthenticationType2) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "basic":
+		fallthrough
+	case "credentialsSecret":
+		fallthrough
+	case "token":
+		fallthrough
+	case "textSecret":
+		fallthrough
+	case "oauth":
+		*e = LokiAuthAuthenticationType2(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for LokiAuthAuthenticationType2: %v", v)
+	}
 }
 
 type LokiAuthOauthParam2 struct {
@@ -21925,7 +25422,7 @@ func (o *InputGrafanaMetadatum2) GetValue() string {
 	return o.Value
 }
 
-type InputGrafana2 struct {
+type InputGrafanaGrafana2 struct {
 	// Unique ID for this input
 	ID       string             `json:"id"`
 	Type     *InputGrafanaType2 `json:"type,omitempty"`
@@ -21981,221 +25478,221 @@ type InputGrafana2 struct {
 	Description *string                  `json:"description,omitempty"`
 }
 
-func (i InputGrafana2) MarshalJSON() ([]byte, error) {
+func (i InputGrafanaGrafana2) MarshalJSON() ([]byte, error) {
 	return utils.MarshalJSON(i, "", false)
 }
 
-func (i *InputGrafana2) UnmarshalJSON(data []byte) error {
+func (i *InputGrafanaGrafana2) UnmarshalJSON(data []byte) error {
 	if err := utils.UnmarshalJSON(data, &i, "", false, true); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputGrafana2) GetID() string {
+func (o *InputGrafanaGrafana2) GetID() string {
 	if o == nil {
 		return ""
 	}
 	return o.ID
 }
 
-func (o *InputGrafana2) GetType() *InputGrafanaType2 {
+func (o *InputGrafanaGrafana2) GetType() *InputGrafanaType2 {
 	if o == nil {
 		return nil
 	}
 	return o.Type
 }
 
-func (o *InputGrafana2) GetDisabled() *bool {
+func (o *InputGrafanaGrafana2) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *InputGrafana2) GetPipeline() *string {
+func (o *InputGrafanaGrafana2) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputGrafana2) GetSendToRoutes() *bool {
+func (o *InputGrafanaGrafana2) GetSendToRoutes() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.SendToRoutes
 }
 
-func (o *InputGrafana2) GetEnvironment() *string {
+func (o *InputGrafanaGrafana2) GetEnvironment() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Environment
 }
 
-func (o *InputGrafana2) GetPqEnabled() *bool {
+func (o *InputGrafanaGrafana2) GetPqEnabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.PqEnabled
 }
 
-func (o *InputGrafana2) GetStreamtags() []string {
+func (o *InputGrafanaGrafana2) GetStreamtags() []string {
 	if o == nil {
 		return nil
 	}
 	return o.Streamtags
 }
 
-func (o *InputGrafana2) GetConnections() []InputGrafanaConnection2 {
+func (o *InputGrafanaGrafana2) GetConnections() []InputGrafanaConnection2 {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputGrafana2) GetPq() *InputGrafanaPq2 {
+func (o *InputGrafanaGrafana2) GetPq() *InputGrafanaPq2 {
 	if o == nil {
 		return nil
 	}
 	return o.Pq
 }
 
-func (o *InputGrafana2) GetHost() *string {
+func (o *InputGrafanaGrafana2) GetHost() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Host
 }
 
-func (o *InputGrafana2) GetPort() float64 {
+func (o *InputGrafanaGrafana2) GetPort() float64 {
 	if o == nil {
 		return 0.0
 	}
 	return o.Port
 }
 
-func (o *InputGrafana2) GetTLS() *InputGrafanaTLSSettingsServerSide2 {
+func (o *InputGrafanaGrafana2) GetTLS() *InputGrafanaTLSSettingsServerSide2 {
 	if o == nil {
 		return nil
 	}
 	return o.TLS
 }
 
-func (o *InputGrafana2) GetMaxActiveReq() *float64 {
+func (o *InputGrafanaGrafana2) GetMaxActiveReq() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxActiveReq
 }
 
-func (o *InputGrafana2) GetMaxRequestsPerSocket() *int64 {
+func (o *InputGrafanaGrafana2) GetMaxRequestsPerSocket() *int64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxRequestsPerSocket
 }
 
-func (o *InputGrafana2) GetEnableProxyHeader() *bool {
+func (o *InputGrafanaGrafana2) GetEnableProxyHeader() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.EnableProxyHeader
 }
 
-func (o *InputGrafana2) GetCaptureHeaders() *bool {
+func (o *InputGrafanaGrafana2) GetCaptureHeaders() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.CaptureHeaders
 }
 
-func (o *InputGrafana2) GetActivityLogSampleRate() *float64 {
+func (o *InputGrafanaGrafana2) GetActivityLogSampleRate() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.ActivityLogSampleRate
 }
 
-func (o *InputGrafana2) GetRequestTimeout() *float64 {
+func (o *InputGrafanaGrafana2) GetRequestTimeout() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.RequestTimeout
 }
 
-func (o *InputGrafana2) GetSocketTimeout() *float64 {
+func (o *InputGrafanaGrafana2) GetSocketTimeout() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.SocketTimeout
 }
 
-func (o *InputGrafana2) GetKeepAliveTimeout() *float64 {
+func (o *InputGrafanaGrafana2) GetKeepAliveTimeout() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.KeepAliveTimeout
 }
 
-func (o *InputGrafana2) GetEnableHealthCheck() *bool {
+func (o *InputGrafanaGrafana2) GetEnableHealthCheck() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.EnableHealthCheck
 }
 
-func (o *InputGrafana2) GetIPAllowlistRegex() *string {
+func (o *InputGrafanaGrafana2) GetIPAllowlistRegex() *string {
 	if o == nil {
 		return nil
 	}
 	return o.IPAllowlistRegex
 }
 
-func (o *InputGrafana2) GetIPDenylistRegex() *string {
+func (o *InputGrafanaGrafana2) GetIPDenylistRegex() *string {
 	if o == nil {
 		return nil
 	}
 	return o.IPDenylistRegex
 }
 
-func (o *InputGrafana2) GetPrometheusAPI() *string {
+func (o *InputGrafanaGrafana2) GetPrometheusAPI() *string {
 	if o == nil {
 		return nil
 	}
 	return o.PrometheusAPI
 }
 
-func (o *InputGrafana2) GetLokiAPI() *string {
+func (o *InputGrafanaGrafana2) GetLokiAPI() *string {
 	if o == nil {
 		return nil
 	}
 	return o.LokiAPI
 }
 
-func (o *InputGrafana2) GetPrometheusAuth() *PrometheusAuth2 {
+func (o *InputGrafanaGrafana2) GetPrometheusAuth() *PrometheusAuth2 {
 	if o == nil {
 		return nil
 	}
 	return o.PrometheusAuth
 }
 
-func (o *InputGrafana2) GetLokiAuth() *LokiAuth2 {
+func (o *InputGrafanaGrafana2) GetLokiAuth() *LokiAuth2 {
 	if o == nil {
 		return nil
 	}
 	return o.LokiAuth
 }
 
-func (o *InputGrafana2) GetMetadata() []InputGrafanaMetadatum2 {
+func (o *InputGrafanaGrafana2) GetMetadata() []InputGrafanaMetadatum2 {
 	if o == nil {
 		return nil
 	}
 	return o.Metadata
 }
 
-func (o *InputGrafana2) GetDescription() *string {
+func (o *InputGrafanaGrafana2) GetDescription() *string {
 	if o == nil {
 		return nil
 	}
@@ -22210,6 +25707,19 @@ const (
 
 func (e InputGrafanaType1) ToPointer() *InputGrafanaType1 {
 	return &e
+}
+func (e *InputGrafanaType1) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "grafana":
+		*e = InputGrafanaType1(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputGrafanaType1: %v", v)
+	}
 }
 
 type InputGrafanaConnection1 struct {
@@ -22242,6 +25752,21 @@ const (
 func (e InputGrafanaMode1) ToPointer() *InputGrafanaMode1 {
 	return &e
 }
+func (e *InputGrafanaMode1) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = InputGrafanaMode1(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputGrafanaMode1: %v", v)
+	}
+}
 
 // InputGrafanaCompression1 - Codec to use to compress the persisted data
 type InputGrafanaCompression1 string
@@ -22253,6 +25778,21 @@ const (
 
 func (e InputGrafanaCompression1) ToPointer() *InputGrafanaCompression1 {
 	return &e
+}
+func (e *InputGrafanaCompression1) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = InputGrafanaCompression1(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputGrafanaCompression1: %v", v)
+	}
 }
 
 type InputGrafanaPq1 struct {
@@ -22344,6 +25884,25 @@ const (
 func (e InputGrafanaMinimumTLSVersion1) ToPointer() *InputGrafanaMinimumTLSVersion1 {
 	return &e
 }
+func (e *InputGrafanaMinimumTLSVersion1) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = InputGrafanaMinimumTLSVersion1(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputGrafanaMinimumTLSVersion1: %v", v)
+	}
+}
 
 type InputGrafanaMaximumTLSVersion1 string
 
@@ -22356,6 +25915,25 @@ const (
 
 func (e InputGrafanaMaximumTLSVersion1) ToPointer() *InputGrafanaMaximumTLSVersion1 {
 	return &e
+}
+func (e *InputGrafanaMaximumTLSVersion1) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = InputGrafanaMaximumTLSVersion1(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputGrafanaMaximumTLSVersion1: %v", v)
+	}
 }
 
 type InputGrafanaTLSSettingsServerSide1 struct {
@@ -22480,6 +26058,29 @@ const (
 
 func (e PrometheusAuthAuthenticationType1) ToPointer() *PrometheusAuthAuthenticationType1 {
 	return &e
+}
+func (e *PrometheusAuthAuthenticationType1) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "basic":
+		fallthrough
+	case "credentialsSecret":
+		fallthrough
+	case "token":
+		fallthrough
+	case "textSecret":
+		fallthrough
+	case "oauth":
+		*e = PrometheusAuthAuthenticationType1(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for PrometheusAuthAuthenticationType1: %v", v)
+	}
 }
 
 type PrometheusAuthOauthParam1 struct {
@@ -22676,6 +26277,29 @@ const (
 
 func (e LokiAuthAuthenticationType1) ToPointer() *LokiAuthAuthenticationType1 {
 	return &e
+}
+func (e *LokiAuthAuthenticationType1) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "basic":
+		fallthrough
+	case "credentialsSecret":
+		fallthrough
+	case "token":
+		fallthrough
+	case "textSecret":
+		fallthrough
+	case "oauth":
+		*e = LokiAuthAuthenticationType1(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for LokiAuthAuthenticationType1: %v", v)
+	}
 }
 
 type LokiAuthOauthParam1 struct {
@@ -22878,7 +26502,7 @@ func (o *InputGrafanaMetadatum1) GetValue() string {
 	return o.Value
 }
 
-type InputGrafana1 struct {
+type InputGrafanaGrafana1 struct {
 	// Unique ID for this input
 	ID       string             `json:"id"`
 	Type     *InputGrafanaType1 `json:"type,omitempty"`
@@ -22934,346 +26558,389 @@ type InputGrafana1 struct {
 	Description *string                  `json:"description,omitempty"`
 }
 
-func (i InputGrafana1) MarshalJSON() ([]byte, error) {
+func (i InputGrafanaGrafana1) MarshalJSON() ([]byte, error) {
 	return utils.MarshalJSON(i, "", false)
 }
 
-func (i *InputGrafana1) UnmarshalJSON(data []byte) error {
+func (i *InputGrafanaGrafana1) UnmarshalJSON(data []byte) error {
 	if err := utils.UnmarshalJSON(data, &i, "", false, true); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputGrafana1) GetID() string {
+func (o *InputGrafanaGrafana1) GetID() string {
 	if o == nil {
 		return ""
 	}
 	return o.ID
 }
 
-func (o *InputGrafana1) GetType() *InputGrafanaType1 {
+func (o *InputGrafanaGrafana1) GetType() *InputGrafanaType1 {
 	if o == nil {
 		return nil
 	}
 	return o.Type
 }
 
-func (o *InputGrafana1) GetDisabled() *bool {
+func (o *InputGrafanaGrafana1) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *InputGrafana1) GetPipeline() *string {
+func (o *InputGrafanaGrafana1) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputGrafana1) GetSendToRoutes() *bool {
+func (o *InputGrafanaGrafana1) GetSendToRoutes() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.SendToRoutes
 }
 
-func (o *InputGrafana1) GetEnvironment() *string {
+func (o *InputGrafanaGrafana1) GetEnvironment() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Environment
 }
 
-func (o *InputGrafana1) GetPqEnabled() *bool {
+func (o *InputGrafanaGrafana1) GetPqEnabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.PqEnabled
 }
 
-func (o *InputGrafana1) GetStreamtags() []string {
+func (o *InputGrafanaGrafana1) GetStreamtags() []string {
 	if o == nil {
 		return nil
 	}
 	return o.Streamtags
 }
 
-func (o *InputGrafana1) GetConnections() []InputGrafanaConnection1 {
+func (o *InputGrafanaGrafana1) GetConnections() []InputGrafanaConnection1 {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputGrafana1) GetPq() *InputGrafanaPq1 {
+func (o *InputGrafanaGrafana1) GetPq() *InputGrafanaPq1 {
 	if o == nil {
 		return nil
 	}
 	return o.Pq
 }
 
-func (o *InputGrafana1) GetHost() *string {
+func (o *InputGrafanaGrafana1) GetHost() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Host
 }
 
-func (o *InputGrafana1) GetPort() float64 {
+func (o *InputGrafanaGrafana1) GetPort() float64 {
 	if o == nil {
 		return 0.0
 	}
 	return o.Port
 }
 
-func (o *InputGrafana1) GetTLS() *InputGrafanaTLSSettingsServerSide1 {
+func (o *InputGrafanaGrafana1) GetTLS() *InputGrafanaTLSSettingsServerSide1 {
 	if o == nil {
 		return nil
 	}
 	return o.TLS
 }
 
-func (o *InputGrafana1) GetMaxActiveReq() *float64 {
+func (o *InputGrafanaGrafana1) GetMaxActiveReq() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxActiveReq
 }
 
-func (o *InputGrafana1) GetMaxRequestsPerSocket() *int64 {
+func (o *InputGrafanaGrafana1) GetMaxRequestsPerSocket() *int64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxRequestsPerSocket
 }
 
-func (o *InputGrafana1) GetEnableProxyHeader() *bool {
+func (o *InputGrafanaGrafana1) GetEnableProxyHeader() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.EnableProxyHeader
 }
 
-func (o *InputGrafana1) GetCaptureHeaders() *bool {
+func (o *InputGrafanaGrafana1) GetCaptureHeaders() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.CaptureHeaders
 }
 
-func (o *InputGrafana1) GetActivityLogSampleRate() *float64 {
+func (o *InputGrafanaGrafana1) GetActivityLogSampleRate() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.ActivityLogSampleRate
 }
 
-func (o *InputGrafana1) GetRequestTimeout() *float64 {
+func (o *InputGrafanaGrafana1) GetRequestTimeout() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.RequestTimeout
 }
 
-func (o *InputGrafana1) GetSocketTimeout() *float64 {
+func (o *InputGrafanaGrafana1) GetSocketTimeout() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.SocketTimeout
 }
 
-func (o *InputGrafana1) GetKeepAliveTimeout() *float64 {
+func (o *InputGrafanaGrafana1) GetKeepAliveTimeout() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.KeepAliveTimeout
 }
 
-func (o *InputGrafana1) GetEnableHealthCheck() *bool {
+func (o *InputGrafanaGrafana1) GetEnableHealthCheck() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.EnableHealthCheck
 }
 
-func (o *InputGrafana1) GetIPAllowlistRegex() *string {
+func (o *InputGrafanaGrafana1) GetIPAllowlistRegex() *string {
 	if o == nil {
 		return nil
 	}
 	return o.IPAllowlistRegex
 }
 
-func (o *InputGrafana1) GetIPDenylistRegex() *string {
+func (o *InputGrafanaGrafana1) GetIPDenylistRegex() *string {
 	if o == nil {
 		return nil
 	}
 	return o.IPDenylistRegex
 }
 
-func (o *InputGrafana1) GetPrometheusAPI() *string {
+func (o *InputGrafanaGrafana1) GetPrometheusAPI() *string {
 	if o == nil {
 		return nil
 	}
 	return o.PrometheusAPI
 }
 
-func (o *InputGrafana1) GetLokiAPI() *string {
+func (o *InputGrafanaGrafana1) GetLokiAPI() *string {
 	if o == nil {
 		return nil
 	}
 	return o.LokiAPI
 }
 
-func (o *InputGrafana1) GetPrometheusAuth() *PrometheusAuth1 {
+func (o *InputGrafanaGrafana1) GetPrometheusAuth() *PrometheusAuth1 {
 	if o == nil {
 		return nil
 	}
 	return o.PrometheusAuth
 }
 
-func (o *InputGrafana1) GetLokiAuth() *LokiAuth1 {
+func (o *InputGrafanaGrafana1) GetLokiAuth() *LokiAuth1 {
 	if o == nil {
 		return nil
 	}
 	return o.LokiAuth
 }
 
-func (o *InputGrafana1) GetMetadata() []InputGrafanaMetadatum1 {
+func (o *InputGrafanaGrafana1) GetMetadata() []InputGrafanaMetadatum1 {
 	if o == nil {
 		return nil
 	}
 	return o.Metadata
 }
 
-func (o *InputGrafana1) GetDescription() *string {
+func (o *InputGrafanaGrafana1) GetDescription() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Description
 }
 
-type InputGrafanaUnionType string
+type InputGrafanaType string
 
 const (
-	InputGrafanaUnionTypeInputGrafana1 InputGrafanaUnionType = "InputGrafana_1"
-	InputGrafanaUnionTypeInputGrafana2 InputGrafanaUnionType = "InputGrafana_2"
+	InputGrafanaTypeInputGrafanaGrafana1 InputGrafanaType = "InputGrafana_Grafana_1"
+	InputGrafanaTypeInputGrafanaGrafana2 InputGrafanaType = "InputGrafana_Grafana_2"
 )
 
-type InputGrafanaUnion struct {
-	InputGrafana1 *InputGrafana1 `queryParam:"inline"`
-	InputGrafana2 *InputGrafana2 `queryParam:"inline"`
+type InputGrafana struct {
+	InputGrafanaGrafana1 *InputGrafanaGrafana1 `queryParam:"inline"`
+	InputGrafanaGrafana2 *InputGrafanaGrafana2 `queryParam:"inline"`
 
-	Type InputGrafanaUnionType
+	Type InputGrafanaType
 }
 
-func CreateInputGrafanaUnionInputGrafana1(inputGrafana1 InputGrafana1) InputGrafanaUnion {
-	typ := InputGrafanaUnionTypeInputGrafana1
+func CreateInputGrafanaInputGrafanaGrafana1(inputGrafanaGrafana1 InputGrafanaGrafana1) InputGrafana {
+	typ := InputGrafanaTypeInputGrafanaGrafana1
 
-	return InputGrafanaUnion{
-		InputGrafana1: &inputGrafana1,
-		Type:          typ,
+	return InputGrafana{
+		InputGrafanaGrafana1: &inputGrafanaGrafana1,
+		Type:                 typ,
 	}
 }
 
-func CreateInputGrafanaUnionInputGrafana2(inputGrafana2 InputGrafana2) InputGrafanaUnion {
-	typ := InputGrafanaUnionTypeInputGrafana2
+func CreateInputGrafanaInputGrafanaGrafana2(inputGrafanaGrafana2 InputGrafanaGrafana2) InputGrafana {
+	typ := InputGrafanaTypeInputGrafanaGrafana2
 
-	return InputGrafanaUnion{
-		InputGrafana2: &inputGrafana2,
-		Type:          typ,
+	return InputGrafana{
+		InputGrafanaGrafana2: &inputGrafanaGrafana2,
+		Type:                 typ,
 	}
 }
 
-func (u *InputGrafanaUnion) UnmarshalJSON(data []byte) error {
+func (u *InputGrafana) UnmarshalJSON(data []byte) error {
 
-	var inputGrafana1 InputGrafana1 = InputGrafana1{}
-	if err := utils.UnmarshalJSON(data, &inputGrafana1, "", true, true); err == nil {
-		u.InputGrafana1 = &inputGrafana1
-		u.Type = InputGrafanaUnionTypeInputGrafana1
+	var inputGrafanaGrafana1 InputGrafanaGrafana1 = InputGrafanaGrafana1{}
+	if err := utils.UnmarshalJSON(data, &inputGrafanaGrafana1, "", true, true); err == nil {
+		u.InputGrafanaGrafana1 = &inputGrafanaGrafana1
+		u.Type = InputGrafanaTypeInputGrafanaGrafana1
 		return nil
 	}
 
-	var inputGrafana2 InputGrafana2 = InputGrafana2{}
-	if err := utils.UnmarshalJSON(data, &inputGrafana2, "", true, true); err == nil {
-		u.InputGrafana2 = &inputGrafana2
-		u.Type = InputGrafanaUnionTypeInputGrafana2
+	var inputGrafanaGrafana2 InputGrafanaGrafana2 = InputGrafanaGrafana2{}
+	if err := utils.UnmarshalJSON(data, &inputGrafanaGrafana2, "", true, true); err == nil {
+		u.InputGrafanaGrafana2 = &inputGrafanaGrafana2
+		u.Type = InputGrafanaTypeInputGrafanaGrafana2
 		return nil
 	}
 
-	return fmt.Errorf("could not unmarshal `%s` into any supported union types for InputGrafanaUnion", string(data))
+	return fmt.Errorf("could not unmarshal `%s` into any supported union types for InputGrafana", string(data))
 }
 
-func (u InputGrafanaUnion) MarshalJSON() ([]byte, error) {
-	if u.InputGrafana1 != nil {
-		return utils.MarshalJSON(u.InputGrafana1, "", true)
+func (u InputGrafana) MarshalJSON() ([]byte, error) {
+	if u.InputGrafanaGrafana1 != nil {
+		return utils.MarshalJSON(u.InputGrafanaGrafana1, "", true)
 	}
 
-	if u.InputGrafana2 != nil {
-		return utils.MarshalJSON(u.InputGrafana2, "", true)
+	if u.InputGrafanaGrafana2 != nil {
+		return utils.MarshalJSON(u.InputGrafanaGrafana2, "", true)
 	}
 
-	return nil, errors.New("could not marshal union type InputGrafanaUnion: all fields are null")
+	return nil, errors.New("could not marshal union type InputGrafana: all fields are null")
 }
 
-type InputConfluentCloudType string
+type CreateInputTypeConfluentCloud string
 
 const (
-	InputConfluentCloudTypeConfluentCloud InputConfluentCloudType = "confluent_cloud"
+	CreateInputTypeConfluentCloudConfluentCloud CreateInputTypeConfluentCloud = "confluent_cloud"
 )
 
-func (e InputConfluentCloudType) ToPointer() *InputConfluentCloudType {
+func (e CreateInputTypeConfluentCloud) ToPointer() *CreateInputTypeConfluentCloud {
 	return &e
 }
+func (e *CreateInputTypeConfluentCloud) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "confluent_cloud":
+		*e = CreateInputTypeConfluentCloud(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputTypeConfluentCloud: %v", v)
+	}
+}
 
-type InputConfluentCloudConnection struct {
+type ConnectionConfluentCloud struct {
 	Pipeline *string `json:"pipeline,omitempty"`
 	Output   string  `json:"output"`
 }
 
-func (o *InputConfluentCloudConnection) GetPipeline() *string {
+func (o *ConnectionConfluentCloud) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputConfluentCloudConnection) GetOutput() string {
+func (o *ConnectionConfluentCloud) GetOutput() string {
 	if o == nil {
 		return ""
 	}
 	return o.Output
 }
 
-// InputConfluentCloudMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type InputConfluentCloudMode string
+// CreateInputModeConfluentCloud - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+type CreateInputModeConfluentCloud string
 
 const (
-	InputConfluentCloudModeSmart  InputConfluentCloudMode = "smart"
-	InputConfluentCloudModeAlways InputConfluentCloudMode = "always"
+	CreateInputModeConfluentCloudSmart  CreateInputModeConfluentCloud = "smart"
+	CreateInputModeConfluentCloudAlways CreateInputModeConfluentCloud = "always"
 )
 
-func (e InputConfluentCloudMode) ToPointer() *InputConfluentCloudMode {
+func (e CreateInputModeConfluentCloud) ToPointer() *CreateInputModeConfluentCloud {
 	return &e
 }
+func (e *CreateInputModeConfluentCloud) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = CreateInputModeConfluentCloud(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputModeConfluentCloud: %v", v)
+	}
+}
 
-// InputConfluentCloudCompression - Codec to use to compress the persisted data
-type InputConfluentCloudCompression string
+// PqCompressionConfluentCloud - Codec to use to compress the persisted data
+type PqCompressionConfluentCloud string
 
 const (
-	InputConfluentCloudCompressionNone InputConfluentCloudCompression = "none"
-	InputConfluentCloudCompressionGzip InputConfluentCloudCompression = "gzip"
+	PqCompressionConfluentCloudNone PqCompressionConfluentCloud = "none"
+	PqCompressionConfluentCloudGzip PqCompressionConfluentCloud = "gzip"
 )
 
-func (e InputConfluentCloudCompression) ToPointer() *InputConfluentCloudCompression {
+func (e PqCompressionConfluentCloud) ToPointer() *PqCompressionConfluentCloud {
 	return &e
 }
+func (e *PqCompressionConfluentCloud) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = PqCompressionConfluentCloud(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for PqCompressionConfluentCloud: %v", v)
+	}
+}
 
-type InputConfluentCloudPq struct {
+type PqConfluentCloud struct {
 	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *InputConfluentCloudMode `default:"always" json:"mode"`
+	Mode *CreateInputModeConfluentCloud `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
 	// The number of events to send downstream before committing that Stream has read them
@@ -23285,96 +26952,134 @@ type InputConfluentCloudPq struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
 	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
 	// Codec to use to compress the persisted data
-	Compress *InputConfluentCloudCompression `default:"none" json:"compress"`
+	Compress *PqCompressionConfluentCloud `default:"none" json:"compress"`
 }
 
-func (i InputConfluentCloudPq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PqConfluentCloud) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputConfluentCloudPq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PqConfluentCloud) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputConfluentCloudPq) GetMode() *InputConfluentCloudMode {
+func (o *PqConfluentCloud) GetMode() *CreateInputModeConfluentCloud {
 	if o == nil {
 		return nil
 	}
 	return o.Mode
 }
 
-func (o *InputConfluentCloudPq) GetMaxBufferSize() *float64 {
+func (o *PqConfluentCloud) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputConfluentCloudPq) GetCommitFrequency() *float64 {
+func (o *PqConfluentCloud) GetCommitFrequency() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.CommitFrequency
 }
 
-func (o *InputConfluentCloudPq) GetMaxFileSize() *string {
+func (o *PqConfluentCloud) GetMaxFileSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxFileSize
 }
 
-func (o *InputConfluentCloudPq) GetMaxSize() *string {
+func (o *PqConfluentCloud) GetMaxSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxSize
 }
 
-func (o *InputConfluentCloudPq) GetPath() *string {
+func (o *PqConfluentCloud) GetPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Path
 }
 
-func (o *InputConfluentCloudPq) GetCompress() *InputConfluentCloudCompression {
+func (o *PqConfluentCloud) GetCompress() *PqCompressionConfluentCloud {
 	if o == nil {
 		return nil
 	}
 	return o.Compress
 }
 
-type InputConfluentCloudMinimumTLSVersion string
+type CreateInputMinimumTLSVersionConfluentCloud string
 
 const (
-	InputConfluentCloudMinimumTLSVersionTlSv1  InputConfluentCloudMinimumTLSVersion = "TLSv1"
-	InputConfluentCloudMinimumTLSVersionTlSv11 InputConfluentCloudMinimumTLSVersion = "TLSv1.1"
-	InputConfluentCloudMinimumTLSVersionTlSv12 InputConfluentCloudMinimumTLSVersion = "TLSv1.2"
-	InputConfluentCloudMinimumTLSVersionTlSv13 InputConfluentCloudMinimumTLSVersion = "TLSv1.3"
+	CreateInputMinimumTLSVersionConfluentCloudTlSv1  CreateInputMinimumTLSVersionConfluentCloud = "TLSv1"
+	CreateInputMinimumTLSVersionConfluentCloudTlSv11 CreateInputMinimumTLSVersionConfluentCloud = "TLSv1.1"
+	CreateInputMinimumTLSVersionConfluentCloudTlSv12 CreateInputMinimumTLSVersionConfluentCloud = "TLSv1.2"
+	CreateInputMinimumTLSVersionConfluentCloudTlSv13 CreateInputMinimumTLSVersionConfluentCloud = "TLSv1.3"
 )
 
-func (e InputConfluentCloudMinimumTLSVersion) ToPointer() *InputConfluentCloudMinimumTLSVersion {
+func (e CreateInputMinimumTLSVersionConfluentCloud) ToPointer() *CreateInputMinimumTLSVersionConfluentCloud {
 	return &e
 }
+func (e *CreateInputMinimumTLSVersionConfluentCloud) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = CreateInputMinimumTLSVersionConfluentCloud(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputMinimumTLSVersionConfluentCloud: %v", v)
+	}
+}
 
-type InputConfluentCloudMaximumTLSVersion string
+type CreateInputMaximumTLSVersionConfluentCloud string
 
 const (
-	InputConfluentCloudMaximumTLSVersionTlSv1  InputConfluentCloudMaximumTLSVersion = "TLSv1"
-	InputConfluentCloudMaximumTLSVersionTlSv11 InputConfluentCloudMaximumTLSVersion = "TLSv1.1"
-	InputConfluentCloudMaximumTLSVersionTlSv12 InputConfluentCloudMaximumTLSVersion = "TLSv1.2"
-	InputConfluentCloudMaximumTLSVersionTlSv13 InputConfluentCloudMaximumTLSVersion = "TLSv1.3"
+	CreateInputMaximumTLSVersionConfluentCloudTlSv1  CreateInputMaximumTLSVersionConfluentCloud = "TLSv1"
+	CreateInputMaximumTLSVersionConfluentCloudTlSv11 CreateInputMaximumTLSVersionConfluentCloud = "TLSv1.1"
+	CreateInputMaximumTLSVersionConfluentCloudTlSv12 CreateInputMaximumTLSVersionConfluentCloud = "TLSv1.2"
+	CreateInputMaximumTLSVersionConfluentCloudTlSv13 CreateInputMaximumTLSVersionConfluentCloud = "TLSv1.3"
 )
 
-func (e InputConfluentCloudMaximumTLSVersion) ToPointer() *InputConfluentCloudMaximumTLSVersion {
+func (e CreateInputMaximumTLSVersionConfluentCloud) ToPointer() *CreateInputMaximumTLSVersionConfluentCloud {
 	return &e
 }
+func (e *CreateInputMaximumTLSVersionConfluentCloud) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = CreateInputMaximumTLSVersionConfluentCloud(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputMaximumTLSVersionConfluentCloud: %v", v)
+	}
+}
 
-type InputConfluentCloudTLSSettingsClientSide struct {
+type CreateInputTLSSettingsClientSideConfluentCloud struct {
 	Disabled *bool `default:"false" json:"disabled"`
 	// Reject certificates that are not authorized by a CA in the CA certificate path, or by another
 	//                     trusted CA (such as the system's). Defaults to Enabled. Overrides the toggle from Advanced Settings, when also present.
@@ -23390,151 +27095,189 @@ type InputConfluentCloudTLSSettingsClientSide struct {
 	// Path on client in which to find certificates to use. PEM format. Can reference $ENV_VARS.
 	CertPath *string `json:"certPath,omitempty"`
 	// Passphrase to use to decrypt private key
-	Passphrase *string                               `json:"passphrase,omitempty"`
-	MinVersion *InputConfluentCloudMinimumTLSVersion `json:"minVersion,omitempty"`
-	MaxVersion *InputConfluentCloudMaximumTLSVersion `json:"maxVersion,omitempty"`
+	Passphrase *string                                     `json:"passphrase,omitempty"`
+	MinVersion *CreateInputMinimumTLSVersionConfluentCloud `json:"minVersion,omitempty"`
+	MaxVersion *CreateInputMaximumTLSVersionConfluentCloud `json:"maxVersion,omitempty"`
 }
 
-func (i InputConfluentCloudTLSSettingsClientSide) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (c CreateInputTLSSettingsClientSideConfluentCloud) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(c, "", false)
 }
 
-func (i *InputConfluentCloudTLSSettingsClientSide) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (c *CreateInputTLSSettingsClientSideConfluentCloud) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &c, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputConfluentCloudTLSSettingsClientSide) GetDisabled() *bool {
+func (o *CreateInputTLSSettingsClientSideConfluentCloud) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *InputConfluentCloudTLSSettingsClientSide) GetRejectUnauthorized() *bool {
+func (o *CreateInputTLSSettingsClientSideConfluentCloud) GetRejectUnauthorized() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.RejectUnauthorized
 }
 
-func (o *InputConfluentCloudTLSSettingsClientSide) GetServername() *string {
+func (o *CreateInputTLSSettingsClientSideConfluentCloud) GetServername() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Servername
 }
 
-func (o *InputConfluentCloudTLSSettingsClientSide) GetCertificateName() *string {
+func (o *CreateInputTLSSettingsClientSideConfluentCloud) GetCertificateName() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertificateName
 }
 
-func (o *InputConfluentCloudTLSSettingsClientSide) GetCaPath() *string {
+func (o *CreateInputTLSSettingsClientSideConfluentCloud) GetCaPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CaPath
 }
 
-func (o *InputConfluentCloudTLSSettingsClientSide) GetPrivKeyPath() *string {
+func (o *CreateInputTLSSettingsClientSideConfluentCloud) GetPrivKeyPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.PrivKeyPath
 }
 
-func (o *InputConfluentCloudTLSSettingsClientSide) GetCertPath() *string {
+func (o *CreateInputTLSSettingsClientSideConfluentCloud) GetCertPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertPath
 }
 
-func (o *InputConfluentCloudTLSSettingsClientSide) GetPassphrase() *string {
+func (o *CreateInputTLSSettingsClientSideConfluentCloud) GetPassphrase() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Passphrase
 }
 
-func (o *InputConfluentCloudTLSSettingsClientSide) GetMinVersion() *InputConfluentCloudMinimumTLSVersion {
+func (o *CreateInputTLSSettingsClientSideConfluentCloud) GetMinVersion() *CreateInputMinimumTLSVersionConfluentCloud {
 	if o == nil {
 		return nil
 	}
 	return o.MinVersion
 }
 
-func (o *InputConfluentCloudTLSSettingsClientSide) GetMaxVersion() *InputConfluentCloudMaximumTLSVersion {
+func (o *CreateInputTLSSettingsClientSideConfluentCloud) GetMaxVersion() *CreateInputMaximumTLSVersionConfluentCloud {
 	if o == nil {
 		return nil
 	}
 	return o.MaxVersion
 }
 
-// InputConfluentCloudAuth - Credentials to use when authenticating with the schema registry using basic HTTP authentication
-type InputConfluentCloudAuth struct {
+// CreateInputAuthConfluentCloud - Credentials to use when authenticating with the schema registry using basic HTTP authentication
+type CreateInputAuthConfluentCloud struct {
 	Disabled *bool `default:"true" json:"disabled"`
 	// Select or create a secret that references your credentials
 	CredentialsSecret *string `json:"credentialsSecret,omitempty"`
 }
 
-func (i InputConfluentCloudAuth) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (c CreateInputAuthConfluentCloud) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(c, "", false)
 }
 
-func (i *InputConfluentCloudAuth) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (c *CreateInputAuthConfluentCloud) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &c, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputConfluentCloudAuth) GetDisabled() *bool {
+func (o *CreateInputAuthConfluentCloud) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *InputConfluentCloudAuth) GetCredentialsSecret() *string {
+func (o *CreateInputAuthConfluentCloud) GetCredentialsSecret() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CredentialsSecret
 }
 
-type InputConfluentCloudKafkaSchemaRegistryMinimumTLSVersion string
+type CreateInputKafkaSchemaRegistryMinimumTLSVersionConfluentCloud string
 
 const (
-	InputConfluentCloudKafkaSchemaRegistryMinimumTLSVersionTlSv1  InputConfluentCloudKafkaSchemaRegistryMinimumTLSVersion = "TLSv1"
-	InputConfluentCloudKafkaSchemaRegistryMinimumTLSVersionTlSv11 InputConfluentCloudKafkaSchemaRegistryMinimumTLSVersion = "TLSv1.1"
-	InputConfluentCloudKafkaSchemaRegistryMinimumTLSVersionTlSv12 InputConfluentCloudKafkaSchemaRegistryMinimumTLSVersion = "TLSv1.2"
-	InputConfluentCloudKafkaSchemaRegistryMinimumTLSVersionTlSv13 InputConfluentCloudKafkaSchemaRegistryMinimumTLSVersion = "TLSv1.3"
+	CreateInputKafkaSchemaRegistryMinimumTLSVersionConfluentCloudTlSv1  CreateInputKafkaSchemaRegistryMinimumTLSVersionConfluentCloud = "TLSv1"
+	CreateInputKafkaSchemaRegistryMinimumTLSVersionConfluentCloudTlSv11 CreateInputKafkaSchemaRegistryMinimumTLSVersionConfluentCloud = "TLSv1.1"
+	CreateInputKafkaSchemaRegistryMinimumTLSVersionConfluentCloudTlSv12 CreateInputKafkaSchemaRegistryMinimumTLSVersionConfluentCloud = "TLSv1.2"
+	CreateInputKafkaSchemaRegistryMinimumTLSVersionConfluentCloudTlSv13 CreateInputKafkaSchemaRegistryMinimumTLSVersionConfluentCloud = "TLSv1.3"
 )
 
-func (e InputConfluentCloudKafkaSchemaRegistryMinimumTLSVersion) ToPointer() *InputConfluentCloudKafkaSchemaRegistryMinimumTLSVersion {
+func (e CreateInputKafkaSchemaRegistryMinimumTLSVersionConfluentCloud) ToPointer() *CreateInputKafkaSchemaRegistryMinimumTLSVersionConfluentCloud {
 	return &e
 }
+func (e *CreateInputKafkaSchemaRegistryMinimumTLSVersionConfluentCloud) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = CreateInputKafkaSchemaRegistryMinimumTLSVersionConfluentCloud(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputKafkaSchemaRegistryMinimumTLSVersionConfluentCloud: %v", v)
+	}
+}
 
-type InputConfluentCloudKafkaSchemaRegistryMaximumTLSVersion string
+type CreateInputKafkaSchemaRegistryMaximumTLSVersionConfluentCloud string
 
 const (
-	InputConfluentCloudKafkaSchemaRegistryMaximumTLSVersionTlSv1  InputConfluentCloudKafkaSchemaRegistryMaximumTLSVersion = "TLSv1"
-	InputConfluentCloudKafkaSchemaRegistryMaximumTLSVersionTlSv11 InputConfluentCloudKafkaSchemaRegistryMaximumTLSVersion = "TLSv1.1"
-	InputConfluentCloudKafkaSchemaRegistryMaximumTLSVersionTlSv12 InputConfluentCloudKafkaSchemaRegistryMaximumTLSVersion = "TLSv1.2"
-	InputConfluentCloudKafkaSchemaRegistryMaximumTLSVersionTlSv13 InputConfluentCloudKafkaSchemaRegistryMaximumTLSVersion = "TLSv1.3"
+	CreateInputKafkaSchemaRegistryMaximumTLSVersionConfluentCloudTlSv1  CreateInputKafkaSchemaRegistryMaximumTLSVersionConfluentCloud = "TLSv1"
+	CreateInputKafkaSchemaRegistryMaximumTLSVersionConfluentCloudTlSv11 CreateInputKafkaSchemaRegistryMaximumTLSVersionConfluentCloud = "TLSv1.1"
+	CreateInputKafkaSchemaRegistryMaximumTLSVersionConfluentCloudTlSv12 CreateInputKafkaSchemaRegistryMaximumTLSVersionConfluentCloud = "TLSv1.2"
+	CreateInputKafkaSchemaRegistryMaximumTLSVersionConfluentCloudTlSv13 CreateInputKafkaSchemaRegistryMaximumTLSVersionConfluentCloud = "TLSv1.3"
 )
 
-func (e InputConfluentCloudKafkaSchemaRegistryMaximumTLSVersion) ToPointer() *InputConfluentCloudKafkaSchemaRegistryMaximumTLSVersion {
+func (e CreateInputKafkaSchemaRegistryMaximumTLSVersionConfluentCloud) ToPointer() *CreateInputKafkaSchemaRegistryMaximumTLSVersionConfluentCloud {
 	return &e
 }
+func (e *CreateInputKafkaSchemaRegistryMaximumTLSVersionConfluentCloud) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = CreateInputKafkaSchemaRegistryMaximumTLSVersionConfluentCloud(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputKafkaSchemaRegistryMaximumTLSVersionConfluentCloud: %v", v)
+	}
+}
 
-type InputConfluentCloudKafkaSchemaRegistryTLSSettingsClientSide struct {
+type CreateInputKafkaSchemaRegistryTLSSettingsClientSideConfluentCloud struct {
 	Disabled *bool `default:"true" json:"disabled"`
 	// Reject certificates that are not authorized by a CA in the CA certificate path, or by another
 	//                     trusted CA (such as the system's). Defaults to Enabled. Overrides the toggle from Advanced Settings, when also present.
@@ -23550,93 +27293,93 @@ type InputConfluentCloudKafkaSchemaRegistryTLSSettingsClientSide struct {
 	// Path on client in which to find certificates to use. PEM format. Can reference $ENV_VARS.
 	CertPath *string `json:"certPath,omitempty"`
 	// Passphrase to use to decrypt private key
-	Passphrase *string                                                  `json:"passphrase,omitempty"`
-	MinVersion *InputConfluentCloudKafkaSchemaRegistryMinimumTLSVersion `json:"minVersion,omitempty"`
-	MaxVersion *InputConfluentCloudKafkaSchemaRegistryMaximumTLSVersion `json:"maxVersion,omitempty"`
+	Passphrase *string                                                        `json:"passphrase,omitempty"`
+	MinVersion *CreateInputKafkaSchemaRegistryMinimumTLSVersionConfluentCloud `json:"minVersion,omitempty"`
+	MaxVersion *CreateInputKafkaSchemaRegistryMaximumTLSVersionConfluentCloud `json:"maxVersion,omitempty"`
 }
 
-func (i InputConfluentCloudKafkaSchemaRegistryTLSSettingsClientSide) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (c CreateInputKafkaSchemaRegistryTLSSettingsClientSideConfluentCloud) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(c, "", false)
 }
 
-func (i *InputConfluentCloudKafkaSchemaRegistryTLSSettingsClientSide) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (c *CreateInputKafkaSchemaRegistryTLSSettingsClientSideConfluentCloud) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &c, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputConfluentCloudKafkaSchemaRegistryTLSSettingsClientSide) GetDisabled() *bool {
+func (o *CreateInputKafkaSchemaRegistryTLSSettingsClientSideConfluentCloud) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *InputConfluentCloudKafkaSchemaRegistryTLSSettingsClientSide) GetRejectUnauthorized() *bool {
+func (o *CreateInputKafkaSchemaRegistryTLSSettingsClientSideConfluentCloud) GetRejectUnauthorized() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.RejectUnauthorized
 }
 
-func (o *InputConfluentCloudKafkaSchemaRegistryTLSSettingsClientSide) GetServername() *string {
+func (o *CreateInputKafkaSchemaRegistryTLSSettingsClientSideConfluentCloud) GetServername() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Servername
 }
 
-func (o *InputConfluentCloudKafkaSchemaRegistryTLSSettingsClientSide) GetCertificateName() *string {
+func (o *CreateInputKafkaSchemaRegistryTLSSettingsClientSideConfluentCloud) GetCertificateName() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertificateName
 }
 
-func (o *InputConfluentCloudKafkaSchemaRegistryTLSSettingsClientSide) GetCaPath() *string {
+func (o *CreateInputKafkaSchemaRegistryTLSSettingsClientSideConfluentCloud) GetCaPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CaPath
 }
 
-func (o *InputConfluentCloudKafkaSchemaRegistryTLSSettingsClientSide) GetPrivKeyPath() *string {
+func (o *CreateInputKafkaSchemaRegistryTLSSettingsClientSideConfluentCloud) GetPrivKeyPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.PrivKeyPath
 }
 
-func (o *InputConfluentCloudKafkaSchemaRegistryTLSSettingsClientSide) GetCertPath() *string {
+func (o *CreateInputKafkaSchemaRegistryTLSSettingsClientSideConfluentCloud) GetCertPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertPath
 }
 
-func (o *InputConfluentCloudKafkaSchemaRegistryTLSSettingsClientSide) GetPassphrase() *string {
+func (o *CreateInputKafkaSchemaRegistryTLSSettingsClientSideConfluentCloud) GetPassphrase() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Passphrase
 }
 
-func (o *InputConfluentCloudKafkaSchemaRegistryTLSSettingsClientSide) GetMinVersion() *InputConfluentCloudKafkaSchemaRegistryMinimumTLSVersion {
+func (o *CreateInputKafkaSchemaRegistryTLSSettingsClientSideConfluentCloud) GetMinVersion() *CreateInputKafkaSchemaRegistryMinimumTLSVersionConfluentCloud {
 	if o == nil {
 		return nil
 	}
 	return o.MinVersion
 }
 
-func (o *InputConfluentCloudKafkaSchemaRegistryTLSSettingsClientSide) GetMaxVersion() *InputConfluentCloudKafkaSchemaRegistryMaximumTLSVersion {
+func (o *CreateInputKafkaSchemaRegistryTLSSettingsClientSideConfluentCloud) GetMaxVersion() *CreateInputKafkaSchemaRegistryMaximumTLSVersionConfluentCloud {
 	if o == nil {
 		return nil
 	}
 	return o.MaxVersion
 }
 
-type InputConfluentCloudKafkaSchemaRegistryAuthentication struct {
+type CreateInputKafkaSchemaRegistryAuthenticationConfluentCloud struct {
 	Disabled *bool `default:"true" json:"disabled"`
 	// URL for accessing the Confluent Schema Registry. Example: http://localhost:8081. To connect over TLS, use https instead of http.
 	SchemaRegistryURL *string `default:"http://localhost:8081" json:"schemaRegistryURL"`
@@ -23647,128 +27390,147 @@ type InputConfluentCloudKafkaSchemaRegistryAuthentication struct {
 	// Maximum number of times to try fetching schemas from the Schema Registry
 	MaxRetries *float64 `default:"1" json:"maxRetries"`
 	// Credentials to use when authenticating with the schema registry using basic HTTP authentication
-	Auth *InputConfluentCloudAuth                                     `json:"auth,omitempty"`
-	TLS  *InputConfluentCloudKafkaSchemaRegistryTLSSettingsClientSide `json:"tls,omitempty"`
+	Auth *CreateInputAuthConfluentCloud                                     `json:"auth,omitempty"`
+	TLS  *CreateInputKafkaSchemaRegistryTLSSettingsClientSideConfluentCloud `json:"tls,omitempty"`
 }
 
-func (i InputConfluentCloudKafkaSchemaRegistryAuthentication) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (c CreateInputKafkaSchemaRegistryAuthenticationConfluentCloud) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(c, "", false)
 }
 
-func (i *InputConfluentCloudKafkaSchemaRegistryAuthentication) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (c *CreateInputKafkaSchemaRegistryAuthenticationConfluentCloud) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &c, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputConfluentCloudKafkaSchemaRegistryAuthentication) GetDisabled() *bool {
+func (o *CreateInputKafkaSchemaRegistryAuthenticationConfluentCloud) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *InputConfluentCloudKafkaSchemaRegistryAuthentication) GetSchemaRegistryURL() *string {
+func (o *CreateInputKafkaSchemaRegistryAuthenticationConfluentCloud) GetSchemaRegistryURL() *string {
 	if o == nil {
 		return nil
 	}
 	return o.SchemaRegistryURL
 }
 
-func (o *InputConfluentCloudKafkaSchemaRegistryAuthentication) GetConnectionTimeout() *float64 {
+func (o *CreateInputKafkaSchemaRegistryAuthenticationConfluentCloud) GetConnectionTimeout() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.ConnectionTimeout
 }
 
-func (o *InputConfluentCloudKafkaSchemaRegistryAuthentication) GetRequestTimeout() *float64 {
+func (o *CreateInputKafkaSchemaRegistryAuthenticationConfluentCloud) GetRequestTimeout() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.RequestTimeout
 }
 
-func (o *InputConfluentCloudKafkaSchemaRegistryAuthentication) GetMaxRetries() *float64 {
+func (o *CreateInputKafkaSchemaRegistryAuthenticationConfluentCloud) GetMaxRetries() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxRetries
 }
 
-func (o *InputConfluentCloudKafkaSchemaRegistryAuthentication) GetAuth() *InputConfluentCloudAuth {
+func (o *CreateInputKafkaSchemaRegistryAuthenticationConfluentCloud) GetAuth() *CreateInputAuthConfluentCloud {
 	if o == nil {
 		return nil
 	}
 	return o.Auth
 }
 
-func (o *InputConfluentCloudKafkaSchemaRegistryAuthentication) GetTLS() *InputConfluentCloudKafkaSchemaRegistryTLSSettingsClientSide {
+func (o *CreateInputKafkaSchemaRegistryAuthenticationConfluentCloud) GetTLS() *CreateInputKafkaSchemaRegistryTLSSettingsClientSideConfluentCloud {
 	if o == nil {
 		return nil
 	}
 	return o.TLS
 }
 
-type InputConfluentCloudSASLMechanism string
+type CreateInputSASLMechanismConfluentCloud string
 
 const (
-	InputConfluentCloudSASLMechanismPlain       InputConfluentCloudSASLMechanism = "plain"
-	InputConfluentCloudSASLMechanismScramSha256 InputConfluentCloudSASLMechanism = "scram-sha-256"
-	InputConfluentCloudSASLMechanismScramSha512 InputConfluentCloudSASLMechanism = "scram-sha-512"
-	InputConfluentCloudSASLMechanismKerberos    InputConfluentCloudSASLMechanism = "kerberos"
+	CreateInputSASLMechanismConfluentCloudPlain       CreateInputSASLMechanismConfluentCloud = "plain"
+	CreateInputSASLMechanismConfluentCloudScramSha256 CreateInputSASLMechanismConfluentCloud = "scram-sha-256"
+	CreateInputSASLMechanismConfluentCloudScramSha512 CreateInputSASLMechanismConfluentCloud = "scram-sha-512"
+	CreateInputSASLMechanismConfluentCloudKerberos    CreateInputSASLMechanismConfluentCloud = "kerberos"
 )
 
-func (e InputConfluentCloudSASLMechanism) ToPointer() *InputConfluentCloudSASLMechanism {
+func (e CreateInputSASLMechanismConfluentCloud) ToPointer() *CreateInputSASLMechanismConfluentCloud {
 	return &e
 }
-
-// InputConfluentCloudAuthentication - Authentication parameters to use when connecting to brokers. Using TLS is highly recommended.
-type InputConfluentCloudAuthentication struct {
-	Disabled  *bool                             `default:"true" json:"disabled"`
-	Mechanism *InputConfluentCloudSASLMechanism `default:"plain" json:"mechanism"`
+func (e *CreateInputSASLMechanismConfluentCloud) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "plain":
+		fallthrough
+	case "scram-sha-256":
+		fallthrough
+	case "scram-sha-512":
+		fallthrough
+	case "kerberos":
+		*e = CreateInputSASLMechanismConfluentCloud(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputSASLMechanismConfluentCloud: %v", v)
+	}
 }
 
-func (i InputConfluentCloudAuthentication) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+// CreateInputAuthenticationConfluentCloud - Authentication parameters to use when connecting to brokers. Using TLS is highly recommended.
+type CreateInputAuthenticationConfluentCloud struct {
+	Disabled  *bool                                   `default:"true" json:"disabled"`
+	Mechanism *CreateInputSASLMechanismConfluentCloud `default:"plain" json:"mechanism"`
 }
 
-func (i *InputConfluentCloudAuthentication) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (c CreateInputAuthenticationConfluentCloud) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(c, "", false)
+}
+
+func (c *CreateInputAuthenticationConfluentCloud) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &c, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputConfluentCloudAuthentication) GetDisabled() *bool {
+func (o *CreateInputAuthenticationConfluentCloud) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *InputConfluentCloudAuthentication) GetMechanism() *InputConfluentCloudSASLMechanism {
+func (o *CreateInputAuthenticationConfluentCloud) GetMechanism() *CreateInputSASLMechanismConfluentCloud {
 	if o == nil {
 		return nil
 	}
 	return o.Mechanism
 }
 
-type InputConfluentCloudMetadatum struct {
+type MetadatumConfluentCloud struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputConfluentCloudMetadatum) GetName() string {
+func (o *MetadatumConfluentCloud) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputConfluentCloudMetadatum) GetValue() string {
+func (o *MetadatumConfluentCloud) GetValue() string {
 	if o == nil {
 		return ""
 	}
@@ -23777,9 +27539,9 @@ func (o *InputConfluentCloudMetadatum) GetValue() string {
 
 type InputConfluentCloud struct {
 	// Unique ID for this input
-	ID       string                   `json:"id"`
-	Type     *InputConfluentCloudType `json:"type,omitempty"`
-	Disabled *bool                    `default:"false" json:"disabled"`
+	ID       string                         `json:"id"`
+	Type     *CreateInputTypeConfluentCloud `json:"type,omitempty"`
+	Disabled *bool                          `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -23791,18 +27553,18 @@ type InputConfluentCloud struct {
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputConfluentCloudConnection `json:"connections,omitempty"`
-	Pq          *InputConfluentCloudPq          `json:"pq,omitempty"`
+	Connections []ConnectionConfluentCloud `json:"connections,omitempty"`
+	Pq          *PqConfluentCloud          `json:"pq,omitempty"`
 	// List of Confluent Cloud bootstrap servers to use, such as yourAccount.confluent.cloud:9092
-	Brokers []string                                  `json:"brokers"`
-	TLS     *InputConfluentCloudTLSSettingsClientSide `json:"tls,omitempty"`
+	Brokers []string                                        `json:"brokers"`
+	TLS     *CreateInputTLSSettingsClientSideConfluentCloud `json:"tls,omitempty"`
 	// Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only.
 	Topics []string `json:"topics"`
 	// The consumer group to which this instance belongs. Defaults to 'Cribl'.
 	GroupID *string `default:"Cribl" json:"groupId"`
 	// Leave enabled if you want the Source, upon first subscribing to a topic, to read starting with the earliest available message
-	FromBeginning       *bool                                                 `default:"true" json:"fromBeginning"`
-	KafkaSchemaRegistry *InputConfluentCloudKafkaSchemaRegistryAuthentication `json:"kafkaSchemaRegistry,omitempty"`
+	FromBeginning       *bool                                                       `default:"true" json:"fromBeginning"`
+	KafkaSchemaRegistry *CreateInputKafkaSchemaRegistryAuthenticationConfluentCloud `json:"kafkaSchemaRegistry,omitempty"`
 	// Maximum time to wait for a connection to complete successfully
 	ConnectionTimeout *float64 `default:"10000" json:"connectionTimeout"`
 	// Maximum time to wait for Kafka to respond to a request
@@ -23820,7 +27582,7 @@ type InputConfluentCloud struct {
 	// Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire.
 	ReauthenticationThreshold *float64 `default:"10000" json:"reauthenticationThreshold"`
 	// Authentication parameters to use when connecting to brokers. Using TLS is highly recommended.
-	Sasl *InputConfluentCloudAuthentication `json:"sasl,omitempty"`
+	Sasl *CreateInputAuthenticationConfluentCloud `json:"sasl,omitempty"`
 	//       Timeout used to detect client failures when using Kafka's group-management facilities.
 	//       If the client sends no heartbeats to the broker before the timeout expires,
 	//       the broker will remove the client from the group and initiate a rebalance.
@@ -23846,8 +27608,8 @@ type InputConfluentCloud struct {
 	// Maximum number of network errors before the consumer re-creates a socket
 	MaxSocketErrors *float64 `default:"0" json:"maxSocketErrors"`
 	// Fields to add to events from this input
-	Metadata    []InputConfluentCloudMetadatum `json:"metadata,omitempty"`
-	Description *string                        `json:"description,omitempty"`
+	Metadata    []MetadatumConfluentCloud `json:"metadata,omitempty"`
+	Description *string                   `json:"description,omitempty"`
 }
 
 func (i InputConfluentCloud) MarshalJSON() ([]byte, error) {
@@ -23868,7 +27630,7 @@ func (o *InputConfluentCloud) GetID() string {
 	return o.ID
 }
 
-func (o *InputConfluentCloud) GetType() *InputConfluentCloudType {
+func (o *InputConfluentCloud) GetType() *CreateInputTypeConfluentCloud {
 	if o == nil {
 		return nil
 	}
@@ -23917,14 +27679,14 @@ func (o *InputConfluentCloud) GetStreamtags() []string {
 	return o.Streamtags
 }
 
-func (o *InputConfluentCloud) GetConnections() []InputConfluentCloudConnection {
+func (o *InputConfluentCloud) GetConnections() []ConnectionConfluentCloud {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputConfluentCloud) GetPq() *InputConfluentCloudPq {
+func (o *InputConfluentCloud) GetPq() *PqConfluentCloud {
 	if o == nil {
 		return nil
 	}
@@ -23938,7 +27700,7 @@ func (o *InputConfluentCloud) GetBrokers() []string {
 	return o.Brokers
 }
 
-func (o *InputConfluentCloud) GetTLS() *InputConfluentCloudTLSSettingsClientSide {
+func (o *InputConfluentCloud) GetTLS() *CreateInputTLSSettingsClientSideConfluentCloud {
 	if o == nil {
 		return nil
 	}
@@ -23966,7 +27728,7 @@ func (o *InputConfluentCloud) GetFromBeginning() *bool {
 	return o.FromBeginning
 }
 
-func (o *InputConfluentCloud) GetKafkaSchemaRegistry() *InputConfluentCloudKafkaSchemaRegistryAuthentication {
+func (o *InputConfluentCloud) GetKafkaSchemaRegistry() *CreateInputKafkaSchemaRegistryAuthenticationConfluentCloud {
 	if o == nil {
 		return nil
 	}
@@ -24029,7 +27791,7 @@ func (o *InputConfluentCloud) GetReauthenticationThreshold() *float64 {
 	return o.ReauthenticationThreshold
 }
 
-func (o *InputConfluentCloud) GetSasl() *InputConfluentCloudAuthentication {
+func (o *InputConfluentCloud) GetSasl() *CreateInputAuthenticationConfluentCloud {
 	if o == nil {
 		return nil
 	}
@@ -24092,7 +27854,7 @@ func (o *InputConfluentCloud) GetMaxSocketErrors() *float64 {
 	return o.MaxSocketErrors
 }
 
-func (o *InputConfluentCloud) GetMetadata() []InputConfluentCloudMetadatum {
+func (o *InputConfluentCloud) GetMetadata() []MetadatumConfluentCloud {
 	if o == nil {
 		return nil
 	}
@@ -24106,62 +27868,105 @@ func (o *InputConfluentCloud) GetDescription() *string {
 	return o.Description
 }
 
-type InputElasticType string
+type CreateInputTypeElastic string
 
 const (
-	InputElasticTypeElastic InputElasticType = "elastic"
+	CreateInputTypeElasticElastic CreateInputTypeElastic = "elastic"
 )
 
-func (e InputElasticType) ToPointer() *InputElasticType {
+func (e CreateInputTypeElastic) ToPointer() *CreateInputTypeElastic {
 	return &e
 }
+func (e *CreateInputTypeElastic) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "elastic":
+		*e = CreateInputTypeElastic(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputTypeElastic: %v", v)
+	}
+}
 
-type InputElasticConnection struct {
+type ConnectionElastic struct {
 	Pipeline *string `json:"pipeline,omitempty"`
 	Output   string  `json:"output"`
 }
 
-func (o *InputElasticConnection) GetPipeline() *string {
+func (o *ConnectionElastic) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputElasticConnection) GetOutput() string {
+func (o *ConnectionElastic) GetOutput() string {
 	if o == nil {
 		return ""
 	}
 	return o.Output
 }
 
-// InputElasticMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type InputElasticMode string
+// CreateInputModeElastic - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+type CreateInputModeElastic string
 
 const (
-	InputElasticModeSmart  InputElasticMode = "smart"
-	InputElasticModeAlways InputElasticMode = "always"
+	CreateInputModeElasticSmart  CreateInputModeElastic = "smart"
+	CreateInputModeElasticAlways CreateInputModeElastic = "always"
 )
 
-func (e InputElasticMode) ToPointer() *InputElasticMode {
+func (e CreateInputModeElastic) ToPointer() *CreateInputModeElastic {
 	return &e
 }
+func (e *CreateInputModeElastic) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = CreateInputModeElastic(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputModeElastic: %v", v)
+	}
+}
 
-// InputElasticCompression - Codec to use to compress the persisted data
-type InputElasticCompression string
+// PqCompressionElastic - Codec to use to compress the persisted data
+type PqCompressionElastic string
 
 const (
-	InputElasticCompressionNone InputElasticCompression = "none"
-	InputElasticCompressionGzip InputElasticCompression = "gzip"
+	PqCompressionElasticNone PqCompressionElastic = "none"
+	PqCompressionElasticGzip PqCompressionElastic = "gzip"
 )
 
-func (e InputElasticCompression) ToPointer() *InputElasticCompression {
+func (e PqCompressionElastic) ToPointer() *PqCompressionElastic {
 	return &e
 }
+func (e *PqCompressionElastic) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = PqCompressionElastic(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for PqCompressionElastic: %v", v)
+	}
+}
 
-type InputElasticPq struct {
+type PqElastic struct {
 	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *InputElasticMode `default:"always" json:"mode"`
+	Mode *CreateInputModeElastic `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
 	// The number of events to send downstream before committing that Stream has read them
@@ -24173,96 +27978,134 @@ type InputElasticPq struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
 	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
 	// Codec to use to compress the persisted data
-	Compress *InputElasticCompression `default:"none" json:"compress"`
+	Compress *PqCompressionElastic `default:"none" json:"compress"`
 }
 
-func (i InputElasticPq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PqElastic) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputElasticPq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PqElastic) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputElasticPq) GetMode() *InputElasticMode {
+func (o *PqElastic) GetMode() *CreateInputModeElastic {
 	if o == nil {
 		return nil
 	}
 	return o.Mode
 }
 
-func (o *InputElasticPq) GetMaxBufferSize() *float64 {
+func (o *PqElastic) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputElasticPq) GetCommitFrequency() *float64 {
+func (o *PqElastic) GetCommitFrequency() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.CommitFrequency
 }
 
-func (o *InputElasticPq) GetMaxFileSize() *string {
+func (o *PqElastic) GetMaxFileSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxFileSize
 }
 
-func (o *InputElasticPq) GetMaxSize() *string {
+func (o *PqElastic) GetMaxSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxSize
 }
 
-func (o *InputElasticPq) GetPath() *string {
+func (o *PqElastic) GetPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Path
 }
 
-func (o *InputElasticPq) GetCompress() *InputElasticCompression {
+func (o *PqElastic) GetCompress() *PqCompressionElastic {
 	if o == nil {
 		return nil
 	}
 	return o.Compress
 }
 
-type InputElasticMinimumTLSVersion string
+type MinimumTLSVersionElastic string
 
 const (
-	InputElasticMinimumTLSVersionTlSv1  InputElasticMinimumTLSVersion = "TLSv1"
-	InputElasticMinimumTLSVersionTlSv11 InputElasticMinimumTLSVersion = "TLSv1.1"
-	InputElasticMinimumTLSVersionTlSv12 InputElasticMinimumTLSVersion = "TLSv1.2"
-	InputElasticMinimumTLSVersionTlSv13 InputElasticMinimumTLSVersion = "TLSv1.3"
+	MinimumTLSVersionElasticTlSv1  MinimumTLSVersionElastic = "TLSv1"
+	MinimumTLSVersionElasticTlSv11 MinimumTLSVersionElastic = "TLSv1.1"
+	MinimumTLSVersionElasticTlSv12 MinimumTLSVersionElastic = "TLSv1.2"
+	MinimumTLSVersionElasticTlSv13 MinimumTLSVersionElastic = "TLSv1.3"
 )
 
-func (e InputElasticMinimumTLSVersion) ToPointer() *InputElasticMinimumTLSVersion {
+func (e MinimumTLSVersionElastic) ToPointer() *MinimumTLSVersionElastic {
 	return &e
 }
+func (e *MinimumTLSVersionElastic) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = MinimumTLSVersionElastic(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for MinimumTLSVersionElastic: %v", v)
+	}
+}
 
-type InputElasticMaximumTLSVersion string
+type MaximumTLSVersionElastic string
 
 const (
-	InputElasticMaximumTLSVersionTlSv1  InputElasticMaximumTLSVersion = "TLSv1"
-	InputElasticMaximumTLSVersionTlSv11 InputElasticMaximumTLSVersion = "TLSv1.1"
-	InputElasticMaximumTLSVersionTlSv12 InputElasticMaximumTLSVersion = "TLSv1.2"
-	InputElasticMaximumTLSVersionTlSv13 InputElasticMaximumTLSVersion = "TLSv1.3"
+	MaximumTLSVersionElasticTlSv1  MaximumTLSVersionElastic = "TLSv1"
+	MaximumTLSVersionElasticTlSv11 MaximumTLSVersionElastic = "TLSv1.1"
+	MaximumTLSVersionElasticTlSv12 MaximumTLSVersionElastic = "TLSv1.2"
+	MaximumTLSVersionElasticTlSv13 MaximumTLSVersionElastic = "TLSv1.3"
 )
 
-func (e InputElasticMaximumTLSVersion) ToPointer() *InputElasticMaximumTLSVersion {
+func (e MaximumTLSVersionElastic) ToPointer() *MaximumTLSVersionElastic {
 	return &e
 }
+func (e *MaximumTLSVersionElastic) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = MaximumTLSVersionElastic(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for MaximumTLSVersionElastic: %v", v)
+	}
+}
 
-type InputElasticTLSSettingsServerSide struct {
+type TLSSettingsServerSideElastic struct {
 	Disabled *bool `default:"true" json:"disabled"`
 	// The name of the predefined certificate
 	CertificateName *string `json:"certificateName,omitempty"`
@@ -24275,112 +28118,131 @@ type InputElasticTLSSettingsServerSide struct {
 	// Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS.
 	CaPath *string `json:"caPath,omitempty"`
 	// Require clients to present their certificates. Used to perform client authentication using SSL certs.
-	RequestCert        *bool                          `default:"false" json:"requestCert"`
-	RejectUnauthorized any                            `json:"rejectUnauthorized,omitempty"`
-	CommonNameRegex    any                            `json:"commonNameRegex,omitempty"`
-	MinVersion         *InputElasticMinimumTLSVersion `json:"minVersion,omitempty"`
-	MaxVersion         *InputElasticMaximumTLSVersion `json:"maxVersion,omitempty"`
+	RequestCert        *bool                     `default:"false" json:"requestCert"`
+	RejectUnauthorized any                       `json:"rejectUnauthorized,omitempty"`
+	CommonNameRegex    any                       `json:"commonNameRegex,omitempty"`
+	MinVersion         *MinimumTLSVersionElastic `json:"minVersion,omitempty"`
+	MaxVersion         *MaximumTLSVersionElastic `json:"maxVersion,omitempty"`
 }
 
-func (i InputElasticTLSSettingsServerSide) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (t TLSSettingsServerSideElastic) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(t, "", false)
 }
 
-func (i *InputElasticTLSSettingsServerSide) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (t *TLSSettingsServerSideElastic) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &t, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputElasticTLSSettingsServerSide) GetDisabled() *bool {
+func (o *TLSSettingsServerSideElastic) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *InputElasticTLSSettingsServerSide) GetCertificateName() *string {
+func (o *TLSSettingsServerSideElastic) GetCertificateName() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertificateName
 }
 
-func (o *InputElasticTLSSettingsServerSide) GetPrivKeyPath() *string {
+func (o *TLSSettingsServerSideElastic) GetPrivKeyPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.PrivKeyPath
 }
 
-func (o *InputElasticTLSSettingsServerSide) GetPassphrase() *string {
+func (o *TLSSettingsServerSideElastic) GetPassphrase() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Passphrase
 }
 
-func (o *InputElasticTLSSettingsServerSide) GetCertPath() *string {
+func (o *TLSSettingsServerSideElastic) GetCertPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertPath
 }
 
-func (o *InputElasticTLSSettingsServerSide) GetCaPath() *string {
+func (o *TLSSettingsServerSideElastic) GetCaPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CaPath
 }
 
-func (o *InputElasticTLSSettingsServerSide) GetRequestCert() *bool {
+func (o *TLSSettingsServerSideElastic) GetRequestCert() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.RequestCert
 }
 
-func (o *InputElasticTLSSettingsServerSide) GetRejectUnauthorized() any {
+func (o *TLSSettingsServerSideElastic) GetRejectUnauthorized() any {
 	if o == nil {
 		return nil
 	}
 	return o.RejectUnauthorized
 }
 
-func (o *InputElasticTLSSettingsServerSide) GetCommonNameRegex() any {
+func (o *TLSSettingsServerSideElastic) GetCommonNameRegex() any {
 	if o == nil {
 		return nil
 	}
 	return o.CommonNameRegex
 }
 
-func (o *InputElasticTLSSettingsServerSide) GetMinVersion() *InputElasticMinimumTLSVersion {
+func (o *TLSSettingsServerSideElastic) GetMinVersion() *MinimumTLSVersionElastic {
 	if o == nil {
 		return nil
 	}
 	return o.MinVersion
 }
 
-func (o *InputElasticTLSSettingsServerSide) GetMaxVersion() *InputElasticMaximumTLSVersion {
+func (o *TLSSettingsServerSideElastic) GetMaxVersion() *MaximumTLSVersionElastic {
 	if o == nil {
 		return nil
 	}
 	return o.MaxVersion
 }
 
-type InputElasticAuthenticationType string
+type AuthenticationTypeElastic string
 
 const (
-	InputElasticAuthenticationTypeNone              InputElasticAuthenticationType = "none"
-	InputElasticAuthenticationTypeBasic             InputElasticAuthenticationType = "basic"
-	InputElasticAuthenticationTypeCredentialsSecret InputElasticAuthenticationType = "credentialsSecret"
-	InputElasticAuthenticationTypeAuthTokens        InputElasticAuthenticationType = "authTokens"
+	AuthenticationTypeElasticNone              AuthenticationTypeElastic = "none"
+	AuthenticationTypeElasticBasic             AuthenticationTypeElastic = "basic"
+	AuthenticationTypeElasticCredentialsSecret AuthenticationTypeElastic = "credentialsSecret"
+	AuthenticationTypeElasticAuthTokens        AuthenticationTypeElastic = "authTokens"
 )
 
-func (e InputElasticAuthenticationType) ToPointer() *InputElasticAuthenticationType {
+func (e AuthenticationTypeElastic) ToPointer() *AuthenticationTypeElastic {
 	return &e
+}
+func (e *AuthenticationTypeElastic) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "basic":
+		fallthrough
+	case "credentialsSecret":
+		fallthrough
+	case "authTokens":
+		*e = AuthenticationTypeElastic(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for AuthenticationTypeElastic: %v", v)
+	}
 }
 
 // CreateInputAPIVersion - The API version to use for communicating with the server
@@ -24394,6 +28256,23 @@ const (
 
 func (e CreateInputAPIVersion) ToPointer() *CreateInputAPIVersion {
 	return &e
+}
+func (e *CreateInputAPIVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "6.8.4":
+		fallthrough
+	case "8.3.2":
+		fallthrough
+	case "custom":
+		*e = CreateInputAPIVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputAPIVersion: %v", v)
+	}
 }
 
 type CreateInputExtraHTTPHeader struct {
@@ -24415,40 +28294,57 @@ func (o *CreateInputExtraHTTPHeader) GetValue() string {
 	return o.Value
 }
 
-type InputElasticMetadatum struct {
+type MetadatumElastic struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputElasticMetadatum) GetName() string {
+func (o *MetadatumElastic) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputElasticMetadatum) GetValue() string {
+func (o *MetadatumElastic) GetValue() string {
 	if o == nil {
 		return ""
 	}
 	return o.Value
 }
 
-// InputElasticAuthenticationMethod - Enter credentials directly, or select a stored secret
-type InputElasticAuthenticationMethod string
+// ProxyModeAuthenticationMethod - Enter credentials directly, or select a stored secret
+type ProxyModeAuthenticationMethod string
 
 const (
-	InputElasticAuthenticationMethodNone   InputElasticAuthenticationMethod = "none"
-	InputElasticAuthenticationMethodManual InputElasticAuthenticationMethod = "manual"
-	InputElasticAuthenticationMethodSecret InputElasticAuthenticationMethod = "secret"
+	ProxyModeAuthenticationMethodNone   ProxyModeAuthenticationMethod = "none"
+	ProxyModeAuthenticationMethodManual ProxyModeAuthenticationMethod = "manual"
+	ProxyModeAuthenticationMethodSecret ProxyModeAuthenticationMethod = "secret"
 )
 
-func (e InputElasticAuthenticationMethod) ToPointer() *InputElasticAuthenticationMethod {
+func (e ProxyModeAuthenticationMethod) ToPointer() *ProxyModeAuthenticationMethod {
 	return &e
 }
+func (e *ProxyModeAuthenticationMethod) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = ProxyModeAuthenticationMethod(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ProxyModeAuthenticationMethod: %v", v)
+	}
+}
 
-type InputElasticProxyMode struct {
+type ProxyModeElastic struct {
 	// Enable proxying of non-bulk API requests to an external Elastic server. Enable this only if you understand the implications. See [Cribl Docs](https://docs.cribl.io/stream/sources-elastic/#proxy-mode) for more details.
 	Enabled *bool `default:"false" json:"enabled"`
 	// URL of the Elastic server to proxy non-bulk requests to, such as http://elastic:9200
@@ -24460,56 +28356,56 @@ type InputElasticProxyMode struct {
 	// Amount of time, in seconds, to wait for a proxy request to complete before canceling it
 	TimeoutSec *float64 `default:"60" json:"timeoutSec"`
 	// Enter credentials directly, or select a stored secret
-	AuthType *InputElasticAuthenticationMethod `default:"none" json:"authType"`
+	AuthType *ProxyModeAuthenticationMethod `default:"none" json:"authType"`
 }
 
-func (i InputElasticProxyMode) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p ProxyModeElastic) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputElasticProxyMode) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *ProxyModeElastic) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputElasticProxyMode) GetEnabled() *bool {
+func (o *ProxyModeElastic) GetEnabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Enabled
 }
 
-func (o *InputElasticProxyMode) GetURL() *string {
+func (o *ProxyModeElastic) GetURL() *string {
 	if o == nil {
 		return nil
 	}
 	return o.URL
 }
 
-func (o *InputElasticProxyMode) GetRejectUnauthorized() *bool {
+func (o *ProxyModeElastic) GetRejectUnauthorized() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.RejectUnauthorized
 }
 
-func (o *InputElasticProxyMode) GetRemoveHeaders() []string {
+func (o *ProxyModeElastic) GetRemoveHeaders() []string {
 	if o == nil {
 		return nil
 	}
 	return o.RemoveHeaders
 }
 
-func (o *InputElasticProxyMode) GetTimeoutSec() *float64 {
+func (o *ProxyModeElastic) GetTimeoutSec() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.TimeoutSec
 }
 
-func (o *InputElasticProxyMode) GetAuthType() *InputElasticAuthenticationMethod {
+func (o *ProxyModeElastic) GetAuthType() *ProxyModeAuthenticationMethod {
 	if o == nil {
 		return nil
 	}
@@ -24518,9 +28414,9 @@ func (o *InputElasticProxyMode) GetAuthType() *InputElasticAuthenticationMethod 
 
 type InputElastic struct {
 	// Unique ID for this input
-	ID       string            `json:"id"`
-	Type     *InputElasticType `json:"type,omitempty"`
-	Disabled *bool             `default:"false" json:"disabled"`
+	ID       string                  `json:"id"`
+	Type     *CreateInputTypeElastic `json:"type,omitempty"`
+	Disabled *bool                   `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -24532,13 +28428,13 @@ type InputElastic struct {
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputElasticConnection `json:"connections,omitempty"`
-	Pq          *InputElasticPq          `json:"pq,omitempty"`
+	Connections []ConnectionElastic `json:"connections,omitempty"`
+	Pq          *PqElastic          `json:"pq,omitempty"`
 	// Address to bind on. Defaults to 0.0.0.0 (all addresses).
 	Host *string `default:"0.0.0.0" json:"host"`
 	// Port to listen on
-	Port float64                            `json:"port"`
-	TLS  *InputElasticTLSSettingsServerSide `json:"tls,omitempty"`
+	Port float64                       `json:"port"`
+	TLS  *TLSSettingsServerSideElastic `json:"tls,omitempty"`
 	// Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput.
 	MaxActiveReq *float64 `default:"256" json:"maxActiveReq"`
 	// Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited).
@@ -24562,18 +28458,18 @@ type InputElastic struct {
 	// Messages from matched IP addresses will be ignored. This takes precedence over the allowlist.
 	IPDenylistRegex *string `default:"/^\\$/" json:"ipDenylistRegex"`
 	// Absolute path on which to listen for Elasticsearch API requests. Defaults to /. _bulk will be appended automatically. For example, /myPath becomes /myPath/_bulk. Requests can then be made to either /myPath/_bulk or /myPath/<myIndexName>/_bulk. Other entries are faked as success.
-	ElasticAPI *string                         `default:"/" json:"elasticAPI"`
-	AuthType   *InputElasticAuthenticationType `default:"none" json:"authType"`
+	ElasticAPI *string                    `default:"/" json:"elasticAPI"`
+	AuthType   *AuthenticationTypeElastic `default:"none" json:"authType"`
 	// The API version to use for communicating with the server
 	APIVersion *CreateInputAPIVersion `default:"8.3.2" json:"apiVersion"`
 	// Headers to add to all events
 	ExtraHTTPHeaders []CreateInputExtraHTTPHeader `json:"extraHttpHeaders,omitempty"`
 	// Fields to add to events from this input
-	Metadata    []InputElasticMetadatum `json:"metadata,omitempty"`
-	ProxyMode   *InputElasticProxyMode  `json:"proxyMode,omitempty"`
-	Description *string                 `json:"description,omitempty"`
-	Username    *string                 `json:"username,omitempty"`
-	Password    *string                 `json:"password,omitempty"`
+	Metadata    []MetadatumElastic `json:"metadata,omitempty"`
+	ProxyMode   *ProxyModeElastic  `json:"proxyMode,omitempty"`
+	Description *string            `json:"description,omitempty"`
+	Username    *string            `json:"username,omitempty"`
+	Password    *string            `json:"password,omitempty"`
 	// Select or create a secret that references your credentials
 	CredentialsSecret *string `json:"credentialsSecret,omitempty"`
 	// Bearer tokens to include in the authorization header
@@ -24600,7 +28496,7 @@ func (o *InputElastic) GetID() string {
 	return o.ID
 }
 
-func (o *InputElastic) GetType() *InputElasticType {
+func (o *InputElastic) GetType() *CreateInputTypeElastic {
 	if o == nil {
 		return nil
 	}
@@ -24649,14 +28545,14 @@ func (o *InputElastic) GetStreamtags() []string {
 	return o.Streamtags
 }
 
-func (o *InputElastic) GetConnections() []InputElasticConnection {
+func (o *InputElastic) GetConnections() []ConnectionElastic {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputElastic) GetPq() *InputElasticPq {
+func (o *InputElastic) GetPq() *PqElastic {
 	if o == nil {
 		return nil
 	}
@@ -24677,7 +28573,7 @@ func (o *InputElastic) GetPort() float64 {
 	return o.Port
 }
 
-func (o *InputElastic) GetTLS() *InputElasticTLSSettingsServerSide {
+func (o *InputElastic) GetTLS() *TLSSettingsServerSideElastic {
 	if o == nil {
 		return nil
 	}
@@ -24768,7 +28664,7 @@ func (o *InputElastic) GetElasticAPI() *string {
 	return o.ElasticAPI
 }
 
-func (o *InputElastic) GetAuthType() *InputElasticAuthenticationType {
+func (o *InputElastic) GetAuthType() *AuthenticationTypeElastic {
 	if o == nil {
 		return nil
 	}
@@ -24789,14 +28685,14 @@ func (o *InputElastic) GetExtraHTTPHeaders() []CreateInputExtraHTTPHeader {
 	return o.ExtraHTTPHeaders
 }
 
-func (o *InputElastic) GetMetadata() []InputElasticMetadatum {
+func (o *InputElastic) GetMetadata() []MetadatumElastic {
 	if o == nil {
 		return nil
 	}
 	return o.Metadata
 }
 
-func (o *InputElastic) GetProxyMode() *InputElasticProxyMode {
+func (o *InputElastic) GetProxyMode() *ProxyModeElastic {
 	if o == nil {
 		return nil
 	}
@@ -24845,62 +28741,105 @@ func (o *InputElastic) GetCustomAPIVersion() *string {
 	return o.CustomAPIVersion
 }
 
-type InputAzureBlobType string
+type CreateInputTypeAzureBlob string
 
 const (
-	InputAzureBlobTypeAzureBlob InputAzureBlobType = "azure_blob"
+	CreateInputTypeAzureBlobAzureBlob CreateInputTypeAzureBlob = "azure_blob"
 )
 
-func (e InputAzureBlobType) ToPointer() *InputAzureBlobType {
+func (e CreateInputTypeAzureBlob) ToPointer() *CreateInputTypeAzureBlob {
 	return &e
 }
+func (e *CreateInputTypeAzureBlob) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "azure_blob":
+		*e = CreateInputTypeAzureBlob(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputTypeAzureBlob: %v", v)
+	}
+}
 
-type InputAzureBlobConnection struct {
+type ConnectionAzureBlob struct {
 	Pipeline *string `json:"pipeline,omitempty"`
 	Output   string  `json:"output"`
 }
 
-func (o *InputAzureBlobConnection) GetPipeline() *string {
+func (o *ConnectionAzureBlob) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputAzureBlobConnection) GetOutput() string {
+func (o *ConnectionAzureBlob) GetOutput() string {
 	if o == nil {
 		return ""
 	}
 	return o.Output
 }
 
-// InputAzureBlobMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type InputAzureBlobMode string
+// ModeAzureBlob - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+type ModeAzureBlob string
 
 const (
-	InputAzureBlobModeSmart  InputAzureBlobMode = "smart"
-	InputAzureBlobModeAlways InputAzureBlobMode = "always"
+	ModeAzureBlobSmart  ModeAzureBlob = "smart"
+	ModeAzureBlobAlways ModeAzureBlob = "always"
 )
 
-func (e InputAzureBlobMode) ToPointer() *InputAzureBlobMode {
+func (e ModeAzureBlob) ToPointer() *ModeAzureBlob {
 	return &e
 }
+func (e *ModeAzureBlob) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = ModeAzureBlob(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ModeAzureBlob: %v", v)
+	}
+}
 
-// InputAzureBlobCompression - Codec to use to compress the persisted data
-type InputAzureBlobCompression string
+// PqCompressionAzureBlob - Codec to use to compress the persisted data
+type PqCompressionAzureBlob string
 
 const (
-	InputAzureBlobCompressionNone InputAzureBlobCompression = "none"
-	InputAzureBlobCompressionGzip InputAzureBlobCompression = "gzip"
+	PqCompressionAzureBlobNone PqCompressionAzureBlob = "none"
+	PqCompressionAzureBlobGzip PqCompressionAzureBlob = "gzip"
 )
 
-func (e InputAzureBlobCompression) ToPointer() *InputAzureBlobCompression {
+func (e PqCompressionAzureBlob) ToPointer() *PqCompressionAzureBlob {
 	return &e
 }
+func (e *PqCompressionAzureBlob) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = PqCompressionAzureBlob(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for PqCompressionAzureBlob: %v", v)
+	}
+}
 
-type InputAzureBlobPq struct {
+type PqAzureBlob struct {
 	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *InputAzureBlobMode `default:"always" json:"mode"`
+	Mode *ModeAzureBlob `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
 	// The number of events to send downstream before committing that Stream has read them
@@ -24912,100 +28851,119 @@ type InputAzureBlobPq struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
 	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
 	// Codec to use to compress the persisted data
-	Compress *InputAzureBlobCompression `default:"none" json:"compress"`
+	Compress *PqCompressionAzureBlob `default:"none" json:"compress"`
 }
 
-func (i InputAzureBlobPq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PqAzureBlob) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputAzureBlobPq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PqAzureBlob) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputAzureBlobPq) GetMode() *InputAzureBlobMode {
+func (o *PqAzureBlob) GetMode() *ModeAzureBlob {
 	if o == nil {
 		return nil
 	}
 	return o.Mode
 }
 
-func (o *InputAzureBlobPq) GetMaxBufferSize() *float64 {
+func (o *PqAzureBlob) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputAzureBlobPq) GetCommitFrequency() *float64 {
+func (o *PqAzureBlob) GetCommitFrequency() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.CommitFrequency
 }
 
-func (o *InputAzureBlobPq) GetMaxFileSize() *string {
+func (o *PqAzureBlob) GetMaxFileSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxFileSize
 }
 
-func (o *InputAzureBlobPq) GetMaxSize() *string {
+func (o *PqAzureBlob) GetMaxSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxSize
 }
 
-func (o *InputAzureBlobPq) GetPath() *string {
+func (o *PqAzureBlob) GetPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Path
 }
 
-func (o *InputAzureBlobPq) GetCompress() *InputAzureBlobCompression {
+func (o *PqAzureBlob) GetCompress() *PqCompressionAzureBlob {
 	if o == nil {
 		return nil
 	}
 	return o.Compress
 }
 
-type InputAzureBlobMetadatum struct {
+type MetadatumAzureBlob struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputAzureBlobMetadatum) GetName() string {
+func (o *MetadatumAzureBlob) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputAzureBlobMetadatum) GetValue() string {
+func (o *MetadatumAzureBlob) GetValue() string {
 	if o == nil {
 		return ""
 	}
 	return o.Value
 }
 
-type InputAzureBlobAuthenticationMethod string
+type CreateInputAuthenticationMethodAzureBlob string
 
 const (
-	InputAzureBlobAuthenticationMethodManual       InputAzureBlobAuthenticationMethod = "manual"
-	InputAzureBlobAuthenticationMethodSecret       InputAzureBlobAuthenticationMethod = "secret"
-	InputAzureBlobAuthenticationMethodClientSecret InputAzureBlobAuthenticationMethod = "clientSecret"
-	InputAzureBlobAuthenticationMethodClientCert   InputAzureBlobAuthenticationMethod = "clientCert"
+	CreateInputAuthenticationMethodAzureBlobManual       CreateInputAuthenticationMethodAzureBlob = "manual"
+	CreateInputAuthenticationMethodAzureBlobSecret       CreateInputAuthenticationMethodAzureBlob = "secret"
+	CreateInputAuthenticationMethodAzureBlobClientSecret CreateInputAuthenticationMethodAzureBlob = "clientSecret"
+	CreateInputAuthenticationMethodAzureBlobClientCert   CreateInputAuthenticationMethodAzureBlob = "clientCert"
 )
 
-func (e InputAzureBlobAuthenticationMethod) ToPointer() *InputAzureBlobAuthenticationMethod {
+func (e CreateInputAuthenticationMethodAzureBlob) ToPointer() *CreateInputAuthenticationMethodAzureBlob {
 	return &e
+}
+func (e *CreateInputAuthenticationMethodAzureBlob) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "manual":
+		fallthrough
+	case "secret":
+		fallthrough
+	case "clientSecret":
+		fallthrough
+	case "clientCert":
+		*e = CreateInputAuthenticationMethodAzureBlob(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputAuthenticationMethodAzureBlob: %v", v)
+	}
 }
 
 type CreateInputCertificate struct {
@@ -25022,9 +28980,9 @@ func (o *CreateInputCertificate) GetCertificateName() string {
 
 type InputAzureBlob struct {
 	// Unique ID for this input
-	ID       string             `json:"id"`
-	Type     InputAzureBlobType `json:"type"`
-	Disabled *bool              `default:"false" json:"disabled"`
+	ID       string                   `json:"id"`
+	Type     CreateInputTypeAzureBlob `json:"type"`
+	Disabled *bool                    `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -25036,8 +28994,8 @@ type InputAzureBlob struct {
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputAzureBlobConnection `json:"connections,omitempty"`
-	Pq          *InputAzureBlobPq          `json:"pq,omitempty"`
+	Connections []ConnectionAzureBlob `json:"connections,omitempty"`
+	Pq          *PqAzureBlob          `json:"pq,omitempty"`
 	// The storage account queue name blob notifications will be read from. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myQueue-${C.vars.myVar}`
 	QueueName string `json:"queueName"`
 	// Regex matching file names to download and process. Defaults to: .*
@@ -25053,7 +29011,7 @@ type InputAzureBlob struct {
 	// Skip files that trigger a processing error. Disabled by default, which allows retries after processing errors.
 	SkipOnError *bool `default:"false" json:"skipOnError"`
 	// Fields to add to events from this input
-	Metadata []InputAzureBlobMetadatum `json:"metadata,omitempty"`
+	Metadata []MetadatumAzureBlob `json:"metadata,omitempty"`
 	// A list of event-breaking rulesets that will be applied, in order, to the input data stream
 	BreakerRulesets []string `json:"breakerRulesets,omitempty"`
 	// How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines
@@ -25061,9 +29019,9 @@ type InputAzureBlob struct {
 	// Maximum file size for each Parquet chunk
 	ParquetChunkSizeMB *float64 `default:"5" json:"parquetChunkSizeMB"`
 	// The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified.
-	ParquetChunkDownloadTimeout *float64                            `default:"600" json:"parquetChunkDownloadTimeout"`
-	AuthType                    *InputAzureBlobAuthenticationMethod `default:"manual" json:"authType"`
-	Description                 *string                             `json:"description,omitempty"`
+	ParquetChunkDownloadTimeout *float64                                  `default:"600" json:"parquetChunkDownloadTimeout"`
+	AuthType                    *CreateInputAuthenticationMethodAzureBlob `default:"manual" json:"authType"`
+	Description                 *string                                   `json:"description,omitempty"`
 	// Enter your Azure Storage account connection string. If left blank, Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING.
 	ConnectionString *string `json:"connectionString,omitempty"`
 	// Select or create a stored text secret
@@ -25101,9 +29059,9 @@ func (o *InputAzureBlob) GetID() string {
 	return o.ID
 }
 
-func (o *InputAzureBlob) GetType() InputAzureBlobType {
+func (o *InputAzureBlob) GetType() CreateInputTypeAzureBlob {
 	if o == nil {
-		return InputAzureBlobType("")
+		return CreateInputTypeAzureBlob("")
 	}
 	return o.Type
 }
@@ -25150,14 +29108,14 @@ func (o *InputAzureBlob) GetStreamtags() []string {
 	return o.Streamtags
 }
 
-func (o *InputAzureBlob) GetConnections() []InputAzureBlobConnection {
+func (o *InputAzureBlob) GetConnections() []ConnectionAzureBlob {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputAzureBlob) GetPq() *InputAzureBlobPq {
+func (o *InputAzureBlob) GetPq() *PqAzureBlob {
 	if o == nil {
 		return nil
 	}
@@ -25213,7 +29171,7 @@ func (o *InputAzureBlob) GetSkipOnError() *bool {
 	return o.SkipOnError
 }
 
-func (o *InputAzureBlob) GetMetadata() []InputAzureBlobMetadatum {
+func (o *InputAzureBlob) GetMetadata() []MetadatumAzureBlob {
 	if o == nil {
 		return nil
 	}
@@ -25248,7 +29206,7 @@ func (o *InputAzureBlob) GetParquetChunkDownloadTimeout() *float64 {
 	return o.ParquetChunkDownloadTimeout
 }
 
-func (o *InputAzureBlob) GetAuthType() *InputAzureBlobAuthenticationMethod {
+func (o *InputAzureBlob) GetAuthType() *CreateInputAuthenticationMethodAzureBlob {
 	if o == nil {
 		return nil
 	}
@@ -25325,62 +29283,105 @@ func (o *InputAzureBlob) GetCertificate() *CreateInputCertificate {
 	return o.Certificate
 }
 
-type InputSplunkHecType string
+type TypeSplunkHec string
 
 const (
-	InputSplunkHecTypeSplunkHec InputSplunkHecType = "splunk_hec"
+	TypeSplunkHecSplunkHec TypeSplunkHec = "splunk_hec"
 )
 
-func (e InputSplunkHecType) ToPointer() *InputSplunkHecType {
+func (e TypeSplunkHec) ToPointer() *TypeSplunkHec {
 	return &e
 }
+func (e *TypeSplunkHec) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "splunk_hec":
+		*e = TypeSplunkHec(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for TypeSplunkHec: %v", v)
+	}
+}
 
-type InputSplunkHecConnection struct {
+type ConnectionSplunkHec struct {
 	Pipeline *string `json:"pipeline,omitempty"`
 	Output   string  `json:"output"`
 }
 
-func (o *InputSplunkHecConnection) GetPipeline() *string {
+func (o *ConnectionSplunkHec) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputSplunkHecConnection) GetOutput() string {
+func (o *ConnectionSplunkHec) GetOutput() string {
 	if o == nil {
 		return ""
 	}
 	return o.Output
 }
 
-// InputSplunkHecMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type InputSplunkHecMode string
+// ModeSplunkHec - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+type ModeSplunkHec string
 
 const (
-	InputSplunkHecModeSmart  InputSplunkHecMode = "smart"
-	InputSplunkHecModeAlways InputSplunkHecMode = "always"
+	ModeSplunkHecSmart  ModeSplunkHec = "smart"
+	ModeSplunkHecAlways ModeSplunkHec = "always"
 )
 
-func (e InputSplunkHecMode) ToPointer() *InputSplunkHecMode {
+func (e ModeSplunkHec) ToPointer() *ModeSplunkHec {
 	return &e
 }
+func (e *ModeSplunkHec) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = ModeSplunkHec(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ModeSplunkHec: %v", v)
+	}
+}
 
-// InputSplunkHecCompression - Codec to use to compress the persisted data
-type InputSplunkHecCompression string
+// CompressionSplunkHec - Codec to use to compress the persisted data
+type CompressionSplunkHec string
 
 const (
-	InputSplunkHecCompressionNone InputSplunkHecCompression = "none"
-	InputSplunkHecCompressionGzip InputSplunkHecCompression = "gzip"
+	CompressionSplunkHecNone CompressionSplunkHec = "none"
+	CompressionSplunkHecGzip CompressionSplunkHec = "gzip"
 )
 
-func (e InputSplunkHecCompression) ToPointer() *InputSplunkHecCompression {
+func (e CompressionSplunkHec) ToPointer() *CompressionSplunkHec {
 	return &e
 }
+func (e *CompressionSplunkHec) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = CompressionSplunkHec(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CompressionSplunkHec: %v", v)
+	}
+}
 
-type InputSplunkHecPq struct {
+type PqSplunkHec struct {
 	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *InputSplunkHecMode `default:"always" json:"mode"`
+	Mode *ModeSplunkHec `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
 	// The number of events to send downstream before committing that Stream has read them
@@ -25392,202 +29393,255 @@ type InputSplunkHecPq struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
 	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
 	// Codec to use to compress the persisted data
-	Compress *InputSplunkHecCompression `default:"none" json:"compress"`
+	Compress *CompressionSplunkHec `default:"none" json:"compress"`
 }
 
-func (i InputSplunkHecPq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PqSplunkHec) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputSplunkHecPq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PqSplunkHec) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputSplunkHecPq) GetMode() *InputSplunkHecMode {
+func (o *PqSplunkHec) GetMode() *ModeSplunkHec {
 	if o == nil {
 		return nil
 	}
 	return o.Mode
 }
 
-func (o *InputSplunkHecPq) GetMaxBufferSize() *float64 {
+func (o *PqSplunkHec) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputSplunkHecPq) GetCommitFrequency() *float64 {
+func (o *PqSplunkHec) GetCommitFrequency() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.CommitFrequency
 }
 
-func (o *InputSplunkHecPq) GetMaxFileSize() *string {
+func (o *PqSplunkHec) GetMaxFileSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxFileSize
 }
 
-func (o *InputSplunkHecPq) GetMaxSize() *string {
+func (o *PqSplunkHec) GetMaxSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxSize
 }
 
-func (o *InputSplunkHecPq) GetPath() *string {
+func (o *PqSplunkHec) GetPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Path
 }
 
-func (o *InputSplunkHecPq) GetCompress() *InputSplunkHecCompression {
+func (o *PqSplunkHec) GetCompress() *CompressionSplunkHec {
 	if o == nil {
 		return nil
 	}
 	return o.Compress
 }
 
-// InputSplunkHecAuthenticationMethod - Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate
-type InputSplunkHecAuthenticationMethod string
+// AuthenticationMethodSplunkHec - Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate
+type AuthenticationMethodSplunkHec string
 
 const (
-	InputSplunkHecAuthenticationMethodManual InputSplunkHecAuthenticationMethod = "manual"
-	InputSplunkHecAuthenticationMethodSecret InputSplunkHecAuthenticationMethod = "secret"
+	AuthenticationMethodSplunkHecManual AuthenticationMethodSplunkHec = "manual"
+	AuthenticationMethodSplunkHecSecret AuthenticationMethodSplunkHec = "secret"
 )
 
-func (e InputSplunkHecAuthenticationMethod) ToPointer() *InputSplunkHecAuthenticationMethod {
+func (e AuthenticationMethodSplunkHec) ToPointer() *AuthenticationMethodSplunkHec {
 	return &e
 }
+func (e *AuthenticationMethodSplunkHec) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = AuthenticationMethodSplunkHec(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for AuthenticationMethodSplunkHec: %v", v)
+	}
+}
 
-type InputSplunkHecAuthTokenMetadatum struct {
+type AuthTokenMetadatumSplunkHec struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputSplunkHecAuthTokenMetadatum) GetName() string {
+func (o *AuthTokenMetadatumSplunkHec) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputSplunkHecAuthTokenMetadatum) GetValue() string {
+func (o *AuthTokenMetadatumSplunkHec) GetValue() string {
 	if o == nil {
 		return ""
 	}
 	return o.Value
 }
 
-type InputSplunkHecAuthToken struct {
+type AuthTokenSplunkHec struct {
 	// Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate
-	AuthType    *InputSplunkHecAuthenticationMethod `default:"manual" json:"authType"`
-	TokenSecret any                                 `json:"tokenSecret,omitempty"`
-	Token       any                                 `json:"token"`
-	Enabled     *bool                               `default:"true" json:"enabled"`
+	AuthType    *AuthenticationMethodSplunkHec `default:"manual" json:"authType"`
+	TokenSecret any                            `json:"tokenSecret,omitempty"`
+	Token       any                            `json:"token"`
+	Enabled     *bool                          `default:"true" json:"enabled"`
 	// Optional token description
 	Description *string `json:"description,omitempty"`
 	// Enter the values you want to allow in the HEC event index field at the token level. Supports wildcards. To skip validation, leave blank.
 	AllowedIndexesAtToken []string `json:"allowedIndexesAtToken,omitempty"`
 	// Fields to add to events referencing this token
-	Metadata []InputSplunkHecAuthTokenMetadatum `json:"metadata,omitempty"`
+	Metadata []AuthTokenMetadatumSplunkHec `json:"metadata,omitempty"`
 }
 
-func (i InputSplunkHecAuthToken) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (a AuthTokenSplunkHec) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(a, "", false)
 }
 
-func (i *InputSplunkHecAuthToken) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (a *AuthTokenSplunkHec) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &a, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputSplunkHecAuthToken) GetAuthType() *InputSplunkHecAuthenticationMethod {
+func (o *AuthTokenSplunkHec) GetAuthType() *AuthenticationMethodSplunkHec {
 	if o == nil {
 		return nil
 	}
 	return o.AuthType
 }
 
-func (o *InputSplunkHecAuthToken) GetTokenSecret() any {
+func (o *AuthTokenSplunkHec) GetTokenSecret() any {
 	if o == nil {
 		return nil
 	}
 	return o.TokenSecret
 }
 
-func (o *InputSplunkHecAuthToken) GetToken() any {
+func (o *AuthTokenSplunkHec) GetToken() any {
 	if o == nil {
 		return nil
 	}
 	return o.Token
 }
 
-func (o *InputSplunkHecAuthToken) GetEnabled() *bool {
+func (o *AuthTokenSplunkHec) GetEnabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Enabled
 }
 
-func (o *InputSplunkHecAuthToken) GetDescription() *string {
+func (o *AuthTokenSplunkHec) GetDescription() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Description
 }
 
-func (o *InputSplunkHecAuthToken) GetAllowedIndexesAtToken() []string {
+func (o *AuthTokenSplunkHec) GetAllowedIndexesAtToken() []string {
 	if o == nil {
 		return nil
 	}
 	return o.AllowedIndexesAtToken
 }
 
-func (o *InputSplunkHecAuthToken) GetMetadata() []InputSplunkHecAuthTokenMetadatum {
+func (o *AuthTokenSplunkHec) GetMetadata() []AuthTokenMetadatumSplunkHec {
 	if o == nil {
 		return nil
 	}
 	return o.Metadata
 }
 
-type InputSplunkHecMinimumTLSVersion string
+type MinimumTLSVersionSplunkHec string
 
 const (
-	InputSplunkHecMinimumTLSVersionTlSv1  InputSplunkHecMinimumTLSVersion = "TLSv1"
-	InputSplunkHecMinimumTLSVersionTlSv11 InputSplunkHecMinimumTLSVersion = "TLSv1.1"
-	InputSplunkHecMinimumTLSVersionTlSv12 InputSplunkHecMinimumTLSVersion = "TLSv1.2"
-	InputSplunkHecMinimumTLSVersionTlSv13 InputSplunkHecMinimumTLSVersion = "TLSv1.3"
+	MinimumTLSVersionSplunkHecTlSv1  MinimumTLSVersionSplunkHec = "TLSv1"
+	MinimumTLSVersionSplunkHecTlSv11 MinimumTLSVersionSplunkHec = "TLSv1.1"
+	MinimumTLSVersionSplunkHecTlSv12 MinimumTLSVersionSplunkHec = "TLSv1.2"
+	MinimumTLSVersionSplunkHecTlSv13 MinimumTLSVersionSplunkHec = "TLSv1.3"
 )
 
-func (e InputSplunkHecMinimumTLSVersion) ToPointer() *InputSplunkHecMinimumTLSVersion {
+func (e MinimumTLSVersionSplunkHec) ToPointer() *MinimumTLSVersionSplunkHec {
 	return &e
 }
+func (e *MinimumTLSVersionSplunkHec) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = MinimumTLSVersionSplunkHec(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for MinimumTLSVersionSplunkHec: %v", v)
+	}
+}
 
-type InputSplunkHecMaximumTLSVersion string
+type MaximumTLSVersionSplunkHec string
 
 const (
-	InputSplunkHecMaximumTLSVersionTlSv1  InputSplunkHecMaximumTLSVersion = "TLSv1"
-	InputSplunkHecMaximumTLSVersionTlSv11 InputSplunkHecMaximumTLSVersion = "TLSv1.1"
-	InputSplunkHecMaximumTLSVersionTlSv12 InputSplunkHecMaximumTLSVersion = "TLSv1.2"
-	InputSplunkHecMaximumTLSVersionTlSv13 InputSplunkHecMaximumTLSVersion = "TLSv1.3"
+	MaximumTLSVersionSplunkHecTlSv1  MaximumTLSVersionSplunkHec = "TLSv1"
+	MaximumTLSVersionSplunkHecTlSv11 MaximumTLSVersionSplunkHec = "TLSv1.1"
+	MaximumTLSVersionSplunkHecTlSv12 MaximumTLSVersionSplunkHec = "TLSv1.2"
+	MaximumTLSVersionSplunkHecTlSv13 MaximumTLSVersionSplunkHec = "TLSv1.3"
 )
 
-func (e InputSplunkHecMaximumTLSVersion) ToPointer() *InputSplunkHecMaximumTLSVersion {
+func (e MaximumTLSVersionSplunkHec) ToPointer() *MaximumTLSVersionSplunkHec {
 	return &e
 }
+func (e *MaximumTLSVersionSplunkHec) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = MaximumTLSVersionSplunkHec(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for MaximumTLSVersionSplunkHec: %v", v)
+	}
+}
 
-type InputSplunkHecTLSSettingsServerSide struct {
+type TLSSettingsServerSideSplunkHec struct {
 	Disabled *bool `default:"true" json:"disabled"`
 	// The name of the predefined certificate
 	CertificateName *string `json:"certificateName,omitempty"`
@@ -25600,115 +29654,115 @@ type InputSplunkHecTLSSettingsServerSide struct {
 	// Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS.
 	CaPath *string `json:"caPath,omitempty"`
 	// Require clients to present their certificates. Used to perform client authentication using SSL certs.
-	RequestCert        *bool                            `default:"false" json:"requestCert"`
-	RejectUnauthorized any                              `json:"rejectUnauthorized,omitempty"`
-	CommonNameRegex    any                              `json:"commonNameRegex,omitempty"`
-	MinVersion         *InputSplunkHecMinimumTLSVersion `json:"minVersion,omitempty"`
-	MaxVersion         *InputSplunkHecMaximumTLSVersion `json:"maxVersion,omitempty"`
+	RequestCert        *bool                       `default:"false" json:"requestCert"`
+	RejectUnauthorized any                         `json:"rejectUnauthorized,omitempty"`
+	CommonNameRegex    any                         `json:"commonNameRegex,omitempty"`
+	MinVersion         *MinimumTLSVersionSplunkHec `json:"minVersion,omitempty"`
+	MaxVersion         *MaximumTLSVersionSplunkHec `json:"maxVersion,omitempty"`
 }
 
-func (i InputSplunkHecTLSSettingsServerSide) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (t TLSSettingsServerSideSplunkHec) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(t, "", false)
 }
 
-func (i *InputSplunkHecTLSSettingsServerSide) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (t *TLSSettingsServerSideSplunkHec) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &t, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputSplunkHecTLSSettingsServerSide) GetDisabled() *bool {
+func (o *TLSSettingsServerSideSplunkHec) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *InputSplunkHecTLSSettingsServerSide) GetCertificateName() *string {
+func (o *TLSSettingsServerSideSplunkHec) GetCertificateName() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertificateName
 }
 
-func (o *InputSplunkHecTLSSettingsServerSide) GetPrivKeyPath() *string {
+func (o *TLSSettingsServerSideSplunkHec) GetPrivKeyPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.PrivKeyPath
 }
 
-func (o *InputSplunkHecTLSSettingsServerSide) GetPassphrase() *string {
+func (o *TLSSettingsServerSideSplunkHec) GetPassphrase() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Passphrase
 }
 
-func (o *InputSplunkHecTLSSettingsServerSide) GetCertPath() *string {
+func (o *TLSSettingsServerSideSplunkHec) GetCertPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertPath
 }
 
-func (o *InputSplunkHecTLSSettingsServerSide) GetCaPath() *string {
+func (o *TLSSettingsServerSideSplunkHec) GetCaPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CaPath
 }
 
-func (o *InputSplunkHecTLSSettingsServerSide) GetRequestCert() *bool {
+func (o *TLSSettingsServerSideSplunkHec) GetRequestCert() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.RequestCert
 }
 
-func (o *InputSplunkHecTLSSettingsServerSide) GetRejectUnauthorized() any {
+func (o *TLSSettingsServerSideSplunkHec) GetRejectUnauthorized() any {
 	if o == nil {
 		return nil
 	}
 	return o.RejectUnauthorized
 }
 
-func (o *InputSplunkHecTLSSettingsServerSide) GetCommonNameRegex() any {
+func (o *TLSSettingsServerSideSplunkHec) GetCommonNameRegex() any {
 	if o == nil {
 		return nil
 	}
 	return o.CommonNameRegex
 }
 
-func (o *InputSplunkHecTLSSettingsServerSide) GetMinVersion() *InputSplunkHecMinimumTLSVersion {
+func (o *TLSSettingsServerSideSplunkHec) GetMinVersion() *MinimumTLSVersionSplunkHec {
 	if o == nil {
 		return nil
 	}
 	return o.MinVersion
 }
 
-func (o *InputSplunkHecTLSSettingsServerSide) GetMaxVersion() *InputSplunkHecMaximumTLSVersion {
+func (o *TLSSettingsServerSideSplunkHec) GetMaxVersion() *MaximumTLSVersionSplunkHec {
 	if o == nil {
 		return nil
 	}
 	return o.MaxVersion
 }
 
-type InputSplunkHecMetadatum struct {
+type MetadatumSplunkHec struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputSplunkHecMetadatum) GetName() string {
+func (o *MetadatumSplunkHec) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputSplunkHecMetadatum) GetValue() string {
+func (o *MetadatumSplunkHec) GetValue() string {
 	if o == nil {
 		return ""
 	}
@@ -25717,9 +29771,9 @@ func (o *InputSplunkHecMetadatum) GetValue() string {
 
 type InputSplunkHec struct {
 	// Unique ID for this input
-	ID       string              `json:"id"`
-	Type     *InputSplunkHecType `json:"type,omitempty"`
-	Disabled *bool               `default:"false" json:"disabled"`
+	ID       string         `json:"id"`
+	Type     *TypeSplunkHec `json:"type,omitempty"`
+	Disabled *bool          `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -25731,15 +29785,15 @@ type InputSplunkHec struct {
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputSplunkHecConnection `json:"connections,omitempty"`
-	Pq          *InputSplunkHecPq          `json:"pq,omitempty"`
+	Connections []ConnectionSplunkHec `json:"connections,omitempty"`
+	Pq          *PqSplunkHec          `json:"pq,omitempty"`
 	// Address to bind on. Defaults to 0.0.0.0 (all addresses).
 	Host *string `default:"0.0.0.0" json:"host"`
 	// Port to listen on
 	Port float64 `json:"port"`
 	// Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted.
-	AuthTokens []InputSplunkHecAuthToken            `json:"authTokens,omitempty"`
-	TLS        *InputSplunkHecTLSSettingsServerSide `json:"tls,omitempty"`
+	AuthTokens []AuthTokenSplunkHec            `json:"authTokens,omitempty"`
+	TLS        *TLSSettingsServerSideSplunkHec `json:"tls,omitempty"`
 	// Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput.
 	MaxActiveReq *float64 `default:"256" json:"maxActiveReq"`
 	// Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited).
@@ -25764,7 +29818,7 @@ type InputSplunkHec struct {
 	// Absolute path on which to listen for the Splunk HTTP Event Collector API requests. This input supports the /event, /raw and /s2s endpoints.
 	SplunkHecAPI *string `default:"/services/collector" json:"splunkHecAPI"`
 	// Fields to add to every event. Overrides fields added at the token or request level. See [the Source documentation](https://docs.cribl.io/stream/sources-splunk-hec/#fields) for more info.
-	Metadata []InputSplunkHecMetadatum `json:"metadata,omitempty"`
+	Metadata []MetadatumSplunkHec `json:"metadata,omitempty"`
 	// List values allowed in HEC event index field. Leave blank to skip validation. Supports wildcards. The values here can expand index validation at the token level.
 	AllowedIndexes []string `json:"allowedIndexes,omitempty"`
 	// Enable Splunk HEC acknowledgements
@@ -25806,7 +29860,7 @@ func (o *InputSplunkHec) GetID() string {
 	return o.ID
 }
 
-func (o *InputSplunkHec) GetType() *InputSplunkHecType {
+func (o *InputSplunkHec) GetType() *TypeSplunkHec {
 	if o == nil {
 		return nil
 	}
@@ -25855,14 +29909,14 @@ func (o *InputSplunkHec) GetStreamtags() []string {
 	return o.Streamtags
 }
 
-func (o *InputSplunkHec) GetConnections() []InputSplunkHecConnection {
+func (o *InputSplunkHec) GetConnections() []ConnectionSplunkHec {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputSplunkHec) GetPq() *InputSplunkHecPq {
+func (o *InputSplunkHec) GetPq() *PqSplunkHec {
 	if o == nil {
 		return nil
 	}
@@ -25883,14 +29937,14 @@ func (o *InputSplunkHec) GetPort() float64 {
 	return o.Port
 }
 
-func (o *InputSplunkHec) GetAuthTokens() []InputSplunkHecAuthToken {
+func (o *InputSplunkHec) GetAuthTokens() []AuthTokenSplunkHec {
 	if o == nil {
 		return nil
 	}
 	return o.AuthTokens
 }
 
-func (o *InputSplunkHec) GetTLS() *InputSplunkHecTLSSettingsServerSide {
+func (o *InputSplunkHec) GetTLS() *TLSSettingsServerSideSplunkHec {
 	if o == nil {
 		return nil
 	}
@@ -25981,7 +30035,7 @@ func (o *InputSplunkHec) GetSplunkHecAPI() *string {
 	return o.SplunkHecAPI
 }
 
-func (o *InputSplunkHec) GetMetadata() []InputSplunkHecMetadatum {
+func (o *InputSplunkHec) GetMetadata() []MetadatumSplunkHec {
 	if o == nil {
 		return nil
 	}
@@ -26065,62 +30119,105 @@ func (o *InputSplunkHec) GetDescription() *string {
 	return o.Description
 }
 
-type InputSplunkSearchType string
+type TypeSplunkSearch string
 
 const (
-	InputSplunkSearchTypeSplunkSearch InputSplunkSearchType = "splunk_search"
+	TypeSplunkSearchSplunkSearch TypeSplunkSearch = "splunk_search"
 )
 
-func (e InputSplunkSearchType) ToPointer() *InputSplunkSearchType {
+func (e TypeSplunkSearch) ToPointer() *TypeSplunkSearch {
 	return &e
 }
+func (e *TypeSplunkSearch) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "splunk_search":
+		*e = TypeSplunkSearch(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for TypeSplunkSearch: %v", v)
+	}
+}
 
-type InputSplunkSearchConnection struct {
+type ConnectionSplunkSearch struct {
 	Pipeline *string `json:"pipeline,omitempty"`
 	Output   string  `json:"output"`
 }
 
-func (o *InputSplunkSearchConnection) GetPipeline() *string {
+func (o *ConnectionSplunkSearch) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputSplunkSearchConnection) GetOutput() string {
+func (o *ConnectionSplunkSearch) GetOutput() string {
 	if o == nil {
 		return ""
 	}
 	return o.Output
 }
 
-// InputSplunkSearchMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type InputSplunkSearchMode string
+// ModeSplunkSearch - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+type ModeSplunkSearch string
 
 const (
-	InputSplunkSearchModeSmart  InputSplunkSearchMode = "smart"
-	InputSplunkSearchModeAlways InputSplunkSearchMode = "always"
+	ModeSplunkSearchSmart  ModeSplunkSearch = "smart"
+	ModeSplunkSearchAlways ModeSplunkSearch = "always"
 )
 
-func (e InputSplunkSearchMode) ToPointer() *InputSplunkSearchMode {
+func (e ModeSplunkSearch) ToPointer() *ModeSplunkSearch {
 	return &e
 }
+func (e *ModeSplunkSearch) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = ModeSplunkSearch(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ModeSplunkSearch: %v", v)
+	}
+}
 
-// InputSplunkSearchCompression - Codec to use to compress the persisted data
-type InputSplunkSearchCompression string
+// CompressionSplunkSearch - Codec to use to compress the persisted data
+type CompressionSplunkSearch string
 
 const (
-	InputSplunkSearchCompressionNone InputSplunkSearchCompression = "none"
-	InputSplunkSearchCompressionGzip InputSplunkSearchCompression = "gzip"
+	CompressionSplunkSearchNone CompressionSplunkSearch = "none"
+	CompressionSplunkSearchGzip CompressionSplunkSearch = "gzip"
 )
 
-func (e InputSplunkSearchCompression) ToPointer() *InputSplunkSearchCompression {
+func (e CompressionSplunkSearch) ToPointer() *CompressionSplunkSearch {
 	return &e
 }
+func (e *CompressionSplunkSearch) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = CompressionSplunkSearch(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CompressionSplunkSearch: %v", v)
+	}
+}
 
-type InputSplunkSearchPq struct {
+type PqSplunkSearch struct {
 	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *InputSplunkSearchMode `default:"always" json:"mode"`
+	Mode *ModeSplunkSearch `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
 	// The number of events to send downstream before committing that Stream has read them
@@ -26132,63 +30229,63 @@ type InputSplunkSearchPq struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
 	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
 	// Codec to use to compress the persisted data
-	Compress *InputSplunkSearchCompression `default:"none" json:"compress"`
+	Compress *CompressionSplunkSearch `default:"none" json:"compress"`
 }
 
-func (i InputSplunkSearchPq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PqSplunkSearch) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputSplunkSearchPq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PqSplunkSearch) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputSplunkSearchPq) GetMode() *InputSplunkSearchMode {
+func (o *PqSplunkSearch) GetMode() *ModeSplunkSearch {
 	if o == nil {
 		return nil
 	}
 	return o.Mode
 }
 
-func (o *InputSplunkSearchPq) GetMaxBufferSize() *float64 {
+func (o *PqSplunkSearch) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputSplunkSearchPq) GetCommitFrequency() *float64 {
+func (o *PqSplunkSearch) GetCommitFrequency() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.CommitFrequency
 }
 
-func (o *InputSplunkSearchPq) GetMaxFileSize() *string {
+func (o *PqSplunkSearch) GetMaxFileSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxFileSize
 }
 
-func (o *InputSplunkSearchPq) GetMaxSize() *string {
+func (o *PqSplunkSearch) GetMaxSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxSize
 }
 
-func (o *InputSplunkSearchPq) GetPath() *string {
+func (o *PqSplunkSearch) GetPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Path
 }
 
-func (o *InputSplunkSearchPq) GetCompress() *InputSplunkSearchCompression {
+func (o *PqSplunkSearch) GetCompress() *CompressionSplunkSearch {
 	if o == nil {
 		return nil
 	}
@@ -26205,6 +30302,21 @@ const (
 
 func (e OutputMode) ToPointer() *OutputMode {
 	return &e
+}
+func (e *OutputMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "csv":
+		fallthrough
+	case "json":
+		*e = OutputMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputMode: %v", v)
+	}
 }
 
 type EndpointParam struct {
@@ -26247,56 +30359,92 @@ func (o *EndpointHeader) GetValue() string {
 	return o.Value
 }
 
-// InputSplunkSearchLogLevel - Collector runtime log level (verbosity)
-type InputSplunkSearchLogLevel string
+// LogLevelSplunkSearch - Collector runtime log level (verbosity)
+type LogLevelSplunkSearch string
 
 const (
-	InputSplunkSearchLogLevelError InputSplunkSearchLogLevel = "error"
-	InputSplunkSearchLogLevelWarn  InputSplunkSearchLogLevel = "warn"
-	InputSplunkSearchLogLevelInfo  InputSplunkSearchLogLevel = "info"
-	InputSplunkSearchLogLevelDebug InputSplunkSearchLogLevel = "debug"
+	LogLevelSplunkSearchError LogLevelSplunkSearch = "error"
+	LogLevelSplunkSearchWarn  LogLevelSplunkSearch = "warn"
+	LogLevelSplunkSearchInfo  LogLevelSplunkSearch = "info"
+	LogLevelSplunkSearchDebug LogLevelSplunkSearch = "debug"
 )
 
-func (e InputSplunkSearchLogLevel) ToPointer() *InputSplunkSearchLogLevel {
+func (e LogLevelSplunkSearch) ToPointer() *LogLevelSplunkSearch {
 	return &e
 }
+func (e *LogLevelSplunkSearch) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "error":
+		fallthrough
+	case "warn":
+		fallthrough
+	case "info":
+		fallthrough
+	case "debug":
+		*e = LogLevelSplunkSearch(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for LogLevelSplunkSearch: %v", v)
+	}
+}
 
-type InputSplunkSearchMetadatum struct {
+type MetadatumSplunkSearch struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputSplunkSearchMetadatum) GetName() string {
+func (o *MetadatumSplunkSearch) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputSplunkSearchMetadatum) GetValue() string {
+func (o *MetadatumSplunkSearch) GetValue() string {
 	if o == nil {
 		return ""
 	}
 	return o.Value
 }
 
-// InputSplunkSearchRetryType - The algorithm to use when performing HTTP retries
-type InputSplunkSearchRetryType string
+// RetryTypeSplunkSearch - The algorithm to use when performing HTTP retries
+type RetryTypeSplunkSearch string
 
 const (
-	InputSplunkSearchRetryTypeNone    InputSplunkSearchRetryType = "none"
-	InputSplunkSearchRetryTypeBackoff InputSplunkSearchRetryType = "backoff"
-	InputSplunkSearchRetryTypeStatic  InputSplunkSearchRetryType = "static"
+	RetryTypeSplunkSearchNone    RetryTypeSplunkSearch = "none"
+	RetryTypeSplunkSearchBackoff RetryTypeSplunkSearch = "backoff"
+	RetryTypeSplunkSearchStatic  RetryTypeSplunkSearch = "static"
 )
 
-func (e InputSplunkSearchRetryType) ToPointer() *InputSplunkSearchRetryType {
+func (e RetryTypeSplunkSearch) ToPointer() *RetryTypeSplunkSearch {
 	return &e
 }
+func (e *RetryTypeSplunkSearch) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "backoff":
+		fallthrough
+	case "static":
+		*e = RetryTypeSplunkSearch(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for RetryTypeSplunkSearch: %v", v)
+	}
+}
 
-type InputSplunkSearchRetryRules struct {
+type RetryRulesSplunkSearch struct {
 	// The algorithm to use when performing HTTP retries
-	Type *InputSplunkSearchRetryType `default:"backoff" json:"type"`
+	Type *RetryTypeSplunkSearch `default:"backoff" json:"type"`
 	// Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute).
 	Interval *float64 `default:"1000" json:"interval"`
 	// The maximum number of times to retry a failed HTTP request
@@ -26313,125 +30461,148 @@ type InputSplunkSearchRetryRules struct {
 	RetryConnectReset *bool `default:"false" json:"retryConnectReset"`
 }
 
-func (i InputSplunkSearchRetryRules) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (r RetryRulesSplunkSearch) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(r, "", false)
 }
 
-func (i *InputSplunkSearchRetryRules) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (r *RetryRulesSplunkSearch) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &r, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputSplunkSearchRetryRules) GetType() *InputSplunkSearchRetryType {
+func (o *RetryRulesSplunkSearch) GetType() *RetryTypeSplunkSearch {
 	if o == nil {
 		return nil
 	}
 	return o.Type
 }
 
-func (o *InputSplunkSearchRetryRules) GetInterval() *float64 {
+func (o *RetryRulesSplunkSearch) GetInterval() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.Interval
 }
 
-func (o *InputSplunkSearchRetryRules) GetLimit() *float64 {
+func (o *RetryRulesSplunkSearch) GetLimit() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.Limit
 }
 
-func (o *InputSplunkSearchRetryRules) GetMultiplier() *float64 {
+func (o *RetryRulesSplunkSearch) GetMultiplier() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.Multiplier
 }
 
-func (o *InputSplunkSearchRetryRules) GetCodes() []float64 {
+func (o *RetryRulesSplunkSearch) GetCodes() []float64 {
 	if o == nil {
 		return nil
 	}
 	return o.Codes
 }
 
-func (o *InputSplunkSearchRetryRules) GetEnableHeader() *bool {
+func (o *RetryRulesSplunkSearch) GetEnableHeader() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.EnableHeader
 }
 
-func (o *InputSplunkSearchRetryRules) GetRetryConnectTimeout() *bool {
+func (o *RetryRulesSplunkSearch) GetRetryConnectTimeout() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.RetryConnectTimeout
 }
 
-func (o *InputSplunkSearchRetryRules) GetRetryConnectReset() *bool {
+func (o *RetryRulesSplunkSearch) GetRetryConnectReset() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.RetryConnectReset
 }
 
-// InputSplunkSearchAuthenticationType - Splunk Search authentication type
-type InputSplunkSearchAuthenticationType string
+// AuthenticationTypeSplunkSearch - Splunk Search authentication type
+type AuthenticationTypeSplunkSearch string
 
 const (
-	InputSplunkSearchAuthenticationTypeNone              InputSplunkSearchAuthenticationType = "none"
-	InputSplunkSearchAuthenticationTypeBasic             InputSplunkSearchAuthenticationType = "basic"
-	InputSplunkSearchAuthenticationTypeCredentialsSecret InputSplunkSearchAuthenticationType = "credentialsSecret"
-	InputSplunkSearchAuthenticationTypeToken             InputSplunkSearchAuthenticationType = "token"
-	InputSplunkSearchAuthenticationTypeTextSecret        InputSplunkSearchAuthenticationType = "textSecret"
-	InputSplunkSearchAuthenticationTypeOauth             InputSplunkSearchAuthenticationType = "oauth"
+	AuthenticationTypeSplunkSearchNone              AuthenticationTypeSplunkSearch = "none"
+	AuthenticationTypeSplunkSearchBasic             AuthenticationTypeSplunkSearch = "basic"
+	AuthenticationTypeSplunkSearchCredentialsSecret AuthenticationTypeSplunkSearch = "credentialsSecret"
+	AuthenticationTypeSplunkSearchToken             AuthenticationTypeSplunkSearch = "token"
+	AuthenticationTypeSplunkSearchTextSecret        AuthenticationTypeSplunkSearch = "textSecret"
+	AuthenticationTypeSplunkSearchOauth             AuthenticationTypeSplunkSearch = "oauth"
 )
 
-func (e InputSplunkSearchAuthenticationType) ToPointer() *InputSplunkSearchAuthenticationType {
+func (e AuthenticationTypeSplunkSearch) ToPointer() *AuthenticationTypeSplunkSearch {
 	return &e
 }
+func (e *AuthenticationTypeSplunkSearch) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "basic":
+		fallthrough
+	case "credentialsSecret":
+		fallthrough
+	case "token":
+		fallthrough
+	case "textSecret":
+		fallthrough
+	case "oauth":
+		*e = AuthenticationTypeSplunkSearch(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for AuthenticationTypeSplunkSearch: %v", v)
+	}
+}
 
-type InputSplunkSearchOauthParam struct {
+type OauthParamSplunkSearch struct {
 	// OAuth parameter name
 	Name string `json:"name"`
 	// OAuth parameter value
 	Value string `json:"value"`
 }
 
-func (o *InputSplunkSearchOauthParam) GetName() string {
+func (o *OauthParamSplunkSearch) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputSplunkSearchOauthParam) GetValue() string {
+func (o *OauthParamSplunkSearch) GetValue() string {
 	if o == nil {
 		return ""
 	}
 	return o.Value
 }
 
-type InputSplunkSearchOauthHeader struct {
+type OauthHeaderSplunkSearch struct {
 	// OAuth header name
 	Name string `json:"name"`
 	// OAuth header value
 	Value string `json:"value"`
 }
 
-func (o *InputSplunkSearchOauthHeader) GetName() string {
+func (o *OauthHeaderSplunkSearch) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputSplunkSearchOauthHeader) GetValue() string {
+func (o *OauthHeaderSplunkSearch) GetValue() string {
 	if o == nil {
 		return ""
 	}
@@ -26440,9 +30611,9 @@ func (o *InputSplunkSearchOauthHeader) GetValue() string {
 
 type InputSplunkSearch struct {
 	// Unique ID for this input
-	ID       string                 `json:"id"`
-	Type     *InputSplunkSearchType `json:"type,omitempty"`
-	Disabled *bool                  `default:"false" json:"disabled"`
+	ID       string            `json:"id"`
+	Type     *TypeSplunkSearch `json:"type,omitempty"`
+	Disabled *bool             `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -26454,8 +30625,8 @@ type InputSplunkSearch struct {
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputSplunkSearchConnection `json:"connections,omitempty"`
-	Pq          *InputSplunkSearchPq          `json:"pq,omitempty"`
+	Connections []ConnectionSplunkSearch `json:"connections,omitempty"`
+	Pq          *PqSplunkSearch          `json:"pq,omitempty"`
 	// Search head base URL. Can be an expression. Default is https://localhost:8089.
 	SearchHead *string `default:"https://localhost:8089" json:"searchHead"`
 	// Enter Splunk search here. Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'
@@ -26475,7 +30646,7 @@ type InputSplunkSearch struct {
 	// Optional request headers to send to the endpoint
 	EndpointHeaders []EndpointHeader `json:"endpointHeaders,omitempty"`
 	// Collector runtime log level (verbosity)
-	LogLevel *InputSplunkSearchLogLevel `json:"logLevel,omitempty"`
+	LogLevel *LogLevelSplunkSearch `json:"logLevel,omitempty"`
 	// HTTP request inactivity timeout. Use 0 for no timeout.
 	RequestTimeout *float64 `default:"0" json:"requestTimeout"`
 	// When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned
@@ -26495,17 +30666,17 @@ type InputSplunkSearch struct {
 	// When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live.
 	IgnoreGroupJobsLimit *bool `default:"false" json:"ignoreGroupJobsLimit"`
 	// Fields to add to events from this input
-	Metadata   []InputSplunkSearchMetadatum `json:"metadata,omitempty"`
-	RetryRules *InputSplunkSearchRetryRules `json:"retryRules,omitempty"`
+	Metadata   []MetadatumSplunkSearch `json:"metadata,omitempty"`
+	RetryRules *RetryRulesSplunkSearch `json:"retryRules,omitempty"`
 	// A list of event-breaking rulesets that will be applied, in order, to the input data stream
 	BreakerRulesets []string `json:"breakerRulesets,omitempty"`
 	// How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines
 	StaleChannelFlushMs *float64 `default:"10000" json:"staleChannelFlushMs"`
 	// Splunk Search authentication type
-	AuthType    *InputSplunkSearchAuthenticationType `default:"basic" json:"authType"`
-	Description *string                              `json:"description,omitempty"`
-	Username    *string                              `json:"username,omitempty"`
-	Password    *string                              `json:"password,omitempty"`
+	AuthType    *AuthenticationTypeSplunkSearch `default:"basic" json:"authType"`
+	Description *string                         `json:"description,omitempty"`
+	Username    *string                         `json:"username,omitempty"`
+	Password    *string                         `json:"password,omitempty"`
 	// Bearer token to include in the authorization header
 	Token *string `json:"token,omitempty"`
 	// Select or create a secret that references your credentials
@@ -26525,9 +30696,9 @@ type InputSplunkSearch struct {
 	// How often the OAuth token should be refreshed.
 	TokenTimeoutSecs *float64 `default:"3600" json:"tokenTimeoutSecs"`
 	// Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request.
-	OauthParams []InputSplunkSearchOauthParam `json:"oauthParams,omitempty"`
+	OauthParams []OauthParamSplunkSearch `json:"oauthParams,omitempty"`
 	// Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request.
-	OauthHeaders []InputSplunkSearchOauthHeader `json:"oauthHeaders,omitempty"`
+	OauthHeaders []OauthHeaderSplunkSearch `json:"oauthHeaders,omitempty"`
 }
 
 func (i InputSplunkSearch) MarshalJSON() ([]byte, error) {
@@ -26548,7 +30719,7 @@ func (o *InputSplunkSearch) GetID() string {
 	return o.ID
 }
 
-func (o *InputSplunkSearch) GetType() *InputSplunkSearchType {
+func (o *InputSplunkSearch) GetType() *TypeSplunkSearch {
 	if o == nil {
 		return nil
 	}
@@ -26597,14 +30768,14 @@ func (o *InputSplunkSearch) GetStreamtags() []string {
 	return o.Streamtags
 }
 
-func (o *InputSplunkSearch) GetConnections() []InputSplunkSearchConnection {
+func (o *InputSplunkSearch) GetConnections() []ConnectionSplunkSearch {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputSplunkSearch) GetPq() *InputSplunkSearchPq {
+func (o *InputSplunkSearch) GetPq() *PqSplunkSearch {
 	if o == nil {
 		return nil
 	}
@@ -26674,7 +30845,7 @@ func (o *InputSplunkSearch) GetEndpointHeaders() []EndpointHeader {
 	return o.EndpointHeaders
 }
 
-func (o *InputSplunkSearch) GetLogLevel() *InputSplunkSearchLogLevel {
+func (o *InputSplunkSearch) GetLogLevel() *LogLevelSplunkSearch {
 	if o == nil {
 		return nil
 	}
@@ -26744,14 +30915,14 @@ func (o *InputSplunkSearch) GetIgnoreGroupJobsLimit() *bool {
 	return o.IgnoreGroupJobsLimit
 }
 
-func (o *InputSplunkSearch) GetMetadata() []InputSplunkSearchMetadatum {
+func (o *InputSplunkSearch) GetMetadata() []MetadatumSplunkSearch {
 	if o == nil {
 		return nil
 	}
 	return o.Metadata
 }
 
-func (o *InputSplunkSearch) GetRetryRules() *InputSplunkSearchRetryRules {
+func (o *InputSplunkSearch) GetRetryRules() *RetryRulesSplunkSearch {
 	if o == nil {
 		return nil
 	}
@@ -26772,7 +30943,7 @@ func (o *InputSplunkSearch) GetStaleChannelFlushMs() *float64 {
 	return o.StaleChannelFlushMs
 }
 
-func (o *InputSplunkSearch) GetAuthType() *InputSplunkSearchAuthenticationType {
+func (o *InputSplunkSearch) GetAuthType() *AuthenticationTypeSplunkSearch {
 	if o == nil {
 		return nil
 	}
@@ -26863,76 +31034,119 @@ func (o *InputSplunkSearch) GetTokenTimeoutSecs() *float64 {
 	return o.TokenTimeoutSecs
 }
 
-func (o *InputSplunkSearch) GetOauthParams() []InputSplunkSearchOauthParam {
+func (o *InputSplunkSearch) GetOauthParams() []OauthParamSplunkSearch {
 	if o == nil {
 		return nil
 	}
 	return o.OauthParams
 }
 
-func (o *InputSplunkSearch) GetOauthHeaders() []InputSplunkSearchOauthHeader {
+func (o *InputSplunkSearch) GetOauthHeaders() []OauthHeaderSplunkSearch {
 	if o == nil {
 		return nil
 	}
 	return o.OauthHeaders
 }
 
-type InputSplunkType string
+type CreateInputTypeSplunk string
 
 const (
-	InputSplunkTypeSplunk InputSplunkType = "splunk"
+	CreateInputTypeSplunkSplunk CreateInputTypeSplunk = "splunk"
 )
 
-func (e InputSplunkType) ToPointer() *InputSplunkType {
+func (e CreateInputTypeSplunk) ToPointer() *CreateInputTypeSplunk {
 	return &e
 }
+func (e *CreateInputTypeSplunk) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "splunk":
+		*e = CreateInputTypeSplunk(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputTypeSplunk: %v", v)
+	}
+}
 
-type InputSplunkConnection struct {
+type ConnectionSplunk struct {
 	Pipeline *string `json:"pipeline,omitempty"`
 	Output   string  `json:"output"`
 }
 
-func (o *InputSplunkConnection) GetPipeline() *string {
+func (o *ConnectionSplunk) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputSplunkConnection) GetOutput() string {
+func (o *ConnectionSplunk) GetOutput() string {
 	if o == nil {
 		return ""
 	}
 	return o.Output
 }
 
-// InputSplunkMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type InputSplunkMode string
+// CreateInputModeSplunk - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+type CreateInputModeSplunk string
 
 const (
-	InputSplunkModeSmart  InputSplunkMode = "smart"
-	InputSplunkModeAlways InputSplunkMode = "always"
+	CreateInputModeSplunkSmart  CreateInputModeSplunk = "smart"
+	CreateInputModeSplunkAlways CreateInputModeSplunk = "always"
 )
 
-func (e InputSplunkMode) ToPointer() *InputSplunkMode {
+func (e CreateInputModeSplunk) ToPointer() *CreateInputModeSplunk {
 	return &e
 }
+func (e *CreateInputModeSplunk) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = CreateInputModeSplunk(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputModeSplunk: %v", v)
+	}
+}
 
-// InputSplunkPqCompression - Codec to use to compress the persisted data
-type InputSplunkPqCompression string
+// PqCompressionSplunk - Codec to use to compress the persisted data
+type PqCompressionSplunk string
 
 const (
-	InputSplunkPqCompressionNone InputSplunkPqCompression = "none"
-	InputSplunkPqCompressionGzip InputSplunkPqCompression = "gzip"
+	PqCompressionSplunkNone PqCompressionSplunk = "none"
+	PqCompressionSplunkGzip PqCompressionSplunk = "gzip"
 )
 
-func (e InputSplunkPqCompression) ToPointer() *InputSplunkPqCompression {
+func (e PqCompressionSplunk) ToPointer() *PqCompressionSplunk {
 	return &e
 }
+func (e *PqCompressionSplunk) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = PqCompressionSplunk(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for PqCompressionSplunk: %v", v)
+	}
+}
 
-type InputSplunkPq struct {
+type PqSplunk struct {
 	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *InputSplunkMode `default:"always" json:"mode"`
+	Mode *CreateInputModeSplunk `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
 	// The number of events to send downstream before committing that Stream has read them
@@ -26944,96 +31158,134 @@ type InputSplunkPq struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
 	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
 	// Codec to use to compress the persisted data
-	Compress *InputSplunkPqCompression `default:"none" json:"compress"`
+	Compress *PqCompressionSplunk `default:"none" json:"compress"`
 }
 
-func (i InputSplunkPq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PqSplunk) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputSplunkPq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PqSplunk) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputSplunkPq) GetMode() *InputSplunkMode {
+func (o *PqSplunk) GetMode() *CreateInputModeSplunk {
 	if o == nil {
 		return nil
 	}
 	return o.Mode
 }
 
-func (o *InputSplunkPq) GetMaxBufferSize() *float64 {
+func (o *PqSplunk) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputSplunkPq) GetCommitFrequency() *float64 {
+func (o *PqSplunk) GetCommitFrequency() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.CommitFrequency
 }
 
-func (o *InputSplunkPq) GetMaxFileSize() *string {
+func (o *PqSplunk) GetMaxFileSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxFileSize
 }
 
-func (o *InputSplunkPq) GetMaxSize() *string {
+func (o *PqSplunk) GetMaxSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxSize
 }
 
-func (o *InputSplunkPq) GetPath() *string {
+func (o *PqSplunk) GetPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Path
 }
 
-func (o *InputSplunkPq) GetCompress() *InputSplunkPqCompression {
+func (o *PqSplunk) GetCompress() *PqCompressionSplunk {
 	if o == nil {
 		return nil
 	}
 	return o.Compress
 }
 
-type InputSplunkMinimumTLSVersion string
+type CreateInputMinimumTLSVersionSplunk string
 
 const (
-	InputSplunkMinimumTLSVersionTlSv1  InputSplunkMinimumTLSVersion = "TLSv1"
-	InputSplunkMinimumTLSVersionTlSv11 InputSplunkMinimumTLSVersion = "TLSv1.1"
-	InputSplunkMinimumTLSVersionTlSv12 InputSplunkMinimumTLSVersion = "TLSv1.2"
-	InputSplunkMinimumTLSVersionTlSv13 InputSplunkMinimumTLSVersion = "TLSv1.3"
+	CreateInputMinimumTLSVersionSplunkTlSv1  CreateInputMinimumTLSVersionSplunk = "TLSv1"
+	CreateInputMinimumTLSVersionSplunkTlSv11 CreateInputMinimumTLSVersionSplunk = "TLSv1.1"
+	CreateInputMinimumTLSVersionSplunkTlSv12 CreateInputMinimumTLSVersionSplunk = "TLSv1.2"
+	CreateInputMinimumTLSVersionSplunkTlSv13 CreateInputMinimumTLSVersionSplunk = "TLSv1.3"
 )
 
-func (e InputSplunkMinimumTLSVersion) ToPointer() *InputSplunkMinimumTLSVersion {
+func (e CreateInputMinimumTLSVersionSplunk) ToPointer() *CreateInputMinimumTLSVersionSplunk {
 	return &e
 }
+func (e *CreateInputMinimumTLSVersionSplunk) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = CreateInputMinimumTLSVersionSplunk(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputMinimumTLSVersionSplunk: %v", v)
+	}
+}
 
-type InputSplunkMaximumTLSVersion string
+type CreateInputMaximumTLSVersionSplunk string
 
 const (
-	InputSplunkMaximumTLSVersionTlSv1  InputSplunkMaximumTLSVersion = "TLSv1"
-	InputSplunkMaximumTLSVersionTlSv11 InputSplunkMaximumTLSVersion = "TLSv1.1"
-	InputSplunkMaximumTLSVersionTlSv12 InputSplunkMaximumTLSVersion = "TLSv1.2"
-	InputSplunkMaximumTLSVersionTlSv13 InputSplunkMaximumTLSVersion = "TLSv1.3"
+	CreateInputMaximumTLSVersionSplunkTlSv1  CreateInputMaximumTLSVersionSplunk = "TLSv1"
+	CreateInputMaximumTLSVersionSplunkTlSv11 CreateInputMaximumTLSVersionSplunk = "TLSv1.1"
+	CreateInputMaximumTLSVersionSplunkTlSv12 CreateInputMaximumTLSVersionSplunk = "TLSv1.2"
+	CreateInputMaximumTLSVersionSplunkTlSv13 CreateInputMaximumTLSVersionSplunk = "TLSv1.3"
 )
 
-func (e InputSplunkMaximumTLSVersion) ToPointer() *InputSplunkMaximumTLSVersion {
+func (e CreateInputMaximumTLSVersionSplunk) ToPointer() *CreateInputMaximumTLSVersionSplunk {
 	return &e
 }
+func (e *CreateInputMaximumTLSVersionSplunk) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = CreateInputMaximumTLSVersionSplunk(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputMaximumTLSVersionSplunk: %v", v)
+	}
+}
 
-type InputSplunkTLSSettingsServerSide struct {
+type TLSSettingsServerSideSplunk struct {
 	Disabled *bool `default:"true" json:"disabled"`
 	// The name of the predefined certificate
 	CertificateName *string `json:"certificateName,omitempty"`
@@ -27046,135 +31298,135 @@ type InputSplunkTLSSettingsServerSide struct {
 	// Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS.
 	CaPath *string `json:"caPath,omitempty"`
 	// Require clients to present their certificates. Used to perform client authentication using SSL certs.
-	RequestCert        *bool                         `default:"false" json:"requestCert"`
-	RejectUnauthorized any                           `json:"rejectUnauthorized,omitempty"`
-	CommonNameRegex    any                           `json:"commonNameRegex,omitempty"`
-	MinVersion         *InputSplunkMinimumTLSVersion `json:"minVersion,omitempty"`
-	MaxVersion         *InputSplunkMaximumTLSVersion `json:"maxVersion,omitempty"`
+	RequestCert        *bool                               `default:"false" json:"requestCert"`
+	RejectUnauthorized any                                 `json:"rejectUnauthorized,omitempty"`
+	CommonNameRegex    any                                 `json:"commonNameRegex,omitempty"`
+	MinVersion         *CreateInputMinimumTLSVersionSplunk `json:"minVersion,omitempty"`
+	MaxVersion         *CreateInputMaximumTLSVersionSplunk `json:"maxVersion,omitempty"`
 }
 
-func (i InputSplunkTLSSettingsServerSide) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (t TLSSettingsServerSideSplunk) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(t, "", false)
 }
 
-func (i *InputSplunkTLSSettingsServerSide) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (t *TLSSettingsServerSideSplunk) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &t, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputSplunkTLSSettingsServerSide) GetDisabled() *bool {
+func (o *TLSSettingsServerSideSplunk) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *InputSplunkTLSSettingsServerSide) GetCertificateName() *string {
+func (o *TLSSettingsServerSideSplunk) GetCertificateName() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertificateName
 }
 
-func (o *InputSplunkTLSSettingsServerSide) GetPrivKeyPath() *string {
+func (o *TLSSettingsServerSideSplunk) GetPrivKeyPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.PrivKeyPath
 }
 
-func (o *InputSplunkTLSSettingsServerSide) GetPassphrase() *string {
+func (o *TLSSettingsServerSideSplunk) GetPassphrase() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Passphrase
 }
 
-func (o *InputSplunkTLSSettingsServerSide) GetCertPath() *string {
+func (o *TLSSettingsServerSideSplunk) GetCertPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertPath
 }
 
-func (o *InputSplunkTLSSettingsServerSide) GetCaPath() *string {
+func (o *TLSSettingsServerSideSplunk) GetCaPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CaPath
 }
 
-func (o *InputSplunkTLSSettingsServerSide) GetRequestCert() *bool {
+func (o *TLSSettingsServerSideSplunk) GetRequestCert() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.RequestCert
 }
 
-func (o *InputSplunkTLSSettingsServerSide) GetRejectUnauthorized() any {
+func (o *TLSSettingsServerSideSplunk) GetRejectUnauthorized() any {
 	if o == nil {
 		return nil
 	}
 	return o.RejectUnauthorized
 }
 
-func (o *InputSplunkTLSSettingsServerSide) GetCommonNameRegex() any {
+func (o *TLSSettingsServerSideSplunk) GetCommonNameRegex() any {
 	if o == nil {
 		return nil
 	}
 	return o.CommonNameRegex
 }
 
-func (o *InputSplunkTLSSettingsServerSide) GetMinVersion() *InputSplunkMinimumTLSVersion {
+func (o *TLSSettingsServerSideSplunk) GetMinVersion() *CreateInputMinimumTLSVersionSplunk {
 	if o == nil {
 		return nil
 	}
 	return o.MinVersion
 }
 
-func (o *InputSplunkTLSSettingsServerSide) GetMaxVersion() *InputSplunkMaximumTLSVersion {
+func (o *TLSSettingsServerSideSplunk) GetMaxVersion() *CreateInputMaximumTLSVersionSplunk {
 	if o == nil {
 		return nil
 	}
 	return o.MaxVersion
 }
 
-type InputSplunkMetadatum struct {
+type MetadatumSplunk struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputSplunkMetadatum) GetName() string {
+func (o *MetadatumSplunk) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputSplunkMetadatum) GetValue() string {
+func (o *MetadatumSplunk) GetValue() string {
 	if o == nil {
 		return ""
 	}
 	return o.Value
 }
 
-type InputSplunkAuthToken struct {
+type AuthTokenSplunk struct {
 	// Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted.
 	Token       string  `json:"token"`
 	Description *string `json:"description,omitempty"`
 }
 
-func (o *InputSplunkAuthToken) GetToken() string {
+func (o *AuthTokenSplunk) GetToken() string {
 	if o == nil {
 		return ""
 	}
 	return o.Token
 }
 
-func (o *InputSplunkAuthToken) GetDescription() *string {
+func (o *AuthTokenSplunk) GetDescription() *string {
 	if o == nil {
 		return nil
 	}
@@ -27192,25 +31444,57 @@ const (
 func (e CreateInputMaxS2SVersion) ToPointer() *CreateInputMaxS2SVersion {
 	return &e
 }
+func (e *CreateInputMaxS2SVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "v3":
+		fallthrough
+	case "v4":
+		*e = CreateInputMaxS2SVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputMaxS2SVersion: %v", v)
+	}
+}
 
-// InputSplunkCompression - Controls whether to support reading compressed data from a forwarder. Select 'Automatic' to match the forwarder's configuration, or 'Disabled' to reject compressed connections.
-type InputSplunkCompression string
+// CreateInputCompressionSplunk - Controls whether to support reading compressed data from a forwarder. Select 'Automatic' to match the forwarder's configuration, or 'Disabled' to reject compressed connections.
+type CreateInputCompressionSplunk string
 
 const (
-	InputSplunkCompressionDisabled InputSplunkCompression = "disabled"
-	InputSplunkCompressionAuto     InputSplunkCompression = "auto"
-	InputSplunkCompressionAlways   InputSplunkCompression = "always"
+	CreateInputCompressionSplunkDisabled CreateInputCompressionSplunk = "disabled"
+	CreateInputCompressionSplunkAuto     CreateInputCompressionSplunk = "auto"
+	CreateInputCompressionSplunkAlways   CreateInputCompressionSplunk = "always"
 )
 
-func (e InputSplunkCompression) ToPointer() *InputSplunkCompression {
+func (e CreateInputCompressionSplunk) ToPointer() *CreateInputCompressionSplunk {
 	return &e
+}
+func (e *CreateInputCompressionSplunk) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "disabled":
+		fallthrough
+	case "auto":
+		fallthrough
+	case "always":
+		*e = CreateInputCompressionSplunk(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputCompressionSplunk: %v", v)
+	}
 }
 
 type InputSplunk struct {
 	// Unique ID for this input
-	ID       string           `json:"id"`
-	Type     *InputSplunkType `json:"type,omitempty"`
-	Disabled *bool            `default:"false" json:"disabled"`
+	ID       string                 `json:"id"`
+	Type     *CreateInputTypeSplunk `json:"type,omitempty"`
+	Disabled *bool                  `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -27222,13 +31506,13 @@ type InputSplunk struct {
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputSplunkConnection `json:"connections,omitempty"`
-	Pq          *InputSplunkPq          `json:"pq,omitempty"`
+	Connections []ConnectionSplunk `json:"connections,omitempty"`
+	Pq          *PqSplunk          `json:"pq,omitempty"`
 	// Address to bind on. Defaults to 0.0.0.0 (all addresses).
 	Host *string `default:"0.0.0.0" json:"host"`
 	// Port to listen on
-	Port float64                           `json:"port"`
-	TLS  *InputSplunkTLSSettingsServerSide `json:"tls,omitempty"`
+	Port float64                      `json:"port"`
+	TLS  *TLSSettingsServerSideSplunk `json:"tls,omitempty"`
 	// Regex matching IP addresses that are allowed to establish a connection
 	IPWhitelistRegex *string `default:"/.*/" json:"ipWhitelistRegex"`
 	// Maximum number of active connections allowed per Worker Process. Use 0 for unlimited.
@@ -27242,13 +31526,13 @@ type InputSplunk struct {
 	// Enable if the connection is proxied by a device that supports proxy protocol v1 or v2
 	EnableProxyHeader *bool `default:"false" json:"enableProxyHeader"`
 	// Fields to add to events from this input
-	Metadata []InputSplunkMetadatum `json:"metadata,omitempty"`
+	Metadata []MetadatumSplunk `json:"metadata,omitempty"`
 	// A list of event-breaking rulesets that will be applied, in order, to the input data stream
 	BreakerRulesets []string `json:"breakerRulesets,omitempty"`
 	// How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines
 	StaleChannelFlushMs *float64 `default:"10000" json:"staleChannelFlushMs"`
 	// Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted.
-	AuthTokens []InputSplunkAuthToken `json:"authTokens,omitempty"`
+	AuthTokens []AuthTokenSplunk `json:"authTokens,omitempty"`
 	// The highest S2S protocol version to advertise during handshake
 	MaxS2Sversion *CreateInputMaxS2SVersion `default:"v3" json:"maxS2Sversion"`
 	Description   *string                   `json:"description,omitempty"`
@@ -27259,7 +31543,7 @@ type InputSplunk struct {
 	// Extract and process Splunk-generated metrics as Cribl metrics
 	ExtractMetrics *bool `default:"false" json:"extractMetrics"`
 	// Controls whether to support reading compressed data from a forwarder. Select 'Automatic' to match the forwarder's configuration, or 'Disabled' to reject compressed connections.
-	Compress *InputSplunkCompression `default:"disabled" json:"compress"`
+	Compress *CreateInputCompressionSplunk `default:"disabled" json:"compress"`
 }
 
 func (i InputSplunk) MarshalJSON() ([]byte, error) {
@@ -27280,7 +31564,7 @@ func (o *InputSplunk) GetID() string {
 	return o.ID
 }
 
-func (o *InputSplunk) GetType() *InputSplunkType {
+func (o *InputSplunk) GetType() *CreateInputTypeSplunk {
 	if o == nil {
 		return nil
 	}
@@ -27329,14 +31613,14 @@ func (o *InputSplunk) GetStreamtags() []string {
 	return o.Streamtags
 }
 
-func (o *InputSplunk) GetConnections() []InputSplunkConnection {
+func (o *InputSplunk) GetConnections() []ConnectionSplunk {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputSplunk) GetPq() *InputSplunkPq {
+func (o *InputSplunk) GetPq() *PqSplunk {
 	if o == nil {
 		return nil
 	}
@@ -27357,7 +31641,7 @@ func (o *InputSplunk) GetPort() float64 {
 	return o.Port
 }
 
-func (o *InputSplunk) GetTLS() *InputSplunkTLSSettingsServerSide {
+func (o *InputSplunk) GetTLS() *TLSSettingsServerSideSplunk {
 	if o == nil {
 		return nil
 	}
@@ -27406,7 +31690,7 @@ func (o *InputSplunk) GetEnableProxyHeader() *bool {
 	return o.EnableProxyHeader
 }
 
-func (o *InputSplunk) GetMetadata() []InputSplunkMetadatum {
+func (o *InputSplunk) GetMetadata() []MetadatumSplunk {
 	if o == nil {
 		return nil
 	}
@@ -27427,7 +31711,7 @@ func (o *InputSplunk) GetStaleChannelFlushMs() *float64 {
 	return o.StaleChannelFlushMs
 }
 
-func (o *InputSplunk) GetAuthTokens() []InputSplunkAuthToken {
+func (o *InputSplunk) GetAuthTokens() []AuthTokenSplunk {
 	if o == nil {
 		return nil
 	}
@@ -27469,69 +31753,112 @@ func (o *InputSplunk) GetExtractMetrics() *bool {
 	return o.ExtractMetrics
 }
 
-func (o *InputSplunk) GetCompress() *InputSplunkCompression {
+func (o *InputSplunk) GetCompress() *CreateInputCompressionSplunk {
 	if o == nil {
 		return nil
 	}
 	return o.Compress
 }
 
-type InputHTTPType string
+type CreateInputTypeHTTP string
 
 const (
-	InputHTTPTypeHTTP InputHTTPType = "http"
+	CreateInputTypeHTTPHTTP CreateInputTypeHTTP = "http"
 )
 
-func (e InputHTTPType) ToPointer() *InputHTTPType {
+func (e CreateInputTypeHTTP) ToPointer() *CreateInputTypeHTTP {
 	return &e
 }
+func (e *CreateInputTypeHTTP) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "http":
+		*e = CreateInputTypeHTTP(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputTypeHTTP: %v", v)
+	}
+}
 
-type InputHTTPConnection struct {
+type ConnectionHTTP struct {
 	Pipeline *string `json:"pipeline,omitempty"`
 	Output   string  `json:"output"`
 }
 
-func (o *InputHTTPConnection) GetPipeline() *string {
+func (o *ConnectionHTTP) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputHTTPConnection) GetOutput() string {
+func (o *ConnectionHTTP) GetOutput() string {
 	if o == nil {
 		return ""
 	}
 	return o.Output
 }
 
-// InputHTTPMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type InputHTTPMode string
+// CreateInputModeHTTP - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+type CreateInputModeHTTP string
 
 const (
-	InputHTTPModeSmart  InputHTTPMode = "smart"
-	InputHTTPModeAlways InputHTTPMode = "always"
+	CreateInputModeHTTPSmart  CreateInputModeHTTP = "smart"
+	CreateInputModeHTTPAlways CreateInputModeHTTP = "always"
 )
 
-func (e InputHTTPMode) ToPointer() *InputHTTPMode {
+func (e CreateInputModeHTTP) ToPointer() *CreateInputModeHTTP {
 	return &e
 }
+func (e *CreateInputModeHTTP) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = CreateInputModeHTTP(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputModeHTTP: %v", v)
+	}
+}
 
-// InputHTTPCompression - Codec to use to compress the persisted data
-type InputHTTPCompression string
+// PqCompressionHTTP - Codec to use to compress the persisted data
+type PqCompressionHTTP string
 
 const (
-	InputHTTPCompressionNone InputHTTPCompression = "none"
-	InputHTTPCompressionGzip InputHTTPCompression = "gzip"
+	PqCompressionHTTPNone PqCompressionHTTP = "none"
+	PqCompressionHTTPGzip PqCompressionHTTP = "gzip"
 )
 
-func (e InputHTTPCompression) ToPointer() *InputHTTPCompression {
+func (e PqCompressionHTTP) ToPointer() *PqCompressionHTTP {
 	return &e
 }
+func (e *PqCompressionHTTP) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = PqCompressionHTTP(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for PqCompressionHTTP: %v", v)
+	}
+}
 
-type InputHTTPPq struct {
+type PqHTTP struct {
 	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *InputHTTPMode `default:"always" json:"mode"`
+	Mode *CreateInputModeHTTP `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
 	// The number of events to send downstream before committing that Stream has read them
@@ -27543,96 +31870,134 @@ type InputHTTPPq struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
 	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
 	// Codec to use to compress the persisted data
-	Compress *InputHTTPCompression `default:"none" json:"compress"`
+	Compress *PqCompressionHTTP `default:"none" json:"compress"`
 }
 
-func (i InputHTTPPq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PqHTTP) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputHTTPPq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PqHTTP) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputHTTPPq) GetMode() *InputHTTPMode {
+func (o *PqHTTP) GetMode() *CreateInputModeHTTP {
 	if o == nil {
 		return nil
 	}
 	return o.Mode
 }
 
-func (o *InputHTTPPq) GetMaxBufferSize() *float64 {
+func (o *PqHTTP) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputHTTPPq) GetCommitFrequency() *float64 {
+func (o *PqHTTP) GetCommitFrequency() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.CommitFrequency
 }
 
-func (o *InputHTTPPq) GetMaxFileSize() *string {
+func (o *PqHTTP) GetMaxFileSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxFileSize
 }
 
-func (o *InputHTTPPq) GetMaxSize() *string {
+func (o *PqHTTP) GetMaxSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxSize
 }
 
-func (o *InputHTTPPq) GetPath() *string {
+func (o *PqHTTP) GetPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Path
 }
 
-func (o *InputHTTPPq) GetCompress() *InputHTTPCompression {
+func (o *PqHTTP) GetCompress() *PqCompressionHTTP {
 	if o == nil {
 		return nil
 	}
 	return o.Compress
 }
 
-type InputHTTPMinimumTLSVersion string
+type MinimumTLSVersionHTTP string
 
 const (
-	InputHTTPMinimumTLSVersionTlSv1  InputHTTPMinimumTLSVersion = "TLSv1"
-	InputHTTPMinimumTLSVersionTlSv11 InputHTTPMinimumTLSVersion = "TLSv1.1"
-	InputHTTPMinimumTLSVersionTlSv12 InputHTTPMinimumTLSVersion = "TLSv1.2"
-	InputHTTPMinimumTLSVersionTlSv13 InputHTTPMinimumTLSVersion = "TLSv1.3"
+	MinimumTLSVersionHTTPTlSv1  MinimumTLSVersionHTTP = "TLSv1"
+	MinimumTLSVersionHTTPTlSv11 MinimumTLSVersionHTTP = "TLSv1.1"
+	MinimumTLSVersionHTTPTlSv12 MinimumTLSVersionHTTP = "TLSv1.2"
+	MinimumTLSVersionHTTPTlSv13 MinimumTLSVersionHTTP = "TLSv1.3"
 )
 
-func (e InputHTTPMinimumTLSVersion) ToPointer() *InputHTTPMinimumTLSVersion {
+func (e MinimumTLSVersionHTTP) ToPointer() *MinimumTLSVersionHTTP {
 	return &e
 }
+func (e *MinimumTLSVersionHTTP) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = MinimumTLSVersionHTTP(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for MinimumTLSVersionHTTP: %v", v)
+	}
+}
 
-type InputHTTPMaximumTLSVersion string
+type MaximumTLSVersionHTTP string
 
 const (
-	InputHTTPMaximumTLSVersionTlSv1  InputHTTPMaximumTLSVersion = "TLSv1"
-	InputHTTPMaximumTLSVersionTlSv11 InputHTTPMaximumTLSVersion = "TLSv1.1"
-	InputHTTPMaximumTLSVersionTlSv12 InputHTTPMaximumTLSVersion = "TLSv1.2"
-	InputHTTPMaximumTLSVersionTlSv13 InputHTTPMaximumTLSVersion = "TLSv1.3"
+	MaximumTLSVersionHTTPTlSv1  MaximumTLSVersionHTTP = "TLSv1"
+	MaximumTLSVersionHTTPTlSv11 MaximumTLSVersionHTTP = "TLSv1.1"
+	MaximumTLSVersionHTTPTlSv12 MaximumTLSVersionHTTP = "TLSv1.2"
+	MaximumTLSVersionHTTPTlSv13 MaximumTLSVersionHTTP = "TLSv1.3"
 )
 
-func (e InputHTTPMaximumTLSVersion) ToPointer() *InputHTTPMaximumTLSVersion {
+func (e MaximumTLSVersionHTTP) ToPointer() *MaximumTLSVersionHTTP {
 	return &e
 }
+func (e *MaximumTLSVersionHTTP) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = MaximumTLSVersionHTTP(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for MaximumTLSVersionHTTP: %v", v)
+	}
+}
 
-type InputHTTPTLSSettingsServerSide struct {
+type TLSSettingsServerSideHTTP struct {
 	Disabled *bool `default:"true" json:"disabled"`
 	// The name of the predefined certificate
 	CertificateName *string `json:"certificateName,omitempty"`
@@ -27645,164 +32010,164 @@ type InputHTTPTLSSettingsServerSide struct {
 	// Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS.
 	CaPath *string `json:"caPath,omitempty"`
 	// Require clients to present their certificates. Used to perform client authentication using SSL certs.
-	RequestCert        *bool                       `default:"false" json:"requestCert"`
-	RejectUnauthorized any                         `json:"rejectUnauthorized,omitempty"`
-	CommonNameRegex    any                         `json:"commonNameRegex,omitempty"`
-	MinVersion         *InputHTTPMinimumTLSVersion `json:"minVersion,omitempty"`
-	MaxVersion         *InputHTTPMaximumTLSVersion `json:"maxVersion,omitempty"`
+	RequestCert        *bool                  `default:"false" json:"requestCert"`
+	RejectUnauthorized any                    `json:"rejectUnauthorized,omitempty"`
+	CommonNameRegex    any                    `json:"commonNameRegex,omitempty"`
+	MinVersion         *MinimumTLSVersionHTTP `json:"minVersion,omitempty"`
+	MaxVersion         *MaximumTLSVersionHTTP `json:"maxVersion,omitempty"`
 }
 
-func (i InputHTTPTLSSettingsServerSide) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (t TLSSettingsServerSideHTTP) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(t, "", false)
 }
 
-func (i *InputHTTPTLSSettingsServerSide) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (t *TLSSettingsServerSideHTTP) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &t, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputHTTPTLSSettingsServerSide) GetDisabled() *bool {
+func (o *TLSSettingsServerSideHTTP) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *InputHTTPTLSSettingsServerSide) GetCertificateName() *string {
+func (o *TLSSettingsServerSideHTTP) GetCertificateName() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertificateName
 }
 
-func (o *InputHTTPTLSSettingsServerSide) GetPrivKeyPath() *string {
+func (o *TLSSettingsServerSideHTTP) GetPrivKeyPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.PrivKeyPath
 }
 
-func (o *InputHTTPTLSSettingsServerSide) GetPassphrase() *string {
+func (o *TLSSettingsServerSideHTTP) GetPassphrase() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Passphrase
 }
 
-func (o *InputHTTPTLSSettingsServerSide) GetCertPath() *string {
+func (o *TLSSettingsServerSideHTTP) GetCertPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertPath
 }
 
-func (o *InputHTTPTLSSettingsServerSide) GetCaPath() *string {
+func (o *TLSSettingsServerSideHTTP) GetCaPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CaPath
 }
 
-func (o *InputHTTPTLSSettingsServerSide) GetRequestCert() *bool {
+func (o *TLSSettingsServerSideHTTP) GetRequestCert() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.RequestCert
 }
 
-func (o *InputHTTPTLSSettingsServerSide) GetRejectUnauthorized() any {
+func (o *TLSSettingsServerSideHTTP) GetRejectUnauthorized() any {
 	if o == nil {
 		return nil
 	}
 	return o.RejectUnauthorized
 }
 
-func (o *InputHTTPTLSSettingsServerSide) GetCommonNameRegex() any {
+func (o *TLSSettingsServerSideHTTP) GetCommonNameRegex() any {
 	if o == nil {
 		return nil
 	}
 	return o.CommonNameRegex
 }
 
-func (o *InputHTTPTLSSettingsServerSide) GetMinVersion() *InputHTTPMinimumTLSVersion {
+func (o *TLSSettingsServerSideHTTP) GetMinVersion() *MinimumTLSVersionHTTP {
 	if o == nil {
 		return nil
 	}
 	return o.MinVersion
 }
 
-func (o *InputHTTPTLSSettingsServerSide) GetMaxVersion() *InputHTTPMaximumTLSVersion {
+func (o *TLSSettingsServerSideHTTP) GetMaxVersion() *MaximumTLSVersionHTTP {
 	if o == nil {
 		return nil
 	}
 	return o.MaxVersion
 }
 
-type InputHTTPMetadatum struct {
+type CreateInputMetadatumHTTP struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputHTTPMetadatum) GetName() string {
+func (o *CreateInputMetadatumHTTP) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputHTTPMetadatum) GetValue() string {
+func (o *CreateInputMetadatumHTTP) GetValue() string {
 	if o == nil {
 		return ""
 	}
 	return o.Value
 }
 
-type InputHTTPAuthTokensExtMetadatum struct {
+type AuthTokensExtMetadatumHTTP struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputHTTPAuthTokensExtMetadatum) GetName() string {
+func (o *AuthTokensExtMetadatumHTTP) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputHTTPAuthTokensExtMetadatum) GetValue() string {
+func (o *AuthTokensExtMetadatumHTTP) GetValue() string {
 	if o == nil {
 		return ""
 	}
 	return o.Value
 }
 
-type InputHTTPAuthTokensExt struct {
+type AuthTokensExtHTTP struct {
 	// Shared secret to be provided by any client (Authorization: <token>)
 	Token       string  `json:"token"`
 	Description *string `json:"description,omitempty"`
 	// Fields to add to events referencing this token
-	Metadata []InputHTTPAuthTokensExtMetadatum `json:"metadata,omitempty"`
+	Metadata []AuthTokensExtMetadatumHTTP `json:"metadata,omitempty"`
 }
 
-func (o *InputHTTPAuthTokensExt) GetToken() string {
+func (o *AuthTokensExtHTTP) GetToken() string {
 	if o == nil {
 		return ""
 	}
 	return o.Token
 }
 
-func (o *InputHTTPAuthTokensExt) GetDescription() *string {
+func (o *AuthTokensExtHTTP) GetDescription() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Description
 }
 
-func (o *InputHTTPAuthTokensExt) GetMetadata() []InputHTTPAuthTokensExtMetadatum {
+func (o *AuthTokensExtHTTP) GetMetadata() []AuthTokensExtMetadatumHTTP {
 	if o == nil {
 		return nil
 	}
@@ -27811,9 +32176,9 @@ func (o *InputHTTPAuthTokensExt) GetMetadata() []InputHTTPAuthTokensExtMetadatum
 
 type InputHTTP struct {
 	// Unique ID for this input
-	ID       string         `json:"id"`
-	Type     *InputHTTPType `json:"type,omitempty"`
-	Disabled *bool          `default:"false" json:"disabled"`
+	ID       string               `json:"id"`
+	Type     *CreateInputTypeHTTP `json:"type,omitempty"`
+	Disabled *bool                `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -27825,15 +32190,15 @@ type InputHTTP struct {
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputHTTPConnection `json:"connections,omitempty"`
-	Pq          *InputHTTPPq          `json:"pq,omitempty"`
+	Connections []ConnectionHTTP `json:"connections,omitempty"`
+	Pq          *PqHTTP          `json:"pq,omitempty"`
 	// Address to bind on. Defaults to 0.0.0.0 (all addresses).
 	Host *string `default:"0.0.0.0" json:"host"`
 	// Port to listen on
 	Port float64 `json:"port"`
 	// Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted.
-	AuthTokens []string                        `json:"authTokens,omitempty"`
-	TLS        *InputHTTPTLSSettingsServerSide `json:"tls,omitempty"`
+	AuthTokens []string                   `json:"authTokens,omitempty"`
+	TLS        *TLSSettingsServerSideHTTP `json:"tls,omitempty"`
 	// Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput.
 	MaxActiveReq *float64 `default:"256" json:"maxActiveReq"`
 	// Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited).
@@ -27864,10 +32229,10 @@ type InputHTTP struct {
 	SplunkHecAPI  *string `default:"/services/collector" json:"splunkHecAPI"`
 	SplunkHecAcks *bool   `default:"false" json:"splunkHecAcks"`
 	// Fields to add to events from this input
-	Metadata []InputHTTPMetadatum `json:"metadata,omitempty"`
+	Metadata []CreateInputMetadatumHTTP `json:"metadata,omitempty"`
 	// Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted.
-	AuthTokensExt []InputHTTPAuthTokensExt `json:"authTokensExt,omitempty"`
-	Description   *string                  `json:"description,omitempty"`
+	AuthTokensExt []AuthTokensExtHTTP `json:"authTokensExt,omitempty"`
+	Description   *string             `json:"description,omitempty"`
 }
 
 func (i InputHTTP) MarshalJSON() ([]byte, error) {
@@ -27888,7 +32253,7 @@ func (o *InputHTTP) GetID() string {
 	return o.ID
 }
 
-func (o *InputHTTP) GetType() *InputHTTPType {
+func (o *InputHTTP) GetType() *CreateInputTypeHTTP {
 	if o == nil {
 		return nil
 	}
@@ -27937,14 +32302,14 @@ func (o *InputHTTP) GetStreamtags() []string {
 	return o.Streamtags
 }
 
-func (o *InputHTTP) GetConnections() []InputHTTPConnection {
+func (o *InputHTTP) GetConnections() []ConnectionHTTP {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputHTTP) GetPq() *InputHTTPPq {
+func (o *InputHTTP) GetPq() *PqHTTP {
 	if o == nil {
 		return nil
 	}
@@ -27972,7 +32337,7 @@ func (o *InputHTTP) GetAuthTokens() []string {
 	return o.AuthTokens
 }
 
-func (o *InputHTTP) GetTLS() *InputHTTPTLSSettingsServerSide {
+func (o *InputHTTP) GetTLS() *TLSSettingsServerSideHTTP {
 	if o == nil {
 		return nil
 	}
@@ -28084,14 +32449,14 @@ func (o *InputHTTP) GetSplunkHecAcks() *bool {
 	return o.SplunkHecAcks
 }
 
-func (o *InputHTTP) GetMetadata() []InputHTTPMetadatum {
+func (o *InputHTTP) GetMetadata() []CreateInputMetadatumHTTP {
 	if o == nil {
 		return nil
 	}
 	return o.Metadata
 }
 
-func (o *InputHTTP) GetAuthTokensExt() []InputHTTPAuthTokensExt {
+func (o *InputHTTP) GetAuthTokensExt() []AuthTokensExtHTTP {
 	if o == nil {
 		return nil
 	}
@@ -28105,62 +32470,105 @@ func (o *InputHTTP) GetDescription() *string {
 	return o.Description
 }
 
-type InputMskType string
+type CreateInputTypeMsk string
 
 const (
-	InputMskTypeMsk InputMskType = "msk"
+	CreateInputTypeMskMsk CreateInputTypeMsk = "msk"
 )
 
-func (e InputMskType) ToPointer() *InputMskType {
+func (e CreateInputTypeMsk) ToPointer() *CreateInputTypeMsk {
 	return &e
 }
+func (e *CreateInputTypeMsk) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "msk":
+		*e = CreateInputTypeMsk(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputTypeMsk: %v", v)
+	}
+}
 
-type InputMskConnection struct {
+type ConnectionMsk struct {
 	Pipeline *string `json:"pipeline,omitempty"`
 	Output   string  `json:"output"`
 }
 
-func (o *InputMskConnection) GetPipeline() *string {
+func (o *ConnectionMsk) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputMskConnection) GetOutput() string {
+func (o *ConnectionMsk) GetOutput() string {
 	if o == nil {
 		return ""
 	}
 	return o.Output
 }
 
-// InputMskMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type InputMskMode string
+// CreateInputModeMsk - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+type CreateInputModeMsk string
 
 const (
-	InputMskModeSmart  InputMskMode = "smart"
-	InputMskModeAlways InputMskMode = "always"
+	CreateInputModeMskSmart  CreateInputModeMsk = "smart"
+	CreateInputModeMskAlways CreateInputModeMsk = "always"
 )
 
-func (e InputMskMode) ToPointer() *InputMskMode {
+func (e CreateInputModeMsk) ToPointer() *CreateInputModeMsk {
 	return &e
 }
+func (e *CreateInputModeMsk) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = CreateInputModeMsk(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputModeMsk: %v", v)
+	}
+}
 
-// InputMskCompression - Codec to use to compress the persisted data
-type InputMskCompression string
+// PqCompressionMsk - Codec to use to compress the persisted data
+type PqCompressionMsk string
 
 const (
-	InputMskCompressionNone InputMskCompression = "none"
-	InputMskCompressionGzip InputMskCompression = "gzip"
+	PqCompressionMskNone PqCompressionMsk = "none"
+	PqCompressionMskGzip PqCompressionMsk = "gzip"
 )
 
-func (e InputMskCompression) ToPointer() *InputMskCompression {
+func (e PqCompressionMsk) ToPointer() *PqCompressionMsk {
 	return &e
 }
+func (e *PqCompressionMsk) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = PqCompressionMsk(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for PqCompressionMsk: %v", v)
+	}
+}
 
-type InputMskPq struct {
+type PqMsk struct {
 	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *InputMskMode `default:"always" json:"mode"`
+	Mode *CreateInputModeMsk `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
 	// The number of events to send downstream before committing that Stream has read them
@@ -28172,148 +32580,186 @@ type InputMskPq struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
 	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
 	// Codec to use to compress the persisted data
-	Compress *InputMskCompression `default:"none" json:"compress"`
+	Compress *PqCompressionMsk `default:"none" json:"compress"`
 }
 
-func (i InputMskPq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PqMsk) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputMskPq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PqMsk) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputMskPq) GetMode() *InputMskMode {
+func (o *PqMsk) GetMode() *CreateInputModeMsk {
 	if o == nil {
 		return nil
 	}
 	return o.Mode
 }
 
-func (o *InputMskPq) GetMaxBufferSize() *float64 {
+func (o *PqMsk) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputMskPq) GetCommitFrequency() *float64 {
+func (o *PqMsk) GetCommitFrequency() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.CommitFrequency
 }
 
-func (o *InputMskPq) GetMaxFileSize() *string {
+func (o *PqMsk) GetMaxFileSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxFileSize
 }
 
-func (o *InputMskPq) GetMaxSize() *string {
+func (o *PqMsk) GetMaxSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxSize
 }
 
-func (o *InputMskPq) GetPath() *string {
+func (o *PqMsk) GetPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Path
 }
 
-func (o *InputMskPq) GetCompress() *InputMskCompression {
+func (o *PqMsk) GetCompress() *PqCompressionMsk {
 	if o == nil {
 		return nil
 	}
 	return o.Compress
 }
 
-type InputMskMetadatum struct {
+type MetadatumMsk struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputMskMetadatum) GetName() string {
+func (o *MetadatumMsk) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputMskMetadatum) GetValue() string {
+func (o *MetadatumMsk) GetValue() string {
 	if o == nil {
 		return ""
 	}
 	return o.Value
 }
 
-// InputMskAuth - Credentials to use when authenticating with the schema registry using basic HTTP authentication
-type InputMskAuth struct {
+// CreateInputAuthMsk - Credentials to use when authenticating with the schema registry using basic HTTP authentication
+type CreateInputAuthMsk struct {
 	Disabled *bool `default:"true" json:"disabled"`
 	// Select or create a secret that references your credentials
 	CredentialsSecret *string `json:"credentialsSecret,omitempty"`
 }
 
-func (i InputMskAuth) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (c CreateInputAuthMsk) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(c, "", false)
 }
 
-func (i *InputMskAuth) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (c *CreateInputAuthMsk) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &c, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputMskAuth) GetDisabled() *bool {
+func (o *CreateInputAuthMsk) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *InputMskAuth) GetCredentialsSecret() *string {
+func (o *CreateInputAuthMsk) GetCredentialsSecret() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CredentialsSecret
 }
 
-type InputMskKafkaSchemaRegistryMinimumTLSVersion string
+type CreateInputKafkaSchemaRegistryMinimumTLSVersionMsk string
 
 const (
-	InputMskKafkaSchemaRegistryMinimumTLSVersionTlSv1  InputMskKafkaSchemaRegistryMinimumTLSVersion = "TLSv1"
-	InputMskKafkaSchemaRegistryMinimumTLSVersionTlSv11 InputMskKafkaSchemaRegistryMinimumTLSVersion = "TLSv1.1"
-	InputMskKafkaSchemaRegistryMinimumTLSVersionTlSv12 InputMskKafkaSchemaRegistryMinimumTLSVersion = "TLSv1.2"
-	InputMskKafkaSchemaRegistryMinimumTLSVersionTlSv13 InputMskKafkaSchemaRegistryMinimumTLSVersion = "TLSv1.3"
+	CreateInputKafkaSchemaRegistryMinimumTLSVersionMskTlSv1  CreateInputKafkaSchemaRegistryMinimumTLSVersionMsk = "TLSv1"
+	CreateInputKafkaSchemaRegistryMinimumTLSVersionMskTlSv11 CreateInputKafkaSchemaRegistryMinimumTLSVersionMsk = "TLSv1.1"
+	CreateInputKafkaSchemaRegistryMinimumTLSVersionMskTlSv12 CreateInputKafkaSchemaRegistryMinimumTLSVersionMsk = "TLSv1.2"
+	CreateInputKafkaSchemaRegistryMinimumTLSVersionMskTlSv13 CreateInputKafkaSchemaRegistryMinimumTLSVersionMsk = "TLSv1.3"
 )
 
-func (e InputMskKafkaSchemaRegistryMinimumTLSVersion) ToPointer() *InputMskKafkaSchemaRegistryMinimumTLSVersion {
+func (e CreateInputKafkaSchemaRegistryMinimumTLSVersionMsk) ToPointer() *CreateInputKafkaSchemaRegistryMinimumTLSVersionMsk {
 	return &e
 }
+func (e *CreateInputKafkaSchemaRegistryMinimumTLSVersionMsk) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = CreateInputKafkaSchemaRegistryMinimumTLSVersionMsk(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputKafkaSchemaRegistryMinimumTLSVersionMsk: %v", v)
+	}
+}
 
-type InputMskKafkaSchemaRegistryMaximumTLSVersion string
+type CreateInputKafkaSchemaRegistryMaximumTLSVersionMsk string
 
 const (
-	InputMskKafkaSchemaRegistryMaximumTLSVersionTlSv1  InputMskKafkaSchemaRegistryMaximumTLSVersion = "TLSv1"
-	InputMskKafkaSchemaRegistryMaximumTLSVersionTlSv11 InputMskKafkaSchemaRegistryMaximumTLSVersion = "TLSv1.1"
-	InputMskKafkaSchemaRegistryMaximumTLSVersionTlSv12 InputMskKafkaSchemaRegistryMaximumTLSVersion = "TLSv1.2"
-	InputMskKafkaSchemaRegistryMaximumTLSVersionTlSv13 InputMskKafkaSchemaRegistryMaximumTLSVersion = "TLSv1.3"
+	CreateInputKafkaSchemaRegistryMaximumTLSVersionMskTlSv1  CreateInputKafkaSchemaRegistryMaximumTLSVersionMsk = "TLSv1"
+	CreateInputKafkaSchemaRegistryMaximumTLSVersionMskTlSv11 CreateInputKafkaSchemaRegistryMaximumTLSVersionMsk = "TLSv1.1"
+	CreateInputKafkaSchemaRegistryMaximumTLSVersionMskTlSv12 CreateInputKafkaSchemaRegistryMaximumTLSVersionMsk = "TLSv1.2"
+	CreateInputKafkaSchemaRegistryMaximumTLSVersionMskTlSv13 CreateInputKafkaSchemaRegistryMaximumTLSVersionMsk = "TLSv1.3"
 )
 
-func (e InputMskKafkaSchemaRegistryMaximumTLSVersion) ToPointer() *InputMskKafkaSchemaRegistryMaximumTLSVersion {
+func (e CreateInputKafkaSchemaRegistryMaximumTLSVersionMsk) ToPointer() *CreateInputKafkaSchemaRegistryMaximumTLSVersionMsk {
 	return &e
 }
+func (e *CreateInputKafkaSchemaRegistryMaximumTLSVersionMsk) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = CreateInputKafkaSchemaRegistryMaximumTLSVersionMsk(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputKafkaSchemaRegistryMaximumTLSVersionMsk: %v", v)
+	}
+}
 
-type InputMskKafkaSchemaRegistryTLSSettingsClientSide struct {
+type CreateInputKafkaSchemaRegistryTLSSettingsClientSideMsk struct {
 	Disabled *bool `default:"true" json:"disabled"`
 	// Reject certificates that are not authorized by a CA in the CA certificate path, or by another
 	//                     trusted CA (such as the system's). Defaults to Enabled. Overrides the toggle from Advanced Settings, when also present.
@@ -28329,93 +32775,93 @@ type InputMskKafkaSchemaRegistryTLSSettingsClientSide struct {
 	// Path on client in which to find certificates to use. PEM format. Can reference $ENV_VARS.
 	CertPath *string `json:"certPath,omitempty"`
 	// Passphrase to use to decrypt private key
-	Passphrase *string                                       `json:"passphrase,omitempty"`
-	MinVersion *InputMskKafkaSchemaRegistryMinimumTLSVersion `json:"minVersion,omitempty"`
-	MaxVersion *InputMskKafkaSchemaRegistryMaximumTLSVersion `json:"maxVersion,omitempty"`
+	Passphrase *string                                             `json:"passphrase,omitempty"`
+	MinVersion *CreateInputKafkaSchemaRegistryMinimumTLSVersionMsk `json:"minVersion,omitempty"`
+	MaxVersion *CreateInputKafkaSchemaRegistryMaximumTLSVersionMsk `json:"maxVersion,omitempty"`
 }
 
-func (i InputMskKafkaSchemaRegistryTLSSettingsClientSide) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (c CreateInputKafkaSchemaRegistryTLSSettingsClientSideMsk) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(c, "", false)
 }
 
-func (i *InputMskKafkaSchemaRegistryTLSSettingsClientSide) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (c *CreateInputKafkaSchemaRegistryTLSSettingsClientSideMsk) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &c, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputMskKafkaSchemaRegistryTLSSettingsClientSide) GetDisabled() *bool {
+func (o *CreateInputKafkaSchemaRegistryTLSSettingsClientSideMsk) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *InputMskKafkaSchemaRegistryTLSSettingsClientSide) GetRejectUnauthorized() *bool {
+func (o *CreateInputKafkaSchemaRegistryTLSSettingsClientSideMsk) GetRejectUnauthorized() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.RejectUnauthorized
 }
 
-func (o *InputMskKafkaSchemaRegistryTLSSettingsClientSide) GetServername() *string {
+func (o *CreateInputKafkaSchemaRegistryTLSSettingsClientSideMsk) GetServername() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Servername
 }
 
-func (o *InputMskKafkaSchemaRegistryTLSSettingsClientSide) GetCertificateName() *string {
+func (o *CreateInputKafkaSchemaRegistryTLSSettingsClientSideMsk) GetCertificateName() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertificateName
 }
 
-func (o *InputMskKafkaSchemaRegistryTLSSettingsClientSide) GetCaPath() *string {
+func (o *CreateInputKafkaSchemaRegistryTLSSettingsClientSideMsk) GetCaPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CaPath
 }
 
-func (o *InputMskKafkaSchemaRegistryTLSSettingsClientSide) GetPrivKeyPath() *string {
+func (o *CreateInputKafkaSchemaRegistryTLSSettingsClientSideMsk) GetPrivKeyPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.PrivKeyPath
 }
 
-func (o *InputMskKafkaSchemaRegistryTLSSettingsClientSide) GetCertPath() *string {
+func (o *CreateInputKafkaSchemaRegistryTLSSettingsClientSideMsk) GetCertPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertPath
 }
 
-func (o *InputMskKafkaSchemaRegistryTLSSettingsClientSide) GetPassphrase() *string {
+func (o *CreateInputKafkaSchemaRegistryTLSSettingsClientSideMsk) GetPassphrase() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Passphrase
 }
 
-func (o *InputMskKafkaSchemaRegistryTLSSettingsClientSide) GetMinVersion() *InputMskKafkaSchemaRegistryMinimumTLSVersion {
+func (o *CreateInputKafkaSchemaRegistryTLSSettingsClientSideMsk) GetMinVersion() *CreateInputKafkaSchemaRegistryMinimumTLSVersionMsk {
 	if o == nil {
 		return nil
 	}
 	return o.MinVersion
 }
 
-func (o *InputMskKafkaSchemaRegistryTLSSettingsClientSide) GetMaxVersion() *InputMskKafkaSchemaRegistryMaximumTLSVersion {
+func (o *CreateInputKafkaSchemaRegistryTLSSettingsClientSideMsk) GetMaxVersion() *CreateInputKafkaSchemaRegistryMaximumTLSVersionMsk {
 	if o == nil {
 		return nil
 	}
 	return o.MaxVersion
 }
 
-type InputMskKafkaSchemaRegistryAuthentication struct {
+type CreateInputKafkaSchemaRegistryAuthenticationMsk struct {
 	Disabled *bool `default:"true" json:"disabled"`
 	// URL for accessing the Confluent Schema Registry. Example: http://localhost:8081. To connect over TLS, use https instead of http.
 	SchemaRegistryURL *string `default:"http://localhost:8081" json:"schemaRegistryURL"`
@@ -28426,122 +32872,192 @@ type InputMskKafkaSchemaRegistryAuthentication struct {
 	// Maximum number of times to try fetching schemas from the Schema Registry
 	MaxRetries *float64 `default:"1" json:"maxRetries"`
 	// Credentials to use when authenticating with the schema registry using basic HTTP authentication
-	Auth *InputMskAuth                                     `json:"auth,omitempty"`
-	TLS  *InputMskKafkaSchemaRegistryTLSSettingsClientSide `json:"tls,omitempty"`
+	Auth *CreateInputAuthMsk                                     `json:"auth,omitempty"`
+	TLS  *CreateInputKafkaSchemaRegistryTLSSettingsClientSideMsk `json:"tls,omitempty"`
 }
 
-func (i InputMskKafkaSchemaRegistryAuthentication) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (c CreateInputKafkaSchemaRegistryAuthenticationMsk) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(c, "", false)
 }
 
-func (i *InputMskKafkaSchemaRegistryAuthentication) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (c *CreateInputKafkaSchemaRegistryAuthenticationMsk) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &c, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputMskKafkaSchemaRegistryAuthentication) GetDisabled() *bool {
+func (o *CreateInputKafkaSchemaRegistryAuthenticationMsk) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *InputMskKafkaSchemaRegistryAuthentication) GetSchemaRegistryURL() *string {
+func (o *CreateInputKafkaSchemaRegistryAuthenticationMsk) GetSchemaRegistryURL() *string {
 	if o == nil {
 		return nil
 	}
 	return o.SchemaRegistryURL
 }
 
-func (o *InputMskKafkaSchemaRegistryAuthentication) GetConnectionTimeout() *float64 {
+func (o *CreateInputKafkaSchemaRegistryAuthenticationMsk) GetConnectionTimeout() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.ConnectionTimeout
 }
 
-func (o *InputMskKafkaSchemaRegistryAuthentication) GetRequestTimeout() *float64 {
+func (o *CreateInputKafkaSchemaRegistryAuthenticationMsk) GetRequestTimeout() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.RequestTimeout
 }
 
-func (o *InputMskKafkaSchemaRegistryAuthentication) GetMaxRetries() *float64 {
+func (o *CreateInputKafkaSchemaRegistryAuthenticationMsk) GetMaxRetries() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxRetries
 }
 
-func (o *InputMskKafkaSchemaRegistryAuthentication) GetAuth() *InputMskAuth {
+func (o *CreateInputKafkaSchemaRegistryAuthenticationMsk) GetAuth() *CreateInputAuthMsk {
 	if o == nil {
 		return nil
 	}
 	return o.Auth
 }
 
-func (o *InputMskKafkaSchemaRegistryAuthentication) GetTLS() *InputMskKafkaSchemaRegistryTLSSettingsClientSide {
+func (o *CreateInputKafkaSchemaRegistryAuthenticationMsk) GetTLS() *CreateInputKafkaSchemaRegistryTLSSettingsClientSideMsk {
 	if o == nil {
 		return nil
 	}
 	return o.TLS
 }
 
-// InputMskAuthenticationMethod - AWS authentication method. Choose Auto to use IAM roles.
-type InputMskAuthenticationMethod string
+// CreateInputAuthenticationMethodMsk - AWS authentication method. Choose Auto to use IAM roles.
+type CreateInputAuthenticationMethodMsk string
 
 const (
-	InputMskAuthenticationMethodAuto   InputMskAuthenticationMethod = "auto"
-	InputMskAuthenticationMethodManual InputMskAuthenticationMethod = "manual"
-	InputMskAuthenticationMethodSecret InputMskAuthenticationMethod = "secret"
+	CreateInputAuthenticationMethodMskAuto   CreateInputAuthenticationMethodMsk = "auto"
+	CreateInputAuthenticationMethodMskManual CreateInputAuthenticationMethodMsk = "manual"
+	CreateInputAuthenticationMethodMskSecret CreateInputAuthenticationMethodMsk = "secret"
 )
 
-func (e InputMskAuthenticationMethod) ToPointer() *InputMskAuthenticationMethod {
+func (e CreateInputAuthenticationMethodMsk) ToPointer() *CreateInputAuthenticationMethodMsk {
 	return &e
 }
+func (e *CreateInputAuthenticationMethodMsk) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "auto":
+		fallthrough
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = CreateInputAuthenticationMethodMsk(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputAuthenticationMethodMsk: %v", v)
+	}
+}
 
-// InputMskSignatureVersion - Signature version to use for signing MSK cluster requests
-type InputMskSignatureVersion string
+// CreateInputSignatureVersionMsk - Signature version to use for signing MSK cluster requests
+type CreateInputSignatureVersionMsk string
 
 const (
-	InputMskSignatureVersionV2 InputMskSignatureVersion = "v2"
-	InputMskSignatureVersionV4 InputMskSignatureVersion = "v4"
+	CreateInputSignatureVersionMskV2 CreateInputSignatureVersionMsk = "v2"
+	CreateInputSignatureVersionMskV4 CreateInputSignatureVersionMsk = "v4"
 )
 
-func (e InputMskSignatureVersion) ToPointer() *InputMskSignatureVersion {
+func (e CreateInputSignatureVersionMsk) ToPointer() *CreateInputSignatureVersionMsk {
 	return &e
 }
+func (e *CreateInputSignatureVersionMsk) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "v2":
+		fallthrough
+	case "v4":
+		*e = CreateInputSignatureVersionMsk(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputSignatureVersionMsk: %v", v)
+	}
+}
 
-type InputMskMinimumTLSVersion string
+type CreateInputMinimumTLSVersionMsk string
 
 const (
-	InputMskMinimumTLSVersionTlSv1  InputMskMinimumTLSVersion = "TLSv1"
-	InputMskMinimumTLSVersionTlSv11 InputMskMinimumTLSVersion = "TLSv1.1"
-	InputMskMinimumTLSVersionTlSv12 InputMskMinimumTLSVersion = "TLSv1.2"
-	InputMskMinimumTLSVersionTlSv13 InputMskMinimumTLSVersion = "TLSv1.3"
+	CreateInputMinimumTLSVersionMskTlSv1  CreateInputMinimumTLSVersionMsk = "TLSv1"
+	CreateInputMinimumTLSVersionMskTlSv11 CreateInputMinimumTLSVersionMsk = "TLSv1.1"
+	CreateInputMinimumTLSVersionMskTlSv12 CreateInputMinimumTLSVersionMsk = "TLSv1.2"
+	CreateInputMinimumTLSVersionMskTlSv13 CreateInputMinimumTLSVersionMsk = "TLSv1.3"
 )
 
-func (e InputMskMinimumTLSVersion) ToPointer() *InputMskMinimumTLSVersion {
+func (e CreateInputMinimumTLSVersionMsk) ToPointer() *CreateInputMinimumTLSVersionMsk {
 	return &e
 }
+func (e *CreateInputMinimumTLSVersionMsk) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = CreateInputMinimumTLSVersionMsk(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputMinimumTLSVersionMsk: %v", v)
+	}
+}
 
-type InputMskMaximumTLSVersion string
+type CreateInputMaximumTLSVersionMsk string
 
 const (
-	InputMskMaximumTLSVersionTlSv1  InputMskMaximumTLSVersion = "TLSv1"
-	InputMskMaximumTLSVersionTlSv11 InputMskMaximumTLSVersion = "TLSv1.1"
-	InputMskMaximumTLSVersionTlSv12 InputMskMaximumTLSVersion = "TLSv1.2"
-	InputMskMaximumTLSVersionTlSv13 InputMskMaximumTLSVersion = "TLSv1.3"
+	CreateInputMaximumTLSVersionMskTlSv1  CreateInputMaximumTLSVersionMsk = "TLSv1"
+	CreateInputMaximumTLSVersionMskTlSv11 CreateInputMaximumTLSVersionMsk = "TLSv1.1"
+	CreateInputMaximumTLSVersionMskTlSv12 CreateInputMaximumTLSVersionMsk = "TLSv1.2"
+	CreateInputMaximumTLSVersionMskTlSv13 CreateInputMaximumTLSVersionMsk = "TLSv1.3"
 )
 
-func (e InputMskMaximumTLSVersion) ToPointer() *InputMskMaximumTLSVersion {
+func (e CreateInputMaximumTLSVersionMsk) ToPointer() *CreateInputMaximumTLSVersionMsk {
 	return &e
 }
+func (e *CreateInputMaximumTLSVersionMsk) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = CreateInputMaximumTLSVersionMsk(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputMaximumTLSVersionMsk: %v", v)
+	}
+}
 
-type InputMskTLSSettingsClientSide struct {
+type CreateInputTLSSettingsClientSideMsk struct {
 	Disabled *bool `default:"false" json:"disabled"`
 	// Reject certificates that are not authorized by a CA in the CA certificate path, or by another
 	//                     trusted CA (such as the system's). Defaults to Enabled. Overrides the toggle from Advanced Settings, when also present.
@@ -28557,86 +33073,86 @@ type InputMskTLSSettingsClientSide struct {
 	// Path on client in which to find certificates to use. PEM format. Can reference $ENV_VARS.
 	CertPath *string `json:"certPath,omitempty"`
 	// Passphrase to use to decrypt private key
-	Passphrase *string                    `json:"passphrase,omitempty"`
-	MinVersion *InputMskMinimumTLSVersion `json:"minVersion,omitempty"`
-	MaxVersion *InputMskMaximumTLSVersion `json:"maxVersion,omitempty"`
+	Passphrase *string                          `json:"passphrase,omitempty"`
+	MinVersion *CreateInputMinimumTLSVersionMsk `json:"minVersion,omitempty"`
+	MaxVersion *CreateInputMaximumTLSVersionMsk `json:"maxVersion,omitempty"`
 }
 
-func (i InputMskTLSSettingsClientSide) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (c CreateInputTLSSettingsClientSideMsk) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(c, "", false)
 }
 
-func (i *InputMskTLSSettingsClientSide) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (c *CreateInputTLSSettingsClientSideMsk) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &c, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputMskTLSSettingsClientSide) GetDisabled() *bool {
+func (o *CreateInputTLSSettingsClientSideMsk) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *InputMskTLSSettingsClientSide) GetRejectUnauthorized() *bool {
+func (o *CreateInputTLSSettingsClientSideMsk) GetRejectUnauthorized() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.RejectUnauthorized
 }
 
-func (o *InputMskTLSSettingsClientSide) GetServername() *string {
+func (o *CreateInputTLSSettingsClientSideMsk) GetServername() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Servername
 }
 
-func (o *InputMskTLSSettingsClientSide) GetCertificateName() *string {
+func (o *CreateInputTLSSettingsClientSideMsk) GetCertificateName() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertificateName
 }
 
-func (o *InputMskTLSSettingsClientSide) GetCaPath() *string {
+func (o *CreateInputTLSSettingsClientSideMsk) GetCaPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CaPath
 }
 
-func (o *InputMskTLSSettingsClientSide) GetPrivKeyPath() *string {
+func (o *CreateInputTLSSettingsClientSideMsk) GetPrivKeyPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.PrivKeyPath
 }
 
-func (o *InputMskTLSSettingsClientSide) GetCertPath() *string {
+func (o *CreateInputTLSSettingsClientSideMsk) GetCertPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertPath
 }
 
-func (o *InputMskTLSSettingsClientSide) GetPassphrase() *string {
+func (o *CreateInputTLSSettingsClientSideMsk) GetPassphrase() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Passphrase
 }
 
-func (o *InputMskTLSSettingsClientSide) GetMinVersion() *InputMskMinimumTLSVersion {
+func (o *CreateInputTLSSettingsClientSideMsk) GetMinVersion() *CreateInputMinimumTLSVersionMsk {
 	if o == nil {
 		return nil
 	}
 	return o.MinVersion
 }
 
-func (o *InputMskTLSSettingsClientSide) GetMaxVersion() *InputMskMaximumTLSVersion {
+func (o *CreateInputTLSSettingsClientSideMsk) GetMaxVersion() *CreateInputMaximumTLSVersionMsk {
 	if o == nil {
 		return nil
 	}
@@ -28645,9 +33161,9 @@ func (o *InputMskTLSSettingsClientSide) GetMaxVersion() *InputMskMaximumTLSVersi
 
 type InputMsk struct {
 	// Unique ID for this input
-	ID       string        `json:"id"`
-	Type     *InputMskType `json:"type,omitempty"`
-	Disabled *bool         `default:"false" json:"disabled"`
+	ID       string              `json:"id"`
+	Type     *CreateInputTypeMsk `json:"type,omitempty"`
+	Disabled *bool               `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -28659,8 +33175,8 @@ type InputMsk struct {
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputMskConnection `json:"connections,omitempty"`
-	Pq          *InputMskPq          `json:"pq,omitempty"`
+	Connections []ConnectionMsk `json:"connections,omitempty"`
+	Pq          *PqMsk          `json:"pq,omitempty"`
 	// Enter each Kafka bootstrap server you want to use. Specify the hostname and port (such as mykafkabroker:9092) or just the hostname (in which case @{product} will assign port 9092).
 	Brokers []string `json:"brokers"`
 	// Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only.
@@ -28684,8 +33200,8 @@ type InputMsk struct {
 	//       See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_heartbeat.interval.ms) for details.
 	HeartbeatInterval *float64 `default:"3000" json:"heartbeatInterval"`
 	// Fields to add to events from this input
-	Metadata            []InputMskMetadatum                        `json:"metadata,omitempty"`
-	KafkaSchemaRegistry *InputMskKafkaSchemaRegistryAuthentication `json:"kafkaSchemaRegistry,omitempty"`
+	Metadata            []MetadatumMsk                                   `json:"metadata,omitempty"`
+	KafkaSchemaRegistry *CreateInputKafkaSchemaRegistryAuthenticationMsk `json:"kafkaSchemaRegistry,omitempty"`
 	// Maximum time to wait for a connection to complete successfully
 	ConnectionTimeout *float64 `default:"10000" json:"connectionTimeout"`
 	// Maximum time to wait for Kafka to respond to a request
@@ -28703,14 +33219,14 @@ type InputMsk struct {
 	// Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire.
 	ReauthenticationThreshold *float64 `default:"10000" json:"reauthenticationThreshold"`
 	// AWS authentication method. Choose Auto to use IAM roles.
-	AwsAuthenticationMethod *InputMskAuthenticationMethod `default:"auto" json:"awsAuthenticationMethod"`
-	AwsSecretKey            *string                       `json:"awsSecretKey,omitempty"`
+	AwsAuthenticationMethod *CreateInputAuthenticationMethodMsk `default:"auto" json:"awsAuthenticationMethod"`
+	AwsSecretKey            *string                             `json:"awsSecretKey,omitempty"`
 	// Region where the MSK cluster is located
 	Region string `json:"region"`
 	// MSK cluster service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to MSK cluster-compatible endpoint.
 	Endpoint *string `json:"endpoint,omitempty"`
 	// Signature version to use for signing MSK cluster requests
-	SignatureVersion *InputMskSignatureVersion `default:"v4" json:"signatureVersion"`
+	SignatureVersion *CreateInputSignatureVersionMsk `default:"v4" json:"signatureVersion"`
 	// Reuse connections between requests, which can improve performance
 	ReuseConnections *bool `default:"true" json:"reuseConnections"`
 	// Reject certificates that cannot be verified against a valid CA, such as self-signed certificates
@@ -28722,8 +33238,8 @@ type InputMsk struct {
 	// External ID to use when assuming role
 	AssumeRoleExternalID *string `json:"assumeRoleExternalId,omitempty"`
 	// Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours).
-	DurationSeconds *float64                       `default:"3600" json:"durationSeconds"`
-	TLS             *InputMskTLSSettingsClientSide `json:"tls,omitempty"`
+	DurationSeconds *float64                             `default:"3600" json:"durationSeconds"`
+	TLS             *CreateInputTLSSettingsClientSideMsk `json:"tls,omitempty"`
 	// How often to commit offsets. If both this and Offset commit threshold are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch.
 	AutoCommitInterval *float64 `json:"autoCommitInterval,omitempty"`
 	// How many events are needed to trigger an offset commit. If both this and Offset commit interval are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch.
@@ -28758,7 +33274,7 @@ func (o *InputMsk) GetID() string {
 	return o.ID
 }
 
-func (o *InputMsk) GetType() *InputMskType {
+func (o *InputMsk) GetType() *CreateInputTypeMsk {
 	if o == nil {
 		return nil
 	}
@@ -28807,14 +33323,14 @@ func (o *InputMsk) GetStreamtags() []string {
 	return o.Streamtags
 }
 
-func (o *InputMsk) GetConnections() []InputMskConnection {
+func (o *InputMsk) GetConnections() []ConnectionMsk {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputMsk) GetPq() *InputMskPq {
+func (o *InputMsk) GetPq() *PqMsk {
 	if o == nil {
 		return nil
 	}
@@ -28870,14 +33386,14 @@ func (o *InputMsk) GetHeartbeatInterval() *float64 {
 	return o.HeartbeatInterval
 }
 
-func (o *InputMsk) GetMetadata() []InputMskMetadatum {
+func (o *InputMsk) GetMetadata() []MetadatumMsk {
 	if o == nil {
 		return nil
 	}
 	return o.Metadata
 }
 
-func (o *InputMsk) GetKafkaSchemaRegistry() *InputMskKafkaSchemaRegistryAuthentication {
+func (o *InputMsk) GetKafkaSchemaRegistry() *CreateInputKafkaSchemaRegistryAuthenticationMsk {
 	if o == nil {
 		return nil
 	}
@@ -28940,7 +33456,7 @@ func (o *InputMsk) GetReauthenticationThreshold() *float64 {
 	return o.ReauthenticationThreshold
 }
 
-func (o *InputMsk) GetAwsAuthenticationMethod() *InputMskAuthenticationMethod {
+func (o *InputMsk) GetAwsAuthenticationMethod() *CreateInputAuthenticationMethodMsk {
 	if o == nil {
 		return nil
 	}
@@ -28968,7 +33484,7 @@ func (o *InputMsk) GetEndpoint() *string {
 	return o.Endpoint
 }
 
-func (o *InputMsk) GetSignatureVersion() *InputMskSignatureVersion {
+func (o *InputMsk) GetSignatureVersion() *CreateInputSignatureVersionMsk {
 	if o == nil {
 		return nil
 	}
@@ -29017,7 +33533,7 @@ func (o *InputMsk) GetDurationSeconds() *float64 {
 	return o.DurationSeconds
 }
 
-func (o *InputMsk) GetTLS() *InputMskTLSSettingsClientSide {
+func (o *InputMsk) GetTLS() *CreateInputTLSSettingsClientSideMsk {
 	if o == nil {
 		return nil
 	}
@@ -29080,62 +33596,105 @@ func (o *InputMsk) GetAwsSecret() *string {
 	return o.AwsSecret
 }
 
-type InputKafkaType string
+type CreateInputTypeKafka string
 
 const (
-	InputKafkaTypeKafka InputKafkaType = "kafka"
+	CreateInputTypeKafkaKafka CreateInputTypeKafka = "kafka"
 )
 
-func (e InputKafkaType) ToPointer() *InputKafkaType {
+func (e CreateInputTypeKafka) ToPointer() *CreateInputTypeKafka {
 	return &e
 }
+func (e *CreateInputTypeKafka) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "kafka":
+		*e = CreateInputTypeKafka(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputTypeKafka: %v", v)
+	}
+}
 
-type InputKafkaConnection struct {
+type ConnectionKafka struct {
 	Pipeline *string `json:"pipeline,omitempty"`
 	Output   string  `json:"output"`
 }
 
-func (o *InputKafkaConnection) GetPipeline() *string {
+func (o *ConnectionKafka) GetPipeline() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Pipeline
 }
 
-func (o *InputKafkaConnection) GetOutput() string {
+func (o *ConnectionKafka) GetOutput() string {
 	if o == nil {
 		return ""
 	}
 	return o.Output
 }
 
-// InputKafkaMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type InputKafkaMode string
+// CreateInputModeKafka - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+type CreateInputModeKafka string
 
 const (
-	InputKafkaModeSmart  InputKafkaMode = "smart"
-	InputKafkaModeAlways InputKafkaMode = "always"
+	CreateInputModeKafkaSmart  CreateInputModeKafka = "smart"
+	CreateInputModeKafkaAlways CreateInputModeKafka = "always"
 )
 
-func (e InputKafkaMode) ToPointer() *InputKafkaMode {
+func (e CreateInputModeKafka) ToPointer() *CreateInputModeKafka {
 	return &e
 }
+func (e *CreateInputModeKafka) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = CreateInputModeKafka(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputModeKafka: %v", v)
+	}
+}
 
-// InputKafkaCompression - Codec to use to compress the persisted data
-type InputKafkaCompression string
+// PqCompressionKafka - Codec to use to compress the persisted data
+type PqCompressionKafka string
 
 const (
-	InputKafkaCompressionNone InputKafkaCompression = "none"
-	InputKafkaCompressionGzip InputKafkaCompression = "gzip"
+	PqCompressionKafkaNone PqCompressionKafka = "none"
+	PqCompressionKafkaGzip PqCompressionKafka = "gzip"
 )
 
-func (e InputKafkaCompression) ToPointer() *InputKafkaCompression {
+func (e PqCompressionKafka) ToPointer() *PqCompressionKafka {
 	return &e
 }
+func (e *PqCompressionKafka) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = PqCompressionKafka(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for PqCompressionKafka: %v", v)
+	}
+}
 
-type InputKafkaPq struct {
+type PqKafka struct {
 	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *InputKafkaMode `default:"always" json:"mode"`
+	Mode *CreateInputModeKafka `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
 	// The number of events to send downstream before committing that Stream has read them
@@ -29147,128 +33706,166 @@ type InputKafkaPq struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
 	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
 	// Codec to use to compress the persisted data
-	Compress *InputKafkaCompression `default:"none" json:"compress"`
+	Compress *PqCompressionKafka `default:"none" json:"compress"`
 }
 
-func (i InputKafkaPq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (p PqKafka) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (i *InputKafkaPq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (p *PqKafka) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputKafkaPq) GetMode() *InputKafkaMode {
+func (o *PqKafka) GetMode() *CreateInputModeKafka {
 	if o == nil {
 		return nil
 	}
 	return o.Mode
 }
 
-func (o *InputKafkaPq) GetMaxBufferSize() *float64 {
+func (o *PqKafka) GetMaxBufferSize() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxBufferSize
 }
 
-func (o *InputKafkaPq) GetCommitFrequency() *float64 {
+func (o *PqKafka) GetCommitFrequency() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.CommitFrequency
 }
 
-func (o *InputKafkaPq) GetMaxFileSize() *string {
+func (o *PqKafka) GetMaxFileSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxFileSize
 }
 
-func (o *InputKafkaPq) GetMaxSize() *string {
+func (o *PqKafka) GetMaxSize() *string {
 	if o == nil {
 		return nil
 	}
 	return o.MaxSize
 }
 
-func (o *InputKafkaPq) GetPath() *string {
+func (o *PqKafka) GetPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Path
 }
 
-func (o *InputKafkaPq) GetCompress() *InputKafkaCompression {
+func (o *PqKafka) GetCompress() *PqCompressionKafka {
 	if o == nil {
 		return nil
 	}
 	return o.Compress
 }
 
-// InputKafkaAuth - Credentials to use when authenticating with the schema registry using basic HTTP authentication
-type InputKafkaAuth struct {
+// CreateInputAuthKafka - Credentials to use when authenticating with the schema registry using basic HTTP authentication
+type CreateInputAuthKafka struct {
 	Disabled *bool `default:"true" json:"disabled"`
 	// Select or create a secret that references your credentials
 	CredentialsSecret *string `json:"credentialsSecret,omitempty"`
 }
 
-func (i InputKafkaAuth) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (c CreateInputAuthKafka) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(c, "", false)
 }
 
-func (i *InputKafkaAuth) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (c *CreateInputAuthKafka) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &c, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputKafkaAuth) GetDisabled() *bool {
+func (o *CreateInputAuthKafka) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *InputKafkaAuth) GetCredentialsSecret() *string {
+func (o *CreateInputAuthKafka) GetCredentialsSecret() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CredentialsSecret
 }
 
-type InputKafkaKafkaSchemaRegistryMinimumTLSVersion string
+type CreateInputKafkaSchemaRegistryMinimumTLSVersionKafka string
 
 const (
-	InputKafkaKafkaSchemaRegistryMinimumTLSVersionTlSv1  InputKafkaKafkaSchemaRegistryMinimumTLSVersion = "TLSv1"
-	InputKafkaKafkaSchemaRegistryMinimumTLSVersionTlSv11 InputKafkaKafkaSchemaRegistryMinimumTLSVersion = "TLSv1.1"
-	InputKafkaKafkaSchemaRegistryMinimumTLSVersionTlSv12 InputKafkaKafkaSchemaRegistryMinimumTLSVersion = "TLSv1.2"
-	InputKafkaKafkaSchemaRegistryMinimumTLSVersionTlSv13 InputKafkaKafkaSchemaRegistryMinimumTLSVersion = "TLSv1.3"
+	CreateInputKafkaSchemaRegistryMinimumTLSVersionKafkaTlSv1  CreateInputKafkaSchemaRegistryMinimumTLSVersionKafka = "TLSv1"
+	CreateInputKafkaSchemaRegistryMinimumTLSVersionKafkaTlSv11 CreateInputKafkaSchemaRegistryMinimumTLSVersionKafka = "TLSv1.1"
+	CreateInputKafkaSchemaRegistryMinimumTLSVersionKafkaTlSv12 CreateInputKafkaSchemaRegistryMinimumTLSVersionKafka = "TLSv1.2"
+	CreateInputKafkaSchemaRegistryMinimumTLSVersionKafkaTlSv13 CreateInputKafkaSchemaRegistryMinimumTLSVersionKafka = "TLSv1.3"
 )
 
-func (e InputKafkaKafkaSchemaRegistryMinimumTLSVersion) ToPointer() *InputKafkaKafkaSchemaRegistryMinimumTLSVersion {
+func (e CreateInputKafkaSchemaRegistryMinimumTLSVersionKafka) ToPointer() *CreateInputKafkaSchemaRegistryMinimumTLSVersionKafka {
 	return &e
 }
+func (e *CreateInputKafkaSchemaRegistryMinimumTLSVersionKafka) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = CreateInputKafkaSchemaRegistryMinimumTLSVersionKafka(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputKafkaSchemaRegistryMinimumTLSVersionKafka: %v", v)
+	}
+}
 
-type InputKafkaKafkaSchemaRegistryMaximumTLSVersion string
+type CreateInputKafkaSchemaRegistryMaximumTLSVersionKafka string
 
 const (
-	InputKafkaKafkaSchemaRegistryMaximumTLSVersionTlSv1  InputKafkaKafkaSchemaRegistryMaximumTLSVersion = "TLSv1"
-	InputKafkaKafkaSchemaRegistryMaximumTLSVersionTlSv11 InputKafkaKafkaSchemaRegistryMaximumTLSVersion = "TLSv1.1"
-	InputKafkaKafkaSchemaRegistryMaximumTLSVersionTlSv12 InputKafkaKafkaSchemaRegistryMaximumTLSVersion = "TLSv1.2"
-	InputKafkaKafkaSchemaRegistryMaximumTLSVersionTlSv13 InputKafkaKafkaSchemaRegistryMaximumTLSVersion = "TLSv1.3"
+	CreateInputKafkaSchemaRegistryMaximumTLSVersionKafkaTlSv1  CreateInputKafkaSchemaRegistryMaximumTLSVersionKafka = "TLSv1"
+	CreateInputKafkaSchemaRegistryMaximumTLSVersionKafkaTlSv11 CreateInputKafkaSchemaRegistryMaximumTLSVersionKafka = "TLSv1.1"
+	CreateInputKafkaSchemaRegistryMaximumTLSVersionKafkaTlSv12 CreateInputKafkaSchemaRegistryMaximumTLSVersionKafka = "TLSv1.2"
+	CreateInputKafkaSchemaRegistryMaximumTLSVersionKafkaTlSv13 CreateInputKafkaSchemaRegistryMaximumTLSVersionKafka = "TLSv1.3"
 )
 
-func (e InputKafkaKafkaSchemaRegistryMaximumTLSVersion) ToPointer() *InputKafkaKafkaSchemaRegistryMaximumTLSVersion {
+func (e CreateInputKafkaSchemaRegistryMaximumTLSVersionKafka) ToPointer() *CreateInputKafkaSchemaRegistryMaximumTLSVersionKafka {
 	return &e
 }
+func (e *CreateInputKafkaSchemaRegistryMaximumTLSVersionKafka) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = CreateInputKafkaSchemaRegistryMaximumTLSVersionKafka(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputKafkaSchemaRegistryMaximumTLSVersionKafka: %v", v)
+	}
+}
 
-type InputKafkaKafkaSchemaRegistryTLSSettingsClientSide struct {
+type CreateInputKafkaSchemaRegistryTLSSettingsClientSideKafka struct {
 	Disabled *bool `default:"true" json:"disabled"`
 	// Reject certificates that are not authorized by a CA in the CA certificate path, or by another
 	//                     trusted CA (such as the system's). Defaults to Enabled. Overrides the toggle from Advanced Settings, when also present.
@@ -29284,93 +33881,93 @@ type InputKafkaKafkaSchemaRegistryTLSSettingsClientSide struct {
 	// Path on client in which to find certificates to use. PEM format. Can reference $ENV_VARS.
 	CertPath *string `json:"certPath,omitempty"`
 	// Passphrase to use to decrypt private key
-	Passphrase *string                                         `json:"passphrase,omitempty"`
-	MinVersion *InputKafkaKafkaSchemaRegistryMinimumTLSVersion `json:"minVersion,omitempty"`
-	MaxVersion *InputKafkaKafkaSchemaRegistryMaximumTLSVersion `json:"maxVersion,omitempty"`
+	Passphrase *string                                               `json:"passphrase,omitempty"`
+	MinVersion *CreateInputKafkaSchemaRegistryMinimumTLSVersionKafka `json:"minVersion,omitempty"`
+	MaxVersion *CreateInputKafkaSchemaRegistryMaximumTLSVersionKafka `json:"maxVersion,omitempty"`
 }
 
-func (i InputKafkaKafkaSchemaRegistryTLSSettingsClientSide) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (c CreateInputKafkaSchemaRegistryTLSSettingsClientSideKafka) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(c, "", false)
 }
 
-func (i *InputKafkaKafkaSchemaRegistryTLSSettingsClientSide) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (c *CreateInputKafkaSchemaRegistryTLSSettingsClientSideKafka) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &c, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputKafkaKafkaSchemaRegistryTLSSettingsClientSide) GetDisabled() *bool {
+func (o *CreateInputKafkaSchemaRegistryTLSSettingsClientSideKafka) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *InputKafkaKafkaSchemaRegistryTLSSettingsClientSide) GetRejectUnauthorized() *bool {
+func (o *CreateInputKafkaSchemaRegistryTLSSettingsClientSideKafka) GetRejectUnauthorized() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.RejectUnauthorized
 }
 
-func (o *InputKafkaKafkaSchemaRegistryTLSSettingsClientSide) GetServername() *string {
+func (o *CreateInputKafkaSchemaRegistryTLSSettingsClientSideKafka) GetServername() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Servername
 }
 
-func (o *InputKafkaKafkaSchemaRegistryTLSSettingsClientSide) GetCertificateName() *string {
+func (o *CreateInputKafkaSchemaRegistryTLSSettingsClientSideKafka) GetCertificateName() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertificateName
 }
 
-func (o *InputKafkaKafkaSchemaRegistryTLSSettingsClientSide) GetCaPath() *string {
+func (o *CreateInputKafkaSchemaRegistryTLSSettingsClientSideKafka) GetCaPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CaPath
 }
 
-func (o *InputKafkaKafkaSchemaRegistryTLSSettingsClientSide) GetPrivKeyPath() *string {
+func (o *CreateInputKafkaSchemaRegistryTLSSettingsClientSideKafka) GetPrivKeyPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.PrivKeyPath
 }
 
-func (o *InputKafkaKafkaSchemaRegistryTLSSettingsClientSide) GetCertPath() *string {
+func (o *CreateInputKafkaSchemaRegistryTLSSettingsClientSideKafka) GetCertPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertPath
 }
 
-func (o *InputKafkaKafkaSchemaRegistryTLSSettingsClientSide) GetPassphrase() *string {
+func (o *CreateInputKafkaSchemaRegistryTLSSettingsClientSideKafka) GetPassphrase() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Passphrase
 }
 
-func (o *InputKafkaKafkaSchemaRegistryTLSSettingsClientSide) GetMinVersion() *InputKafkaKafkaSchemaRegistryMinimumTLSVersion {
+func (o *CreateInputKafkaSchemaRegistryTLSSettingsClientSideKafka) GetMinVersion() *CreateInputKafkaSchemaRegistryMinimumTLSVersionKafka {
 	if o == nil {
 		return nil
 	}
 	return o.MinVersion
 }
 
-func (o *InputKafkaKafkaSchemaRegistryTLSSettingsClientSide) GetMaxVersion() *InputKafkaKafkaSchemaRegistryMaximumTLSVersion {
+func (o *CreateInputKafkaSchemaRegistryTLSSettingsClientSideKafka) GetMaxVersion() *CreateInputKafkaSchemaRegistryMaximumTLSVersionKafka {
 	if o == nil {
 		return nil
 	}
 	return o.MaxVersion
 }
 
-type InputKafkaKafkaSchemaRegistryAuthentication struct {
+type CreateInputKafkaSchemaRegistryAuthenticationKafka struct {
 	Disabled *bool `default:"true" json:"disabled"`
 	// URL for accessing the Confluent Schema Registry. Example: http://localhost:8081. To connect over TLS, use https instead of http.
 	SchemaRegistryURL *string `default:"http://localhost:8081" json:"schemaRegistryURL"`
@@ -29381,141 +33978,198 @@ type InputKafkaKafkaSchemaRegistryAuthentication struct {
 	// Maximum number of times to try fetching schemas from the Schema Registry
 	MaxRetries *float64 `default:"1" json:"maxRetries"`
 	// Credentials to use when authenticating with the schema registry using basic HTTP authentication
-	Auth *InputKafkaAuth                                     `json:"auth,omitempty"`
-	TLS  *InputKafkaKafkaSchemaRegistryTLSSettingsClientSide `json:"tls,omitempty"`
+	Auth *CreateInputAuthKafka                                     `json:"auth,omitempty"`
+	TLS  *CreateInputKafkaSchemaRegistryTLSSettingsClientSideKafka `json:"tls,omitempty"`
 }
 
-func (i InputKafkaKafkaSchemaRegistryAuthentication) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (c CreateInputKafkaSchemaRegistryAuthenticationKafka) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(c, "", false)
 }
 
-func (i *InputKafkaKafkaSchemaRegistryAuthentication) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (c *CreateInputKafkaSchemaRegistryAuthenticationKafka) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &c, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputKafkaKafkaSchemaRegistryAuthentication) GetDisabled() *bool {
+func (o *CreateInputKafkaSchemaRegistryAuthenticationKafka) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *InputKafkaKafkaSchemaRegistryAuthentication) GetSchemaRegistryURL() *string {
+func (o *CreateInputKafkaSchemaRegistryAuthenticationKafka) GetSchemaRegistryURL() *string {
 	if o == nil {
 		return nil
 	}
 	return o.SchemaRegistryURL
 }
 
-func (o *InputKafkaKafkaSchemaRegistryAuthentication) GetConnectionTimeout() *float64 {
+func (o *CreateInputKafkaSchemaRegistryAuthenticationKafka) GetConnectionTimeout() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.ConnectionTimeout
 }
 
-func (o *InputKafkaKafkaSchemaRegistryAuthentication) GetRequestTimeout() *float64 {
+func (o *CreateInputKafkaSchemaRegistryAuthenticationKafka) GetRequestTimeout() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.RequestTimeout
 }
 
-func (o *InputKafkaKafkaSchemaRegistryAuthentication) GetMaxRetries() *float64 {
+func (o *CreateInputKafkaSchemaRegistryAuthenticationKafka) GetMaxRetries() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.MaxRetries
 }
 
-func (o *InputKafkaKafkaSchemaRegistryAuthentication) GetAuth() *InputKafkaAuth {
+func (o *CreateInputKafkaSchemaRegistryAuthenticationKafka) GetAuth() *CreateInputAuthKafka {
 	if o == nil {
 		return nil
 	}
 	return o.Auth
 }
 
-func (o *InputKafkaKafkaSchemaRegistryAuthentication) GetTLS() *InputKafkaKafkaSchemaRegistryTLSSettingsClientSide {
+func (o *CreateInputKafkaSchemaRegistryAuthenticationKafka) GetTLS() *CreateInputKafkaSchemaRegistryTLSSettingsClientSideKafka {
 	if o == nil {
 		return nil
 	}
 	return o.TLS
 }
 
-type InputKafkaSASLMechanism string
+type CreateInputSASLMechanismKafka string
 
 const (
-	InputKafkaSASLMechanismPlain       InputKafkaSASLMechanism = "plain"
-	InputKafkaSASLMechanismScramSha256 InputKafkaSASLMechanism = "scram-sha-256"
-	InputKafkaSASLMechanismScramSha512 InputKafkaSASLMechanism = "scram-sha-512"
-	InputKafkaSASLMechanismKerberos    InputKafkaSASLMechanism = "kerberos"
+	CreateInputSASLMechanismKafkaPlain       CreateInputSASLMechanismKafka = "plain"
+	CreateInputSASLMechanismKafkaScramSha256 CreateInputSASLMechanismKafka = "scram-sha-256"
+	CreateInputSASLMechanismKafkaScramSha512 CreateInputSASLMechanismKafka = "scram-sha-512"
+	CreateInputSASLMechanismKafkaKerberos    CreateInputSASLMechanismKafka = "kerberos"
 )
 
-func (e InputKafkaSASLMechanism) ToPointer() *InputKafkaSASLMechanism {
+func (e CreateInputSASLMechanismKafka) ToPointer() *CreateInputSASLMechanismKafka {
 	return &e
 }
-
-// InputKafkaAuthentication - Authentication parameters to use when connecting to brokers. Using TLS is highly recommended.
-type InputKafkaAuthentication struct {
-	Disabled  *bool                    `default:"true" json:"disabled"`
-	Mechanism *InputKafkaSASLMechanism `default:"plain" json:"mechanism"`
+func (e *CreateInputSASLMechanismKafka) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "plain":
+		fallthrough
+	case "scram-sha-256":
+		fallthrough
+	case "scram-sha-512":
+		fallthrough
+	case "kerberos":
+		*e = CreateInputSASLMechanismKafka(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputSASLMechanismKafka: %v", v)
+	}
 }
 
-func (i InputKafkaAuthentication) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+// CreateInputAuthenticationKafka - Authentication parameters to use when connecting to brokers. Using TLS is highly recommended.
+type CreateInputAuthenticationKafka struct {
+	Disabled  *bool                          `default:"true" json:"disabled"`
+	Mechanism *CreateInputSASLMechanismKafka `default:"plain" json:"mechanism"`
 }
 
-func (i *InputKafkaAuthentication) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (c CreateInputAuthenticationKafka) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(c, "", false)
+}
+
+func (c *CreateInputAuthenticationKafka) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &c, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputKafkaAuthentication) GetDisabled() *bool {
+func (o *CreateInputAuthenticationKafka) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *InputKafkaAuthentication) GetMechanism() *InputKafkaSASLMechanism {
+func (o *CreateInputAuthenticationKafka) GetMechanism() *CreateInputSASLMechanismKafka {
 	if o == nil {
 		return nil
 	}
 	return o.Mechanism
 }
 
-type InputKafkaMinimumTLSVersion string
+type CreateInputMinimumTLSVersionKafka string
 
 const (
-	InputKafkaMinimumTLSVersionTlSv1  InputKafkaMinimumTLSVersion = "TLSv1"
-	InputKafkaMinimumTLSVersionTlSv11 InputKafkaMinimumTLSVersion = "TLSv1.1"
-	InputKafkaMinimumTLSVersionTlSv12 InputKafkaMinimumTLSVersion = "TLSv1.2"
-	InputKafkaMinimumTLSVersionTlSv13 InputKafkaMinimumTLSVersion = "TLSv1.3"
+	CreateInputMinimumTLSVersionKafkaTlSv1  CreateInputMinimumTLSVersionKafka = "TLSv1"
+	CreateInputMinimumTLSVersionKafkaTlSv11 CreateInputMinimumTLSVersionKafka = "TLSv1.1"
+	CreateInputMinimumTLSVersionKafkaTlSv12 CreateInputMinimumTLSVersionKafka = "TLSv1.2"
+	CreateInputMinimumTLSVersionKafkaTlSv13 CreateInputMinimumTLSVersionKafka = "TLSv1.3"
 )
 
-func (e InputKafkaMinimumTLSVersion) ToPointer() *InputKafkaMinimumTLSVersion {
+func (e CreateInputMinimumTLSVersionKafka) ToPointer() *CreateInputMinimumTLSVersionKafka {
 	return &e
 }
+func (e *CreateInputMinimumTLSVersionKafka) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = CreateInputMinimumTLSVersionKafka(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputMinimumTLSVersionKafka: %v", v)
+	}
+}
 
-type InputKafkaMaximumTLSVersion string
+type CreateInputMaximumTLSVersionKafka string
 
 const (
-	InputKafkaMaximumTLSVersionTlSv1  InputKafkaMaximumTLSVersion = "TLSv1"
-	InputKafkaMaximumTLSVersionTlSv11 InputKafkaMaximumTLSVersion = "TLSv1.1"
-	InputKafkaMaximumTLSVersionTlSv12 InputKafkaMaximumTLSVersion = "TLSv1.2"
-	InputKafkaMaximumTLSVersionTlSv13 InputKafkaMaximumTLSVersion = "TLSv1.3"
+	CreateInputMaximumTLSVersionKafkaTlSv1  CreateInputMaximumTLSVersionKafka = "TLSv1"
+	CreateInputMaximumTLSVersionKafkaTlSv11 CreateInputMaximumTLSVersionKafka = "TLSv1.1"
+	CreateInputMaximumTLSVersionKafkaTlSv12 CreateInputMaximumTLSVersionKafka = "TLSv1.2"
+	CreateInputMaximumTLSVersionKafkaTlSv13 CreateInputMaximumTLSVersionKafka = "TLSv1.3"
 )
 
-func (e InputKafkaMaximumTLSVersion) ToPointer() *InputKafkaMaximumTLSVersion {
+func (e CreateInputMaximumTLSVersionKafka) ToPointer() *CreateInputMaximumTLSVersionKafka {
 	return &e
 }
+func (e *CreateInputMaximumTLSVersionKafka) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = CreateInputMaximumTLSVersionKafka(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateInputMaximumTLSVersionKafka: %v", v)
+	}
+}
 
-type InputKafkaTLSSettingsClientSide struct {
+type CreateInputTLSSettingsClientSideKafka struct {
 	Disabled *bool `default:"true" json:"disabled"`
 	// Reject certificates that are not authorized by a CA in the CA certificate path, or by another
 	//                     trusted CA (such as the system's). Defaults to Enabled. Overrides the toggle from Advanced Settings, when also present.
@@ -29531,106 +34185,106 @@ type InputKafkaTLSSettingsClientSide struct {
 	// Path on client in which to find certificates to use. PEM format. Can reference $ENV_VARS.
 	CertPath *string `json:"certPath,omitempty"`
 	// Passphrase to use to decrypt private key
-	Passphrase *string                      `json:"passphrase,omitempty"`
-	MinVersion *InputKafkaMinimumTLSVersion `json:"minVersion,omitempty"`
-	MaxVersion *InputKafkaMaximumTLSVersion `json:"maxVersion,omitempty"`
+	Passphrase *string                            `json:"passphrase,omitempty"`
+	MinVersion *CreateInputMinimumTLSVersionKafka `json:"minVersion,omitempty"`
+	MaxVersion *CreateInputMaximumTLSVersionKafka `json:"maxVersion,omitempty"`
 }
 
-func (i InputKafkaTLSSettingsClientSide) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
+func (c CreateInputTLSSettingsClientSideKafka) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(c, "", false)
 }
 
-func (i *InputKafkaTLSSettingsClientSide) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
+func (c *CreateInputTLSSettingsClientSideKafka) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &c, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *InputKafkaTLSSettingsClientSide) GetDisabled() *bool {
+func (o *CreateInputTLSSettingsClientSideKafka) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *InputKafkaTLSSettingsClientSide) GetRejectUnauthorized() *bool {
+func (o *CreateInputTLSSettingsClientSideKafka) GetRejectUnauthorized() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.RejectUnauthorized
 }
 
-func (o *InputKafkaTLSSettingsClientSide) GetServername() *string {
+func (o *CreateInputTLSSettingsClientSideKafka) GetServername() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Servername
 }
 
-func (o *InputKafkaTLSSettingsClientSide) GetCertificateName() *string {
+func (o *CreateInputTLSSettingsClientSideKafka) GetCertificateName() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertificateName
 }
 
-func (o *InputKafkaTLSSettingsClientSide) GetCaPath() *string {
+func (o *CreateInputTLSSettingsClientSideKafka) GetCaPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CaPath
 }
 
-func (o *InputKafkaTLSSettingsClientSide) GetPrivKeyPath() *string {
+func (o *CreateInputTLSSettingsClientSideKafka) GetPrivKeyPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.PrivKeyPath
 }
 
-func (o *InputKafkaTLSSettingsClientSide) GetCertPath() *string {
+func (o *CreateInputTLSSettingsClientSideKafka) GetCertPath() *string {
 	if o == nil {
 		return nil
 	}
 	return o.CertPath
 }
 
-func (o *InputKafkaTLSSettingsClientSide) GetPassphrase() *string {
+func (o *CreateInputTLSSettingsClientSideKafka) GetPassphrase() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Passphrase
 }
 
-func (o *InputKafkaTLSSettingsClientSide) GetMinVersion() *InputKafkaMinimumTLSVersion {
+func (o *CreateInputTLSSettingsClientSideKafka) GetMinVersion() *CreateInputMinimumTLSVersionKafka {
 	if o == nil {
 		return nil
 	}
 	return o.MinVersion
 }
 
-func (o *InputKafkaTLSSettingsClientSide) GetMaxVersion() *InputKafkaMaximumTLSVersion {
+func (o *CreateInputTLSSettingsClientSideKafka) GetMaxVersion() *CreateInputMaximumTLSVersionKafka {
 	if o == nil {
 		return nil
 	}
 	return o.MaxVersion
 }
 
-type InputKafkaMetadatum struct {
+type MetadatumKafka struct {
 	Name string `json:"name"`
 	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
 	Value string `json:"value"`
 }
 
-func (o *InputKafkaMetadatum) GetName() string {
+func (o *MetadatumKafka) GetName() string {
 	if o == nil {
 		return ""
 	}
 	return o.Name
 }
 
-func (o *InputKafkaMetadatum) GetValue() string {
+func (o *MetadatumKafka) GetValue() string {
 	if o == nil {
 		return ""
 	}
@@ -29639,9 +34293,9 @@ func (o *InputKafkaMetadatum) GetValue() string {
 
 type InputKafka struct {
 	// Unique ID for this input
-	ID       string          `json:"id"`
-	Type     *InputKafkaType `json:"type,omitempty"`
-	Disabled *bool           `default:"false" json:"disabled"`
+	ID       string                `json:"id"`
+	Type     *CreateInputTypeKafka `json:"type,omitempty"`
+	Disabled *bool                 `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -29653,8 +34307,8 @@ type InputKafka struct {
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputKafkaConnection `json:"connections,omitempty"`
-	Pq          *InputKafkaPq          `json:"pq,omitempty"`
+	Connections []ConnectionKafka `json:"connections,omitempty"`
+	Pq          *PqKafka          `json:"pq,omitempty"`
 	// Enter each Kafka bootstrap server you want to use. Specify the hostname and port (such as mykafkabroker:9092) or just the hostname (in which case @{product} will assign port 9092).
 	Brokers []string `json:"brokers"`
 	// Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only.
@@ -29662,8 +34316,8 @@ type InputKafka struct {
 	// The consumer group to which this instance belongs. Defaults to 'Cribl'.
 	GroupID *string `default:"Cribl" json:"groupId"`
 	// Leave enabled if you want the Source, upon first subscribing to a topic, to read starting with the earliest available message
-	FromBeginning       *bool                                        `default:"true" json:"fromBeginning"`
-	KafkaSchemaRegistry *InputKafkaKafkaSchemaRegistryAuthentication `json:"kafkaSchemaRegistry,omitempty"`
+	FromBeginning       *bool                                              `default:"true" json:"fromBeginning"`
+	KafkaSchemaRegistry *CreateInputKafkaSchemaRegistryAuthenticationKafka `json:"kafkaSchemaRegistry,omitempty"`
 	// Maximum time to wait for a connection to complete successfully
 	ConnectionTimeout *float64 `default:"10000" json:"connectionTimeout"`
 	// Maximum time to wait for Kafka to respond to a request
@@ -29681,8 +34335,8 @@ type InputKafka struct {
 	// Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire.
 	ReauthenticationThreshold *float64 `default:"10000" json:"reauthenticationThreshold"`
 	// Authentication parameters to use when connecting to brokers. Using TLS is highly recommended.
-	Sasl *InputKafkaAuthentication        `json:"sasl,omitempty"`
-	TLS  *InputKafkaTLSSettingsClientSide `json:"tls,omitempty"`
+	Sasl *CreateInputAuthenticationKafka        `json:"sasl,omitempty"`
+	TLS  *CreateInputTLSSettingsClientSideKafka `json:"tls,omitempty"`
 	//       Timeout used to detect client failures when using Kafka's group-management facilities.
 	//       If the client sends no heartbeats to the broker before the timeout expires,
 	//       the broker will remove the client from the group and initiate a rebalance.
@@ -29708,8 +34362,8 @@ type InputKafka struct {
 	// Maximum number of network errors before the consumer re-creates a socket
 	MaxSocketErrors *float64 `default:"0" json:"maxSocketErrors"`
 	// Fields to add to events from this input
-	Metadata    []InputKafkaMetadatum `json:"metadata,omitempty"`
-	Description *string               `json:"description,omitempty"`
+	Metadata    []MetadatumKafka `json:"metadata,omitempty"`
+	Description *string          `json:"description,omitempty"`
 }
 
 func (i InputKafka) MarshalJSON() ([]byte, error) {
@@ -29730,7 +34384,7 @@ func (o *InputKafka) GetID() string {
 	return o.ID
 }
 
-func (o *InputKafka) GetType() *InputKafkaType {
+func (o *InputKafka) GetType() *CreateInputTypeKafka {
 	if o == nil {
 		return nil
 	}
@@ -29779,14 +34433,14 @@ func (o *InputKafka) GetStreamtags() []string {
 	return o.Streamtags
 }
 
-func (o *InputKafka) GetConnections() []InputKafkaConnection {
+func (o *InputKafka) GetConnections() []ConnectionKafka {
 	if o == nil {
 		return nil
 	}
 	return o.Connections
 }
 
-func (o *InputKafka) GetPq() *InputKafkaPq {
+func (o *InputKafka) GetPq() *PqKafka {
 	if o == nil {
 		return nil
 	}
@@ -29821,7 +34475,7 @@ func (o *InputKafka) GetFromBeginning() *bool {
 	return o.FromBeginning
 }
 
-func (o *InputKafka) GetKafkaSchemaRegistry() *InputKafkaKafkaSchemaRegistryAuthentication {
+func (o *InputKafka) GetKafkaSchemaRegistry() *CreateInputKafkaSchemaRegistryAuthenticationKafka {
 	if o == nil {
 		return nil
 	}
@@ -29884,14 +34538,14 @@ func (o *InputKafka) GetReauthenticationThreshold() *float64 {
 	return o.ReauthenticationThreshold
 }
 
-func (o *InputKafka) GetSasl() *InputKafkaAuthentication {
+func (o *InputKafka) GetSasl() *CreateInputAuthenticationKafka {
 	if o == nil {
 		return nil
 	}
 	return o.Sasl
 }
 
-func (o *InputKafka) GetTLS() *InputKafkaTLSSettingsClientSide {
+func (o *InputKafka) GetTLS() *CreateInputTLSSettingsClientSideKafka {
 	if o == nil {
 		return nil
 	}
@@ -29954,7 +34608,7 @@ func (o *InputKafka) GetMaxSocketErrors() *float64 {
 	return o.MaxSocketErrors
 }
 
-func (o *InputKafka) GetMetadata() []InputKafkaMetadatum {
+func (o *InputKafka) GetMetadata() []MetadatumKafka {
 	if o == nil {
 		return nil
 	}
@@ -29981,7 +34635,7 @@ const (
 	CreateInputRequestTypeInputAzureBlob            CreateInputRequestType = "InputAzureBlob"
 	CreateInputRequestTypeInputElastic              CreateInputRequestType = "InputElastic"
 	CreateInputRequestTypeInputConfluentCloud       CreateInputRequestType = "InputConfluentCloud"
-	CreateInputRequestTypeInputGrafanaUnion         CreateInputRequestType = "InputGrafana_union"
+	CreateInputRequestTypeInputGrafana              CreateInputRequestType = "InputGrafana"
 	CreateInputRequestTypeInputLoki                 CreateInputRequestType = "InputLoki"
 	CreateInputRequestTypeInputPrometheusRw         CreateInputRequestType = "InputPrometheusRw"
 	CreateInputRequestTypeInputPrometheus           CreateInputRequestType = "InputPrometheus"
@@ -30017,7 +34671,7 @@ const (
 	CreateInputRequestTypeInputOpenTelemetry        CreateInputRequestType = "InputOpenTelemetry"
 	CreateInputRequestTypeInputModelDrivenTelemetry CreateInputRequestType = "InputModelDrivenTelemetry"
 	CreateInputRequestTypeInputSqs                  CreateInputRequestType = "InputSqs"
-	CreateInputRequestTypeInputSyslogUnion          CreateInputRequestType = "InputSyslog_union"
+	CreateInputRequestTypeInputSyslog               CreateInputRequestType = "InputSyslog"
 	CreateInputRequestTypeInputFile                 CreateInputRequestType = "InputFile"
 	CreateInputRequestTypeInputTCP                  CreateInputRequestType = "InputTcp"
 	CreateInputRequestTypeInputAppscope             CreateInputRequestType = "InputAppscope"
@@ -30043,7 +34697,7 @@ type CreateInputRequest struct {
 	InputAzureBlob            *InputAzureBlob                 `queryParam:"inline"`
 	InputElastic              *InputElastic                   `queryParam:"inline"`
 	InputConfluentCloud       *InputConfluentCloud            `queryParam:"inline"`
-	InputGrafanaUnion         *InputGrafanaUnion              `queryParam:"inline"`
+	InputGrafana              *InputGrafana                   `queryParam:"inline"`
 	InputLoki                 *InputLoki                      `queryParam:"inline"`
 	InputPrometheusRw         *InputPrometheusRw              `queryParam:"inline"`
 	InputPrometheus           *InputPrometheus                `queryParam:"inline"`
@@ -30079,7 +34733,7 @@ type CreateInputRequest struct {
 	InputOpenTelemetry        *InputOpenTelemetry             `queryParam:"inline"`
 	InputModelDrivenTelemetry *InputModelDrivenTelemetry      `queryParam:"inline"`
 	InputSqs                  *InputSqs                       `queryParam:"inline"`
-	InputSyslogUnion          *InputSyslogUnion               `queryParam:"inline"`
+	InputSyslog               *InputSyslog                    `queryParam:"inline"`
 	InputFile                 *components.InputFile           `queryParam:"inline"`
 	InputTCP                  *InputTCP                       `queryParam:"inline"`
 	InputAppscope             *components.InputAppscope       `queryParam:"inline"`
@@ -30185,12 +34839,12 @@ func CreateCreateInputRequestInputConfluentCloud(inputConfluentCloud InputConflu
 	}
 }
 
-func CreateCreateInputRequestInputGrafanaUnion(inputGrafanaUnion InputGrafanaUnion) CreateInputRequest {
-	typ := CreateInputRequestTypeInputGrafanaUnion
+func CreateCreateInputRequestInputGrafana(inputGrafana InputGrafana) CreateInputRequest {
+	typ := CreateInputRequestTypeInputGrafana
 
 	return CreateInputRequest{
-		InputGrafanaUnion: &inputGrafanaUnion,
-		Type:              typ,
+		InputGrafana: &inputGrafana,
+		Type:         typ,
 	}
 }
 
@@ -30509,12 +35163,12 @@ func CreateCreateInputRequestInputSqs(inputSqs InputSqs) CreateInputRequest {
 	}
 }
 
-func CreateCreateInputRequestInputSyslogUnion(inputSyslogUnion InputSyslogUnion) CreateInputRequest {
-	typ := CreateInputRequestTypeInputSyslogUnion
+func CreateCreateInputRequestInputSyslog(inputSyslog InputSyslog) CreateInputRequest {
+	typ := CreateInputRequestTypeInputSyslog
 
 	return CreateInputRequest{
-		InputSyslogUnion: &inputSyslogUnion,
-		Type:             typ,
+		InputSyslog: &inputSyslog,
+		Type:        typ,
 	}
 }
 
@@ -31011,17 +35665,17 @@ func (u *CreateInputRequest) UnmarshalJSON(data []byte) error {
 		return nil
 	}
 
-	var inputSyslogUnion InputSyslogUnion = InputSyslogUnion{}
-	if err := utils.UnmarshalJSON(data, &inputSyslogUnion, "", true, true); err == nil {
-		u.InputSyslogUnion = &inputSyslogUnion
-		u.Type = CreateInputRequestTypeInputSyslogUnion
+	var inputSyslog InputSyslog = InputSyslog{}
+	if err := utils.UnmarshalJSON(data, &inputSyslog, "", true, true); err == nil {
+		u.InputSyslog = &inputSyslog
+		u.Type = CreateInputRequestTypeInputSyslog
 		return nil
 	}
 
-	var inputGrafanaUnion InputGrafanaUnion = InputGrafanaUnion{}
-	if err := utils.UnmarshalJSON(data, &inputGrafanaUnion, "", true, true); err == nil {
-		u.InputGrafanaUnion = &inputGrafanaUnion
-		u.Type = CreateInputRequestTypeInputGrafanaUnion
+	var inputGrafana InputGrafana = InputGrafana{}
+	if err := utils.UnmarshalJSON(data, &inputGrafana, "", true, true); err == nil {
+		u.InputGrafana = &inputGrafana
+		u.Type = CreateInputRequestTypeInputGrafana
 		return nil
 	}
 
@@ -31069,8 +35723,8 @@ func (u CreateInputRequest) MarshalJSON() ([]byte, error) {
 		return utils.MarshalJSON(u.InputConfluentCloud, "", true)
 	}
 
-	if u.InputGrafanaUnion != nil {
-		return utils.MarshalJSON(u.InputGrafanaUnion, "", true)
+	if u.InputGrafana != nil {
+		return utils.MarshalJSON(u.InputGrafana, "", true)
 	}
 
 	if u.InputLoki != nil {
@@ -31213,8 +35867,8 @@ func (u CreateInputRequest) MarshalJSON() ([]byte, error) {
 		return utils.MarshalJSON(u.InputSqs, "", true)
 	}
 
-	if u.InputSyslogUnion != nil {
-		return utils.MarshalJSON(u.InputSyslogUnion, "", true)
+	if u.InputSyslog != nil {
+		return utils.MarshalJSON(u.InputSyslog, "", true)
 	}
 
 	if u.InputFile != nil {

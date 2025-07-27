@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -14,6 +16,19 @@ const (
 
 func (e InputCriblLakeHTTPType) ToPointer() *InputCriblLakeHTTPType {
 	return &e
+}
+func (e *InputCriblLakeHTTPType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "cribl_lake_http":
+		*e = InputCriblLakeHTTPType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputCriblLakeHTTPType: %v", v)
+	}
 }
 
 type InputCriblLakeHTTPConnection struct {
@@ -46,6 +61,21 @@ const (
 func (e InputCriblLakeHTTPMode) ToPointer() *InputCriblLakeHTTPMode {
 	return &e
 }
+func (e *InputCriblLakeHTTPMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = InputCriblLakeHTTPMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputCriblLakeHTTPMode: %v", v)
+	}
+}
 
 // InputCriblLakeHTTPCompression - Codec to use to compress the persisted data
 type InputCriblLakeHTTPCompression string
@@ -57,6 +87,21 @@ const (
 
 func (e InputCriblLakeHTTPCompression) ToPointer() *InputCriblLakeHTTPCompression {
 	return &e
+}
+func (e *InputCriblLakeHTTPCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = InputCriblLakeHTTPCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputCriblLakeHTTPCompression: %v", v)
+	}
 }
 
 type InputCriblLakeHTTPPq struct {
@@ -148,6 +193,25 @@ const (
 func (e InputCriblLakeHTTPMinimumTLSVersion) ToPointer() *InputCriblLakeHTTPMinimumTLSVersion {
 	return &e
 }
+func (e *InputCriblLakeHTTPMinimumTLSVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = InputCriblLakeHTTPMinimumTLSVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputCriblLakeHTTPMinimumTLSVersion: %v", v)
+	}
+}
 
 type InputCriblLakeHTTPMaximumTLSVersion string
 
@@ -160,6 +224,25 @@ const (
 
 func (e InputCriblLakeHTTPMaximumTLSVersion) ToPointer() *InputCriblLakeHTTPMaximumTLSVersion {
 	return &e
+}
+func (e *InputCriblLakeHTTPMaximumTLSVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = InputCriblLakeHTTPMaximumTLSVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputCriblLakeHTTPMaximumTLSVersion: %v", v)
+	}
 }
 
 type InputCriblLakeHTTPTLSSettingsServerSide struct {

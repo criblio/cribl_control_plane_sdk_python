@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -14,6 +16,19 @@ const (
 
 func (e InputOffice365ServiceType) ToPointer() *InputOffice365ServiceType {
 	return &e
+}
+func (e *InputOffice365ServiceType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "office365_service":
+		*e = InputOffice365ServiceType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputOffice365ServiceType: %v", v)
+	}
 }
 
 type InputOffice365ServiceConnection struct {
@@ -46,6 +61,21 @@ const (
 func (e InputOffice365ServiceMode) ToPointer() *InputOffice365ServiceMode {
 	return &e
 }
+func (e *InputOffice365ServiceMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = InputOffice365ServiceMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputOffice365ServiceMode: %v", v)
+	}
+}
 
 // InputOffice365ServiceCompression - Codec to use to compress the persisted data
 type InputOffice365ServiceCompression string
@@ -57,6 +87,21 @@ const (
 
 func (e InputOffice365ServiceCompression) ToPointer() *InputOffice365ServiceCompression {
 	return &e
+}
+func (e *InputOffice365ServiceCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = InputOffice365ServiceCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputOffice365ServiceCompression: %v", v)
+	}
 }
 
 type InputOffice365ServicePq struct {
@@ -149,6 +194,25 @@ const (
 func (e InputOffice365ServiceSubscriptionPlan) ToPointer() *InputOffice365ServiceSubscriptionPlan {
 	return &e
 }
+func (e *InputOffice365ServiceSubscriptionPlan) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "enterprise_gcc":
+		fallthrough
+	case "gcc":
+		fallthrough
+	case "gcc_high":
+		fallthrough
+	case "dod":
+		*e = InputOffice365ServiceSubscriptionPlan(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputOffice365ServiceSubscriptionPlan: %v", v)
+	}
+}
 
 type InputOffice365ServiceMetadatum struct {
 	Name string `json:"name"`
@@ -182,6 +246,25 @@ const (
 
 func (e InputOffice365ServiceLogLevel) ToPointer() *InputOffice365ServiceLogLevel {
 	return &e
+}
+func (e *InputOffice365ServiceLogLevel) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "error":
+		fallthrough
+	case "warn":
+		fallthrough
+	case "info":
+		fallthrough
+	case "debug":
+		*e = InputOffice365ServiceLogLevel(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputOffice365ServiceLogLevel: %v", v)
+	}
 }
 
 type InputOffice365ServiceContentConfig struct {
@@ -241,6 +324,23 @@ const (
 
 func (e InputOffice365ServiceRetryType) ToPointer() *InputOffice365ServiceRetryType {
 	return &e
+}
+func (e *InputOffice365ServiceRetryType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "backoff":
+		fallthrough
+	case "static":
+		*e = InputOffice365ServiceRetryType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputOffice365ServiceRetryType: %v", v)
+	}
 }
 
 type InputOffice365ServiceRetryRules struct {
@@ -339,6 +439,21 @@ const (
 
 func (e InputOffice365ServiceAuthenticationMethod) ToPointer() *InputOffice365ServiceAuthenticationMethod {
 	return &e
+}
+func (e *InputOffice365ServiceAuthenticationMethod) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = InputOffice365ServiceAuthenticationMethod(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputOffice365ServiceAuthenticationMethod: %v", v)
+	}
 }
 
 type InputOffice365Service struct {

@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -14,6 +16,19 @@ const (
 
 func (e InputTcpjsonType) ToPointer() *InputTcpjsonType {
 	return &e
+}
+func (e *InputTcpjsonType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "tcpjson":
+		*e = InputTcpjsonType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputTcpjsonType: %v", v)
+	}
 }
 
 type InputTcpjsonConnection struct {
@@ -46,6 +61,21 @@ const (
 func (e InputTcpjsonMode) ToPointer() *InputTcpjsonMode {
 	return &e
 }
+func (e *InputTcpjsonMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = InputTcpjsonMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputTcpjsonMode: %v", v)
+	}
+}
 
 // InputTcpjsonCompression - Codec to use to compress the persisted data
 type InputTcpjsonCompression string
@@ -57,6 +87,21 @@ const (
 
 func (e InputTcpjsonCompression) ToPointer() *InputTcpjsonCompression {
 	return &e
+}
+func (e *InputTcpjsonCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = InputTcpjsonCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputTcpjsonCompression: %v", v)
+	}
 }
 
 type InputTcpjsonPq struct {
@@ -148,6 +193,25 @@ const (
 func (e InputTcpjsonMinimumTLSVersion) ToPointer() *InputTcpjsonMinimumTLSVersion {
 	return &e
 }
+func (e *InputTcpjsonMinimumTLSVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = InputTcpjsonMinimumTLSVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputTcpjsonMinimumTLSVersion: %v", v)
+	}
+}
 
 type InputTcpjsonMaximumTLSVersion string
 
@@ -160,6 +224,25 @@ const (
 
 func (e InputTcpjsonMaximumTLSVersion) ToPointer() *InputTcpjsonMaximumTLSVersion {
 	return &e
+}
+func (e *InputTcpjsonMaximumTLSVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = InputTcpjsonMaximumTLSVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputTcpjsonMaximumTLSVersion: %v", v)
+	}
 }
 
 type InputTcpjsonTLSSettingsServerSide struct {
@@ -300,6 +383,21 @@ const (
 
 func (e InputTcpjsonAuthenticationMethod) ToPointer() *InputTcpjsonAuthenticationMethod {
 	return &e
+}
+func (e *InputTcpjsonAuthenticationMethod) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = InputTcpjsonAuthenticationMethod(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputTcpjsonAuthenticationMethod: %v", v)
+	}
 }
 
 type InputTcpjson struct {

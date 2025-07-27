@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -14,6 +16,19 @@ const (
 
 func (e OutputAzureLogsType) ToPointer() *OutputAzureLogsType {
 	return &e
+}
+func (e *OutputAzureLogsType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "azure_logs":
+		*e = OutputAzureLogsType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputAzureLogsType: %v", v)
+	}
 }
 
 type OutputAzureLogsExtraHTTPHeader struct {
@@ -46,6 +61,23 @@ const (
 
 func (e OutputAzureLogsFailedRequestLoggingMode) ToPointer() *OutputAzureLogsFailedRequestLoggingMode {
 	return &e
+}
+func (e *OutputAzureLogsFailedRequestLoggingMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "payload":
+		fallthrough
+	case "payloadAndHeaders":
+		fallthrough
+	case "none":
+		*e = OutputAzureLogsFailedRequestLoggingMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputAzureLogsFailedRequestLoggingMode: %v", v)
+	}
 }
 
 type OutputAzureLogsResponseRetrySetting struct {
@@ -159,6 +191,23 @@ const (
 func (e OutputAzureLogsBackpressureBehavior) ToPointer() *OutputAzureLogsBackpressureBehavior {
 	return &e
 }
+func (e *OutputAzureLogsBackpressureBehavior) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		fallthrough
+	case "queue":
+		*e = OutputAzureLogsBackpressureBehavior(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputAzureLogsBackpressureBehavior: %v", v)
+	}
+}
 
 // OutputAzureLogsAuthenticationMethod - Enter workspace ID and workspace key directly, or select a stored secret
 type OutputAzureLogsAuthenticationMethod string
@@ -170,6 +219,21 @@ const (
 
 func (e OutputAzureLogsAuthenticationMethod) ToPointer() *OutputAzureLogsAuthenticationMethod {
 	return &e
+}
+func (e *OutputAzureLogsAuthenticationMethod) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = OutputAzureLogsAuthenticationMethod(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputAzureLogsAuthenticationMethod: %v", v)
+	}
 }
 
 // OutputAzureLogsCompression - Codec to use to compress the persisted data
@@ -183,6 +247,21 @@ const (
 func (e OutputAzureLogsCompression) ToPointer() *OutputAzureLogsCompression {
 	return &e
 }
+func (e *OutputAzureLogsCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = OutputAzureLogsCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputAzureLogsCompression: %v", v)
+	}
+}
 
 // OutputAzureLogsQueueFullBehavior - How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged.
 type OutputAzureLogsQueueFullBehavior string
@@ -194,6 +273,21 @@ const (
 
 func (e OutputAzureLogsQueueFullBehavior) ToPointer() *OutputAzureLogsQueueFullBehavior {
 	return &e
+}
+func (e *OutputAzureLogsQueueFullBehavior) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		*e = OutputAzureLogsQueueFullBehavior(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputAzureLogsQueueFullBehavior: %v", v)
+	}
 }
 
 // OutputAzureLogsMode - In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem.
@@ -207,6 +301,23 @@ const (
 
 func (e OutputAzureLogsMode) ToPointer() *OutputAzureLogsMode {
 	return &e
+}
+func (e *OutputAzureLogsMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "error":
+		fallthrough
+	case "backpressure":
+		fallthrough
+	case "always":
+		*e = OutputAzureLogsMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputAzureLogsMode: %v", v)
+	}
 }
 
 type OutputAzureLogsPqControls struct {

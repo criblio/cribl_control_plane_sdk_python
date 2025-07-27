@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -15,6 +17,19 @@ const (
 func (e OutputSqsType) ToPointer() *OutputSqsType {
 	return &e
 }
+func (e *OutputSqsType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "sqs":
+		*e = OutputSqsType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSqsType: %v", v)
+	}
+}
 
 // OutputSqsQueueType - The queue type used (or created). Defaults to Standard.
 type OutputSqsQueueType string
@@ -26,6 +41,21 @@ const (
 
 func (e OutputSqsQueueType) ToPointer() *OutputSqsQueueType {
 	return &e
+}
+func (e *OutputSqsQueueType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "standard":
+		fallthrough
+	case "fifo":
+		*e = OutputSqsQueueType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSqsQueueType: %v", v)
+	}
 }
 
 // OutputSqsAuthenticationMethod - AWS authentication method. Choose Auto to use IAM roles.
@@ -40,6 +70,23 @@ const (
 func (e OutputSqsAuthenticationMethod) ToPointer() *OutputSqsAuthenticationMethod {
 	return &e
 }
+func (e *OutputSqsAuthenticationMethod) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "auto":
+		fallthrough
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = OutputSqsAuthenticationMethod(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSqsAuthenticationMethod: %v", v)
+	}
+}
 
 // OutputSqsSignatureVersion - Signature version to use for signing SQS requests
 type OutputSqsSignatureVersion string
@@ -51,6 +98,21 @@ const (
 
 func (e OutputSqsSignatureVersion) ToPointer() *OutputSqsSignatureVersion {
 	return &e
+}
+func (e *OutputSqsSignatureVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "v2":
+		fallthrough
+	case "v4":
+		*e = OutputSqsSignatureVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSqsSignatureVersion: %v", v)
+	}
 }
 
 // OutputSqsBackpressureBehavior - How to handle events when all receivers are exerting backpressure
@@ -65,6 +127,23 @@ const (
 func (e OutputSqsBackpressureBehavior) ToPointer() *OutputSqsBackpressureBehavior {
 	return &e
 }
+func (e *OutputSqsBackpressureBehavior) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		fallthrough
+	case "queue":
+		*e = OutputSqsBackpressureBehavior(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSqsBackpressureBehavior: %v", v)
+	}
+}
 
 // OutputSqsCompression - Codec to use to compress the persisted data
 type OutputSqsCompression string
@@ -76,6 +155,21 @@ const (
 
 func (e OutputSqsCompression) ToPointer() *OutputSqsCompression {
 	return &e
+}
+func (e *OutputSqsCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = OutputSqsCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSqsCompression: %v", v)
+	}
 }
 
 // OutputSqsQueueFullBehavior - How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged.
@@ -89,6 +183,21 @@ const (
 func (e OutputSqsQueueFullBehavior) ToPointer() *OutputSqsQueueFullBehavior {
 	return &e
 }
+func (e *OutputSqsQueueFullBehavior) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		*e = OutputSqsQueueFullBehavior(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSqsQueueFullBehavior: %v", v)
+	}
+}
 
 // OutputSqsMode - In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem.
 type OutputSqsMode string
@@ -101,6 +210,23 @@ const (
 
 func (e OutputSqsMode) ToPointer() *OutputSqsMode {
 	return &e
+}
+func (e *OutputSqsMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "error":
+		fallthrough
+	case "backpressure":
+		fallthrough
+	case "always":
+		*e = OutputSqsMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSqsMode: %v", v)
+	}
 }
 
 type OutputSqsPqControls struct {

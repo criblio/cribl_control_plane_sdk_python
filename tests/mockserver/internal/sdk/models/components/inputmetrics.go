@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -14,6 +16,19 @@ const (
 
 func (e InputMetricsType) ToPointer() *InputMetricsType {
 	return &e
+}
+func (e *InputMetricsType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "metrics":
+		*e = InputMetricsType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputMetricsType: %v", v)
+	}
 }
 
 type InputMetricsConnection struct {
@@ -46,6 +61,21 @@ const (
 func (e InputMetricsMode) ToPointer() *InputMetricsMode {
 	return &e
 }
+func (e *InputMetricsMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = InputMetricsMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputMetricsMode: %v", v)
+	}
+}
 
 // InputMetricsCompression - Codec to use to compress the persisted data
 type InputMetricsCompression string
@@ -57,6 +87,21 @@ const (
 
 func (e InputMetricsCompression) ToPointer() *InputMetricsCompression {
 	return &e
+}
+func (e *InputMetricsCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = InputMetricsCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputMetricsCompression: %v", v)
+	}
 }
 
 type InputMetricsPq struct {
@@ -148,6 +193,25 @@ const (
 func (e InputMetricsMinimumTLSVersion) ToPointer() *InputMetricsMinimumTLSVersion {
 	return &e
 }
+func (e *InputMetricsMinimumTLSVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = InputMetricsMinimumTLSVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputMetricsMinimumTLSVersion: %v", v)
+	}
+}
 
 type InputMetricsMaximumTLSVersion string
 
@@ -160,6 +224,25 @@ const (
 
 func (e InputMetricsMaximumTLSVersion) ToPointer() *InputMetricsMaximumTLSVersion {
 	return &e
+}
+func (e *InputMetricsMaximumTLSVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = InputMetricsMaximumTLSVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputMetricsMaximumTLSVersion: %v", v)
+	}
 }
 
 type InputMetricsTLSSettingsServerSide struct {

@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -14,6 +16,19 @@ const (
 
 func (e InputAppscopeType) ToPointer() *InputAppscopeType {
 	return &e
+}
+func (e *InputAppscopeType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "appscope":
+		*e = InputAppscopeType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputAppscopeType: %v", v)
+	}
 }
 
 type InputAppscopeConnection struct {
@@ -46,6 +61,21 @@ const (
 func (e InputAppscopeMode) ToPointer() *InputAppscopeMode {
 	return &e
 }
+func (e *InputAppscopeMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = InputAppscopeMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputAppscopeMode: %v", v)
+	}
+}
 
 // InputAppscopeCompression - Codec to use to compress the persisted data
 type InputAppscopeCompression string
@@ -57,6 +87,21 @@ const (
 
 func (e InputAppscopeCompression) ToPointer() *InputAppscopeCompression {
 	return &e
+}
+func (e *InputAppscopeCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = InputAppscopeCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputAppscopeCompression: %v", v)
+	}
 }
 
 type InputAppscopePq struct {
@@ -217,6 +262,21 @@ const (
 func (e InputAppscopeDataCompressionFormat) ToPointer() *InputAppscopeDataCompressionFormat {
 	return &e
 }
+func (e *InputAppscopeDataCompressionFormat) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = InputAppscopeDataCompressionFormat(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputAppscopeDataCompressionFormat: %v", v)
+	}
+}
 
 type InputAppscopePersistence struct {
 	// Spool events and metrics on disk for Cribl Edge and Search
@@ -296,6 +356,21 @@ const (
 func (e InputAppscopeAuthenticationMethod) ToPointer() *InputAppscopeAuthenticationMethod {
 	return &e
 }
+func (e *InputAppscopeAuthenticationMethod) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = InputAppscopeAuthenticationMethod(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputAppscopeAuthenticationMethod: %v", v)
+	}
+}
 
 type InputAppscopeMinimumTLSVersion string
 
@@ -309,6 +384,25 @@ const (
 func (e InputAppscopeMinimumTLSVersion) ToPointer() *InputAppscopeMinimumTLSVersion {
 	return &e
 }
+func (e *InputAppscopeMinimumTLSVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = InputAppscopeMinimumTLSVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputAppscopeMinimumTLSVersion: %v", v)
+	}
+}
 
 type InputAppscopeMaximumTLSVersion string
 
@@ -321,6 +415,25 @@ const (
 
 func (e InputAppscopeMaximumTLSVersion) ToPointer() *InputAppscopeMaximumTLSVersion {
 	return &e
+}
+func (e *InputAppscopeMaximumTLSVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = InputAppscopeMaximumTLSVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputAppscopeMaximumTLSVersion: %v", v)
+	}
 }
 
 type InputAppscopeTLSSettingsServerSide struct {

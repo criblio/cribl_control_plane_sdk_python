@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -14,6 +16,19 @@ const (
 
 func (e OutputCrowdstrikeNextGenSiemType) ToPointer() *OutputCrowdstrikeNextGenSiemType {
 	return &e
+}
+func (e *OutputCrowdstrikeNextGenSiemType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "crowdstrike_next_gen_siem":
+		*e = OutputCrowdstrikeNextGenSiemType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputCrowdstrikeNextGenSiemType: %v", v)
+	}
 }
 
 type OutputCrowdstrikeNextGenSiemExtraHTTPHeader struct {
@@ -47,6 +62,23 @@ const (
 func (e OutputCrowdstrikeNextGenSiemFailedRequestLoggingMode) ToPointer() *OutputCrowdstrikeNextGenSiemFailedRequestLoggingMode {
 	return &e
 }
+func (e *OutputCrowdstrikeNextGenSiemFailedRequestLoggingMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "payload":
+		fallthrough
+	case "payloadAndHeaders":
+		fallthrough
+	case "none":
+		*e = OutputCrowdstrikeNextGenSiemFailedRequestLoggingMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputCrowdstrikeNextGenSiemFailedRequestLoggingMode: %v", v)
+	}
+}
 
 // OutputCrowdstrikeNextGenSiemRequestFormat - When set to JSON, the event is automatically formatted with required fields before sending. When set to Raw, only the event's `_raw` value is sent.
 type OutputCrowdstrikeNextGenSiemRequestFormat string
@@ -59,6 +91,21 @@ const (
 func (e OutputCrowdstrikeNextGenSiemRequestFormat) ToPointer() *OutputCrowdstrikeNextGenSiemRequestFormat {
 	return &e
 }
+func (e *OutputCrowdstrikeNextGenSiemRequestFormat) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "JSON":
+		fallthrough
+	case "raw":
+		*e = OutputCrowdstrikeNextGenSiemRequestFormat(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputCrowdstrikeNextGenSiemRequestFormat: %v", v)
+	}
+}
 
 // OutputCrowdstrikeNextGenSiemAuthenticationMethod - Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate
 type OutputCrowdstrikeNextGenSiemAuthenticationMethod string
@@ -70,6 +117,21 @@ const (
 
 func (e OutputCrowdstrikeNextGenSiemAuthenticationMethod) ToPointer() *OutputCrowdstrikeNextGenSiemAuthenticationMethod {
 	return &e
+}
+func (e *OutputCrowdstrikeNextGenSiemAuthenticationMethod) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = OutputCrowdstrikeNextGenSiemAuthenticationMethod(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputCrowdstrikeNextGenSiemAuthenticationMethod: %v", v)
+	}
 }
 
 type OutputCrowdstrikeNextGenSiemResponseRetrySetting struct {
@@ -183,6 +245,23 @@ const (
 func (e OutputCrowdstrikeNextGenSiemBackpressureBehavior) ToPointer() *OutputCrowdstrikeNextGenSiemBackpressureBehavior {
 	return &e
 }
+func (e *OutputCrowdstrikeNextGenSiemBackpressureBehavior) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		fallthrough
+	case "queue":
+		*e = OutputCrowdstrikeNextGenSiemBackpressureBehavior(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputCrowdstrikeNextGenSiemBackpressureBehavior: %v", v)
+	}
+}
 
 // OutputCrowdstrikeNextGenSiemCompression - Codec to use to compress the persisted data
 type OutputCrowdstrikeNextGenSiemCompression string
@@ -194,6 +273,21 @@ const (
 
 func (e OutputCrowdstrikeNextGenSiemCompression) ToPointer() *OutputCrowdstrikeNextGenSiemCompression {
 	return &e
+}
+func (e *OutputCrowdstrikeNextGenSiemCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = OutputCrowdstrikeNextGenSiemCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputCrowdstrikeNextGenSiemCompression: %v", v)
+	}
 }
 
 // OutputCrowdstrikeNextGenSiemQueueFullBehavior - How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged.
@@ -207,6 +301,21 @@ const (
 func (e OutputCrowdstrikeNextGenSiemQueueFullBehavior) ToPointer() *OutputCrowdstrikeNextGenSiemQueueFullBehavior {
 	return &e
 }
+func (e *OutputCrowdstrikeNextGenSiemQueueFullBehavior) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		*e = OutputCrowdstrikeNextGenSiemQueueFullBehavior(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputCrowdstrikeNextGenSiemQueueFullBehavior: %v", v)
+	}
+}
 
 // OutputCrowdstrikeNextGenSiemMode - In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem.
 type OutputCrowdstrikeNextGenSiemMode string
@@ -219,6 +328,23 @@ const (
 
 func (e OutputCrowdstrikeNextGenSiemMode) ToPointer() *OutputCrowdstrikeNextGenSiemMode {
 	return &e
+}
+func (e *OutputCrowdstrikeNextGenSiemMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "error":
+		fallthrough
+	case "backpressure":
+		fallthrough
+	case "always":
+		*e = OutputCrowdstrikeNextGenSiemMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputCrowdstrikeNextGenSiemMode: %v", v)
+	}
 }
 
 type OutputCrowdstrikeNextGenSiemPqControls struct {

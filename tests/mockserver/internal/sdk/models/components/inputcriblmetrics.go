@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -14,6 +16,19 @@ const (
 
 func (e InputCriblmetricsType) ToPointer() *InputCriblmetricsType {
 	return &e
+}
+func (e *InputCriblmetricsType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "criblmetrics":
+		*e = InputCriblmetricsType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputCriblmetricsType: %v", v)
+	}
 }
 
 type InputCriblmetricsConnection struct {
@@ -46,6 +61,21 @@ const (
 func (e InputCriblmetricsMode) ToPointer() *InputCriblmetricsMode {
 	return &e
 }
+func (e *InputCriblmetricsMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = InputCriblmetricsMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputCriblmetricsMode: %v", v)
+	}
+}
 
 // InputCriblmetricsCompression - Codec to use to compress the persisted data
 type InputCriblmetricsCompression string
@@ -57,6 +87,21 @@ const (
 
 func (e InputCriblmetricsCompression) ToPointer() *InputCriblmetricsCompression {
 	return &e
+}
+func (e *InputCriblmetricsCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = InputCriblmetricsCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputCriblmetricsCompression: %v", v)
+	}
 }
 
 type InputCriblmetricsPq struct {

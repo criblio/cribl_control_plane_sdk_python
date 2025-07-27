@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -14,6 +16,19 @@ const (
 
 func (e InputSnmpType) ToPointer() *InputSnmpType {
 	return &e
+}
+func (e *InputSnmpType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "snmp":
+		*e = InputSnmpType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputSnmpType: %v", v)
+	}
 }
 
 type InputSnmpConnection struct {
@@ -46,6 +61,21 @@ const (
 func (e InputSnmpMode) ToPointer() *InputSnmpMode {
 	return &e
 }
+func (e *InputSnmpMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = InputSnmpMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputSnmpMode: %v", v)
+	}
+}
 
 // InputSnmpCompression - Codec to use to compress the persisted data
 type InputSnmpCompression string
@@ -57,6 +87,21 @@ const (
 
 func (e InputSnmpCompression) ToPointer() *InputSnmpCompression {
 	return &e
+}
+func (e *InputSnmpCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = InputSnmpCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputSnmpCompression: %v", v)
+	}
 }
 
 type InputSnmpPq struct {
@@ -150,6 +195,31 @@ const (
 
 func (e AuthenticationProtocol) ToPointer() *AuthenticationProtocol {
 	return &e
+}
+func (e *AuthenticationProtocol) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "md5":
+		fallthrough
+	case "sha":
+		fallthrough
+	case "sha224":
+		fallthrough
+	case "sha256":
+		fallthrough
+	case "sha384":
+		fallthrough
+	case "sha512":
+		*e = AuthenticationProtocol(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for AuthenticationProtocol: %v", v)
+	}
 }
 
 type V3User struct {

@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -14,6 +16,19 @@ const (
 
 func (e OutputHumioHecType) ToPointer() *OutputHumioHecType {
 	return &e
+}
+func (e *OutputHumioHecType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "humio_hec":
+		*e = OutputHumioHecType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputHumioHecType: %v", v)
+	}
 }
 
 type OutputHumioHecExtraHTTPHeader struct {
@@ -47,6 +62,23 @@ const (
 func (e OutputHumioHecFailedRequestLoggingMode) ToPointer() *OutputHumioHecFailedRequestLoggingMode {
 	return &e
 }
+func (e *OutputHumioHecFailedRequestLoggingMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "payload":
+		fallthrough
+	case "payloadAndHeaders":
+		fallthrough
+	case "none":
+		*e = OutputHumioHecFailedRequestLoggingMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputHumioHecFailedRequestLoggingMode: %v", v)
+	}
+}
 
 // OutputHumioHecRequestFormat - When set to JSON, the event is automatically formatted with required fields before sending. When set to Raw, only the event's `_raw` value is sent.
 type OutputHumioHecRequestFormat string
@@ -59,6 +91,21 @@ const (
 func (e OutputHumioHecRequestFormat) ToPointer() *OutputHumioHecRequestFormat {
 	return &e
 }
+func (e *OutputHumioHecRequestFormat) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "JSON":
+		fallthrough
+	case "raw":
+		*e = OutputHumioHecRequestFormat(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputHumioHecRequestFormat: %v", v)
+	}
+}
 
 // OutputHumioHecAuthenticationMethod - Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate
 type OutputHumioHecAuthenticationMethod string
@@ -70,6 +117,21 @@ const (
 
 func (e OutputHumioHecAuthenticationMethod) ToPointer() *OutputHumioHecAuthenticationMethod {
 	return &e
+}
+func (e *OutputHumioHecAuthenticationMethod) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = OutputHumioHecAuthenticationMethod(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputHumioHecAuthenticationMethod: %v", v)
+	}
 }
 
 type OutputHumioHecResponseRetrySetting struct {
@@ -183,6 +245,23 @@ const (
 func (e OutputHumioHecBackpressureBehavior) ToPointer() *OutputHumioHecBackpressureBehavior {
 	return &e
 }
+func (e *OutputHumioHecBackpressureBehavior) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		fallthrough
+	case "queue":
+		*e = OutputHumioHecBackpressureBehavior(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputHumioHecBackpressureBehavior: %v", v)
+	}
+}
 
 // OutputHumioHecCompression - Codec to use to compress the persisted data
 type OutputHumioHecCompression string
@@ -194,6 +273,21 @@ const (
 
 func (e OutputHumioHecCompression) ToPointer() *OutputHumioHecCompression {
 	return &e
+}
+func (e *OutputHumioHecCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = OutputHumioHecCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputHumioHecCompression: %v", v)
+	}
 }
 
 // OutputHumioHecQueueFullBehavior - How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged.
@@ -207,6 +301,21 @@ const (
 func (e OutputHumioHecQueueFullBehavior) ToPointer() *OutputHumioHecQueueFullBehavior {
 	return &e
 }
+func (e *OutputHumioHecQueueFullBehavior) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		*e = OutputHumioHecQueueFullBehavior(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputHumioHecQueueFullBehavior: %v", v)
+	}
+}
 
 // OutputHumioHecMode - In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem.
 type OutputHumioHecMode string
@@ -219,6 +328,23 @@ const (
 
 func (e OutputHumioHecMode) ToPointer() *OutputHumioHecMode {
 	return &e
+}
+func (e *OutputHumioHecMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "error":
+		fallthrough
+	case "backpressure":
+		fallthrough
+	case "always":
+		*e = OutputHumioHecMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputHumioHecMode: %v", v)
+	}
 }
 
 type OutputHumioHecPqControls struct {

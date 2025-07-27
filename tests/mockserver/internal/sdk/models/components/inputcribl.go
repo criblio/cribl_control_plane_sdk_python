@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -14,6 +16,19 @@ const (
 
 func (e InputCriblType) ToPointer() *InputCriblType {
 	return &e
+}
+func (e *InputCriblType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "cribl":
+		*e = InputCriblType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputCriblType: %v", v)
+	}
 }
 
 type InputCriblConnection struct {
@@ -46,6 +61,21 @@ const (
 func (e InputCriblMode) ToPointer() *InputCriblMode {
 	return &e
 }
+func (e *InputCriblMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = InputCriblMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputCriblMode: %v", v)
+	}
+}
 
 // InputCriblCompression - Codec to use to compress the persisted data
 type InputCriblCompression string
@@ -57,6 +87,21 @@ const (
 
 func (e InputCriblCompression) ToPointer() *InputCriblCompression {
 	return &e
+}
+func (e *InputCriblCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = InputCriblCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputCriblCompression: %v", v)
+	}
 }
 
 type InputCriblPq struct {

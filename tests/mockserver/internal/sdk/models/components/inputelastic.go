@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -14,6 +16,19 @@ const (
 
 func (e InputElasticType) ToPointer() *InputElasticType {
 	return &e
+}
+func (e *InputElasticType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "elastic":
+		*e = InputElasticType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputElasticType: %v", v)
+	}
 }
 
 type InputElasticConnection struct {
@@ -46,6 +61,21 @@ const (
 func (e InputElasticMode) ToPointer() *InputElasticMode {
 	return &e
 }
+func (e *InputElasticMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = InputElasticMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputElasticMode: %v", v)
+	}
+}
 
 // InputElasticCompression - Codec to use to compress the persisted data
 type InputElasticCompression string
@@ -57,6 +87,21 @@ const (
 
 func (e InputElasticCompression) ToPointer() *InputElasticCompression {
 	return &e
+}
+func (e *InputElasticCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = InputElasticCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputElasticCompression: %v", v)
+	}
 }
 
 type InputElasticPq struct {
@@ -148,6 +193,25 @@ const (
 func (e InputElasticMinimumTLSVersion) ToPointer() *InputElasticMinimumTLSVersion {
 	return &e
 }
+func (e *InputElasticMinimumTLSVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = InputElasticMinimumTLSVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputElasticMinimumTLSVersion: %v", v)
+	}
+}
 
 type InputElasticMaximumTLSVersion string
 
@@ -160,6 +224,25 @@ const (
 
 func (e InputElasticMaximumTLSVersion) ToPointer() *InputElasticMaximumTLSVersion {
 	return &e
+}
+func (e *InputElasticMaximumTLSVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = InputElasticMaximumTLSVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputElasticMaximumTLSVersion: %v", v)
+	}
 }
 
 type InputElasticTLSSettingsServerSide struct {
@@ -282,6 +365,25 @@ const (
 func (e InputElasticAuthenticationType) ToPointer() *InputElasticAuthenticationType {
 	return &e
 }
+func (e *InputElasticAuthenticationType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "basic":
+		fallthrough
+	case "credentialsSecret":
+		fallthrough
+	case "authTokens":
+		*e = InputElasticAuthenticationType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputElasticAuthenticationType: %v", v)
+	}
+}
 
 // InputElasticAPIVersion - The API version to use for communicating with the server
 type InputElasticAPIVersion string
@@ -294,6 +396,23 @@ const (
 
 func (e InputElasticAPIVersion) ToPointer() *InputElasticAPIVersion {
 	return &e
+}
+func (e *InputElasticAPIVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "6.8.4":
+		fallthrough
+	case "8.3.2":
+		fallthrough
+	case "custom":
+		*e = InputElasticAPIVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputElasticAPIVersion: %v", v)
+	}
 }
 
 type InputElasticExtraHTTPHeader struct {
@@ -346,6 +465,23 @@ const (
 
 func (e InputElasticAuthenticationMethod) ToPointer() *InputElasticAuthenticationMethod {
 	return &e
+}
+func (e *InputElasticAuthenticationMethod) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = InputElasticAuthenticationMethod(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputElasticAuthenticationMethod: %v", v)
+	}
 }
 
 type InputElasticProxyMode struct {

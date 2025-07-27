@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -15,6 +17,19 @@ const (
 func (e OutputGoogleChronicleType) ToPointer() *OutputGoogleChronicleType {
 	return &e
 }
+func (e *OutputGoogleChronicleType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "google_chronicle":
+		*e = OutputGoogleChronicleType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputGoogleChronicleType: %v", v)
+	}
+}
 
 type OutputGoogleChronicleAPIVersion string
 
@@ -25,6 +40,21 @@ const (
 
 func (e OutputGoogleChronicleAPIVersion) ToPointer() *OutputGoogleChronicleAPIVersion {
 	return &e
+}
+func (e *OutputGoogleChronicleAPIVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "v1":
+		fallthrough
+	case "v2":
+		*e = OutputGoogleChronicleAPIVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputGoogleChronicleAPIVersion: %v", v)
+	}
 }
 
 type OutputGoogleChronicleAuthenticationMethod string
@@ -38,6 +68,25 @@ const (
 
 func (e OutputGoogleChronicleAuthenticationMethod) ToPointer() *OutputGoogleChronicleAuthenticationMethod {
 	return &e
+}
+func (e *OutputGoogleChronicleAuthenticationMethod) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "manual":
+		fallthrough
+	case "secret":
+		fallthrough
+	case "serviceAccount":
+		fallthrough
+	case "serviceAccountSecret":
+		*e = OutputGoogleChronicleAuthenticationMethod(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputGoogleChronicleAuthenticationMethod: %v", v)
+	}
 }
 
 type OutputGoogleChronicleResponseRetrySetting struct {
@@ -149,6 +198,21 @@ const (
 func (e SendEventsAs) ToPointer() *SendEventsAs {
 	return &e
 }
+func (e *SendEventsAs) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "unstructured":
+		fallthrough
+	case "udm":
+		*e = SendEventsAs(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for SendEventsAs: %v", v)
+	}
+}
 
 type OutputGoogleChronicleExtraHTTPHeader struct {
 	Name  *string `json:"name,omitempty"`
@@ -181,6 +245,23 @@ const (
 func (e OutputGoogleChronicleFailedRequestLoggingMode) ToPointer() *OutputGoogleChronicleFailedRequestLoggingMode {
 	return &e
 }
+func (e *OutputGoogleChronicleFailedRequestLoggingMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "payload":
+		fallthrough
+	case "payloadAndHeaders":
+		fallthrough
+	case "none":
+		*e = OutputGoogleChronicleFailedRequestLoggingMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputGoogleChronicleFailedRequestLoggingMode: %v", v)
+	}
+}
 
 // OutputGoogleChronicleBackpressureBehavior - How to handle events when all receivers are exerting backpressure
 type OutputGoogleChronicleBackpressureBehavior string
@@ -193,6 +274,23 @@ const (
 
 func (e OutputGoogleChronicleBackpressureBehavior) ToPointer() *OutputGoogleChronicleBackpressureBehavior {
 	return &e
+}
+func (e *OutputGoogleChronicleBackpressureBehavior) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		fallthrough
+	case "queue":
+		*e = OutputGoogleChronicleBackpressureBehavior(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputGoogleChronicleBackpressureBehavior: %v", v)
+	}
 }
 
 type ExtraLogType struct {
@@ -244,6 +342,21 @@ const (
 func (e OutputGoogleChronicleCompression) ToPointer() *OutputGoogleChronicleCompression {
 	return &e
 }
+func (e *OutputGoogleChronicleCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = OutputGoogleChronicleCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputGoogleChronicleCompression: %v", v)
+	}
+}
 
 // OutputGoogleChronicleQueueFullBehavior - How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged.
 type OutputGoogleChronicleQueueFullBehavior string
@@ -255,6 +368,21 @@ const (
 
 func (e OutputGoogleChronicleQueueFullBehavior) ToPointer() *OutputGoogleChronicleQueueFullBehavior {
 	return &e
+}
+func (e *OutputGoogleChronicleQueueFullBehavior) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		*e = OutputGoogleChronicleQueueFullBehavior(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputGoogleChronicleQueueFullBehavior: %v", v)
+	}
 }
 
 // OutputGoogleChronicleMode - In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem.
@@ -268,6 +396,23 @@ const (
 
 func (e OutputGoogleChronicleMode) ToPointer() *OutputGoogleChronicleMode {
 	return &e
+}
+func (e *OutputGoogleChronicleMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "error":
+		fallthrough
+	case "backpressure":
+		fallthrough
+	case "always":
+		*e = OutputGoogleChronicleMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputGoogleChronicleMode: %v", v)
+	}
 }
 
 type OutputGoogleChroniclePqControls struct {

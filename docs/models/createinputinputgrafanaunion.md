@@ -3,15 +3,15 @@
 
 ## Supported Types
 
-### `models.CreateInputInputGrafana1`
+### `models.CreateInputInputGrafanaGrafana1`
 
 ```python
-value: models.CreateInputInputGrafana1 = /* values here */
+value: models.CreateInputInputGrafanaGrafana1 = /* values here */
 ```
 
-### `models.CreateInputInputGrafana2`
+### `models.CreateInputInputGrafanaGrafana2`
 
 ```python
-value: models.CreateInputInputGrafana2 = /* values here */
+value: models.CreateInputInputGrafanaGrafana2 = /* values here */
 ```
 

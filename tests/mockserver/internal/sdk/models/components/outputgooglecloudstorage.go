@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -14,6 +16,19 @@ const (
 
 func (e OutputGoogleCloudStorageType) ToPointer() *OutputGoogleCloudStorageType {
 	return &e
+}
+func (e *OutputGoogleCloudStorageType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "google_cloud_storage":
+		*e = OutputGoogleCloudStorageType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputGoogleCloudStorageType: %v", v)
+	}
 }
 
 // OutputGoogleCloudStorageSignatureVersion - Signature version to use for signing Google Cloud Storage requests
@@ -27,6 +42,21 @@ const (
 func (e OutputGoogleCloudStorageSignatureVersion) ToPointer() *OutputGoogleCloudStorageSignatureVersion {
 	return &e
 }
+func (e *OutputGoogleCloudStorageSignatureVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "v2":
+		fallthrough
+	case "v4":
+		*e = OutputGoogleCloudStorageSignatureVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputGoogleCloudStorageSignatureVersion: %v", v)
+	}
+}
 
 type OutputGoogleCloudStorageAuthenticationMethod string
 
@@ -38,6 +68,23 @@ const (
 
 func (e OutputGoogleCloudStorageAuthenticationMethod) ToPointer() *OutputGoogleCloudStorageAuthenticationMethod {
 	return &e
+}
+func (e *OutputGoogleCloudStorageAuthenticationMethod) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "auto":
+		fallthrough
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = OutputGoogleCloudStorageAuthenticationMethod(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputGoogleCloudStorageAuthenticationMethod: %v", v)
+	}
 }
 
 // OutputGoogleCloudStorageObjectACL - Object ACL to assign to uploaded objects
@@ -55,6 +102,29 @@ const (
 func (e OutputGoogleCloudStorageObjectACL) ToPointer() *OutputGoogleCloudStorageObjectACL {
 	return &e
 }
+func (e *OutputGoogleCloudStorageObjectACL) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "private":
+		fallthrough
+	case "bucket-owner-read":
+		fallthrough
+	case "bucket-owner-full-control":
+		fallthrough
+	case "project-private":
+		fallthrough
+	case "authenticated-read":
+		fallthrough
+	case "public-read":
+		*e = OutputGoogleCloudStorageObjectACL(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputGoogleCloudStorageObjectACL: %v", v)
+	}
+}
 
 // OutputGoogleCloudStorageStorageClass - Storage class to select for uploaded objects
 type OutputGoogleCloudStorageStorageClass string
@@ -69,6 +139,25 @@ const (
 func (e OutputGoogleCloudStorageStorageClass) ToPointer() *OutputGoogleCloudStorageStorageClass {
 	return &e
 }
+func (e *OutputGoogleCloudStorageStorageClass) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "STANDARD":
+		fallthrough
+	case "NEARLINE":
+		fallthrough
+	case "COLDLINE":
+		fallthrough
+	case "ARCHIVE":
+		*e = OutputGoogleCloudStorageStorageClass(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputGoogleCloudStorageStorageClass: %v", v)
+	}
+}
 
 // OutputGoogleCloudStorageDataFormat - Format of the output data
 type OutputGoogleCloudStorageDataFormat string
@@ -82,6 +171,23 @@ const (
 func (e OutputGoogleCloudStorageDataFormat) ToPointer() *OutputGoogleCloudStorageDataFormat {
 	return &e
 }
+func (e *OutputGoogleCloudStorageDataFormat) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "json":
+		fallthrough
+	case "raw":
+		fallthrough
+	case "parquet":
+		*e = OutputGoogleCloudStorageDataFormat(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputGoogleCloudStorageDataFormat: %v", v)
+	}
+}
 
 // OutputGoogleCloudStorageBackpressureBehavior - How to handle events when all receivers are exerting backpressure
 type OutputGoogleCloudStorageBackpressureBehavior string
@@ -93,6 +199,21 @@ const (
 
 func (e OutputGoogleCloudStorageBackpressureBehavior) ToPointer() *OutputGoogleCloudStorageBackpressureBehavior {
 	return &e
+}
+func (e *OutputGoogleCloudStorageBackpressureBehavior) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		*e = OutputGoogleCloudStorageBackpressureBehavior(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputGoogleCloudStorageBackpressureBehavior: %v", v)
+	}
 }
 
 // OutputGoogleCloudStorageDiskSpaceProtection - How to handle events when disk space is below the global 'Min free disk space' limit
@@ -106,6 +227,21 @@ const (
 func (e OutputGoogleCloudStorageDiskSpaceProtection) ToPointer() *OutputGoogleCloudStorageDiskSpaceProtection {
 	return &e
 }
+func (e *OutputGoogleCloudStorageDiskSpaceProtection) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		*e = OutputGoogleCloudStorageDiskSpaceProtection(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputGoogleCloudStorageDiskSpaceProtection: %v", v)
+	}
+}
 
 // OutputGoogleCloudStorageCompression - Data compression format to apply to HTTP content before it is delivered
 type OutputGoogleCloudStorageCompression string
@@ -117,6 +253,21 @@ const (
 
 func (e OutputGoogleCloudStorageCompression) ToPointer() *OutputGoogleCloudStorageCompression {
 	return &e
+}
+func (e *OutputGoogleCloudStorageCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = OutputGoogleCloudStorageCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputGoogleCloudStorageCompression: %v", v)
+	}
 }
 
 // OutputGoogleCloudStorageCompressionLevel - Compression level to apply before moving files to final destination
@@ -131,6 +282,23 @@ const (
 func (e OutputGoogleCloudStorageCompressionLevel) ToPointer() *OutputGoogleCloudStorageCompressionLevel {
 	return &e
 }
+func (e *OutputGoogleCloudStorageCompressionLevel) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "best_speed":
+		fallthrough
+	case "normal":
+		fallthrough
+	case "best_compression":
+		*e = OutputGoogleCloudStorageCompressionLevel(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputGoogleCloudStorageCompressionLevel: %v", v)
+	}
+}
 
 // OutputGoogleCloudStorageParquetVersion - Determines which data types are supported and how they are represented
 type OutputGoogleCloudStorageParquetVersion string
@@ -144,6 +312,23 @@ const (
 func (e OutputGoogleCloudStorageParquetVersion) ToPointer() *OutputGoogleCloudStorageParquetVersion {
 	return &e
 }
+func (e *OutputGoogleCloudStorageParquetVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "PARQUET_1_0":
+		fallthrough
+	case "PARQUET_2_4":
+		fallthrough
+	case "PARQUET_2_6":
+		*e = OutputGoogleCloudStorageParquetVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputGoogleCloudStorageParquetVersion: %v", v)
+	}
+}
 
 // OutputGoogleCloudStorageDataPageVersion - Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it.
 type OutputGoogleCloudStorageDataPageVersion string
@@ -155,6 +340,21 @@ const (
 
 func (e OutputGoogleCloudStorageDataPageVersion) ToPointer() *OutputGoogleCloudStorageDataPageVersion {
 	return &e
+}
+func (e *OutputGoogleCloudStorageDataPageVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "DATA_PAGE_V1":
+		fallthrough
+	case "DATA_PAGE_V2":
+		*e = OutputGoogleCloudStorageDataPageVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputGoogleCloudStorageDataPageVersion: %v", v)
+	}
 }
 
 type OutputGoogleCloudStorageKeyValueMetadatum struct {

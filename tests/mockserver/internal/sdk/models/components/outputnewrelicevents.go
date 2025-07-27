@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -14,6 +16,19 @@ const (
 
 func (e OutputNewrelicEventsType) ToPointer() *OutputNewrelicEventsType {
 	return &e
+}
+func (e *OutputNewrelicEventsType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "newrelic_events":
+		*e = OutputNewrelicEventsType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputNewrelicEventsType: %v", v)
+	}
 }
 
 // OutputNewrelicEventsRegion - Which New Relic region endpoint to use.
@@ -27,6 +42,23 @@ const (
 
 func (e OutputNewrelicEventsRegion) ToPointer() *OutputNewrelicEventsRegion {
 	return &e
+}
+func (e *OutputNewrelicEventsRegion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "US":
+		fallthrough
+	case "EU":
+		fallthrough
+	case "Custom":
+		*e = OutputNewrelicEventsRegion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputNewrelicEventsRegion: %v", v)
+	}
 }
 
 type OutputNewrelicEventsExtraHTTPHeader struct {
@@ -59,6 +91,23 @@ const (
 
 func (e OutputNewrelicEventsFailedRequestLoggingMode) ToPointer() *OutputNewrelicEventsFailedRequestLoggingMode {
 	return &e
+}
+func (e *OutputNewrelicEventsFailedRequestLoggingMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "payload":
+		fallthrough
+	case "payloadAndHeaders":
+		fallthrough
+	case "none":
+		*e = OutputNewrelicEventsFailedRequestLoggingMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputNewrelicEventsFailedRequestLoggingMode: %v", v)
+	}
 }
 
 type OutputNewrelicEventsResponseRetrySetting struct {
@@ -172,6 +221,23 @@ const (
 func (e OutputNewrelicEventsBackpressureBehavior) ToPointer() *OutputNewrelicEventsBackpressureBehavior {
 	return &e
 }
+func (e *OutputNewrelicEventsBackpressureBehavior) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		fallthrough
+	case "queue":
+		*e = OutputNewrelicEventsBackpressureBehavior(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputNewrelicEventsBackpressureBehavior: %v", v)
+	}
+}
 
 // OutputNewrelicEventsAuthenticationMethod - Enter API key directly, or select a stored secret
 type OutputNewrelicEventsAuthenticationMethod string
@@ -183,6 +249,21 @@ const (
 
 func (e OutputNewrelicEventsAuthenticationMethod) ToPointer() *OutputNewrelicEventsAuthenticationMethod {
 	return &e
+}
+func (e *OutputNewrelicEventsAuthenticationMethod) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = OutputNewrelicEventsAuthenticationMethod(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputNewrelicEventsAuthenticationMethod: %v", v)
+	}
 }
 
 // OutputNewrelicEventsCompression - Codec to use to compress the persisted data
@@ -196,6 +277,21 @@ const (
 func (e OutputNewrelicEventsCompression) ToPointer() *OutputNewrelicEventsCompression {
 	return &e
 }
+func (e *OutputNewrelicEventsCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = OutputNewrelicEventsCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputNewrelicEventsCompression: %v", v)
+	}
+}
 
 // OutputNewrelicEventsQueueFullBehavior - How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged.
 type OutputNewrelicEventsQueueFullBehavior string
@@ -207,6 +303,21 @@ const (
 
 func (e OutputNewrelicEventsQueueFullBehavior) ToPointer() *OutputNewrelicEventsQueueFullBehavior {
 	return &e
+}
+func (e *OutputNewrelicEventsQueueFullBehavior) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		*e = OutputNewrelicEventsQueueFullBehavior(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputNewrelicEventsQueueFullBehavior: %v", v)
+	}
 }
 
 // OutputNewrelicEventsMode - In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem.
@@ -220,6 +331,23 @@ const (
 
 func (e OutputNewrelicEventsMode) ToPointer() *OutputNewrelicEventsMode {
 	return &e
+}
+func (e *OutputNewrelicEventsMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "error":
+		fallthrough
+	case "backpressure":
+		fallthrough
+	case "always":
+		*e = OutputNewrelicEventsMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputNewrelicEventsMode: %v", v)
+	}
 }
 
 type OutputNewrelicEventsPqControls struct {

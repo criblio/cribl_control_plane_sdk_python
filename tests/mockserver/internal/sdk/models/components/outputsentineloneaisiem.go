@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -14,6 +16,19 @@ const (
 
 func (e OutputSentinelOneAiSiemType) ToPointer() *OutputSentinelOneAiSiemType {
 	return &e
+}
+func (e *OutputSentinelOneAiSiemType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "sentinel_one_ai_siem":
+		*e = OutputSentinelOneAiSiemType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSentinelOneAiSiemType: %v", v)
+	}
 }
 
 // OutputSentinelOneAiSiemRegion - The SentinelOne region to send events to. In most cases you can find the region by either looking at your SentinelOne URL or knowing what geographic region your SentinelOne instance is contained in.
@@ -32,6 +47,31 @@ const (
 func (e OutputSentinelOneAiSiemRegion) ToPointer() *OutputSentinelOneAiSiemRegion {
 	return &e
 }
+func (e *OutputSentinelOneAiSiemRegion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "US":
+		fallthrough
+	case "CA":
+		fallthrough
+	case "EMEA":
+		fallthrough
+	case "AP":
+		fallthrough
+	case "APS":
+		fallthrough
+	case "AU":
+		fallthrough
+	case "Custom":
+		*e = OutputSentinelOneAiSiemRegion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSentinelOneAiSiemRegion: %v", v)
+	}
+}
 
 // AISIEMEndpointPath - Regional endpoint used to send events to, such as /services/collector/event or /services/collector/raw
 type AISIEMEndpointPath string
@@ -43,6 +83,21 @@ const (
 
 func (e AISIEMEndpointPath) ToPointer() *AISIEMEndpointPath {
 	return &e
+}
+func (e *AISIEMEndpointPath) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "/services/collector/event":
+		fallthrough
+	case "/services/collector/raw":
+		*e = AISIEMEndpointPath(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for AISIEMEndpointPath: %v", v)
+	}
 }
 
 type OutputSentinelOneAiSiemExtraHTTPHeader struct {
@@ -76,6 +131,23 @@ const (
 func (e OutputSentinelOneAiSiemFailedRequestLoggingMode) ToPointer() *OutputSentinelOneAiSiemFailedRequestLoggingMode {
 	return &e
 }
+func (e *OutputSentinelOneAiSiemFailedRequestLoggingMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "payload":
+		fallthrough
+	case "payloadAndHeaders":
+		fallthrough
+	case "none":
+		*e = OutputSentinelOneAiSiemFailedRequestLoggingMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSentinelOneAiSiemFailedRequestLoggingMode: %v", v)
+	}
+}
 
 // OutputSentinelOneAiSiemAuthenticationMethod - Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate
 type OutputSentinelOneAiSiemAuthenticationMethod string
@@ -87,6 +159,21 @@ const (
 
 func (e OutputSentinelOneAiSiemAuthenticationMethod) ToPointer() *OutputSentinelOneAiSiemAuthenticationMethod {
 	return &e
+}
+func (e *OutputSentinelOneAiSiemAuthenticationMethod) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = OutputSentinelOneAiSiemAuthenticationMethod(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSentinelOneAiSiemAuthenticationMethod: %v", v)
+	}
 }
 
 type OutputSentinelOneAiSiemResponseRetrySetting struct {
@@ -200,6 +287,23 @@ const (
 func (e OutputSentinelOneAiSiemBackpressureBehavior) ToPointer() *OutputSentinelOneAiSiemBackpressureBehavior {
 	return &e
 }
+func (e *OutputSentinelOneAiSiemBackpressureBehavior) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		fallthrough
+	case "queue":
+		*e = OutputSentinelOneAiSiemBackpressureBehavior(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSentinelOneAiSiemBackpressureBehavior: %v", v)
+	}
+}
 
 // OutputSentinelOneAiSiemCompression - Codec to use to compress the persisted data
 type OutputSentinelOneAiSiemCompression string
@@ -211,6 +315,21 @@ const (
 
 func (e OutputSentinelOneAiSiemCompression) ToPointer() *OutputSentinelOneAiSiemCompression {
 	return &e
+}
+func (e *OutputSentinelOneAiSiemCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = OutputSentinelOneAiSiemCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSentinelOneAiSiemCompression: %v", v)
+	}
 }
 
 // OutputSentinelOneAiSiemQueueFullBehavior - How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged.
@@ -224,6 +343,21 @@ const (
 func (e OutputSentinelOneAiSiemQueueFullBehavior) ToPointer() *OutputSentinelOneAiSiemQueueFullBehavior {
 	return &e
 }
+func (e *OutputSentinelOneAiSiemQueueFullBehavior) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		*e = OutputSentinelOneAiSiemQueueFullBehavior(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSentinelOneAiSiemQueueFullBehavior: %v", v)
+	}
+}
 
 // OutputSentinelOneAiSiemMode - In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem.
 type OutputSentinelOneAiSiemMode string
@@ -236,6 +370,23 @@ const (
 
 func (e OutputSentinelOneAiSiemMode) ToPointer() *OutputSentinelOneAiSiemMode {
 	return &e
+}
+func (e *OutputSentinelOneAiSiemMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "error":
+		fallthrough
+	case "backpressure":
+		fallthrough
+	case "always":
+		*e = OutputSentinelOneAiSiemMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSentinelOneAiSiemMode: %v", v)
+	}
 }
 
 type OutputSentinelOneAiSiemPqControls struct {

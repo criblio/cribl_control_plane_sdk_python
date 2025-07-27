@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -14,6 +16,19 @@ const (
 
 func (e OutputNetflowType) ToPointer() *OutputNetflowType {
 	return &e
+}
+func (e *OutputNetflowType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "netflow":
+		*e = OutputNetflowType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputNetflowType: %v", v)
+	}
 }
 
 type OutputNetflowHost struct {

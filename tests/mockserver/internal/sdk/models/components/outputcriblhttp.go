@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -14,6 +16,19 @@ const (
 
 func (e OutputCriblHTTPType) ToPointer() *OutputCriblHTTPType {
 	return &e
+}
+func (e *OutputCriblHTTPType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "cribl_http":
+		*e = OutputCriblHTTPType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputCriblHTTPType: %v", v)
+	}
 }
 
 type OutputCriblHTTPMinimumTLSVersion string
@@ -28,6 +43,25 @@ const (
 func (e OutputCriblHTTPMinimumTLSVersion) ToPointer() *OutputCriblHTTPMinimumTLSVersion {
 	return &e
 }
+func (e *OutputCriblHTTPMinimumTLSVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = OutputCriblHTTPMinimumTLSVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputCriblHTTPMinimumTLSVersion: %v", v)
+	}
+}
 
 type OutputCriblHTTPMaximumTLSVersion string
 
@@ -40,6 +74,25 @@ const (
 
 func (e OutputCriblHTTPMaximumTLSVersion) ToPointer() *OutputCriblHTTPMaximumTLSVersion {
 	return &e
+}
+func (e *OutputCriblHTTPMaximumTLSVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "TLSv1":
+		fallthrough
+	case "TLSv1.1":
+		fallthrough
+	case "TLSv1.2":
+		fallthrough
+	case "TLSv1.3":
+		*e = OutputCriblHTTPMaximumTLSVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputCriblHTTPMaximumTLSVersion: %v", v)
+	}
 }
 
 type OutputCriblHTTPTLSSettingsClientSide struct {
@@ -155,6 +208,21 @@ const (
 func (e OutputCriblHTTPCompression) ToPointer() *OutputCriblHTTPCompression {
 	return &e
 }
+func (e *OutputCriblHTTPCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = OutputCriblHTTPCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputCriblHTTPCompression: %v", v)
+	}
+}
 
 type OutputCriblHTTPExtraHTTPHeader struct {
 	Name  *string `json:"name,omitempty"`
@@ -186,6 +254,23 @@ const (
 
 func (e OutputCriblHTTPFailedRequestLoggingMode) ToPointer() *OutputCriblHTTPFailedRequestLoggingMode {
 	return &e
+}
+func (e *OutputCriblHTTPFailedRequestLoggingMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "payload":
+		fallthrough
+	case "payloadAndHeaders":
+		fallthrough
+	case "none":
+		*e = OutputCriblHTTPFailedRequestLoggingMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputCriblHTTPFailedRequestLoggingMode: %v", v)
+	}
 }
 
 type OutputCriblHTTPResponseRetrySetting struct {
@@ -299,6 +384,23 @@ const (
 func (e OutputCriblHTTPBackpressureBehavior) ToPointer() *OutputCriblHTTPBackpressureBehavior {
 	return &e
 }
+func (e *OutputCriblHTTPBackpressureBehavior) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		fallthrough
+	case "queue":
+		*e = OutputCriblHTTPBackpressureBehavior(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputCriblHTTPBackpressureBehavior: %v", v)
+	}
+}
 
 type OutputCriblHTTPURL struct {
 	// URL of a Cribl Worker to send events to, such as http://localhost:10200
@@ -343,6 +445,21 @@ const (
 func (e OutputCriblHTTPPqCompressCompression) ToPointer() *OutputCriblHTTPPqCompressCompression {
 	return &e
 }
+func (e *OutputCriblHTTPPqCompressCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = OutputCriblHTTPPqCompressCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputCriblHTTPPqCompressCompression: %v", v)
+	}
+}
 
 // OutputCriblHTTPQueueFullBehavior - How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged.
 type OutputCriblHTTPQueueFullBehavior string
@@ -354,6 +471,21 @@ const (
 
 func (e OutputCriblHTTPQueueFullBehavior) ToPointer() *OutputCriblHTTPQueueFullBehavior {
 	return &e
+}
+func (e *OutputCriblHTTPQueueFullBehavior) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		*e = OutputCriblHTTPQueueFullBehavior(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputCriblHTTPQueueFullBehavior: %v", v)
+	}
 }
 
 // OutputCriblHTTPMode - In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem.
@@ -367,6 +499,23 @@ const (
 
 func (e OutputCriblHTTPMode) ToPointer() *OutputCriblHTTPMode {
 	return &e
+}
+func (e *OutputCriblHTTPMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "error":
+		fallthrough
+	case "backpressure":
+		fallthrough
+	case "always":
+		*e = OutputCriblHTTPMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputCriblHTTPMode: %v", v)
+	}
 }
 
 type OutputCriblHTTPPqControls struct {

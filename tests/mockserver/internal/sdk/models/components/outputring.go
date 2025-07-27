@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -14,6 +16,19 @@ const (
 
 func (e OutputRingType) ToPointer() *OutputRingType {
 	return &e
+}
+func (e *OutputRingType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "ring":
+		*e = OutputRingType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputRingType: %v", v)
+	}
 }
 
 // OutputRingDataFormat - Format of the output data.
@@ -27,6 +42,21 @@ const (
 func (e OutputRingDataFormat) ToPointer() *OutputRingDataFormat {
 	return &e
 }
+func (e *OutputRingDataFormat) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "json":
+		fallthrough
+	case "raw":
+		*e = OutputRingDataFormat(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputRingDataFormat: %v", v)
+	}
+}
 
 type OutputRingDataCompressionFormat string
 
@@ -37,6 +67,21 @@ const (
 
 func (e OutputRingDataCompressionFormat) ToPointer() *OutputRingDataCompressionFormat {
 	return &e
+}
+func (e *OutputRingDataCompressionFormat) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = OutputRingDataCompressionFormat(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputRingDataCompressionFormat: %v", v)
+	}
 }
 
 // OutputRingBackpressureBehavior - How to handle events when all receivers are exerting backpressure
@@ -49,6 +94,21 @@ const (
 
 func (e OutputRingBackpressureBehavior) ToPointer() *OutputRingBackpressureBehavior {
 	return &e
+}
+func (e *OutputRingBackpressureBehavior) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		*e = OutputRingBackpressureBehavior(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputRingBackpressureBehavior: %v", v)
+	}
 }
 
 type OutputRing struct {

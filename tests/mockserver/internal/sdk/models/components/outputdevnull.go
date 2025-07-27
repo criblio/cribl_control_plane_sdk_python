@@ -2,6 +2,11 @@
 
 package components
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 type OutputDevnullType string
 
 const (
@@ -10,6 +15,19 @@ const (
 
 func (e OutputDevnullType) ToPointer() *OutputDevnullType {
 	return &e
+}
+func (e *OutputDevnullType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "devnull":
+		*e = OutputDevnullType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputDevnullType: %v", v)
+	}
 }
 
 type OutputDevnull struct {

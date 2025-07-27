@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -14,6 +16,19 @@ const (
 
 func (e InputPrometheusType) ToPointer() *InputPrometheusType {
 	return &e
+}
+func (e *InputPrometheusType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "prometheus":
+		*e = InputPrometheusType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputPrometheusType: %v", v)
+	}
 }
 
 type InputPrometheusConnection struct {
@@ -46,6 +61,21 @@ const (
 func (e InputPrometheusMode) ToPointer() *InputPrometheusMode {
 	return &e
 }
+func (e *InputPrometheusMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = InputPrometheusMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputPrometheusMode: %v", v)
+	}
+}
 
 // InputPrometheusCompression - Codec to use to compress the persisted data
 type InputPrometheusCompression string
@@ -57,6 +87,21 @@ const (
 
 func (e InputPrometheusCompression) ToPointer() *InputPrometheusCompression {
 	return &e
+}
+func (e *InputPrometheusCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = InputPrometheusCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputPrometheusCompression: %v", v)
+	}
 }
 
 type InputPrometheusPq struct {
@@ -148,6 +193,23 @@ const (
 func (e InputPrometheusDiscoveryType) ToPointer() *InputPrometheusDiscoveryType {
 	return &e
 }
+func (e *InputPrometheusDiscoveryType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "static":
+		fallthrough
+	case "dns":
+		fallthrough
+	case "ec2":
+		*e = InputPrometheusDiscoveryType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputPrometheusDiscoveryType: %v", v)
+	}
+}
 
 // InputPrometheusLogLevel - Collector runtime Log Level
 type InputPrometheusLogLevel string
@@ -161,6 +223,25 @@ const (
 
 func (e InputPrometheusLogLevel) ToPointer() *InputPrometheusLogLevel {
 	return &e
+}
+func (e *InputPrometheusLogLevel) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "error":
+		fallthrough
+	case "warn":
+		fallthrough
+	case "info":
+		fallthrough
+	case "debug":
+		*e = InputPrometheusLogLevel(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputPrometheusLogLevel: %v", v)
+	}
 }
 
 type InputPrometheusMetadatum struct {
@@ -194,6 +275,21 @@ const (
 func (e InputPrometheusAuthTypeAuthenticationMethod) ToPointer() *InputPrometheusAuthTypeAuthenticationMethod {
 	return &e
 }
+func (e *InputPrometheusAuthTypeAuthenticationMethod) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = InputPrometheusAuthTypeAuthenticationMethod(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputPrometheusAuthTypeAuthenticationMethod: %v", v)
+	}
+}
 
 // InputPrometheusRecordType - DNS Record type to resolve
 type InputPrometheusRecordType string
@@ -207,6 +303,23 @@ const (
 func (e InputPrometheusRecordType) ToPointer() *InputPrometheusRecordType {
 	return &e
 }
+func (e *InputPrometheusRecordType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "SRV":
+		fallthrough
+	case "A":
+		fallthrough
+	case "AAAA":
+		*e = InputPrometheusRecordType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputPrometheusRecordType: %v", v)
+	}
+}
 
 // MetricsProtocol - Protocol to use when collecting metrics
 type MetricsProtocol string
@@ -218,6 +331,21 @@ const (
 
 func (e MetricsProtocol) ToPointer() *MetricsProtocol {
 	return &e
+}
+func (e *MetricsProtocol) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "http":
+		fallthrough
+	case "https":
+		*e = MetricsProtocol(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for MetricsProtocol: %v", v)
+	}
 }
 
 type InputPrometheusSearchFilter struct {
@@ -253,6 +381,23 @@ const (
 func (e InputPrometheusAwsAuthenticationMethodAuthenticationMethod) ToPointer() *InputPrometheusAwsAuthenticationMethodAuthenticationMethod {
 	return &e
 }
+func (e *InputPrometheusAwsAuthenticationMethodAuthenticationMethod) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "auto":
+		fallthrough
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = InputPrometheusAwsAuthenticationMethodAuthenticationMethod(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputPrometheusAwsAuthenticationMethodAuthenticationMethod: %v", v)
+	}
+}
 
 // InputPrometheusSignatureVersion - Signature version to use for signing EC2 requests
 type InputPrometheusSignatureVersion string
@@ -264,6 +409,21 @@ const (
 
 func (e InputPrometheusSignatureVersion) ToPointer() *InputPrometheusSignatureVersion {
 	return &e
+}
+func (e *InputPrometheusSignatureVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "v2":
+		fallthrough
+	case "v4":
+		*e = InputPrometheusSignatureVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputPrometheusSignatureVersion: %v", v)
+	}
 }
 
 type InputPrometheus struct {

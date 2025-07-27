@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -14,6 +16,19 @@ const (
 
 func (e InputS3Type) ToPointer() *InputS3Type {
 	return &e
+}
+func (e *InputS3Type) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "s3":
+		*e = InputS3Type(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputS3Type: %v", v)
+	}
 }
 
 type InputS3Connection struct {
@@ -46,6 +61,21 @@ const (
 func (e InputS3Mode) ToPointer() *InputS3Mode {
 	return &e
 }
+func (e *InputS3Mode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = InputS3Mode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputS3Mode: %v", v)
+	}
+}
 
 // InputS3Compression - Codec to use to compress the persisted data
 type InputS3Compression string
@@ -57,6 +87,21 @@ const (
 
 func (e InputS3Compression) ToPointer() *InputS3Compression {
 	return &e
+}
+func (e *InputS3Compression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = InputS3Compression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputS3Compression: %v", v)
+	}
 }
 
 type InputS3Pq struct {
@@ -148,6 +193,23 @@ const (
 func (e InputS3AuthenticationMethod) ToPointer() *InputS3AuthenticationMethod {
 	return &e
 }
+func (e *InputS3AuthenticationMethod) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "auto":
+		fallthrough
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = InputS3AuthenticationMethod(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputS3AuthenticationMethod: %v", v)
+	}
+}
 
 // InputS3SignatureVersion - Signature version to use for signing S3 requests
 type InputS3SignatureVersion string
@@ -159,6 +221,21 @@ const (
 
 func (e InputS3SignatureVersion) ToPointer() *InputS3SignatureVersion {
 	return &e
+}
+func (e *InputS3SignatureVersion) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "v2":
+		fallthrough
+	case "v4":
+		*e = InputS3SignatureVersion(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputS3SignatureVersion: %v", v)
+	}
 }
 
 type InputS3Preprocess struct {

@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -14,6 +16,19 @@ const (
 
 func (e OutputHoneycombType) ToPointer() *OutputHoneycombType {
 	return &e
+}
+func (e *OutputHoneycombType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "honeycomb":
+		*e = OutputHoneycombType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputHoneycombType: %v", v)
+	}
 }
 
 type OutputHoneycombExtraHTTPHeader struct {
@@ -46,6 +61,23 @@ const (
 
 func (e OutputHoneycombFailedRequestLoggingMode) ToPointer() *OutputHoneycombFailedRequestLoggingMode {
 	return &e
+}
+func (e *OutputHoneycombFailedRequestLoggingMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "payload":
+		fallthrough
+	case "payloadAndHeaders":
+		fallthrough
+	case "none":
+		*e = OutputHoneycombFailedRequestLoggingMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputHoneycombFailedRequestLoggingMode: %v", v)
+	}
 }
 
 type OutputHoneycombResponseRetrySetting struct {
@@ -159,6 +191,23 @@ const (
 func (e OutputHoneycombBackpressureBehavior) ToPointer() *OutputHoneycombBackpressureBehavior {
 	return &e
 }
+func (e *OutputHoneycombBackpressureBehavior) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		fallthrough
+	case "queue":
+		*e = OutputHoneycombBackpressureBehavior(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputHoneycombBackpressureBehavior: %v", v)
+	}
+}
 
 // OutputHoneycombAuthenticationMethod - Enter API key directly, or select a stored secret
 type OutputHoneycombAuthenticationMethod string
@@ -170,6 +219,21 @@ const (
 
 func (e OutputHoneycombAuthenticationMethod) ToPointer() *OutputHoneycombAuthenticationMethod {
 	return &e
+}
+func (e *OutputHoneycombAuthenticationMethod) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = OutputHoneycombAuthenticationMethod(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputHoneycombAuthenticationMethod: %v", v)
+	}
 }
 
 // OutputHoneycombCompression - Codec to use to compress the persisted data
@@ -183,6 +247,21 @@ const (
 func (e OutputHoneycombCompression) ToPointer() *OutputHoneycombCompression {
 	return &e
 }
+func (e *OutputHoneycombCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = OutputHoneycombCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputHoneycombCompression: %v", v)
+	}
+}
 
 // OutputHoneycombQueueFullBehavior - How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged.
 type OutputHoneycombQueueFullBehavior string
@@ -194,6 +273,21 @@ const (
 
 func (e OutputHoneycombQueueFullBehavior) ToPointer() *OutputHoneycombQueueFullBehavior {
 	return &e
+}
+func (e *OutputHoneycombQueueFullBehavior) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		*e = OutputHoneycombQueueFullBehavior(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputHoneycombQueueFullBehavior: %v", v)
+	}
 }
 
 // OutputHoneycombMode - In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem.
@@ -207,6 +301,23 @@ const (
 
 func (e OutputHoneycombMode) ToPointer() *OutputHoneycombMode {
 	return &e
+}
+func (e *OutputHoneycombMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "error":
+		fallthrough
+	case "backpressure":
+		fallthrough
+	case "always":
+		*e = OutputHoneycombMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputHoneycombMode: %v", v)
+	}
 }
 
 type OutputHoneycombPqControls struct {

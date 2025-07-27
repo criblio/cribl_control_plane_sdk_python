@@ -3,17 +3,32 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
-type OutputGooglePubsubType string
+type OutputGooglePubsubTypeGooglePubsub string
 
 const (
-	OutputGooglePubsubTypeGooglePubsub OutputGooglePubsubType = "google_pubsub"
+	OutputGooglePubsubTypeGooglePubsubGooglePubsub OutputGooglePubsubTypeGooglePubsub = "google_pubsub"
 )
 
-func (e OutputGooglePubsubType) ToPointer() *OutputGooglePubsubType {
+func (e OutputGooglePubsubTypeGooglePubsub) ToPointer() *OutputGooglePubsubTypeGooglePubsub {
 	return &e
+}
+func (e *OutputGooglePubsubTypeGooglePubsub) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "google_pubsub":
+		*e = OutputGooglePubsubTypeGooglePubsub(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputGooglePubsubTypeGooglePubsub: %v", v)
+	}
 }
 
 // OutputGooglePubsubGoogleAuthenticationMethod - Choose Auto to use Google Application Default Credentials (ADC), Manual to enter Google service account credentials directly, or Secret to select or create a stored secret that references Google service account credentials.
@@ -28,6 +43,23 @@ const (
 func (e OutputGooglePubsubGoogleAuthenticationMethod) ToPointer() *OutputGooglePubsubGoogleAuthenticationMethod {
 	return &e
 }
+func (e *OutputGooglePubsubGoogleAuthenticationMethod) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "auto":
+		fallthrough
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = OutputGooglePubsubGoogleAuthenticationMethod(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputGooglePubsubGoogleAuthenticationMethod: %v", v)
+	}
+}
 
 type FlushPeriodSecType string
 
@@ -37,6 +69,19 @@ const (
 
 func (e FlushPeriodSecType) ToPointer() *FlushPeriodSecType {
 	return &e
+}
+func (e *FlushPeriodSecType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "number":
+		*e = FlushPeriodSecType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for FlushPeriodSecType: %v", v)
+	}
 }
 
 // FlushPeriodSec - Maximum time to wait before sending a batch (when batch size limit is not reached).
@@ -71,6 +116,23 @@ const (
 func (e OutputGooglePubsubBackpressureBehavior) ToPointer() *OutputGooglePubsubBackpressureBehavior {
 	return &e
 }
+func (e *OutputGooglePubsubBackpressureBehavior) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		fallthrough
+	case "queue":
+		*e = OutputGooglePubsubBackpressureBehavior(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputGooglePubsubBackpressureBehavior: %v", v)
+	}
+}
 
 // OutputGooglePubsubCompression - Codec to use to compress the persisted data
 type OutputGooglePubsubCompression string
@@ -83,6 +145,21 @@ const (
 func (e OutputGooglePubsubCompression) ToPointer() *OutputGooglePubsubCompression {
 	return &e
 }
+func (e *OutputGooglePubsubCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = OutputGooglePubsubCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputGooglePubsubCompression: %v", v)
+	}
+}
 
 // OutputGooglePubsubQueueFullBehavior - How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged.
 type OutputGooglePubsubQueueFullBehavior string
@@ -94,6 +171,21 @@ const (
 
 func (e OutputGooglePubsubQueueFullBehavior) ToPointer() *OutputGooglePubsubQueueFullBehavior {
 	return &e
+}
+func (e *OutputGooglePubsubQueueFullBehavior) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		*e = OutputGooglePubsubQueueFullBehavior(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputGooglePubsubQueueFullBehavior: %v", v)
+	}
 }
 
 // OutputGooglePubsubMode - In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem.
@@ -108,14 +200,31 @@ const (
 func (e OutputGooglePubsubMode) ToPointer() *OutputGooglePubsubMode {
 	return &e
 }
+func (e *OutputGooglePubsubMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "error":
+		fallthrough
+	case "backpressure":
+		fallthrough
+	case "always":
+		*e = OutputGooglePubsubMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputGooglePubsubMode: %v", v)
+	}
+}
 
 type OutputGooglePubsubPqControls struct {
 }
 
 type OutputGooglePubsub struct {
 	// Unique ID for this output
-	ID   *string                `json:"id,omitempty"`
-	Type OutputGooglePubsubType `json:"type"`
+	ID   *string                            `json:"id,omitempty"`
+	Type OutputGooglePubsubTypeGooglePubsub `json:"type"`
 	// Pipeline to process data before sending out to this output
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
@@ -186,9 +295,9 @@ func (o *OutputGooglePubsub) GetID() *string {
 	return o.ID
 }
 
-func (o *OutputGooglePubsub) GetType() OutputGooglePubsubType {
+func (o *OutputGooglePubsub) GetType() OutputGooglePubsubTypeGooglePubsub {
 	if o == nil {
-		return OutputGooglePubsubType("")
+		return OutputGooglePubsubTypeGooglePubsub("")
 	}
 	return o.Type
 }

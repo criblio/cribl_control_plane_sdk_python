@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -14,6 +16,19 @@ const (
 
 func (e OutputDynatraceHTTPType) ToPointer() *OutputDynatraceHTTPType {
 	return &e
+}
+func (e *OutputDynatraceHTTPType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "dynatrace_http":
+		*e = OutputDynatraceHTTPType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputDynatraceHTTPType: %v", v)
+	}
 }
 
 // OutputDynatraceHTTPMethod - The method to use when sending events
@@ -27,6 +42,23 @@ const (
 
 func (e OutputDynatraceHTTPMethod) ToPointer() *OutputDynatraceHTTPMethod {
 	return &e
+}
+func (e *OutputDynatraceHTTPMethod) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "POST":
+		fallthrough
+	case "PUT":
+		fallthrough
+	case "PATCH":
+		*e = OutputDynatraceHTTPMethod(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputDynatraceHTTPMethod: %v", v)
+	}
 }
 
 type OutputDynatraceHTTPExtraHTTPHeader struct {
@@ -59,6 +91,23 @@ const (
 
 func (e OutputDynatraceHTTPFailedRequestLoggingMode) ToPointer() *OutputDynatraceHTTPFailedRequestLoggingMode {
 	return &e
+}
+func (e *OutputDynatraceHTTPFailedRequestLoggingMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "payload":
+		fallthrough
+	case "payloadAndHeaders":
+		fallthrough
+	case "none":
+		*e = OutputDynatraceHTTPFailedRequestLoggingMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputDynatraceHTTPFailedRequestLoggingMode: %v", v)
+	}
 }
 
 type OutputDynatraceHTTPResponseRetrySetting struct {
@@ -172,6 +221,23 @@ const (
 func (e OutputDynatraceHTTPBackpressureBehavior) ToPointer() *OutputDynatraceHTTPBackpressureBehavior {
 	return &e
 }
+func (e *OutputDynatraceHTTPBackpressureBehavior) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		fallthrough
+	case "queue":
+		*e = OutputDynatraceHTTPBackpressureBehavior(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputDynatraceHTTPBackpressureBehavior: %v", v)
+	}
+}
 
 type OutputDynatraceHTTPAuthenticationType string
 
@@ -182,6 +248,21 @@ const (
 
 func (e OutputDynatraceHTTPAuthenticationType) ToPointer() *OutputDynatraceHTTPAuthenticationType {
 	return &e
+}
+func (e *OutputDynatraceHTTPAuthenticationType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "token":
+		fallthrough
+	case "textSecret":
+		*e = OutputDynatraceHTTPAuthenticationType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputDynatraceHTTPAuthenticationType: %v", v)
+	}
 }
 
 // OutputDynatraceHTTPFormat - How to format events before sending. Defaults to JSON. Plaintext is not currently supported.
@@ -195,6 +276,21 @@ const (
 func (e OutputDynatraceHTTPFormat) ToPointer() *OutputDynatraceHTTPFormat {
 	return &e
 }
+func (e *OutputDynatraceHTTPFormat) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "json_array":
+		fallthrough
+	case "plaintext":
+		*e = OutputDynatraceHTTPFormat(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputDynatraceHTTPFormat: %v", v)
+	}
+}
 
 type Endpoint string
 
@@ -207,6 +303,23 @@ const (
 func (e Endpoint) ToPointer() *Endpoint {
 	return &e
 }
+func (e *Endpoint) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "cloud":
+		fallthrough
+	case "activeGate":
+		fallthrough
+	case "manual":
+		*e = Endpoint(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for Endpoint: %v", v)
+	}
+}
 
 type TelemetryType string
 
@@ -217,6 +330,21 @@ const (
 
 func (e TelemetryType) ToPointer() *TelemetryType {
 	return &e
+}
+func (e *TelemetryType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "logs":
+		fallthrough
+	case "metrics":
+		*e = TelemetryType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for TelemetryType: %v", v)
+	}
 }
 
 // OutputDynatraceHTTPCompression - Codec to use to compress the persisted data
@@ -230,6 +358,21 @@ const (
 func (e OutputDynatraceHTTPCompression) ToPointer() *OutputDynatraceHTTPCompression {
 	return &e
 }
+func (e *OutputDynatraceHTTPCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = OutputDynatraceHTTPCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputDynatraceHTTPCompression: %v", v)
+	}
+}
 
 // OutputDynatraceHTTPQueueFullBehavior - How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged.
 type OutputDynatraceHTTPQueueFullBehavior string
@@ -241,6 +384,21 @@ const (
 
 func (e OutputDynatraceHTTPQueueFullBehavior) ToPointer() *OutputDynatraceHTTPQueueFullBehavior {
 	return &e
+}
+func (e *OutputDynatraceHTTPQueueFullBehavior) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		*e = OutputDynatraceHTTPQueueFullBehavior(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputDynatraceHTTPQueueFullBehavior: %v", v)
+	}
 }
 
 // OutputDynatraceHTTPMode - In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem.
@@ -254,6 +412,23 @@ const (
 
 func (e OutputDynatraceHTTPMode) ToPointer() *OutputDynatraceHTTPMode {
 	return &e
+}
+func (e *OutputDynatraceHTTPMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "error":
+		fallthrough
+	case "backpressure":
+		fallthrough
+	case "always":
+		*e = OutputDynatraceHTTPMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputDynatraceHTTPMode: %v", v)
+	}
 }
 
 type OutputDynatraceHTTPPqControls struct {

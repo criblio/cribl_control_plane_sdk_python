@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -14,6 +16,19 @@ const (
 
 func (e InputWinEventLogsType) ToPointer() *InputWinEventLogsType {
 	return &e
+}
+func (e *InputWinEventLogsType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "win_event_logs":
+		*e = InputWinEventLogsType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputWinEventLogsType: %v", v)
+	}
 }
 
 type InputWinEventLogsConnection struct {
@@ -46,6 +61,21 @@ const (
 func (e InputWinEventLogsMode) ToPointer() *InputWinEventLogsMode {
 	return &e
 }
+func (e *InputWinEventLogsMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "smart":
+		fallthrough
+	case "always":
+		*e = InputWinEventLogsMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputWinEventLogsMode: %v", v)
+	}
+}
 
 // InputWinEventLogsCompression - Codec to use to compress the persisted data
 type InputWinEventLogsCompression string
@@ -57,6 +87,21 @@ const (
 
 func (e InputWinEventLogsCompression) ToPointer() *InputWinEventLogsCompression {
 	return &e
+}
+func (e *InputWinEventLogsCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = InputWinEventLogsCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for InputWinEventLogsCompression: %v", v)
+	}
 }
 
 type InputWinEventLogsPq struct {
@@ -147,6 +192,21 @@ const (
 func (e ReadMode) ToPointer() *ReadMode {
 	return &e
 }
+func (e *ReadMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "oldest":
+		fallthrough
+	case "newest":
+		*e = ReadMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ReadMode: %v", v)
+	}
+}
 
 // EventFormat - Format of individual events
 type EventFormat string
@@ -158,6 +218,21 @@ const (
 
 func (e EventFormat) ToPointer() *EventFormat {
 	return &e
+}
+func (e *EventFormat) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "json":
+		fallthrough
+	case "xml":
+		*e = EventFormat(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for EventFormat: %v", v)
+	}
 }
 
 type InputWinEventLogsMetadatum struct {

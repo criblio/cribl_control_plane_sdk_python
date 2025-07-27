@@ -3,6 +3,8 @@
 package components
 
 import (
+	"encoding/json"
+	"fmt"
 	"mockserver/internal/sdk/utils"
 )
 
@@ -14,6 +16,19 @@ const (
 
 func (e OutputCloudwatchType) ToPointer() *OutputCloudwatchType {
 	return &e
+}
+func (e *OutputCloudwatchType) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "cloudwatch":
+		*e = OutputCloudwatchType(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputCloudwatchType: %v", v)
+	}
 }
 
 // OutputCloudwatchAuthenticationMethod - AWS authentication method. Choose Auto to use IAM roles.
@@ -28,6 +43,23 @@ const (
 func (e OutputCloudwatchAuthenticationMethod) ToPointer() *OutputCloudwatchAuthenticationMethod {
 	return &e
 }
+func (e *OutputCloudwatchAuthenticationMethod) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "auto":
+		fallthrough
+	case "manual":
+		fallthrough
+	case "secret":
+		*e = OutputCloudwatchAuthenticationMethod(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputCloudwatchAuthenticationMethod: %v", v)
+	}
+}
 
 // OutputCloudwatchBackpressureBehavior - How to handle events when all receivers are exerting backpressure
 type OutputCloudwatchBackpressureBehavior string
@@ -41,6 +73,23 @@ const (
 func (e OutputCloudwatchBackpressureBehavior) ToPointer() *OutputCloudwatchBackpressureBehavior {
 	return &e
 }
+func (e *OutputCloudwatchBackpressureBehavior) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		fallthrough
+	case "queue":
+		*e = OutputCloudwatchBackpressureBehavior(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputCloudwatchBackpressureBehavior: %v", v)
+	}
+}
 
 // OutputCloudwatchCompression - Codec to use to compress the persisted data
 type OutputCloudwatchCompression string
@@ -52,6 +101,21 @@ const (
 
 func (e OutputCloudwatchCompression) ToPointer() *OutputCloudwatchCompression {
 	return &e
+}
+func (e *OutputCloudwatchCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = OutputCloudwatchCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputCloudwatchCompression: %v", v)
+	}
 }
 
 // OutputCloudwatchQueueFullBehavior - How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged.
@@ -65,6 +129,21 @@ const (
 func (e OutputCloudwatchQueueFullBehavior) ToPointer() *OutputCloudwatchQueueFullBehavior {
 	return &e
 }
+func (e *OutputCloudwatchQueueFullBehavior) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "block":
+		fallthrough
+	case "drop":
+		*e = OutputCloudwatchQueueFullBehavior(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputCloudwatchQueueFullBehavior: %v", v)
+	}
+}
 
 // OutputCloudwatchMode - In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem.
 type OutputCloudwatchMode string
@@ -77,6 +156,23 @@ const (
 
 func (e OutputCloudwatchMode) ToPointer() *OutputCloudwatchMode {
 	return &e
+}
+func (e *OutputCloudwatchMode) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "error":
+		fallthrough
+	case "backpressure":
+		fallthrough
+	case "always":
+		*e = OutputCloudwatchMode(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputCloudwatchMode: %v", v)
+	}
 }
 
 type OutputCloudwatchPqControls struct {

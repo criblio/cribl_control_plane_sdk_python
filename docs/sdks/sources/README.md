@@ -88,7 +88,7 @@ with CriblControlPlane(
         "enable_proxy_header": False,
         "stale_channel_flush_ms": 10000,
         "enable_header": False,
-        "auth_type": models.CreateInputInputTCPAuthenticationMethod.MANUAL,
+        "auth_type": models.AuthenticationMethodTCP.MANUAL,
     })
 
     # Handle response

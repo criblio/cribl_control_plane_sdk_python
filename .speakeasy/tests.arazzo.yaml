@@ -826,6 +826,13 @@ workflows:
             condition: |
               {}
             type: simple
+        parameters:
+          - name: size
+            in: query
+            value: 779474
+        requestBody:
+          contentType: application/octet-stream
+          payload: 'x-file: example.file'
     x-speakeasy-test-group: packs
     x-speakeasy-test-rebuild: true
   - workflowId: getGroupsConfigVersionById

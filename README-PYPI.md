@@ -14,6 +14,7 @@ Cribl API Reference: This API Reference lists available REST endpoints, along wi
   * [SDK Example Usage](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/#sdk-example-usage)
   * [Authentication](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/#authentication)
   * [Available Resources and Operations](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/#available-resources-and-operations)
+  * [File uploads](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/#file-uploads)
   * [Retries](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/#retries)
   * [Error Handling](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/#error-handling)
   * [Custom HTTP Client](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/#custom-http-client)
@@ -283,6 +284,36 @@ with CriblControlPlane(
 
 </details>
 <!-- End Available Resources and Operations [operations] -->
+
+<!-- Start File uploads [file-upload] -->
+## File uploads
+
+Certain SDK methods accept file objects as part of a request body or multi-part request. It is possible and typically recommended to upload files as a stream rather than reading the entire contents into memory. This avoids excessive memory consumption and potentially crashing with out-of-memory errors when working with very large files. The following example demonstrates how to attach a file stream to a request.
+
+> [!TIP]
+>
+> For endpoints that handle file uploads bytes arrays can also be used. However, using streams is recommended for large files.
+>
+
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    server_url="https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.update_packs(size=779474, request_body=open("example.file", "rb"))
+
+    # Handle response
+    print(res)
+
+```
+<!-- End File uploads [file-upload] -->
 
 <!-- Start Retries [retries] -->
 ## Retries

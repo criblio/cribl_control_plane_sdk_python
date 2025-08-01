@@ -3,16 +3,31 @@
 from __future__ import annotations
 from cribl_control_plane.types import BaseModel
 from cribl_control_plane.utils import FieldMetadata, QueryParamMetadata
-from typing import Any, Dict, List, Optional
+import io
+from typing import Any, Dict, IO, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class UpdatePacksRequestTypedDict(TypedDict):
+    size: int
+    r"""Size of the pack file in bytes"""
+    request_body: Union[bytes, IO[bytes], io.BufferedReader]
+    r"""file data"""
     filename: NotRequired[str]
     r"""the file to upload"""
 
 
 class UpdatePacksRequest(BaseModel):
+    size: Annotated[
+        int, FieldMetadata(query=QueryParamMetadata(style="form", explode=True))
+    ]
+    r"""Size of the pack file in bytes"""
+
+    request_body: Annotated[
+        Union[bytes, IO[bytes], io.BufferedReader], FieldMetadata(request=True)
+    ]
+    r"""file data"""
+
     filename: Annotated[
         Optional[str],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),

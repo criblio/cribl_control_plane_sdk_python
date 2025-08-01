@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 54dacb22afa6b64fbd3c5dde04e94480
+  docChecksum: 9573eae473741569cdf4e2637aad1f97
   docVersion: 4.14.0-alpha.1753968519625-08e89eb4
   speakeasyVersion: 1.585.0
   generationVersion: 2.660.0
-  releaseVersion: 0.0.20
-  configChecksum: b6699998d221591d3d0ee14200f25824
+  releaseVersion: 0.0.21a1
+  configChecksum: 6c1f63190bc4c733fcdcf7175d3858e3
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -37,6 +37,7 @@ features:
     sdkHooks: 1.1.0
     tests: 1.19.1
     unions: 3.0.4
+    uploadStreams: 1.0.0
 generatedFiles:
   - .devcontainer/README.md
   - .devcontainer/devcontainer.json
@@ -4176,6 +4177,11 @@ examples:
           application/json: {}
   updatePacks:
     speakeasy-default-update-packs:
+      parameters:
+        query:
+          size: 779474
+      requestBody:
+        application/octet-stream: "x-file: example.file"
       responses:
         "200":
           application/json: {}

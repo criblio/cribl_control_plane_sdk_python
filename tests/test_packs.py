@@ -51,7 +51,9 @@ def test_packs_update_packs():
     ) as ccp_client:
         assert ccp_client is not None
 
-        res = ccp_client.packs.update_packs()
+        res = ccp_client.packs.update_packs(
+            size=779474, request_body=open(".speakeasy/testfiles/example.file", "rb")
+        )
         assert res is not None
         assert res == models.UpdatePacksResponse()
 

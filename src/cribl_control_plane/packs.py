@@ -6,7 +6,8 @@ from cribl_control_plane._hooks import HookContext
 from cribl_control_plane.types import OptionalNullable, UNSET
 from cribl_control_plane.utils import get_security_from_env
 from cribl_control_plane.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, List, Mapping, Optional, Union
+import io
+from typing import Any, IO, List, Mapping, Optional, Union
 
 
 class Packs(BaseSDK):
@@ -451,6 +452,8 @@ class Packs(BaseSDK):
     def update_packs(
         self,
         *,
+        size: int,
+        request_body: Union[bytes, IO[bytes], io.BufferedReader],
         filename: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -461,6 +464,8 @@ class Packs(BaseSDK):
 
         Upload Pack
 
+        :param size: Size of the pack file in bytes
+        :param request_body: file data
         :param filename: the file to upload
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -479,6 +484,8 @@ class Packs(BaseSDK):
 
         request = models.UpdatePacksRequest(
             filename=filename,
+            size=size,
+            request_body=request_body,
         )
 
         req = self._build_request(
@@ -487,13 +494,20 @@ class Packs(BaseSDK):
             base_url=base_url,
             url_variables=url_variables,
             request=request,
-            request_body_required=False,
+            request_body_required=True,
             request_has_path_params=False,
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
             http_headers=http_headers,
             security=self.sdk_configuration.security,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request.request_body,
+                False,
+                False,
+                "raw",
+                Union[bytes, IO[bytes], io.BufferedReader],
+            ),
             timeout_ms=timeout_ms,
         )
 
@@ -538,6 +552,8 @@ class Packs(BaseSDK):
     async def update_packs_async(
         self,
         *,
+        size: int,
+        request_body: Union[bytes, IO[bytes], io.BufferedReader],
         filename: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -548,6 +564,8 @@ class Packs(BaseSDK):
 
         Upload Pack
 
+        :param size: Size of the pack file in bytes
+        :param request_body: file data
         :param filename: the file to upload
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -566,6 +584,8 @@ class Packs(BaseSDK):
 
         request = models.UpdatePacksRequest(
             filename=filename,
+            size=size,
+            request_body=request_body,
         )
 
         req = self._build_request_async(
@@ -574,13 +594,20 @@ class Packs(BaseSDK):
             base_url=base_url,
             url_variables=url_variables,
             request=request,
-            request_body_required=False,
+            request_body_required=True,
             request_has_path_params=False,
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
             http_headers=http_headers,
             security=self.sdk_configuration.security,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request.request_body,
+                False,
+                False,
+                "raw",
+                Union[bytes, IO[bytes], io.BufferedReader],
+            ),
             timeout_ms=timeout_ms,
         )
 

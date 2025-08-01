@@ -830,8 +830,11 @@ workflows:
           - name: size
             in: query
             value: 779474
+          - name: filename
+            in: query
+            value: example.file
         requestBody:
-          contentType: application/octet-stream
+          contentType: multipart/form-data
           payload: 'x-file: example.file'
     x-speakeasy-test-group: packs
     x-speakeasy-test-rebuild: true

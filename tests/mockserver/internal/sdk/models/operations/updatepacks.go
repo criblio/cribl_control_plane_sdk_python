@@ -7,18 +7,50 @@ import (
 	"mockserver/internal/sdk/models/components"
 )
 
-type UpdatePacksRequest struct {
-	// the file to upload
-	Filename *string `queryParam:"style=form,explode=true,name=filename"`
-	// Size of the pack file in bytes
-	Size int64 `queryParam:"style=form,explode=true,name=size"`
-	// file data
-	RequestBody io.Reader `request:"mediaType=application/octet-stream"`
+type File struct {
+	FileName string    `multipartForm:"name=fileName"`
+	Content  io.Reader `multipartForm:"content"`
 }
 
-func (o *UpdatePacksRequest) GetFilename() *string {
+func (o *File) GetFileName() string {
+	if o == nil {
+		return ""
+	}
+	return o.FileName
+}
+
+func (o *File) GetContent() io.Reader {
 	if o == nil {
 		return nil
+	}
+	return o.Content
+}
+
+// UpdatePacksRequestBody - multipart upload of the pack file
+type UpdatePacksRequestBody struct {
+	// The pack file to upload
+	File File `multipartForm:"file"`
+}
+
+func (o *UpdatePacksRequestBody) GetFile() File {
+	if o == nil {
+		return File{}
+	}
+	return o.File
+}
+
+type UpdatePacksRequest struct {
+	// the file to upload
+	Filename string `queryParam:"style=form,explode=true,name=filename"`
+	// Size of the pack file in bytes
+	Size int64 `queryParam:"style=form,explode=true,name=size"`
+	// multipart upload of the pack file
+	RequestBody UpdatePacksRequestBody `request:"mediaType=multipart/form-data"`
+}
+
+func (o *UpdatePacksRequest) GetFilename() string {
+	if o == nil {
+		return ""
 	}
 	return o.Filename
 }
@@ -30,9 +62,9 @@ func (o *UpdatePacksRequest) GetSize() int64 {
 	return o.Size
 }
 
-func (o *UpdatePacksRequest) GetRequestBody() io.Reader {
+func (o *UpdatePacksRequest) GetRequestBody() UpdatePacksRequestBody {
 	if o == nil {
-		return nil
+		return UpdatePacksRequestBody{}
 	}
 	return o.RequestBody
 }

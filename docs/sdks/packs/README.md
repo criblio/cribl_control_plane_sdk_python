@@ -130,7 +130,10 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.packs.update_packs(size=779474, request_body=open("example.file", "rb"))
+    res = ccp_client.packs.update_packs(filename="example.file", size=779474, file={
+        "file_name": "example.file",
+        "content": open("example.file", "rb"),
+    })
 
     # Handle response
     print(res)
@@ -141,9 +144,9 @@ with CriblControlPlane(
 
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `filename`                                                          | *str*                                                               | :heavy_check_mark:                                                  | the file to upload                                                  |
 | `size`                                                              | *int*                                                               | :heavy_check_mark:                                                  | Size of the pack file in bytes                                      |
-| `request_body`                                                      | *Union[bytes, IO[bytes], io.BufferedReader]*                        | :heavy_check_mark:                                                  | file data                                                           |
-| `filename`                                                          | *Optional[str]*                                                     | :heavy_minus_sign:                                                  | the file to upload                                                  |
+| `file`                                                              | [models.UpdatePacksFile](../../models/updatepacksfile.md)           | :heavy_check_mark:                                                  | The pack file to upload                                             |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response

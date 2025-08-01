@@ -307,7 +307,10 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.packs.update_packs(size=779474, request_body=open("example.file", "rb"))
+    res = ccp_client.packs.update_packs(filename="example.file", size=779474, file={
+        "file_name": "example.file",
+        "content": open("example.file", "rb"),
+    })
 
     # Handle response
     print(res)

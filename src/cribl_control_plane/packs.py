@@ -6,8 +6,7 @@ from cribl_control_plane._hooks import HookContext
 from cribl_control_plane.types import OptionalNullable, UNSET
 from cribl_control_plane.utils import get_security_from_env
 from cribl_control_plane.utils.unmarshal_json_response import unmarshal_json_response
-import io
-from typing import Any, IO, List, Mapping, Optional, Union
+from typing import Any, List, Mapping, Optional, Union
 
 
 class Packs(BaseSDK):
@@ -452,9 +451,9 @@ class Packs(BaseSDK):
     def update_packs(
         self,
         *,
+        filename: str,
         size: int,
-        request_body: Union[bytes, IO[bytes], io.BufferedReader],
-        filename: Optional[str] = None,
+        file: Union[models.UpdatePacksFile, models.UpdatePacksFileTypedDict],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -464,9 +463,9 @@ class Packs(BaseSDK):
 
         Upload Pack
 
-        :param size: Size of the pack file in bytes
-        :param request_body: file data
         :param filename: the file to upload
+        :param size: Size of the pack file in bytes
+        :param file: The pack file to upload
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -485,7 +484,9 @@ class Packs(BaseSDK):
         request = models.UpdatePacksRequest(
             filename=filename,
             size=size,
-            request_body=request_body,
+            request_body=models.UpdatePacksRequestBody(
+                file=utils.get_pydantic_model(file, models.UpdatePacksFile),
+            ),
         )
 
         req = self._build_request(
@@ -505,8 +506,8 @@ class Packs(BaseSDK):
                 request.request_body,
                 False,
                 False,
-                "raw",
-                Union[bytes, IO[bytes], io.BufferedReader],
+                "multipart",
+                models.UpdatePacksRequestBody,
             ),
             timeout_ms=timeout_ms,
         )
@@ -552,9 +553,9 @@ class Packs(BaseSDK):
     async def update_packs_async(
         self,
         *,
+        filename: str,
         size: int,
-        request_body: Union[bytes, IO[bytes], io.BufferedReader],
-        filename: Optional[str] = None,
+        file: Union[models.UpdatePacksFile, models.UpdatePacksFileTypedDict],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -564,9 +565,9 @@ class Packs(BaseSDK):
 
         Upload Pack
 
-        :param size: Size of the pack file in bytes
-        :param request_body: file data
         :param filename: the file to upload
+        :param size: Size of the pack file in bytes
+        :param file: The pack file to upload
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -585,7 +586,9 @@ class Packs(BaseSDK):
         request = models.UpdatePacksRequest(
             filename=filename,
             size=size,
-            request_body=request_body,
+            request_body=models.UpdatePacksRequestBody(
+                file=utils.get_pydantic_model(file, models.UpdatePacksFile),
+            ),
         )
 
         req = self._build_request_async(
@@ -605,8 +608,8 @@ class Packs(BaseSDK):
                 request.request_body,
                 False,
                 False,
-                "raw",
-                Union[bytes, IO[bytes], io.BufferedReader],
+                "multipart",
+                models.UpdatePacksRequestBody,
             ),
             timeout_ms=timeout_ms,
         )

@@ -35,7 +35,7 @@ func testUpdatePacksUpdatePacks0(w http.ResponseWriter, req *http.Request) {
 		http.Error(w, err.Error(), http.StatusUnauthorized)
 		return
 	}
-	if err := assert.ContentType(req, "application/octet-stream", true); err != nil {
+	if err := assert.ContentType(req, "multipart/form-data", true); err != nil {
 		log.Printf("assertion error: %s\n", err)
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return

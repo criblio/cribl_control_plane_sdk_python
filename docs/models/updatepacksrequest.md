@@ -3,8 +3,8 @@
 
 ## Fields
 
-| Field                                        | Type                                         | Required                                     | Description                                  |
-| -------------------------------------------- | -------------------------------------------- | -------------------------------------------- | -------------------------------------------- |
-| `filename`                                   | *Optional[str]*                              | :heavy_minus_sign:                           | the file to upload                           |
-| `size`                                       | *int*                                        | :heavy_check_mark:                           | Size of the pack file in bytes               |
-| `request_body`                               | *Union[bytes, IO[bytes], io.BufferedReader]* | :heavy_check_mark:                           | file data                                    |
+| Field                                                                | Type                                                                 | Required                                                             | Description                                                          |
+| -------------------------------------------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| `filename`                                                           | *str*                                                                | :heavy_check_mark:                                                   | the file to upload                                                   |
+| `size`                                                               | *int*                                                                | :heavy_check_mark:                                                   | Size of the pack file in bytes                                       |
+| `request_body`                                                       | [models.UpdatePacksRequestBody](../models/updatepacksrequestbody.md) | :heavy_check_mark:                                                   | multipart upload of the pack file                                    |

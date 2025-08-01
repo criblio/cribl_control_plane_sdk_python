@@ -2,37 +2,83 @@
 
 from __future__ import annotations
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import FieldMetadata, QueryParamMetadata
+from cribl_control_plane.utils import (
+    FieldMetadata,
+    MultipartFormMetadata,
+    QueryParamMetadata,
+    RequestMetadata,
+)
 import io
+import pydantic
 from typing import Any, Dict, IO, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
+class UpdatePacksFileTypedDict(TypedDict):
+    file_name: str
+    content: Union[bytes, IO[bytes], io.BufferedReader]
+    content_type: NotRequired[str]
+
+
+class UpdatePacksFile(BaseModel):
+    file_name: Annotated[
+        str, pydantic.Field(alias="fileName"), FieldMetadata(multipart=True)
+    ]
+
+    content: Annotated[
+        Union[bytes, IO[bytes], io.BufferedReader],
+        pydantic.Field(alias=""),
+        FieldMetadata(multipart=MultipartFormMetadata(content=True)),
+    ]
+
+    content_type: Annotated[
+        Optional[str],
+        pydantic.Field(alias="Content-Type"),
+        FieldMetadata(multipart=True),
+    ] = None
+
+
+class UpdatePacksRequestBodyTypedDict(TypedDict):
+    r"""multipart upload of the pack file"""
+
+    file: UpdatePacksFileTypedDict
+    r"""The pack file to upload"""
+
+
+class UpdatePacksRequestBody(BaseModel):
+    r"""multipart upload of the pack file"""
+
+    file: Annotated[
+        UpdatePacksFile, FieldMetadata(multipart=MultipartFormMetadata(file=True))
+    ]
+    r"""The pack file to upload"""
+
+
 class UpdatePacksRequestTypedDict(TypedDict):
+    filename: str
+    r"""the file to upload"""
     size: int
     r"""Size of the pack file in bytes"""
-    request_body: Union[bytes, IO[bytes], io.BufferedReader]
-    r"""file data"""
-    filename: NotRequired[str]
-    r"""the file to upload"""
+    request_body: UpdatePacksRequestBodyTypedDict
+    r"""multipart upload of the pack file"""
 
 
 class UpdatePacksRequest(BaseModel):
+    filename: Annotated[
+        str, FieldMetadata(query=QueryParamMetadata(style="form", explode=True))
+    ]
+    r"""the file to upload"""
+
     size: Annotated[
         int, FieldMetadata(query=QueryParamMetadata(style="form", explode=True))
     ]
     r"""Size of the pack file in bytes"""
 
     request_body: Annotated[
-        Union[bytes, IO[bytes], io.BufferedReader], FieldMetadata(request=True)
+        UpdatePacksRequestBody,
+        FieldMetadata(request=RequestMetadata(media_type="multipart/form-data")),
     ]
-    r"""file data"""
-
-    filename: Annotated[
-        Optional[str],
-        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = None
-    r"""the file to upload"""
+    r"""multipart upload of the pack file"""
 
 
 class UpdatePacksResponseTypedDict(TypedDict):

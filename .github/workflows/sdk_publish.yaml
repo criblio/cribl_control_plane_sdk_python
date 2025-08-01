@@ -13,7 +13,7 @@ permissions:
   workflow_dispatch: {}
 jobs:
   publish:
-    uses: speakeasy-api/sdk-generation-action/.github/workflows/sdk-publish.yaml@b729bcda8a0650e7faf3da46ae199cb3668f45ba
+    uses: michalbiesek/sdk-generation-action/.github/workflows/sdk-publish.yaml@feat-prereleaseaware-debug
     with:
       target: cribl-control-plane
     secrets:

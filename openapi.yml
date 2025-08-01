@@ -38447,6 +38447,20 @@ paths:
           schema:
             type: string
           description: the file to upload
+        - name: size
+          in: query
+          required: true
+          schema:
+            type: integer
+          description: Size of the pack file in bytes
+      requestBody:
+        required: true
+        description: file data
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
   "/packs/{id}":
     delete:
       operationId: deletePacksById

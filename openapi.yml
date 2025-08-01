@@ -38443,7 +38443,7 @@ paths:
       parameters:
         - name: filename
           in: query
-          required: false
+          required: true
           schema:
             type: string
           description: the file to upload
@@ -38455,12 +38455,18 @@ paths:
           description: Size of the pack file in bytes
       requestBody:
         required: true
-        description: file data
+        description: multipart upload of the pack file
         content:
-          application/octet-stream:
+          multipart/form-data:
             schema:
-              type: string
-              format: binary
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: The pack file to upload
+              required:
+                - file
   "/packs/{id}":
     delete:
       operationId: deletePacksById

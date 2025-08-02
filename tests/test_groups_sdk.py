@@ -2,6 +2,7 @@
 
 from cribl_control_plane import CriblControlPlane, models
 import os
+import pytest
 from tests.test_client import create_test_http_client
 
 
@@ -111,3 +112,27 @@ def test_groups_sdk_get_groups_acl_by_id():
         res = ccp_client.groups.get_groups_acl_by_id(id="<id>")
         assert res is not None
         assert res == models.GetGroupsACLByIDResponse()
+
+
+def test_groups_sdk_delete_groups_by_id():
+    test_http_client = create_test_http_client("deleteGroupsById")
+
+    with CriblControlPlane(
+        server_url=os.getenv("TEST_SERVER_URL", "http://localhost:18080"),
+        client=test_http_client,
+        security=models.Security(
+            bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", "value"),
+        ),
+    ) as ccp_client:
+        assert ccp_client is not None
+
+        res = ccp_client.groups.delete_groups_by_id(id="<id>")
+        assert res is not None
+        assert res == models.DeleteGroupsByIDResponse()
+
+
+@pytest.mark.skip(
+    reason="incomplete test found please make sure to address the following errors: [`workflow step updateGroupsById.test referencing operation updateGroupsById missing required path parameter id_param`]"
+)
+def test_groups_sdk_update_groups_by_id():
+    pass

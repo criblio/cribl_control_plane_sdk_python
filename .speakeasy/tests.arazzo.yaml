@@ -1057,3 +1057,42 @@ workflows:
             type: simple
     x-speakeasy-test-group: packs
     x-speakeasy-test-rebuild: true
+  - workflowId: deleteGroupsById
+    steps:
+      - stepId: test
+        operationId: deleteGroupsById
+        parameters:
+          - name: id
+            in: path
+            value: <id>
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: groups_SDK
+    x-speakeasy-test-rebuild: true
+  - workflowId: updateGroupsById
+    steps:
+      - stepId: test
+        operationId: updateGroupsById
+        parameters:
+          - name: id
+            in: path
+            value: <value>
+        requestBody:
+          contentType: application/json
+          payload:
+            configVersion: <value>
+            id: <id>
+        successCriteria:
+          - condition: $statusCode == 200
+          - condition: $response.header.Content-Type == application/json
+          - context: $response.body
+            condition: |
+              {}
+            type: simple
+    x-speakeasy-test-group: groups_SDK
+    x-speakeasy-test-rebuild: true

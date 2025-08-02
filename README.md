@@ -206,8 +206,10 @@ with CriblControlPlane(
 * [get_groups_config_version_by_id](docs/sdks/groupssdk/README.md#get_groups_config_version_by_id) - Get effective bundle version for given Group
 * [create_products_groups_by_product](docs/sdks/groupssdk/README.md#create_products_groups_by_product) - Create a Fleet or Worker Group
 * [get_products_groups_by_product](docs/sdks/groupssdk/README.md#get_products_groups_by_product) - Get a list of ConfigGroup objects
-* [update_groups_deploy_by_id](docs/sdks/groupssdk/README.md#update_groups_deploy_by_id) - Deploy commits for a Fleet or Worker Group
+* [delete_groups_by_id](docs/sdks/groupssdk/README.md#delete_groups_by_id) - Delete a Fleet or Worker Group
 * [get_groups_by_id](docs/sdks/groupssdk/README.md#get_groups_by_id) - Get a specific ConfigGroup object
+* [update_groups_by_id](docs/sdks/groupssdk/README.md#update_groups_by_id) - Update a Fleet or Worker Group
+* [update_groups_deploy_by_id](docs/sdks/groupssdk/README.md#update_groups_deploy_by_id) - Deploy commits for a Fleet or Worker Group
 * [get_groups_acl_by_id](docs/sdks/groupssdk/README.md#get_groups_acl_by_id) - ACL of members with permissions for resources in this Group
 
 ### [health](docs/sdks/health/README.md)
@@ -398,7 +400,7 @@ with CriblControlPlane(
 
 
 **Inherit from [`CriblControlPlaneError`](./src/cribl_control_plane/errors/criblcontrolplaneerror.py)**:
-* [`HealthStatusError`](./src/cribl_control_plane/errors/healthstatuserror.py): Healthy status. Status code `420`. Applicable to 1 of 61 methods.*
+* [`HealthStatusError`](./src/cribl_control_plane/errors/healthstatuserror.py): Healthy status. Status code `420`. Applicable to 1 of 63 methods.*
 * [`ResponseValidationError`](./src/cribl_control_plane/errors/responsevalidationerror.py): Type mismatch between the response data and the expected Pydantic model. Provides access to the Pydantic validation error via the `cause` attribute.
 
 </details>

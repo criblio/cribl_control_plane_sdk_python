@@ -12,6 +12,7 @@ import (
 // GeneratedHandlers returns all generated handlers.
 func GeneratedHandlers(ctx context.Context, dir *logging.HTTPFileDirectory, rt *tracking.RequestTracker) []*GeneratedHandler {
 	return []*GeneratedHandler{
+		NewGeneratedHandler(ctx, http.MethodDelete, "/master/groups/{id}", pathDeleteMasterGroupsID(dir, rt)),
 		NewGeneratedHandler(ctx, http.MethodDelete, "/packs/{id}", pathDeletePacksID(dir, rt)),
 		NewGeneratedHandler(ctx, http.MethodDelete, "/pipelines/{id}", pathDeletePipelinesID(dir, rt)),
 		NewGeneratedHandler(ctx, http.MethodDelete, "/products/lake/lakes/{lakeId}/datasets/{id}", pathDeleteProductsLakeLakesLakeIDDatasetsID(dir, rt)),
@@ -48,6 +49,7 @@ func GeneratedHandlers(ctx context.Context, dir *logging.HTTPFileDirectory, rt *
 		NewGeneratedHandler(ctx, http.MethodGet, "/version/info", pathGetVersionInfo(dir, rt)),
 		NewGeneratedHandler(ctx, http.MethodGet, "/version/show", pathGetVersionShow(dir, rt)),
 		NewGeneratedHandler(ctx, http.MethodGet, "/version/status", pathGetVersionStatus(dir, rt)),
+		NewGeneratedHandler(ctx, http.MethodPatch, "/master/groups/{id}", pathPatchMasterGroupsID(dir, rt)),
 		NewGeneratedHandler(ctx, http.MethodPatch, "/master/groups/{id}/deploy", pathPatchMasterGroupsIDDeploy(dir, rt)),
 		NewGeneratedHandler(ctx, http.MethodPatch, "/master/workers/restart", pathPatchMasterWorkersRestart(dir, rt)),
 		NewGeneratedHandler(ctx, http.MethodPatch, "/packs/{id}", pathPatchPacksID(dir, rt)),

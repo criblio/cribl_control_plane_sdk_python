@@ -1857,6 +1857,12 @@ if TYPE_CHECKING:
         DeleteCriblLakeDatasetByLakeIDAndIDResponse,
         DeleteCriblLakeDatasetByLakeIDAndIDResponseTypedDict,
     )
+    from .deletegroupsbyidop import (
+        DeleteGroupsByIDRequest,
+        DeleteGroupsByIDRequestTypedDict,
+        DeleteGroupsByIDResponse,
+        DeleteGroupsByIDResponseTypedDict,
+    )
     from .deleteinputbyidop import (
         DeleteInputByIDRequest,
         DeleteInputByIDRequestTypedDict,
@@ -4711,6 +4717,12 @@ if TYPE_CHECKING:
         UpdateCriblLakeDatasetByLakeIDAndIDResponse,
         UpdateCriblLakeDatasetByLakeIDAndIDResponseTypedDict,
     )
+    from .updategroupsbyidop import (
+        UpdateGroupsByIDRequest,
+        UpdateGroupsByIDRequestTypedDict,
+        UpdateGroupsByIDResponse,
+        UpdateGroupsByIDResponseTypedDict,
+    )
     from .updategroupsdeploybyidop import (
         UpdateGroupsDeployByIDRequest,
         UpdateGroupsDeployByIDRequestTypedDict,
@@ -5877,6 +5889,10 @@ __all__ = [
     "DeleteCriblLakeDatasetByLakeIDAndIDRequestTypedDict",
     "DeleteCriblLakeDatasetByLakeIDAndIDResponse",
     "DeleteCriblLakeDatasetByLakeIDAndIDResponseTypedDict",
+    "DeleteGroupsByIDRequest",
+    "DeleteGroupsByIDRequestTypedDict",
+    "DeleteGroupsByIDResponse",
+    "DeleteGroupsByIDResponseTypedDict",
     "DeleteInputByIDRequest",
     "DeleteInputByIDRequestTypedDict",
     "DeleteInputByIDResponse",
@@ -9141,6 +9157,10 @@ __all__ = [
     "UpdateCriblLakeDatasetByLakeIDAndIDRequestTypedDict",
     "UpdateCriblLakeDatasetByLakeIDAndIDResponse",
     "UpdateCriblLakeDatasetByLakeIDAndIDResponseTypedDict",
+    "UpdateGroupsByIDRequest",
+    "UpdateGroupsByIDRequestTypedDict",
+    "UpdateGroupsByIDResponse",
+    "UpdateGroupsByIDResponseTypedDict",
     "UpdateGroupsDeployByIDRequest",
     "UpdateGroupsDeployByIDRequestTypedDict",
     "UpdateGroupsDeployByIDResponse",
@@ -11012,6 +11032,10 @@ _dynamic_imports: dict[str, str] = {
     "DeleteCriblLakeDatasetByLakeIDAndIDRequestTypedDict": ".deletecribllakedatasetbylakeidandidop",
     "DeleteCriblLakeDatasetByLakeIDAndIDResponse": ".deletecribllakedatasetbylakeidandidop",
     "DeleteCriblLakeDatasetByLakeIDAndIDResponseTypedDict": ".deletecribllakedatasetbylakeidandidop",
+    "DeleteGroupsByIDRequest": ".deletegroupsbyidop",
+    "DeleteGroupsByIDRequestTypedDict": ".deletegroupsbyidop",
+    "DeleteGroupsByIDResponse": ".deletegroupsbyidop",
+    "DeleteGroupsByIDResponseTypedDict": ".deletegroupsbyidop",
     "DeleteInputByIDRequest": ".deleteinputbyidop",
     "DeleteInputByIDRequestTypedDict": ".deleteinputbyidop",
     "DeleteInputByIDResponse": ".deleteinputbyidop",
@@ -13560,6 +13584,10 @@ _dynamic_imports: dict[str, str] = {
     "UpdateCriblLakeDatasetByLakeIDAndIDRequestTypedDict": ".updatecribllakedatasetbylakeidandidop",
     "UpdateCriblLakeDatasetByLakeIDAndIDResponse": ".updatecribllakedatasetbylakeidandidop",
     "UpdateCriblLakeDatasetByLakeIDAndIDResponseTypedDict": ".updatecribllakedatasetbylakeidandidop",
+    "UpdateGroupsByIDRequest": ".updategroupsbyidop",
+    "UpdateGroupsByIDRequestTypedDict": ".updategroupsbyidop",
+    "UpdateGroupsByIDResponse": ".updategroupsbyidop",
+    "UpdateGroupsByIDResponseTypedDict": ".updategroupsbyidop",
     "UpdateGroupsDeployByIDRequest": ".updategroupsdeploybyidop",
     "UpdateGroupsDeployByIDRequestTypedDict": ".updategroupsdeploybyidop",
     "UpdateGroupsDeployByIDResponse": ".updategroupsdeploybyidop",

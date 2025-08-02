@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.14.0-alpha.1753968519625-08e89eb4
+  version: 4.14.0-alpha.1754075358312-9b381cdf
   contact:
     name: Support
     email: support@cribl.io
@@ -19,6 +19,10 @@ components:
       flows:
         clientCredentials:
           tokenUrl: https://login.cribl.cloud/oauth/token
+          x-speakeasy-token-endpoint-additional-properties:
+            audience:
+              type: string
+              example: "https://api.cribl.cloud"
           scopes: {}
   schemas:
     Error:
@@ -36882,6 +36886,8 @@ tags:
     description: Actions related to scripts
   - name: sds-rules
     description: Actions related to Sds Rules
+  - name: sds-rulesets
+    description: Actions related to Sds Rulesets
   - name: search
     description: Actions related to Search
   - name: secrets
@@ -39175,6 +39181,128 @@ paths:
               - stream
               - edge
           description: Cribl Product
+  "/master/groups/{id}":
+    delete:
+      operationId: deleteGroupsById
+      tags:
+        - groups
+      summary: Delete a Fleet or Worker Group
+      description: Delete a Fleet or Worker Group
+      responses:
+        "200":
+          description: a list of ConfigGroup objects
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: number of items present in the items array
+                  items:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/ConfigGroup"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Group ID
+    get:
+      operationId: getGroupsById
+      tags:
+        - groups
+      summary: Get a specific ConfigGroup object
+      description: Get a specific ConfigGroup object
+      responses:
+        "200":
+          description: a list of ConfigGroup objects
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: number of items present in the items array
+                  items:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/ConfigGroup"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Group id
+        - name: fields
+          in: query
+          required: false
+          schema:
+            type: string
+          description: "fields to add to results: git.commit, git.localChanges, git.log"
+    patch:
+      operationId: updateGroupsById
+      tags:
+        - groups
+      summary: Update a Fleet or Worker Group
+      description: Update a Fleet or Worker Group
+      responses:
+        "200":
+          description: a list of ConfigGroup objects
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: number of items present in the items array
+                  items:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/ConfigGroup"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      requestBody:
+        description: ConfigGroup object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConfigGroup"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Group ID
   "/master/groups/{id}/deploy":
     patch:
       operationId: updateGroupsDeployById
@@ -39219,49 +39347,6 @@ paths:
           schema:
             type: string
           description: Group ID
-  "/master/groups/{id}":
-    get:
-      operationId: getGroupsById
-      tags:
-        - groups
-      summary: Get a specific ConfigGroup object
-      description: Get a specific ConfigGroup object
-      responses:
-        "200":
-          description: a list of ConfigGroup objects
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/ConfigGroup"
-        "401":
-          description: Unauthorized
-        "500":
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Group id
-        - name: fields
-          in: query
-          required: false
-          schema:
-            type: string
-          description: "fields to add to results: git.commit, git.localChanges, git.log"
   "/products/{product}/groups/{id}/acl/teams":
     get:
       operationId: getProductsGroupsAclTeamsByProductAndId

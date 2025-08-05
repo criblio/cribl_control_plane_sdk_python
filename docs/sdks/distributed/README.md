@@ -15,6 +15,7 @@ Get summary of Distributed deployment
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getSummary" method="get" path="/master/summary" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os

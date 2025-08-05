@@ -21,6 +21,7 @@ Get a list of Destination objects
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="listOutput" method="get" path="/system/outputs" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -63,6 +64,7 @@ Create Destination
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="createOutput" method="post" path="/system/outputs" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -174,6 +176,7 @@ Get Destination by ID
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getOutputById" method="get" path="/system/outputs/{id}" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -217,6 +220,7 @@ Update Destination
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -319,6 +323,7 @@ Delete Destination
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="deleteOutputById" method="delete" path="/system/outputs/{id}" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -362,6 +367,7 @@ Clears destination persistent queue
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="deleteOutputPqById" method="delete" path="/system/outputs/{id}/pq" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -405,6 +411,7 @@ Retrieves status of latest clear PQ job for a destination
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getOutputPqById" method="get" path="/system/outputs/{id}/pq" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -448,6 +455,7 @@ Retrieve samples data for the specified destination. Used to get sample data for
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getOutputSamplesById" method="get" path="/system/outputs/{id}/samples" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -491,6 +499,7 @@ Send sample data to a destination to validate configuration or test connectivity
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="createOutputTestById" method="post" path="/system/outputs/{id}/test" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os

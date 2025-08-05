@@ -19,6 +19,7 @@ Create a Dataset in the specified Lake
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="createCriblLakeDatasetByLakeId" method="post" path="/products/lake/lakes/{lakeId}/datasets" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -107,6 +108,7 @@ Get the list of Dataset contained in the specified Lake
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getCriblLakeDatasetByLakeId" method="get" path="/products/lake/lakes/{lakeId}/datasets" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -150,6 +152,7 @@ Delete a Dataset in the specified Lake
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="deleteCriblLakeDatasetByLakeIdAndId" method="delete" path="/products/lake/lakes/{lakeId}/datasets/{id}" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -194,6 +197,7 @@ Get a Dataset in the specified Lake
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getCriblLakeDatasetByLakeIdAndId" method="get" path="/products/lake/lakes/{lakeId}/datasets/{id}" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -238,6 +242,7 @@ Update a Dataset in the specified Lake
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="updateCriblLakeDatasetByLakeIdAndId" method="patch" path="/products/lake/lakes/{lakeId}/datasets/{id}" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os

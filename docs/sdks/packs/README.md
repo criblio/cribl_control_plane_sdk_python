@@ -19,6 +19,7 @@ Install Pack
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="createPacks" method="post" path="/packs" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -87,6 +88,7 @@ Get info on packs
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getPacks" method="get" path="/packs" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -130,6 +132,7 @@ Upload Pack
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="updatePacks" method="put" path="/packs" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -173,6 +176,7 @@ Uninstall Pack from the system
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="deletePacksById" method="delete" path="/packs/{id}" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -216,6 +220,7 @@ Upgrade Pack
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="updatePacksById" method="patch" path="/packs/{id}" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os

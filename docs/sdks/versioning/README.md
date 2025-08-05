@@ -27,6 +27,7 @@ get the list of branches
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getVersionBranch" method="get" path="/version/branch" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -69,6 +70,7 @@ create a new commit containing the current configs the given log message describ
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="createVersionCommit" method="post" path="/version/commit" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -117,6 +119,7 @@ get the count of files of changed
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getVersionCount" method="get" path="/version/count" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -161,6 +164,7 @@ returns git branch that the config is checked out to, if any
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getVersionCurrentBranch" method="get" path="/version/current-branch" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -203,6 +207,7 @@ get the textual diff for given commit
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getVersionDiff" method="get" path="/version/diff" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -249,6 +254,7 @@ get the files changed
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getVersionFiles" method="get" path="/version/files" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -293,6 +299,7 @@ Get info about versioning availability
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getVersionInfo" method="get" path="/version/info" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -335,6 +342,7 @@ push the current configs to the remote repository.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="createVersionPush" method="post" path="/version/push" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -377,6 +385,7 @@ revert a commit
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="createVersionRevert" method="post" path="/version/revert" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -423,6 +432,7 @@ get the log message and textual diff for given commit
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getVersionShow" method="get" path="/version/show" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -469,6 +479,7 @@ get the the working tree status
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getVersionStatus" method="get" path="/version/status" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -512,6 +523,7 @@ syncs with remote repo via POST requests
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="createVersionSync" method="post" path="/version/sync" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -554,6 +566,7 @@ undo the last commit
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="createVersionUndo" method="post" path="/version/undo" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os

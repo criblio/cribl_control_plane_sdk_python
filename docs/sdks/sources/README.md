@@ -19,6 +19,7 @@ Get a list of Source objects
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="listInput" method="get" path="/system/inputs" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -61,6 +62,7 @@ Create Source
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="createInput" method="post" path="/system/inputs" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -175,6 +177,7 @@ Get Source by ID
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getInputById" method="get" path="/system/inputs/{id}" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -218,6 +221,7 @@ Update Source
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="updateInputById" method="patch" path="/system/inputs/{id}" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -302,6 +306,7 @@ Delete Source
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="deleteInputById" method="delete" path="/system/inputs/{id}" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -345,6 +350,7 @@ Add token and optional metadata to an existing HEC Source
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="createInputHecTokenById" method="post" path="/system/inputs/{id}/hectoken" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -397,6 +403,7 @@ Update token metadata on existing HEC Source
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="updateInputHecTokenByIdAndToken" method="patch" path="/system/inputs/{id}/hectoken/{token}" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os

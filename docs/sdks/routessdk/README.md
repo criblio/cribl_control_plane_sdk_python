@@ -18,6 +18,7 @@ Get a list of Routes objects
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="listRoutes" method="get" path="/routes" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -60,6 +61,7 @@ Get Routes by ID
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getRoutesById" method="get" path="/routes/{id}" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -103,6 +105,7 @@ Update Routes
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="updateRoutesById" method="patch" path="/routes/{id}" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -160,6 +163,7 @@ Appends routes to the end of the routing table
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="createRoutesAppendById" method="post" path="/routes/{id}/append" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os

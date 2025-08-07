@@ -7,12 +7,12 @@ Actions related to Routes
 
 ### Available Operations
 
-* [list_routes](#list_routes) - Get a list of Routes objects
-* [get_routes_by_id](#get_routes_by_id) - Get Routes by ID
-* [update_routes_by_id](#update_routes_by_id) - Update Routes
-* [create_routes_append_by_id](#create_routes_append_by_id) - Appends routes to the end of the routing table
+* [list](#list) - Get a list of Routes objects
+* [get](#get) - Get Routes by ID
+* [update](#update) - Update Routes
+* [append](#append) - Append Routes to the end of the Routing table
 
-## list_routes
+## list
 
 Get a list of Routes objects
 
@@ -30,7 +30,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.routes.list_routes()
+    res = ccp_client.routes.list()
 
     # Handle response
     print(res)
@@ -54,7 +54,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## get_routes_by_id
+## get
 
 Get Routes by ID
 
@@ -72,7 +72,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.routes.get_routes_by_id(id="<id>")
+    res = ccp_client.routes.get(id="<id>")
 
     # Handle response
     print(res)
@@ -97,7 +97,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## update_routes_by_id
+## update
 
 Update Routes
 
@@ -115,7 +115,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.routes.update_routes_by_id(id_param="<value>", routes=[], id="<id>", groups={
+    res = ccp_client.routes.update(id_param="<value>", routes=[], id="<id>", groups={
         "key": {
             "name": "<value>",
             "description": "where internationalize yesterday woefully tank underneath",
@@ -154,7 +154,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## create_routes_append_by_id
+## append
 
 Appends routes to the end of the routing table
 
@@ -172,7 +172,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.routes.create_routes_append_by_id(id="<id>", request_body=[])
+    res = ccp_client.routes.append(id="<id>", request_body=[])
 
     # Handle response
     print(res)

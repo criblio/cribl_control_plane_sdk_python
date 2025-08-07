@@ -12,7 +12,7 @@ from typing import Any, Dict, List, Mapping, Optional, Union
 class RoutesSDK(BaseSDK):
     r"""Actions related to Routes"""
 
-    def list_routes(
+    def list(
         self,
         *,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -92,7 +92,7 @@ class RoutesSDK(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def list_routes_async(
+    async def list_async(
         self,
         *,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -172,7 +172,7 @@ class RoutesSDK(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def get_routes_by_id(
+    def get(
         self,
         *,
         id: str,
@@ -259,7 +259,7 @@ class RoutesSDK(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_routes_by_id_async(
+    async def get_async(
         self,
         *,
         id: str,
@@ -346,7 +346,7 @@ class RoutesSDK(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def update_routes_by_id(
+    def update(
         self,
         *,
         id_param: str,
@@ -460,7 +460,7 @@ class RoutesSDK(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def update_routes_by_id_async(
+    async def update_async(
         self,
         *,
         id_param: str,
@@ -574,7 +574,7 @@ class RoutesSDK(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def create_routes_append_by_id(
+    def append(
         self,
         *,
         id: str,
@@ -584,7 +584,7 @@ class RoutesSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreateRoutesAppendByIDResponse:
-        r"""Appends routes to the end of the routing table
+        r"""Append Routes to the end of the Routing table
 
         Appends routes to the end of the routing table
 
@@ -669,7 +669,7 @@ class RoutesSDK(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def create_routes_append_by_id_async(
+    async def append_async(
         self,
         *,
         id: str,
@@ -679,7 +679,7 @@ class RoutesSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreateRoutesAppendByIDResponse:
-        r"""Appends routes to the end of the routing table
+        r"""Append Routes to the end of the Routing table
 
         Appends routes to the end of the routing table
 

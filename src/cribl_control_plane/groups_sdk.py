@@ -12,7 +12,7 @@ from typing import Any, List, Mapping, Optional, Union
 class GroupsSDK(BaseSDK):
     r"""Actions related to Groups"""
 
-    def get_groups_config_version_by_id(
+    def get_config_version(
         self,
         *,
         id: str,
@@ -21,7 +21,7 @@ class GroupsSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetGroupsConfigVersionByIDResponse:
-        r"""Get effective bundle version for given Group
+        r"""Retrieve the configuration version for a Worker Group or Edge Fleet
 
         Get effective bundle version for given Group
 
@@ -101,7 +101,7 @@ class GroupsSDK(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_groups_config_version_by_id_async(
+    async def get_config_version_async(
         self,
         *,
         id: str,
@@ -110,7 +110,7 @@ class GroupsSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetGroupsConfigVersionByIDResponse:
-        r"""Get effective bundle version for given Group
+        r"""Retrieve the configuration version for a Worker Group or Edge Fleet
 
         Get effective bundle version for given Group
 
@@ -190,7 +190,7 @@ class GroupsSDK(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def create_products_groups_by_product(
+    def create_by_product(
         self,
         *,
         product: models.CreateProductsGroupsByProductProduct,
@@ -228,7 +228,7 @@ class GroupsSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreateProductsGroupsByProductResponse:
-        r"""Create a Fleet or Worker Group
+        r"""Create a Worker Group or Edge Fleet for the specified Cribl product
 
         Create a Fleet or Worker Group
 
@@ -361,7 +361,7 @@ class GroupsSDK(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def create_products_groups_by_product_async(
+    async def create_by_product_async(
         self,
         *,
         product: models.CreateProductsGroupsByProductProduct,
@@ -399,7 +399,7 @@ class GroupsSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreateProductsGroupsByProductResponse:
-        r"""Create a Fleet or Worker Group
+        r"""Create a Worker Group or Edge Fleet for the specified Cribl product
 
         Create a Fleet or Worker Group
 
@@ -532,7 +532,7 @@ class GroupsSDK(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def get_products_groups_by_product(
+    def get_by_product(
         self,
         *,
         product: models.GetProductsGroupsByProductProduct,
@@ -542,7 +542,7 @@ class GroupsSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetProductsGroupsByProductResponse:
-        r"""Get a list of ConfigGroup objects
+        r"""List all Worker Groups or Edge Fleets for the specified Cribl product
 
         Get a list of ConfigGroup objects
 
@@ -624,7 +624,7 @@ class GroupsSDK(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_products_groups_by_product_async(
+    async def get_by_product_async(
         self,
         *,
         product: models.GetProductsGroupsByProductProduct,
@@ -634,7 +634,7 @@ class GroupsSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetProductsGroupsByProductResponse:
-        r"""Get a list of ConfigGroup objects
+        r"""List all Worker Groups or Edge Fleets for the specified Cribl product
 
         Get a list of ConfigGroup objects
 
@@ -716,7 +716,7 @@ class GroupsSDK(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def delete_groups_by_id(
+    def delete(
         self,
         *,
         id: str,
@@ -725,7 +725,7 @@ class GroupsSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.DeleteGroupsByIDResponse:
-        r"""Delete a Fleet or Worker Group
+        r"""Delete a Worker Group or Edge Fleet
 
         Delete a Fleet or Worker Group
 
@@ -803,7 +803,7 @@ class GroupsSDK(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def delete_groups_by_id_async(
+    async def delete_async(
         self,
         *,
         id: str,
@@ -812,7 +812,7 @@ class GroupsSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.DeleteGroupsByIDResponse:
-        r"""Delete a Fleet or Worker Group
+        r"""Delete a Worker Group or Edge Fleet
 
         Delete a Fleet or Worker Group
 
@@ -890,7 +890,7 @@ class GroupsSDK(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def get_groups_by_id(
+    def get(
         self,
         *,
         id: str,
@@ -900,7 +900,7 @@ class GroupsSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetGroupsByIDResponse:
-        r"""Get a specific ConfigGroup object
+        r"""Retrieve a Worker Group or Edge Fleet
 
         Get a specific ConfigGroup object
 
@@ -980,7 +980,7 @@ class GroupsSDK(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_groups_by_id_async(
+    async def get_async(
         self,
         *,
         id: str,
@@ -990,7 +990,7 @@ class GroupsSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetGroupsByIDResponse:
-        r"""Get a specific ConfigGroup object
+        r"""Retrieve a Worker Group or Edge Fleet
 
         Get a specific ConfigGroup object
 
@@ -1070,7 +1070,7 @@ class GroupsSDK(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def update_groups_by_id(
+    def update(
         self,
         *,
         id_param: str,
@@ -1108,7 +1108,7 @@ class GroupsSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.UpdateGroupsByIDResponse:
-        r"""Update a Fleet or Worker Group
+        r"""Update a Worker Group or Edge Fleet
 
         Update a Fleet or Worker Group
 
@@ -1239,7 +1239,7 @@ class GroupsSDK(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def update_groups_by_id_async(
+    async def update_async(
         self,
         *,
         id_param: str,
@@ -1277,7 +1277,7 @@ class GroupsSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.UpdateGroupsByIDResponse:
-        r"""Update a Fleet or Worker Group
+        r"""Update a Worker Group or Edge Fleet
 
         Update a Fleet or Worker Group
 
@@ -1408,7 +1408,7 @@ class GroupsSDK(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def update_groups_deploy_by_id(
+    def deploy_commits(
         self,
         *,
         id: str,
@@ -1424,7 +1424,7 @@ class GroupsSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.UpdateGroupsDeployByIDResponse:
-        r"""Deploy commits for a Fleet or Worker Group
+        r"""Deploy commits to a Worker Group or Edge Fleet
 
         Deploy commits for a Fleet or Worker Group
 
@@ -1515,7 +1515,7 @@ class GroupsSDK(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def update_groups_deploy_by_id_async(
+    async def deploy_commits_async(
         self,
         *,
         id: str,
@@ -1531,7 +1531,7 @@ class GroupsSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.UpdateGroupsDeployByIDResponse:
-        r"""Deploy commits for a Fleet or Worker Group
+        r"""Deploy commits to a Worker Group or Edge Fleet
 
         Deploy commits for a Fleet or Worker Group
 
@@ -1622,7 +1622,197 @@ class GroupsSDK(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def get_groups_acl_by_id(
+    def get_team_access_control_list_by_product(
+        self,
+        *,
+        product: models.GetProductsGroupsACLTeamsByProductAndIDProduct,
+        id: str,
+        type_: Optional[models.GetProductsGroupsACLTeamsByProductAndIDType] = None,
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> models.GetProductsGroupsACLTeamsByProductAndIDResponse:
+        r"""Retrieve the Access Control List (ACL) for teams with permissions on a Worker Group or Edge Fleet for the specified Cribl product
+
+        ACL of team with permissions for resources in this Group
+
+        :param product: Cribl Product
+        :param id: Group ID
+        :param type: resource type by which to filter access levels
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = models.GetProductsGroupsACLTeamsByProductAndIDRequest(
+            product=product,
+            id=id,
+            type=type_,
+        )
+
+        req = self._build_request(
+            method="GET",
+            path="/products/{product}/groups/{id}/acl/teams",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=False,
+            request_has_path_params=True,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["429", "500", "502", "503", "504"])
+
+        http_res = self.do_request(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="getProductsGroupsAclTeamsByProductAndId",
+                oauth2_scopes=[],
+                security_source=get_security_from_env(
+                    self.sdk_configuration.security, models.Security
+                ),
+            ),
+            request=req,
+            error_status_codes=["401", "4XX", "500", "5XX"],
+            retry_config=retry_config,
+        )
+
+        response_data: Any = None
+        if utils.match_response(http_res, "200", "application/json"):
+            return unmarshal_json_response(
+                models.GetProductsGroupsACLTeamsByProductAndIDResponse, http_res
+            )
+        if utils.match_response(http_res, "500", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
+        if utils.match_response(http_res, ["401", "4XX"], "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.APIError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.APIError("API error occurred", http_res, http_res_text)
+
+        raise errors.APIError("Unexpected response received", http_res)
+
+    async def get_team_access_control_list_by_product_async(
+        self,
+        *,
+        product: models.GetProductsGroupsACLTeamsByProductAndIDProduct,
+        id: str,
+        type_: Optional[models.GetProductsGroupsACLTeamsByProductAndIDType] = None,
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> models.GetProductsGroupsACLTeamsByProductAndIDResponse:
+        r"""Retrieve the Access Control List (ACL) for teams with permissions on a Worker Group or Edge Fleet for the specified Cribl product
+
+        ACL of team with permissions for resources in this Group
+
+        :param product: Cribl Product
+        :param id: Group ID
+        :param type: resource type by which to filter access levels
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = models.GetProductsGroupsACLTeamsByProductAndIDRequest(
+            product=product,
+            id=id,
+            type=type_,
+        )
+
+        req = self._build_request_async(
+            method="GET",
+            path="/products/{product}/groups/{id}/acl/teams",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=False,
+            request_has_path_params=True,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["429", "500", "502", "503", "504"])
+
+        http_res = await self.do_request_async(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="getProductsGroupsAclTeamsByProductAndId",
+                oauth2_scopes=[],
+                security_source=get_security_from_env(
+                    self.sdk_configuration.security, models.Security
+                ),
+            ),
+            request=req,
+            error_status_codes=["401", "4XX", "500", "5XX"],
+            retry_config=retry_config,
+        )
+
+        response_data: Any = None
+        if utils.match_response(http_res, "200", "application/json"):
+            return unmarshal_json_response(
+                models.GetProductsGroupsACLTeamsByProductAndIDResponse, http_res
+            )
+        if utils.match_response(http_res, "500", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
+        if utils.match_response(http_res, ["401", "4XX"], "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.APIError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.APIError("API error occurred", http_res, http_res_text)
+
+        raise errors.APIError("Unexpected response received", http_res)
+
+    def get_access_control_list(
         self,
         *,
         id: str,
@@ -1632,7 +1822,7 @@ class GroupsSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetGroupsACLByIDResponse:
-        r"""ACL of members with permissions for resources in this Group
+        r"""Retrieve the Access Control List (ACL) for a Worker Group or Edge Fleet
 
         ACL of members with permissions for resources in this Group
 
@@ -1712,7 +1902,7 @@ class GroupsSDK(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_groups_acl_by_id_async(
+    async def get_access_control_list_async(
         self,
         *,
         id: str,
@@ -1722,7 +1912,7 @@ class GroupsSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetGroupsACLByIDResponse:
-        r"""ACL of members with permissions for resources in this Group
+        r"""Retrieve the Access Control List (ACL) for a Worker Group or Edge Fleet
 
         ACL of members with permissions for resources in this Group
 

@@ -8,10 +8,8 @@ from cribl_control_plane.utils.unmarshal_json_response import unmarshal_json_res
 from typing import Any, Mapping, Optional
 
 
-class Health(BaseSDK):
-    r"""Actions related to REST server health"""
-
-    def get_health_info(
+class HealthInfo(BaseSDK):
+    def get(
         self,
         *,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -19,7 +17,7 @@ class Health(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.HealthStatus:
-        r"""Provides health info for REST server
+        r"""Retrieve health status of the server
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -88,7 +86,7 @@ class Health(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_health_info_async(
+    async def get_async(
         self,
         *,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -96,7 +94,7 @@ class Health(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.HealthStatus:
-        r"""Provides health info for REST server
+        r"""Retrieve health status of the server
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method

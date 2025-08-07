@@ -1,13 +1,11 @@
-# Distributed
-(*distributed*)
+# Deployments
+(*deployments*)
 
 ## Overview
 
-Actions related to Distributed
-
 ### Available Operations
 
-* [get_summary](#get_summary) - Get summary of Distributed deployment
+* [get_summary](#get_summary) - Retrieve a summary of the Distributed deployment
 
 ## get_summary
 
@@ -27,7 +25,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.distributed.get_summary(mode=models.GetSummaryMode.WORKER)
+    res = ccp_client.deployments.get_summary(mode=models.GetSummaryMode.WORKER)
 
     # Handle response
     print(res)

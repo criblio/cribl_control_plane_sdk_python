@@ -10,7 +10,7 @@ from typing import Any, List, Mapping, Optional, Union, cast
 
 
 class Sources(BaseSDK):
-    def list_source(
+    def list(
         self,
         *,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -18,7 +18,7 @@ class Sources(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.ListInputResponse:
-        r"""Get a list of Source objects
+        r"""List all Sources
 
         Get a list of Source objects
 
@@ -90,7 +90,7 @@ class Sources(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def list_source_async(
+    async def list_async(
         self,
         *,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -98,7 +98,7 @@ class Sources(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.ListInputResponse:
-        r"""Get a list of Source objects
+        r"""List all Sources
 
         Get a list of Source objects
 
@@ -170,7 +170,7 @@ class Sources(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def create_source(
+    def create(
         self,
         *,
         request: Union[models.Input, models.InputTypedDict],
@@ -179,7 +179,7 @@ class Sources(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreateInputResponse:
-        r"""Create Source
+        r"""Create a Source
 
         Create Source
 
@@ -260,7 +260,7 @@ class Sources(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def create_source_async(
+    async def create_async(
         self,
         *,
         request: Union[models.Input, models.InputTypedDict],
@@ -269,7 +269,7 @@ class Sources(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreateInputResponse:
-        r"""Create Source
+        r"""Create a Source
 
         Create Source
 
@@ -350,7 +350,7 @@ class Sources(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def get_source_by_id(
+    def get(
         self,
         *,
         id: str,
@@ -359,7 +359,7 @@ class Sources(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetInputByIDResponse:
-        r"""Get Source by ID
+        r"""Retrieve a Source
 
         Get Source by ID
 
@@ -437,7 +437,7 @@ class Sources(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_source_by_id_async(
+    async def get_async(
         self,
         *,
         id: str,
@@ -446,7 +446,7 @@ class Sources(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetInputByIDResponse:
-        r"""Get Source by ID
+        r"""Retrieve a Source
 
         Get Source by ID
 
@@ -524,7 +524,7 @@ class Sources(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def update_source_by_id(
+    def update(
         self,
         *,
         id: str,
@@ -534,7 +534,7 @@ class Sources(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.UpdateInputByIDResponse:
-        r"""Update Source
+        r"""Update a Source
 
         Update Source
 
@@ -617,7 +617,7 @@ class Sources(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def update_source_by_id_async(
+    async def update_async(
         self,
         *,
         id: str,
@@ -627,7 +627,7 @@ class Sources(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.UpdateInputByIDResponse:
-        r"""Update Source
+        r"""Update a Source
 
         Update Source
 
@@ -710,7 +710,7 @@ class Sources(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def delete_source_by_id(
+    def delete(
         self,
         *,
         id: str,
@@ -719,7 +719,7 @@ class Sources(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.DeleteInputByIDResponse:
-        r"""Delete Source
+        r"""Delete a Source
 
         Delete Source
 
@@ -797,7 +797,7 @@ class Sources(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def delete_source_by_id_async(
+    async def delete_async(
         self,
         *,
         id: str,
@@ -806,7 +806,7 @@ class Sources(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.DeleteInputByIDResponse:
-        r"""Delete Source
+        r"""Delete a Source
 
         Delete Source
 
@@ -884,7 +884,7 @@ class Sources(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def create_source_hec_token_by_id(
+    def create_hec_token(
         self,
         *,
         id: str,
@@ -902,7 +902,7 @@ class Sources(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreateInputHecTokenByIDResponse:
-        r"""Add token and optional metadata to an existing HEC Source
+        r"""Add an HEC token and optional metadata to a Splunk HEC Source
 
         Add token and optional metadata to an existing HEC Source
 
@@ -1001,7 +1001,7 @@ class Sources(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def create_source_hec_token_by_id_async(
+    async def create_hec_token_async(
         self,
         *,
         id: str,
@@ -1019,7 +1019,7 @@ class Sources(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreateInputHecTokenByIDResponse:
-        r"""Add token and optional metadata to an existing HEC Source
+        r"""Add an HEC token and optional metadata to a Splunk HEC Source
 
         Add token and optional metadata to an existing HEC Source
 
@@ -1118,7 +1118,7 @@ class Sources(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def update_source_hec_token_by_id_and_token(
+    def update_hec_token_metadata(
         self,
         *,
         id: str,
@@ -1136,7 +1136,7 @@ class Sources(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.UpdateInputHecTokenByIDAndTokenResponse:
-        r"""Update token metadata on existing HEC Source
+        r"""Update metadata for an HEC token for a Splunk HEC Source
 
         Update token metadata on existing HEC Source
 
@@ -1235,7 +1235,7 @@ class Sources(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def update_source_hec_token_by_id_and_token_async(
+    async def update_hec_token_metadata_async(
         self,
         *,
         id: str,
@@ -1253,7 +1253,7 @@ class Sources(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.UpdateInputHecTokenByIDAndTokenResponse:
-        r"""Update token metadata on existing HEC Source
+        r"""Update metadata for an HEC token for a Splunk HEC Source
 
         Update token metadata on existing HEC Source
 

@@ -7,12 +7,12 @@ Actions related to Packs
 
 ### Available Operations
 
-* [create_packs](#create_packs) - Install Pack
-* [get_packs](#get_packs) - Get info on packs
-* [delete_packs_by_id](#delete_packs_by_id) - Uninstall Pack from the system
-* [update_packs_by_id](#update_packs_by_id) - Upgrade Pack
+* [install](#install) - Install a Pack
+* [list](#list) - List all Packs
+* [delete](#delete) - Uninstall a Pack
+* [update](#update) - Update a Pack
 
-## create_packs
+## install
 
 Install Pack
 
@@ -30,7 +30,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.packs.create_packs(id="<id>", source="<value>", allow_custom_functions=False, author="<value>", description="premeditation coincide although", display_name="Myah14", exports=[
+    res = ccp_client.packs.install(id="<id>", source="<value>", allow_custom_functions=False, author="<value>", description="premeditation coincide although", display_name="Myah14", exports=[
         "<value 1>",
     ], force=False, inputs=4076.64, min_log_stream_version="<value>", outputs=2759.4, spec="<value>", tags={
         "data_type": [],
@@ -80,7 +80,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## get_packs
+## list
 
 Get info on packs
 
@@ -98,7 +98,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.packs.get_packs(with_="<value>")
+    res = ccp_client.packs.list(with_="<value>")
 
     # Handle response
     print(res)
@@ -123,7 +123,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## delete_packs_by_id
+## delete
 
 Uninstall Pack from the system
 
@@ -141,7 +141,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.packs.delete_packs_by_id(id="<id>")
+    res = ccp_client.packs.delete(id="<id>")
 
     # Handle response
     print(res)
@@ -166,7 +166,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## update_packs_by_id
+## update
 
 Upgrade Pack
 
@@ -184,7 +184,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.packs.update_packs_by_id(id="<id>", source="<value>", minor="<value>", spec="<value>")
+    res = ccp_client.packs.update(id="<id>", source="<value>", minor="<value>", spec="<value>")
 
     # Handle response
     print(res)

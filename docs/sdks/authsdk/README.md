@@ -7,9 +7,9 @@ Actions related to authentication. Do not use the /auth endpoints in Cribl.Cloud
 
 ### Available Operations
 
-* [login](#login) - Log in and obtain Auth token
+* [fetch_token](#fetch_token) - Log in and fetch an authentication token
 
-## login
+## fetch_token
 
 This endpoint is unavailable on Cribl.Cloud. Instead, follow the instructions at https://docs.cribl.io/stream/api-tutorials/#criblcloud to get an Auth token for Cribl.Cloud.
 
@@ -23,7 +23,7 @@ with CriblControlPlane(
     server_url="https://api.example.com",
 ) as ccp_client:
 
-    res = ccp_client.auth.login(username="Nikko.Connelly", password="Ljp4BunfMR9hNyM")
+    res = ccp_client.auth.fetch_token(username="Nikko.Connelly", password="Ljp4BunfMR9hNyM")
 
     # Handle response
     print(res)

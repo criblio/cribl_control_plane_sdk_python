@@ -11,7 +11,7 @@ from typing import Mapping, Optional
 class AuthSDK(BaseSDK):
     r"""Actions related to authentication. Do not use the /auth endpoints in Cribl.Cloud deployments. Instead, follow the instructions at https://docs.cribl.io/stream/api-tutorials/#criblcloud to authenticate for Cribl.Cloud."""
 
-    def login(
+    def fetch_token(
         self,
         *,
         username: str,
@@ -21,7 +21,7 @@ class AuthSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.AuthToken:
-        r"""Log in and obtain Auth token
+        r"""Log in and fetch an authentication token
 
         This endpoint is unavailable on Cribl.Cloud. Instead, follow the instructions at https://docs.cribl.io/stream/api-tutorials/#criblcloud to get an Auth token for Cribl.Cloud.
 
@@ -97,7 +97,7 @@ class AuthSDK(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def login_async(
+    async def fetch_token_async(
         self,
         *,
         username: str,
@@ -107,7 +107,7 @@ class AuthSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.AuthToken:
-        r"""Log in and obtain Auth token
+        r"""Log in and fetch an authentication token
 
         This endpoint is unavailable on Cribl.Cloud. Instead, follow the instructions at https://docs.cribl.io/stream/api-tutorials/#criblcloud to get an Auth token for Cribl.Cloud.
 

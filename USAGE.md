@@ -12,7 +12,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.lake.create_cribl_lake_dataset_by_lake_id(lake_id="<id>", id="<id>", accelerated_fields=[
+    res = ccp_client.lake_datasets.create(lake_id="<id>", id="<id>", accelerated_fields=[
         "<value 1>",
         "<value 2>",
     ], bucket_name="<value>", cache_connection={
@@ -69,7 +69,7 @@ async def main():
         ),
     ) as ccp_client:
 
-        res = await ccp_client.lake.create_cribl_lake_dataset_by_lake_id_async(lake_id="<id>", id="<id>", accelerated_fields=[
+        res = await ccp_client.lake_datasets.create_async(lake_id="<id>", id="<id>", accelerated_fields=[
             "<value 1>",
             "<value 2>",
         ], bucket_name="<value>", cache_connection={

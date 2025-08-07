@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 8c1b980920cb179a1460873d8c229f89
-  docVersion: 4.14.0-alpha.1754409810030-3ae86276
+  docChecksum: 003ffb570b46c120ea1b3dfb734f1a3b
+  docVersion: 4.14.0-alpha.1754581489015-f79f2920
   speakeasyVersion: 1.585.0
   generationVersion: 2.660.0
-  releaseVersion: 0.0.23
-  configChecksum: 7b04d29365d472227e18a51f459cc410
+  releaseVersion: 0.0.24
+  configChecksum: cf606ad3696761c2c752dd81b48a6dc3
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -1838,18 +1838,17 @@ generatedFiles:
   - docs/models/writeaction.md
   - docs/sdks/authsdk/README.md
   - docs/sdks/criblcontrolplane/README.md
+  - docs/sdks/deployments/README.md
   - docs/sdks/destinations/README.md
-  - docs/sdks/distributed/README.md
   - docs/sdks/groupssdk/README.md
-  - docs/sdks/health/README.md
-  - docs/sdks/lake/README.md
+  - docs/sdks/healthinfo/README.md
+  - docs/sdks/lakedatasets/README.md
+  - docs/sdks/nodes/README.md
   - docs/sdks/packs/README.md
   - docs/sdks/pipelines/README.md
   - docs/sdks/routessdk/README.md
   - docs/sdks/sources/README.md
-  - docs/sdks/teams/README.md
   - docs/sdks/versioning/README.md
-  - docs/sdks/workerssdk/README.md
   - poetry.toml
   - py.typed
   - pylintrc
@@ -1863,8 +1862,8 @@ generatedFiles:
   - src/cribl_control_plane/_version.py
   - src/cribl_control_plane/auth_sdk.py
   - src/cribl_control_plane/basesdk.py
+  - src/cribl_control_plane/deployments.py
   - src/cribl_control_plane/destinations.py
-  - src/cribl_control_plane/distributed.py
   - src/cribl_control_plane/errors/__init__.py
   - src/cribl_control_plane/errors/apierror.py
   - src/cribl_control_plane/errors/criblcontrolplaneerror.py
@@ -1873,9 +1872,9 @@ generatedFiles:
   - src/cribl_control_plane/errors/no_response_error.py
   - src/cribl_control_plane/errors/responsevalidationerror.py
   - src/cribl_control_plane/groups_sdk.py
-  - src/cribl_control_plane/health.py
+  - src/cribl_control_plane/healthinfo.py
   - src/cribl_control_plane/httpclient.py
-  - src/cribl_control_plane/lake.py
+  - src/cribl_control_plane/lakedatasets.py
   - src/cribl_control_plane/models/__init__.py
   - src/cribl_control_plane/models/addhectokenrequest.py
   - src/cribl_control_plane/models/appmode.py
@@ -2121,6 +2120,7 @@ generatedFiles:
   - src/cribl_control_plane/models/updateroutesbyidop.py
   - src/cribl_control_plane/models/updateworkersrestartop.py
   - src/cribl_control_plane/models/useraccesscontrollist.py
+  - src/cribl_control_plane/nodes.py
   - src/cribl_control_plane/packs.py
   - src/cribl_control_plane/pipelines.py
   - src/cribl_control_plane/py.typed
@@ -2128,7 +2128,6 @@ generatedFiles:
   - src/cribl_control_plane/sdk.py
   - src/cribl_control_plane/sdkconfiguration.py
   - src/cribl_control_plane/sources.py
-  - src/cribl_control_plane/teams.py
   - src/cribl_control_plane/types/__init__.py
   - src/cribl_control_plane/types/basemodel.py
   - src/cribl_control_plane/utils/__init__.py
@@ -2149,7 +2148,6 @@ generatedFiles:
   - src/cribl_control_plane/utils/url.py
   - src/cribl_control_plane/utils/values.py
   - src/cribl_control_plane/versioning.py
-  - src/cribl_control_plane/workers_sdk.py
 examples:
   getHealthInfo:
     speakeasy-default-get-health-info:

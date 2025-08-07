@@ -5,15 +5,15 @@
 
 ### Available Operations
 
-* [list_source](#list_source) - Get a list of Source objects
-* [create_source](#create_source) - Create Source
-* [get_source_by_id](#get_source_by_id) - Get Source by ID
-* [update_source_by_id](#update_source_by_id) - Update Source
-* [delete_source_by_id](#delete_source_by_id) - Delete Source
-* [create_source_hec_token_by_id](#create_source_hec_token_by_id) - Add token and optional metadata to an existing HEC Source
-* [update_source_hec_token_by_id_and_token](#update_source_hec_token_by_id_and_token) - Update token metadata on existing HEC Source
+* [list](#list) - List all Sources
+* [create](#create) - Create a Source
+* [get](#get) - Retrieve a Source
+* [update](#update) - Update a Source
+* [delete](#delete) - Delete a Source
+* [create_hec_token](#create_hec_token) - Add an HEC token and optional metadata to a Splunk HEC Source
+* [update_hec_token_metadata](#update_hec_token_metadata) - Update metadata for an HEC token for a Splunk HEC Source
 
-## list_source
+## list
 
 Get a list of Source objects
 
@@ -31,7 +31,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.sources.list_source()
+    res = ccp_client.sources.list()
 
     # Handle response
     print(res)
@@ -55,7 +55,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## create_source
+## create
 
 Create Source
 
@@ -73,7 +73,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.sources.create_source(request={
+    res = ccp_client.sources.create(request={
         "id": "<id>",
         "type": models.InputTCPType.TCP,
         "disabled": False,
@@ -169,7 +169,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## get_source_by_id
+## get
 
 Get Source by ID
 
@@ -187,7 +187,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.sources.get_source_by_id(id="<id>")
+    res = ccp_client.sources.get(id="<id>")
 
     # Handle response
     print(res)
@@ -212,7 +212,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## update_source_by_id
+## update
 
 Update Source
 
@@ -230,7 +230,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.sources.update_source_by_id(id="<id>", input_={
+    res = ccp_client.sources.update(id="<id>", input_={
         "id": "<id>",
         "type": models.InputKubeEventsType.KUBE_EVENTS,
         "disabled": False,
@@ -296,7 +296,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## delete_source_by_id
+## delete
 
 Delete Source
 
@@ -314,7 +314,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.sources.delete_source_by_id(id="<id>")
+    res = ccp_client.sources.delete(id="<id>")
 
     # Handle response
     print(res)
@@ -339,7 +339,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## create_source_hec_token_by_id
+## create_hec_token
 
 Add token and optional metadata to an existing HEC Source
 
@@ -357,7 +357,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.sources.create_source_hec_token_by_id(id="<id>", token="<value>", description="bah ick stingy", enabled=False, metadata=[
+    res = ccp_client.sources.create_hec_token(id="<id>", token="<value>", description="bah ick stingy", enabled=False, metadata=[
         {
             "name": "<value>",
             "value": "<value>",
@@ -391,7 +391,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## update_source_hec_token_by_id_and_token
+## update_hec_token_metadata
 
 Update token metadata on existing HEC Source
 
@@ -409,7 +409,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.sources.update_source_hec_token_by_id_and_token(id="<id>", token="<value>", description="by bleakly fortunately phew barring", enabled=False, metadata=[
+    res = ccp_client.sources.update_hec_token_metadata(id="<id>", token="<value>", description="by bleakly fortunately phew barring", enabled=False, metadata=[
         {
             "name": "<value>",
             "value": "<value>",

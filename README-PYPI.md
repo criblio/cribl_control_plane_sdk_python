@@ -108,7 +108,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.lake.create_cribl_lake_dataset_by_lake_id(lake_id="<id>", id="<id>", accelerated_fields=[
+    res = ccp_client.lake_datasets.create(lake_id="<id>", id="<id>", accelerated_fields=[
         "<value 1>",
         "<value 2>",
     ], bucket_name="<value>", cache_connection={
@@ -165,7 +165,7 @@ async def main():
         ),
     ) as ccp_client:
 
-        res = await ccp_client.lake.create_cribl_lake_dataset_by_lake_id_async(lake_id="<id>", id="<id>", accelerated_fields=[
+        res = await ccp_client.lake_datasets.create_async(lake_id="<id>", id="<id>", accelerated_fields=[
             "<value 1>",
             "<value 2>",
         ], bucket_name="<value>", cache_connection={
@@ -232,7 +232,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.lake.create_cribl_lake_dataset_by_lake_id(lake_id="<id>", id="<id>", accelerated_fields=[
+    res = ccp_client.lake_datasets.create(lake_id="<id>", id="<id>", accelerated_fields=[
         "<value 1>",
         "<value 2>",
     ], bucket_name="<value>", cache_connection={
@@ -281,105 +281,102 @@ with CriblControlPlane(
 
 ### [auth](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/authsdk/README.md)
 
-* [login](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/authsdk/README.md#login) - Log in and obtain Auth token
+* [fetch_token](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/authsdk/README.md#fetch_token) - Log in and fetch an authentication token
 
+
+### [deployments](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/deployments/README.md)
+
+* [get_summary](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/deployments/README.md#get_summary) - Retrieve a summary of the Distributed deployment
 
 ### [destinations](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinations/README.md)
 
-* [list_destination](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinations/README.md#list_destination) - Get a list of Destination objects
-* [create_destination](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinations/README.md#create_destination) - Create Destination
-* [get_destination_by_id](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinations/README.md#get_destination_by_id) - Get Destination by ID
-* [update_destination_by_id](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinations/README.md#update_destination_by_id) - Update Destination
-* [delete_destination_by_id](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinations/README.md#delete_destination_by_id) - Delete Destination
-* [delete_destination_pq_by_id](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinations/README.md#delete_destination_pq_by_id) - Clears destination persistent queue
-* [get_destination_pq_by_id](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinations/README.md#get_destination_pq_by_id) - Retrieves status of latest clear PQ job for a destination
-* [get_destination_samples_by_id](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinations/README.md#get_destination_samples_by_id) - Retrieve samples data for the specified destination. Used to get sample data for the test action.
-* [create_destination_test_by_id](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinations/README.md#create_destination_test_by_id) - Send sample data to a destination to validate configuration or test connectivity
-
-### [distributed](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/distributed/README.md)
-
-* [get_summary](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/distributed/README.md#get_summary) - Get summary of Distributed deployment
+* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinations/README.md#list) - List all Destinations
+* [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinations/README.md#create) - Create a Destination
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinations/README.md#get) - Retrieve a Destination
+* [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinations/README.md#update) - Update a Destination
+* [delete](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinations/README.md#delete) - Delete a Destination
+* [clear_persistent_queue](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinations/README.md#clear_persistent_queue) - Clear the persistent queue for a Destination
+* [get_persistent_queue_status](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinations/README.md#get_persistent_queue_status) - Retrieve information about the latest job to clear the persistent queue for a Destination
+* [get_sample_data](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinations/README.md#get_sample_data) - Retrieve sample event data for a Destination
+* [create_sample_data](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinations/README.md#create_sample_data) - Send sample event data to a Destination
 
 ### [groups](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md)
 
-* [get_groups_config_version_by_id](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#get_groups_config_version_by_id) - Get effective bundle version for given Group
-* [create_products_groups_by_product](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#create_products_groups_by_product) - Create a Fleet or Worker Group
-* [get_products_groups_by_product](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#get_products_groups_by_product) - Get a list of ConfigGroup objects
-* [delete_groups_by_id](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#delete_groups_by_id) - Delete a Fleet or Worker Group
-* [get_groups_by_id](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#get_groups_by_id) - Get a specific ConfigGroup object
-* [update_groups_by_id](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#update_groups_by_id) - Update a Fleet or Worker Group
-* [update_groups_deploy_by_id](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#update_groups_deploy_by_id) - Deploy commits for a Fleet or Worker Group
-* [get_groups_acl_by_id](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#get_groups_acl_by_id) - ACL of members with permissions for resources in this Group
+* [get_config_version](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#get_config_version) - Retrieve the configuration version for a Worker Group or Edge Fleet
+* [create_by_product](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#create_by_product) - Create a Worker Group or Edge Fleet for the specified Cribl product
+* [get_by_product](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#get_by_product) - List all Worker Groups or Edge Fleets for the specified Cribl product
+* [delete](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#delete) - Delete a Worker Group or Edge Fleet
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#get) - Retrieve a Worker Group or Edge Fleet
+* [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#update) - Update a Worker Group or Edge Fleet
+* [deploy_commits](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#deploy_commits) - Deploy commits to a Worker Group or Edge Fleet
+* [get_team_access_control_list_by_product](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#get_team_access_control_list_by_product) - Retrieve the Access Control List (ACL) for teams with permissions on a Worker Group or Edge Fleet for the specified Cribl product
+* [get_access_control_list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#get_access_control_list) - Retrieve the Access Control List (ACL) for a Worker Group or Edge Fleet
 
-### [health](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/health/README.md)
+### [health_info](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/healthinfo/README.md)
 
-* [get_health_info](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/health/README.md#get_health_info) - Provides health info for REST server
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/healthinfo/README.md#get) - Retrieve health status of the server
 
-### [lake](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/lake/README.md)
+### [lake_datasets](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/lakedatasets/README.md)
 
-* [create_cribl_lake_dataset_by_lake_id](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/lake/README.md#create_cribl_lake_dataset_by_lake_id) - Create a Dataset in the specified Lake
-* [get_cribl_lake_dataset_by_lake_id](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/lake/README.md#get_cribl_lake_dataset_by_lake_id) - Get the list of Dataset contained in the specified Lake
-* [delete_cribl_lake_dataset_by_lake_id_and_id](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/lake/README.md#delete_cribl_lake_dataset_by_lake_id_and_id) - Delete a Dataset in the specified Lake
-* [get_cribl_lake_dataset_by_lake_id_and_id](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/lake/README.md#get_cribl_lake_dataset_by_lake_id_and_id) - Get a Dataset in the specified Lake
-* [update_cribl_lake_dataset_by_lake_id_and_id](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/lake/README.md#update_cribl_lake_dataset_by_lake_id_and_id) - Update a Dataset in the specified Lake
+* [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/lakedatasets/README.md#create) - Create a Lake Dataset in the specified Lake
+* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/lakedatasets/README.md#list) - List all Lake Datasets in the specified Lake
+* [delete](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/lakedatasets/README.md#delete) - Delete a Lake Dataset in the specified Lake
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/lakedatasets/README.md#get) - Retrieve a Lake Dataset in the specified Lake
+* [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/lakedatasets/README.md#update) - Update a Lake Dataset in the specified Lake
+
+### [nodes](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/nodes/README.md)
+
+* [get_count](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/nodes/README.md#get_count) - Retrieve a count of Worker and Edge Nodes
+* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/nodes/README.md#list) - Retrieve detailed metadata for Worker and Edge Nodes
+* [restart](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/nodes/README.md#restart) - Restart Worker and Edge Nodes
 
 ### [packs](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packs/README.md)
 
-* [create_packs](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packs/README.md#create_packs) - Install Pack
-* [get_packs](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packs/README.md#get_packs) - Get info on packs
-* [delete_packs_by_id](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packs/README.md#delete_packs_by_id) - Uninstall Pack from the system
-* [update_packs_by_id](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packs/README.md#update_packs_by_id) - Upgrade Pack
+* [install](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packs/README.md#install) - Install a Pack
+* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packs/README.md#list) - List all Packs
+* [delete](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packs/README.md#delete) - Uninstall a Pack
+* [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packs/README.md#update) - Update a Pack
 
 ### [pipelines](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/pipelines/README.md)
 
 * [list_pipeline](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/pipelines/README.md#list_pipeline) - Get a list of Pipeline objects
-* [create_pipeline](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/pipelines/README.md#create_pipeline) - Create Pipeline
+* [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/pipelines/README.md#create) - Create a Pipeline
 * [get_pipeline_by_id](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/pipelines/README.md#get_pipeline_by_id) - Get Pipeline by ID
-* [update_pipeline_by_id](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/pipelines/README.md#update_pipeline_by_id) - Update Pipeline
+* [update_pipeline_by_id](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/pipelines/README.md#update_pipeline_by_id) - Update a Pipeline
 * [delete_pipeline_by_id](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/pipelines/README.md#delete_pipeline_by_id) - Delete Pipeline
 
 ### [routes](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/routessdk/README.md)
 
-* [list_routes](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/routessdk/README.md#list_routes) - Get a list of Routes objects
-* [get_routes_by_id](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/routessdk/README.md#get_routes_by_id) - Get Routes by ID
-* [update_routes_by_id](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/routessdk/README.md#update_routes_by_id) - Update Routes
-* [create_routes_append_by_id](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/routessdk/README.md#create_routes_append_by_id) - Appends routes to the end of the routing table
+* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/routessdk/README.md#list) - Get a list of Routes objects
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/routessdk/README.md#get) - Get Routes by ID
+* [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/routessdk/README.md#update) - Update Routes
+* [append](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/routessdk/README.md#append) - Append Routes to the end of the Routing table
 
 ### [sources](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/sources/README.md)
 
-* [list_source](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/sources/README.md#list_source) - Get a list of Source objects
-* [create_source](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/sources/README.md#create_source) - Create Source
-* [get_source_by_id](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/sources/README.md#get_source_by_id) - Get Source by ID
-* [update_source_by_id](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/sources/README.md#update_source_by_id) - Update Source
-* [delete_source_by_id](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/sources/README.md#delete_source_by_id) - Delete Source
-* [create_source_hec_token_by_id](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/sources/README.md#create_source_hec_token_by_id) - Add token and optional metadata to an existing HEC Source
-* [update_source_hec_token_by_id_and_token](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/sources/README.md#update_source_hec_token_by_id_and_token) - Update token metadata on existing HEC Source
-
-### [teams](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/teams/README.md)
-
-* [get_products_groups_acl_teams_by_product_and_id](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/teams/README.md#get_products_groups_acl_teams_by_product_and_id) - ACL of team with permissions for resources in this Group
+* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/sources/README.md#list) - List all Sources
+* [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/sources/README.md#create) - Create a Source
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/sources/README.md#get) - Retrieve a Source
+* [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/sources/README.md#update) - Update a Source
+* [delete](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/sources/README.md#delete) - Delete a Source
+* [create_hec_token](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/sources/README.md#create_hec_token) - Add an HEC token and optional metadata to a Splunk HEC Source
+* [update_hec_token_metadata](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/sources/README.md#update_hec_token_metadata) - Update metadata for an HEC token for a Splunk HEC Source
 
 ### [versioning](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/versioning/README.md)
 
-* [get_version_branch](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/versioning/README.md#get_version_branch) - get the list of branches
-* [create_version_commit](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/versioning/README.md#create_version_commit) - create a new commit containing the current configs the given log message describing the changes.
-* [get_version_count](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/versioning/README.md#get_version_count) - get the count of files of changed
-* [get_version_current_branch](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/versioning/README.md#get_version_current_branch) - returns git branch that the config is checked out to, if any
-* [get_version_diff](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/versioning/README.md#get_version_diff) - get the textual diff for given commit
-* [get_version_files](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/versioning/README.md#get_version_files) - get the files changed
-* [get_version_info](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/versioning/README.md#get_version_info) - Get info about versioning availability
-* [create_version_push](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/versioning/README.md#create_version_push) - push the current configs to the remote repository.
-* [create_version_revert](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/versioning/README.md#create_version_revert) - revert a commit
-* [get_version_show](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/versioning/README.md#get_version_show) - get the log message and textual diff for given commit
-* [get_version_status](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/versioning/README.md#get_version_status) - get the the working tree status
-* [create_version_sync](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/versioning/README.md#create_version_sync) - syncs with remote repo via POST requests
-* [create_version_undo](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/versioning/README.md#create_version_undo) - undo the last commit
-
-### [workers](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/workerssdk/README.md)
-
-* [get_summary_workers](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/workerssdk/README.md#get_summary_workers) - get worker and edge nodes count
-* [get_workers](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/workerssdk/README.md#get_workers) - get worker and edge nodes
-* [update_workers_restart](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/workerssdk/README.md#update_workers_restart) - restarts worker nodes
+* [get_branch](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/versioning/README.md#get_branch) - List all branches in the Git repository used for Cribl configuration
+* [create_commit](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/versioning/README.md#create_commit) - Create a new commit for pending changes to the Cribl configuration
+* [get_file_count](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/versioning/README.md#get_file_count) - Retrieve a count of files that changed since a commit
+* [get_branch_name](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/versioning/README.md#get_branch_name) - Retrieve the name of the Git branch that the Cribl configuration is checked out to
+* [get_diff](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/versioning/README.md#get_diff) - Retrieve the diff for a commit
+* [get_file_info](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/versioning/README.md#get_file_info) - Retrieve the names and statuses of files that changed since a commit
+* [get_config_status](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/versioning/README.md#get_config_status) - Retrieve the configuration and status for the Git integration
+* [push_commit](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/versioning/README.md#push_commit) - Push a commit from the local repository to the remote repository
+* [revert_commit](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/versioning/README.md#revert_commit) - Revert a commit in the local repository
+* [show_commit](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/versioning/README.md#show_commit) - Retrieve the diff and log message for a commit
+* [get_current_status](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/versioning/README.md#get_current_status) - Retrieve the status of the current working tree
+* [sync_local_remote](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/versioning/README.md#sync_local_remote) - Synchronize the local branch with the remote repository
+* [clean_working_dir](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/versioning/README.md#clean_working_dir) - Undo the most recent commit and restore the local repository to the previous commit
 
 </details>
 <!-- End Available Resources and Operations [operations] -->
@@ -403,7 +400,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.lake.create_cribl_lake_dataset_by_lake_id(lake_id="<id>", id="<id>", accelerated_fields=[
+    res = ccp_client.lake_datasets.create(lake_id="<id>", id="<id>", accelerated_fields=[
         "<value 1>",
         "<value 2>",
     ], bucket_name="<value>", cache_connection={
@@ -459,7 +456,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.lake.create_cribl_lake_dataset_by_lake_id(lake_id="<id>", id="<id>", accelerated_fields=[
+    res = ccp_client.lake_datasets.create(lake_id="<id>", id="<id>", accelerated_fields=[
         "<value 1>",
         "<value 2>",
     ], bucket_name="<value>", cache_connection={
@@ -529,7 +526,7 @@ with CriblControlPlane(
     res = None
     try:
 
-        res = ccp_client.lake.create_cribl_lake_dataset_by_lake_id(lake_id="<id>", id="<id>", accelerated_fields=[
+        res = ccp_client.lake_datasets.create(lake_id="<id>", id="<id>", accelerated_fields=[
             "<value 1>",
             "<value 2>",
         ], bucket_name="<value>", cache_connection={

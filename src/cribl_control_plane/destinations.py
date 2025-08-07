@@ -10,7 +10,7 @@ from typing import Any, List, Mapping, Optional, Union, cast
 
 
 class Destinations(BaseSDK):
-    def list_destination(
+    def list(
         self,
         *,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -18,7 +18,7 @@ class Destinations(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.ListOutputResponse:
-        r"""Get a list of Destination objects
+        r"""List all Destinations
 
         Get a list of Destination objects
 
@@ -90,7 +90,7 @@ class Destinations(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def list_destination_async(
+    async def list_async(
         self,
         *,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -98,7 +98,7 @@ class Destinations(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.ListOutputResponse:
-        r"""Get a list of Destination objects
+        r"""List all Destinations
 
         Get a list of Destination objects
 
@@ -170,7 +170,7 @@ class Destinations(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def create_destination(
+    def create(
         self,
         *,
         request: Union[models.Output, models.OutputTypedDict],
@@ -179,7 +179,7 @@ class Destinations(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreateOutputResponse:
-        r"""Create Destination
+        r"""Create a Destination
 
         Create Destination
 
@@ -260,7 +260,7 @@ class Destinations(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def create_destination_async(
+    async def create_async(
         self,
         *,
         request: Union[models.Output, models.OutputTypedDict],
@@ -269,7 +269,7 @@ class Destinations(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreateOutputResponse:
-        r"""Create Destination
+        r"""Create a Destination
 
         Create Destination
 
@@ -350,7 +350,7 @@ class Destinations(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def get_destination_by_id(
+    def get(
         self,
         *,
         id: str,
@@ -359,7 +359,7 @@ class Destinations(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetOutputByIDResponse:
-        r"""Get Destination by ID
+        r"""Retrieve a Destination
 
         Get Destination by ID
 
@@ -437,7 +437,7 @@ class Destinations(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_destination_by_id_async(
+    async def get_async(
         self,
         *,
         id: str,
@@ -446,7 +446,7 @@ class Destinations(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetOutputByIDResponse:
-        r"""Get Destination by ID
+        r"""Retrieve a Destination
 
         Get Destination by ID
 
@@ -524,7 +524,7 @@ class Destinations(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def update_destination_by_id(
+    def update(
         self,
         *,
         id: str,
@@ -534,7 +534,7 @@ class Destinations(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.UpdateOutputByIDResponse:
-        r"""Update Destination
+        r"""Update a Destination
 
         Update Destination
 
@@ -617,7 +617,7 @@ class Destinations(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def update_destination_by_id_async(
+    async def update_async(
         self,
         *,
         id: str,
@@ -627,7 +627,7 @@ class Destinations(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.UpdateOutputByIDResponse:
-        r"""Update Destination
+        r"""Update a Destination
 
         Update Destination
 
@@ -710,7 +710,7 @@ class Destinations(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def delete_destination_by_id(
+    def delete(
         self,
         *,
         id: str,
@@ -719,7 +719,7 @@ class Destinations(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.DeleteOutputByIDResponse:
-        r"""Delete Destination
+        r"""Delete a Destination
 
         Delete Destination
 
@@ -797,7 +797,7 @@ class Destinations(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def delete_destination_by_id_async(
+    async def delete_async(
         self,
         *,
         id: str,
@@ -806,7 +806,7 @@ class Destinations(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.DeleteOutputByIDResponse:
-        r"""Delete Destination
+        r"""Delete a Destination
 
         Delete Destination
 
@@ -884,7 +884,7 @@ class Destinations(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def delete_destination_pq_by_id(
+    def clear_persistent_queue(
         self,
         *,
         id: str,
@@ -893,7 +893,7 @@ class Destinations(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.DeleteOutputPqByIDResponse:
-        r"""Clears destination persistent queue
+        r"""Clear the persistent queue for a Destination
 
         Clears destination persistent queue
 
@@ -971,7 +971,7 @@ class Destinations(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def delete_destination_pq_by_id_async(
+    async def clear_persistent_queue_async(
         self,
         *,
         id: str,
@@ -980,7 +980,7 @@ class Destinations(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.DeleteOutputPqByIDResponse:
-        r"""Clears destination persistent queue
+        r"""Clear the persistent queue for a Destination
 
         Clears destination persistent queue
 
@@ -1058,7 +1058,7 @@ class Destinations(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def get_destination_pq_by_id(
+    def get_persistent_queue_status(
         self,
         *,
         id: str,
@@ -1067,7 +1067,7 @@ class Destinations(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetOutputPqByIDResponse:
-        r"""Retrieves status of latest clear PQ job for a destination
+        r"""Retrieve information about the latest job to clear the persistent queue for a Destination
 
         Retrieves status of latest clear PQ job for a destination
 
@@ -1145,7 +1145,7 @@ class Destinations(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_destination_pq_by_id_async(
+    async def get_persistent_queue_status_async(
         self,
         *,
         id: str,
@@ -1154,7 +1154,7 @@ class Destinations(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetOutputPqByIDResponse:
-        r"""Retrieves status of latest clear PQ job for a destination
+        r"""Retrieve information about the latest job to clear the persistent queue for a Destination
 
         Retrieves status of latest clear PQ job for a destination
 
@@ -1232,7 +1232,7 @@ class Destinations(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def get_destination_samples_by_id(
+    def get_sample_data(
         self,
         *,
         id: str,
@@ -1241,7 +1241,7 @@ class Destinations(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetOutputSamplesByIDResponse:
-        r"""Retrieve samples data for the specified destination. Used to get sample data for the test action.
+        r"""Retrieve sample event data for a Destination
 
         Retrieve samples data for the specified destination. Used to get sample data for the test action.
 
@@ -1321,7 +1321,7 @@ class Destinations(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_destination_samples_by_id_async(
+    async def get_sample_data_async(
         self,
         *,
         id: str,
@@ -1330,7 +1330,7 @@ class Destinations(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetOutputSamplesByIDResponse:
-        r"""Retrieve samples data for the specified destination. Used to get sample data for the test action.
+        r"""Retrieve sample event data for a Destination
 
         Retrieve samples data for the specified destination. Used to get sample data for the test action.
 
@@ -1410,7 +1410,7 @@ class Destinations(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def create_destination_test_by_id(
+    def create_sample_data(
         self,
         *,
         id: str,
@@ -1420,7 +1420,7 @@ class Destinations(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreateOutputTestByIDResponse:
-        r"""Send sample data to a destination to validate configuration or test connectivity
+        r"""Send sample event data to a Destination
 
         Send sample data to a destination to validate configuration or test connectivity
 
@@ -1511,7 +1511,7 @@ class Destinations(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def create_destination_test_by_id_async(
+    async def create_sample_data_async(
         self,
         *,
         id: str,
@@ -1521,7 +1521,7 @@ class Destinations(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreateOutputTestByIDResponse:
-        r"""Send sample data to a destination to validate configuration or test connectivity
+        r"""Send sample event data to a Destination
 
         Send sample data to a destination to validate configuration or test connectivity
 

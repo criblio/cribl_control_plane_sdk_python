@@ -9,27 +9,21 @@ from cribl_control_plane.utils.unmarshal_json_response import unmarshal_json_res
 from typing import Any, Mapping, Optional
 
 
-class Teams(BaseSDK):
-    r"""Actions related to Teams"""
-
-    def get_products_groups_acl_teams_by_product_and_id(
+class Deployments(BaseSDK):
+    def get_summary(
         self,
         *,
-        product: models.GetProductsGroupsACLTeamsByProductAndIDProduct,
-        id: str,
-        type_: Optional[models.GetProductsGroupsACLTeamsByProductAndIDType] = None,
+        mode: Optional[models.GetSummaryMode] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetProductsGroupsACLTeamsByProductAndIDResponse:
-        r"""ACL of team with permissions for resources in this Group
+    ) -> models.GetSummaryResponse:
+        r"""Retrieve a summary of the Distributed deployment
 
-        ACL of team with permissions for resources in this Group
+        Get summary of Distributed deployment
 
-        :param product: Cribl Product
-        :param id: Group ID
-        :param type: resource type by which to filter access levels
+        :param mode: product filter
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -45,20 +39,18 @@ class Teams(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.GetProductsGroupsACLTeamsByProductAndIDRequest(
-            product=product,
-            id=id,
-            type=type_,
+        request = models.GetSummaryRequest(
+            mode=mode,
         )
 
         req = self._build_request(
             method="GET",
-            path="/products/{product}/groups/{id}/acl/teams",
+            path="/master/summary",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
             request_body_required=False,
-            request_has_path_params=True,
+            request_has_path_params=False,
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
@@ -79,7 +71,7 @@ class Teams(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="getProductsGroupsAclTeamsByProductAndId",
+                operation_id="getSummary",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
@@ -92,9 +84,7 @@ class Teams(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.GetProductsGroupsACLTeamsByProductAndIDResponse, http_res
-            )
+            return unmarshal_json_response(models.GetSummaryResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -107,24 +97,20 @@ class Teams(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_products_groups_acl_teams_by_product_and_id_async(
+    async def get_summary_async(
         self,
         *,
-        product: models.GetProductsGroupsACLTeamsByProductAndIDProduct,
-        id: str,
-        type_: Optional[models.GetProductsGroupsACLTeamsByProductAndIDType] = None,
+        mode: Optional[models.GetSummaryMode] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetProductsGroupsACLTeamsByProductAndIDResponse:
-        r"""ACL of team with permissions for resources in this Group
+    ) -> models.GetSummaryResponse:
+        r"""Retrieve a summary of the Distributed deployment
 
-        ACL of team with permissions for resources in this Group
+        Get summary of Distributed deployment
 
-        :param product: Cribl Product
-        :param id: Group ID
-        :param type: resource type by which to filter access levels
+        :param mode: product filter
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -140,20 +126,18 @@ class Teams(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.GetProductsGroupsACLTeamsByProductAndIDRequest(
-            product=product,
-            id=id,
-            type=type_,
+        request = models.GetSummaryRequest(
+            mode=mode,
         )
 
         req = self._build_request_async(
             method="GET",
-            path="/products/{product}/groups/{id}/acl/teams",
+            path="/master/summary",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
             request_body_required=False,
-            request_has_path_params=True,
+            request_has_path_params=False,
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
@@ -174,7 +158,7 @@ class Teams(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="getProductsGroupsAclTeamsByProductAndId",
+                operation_id="getSummary",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
@@ -187,9 +171,7 @@ class Teams(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.GetProductsGroupsACLTeamsByProductAndIDResponse, http_res
-            )
+            return unmarshal_json_response(models.GetSummaryResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)

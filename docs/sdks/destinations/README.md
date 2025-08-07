@@ -5,17 +5,17 @@
 
 ### Available Operations
 
-* [list_destination](#list_destination) - Get a list of Destination objects
-* [create_destination](#create_destination) - Create Destination
-* [get_destination_by_id](#get_destination_by_id) - Get Destination by ID
-* [update_destination_by_id](#update_destination_by_id) - Update Destination
-* [delete_destination_by_id](#delete_destination_by_id) - Delete Destination
-* [delete_destination_pq_by_id](#delete_destination_pq_by_id) - Clears destination persistent queue
-* [get_destination_pq_by_id](#get_destination_pq_by_id) - Retrieves status of latest clear PQ job for a destination
-* [get_destination_samples_by_id](#get_destination_samples_by_id) - Retrieve samples data for the specified destination. Used to get sample data for the test action.
-* [create_destination_test_by_id](#create_destination_test_by_id) - Send sample data to a destination to validate configuration or test connectivity
+* [list](#list) - List all Destinations
+* [create](#create) - Create a Destination
+* [get](#get) - Retrieve a Destination
+* [update](#update) - Update a Destination
+* [delete](#delete) - Delete a Destination
+* [clear_persistent_queue](#clear_persistent_queue) - Clear the persistent queue for a Destination
+* [get_persistent_queue_status](#get_persistent_queue_status) - Retrieve information about the latest job to clear the persistent queue for a Destination
+* [get_sample_data](#get_sample_data) - Retrieve sample event data for a Destination
+* [create_sample_data](#create_sample_data) - Send sample event data to a Destination
 
-## list_destination
+## list
 
 Get a list of Destination objects
 
@@ -33,7 +33,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.destinations.list_destination()
+    res = ccp_client.destinations.list()
 
     # Handle response
     print(res)
@@ -57,7 +57,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## create_destination
+## create
 
 Create Destination
 
@@ -75,7 +75,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.destinations.create_destination(request={
+    res = ccp_client.destinations.create(request={
         "id": "<id>",
         "type": models.OutputElasticCloudType.ELASTIC_CLOUD,
         "pipeline": "<value>",
@@ -168,7 +168,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## get_destination_by_id
+## get
 
 Get Destination by ID
 
@@ -186,7 +186,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.destinations.get_destination_by_id(id="<id>")
+    res = ccp_client.destinations.get(id="<id>")
 
     # Handle response
     print(res)
@@ -211,7 +211,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## update_destination_by_id
+## update
 
 Update Destination
 
@@ -229,7 +229,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.destinations.update_destination_by_id(id="<id>", output={
+    res = ccp_client.destinations.update(id="<id>", output={
         "id": "<id>",
         "type": models.OutputSignalfxType.SIGNALFX,
         "pipeline": "<value>",
@@ -313,7 +313,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## delete_destination_by_id
+## delete
 
 Delete Destination
 
@@ -331,7 +331,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.destinations.delete_destination_by_id(id="<id>")
+    res = ccp_client.destinations.delete(id="<id>")
 
     # Handle response
     print(res)
@@ -356,7 +356,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## delete_destination_pq_by_id
+## clear_persistent_queue
 
 Clears destination persistent queue
 
@@ -374,7 +374,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.destinations.delete_destination_pq_by_id(id="<id>")
+    res = ccp_client.destinations.clear_persistent_queue(id="<id>")
 
     # Handle response
     print(res)
@@ -399,7 +399,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## get_destination_pq_by_id
+## get_persistent_queue_status
 
 Retrieves status of latest clear PQ job for a destination
 
@@ -417,7 +417,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.destinations.get_destination_pq_by_id(id="<id>")
+    res = ccp_client.destinations.get_persistent_queue_status(id="<id>")
 
     # Handle response
     print(res)
@@ -442,7 +442,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## get_destination_samples_by_id
+## get_sample_data
 
 Retrieve samples data for the specified destination. Used to get sample data for the test action.
 
@@ -460,7 +460,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.destinations.get_destination_samples_by_id(id="<id>")
+    res = ccp_client.destinations.get_sample_data(id="<id>")
 
     # Handle response
     print(res)
@@ -485,7 +485,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## create_destination_test_by_id
+## create_sample_data
 
 Send sample data to a destination to validate configuration or test connectivity
 
@@ -503,7 +503,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.destinations.create_destination_test_by_id(id="<id>", events=[
+    res = ccp_client.destinations.create_sample_data(id="<id>", events=[
         {
             "raw": "<value>",
         },

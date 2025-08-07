@@ -1,17 +1,15 @@
-# Health
-(*health*)
+# HealthInfo
+(*health_info*)
 
 ## Overview
 
-Actions related to REST server health
-
 ### Available Operations
 
-* [get_health_info](#get_health_info) - Provides health info for REST server
+* [get](#get) - Retrieve health status of the server
 
-## get_health_info
+## get
 
-Provides health info for REST server
+Retrieve health status of the server
 
 ### Example Usage
 
@@ -23,7 +21,7 @@ with CriblControlPlane(
     server_url="https://api.example.com",
 ) as ccp_client:
 
-    res = ccp_client.health.get_health_info()
+    res = ccp_client.health_info.get()
 
     # Handle response
     print(res)

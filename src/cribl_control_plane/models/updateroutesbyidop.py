@@ -13,7 +13,7 @@ class UpdateRoutesByIDRequestTypedDict(TypedDict):
     id_param: str
     r"""Unique ID to PATCH"""
     routes: RoutesTypedDict
-    r"""Routes object to be updated"""
+    r"""Routes object"""
 
 
 class UpdateRoutesByIDRequest(BaseModel):
@@ -27,7 +27,7 @@ class UpdateRoutesByIDRequest(BaseModel):
     routes: Annotated[
         Routes, FieldMetadata(request=RequestMetadata(media_type="application/json"))
     ]
-    r"""Routes object to be updated"""
+    r"""Routes object"""
 
 
 class UpdateRoutesByIDResponseTypedDict(TypedDict):

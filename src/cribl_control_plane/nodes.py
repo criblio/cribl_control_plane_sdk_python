@@ -9,10 +9,8 @@ from cribl_control_plane.utils.unmarshal_json_response import unmarshal_json_res
 from typing import Any, Mapping, Optional
 
 
-class WorkersSDK(BaseSDK):
-    r"""Actions related to Workers"""
-
-    def get_summary_workers(
+class Nodes(BaseSDK):
+    def get_count(
         self,
         *,
         filter_exp: Optional[str] = None,
@@ -21,7 +19,7 @@ class WorkersSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetSummaryWorkersResponse:
-        r"""get worker and edge nodes count
+        r"""Retrieve a count of Worker and Edge Nodes
 
         get worker and edge nodes count
 
@@ -99,7 +97,7 @@ class WorkersSDK(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_summary_workers_async(
+    async def get_count_async(
         self,
         *,
         filter_exp: Optional[str] = None,
@@ -108,7 +106,7 @@ class WorkersSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetSummaryWorkersResponse:
-        r"""get worker and edge nodes count
+        r"""Retrieve a count of Worker and Edge Nodes
 
         get worker and edge nodes count
 
@@ -186,7 +184,7 @@ class WorkersSDK(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def get_workers(
+    def list(
         self,
         *,
         filter_exp: Optional[str] = None,
@@ -200,7 +198,7 @@ class WorkersSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetWorkersResponse:
-        r"""get worker and edge nodes
+        r"""Retrieve detailed metadata for Worker and Edge Nodes
 
         get worker and edge nodes
 
@@ -288,7 +286,7 @@ class WorkersSDK(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_workers_async(
+    async def list_async(
         self,
         *,
         filter_exp: Optional[str] = None,
@@ -302,7 +300,7 @@ class WorkersSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetWorkersResponse:
-        r"""get worker and edge nodes
+        r"""Retrieve detailed metadata for Worker and Edge Nodes
 
         get worker and edge nodes
 
@@ -390,7 +388,7 @@ class WorkersSDK(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def update_workers_restart(
+    def restart(
         self,
         *,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -398,7 +396,7 @@ class WorkersSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.UpdateWorkersRestartResponse:
-        r"""restarts worker nodes
+        r"""Restart Worker and Edge Nodes
 
         restarts worker nodes
 
@@ -472,7 +470,7 @@ class WorkersSDK(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def update_workers_restart_async(
+    async def restart_async(
         self,
         *,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -480,7 +478,7 @@ class WorkersSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.UpdateWorkersRestartResponse:
-        r"""restarts worker nodes
+        r"""Restart Worker and Edge Nodes
 
         restarts worker nodes
 

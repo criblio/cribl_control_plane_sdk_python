@@ -9,10 +9,8 @@ from cribl_control_plane.utils.unmarshal_json_response import unmarshal_json_res
 from typing import Any, List, Mapping, Optional, Union
 
 
-class Lake(BaseSDK):
-    r"""Actions related to Lake"""
-
-    def create_cribl_lake_dataset_by_lake_id(
+class LakeDatasets(BaseSDK):
+    def create(
         self,
         *,
         lake_id: str,
@@ -39,7 +37,7 @@ class Lake(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreateCriblLakeDatasetByLakeIDResponse:
-        r"""Create a Dataset in the specified Lake
+        r"""Create a Lake Dataset in the specified Lake
 
         Create a Dataset in the specified Lake
 
@@ -156,7 +154,7 @@ class Lake(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def create_cribl_lake_dataset_by_lake_id_async(
+    async def create_async(
         self,
         *,
         lake_id: str,
@@ -183,7 +181,7 @@ class Lake(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreateCriblLakeDatasetByLakeIDResponse:
-        r"""Create a Dataset in the specified Lake
+        r"""Create a Lake Dataset in the specified Lake
 
         Create a Dataset in the specified Lake
 
@@ -300,7 +298,7 @@ class Lake(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def get_cribl_lake_dataset_by_lake_id(
+    def list(
         self,
         *,
         lake_id: str,
@@ -309,7 +307,7 @@ class Lake(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetCriblLakeDatasetByLakeIDResponse:
-        r"""Get the list of Dataset contained in the specified Lake
+        r"""List all Lake Datasets in the specified Lake
 
         Get the list of Dataset contained in the specified Lake
 
@@ -389,7 +387,7 @@ class Lake(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_cribl_lake_dataset_by_lake_id_async(
+    async def list_async(
         self,
         *,
         lake_id: str,
@@ -398,7 +396,7 @@ class Lake(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetCriblLakeDatasetByLakeIDResponse:
-        r"""Get the list of Dataset contained in the specified Lake
+        r"""List all Lake Datasets in the specified Lake
 
         Get the list of Dataset contained in the specified Lake
 
@@ -478,7 +476,7 @@ class Lake(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def delete_cribl_lake_dataset_by_lake_id_and_id(
+    def delete(
         self,
         *,
         lake_id: str,
@@ -488,7 +486,7 @@ class Lake(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.DeleteCriblLakeDatasetByLakeIDAndIDResponse:
-        r"""Delete a Dataset in the specified Lake
+        r"""Delete a Lake Dataset in the specified Lake
 
         Delete a Dataset in the specified Lake
 
@@ -570,7 +568,7 @@ class Lake(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def delete_cribl_lake_dataset_by_lake_id_and_id_async(
+    async def delete_async(
         self,
         *,
         lake_id: str,
@@ -580,7 +578,7 @@ class Lake(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.DeleteCriblLakeDatasetByLakeIDAndIDResponse:
-        r"""Delete a Dataset in the specified Lake
+        r"""Delete a Lake Dataset in the specified Lake
 
         Delete a Dataset in the specified Lake
 
@@ -662,7 +660,7 @@ class Lake(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def get_cribl_lake_dataset_by_lake_id_and_id(
+    def get(
         self,
         *,
         lake_id: str,
@@ -672,7 +670,7 @@ class Lake(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetCriblLakeDatasetByLakeIDAndIDResponse:
-        r"""Get a Dataset in the specified Lake
+        r"""Retrieve a Lake Dataset in the specified Lake
 
         Get a Dataset in the specified Lake
 
@@ -754,7 +752,7 @@ class Lake(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_cribl_lake_dataset_by_lake_id_and_id_async(
+    async def get_async(
         self,
         *,
         lake_id: str,
@@ -764,7 +762,7 @@ class Lake(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetCriblLakeDatasetByLakeIDAndIDResponse:
-        r"""Get a Dataset in the specified Lake
+        r"""Retrieve a Lake Dataset in the specified Lake
 
         Get a Dataset in the specified Lake
 
@@ -846,7 +844,7 @@ class Lake(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def update_cribl_lake_dataset_by_lake_id_and_id(
+    def update(
         self,
         *,
         lake_id: str,
@@ -874,7 +872,7 @@ class Lake(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.UpdateCriblLakeDatasetByLakeIDAndIDResponse:
-        r"""Update a Dataset in the specified Lake
+        r"""Update a Lake Dataset in the specified Lake
 
         Update a Dataset in the specified Lake
 
@@ -993,7 +991,7 @@ class Lake(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def update_cribl_lake_dataset_by_lake_id_and_id_async(
+    async def update_async(
         self,
         *,
         lake_id: str,
@@ -1021,7 +1019,7 @@ class Lake(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.UpdateCriblLakeDatasetByLakeIDAndIDResponse:
-        r"""Update a Dataset in the specified Lake
+        r"""Update a Lake Dataset in the specified Lake
 
         Update a Dataset in the specified Lake
 

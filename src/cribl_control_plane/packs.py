@@ -12,7 +12,7 @@ from typing import Any, List, Mapping, Optional, Union
 class Packs(BaseSDK):
     r"""Actions related to Packs"""
 
-    def create_packs(
+    def install(
         self,
         *,
         id: str,
@@ -36,7 +36,7 @@ class Packs(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreatePacksResponse:
-        r"""Install Pack
+        r"""Install a Pack
 
         Install Pack
 
@@ -143,7 +143,7 @@ class Packs(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def create_packs_async(
+    async def install_async(
         self,
         *,
         id: str,
@@ -167,7 +167,7 @@ class Packs(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreatePacksResponse:
-        r"""Install Pack
+        r"""Install a Pack
 
         Install Pack
 
@@ -274,7 +274,7 @@ class Packs(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def get_packs(
+    def list(
         self,
         *,
         with_: Optional[str] = None,
@@ -283,7 +283,7 @@ class Packs(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetPacksResponse:
-        r"""Get info on packs
+        r"""List all Packs
 
         Get info on packs
 
@@ -361,7 +361,7 @@ class Packs(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_packs_async(
+    async def list_async(
         self,
         *,
         with_: Optional[str] = None,
@@ -370,7 +370,7 @@ class Packs(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetPacksResponse:
-        r"""Get info on packs
+        r"""List all Packs
 
         Get info on packs
 
@@ -448,7 +448,7 @@ class Packs(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def delete_packs_by_id(
+    def delete(
         self,
         *,
         id: str,
@@ -457,7 +457,7 @@ class Packs(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.DeletePacksByIDResponse:
-        r"""Uninstall Pack from the system
+        r"""Uninstall a Pack
 
         Uninstall Pack from the system
 
@@ -535,7 +535,7 @@ class Packs(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def delete_packs_by_id_async(
+    async def delete_async(
         self,
         *,
         id: str,
@@ -544,7 +544,7 @@ class Packs(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.DeletePacksByIDResponse:
-        r"""Uninstall Pack from the system
+        r"""Uninstall a Pack
 
         Uninstall Pack from the system
 
@@ -622,7 +622,7 @@ class Packs(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def update_packs_by_id(
+    def update(
         self,
         *,
         id: str,
@@ -634,7 +634,7 @@ class Packs(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.UpdatePacksByIDResponse:
-        r"""Upgrade Pack
+        r"""Update a Pack
 
         Upgrade Pack
 
@@ -718,7 +718,7 @@ class Packs(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def update_packs_by_id_async(
+    async def update_async(
         self,
         *,
         id: str,
@@ -730,7 +730,7 @@ class Packs(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.UpdatePacksByIDResponse:
-        r"""Upgrade Pack
+        r"""Update a Pack
 
         Upgrade Pack
 

@@ -8,7 +8,7 @@ from typing_extensions import NotRequired, TypedDict
 
 
 class CreatePipelineResponseTypedDict(TypedDict):
-    r"""a list of Pipeline objects"""
+    r"""a list of Pipelines objects"""
 
     count: NotRequired[int]
     r"""number of items present in the items array"""
@@ -16,7 +16,7 @@ class CreatePipelineResponseTypedDict(TypedDict):
 
 
 class CreatePipelineResponse(BaseModel):
-    r"""a list of Pipeline objects"""
+    r"""a list of Pipelines objects"""
 
     count: Optional[int] = None
     r"""number of items present in the items array"""

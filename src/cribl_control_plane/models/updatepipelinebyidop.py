@@ -31,7 +31,7 @@ class UpdatePipelineByIDRequest(BaseModel):
 
 
 class UpdatePipelineByIDResponseTypedDict(TypedDict):
-    r"""a list of Pipeline objects"""
+    r"""a list of any objects"""
 
     count: NotRequired[int]
     r"""number of items present in the items array"""
@@ -39,7 +39,7 @@ class UpdatePipelineByIDResponseTypedDict(TypedDict):
 
 
 class UpdatePipelineByIDResponse(BaseModel):
-    r"""a list of Pipeline objects"""
+    r"""a list of any objects"""
 
     count: Optional[int] = None
     r"""number of items present in the items array"""

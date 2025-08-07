@@ -8,9 +8,9 @@ Actions related to Pipelines
 ### Available Operations
 
 * [list_pipeline](#list_pipeline) - Get a list of Pipeline objects
-* [create_pipeline](#create_pipeline) - Create Pipeline
+* [create](#create) - Create a Pipeline
 * [get_pipeline_by_id](#get_pipeline_by_id) - Get Pipeline by ID
-* [update_pipeline_by_id](#update_pipeline_by_id) - Update Pipeline
+* [update_pipeline_by_id](#update_pipeline_by_id) - Update a Pipeline
 * [delete_pipeline_by_id](#delete_pipeline_by_id) - Delete Pipeline
 
 ## list_pipeline
@@ -55,9 +55,9 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## create_pipeline
+## create
 
-Create Pipeline
+Create a Pipeline
 
 ### Example Usage
 
@@ -73,7 +73,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.pipelines.create_pipeline(id="<id>", conf={
+    res = ccp_client.pipelines.create(id="<id>", conf={
         "async_func_timeout": 905091,
         "description": "next tightly positively",
         "streamtags": [
@@ -167,7 +167,7 @@ with CriblControlPlane(
 
 ## update_pipeline_by_id
 
-Update Pipeline
+Update a Pipeline
 
 ### Example Usage
 

@@ -1,19 +1,17 @@
-# Lake
-(*lake*)
+# LakeDatasets
+(*lake_datasets*)
 
 ## Overview
 
-Actions related to Lake
-
 ### Available Operations
 
-* [create_cribl_lake_dataset_by_lake_id](#create_cribl_lake_dataset_by_lake_id) - Create a Dataset in the specified Lake
-* [get_cribl_lake_dataset_by_lake_id](#get_cribl_lake_dataset_by_lake_id) - Get the list of Dataset contained in the specified Lake
-* [delete_cribl_lake_dataset_by_lake_id_and_id](#delete_cribl_lake_dataset_by_lake_id_and_id) - Delete a Dataset in the specified Lake
-* [get_cribl_lake_dataset_by_lake_id_and_id](#get_cribl_lake_dataset_by_lake_id_and_id) - Get a Dataset in the specified Lake
-* [update_cribl_lake_dataset_by_lake_id_and_id](#update_cribl_lake_dataset_by_lake_id_and_id) - Update a Dataset in the specified Lake
+* [create](#create) - Create a Lake Dataset in the specified Lake
+* [list](#list) - List all Lake Datasets in the specified Lake
+* [delete](#delete) - Delete a Lake Dataset in the specified Lake
+* [get](#get) - Retrieve a Lake Dataset in the specified Lake
+* [update](#update) - Update a Lake Dataset in the specified Lake
 
-## create_cribl_lake_dataset_by_lake_id
+## create
 
 Create a Dataset in the specified Lake
 
@@ -31,7 +29,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.lake.create_cribl_lake_dataset_by_lake_id(lake_id="<id>", id="<id>", accelerated_fields=[
+    res = ccp_client.lake_datasets.create(lake_id="<id>", id="<id>", accelerated_fields=[
         "<value 1>",
         "<value 2>",
     ], bucket_name="<value>", cache_connection={
@@ -101,7 +99,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## get_cribl_lake_dataset_by_lake_id
+## list
 
 Get the list of Dataset contained in the specified Lake
 
@@ -119,7 +117,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.lake.get_cribl_lake_dataset_by_lake_id(lake_id="<id>")
+    res = ccp_client.lake_datasets.list(lake_id="<id>")
 
     # Handle response
     print(res)
@@ -144,7 +142,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## delete_cribl_lake_dataset_by_lake_id_and_id
+## delete
 
 Delete a Dataset in the specified Lake
 
@@ -162,7 +160,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.lake.delete_cribl_lake_dataset_by_lake_id_and_id(lake_id="<id>", id="<id>")
+    res = ccp_client.lake_datasets.delete(lake_id="<id>", id="<id>")
 
     # Handle response
     print(res)
@@ -188,7 +186,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## get_cribl_lake_dataset_by_lake_id_and_id
+## get
 
 Get a Dataset in the specified Lake
 
@@ -206,7 +204,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.lake.get_cribl_lake_dataset_by_lake_id_and_id(lake_id="<id>", id="<id>")
+    res = ccp_client.lake_datasets.get(lake_id="<id>", id="<id>")
 
     # Handle response
     print(res)
@@ -232,7 +230,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## update_cribl_lake_dataset_by_lake_id_and_id
+## update
 
 Update a Dataset in the specified Lake
 
@@ -250,7 +248,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.lake.update_cribl_lake_dataset_by_lake_id_and_id(lake_id="<id>", id_param="<value>", id="<id>", accelerated_fields=[
+    res = ccp_client.lake_datasets.update(lake_id="<id>", id_param="<value>", id="<id>", accelerated_fields=[
         "<value 1>",
         "<value 2>",
     ], bucket_name="<value>", cache_connection={

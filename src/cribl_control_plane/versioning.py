@@ -12,7 +12,7 @@ from typing import Any, List, Mapping, Optional
 class Versioning(BaseSDK):
     r"""Actions related to Versioning"""
 
-    def get_version_branch(
+    def get_branch(
         self,
         *,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -20,7 +20,7 @@ class Versioning(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetVersionBranchResponse:
-        r"""get the list of branches
+        r"""List all branches in the Git repository used for Cribl configuration
 
         get the list of branches
 
@@ -92,7 +92,7 @@ class Versioning(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_version_branch_async(
+    async def get_branch_async(
         self,
         *,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -100,7 +100,7 @@ class Versioning(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetVersionBranchResponse:
-        r"""get the list of branches
+        r"""List all branches in the Git repository used for Cribl configuration
 
         get the list of branches
 
@@ -172,7 +172,7 @@ class Versioning(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def create_version_commit(
+    def create_commit(
         self,
         *,
         message: str,
@@ -184,7 +184,7 @@ class Versioning(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreateVersionCommitResponse:
-        r"""create a new commit containing the current configs the given log message describing the changes.
+        r"""Create a new commit for pending changes to the Cribl configuration
 
         create a new commit containing the current configs the given log message describing the changes.
 
@@ -271,7 +271,7 @@ class Versioning(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def create_version_commit_async(
+    async def create_commit_async(
         self,
         *,
         message: str,
@@ -283,7 +283,7 @@ class Versioning(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreateVersionCommitResponse:
-        r"""create a new commit containing the current configs the given log message describing the changes.
+        r"""Create a new commit for pending changes to the Cribl configuration
 
         create a new commit containing the current configs the given log message describing the changes.
 
@@ -370,7 +370,7 @@ class Versioning(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def get_version_count(
+    def get_file_count(
         self,
         *,
         group: Optional[str] = None,
@@ -380,7 +380,7 @@ class Versioning(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetVersionCountResponse:
-        r"""get the count of files of changed
+        r"""Retrieve a count of files that changed since a commit
 
         get the count of files of changed
 
@@ -460,7 +460,7 @@ class Versioning(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_version_count_async(
+    async def get_file_count_async(
         self,
         *,
         group: Optional[str] = None,
@@ -470,7 +470,7 @@ class Versioning(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetVersionCountResponse:
-        r"""get the count of files of changed
+        r"""Retrieve a count of files that changed since a commit
 
         get the count of files of changed
 
@@ -550,7 +550,7 @@ class Versioning(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def get_version_current_branch(
+    def get_branch_name(
         self,
         *,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -558,7 +558,7 @@ class Versioning(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetVersionCurrentBranchResponse:
-        r"""returns git branch that the config is checked out to, if any
+        r"""Retrieve the name of the Git branch that the Cribl configuration is checked out to
 
         returns git branch that the config is checked out to, if any
 
@@ -632,7 +632,7 @@ class Versioning(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_version_current_branch_async(
+    async def get_branch_name_async(
         self,
         *,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -640,7 +640,7 @@ class Versioning(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetVersionCurrentBranchResponse:
-        r"""returns git branch that the config is checked out to, if any
+        r"""Retrieve the name of the Git branch that the Cribl configuration is checked out to
 
         returns git branch that the config is checked out to, if any
 
@@ -714,7 +714,7 @@ class Versioning(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def get_version_diff(
+    def get_diff(
         self,
         *,
         commit: Optional[str] = None,
@@ -726,7 +726,7 @@ class Versioning(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetVersionDiffResponse:
-        r"""get the textual diff for given commit
+        r"""Retrieve the diff for a commit
 
         get the textual diff for given commit
 
@@ -810,7 +810,7 @@ class Versioning(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_version_diff_async(
+    async def get_diff_async(
         self,
         *,
         commit: Optional[str] = None,
@@ -822,7 +822,7 @@ class Versioning(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetVersionDiffResponse:
-        r"""get the textual diff for given commit
+        r"""Retrieve the diff for a commit
 
         get the textual diff for given commit
 
@@ -906,7 +906,7 @@ class Versioning(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def get_version_files(
+    def get_file_info(
         self,
         *,
         group: Optional[str] = None,
@@ -916,7 +916,7 @@ class Versioning(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetVersionFilesResponse:
-        r"""get the files changed
+        r"""Retrieve the names and statuses of files that changed since a commit
 
         get the files changed
 
@@ -996,7 +996,7 @@ class Versioning(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_version_files_async(
+    async def get_file_info_async(
         self,
         *,
         group: Optional[str] = None,
@@ -1006,7 +1006,7 @@ class Versioning(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetVersionFilesResponse:
-        r"""get the files changed
+        r"""Retrieve the names and statuses of files that changed since a commit
 
         get the files changed
 
@@ -1086,7 +1086,7 @@ class Versioning(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def get_version_info(
+    def get_config_status(
         self,
         *,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -1094,7 +1094,7 @@ class Versioning(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetVersionInfoResponse:
-        r"""Get info about versioning availability
+        r"""Retrieve the configuration and status for the Git integration
 
         Get info about versioning availability
 
@@ -1166,7 +1166,7 @@ class Versioning(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_version_info_async(
+    async def get_config_status_async(
         self,
         *,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -1174,7 +1174,7 @@ class Versioning(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetVersionInfoResponse:
-        r"""Get info about versioning availability
+        r"""Retrieve the configuration and status for the Git integration
 
         Get info about versioning availability
 
@@ -1246,7 +1246,7 @@ class Versioning(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def create_version_push(
+    def push_commit(
         self,
         *,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -1254,7 +1254,7 @@ class Versioning(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreateVersionPushResponse:
-        r"""push the current configs to the remote repository.
+        r"""Push a commit from the local repository to the remote repository
 
         push the current configs to the remote repository.
 
@@ -1326,7 +1326,7 @@ class Versioning(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def create_version_push_async(
+    async def push_commit_async(
         self,
         *,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -1334,7 +1334,7 @@ class Versioning(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreateVersionPushResponse:
-        r"""push the current configs to the remote repository.
+        r"""Push a commit from the local repository to the remote repository
 
         push the current configs to the remote repository.
 
@@ -1406,7 +1406,7 @@ class Versioning(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def create_version_revert(
+    def revert_commit(
         self,
         *,
         commit: str,
@@ -1418,7 +1418,7 @@ class Versioning(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreateVersionRevertResponse:
-        r"""revert a commit
+        r"""Revert a commit in the local repository
 
         revert a commit
 
@@ -1507,7 +1507,7 @@ class Versioning(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def create_version_revert_async(
+    async def revert_commit_async(
         self,
         *,
         commit: str,
@@ -1519,7 +1519,7 @@ class Versioning(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreateVersionRevertResponse:
-        r"""revert a commit
+        r"""Revert a commit in the local repository
 
         revert a commit
 
@@ -1608,7 +1608,7 @@ class Versioning(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def get_version_show(
+    def show_commit(
         self,
         *,
         commit: Optional[str] = None,
@@ -1620,7 +1620,7 @@ class Versioning(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetVersionShowResponse:
-        r"""get the log message and textual diff for given commit
+        r"""Retrieve the diff and log message for a commit
 
         get the log message and textual diff for given commit
 
@@ -1704,7 +1704,7 @@ class Versioning(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_version_show_async(
+    async def show_commit_async(
         self,
         *,
         commit: Optional[str] = None,
@@ -1716,7 +1716,7 @@ class Versioning(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetVersionShowResponse:
-        r"""get the log message and textual diff for given commit
+        r"""Retrieve the diff and log message for a commit
 
         get the log message and textual diff for given commit
 
@@ -1800,7 +1800,7 @@ class Versioning(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def get_version_status(
+    def get_current_status(
         self,
         *,
         group: Optional[str] = None,
@@ -1809,7 +1809,7 @@ class Versioning(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetVersionStatusResponse:
-        r"""get the the working tree status
+        r"""Retrieve the status of the current working tree
 
         get the the working tree status
 
@@ -1887,7 +1887,7 @@ class Versioning(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_version_status_async(
+    async def get_current_status_async(
         self,
         *,
         group: Optional[str] = None,
@@ -1896,7 +1896,7 @@ class Versioning(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetVersionStatusResponse:
-        r"""get the the working tree status
+        r"""Retrieve the status of the current working tree
 
         get the the working tree status
 
@@ -1974,7 +1974,7 @@ class Versioning(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def create_version_sync(
+    def sync_local_remote(
         self,
         *,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -1982,7 +1982,7 @@ class Versioning(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreateVersionSyncResponse:
-        r"""syncs with remote repo via POST requests
+        r"""Synchronize the local branch with the remote repository
 
         syncs with remote repo via POST requests
 
@@ -2054,7 +2054,7 @@ class Versioning(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def create_version_sync_async(
+    async def sync_local_remote_async(
         self,
         *,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -2062,7 +2062,7 @@ class Versioning(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreateVersionSyncResponse:
-        r"""syncs with remote repo via POST requests
+        r"""Synchronize the local branch with the remote repository
 
         syncs with remote repo via POST requests
 
@@ -2134,7 +2134,7 @@ class Versioning(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def create_version_undo(
+    def clean_working_dir(
         self,
         *,
         group: Optional[str] = None,
@@ -2143,7 +2143,7 @@ class Versioning(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreateVersionUndoResponse:
-        r"""undo the last commit
+        r"""Undo the most recent commit and restore the local repository to the previous commit
 
         undo the last commit
 
@@ -2221,7 +2221,7 @@ class Versioning(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def create_version_undo_async(
+    async def clean_working_dir_async(
         self,
         *,
         group: Optional[str] = None,
@@ -2230,7 +2230,7 @@ class Versioning(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreateVersionUndoResponse:
-        r"""undo the last commit
+        r"""Undo the most recent commit and restore the local repository to the previous commit
 
         undo the last commit
 

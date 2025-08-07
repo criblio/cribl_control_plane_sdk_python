@@ -15,25 +15,23 @@ import weakref
 
 if TYPE_CHECKING:
     from cribl_control_plane.auth_sdk import AuthSDK
+    from cribl_control_plane.deployments import Deployments
     from cribl_control_plane.destinations import Destinations
-    from cribl_control_plane.distributed import Distributed
     from cribl_control_plane.groups_sdk import GroupsSDK
-    from cribl_control_plane.health import Health
-    from cribl_control_plane.lake import Lake
+    from cribl_control_plane.healthinfo import HealthInfo
+    from cribl_control_plane.lakedatasets import LakeDatasets
+    from cribl_control_plane.nodes import Nodes
     from cribl_control_plane.packs import Packs
     from cribl_control_plane.pipelines import Pipelines
     from cribl_control_plane.routes_sdk import RoutesSDK
     from cribl_control_plane.sources import Sources
-    from cribl_control_plane.teams import Teams
     from cribl_control_plane.versioning import Versioning
-    from cribl_control_plane.workers_sdk import WorkersSDK
 
 
 class CriblControlPlane(BaseSDK):
     r"""Cribl API Reference: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io)."""
 
-    lake: "Lake"
-    r"""Actions related to Lake"""
+    lake_datasets: "LakeDatasets"
     sources: "Sources"
     destinations: "Destinations"
     pipelines: "Pipelines"
@@ -42,34 +40,28 @@ class CriblControlPlane(BaseSDK):
     r"""Actions related to Routes"""
     auth: "AuthSDK"
     r"""Actions related to authentication. Do not use the /auth endpoints in Cribl.Cloud deployments. Instead, follow the instructions at https://docs.cribl.io/stream/api-tutorials/#criblcloud to authenticate for Cribl.Cloud."""
-    workers: "WorkersSDK"
-    r"""Actions related to Workers"""
-    distributed: "Distributed"
-    r"""Actions related to Distributed"""
-    health: "Health"
-    r"""Actions related to REST server health"""
+    nodes: "Nodes"
+    deployments: "Deployments"
+    health_info: "HealthInfo"
     packs: "Packs"
     r"""Actions related to Packs"""
     versioning: "Versioning"
     r"""Actions related to Versioning"""
     groups: "GroupsSDK"
     r"""Actions related to Groups"""
-    teams: "Teams"
-    r"""Actions related to Teams"""
     _sub_sdk_map = {
-        "lake": ("cribl_control_plane.lake", "Lake"),
+        "lake_datasets": ("cribl_control_plane.lakedatasets", "LakeDatasets"),
         "sources": ("cribl_control_plane.sources", "Sources"),
         "destinations": ("cribl_control_plane.destinations", "Destinations"),
         "pipelines": ("cribl_control_plane.pipelines", "Pipelines"),
         "routes": ("cribl_control_plane.routes_sdk", "RoutesSDK"),
         "auth": ("cribl_control_plane.auth_sdk", "AuthSDK"),
-        "workers": ("cribl_control_plane.workers_sdk", "WorkersSDK"),
-        "distributed": ("cribl_control_plane.distributed", "Distributed"),
-        "health": ("cribl_control_plane.health", "Health"),
+        "nodes": ("cribl_control_plane.nodes", "Nodes"),
+        "deployments": ("cribl_control_plane.deployments", "Deployments"),
+        "health_info": ("cribl_control_plane.healthinfo", "HealthInfo"),
         "packs": ("cribl_control_plane.packs", "Packs"),
         "versioning": ("cribl_control_plane.versioning", "Versioning"),
         "groups": ("cribl_control_plane.groups_sdk", "GroupsSDK"),
-        "teams": ("cribl_control_plane.teams", "Teams"),
     }
 
     def __init__(

@@ -7,21 +7,21 @@ Actions related to Versioning
 
 ### Available Operations
 
-* [get_version_branch](#get_version_branch) - get the list of branches
-* [create_version_commit](#create_version_commit) - create a new commit containing the current configs the given log message describing the changes.
-* [get_version_count](#get_version_count) - get the count of files of changed
-* [get_version_current_branch](#get_version_current_branch) - returns git branch that the config is checked out to, if any
-* [get_version_diff](#get_version_diff) - get the textual diff for given commit
-* [get_version_files](#get_version_files) - get the files changed
-* [get_version_info](#get_version_info) - Get info about versioning availability
-* [create_version_push](#create_version_push) - push the current configs to the remote repository.
-* [create_version_revert](#create_version_revert) - revert a commit
-* [get_version_show](#get_version_show) - get the log message and textual diff for given commit
-* [get_version_status](#get_version_status) - get the the working tree status
-* [create_version_sync](#create_version_sync) - syncs with remote repo via POST requests
-* [create_version_undo](#create_version_undo) - undo the last commit
+* [get_branch](#get_branch) - List all branches in the Git repository used for Cribl configuration
+* [create_commit](#create_commit) - Create a new commit for pending changes to the Cribl configuration
+* [get_file_count](#get_file_count) - Retrieve a count of files that changed since a commit
+* [get_branch_name](#get_branch_name) - Retrieve the name of the Git branch that the Cribl configuration is checked out to
+* [get_diff](#get_diff) - Retrieve the diff for a commit
+* [get_file_info](#get_file_info) - Retrieve the names and statuses of files that changed since a commit
+* [get_config_status](#get_config_status) - Retrieve the configuration and status for the Git integration
+* [push_commit](#push_commit) - Push a commit from the local repository to the remote repository
+* [revert_commit](#revert_commit) - Revert a commit in the local repository
+* [show_commit](#show_commit) - Retrieve the diff and log message for a commit
+* [get_current_status](#get_current_status) - Retrieve the status of the current working tree
+* [sync_local_remote](#sync_local_remote) - Synchronize the local branch with the remote repository
+* [clean_working_dir](#clean_working_dir) - Undo the most recent commit and restore the local repository to the previous commit
 
-## get_version_branch
+## get_branch
 
 get the list of branches
 
@@ -39,7 +39,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.versioning.get_version_branch()
+    res = ccp_client.versioning.get_branch()
 
     # Handle response
     print(res)
@@ -63,7 +63,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## create_version_commit
+## create_commit
 
 create a new commit containing the current configs the given log message describing the changes.
 
@@ -81,7 +81,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.versioning.create_version_commit(message="<value>", effective=False, files=[
+    res = ccp_client.versioning.create_commit(message="<value>", effective=False, files=[
         "<value 1>",
     ], group="<value>")
 
@@ -111,7 +111,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## get_version_count
+## get_file_count
 
 get the count of files of changed
 
@@ -129,7 +129,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.versioning.get_version_count(group="<value>", id="<id>")
+    res = ccp_client.versioning.get_file_count(group="<value>", id="<id>")
 
     # Handle response
     print(res)
@@ -155,7 +155,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## get_version_current_branch
+## get_branch_name
 
 returns git branch that the config is checked out to, if any
 
@@ -173,7 +173,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.versioning.get_version_current_branch()
+    res = ccp_client.versioning.get_branch_name()
 
     # Handle response
     print(res)
@@ -197,7 +197,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## get_version_diff
+## get_diff
 
 get the textual diff for given commit
 
@@ -215,7 +215,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.versioning.get_version_diff(commit="<value>", group="<value>", filename="example.file", diff_line_limit=6362)
+    res = ccp_client.versioning.get_diff(commit="<value>", group="<value>", filename="example.file", diff_line_limit=6362)
 
     # Handle response
     print(res)
@@ -243,7 +243,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## get_version_files
+## get_file_info
 
 get the files changed
 
@@ -261,7 +261,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.versioning.get_version_files(group="<value>", id="<id>")
+    res = ccp_client.versioning.get_file_info(group="<value>", id="<id>")
 
     # Handle response
     print(res)
@@ -287,7 +287,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## get_version_info
+## get_config_status
 
 Get info about versioning availability
 
@@ -305,7 +305,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.versioning.get_version_info()
+    res = ccp_client.versioning.get_config_status()
 
     # Handle response
     print(res)
@@ -329,7 +329,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## create_version_push
+## push_commit
 
 push the current configs to the remote repository.
 
@@ -347,7 +347,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.versioning.create_version_push()
+    res = ccp_client.versioning.push_commit()
 
     # Handle response
     print(res)
@@ -371,7 +371,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## create_version_revert
+## revert_commit
 
 revert a commit
 
@@ -389,7 +389,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.versioning.create_version_revert(commit="<value>", message="<value>", group="<value>", force=False)
+    res = ccp_client.versioning.revert_commit(commit="<value>", message="<value>", group="<value>", force=False)
 
     # Handle response
     print(res)
@@ -417,7 +417,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## get_version_show
+## show_commit
 
 get the log message and textual diff for given commit
 
@@ -435,7 +435,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.versioning.get_version_show(commit="<value>", group="<value>", filename="example.file", diff_line_limit=7771.94)
+    res = ccp_client.versioning.show_commit(commit="<value>", group="<value>", filename="example.file", diff_line_limit=7771.94)
 
     # Handle response
     print(res)
@@ -463,7 +463,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## get_version_status
+## get_current_status
 
 get the the working tree status
 
@@ -481,7 +481,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.versioning.get_version_status(group="<value>")
+    res = ccp_client.versioning.get_current_status(group="<value>")
 
     # Handle response
     print(res)
@@ -506,7 +506,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## create_version_sync
+## sync_local_remote
 
 syncs with remote repo via POST requests
 
@@ -524,7 +524,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.versioning.create_version_sync()
+    res = ccp_client.versioning.sync_local_remote()
 
     # Handle response
     print(res)
@@ -548,7 +548,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## create_version_undo
+## clean_working_dir
 
 undo the last commit
 
@@ -566,7 +566,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.versioning.create_version_undo(group="<value>")
+    res = ccp_client.versioning.clean_working_dir(group="<value>")
 
     # Handle response
     print(res)

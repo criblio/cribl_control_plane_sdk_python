@@ -1,17 +1,15 @@
-# WorkersSDK
-(*workers*)
+# Nodes
+(*nodes*)
 
 ## Overview
 
-Actions related to Workers
-
 ### Available Operations
 
-* [get_summary_workers](#get_summary_workers) - get worker and edge nodes count
-* [get_workers](#get_workers) - get worker and edge nodes
-* [update_workers_restart](#update_workers_restart) - restarts worker nodes
+* [get_count](#get_count) - Retrieve a count of Worker and Edge Nodes
+* [list](#list) - Retrieve detailed metadata for Worker and Edge Nodes
+* [restart](#restart) - Restart Worker and Edge Nodes
 
-## get_summary_workers
+## get_count
 
 get worker and edge nodes count
 
@@ -29,7 +27,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.workers.get_summary_workers(filter_exp="<value>")
+    res = ccp_client.nodes.get_count(filter_exp="<value>")
 
     # Handle response
     print(res)
@@ -54,7 +52,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## get_workers
+## list
 
 get worker and edge nodes
 
@@ -72,7 +70,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.workers.get_workers(filter_exp="<value>", sort="<value>", sort_exp="<value>", limit=402753, offset=848752, filter_="<value>")
+    res = ccp_client.nodes.list(filter_exp="<value>", sort="<value>", sort_exp="<value>", limit=402753, offset=848752, filter_="<value>")
 
     # Handle response
     print(res)
@@ -102,7 +100,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## update_workers_restart
+## restart
 
 restarts worker nodes
 
@@ -120,7 +118,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.workers.update_workers_restart()
+    res = ccp_client.nodes.restart()
 
     # Handle response
     print(res)

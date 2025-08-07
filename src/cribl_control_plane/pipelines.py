@@ -172,7 +172,7 @@ class Pipelines(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def create_pipeline(
+    def create(
         self,
         *,
         id: str,
@@ -182,9 +182,9 @@ class Pipelines(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreatePipelineResponse:
-        r"""Create Pipeline
+        r"""Create a Pipeline
 
-        Create Pipeline
+        Create a Pipeline
 
         :param id:
         :param conf:
@@ -265,7 +265,7 @@ class Pipelines(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def create_pipeline_async(
+    async def create_async(
         self,
         *,
         id: str,
@@ -275,9 +275,9 @@ class Pipelines(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreatePipelineResponse:
-        r"""Create Pipeline
+        r"""Create a Pipeline
 
-        Create Pipeline
+        Create a Pipeline
 
         :param id:
         :param conf:
@@ -543,9 +543,9 @@ class Pipelines(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.UpdatePipelineByIDResponse:
-        r"""Update Pipeline
+        r"""Update a Pipeline
 
-        Update Pipeline
+        Update a Pipeline
 
         :param id_param: Unique ID to PATCH
         :param id:
@@ -641,9 +641,9 @@ class Pipelines(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.UpdatePipelineByIDResponse:
-        r"""Update Pipeline
+        r"""Update a Pipeline
 
-        Update Pipeline
+        Update a Pipeline
 
         :param id_param: Unique ID to PATCH
         :param id:

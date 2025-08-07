@@ -1,0 +1,32 @@
+name: Sync Main into Dev Branches
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  merge-main-to-dev:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout full repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+
+      - name: Set up Git user
+        run: |
+          git config user.name "SyncUpBot"
+          git config user.email "syncupbot@users.noreply.github.com"
+
+      - name: Merge main into dev-local & dev-remote
+        run: |
+          # Fetch main and dev branches
+          git fetch origin main dev-local dev-remote
+
+          for BR in dev-local dev-remote; do
+            echo "Merging origin/main into $BR"
+            git checkout $BR
+            git merge origin/main -X theirs --no-edit
+            git push origin $BR
+          done

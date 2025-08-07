@@ -77,7 +77,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.create_destination(request={
         "id": "<id>",
-        "type": models.OutputElasticCloudType.ELASTIC_CLOUD,
+        "type": models.CreateOutputTypeElasticCloud.ELASTIC_CLOUD,
         "pipeline": "<value>",
         "system_fields": [
             "<value 1>",
@@ -102,7 +102,7 @@ with CriblControlPlane(
                 "value": "<value>",
             },
         ],
-        "failed_request_logging_mode": models.OutputElasticCloudFailedRequestLoggingMode.NONE,
+        "failed_request_logging_mode": models.FailedRequestLoggingModeElasticCloud.NONE,
         "safe_headers": [
             "<value 1>",
             "<value 2>",
@@ -115,7 +115,7 @@ with CriblControlPlane(
         ],
         "auth": {
             "disabled": False,
-            "auth_type": models.OutputElasticCloudAuthenticationMethod.MANUAL,
+            "auth_type": models.AuthenticationMethodElasticCloud.MANUAL,
         },
         "elastic_pipeline": "<value>",
         "include_doc_id": True,
@@ -134,14 +134,14 @@ with CriblControlPlane(
             "max_backoff": 10000,
         },
         "response_honor_retry_after_header": False,
-        "on_backpressure": models.OutputElasticCloudBackpressureBehavior.BLOCK,
+        "on_backpressure": models.BackpressureBehaviorElasticCloud.BLOCK,
         "description": "hourly about into",
         "pq_max_file_size": "1 MB",
         "pq_max_size": "5GB",
         "pq_path": "$CRIBL_HOME/state/queues",
-        "pq_compress": models.OutputElasticCloudCompression.NONE,
-        "pq_on_backpressure": models.OutputElasticCloudQueueFullBehavior.BLOCK,
-        "pq_mode": models.OutputElasticCloudMode.ERROR,
+        "pq_compress": models.CompressionElasticCloud.NONE,
+        "pq_on_backpressure": models.QueueFullBehaviorElasticCloud.BLOCK,
+        "pq_mode": models.ModeElasticCloud.ERROR,
         "pq_controls": {},
     })
 
@@ -154,7 +154,7 @@ with CriblControlPlane(
 
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `request`                                                           | [models.Output](../../models/output.md)                             | :heavy_check_mark:                                                  | The request object to use for the request.                          |
+| `request`                                                           | [models.CreateOutputRequest](../../models/createoutputrequest.md)   | :heavy_check_mark:                                                  | The request object to use for the request.                          |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
@@ -299,7 +299,7 @@ with CriblControlPlane(
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
 | `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | Unique ID to PATCH                                                  |
-| `output`                                                            | [models.Output](../../models/output.md)                             | :heavy_check_mark:                                                  | Output object                                                       |
+| `output`                                                            | [models.Output](../../models/output.md)                             | :heavy_check_mark:                                                  | Destination object to be updated                                    |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response

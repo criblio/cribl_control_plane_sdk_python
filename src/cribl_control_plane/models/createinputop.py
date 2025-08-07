@@ -2,9 +2,18223 @@
 
 from __future__ import annotations
 from .input import Input, InputTypedDict
+from .inputappscope import InputAppscope, InputAppscopeTypedDict
+from .inputcollection import InputCollection, InputCollectionTypedDict
+from .inputcribl import InputCribl, InputCriblTypedDict
+from .inputcriblmetrics import InputCriblmetrics, InputCriblmetricsTypedDict
+from .inputfile import InputFile, InputFileTypedDict
+from .inputkubeevents import InputKubeEvents, InputKubeEventsTypedDict
+from .inputkubelogs import InputKubeLogs, InputKubeLogsTypedDict
+from .inputkubemetrics import InputKubeMetrics, InputKubeMetricsTypedDict
+from .inputsystemmetrics import InputSystemMetrics, InputSystemMetricsTypedDict
+from .inputsystemstate import InputSystemState, InputSystemStateTypedDict
+from .inputwindowsmetrics import InputWindowsMetrics, InputWindowsMetricsTypedDict
 from cribl_control_plane.types import BaseModel
-from typing import List, Optional
-from typing_extensions import NotRequired, TypedDict
+from enum import Enum
+import pydantic
+from typing import Any, List, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
+
+
+class CreateInputTypeZscalerHec(str, Enum):
+    ZSCALER_HEC = "zscaler_hec"
+
+
+class ConnectionZscalerHecTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class ConnectionZscalerHec(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class ModeZscalerHec(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CompressionZscalerHec(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class PqZscalerHecTypedDict(TypedDict):
+    mode: NotRequired[ModeZscalerHec]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CompressionZscalerHec]
+    r"""Codec to use to compress the persisted data"""
+
+
+class PqZscalerHec(BaseModel):
+    mode: Optional[ModeZscalerHec] = ModeZscalerHec.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CompressionZscalerHec] = CompressionZscalerHec.NONE
+    r"""Codec to use to compress the persisted data"""
+
+
+class AuthenticationMethodZscalerHec(str, Enum):
+    r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
+
+    MANUAL = "manual"
+    SECRET = "secret"
+
+
+class AuthTokenMetadatumZscalerHecTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class AuthTokenMetadatumZscalerHec(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class AuthTokenZscalerHecTypedDict(TypedDict):
+    token: Any
+    auth_type: NotRequired[AuthenticationMethodZscalerHec]
+    r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
+    token_secret: NotRequired[Any]
+    enabled: NotRequired[bool]
+    description: NotRequired[str]
+    allowed_indexes_at_token: NotRequired[List[str]]
+    r"""Enter the values you want to allow in the HEC event index field at the token level. Supports wildcards. To skip validation, leave blank."""
+    metadata: NotRequired[List[AuthTokenMetadatumZscalerHecTypedDict]]
+    r"""Fields to add to events referencing this token"""
+
+
+class AuthTokenZscalerHec(BaseModel):
+    token: Any
+
+    auth_type: Annotated[
+        Optional[AuthenticationMethodZscalerHec], pydantic.Field(alias="authType")
+    ] = AuthenticationMethodZscalerHec.MANUAL
+    r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
+
+    token_secret: Annotated[Optional[Any], pydantic.Field(alias="tokenSecret")] = None
+
+    enabled: Optional[bool] = True
+
+    description: Optional[str] = None
+
+    allowed_indexes_at_token: Annotated[
+        Optional[List[str]], pydantic.Field(alias="allowedIndexesAtToken")
+    ] = None
+    r"""Enter the values you want to allow in the HEC event index field at the token level. Supports wildcards. To skip validation, leave blank."""
+
+    metadata: Optional[List[AuthTokenMetadatumZscalerHec]] = None
+    r"""Fields to add to events referencing this token"""
+
+
+class MinimumTLSVersionZscalerHec(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class MaximumTLSVersionZscalerHec(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class TLSSettingsServerSideZscalerHecTypedDict(TypedDict):
+    disabled: NotRequired[bool]
+    certificate_name: NotRequired[str]
+    r"""The name of the predefined certificate"""
+    priv_key_path: NotRequired[str]
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+    passphrase: NotRequired[str]
+    r"""Passphrase to use to decrypt private key"""
+    cert_path: NotRequired[str]
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+    ca_path: NotRequired[str]
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+    request_cert: NotRequired[bool]
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+    reject_unauthorized: NotRequired[Any]
+    common_name_regex: NotRequired[Any]
+    min_version: NotRequired[MinimumTLSVersionZscalerHec]
+    max_version: NotRequired[MaximumTLSVersionZscalerHec]
+
+
+class TLSSettingsServerSideZscalerHec(BaseModel):
+    disabled: Optional[bool] = True
+
+    certificate_name: Annotated[
+        Optional[str], pydantic.Field(alias="certificateName")
+    ] = None
+    r"""The name of the predefined certificate"""
+
+    priv_key_path: Annotated[Optional[str], pydantic.Field(alias="privKeyPath")] = None
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+
+    passphrase: Optional[str] = None
+    r"""Passphrase to use to decrypt private key"""
+
+    cert_path: Annotated[Optional[str], pydantic.Field(alias="certPath")] = None
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    ca_path: Annotated[Optional[str], pydantic.Field(alias="caPath")] = None
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    request_cert: Annotated[Optional[bool], pydantic.Field(alias="requestCert")] = False
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+
+    reject_unauthorized: Annotated[
+        Optional[Any], pydantic.Field(alias="rejectUnauthorized")
+    ] = None
+
+    common_name_regex: Annotated[
+        Optional[Any], pydantic.Field(alias="commonNameRegex")
+    ] = None
+
+    min_version: Annotated[
+        Optional[MinimumTLSVersionZscalerHec], pydantic.Field(alias="minVersion")
+    ] = None
+
+    max_version: Annotated[
+        Optional[MaximumTLSVersionZscalerHec], pydantic.Field(alias="maxVersion")
+    ] = None
+
+
+class MetadatumZscalerHecTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class MetadatumZscalerHec(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CreateInputInputZscalerHecTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    port: float
+    r"""Port to listen on"""
+    type: NotRequired[CreateInputTypeZscalerHec]
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ConnectionZscalerHecTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqZscalerHecTypedDict]
+    host: NotRequired[str]
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+    auth_tokens: NotRequired[List[AuthTokenZscalerHecTypedDict]]
+    r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
+    tls: NotRequired[TLSSettingsServerSideZscalerHecTypedDict]
+    max_active_req: NotRequired[float]
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+    max_requests_per_socket: NotRequired[int]
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+    enable_proxy_header: NotRequired[bool]
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+    capture_headers: NotRequired[bool]
+    r"""Add request headers to events, in the __headers field"""
+    activity_log_sample_rate: NotRequired[float]
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+    request_timeout: NotRequired[float]
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+    socket_timeout: NotRequired[float]
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+    keep_alive_timeout: NotRequired[float]
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
+    enable_health_check: NotRequired[Any]
+    ip_allowlist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+    ip_denylist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+    hec_api: NotRequired[str]
+    r"""Absolute path on which to listen for the Zscaler HTTP Event Collector API requests. This input supports the /event endpoint."""
+    metadata: NotRequired[List[MetadatumZscalerHecTypedDict]]
+    r"""Fields to add to every event. May be overridden by fields added at the token or request level."""
+    allowed_indexes: NotRequired[List[str]]
+    r"""List values allowed in HEC event index field. Leave blank to skip validation. Supports wildcards. The values here can expand index validation at the token level."""
+    hec_acks: NotRequired[bool]
+    r"""Whether to enable Zscaler HEC acknowledgements"""
+    access_control_allow_origin: NotRequired[List[str]]
+    r"""Optionally, list HTTP origins to which @{product} should send CORS (cross-origin resource sharing) Access-Control-Allow-* headers. Supports wildcards."""
+    access_control_allow_headers: NotRequired[List[str]]
+    r"""Optionally, list HTTP headers that @{product} will send to allowed origins as \"Access-Control-Allow-Headers\" in a CORS preflight response. Use \"*\" to allow all headers."""
+    emit_token_metrics: NotRequired[bool]
+    r"""Enable to emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
+    description: NotRequired[str]
+
+
+class CreateInputInputZscalerHec(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    port: float
+    r"""Port to listen on"""
+
+    type: Optional[CreateInputTypeZscalerHec] = None
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ConnectionZscalerHec]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqZscalerHec] = None
+
+    host: Optional[str] = "0.0.0.0"
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+
+    auth_tokens: Annotated[
+        Optional[List[AuthTokenZscalerHec]], pydantic.Field(alias="authTokens")
+    ] = None
+    r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
+
+    tls: Optional[TLSSettingsServerSideZscalerHec] = None
+
+    max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
+        256
+    )
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+
+    max_requests_per_socket: Annotated[
+        Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
+    ] = 0
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+
+    enable_proxy_header: Annotated[
+        Optional[bool], pydantic.Field(alias="enableProxyHeader")
+    ] = False
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+
+    capture_headers: Annotated[
+        Optional[bool], pydantic.Field(alias="captureHeaders")
+    ] = False
+    r"""Add request headers to events, in the __headers field"""
+
+    activity_log_sample_rate: Annotated[
+        Optional[float], pydantic.Field(alias="activityLogSampleRate")
+    ] = 100
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+
+    request_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="requestTimeout")
+    ] = 0
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+
+    socket_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="socketTimeout")
+    ] = 0
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+
+    keep_alive_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="keepAliveTimeout")
+    ] = 5
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
+
+    enable_health_check: Annotated[
+        Optional[Any], pydantic.Field(alias="enableHealthCheck")
+    ] = None
+
+    ip_allowlist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipAllowlistRegex")
+    ] = "/.*/"
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+
+    ip_denylist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipDenylistRegex")
+    ] = "/^$/"
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+
+    hec_api: Annotated[Optional[str], pydantic.Field(alias="hecAPI")] = (
+        "/services/collector"
+    )
+    r"""Absolute path on which to listen for the Zscaler HTTP Event Collector API requests. This input supports the /event endpoint."""
+
+    metadata: Optional[List[MetadatumZscalerHec]] = None
+    r"""Fields to add to every event. May be overridden by fields added at the token or request level."""
+
+    allowed_indexes: Annotated[
+        Optional[List[str]], pydantic.Field(alias="allowedIndexes")
+    ] = None
+    r"""List values allowed in HEC event index field. Leave blank to skip validation. Supports wildcards. The values here can expand index validation at the token level."""
+
+    hec_acks: Annotated[Optional[bool], pydantic.Field(alias="hecAcks")] = False
+    r"""Whether to enable Zscaler HEC acknowledgements"""
+
+    access_control_allow_origin: Annotated[
+        Optional[List[str]], pydantic.Field(alias="accessControlAllowOrigin")
+    ] = None
+    r"""Optionally, list HTTP origins to which @{product} should send CORS (cross-origin resource sharing) Access-Control-Allow-* headers. Supports wildcards."""
+
+    access_control_allow_headers: Annotated[
+        Optional[List[str]], pydantic.Field(alias="accessControlAllowHeaders")
+    ] = None
+    r"""Optionally, list HTTP headers that @{product} will send to allowed origins as \"Access-Control-Allow-Headers\" in a CORS preflight response. Use \"*\" to allow all headers."""
+
+    emit_token_metrics: Annotated[
+        Optional[bool], pydantic.Field(alias="emitTokenMetrics")
+    ] = False
+    r"""Enable to emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
+
+    description: Optional[str] = None
+
+
+class CreateInputTypeSecurityLake(str, Enum):
+    SECURITY_LAKE = "security_lake"
+
+
+class ConnectionSecurityLakeTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class ConnectionSecurityLake(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class ModeSecurityLake(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CompressionSecurityLake(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class PqSecurityLakeTypedDict(TypedDict):
+    mode: NotRequired[ModeSecurityLake]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CompressionSecurityLake]
+    r"""Codec to use to compress the persisted data"""
+
+
+class PqSecurityLake(BaseModel):
+    mode: Optional[ModeSecurityLake] = ModeSecurityLake.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CompressionSecurityLake] = CompressionSecurityLake.NONE
+    r"""Codec to use to compress the persisted data"""
+
+
+class CreateInputAuthenticationMethodSecurityLake(str, Enum):
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+
+    AUTO = "auto"
+    MANUAL = "manual"
+    SECRET = "secret"
+
+
+class CreateInputSignatureVersionSecurityLake(str, Enum):
+    r"""Signature version to use for signing S3 requests"""
+
+    V2 = "v2"
+    V4 = "v4"
+
+
+class PreprocessSecurityLakeTypedDict(TypedDict):
+    disabled: NotRequired[bool]
+    command: NotRequired[str]
+    r"""Command to feed the data through (via stdin) and process its output (stdout)"""
+    args: NotRequired[List[str]]
+    r"""Arguments to be added to the custom command"""
+
+
+class PreprocessSecurityLake(BaseModel):
+    disabled: Optional[bool] = True
+
+    command: Optional[str] = None
+    r"""Command to feed the data through (via stdin) and process its output (stdout)"""
+
+    args: Optional[List[str]] = None
+    r"""Arguments to be added to the custom command"""
+
+
+class MetadatumSecurityLakeTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class MetadatumSecurityLake(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CheckpointingSecurityLakeTypedDict(TypedDict):
+    enabled: NotRequired[bool]
+    r"""Resume processing files after an interruption"""
+    retries: NotRequired[float]
+    r"""The number of times to retry processing when a processing error occurs. If Skip file on error is enabled, this setting is ignored."""
+
+
+class CheckpointingSecurityLake(BaseModel):
+    enabled: Optional[bool] = False
+    r"""Resume processing files after an interruption"""
+
+    retries: Optional[float] = 5
+    r"""The number of times to retry processing when a processing error occurs. If Skip file on error is enabled, this setting is ignored."""
+
+
+class TagAfterProcessingSecurityLake(str, Enum):
+    FALSE = "false"
+    TRUE = "true"
+
+
+class CreateInputInputSecurityLakeTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    type: CreateInputTypeSecurityLake
+    queue_name: str
+    r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ConnectionSecurityLakeTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqSecurityLakeTypedDict]
+    file_filter: NotRequired[str]
+    r"""Regex matching file names to download and process. Defaults to: .*"""
+    aws_account_id: NotRequired[str]
+    r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
+    aws_authentication_method: NotRequired[CreateInputAuthenticationMethodSecurityLake]
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+    aws_secret_key: NotRequired[str]
+    region: NotRequired[str]
+    r"""AWS Region where the S3 bucket and SQS queue are located. Required, unless the Queue entry is a URL or ARN that includes a Region."""
+    endpoint: NotRequired[str]
+    r"""S3 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint."""
+    signature_version: NotRequired[CreateInputSignatureVersionSecurityLake]
+    r"""Signature version to use for signing S3 requests"""
+    reuse_connections: NotRequired[bool]
+    r"""Reuse connections between requests, which can improve performance"""
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+    breaker_rulesets: NotRequired[List[str]]
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+    stale_channel_flush_ms: NotRequired[float]
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+    max_messages: NotRequired[float]
+    r"""The maximum number of messages SQS should return in a poll request. Amazon SQS never returns more messages than this value (however, fewer messages might be returned). Valid values: 1 to 10."""
+    visibility_timeout: NotRequired[float]
+    r"""After messages are retrieved by a ReceiveMessage request, @{product} will hide them from subsequent retrieve requests for at least this duration. You can set this as high as 43200 sec. (12 hours)."""
+    num_receivers: NotRequired[float]
+    r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
+    socket_timeout: NotRequired[float]
+    r"""Socket inactivity timeout (in seconds). Increase this value if timeouts occur due to backpressure."""
+    skip_on_error: NotRequired[bool]
+    r"""Skip files that trigger a processing error. Disabled by default, which allows retries after processing errors."""
+    enable_assume_role: NotRequired[bool]
+    r"""Use Assume Role credentials to access Amazon S3"""
+    assume_role_arn: NotRequired[str]
+    r"""Amazon Resource Name (ARN) of the role to assume"""
+    assume_role_external_id: NotRequired[str]
+    r"""External ID to use when assuming role"""
+    duration_seconds: NotRequired[float]
+    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+    enable_sqs_assume_role: NotRequired[bool]
+    r"""Use Assume Role credentials when accessing Amazon SQS"""
+    preprocess: NotRequired[PreprocessSecurityLakeTypedDict]
+    metadata: NotRequired[List[MetadatumSecurityLakeTypedDict]]
+    r"""Fields to add to events from this input"""
+    parquet_chunk_size_mb: NotRequired[float]
+    r"""Maximum file size for each Parquet chunk"""
+    parquet_chunk_download_timeout: NotRequired[float]
+    r"""The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
+    checkpointing: NotRequired[CheckpointingSecurityLakeTypedDict]
+    poll_timeout: NotRequired[float]
+    r"""How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts."""
+    encoding: NotRequired[str]
+    r"""Character encoding to use when parsing ingested data. When not set, @{product} will default to UTF-8 but may incorrectly interpret multi-byte characters."""
+    description: NotRequired[str]
+    aws_api_key: NotRequired[str]
+    aws_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your access key and secret key"""
+    tag_after_processing: NotRequired[TagAfterProcessingSecurityLake]
+    processed_tag_key: NotRequired[str]
+    r"""The key for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
+    processed_tag_value: NotRequired[str]
+    r"""The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
+
+
+class CreateInputInputSecurityLake(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    type: CreateInputTypeSecurityLake
+
+    queue_name: Annotated[str, pydantic.Field(alias="queueName")]
+    r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ConnectionSecurityLake]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqSecurityLake] = None
+
+    file_filter: Annotated[Optional[str], pydantic.Field(alias="fileFilter")] = "/.*/"
+    r"""Regex matching file names to download and process. Defaults to: .*"""
+
+    aws_account_id: Annotated[Optional[str], pydantic.Field(alias="awsAccountId")] = (
+        None
+    )
+    r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
+
+    aws_authentication_method: Annotated[
+        Optional[CreateInputAuthenticationMethodSecurityLake],
+        pydantic.Field(alias="awsAuthenticationMethod"),
+    ] = CreateInputAuthenticationMethodSecurityLake.AUTO
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+
+    aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
+        None
+    )
+
+    region: Optional[str] = None
+    r"""AWS Region where the S3 bucket and SQS queue are located. Required, unless the Queue entry is a URL or ARN that includes a Region."""
+
+    endpoint: Optional[str] = None
+    r"""S3 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint."""
+
+    signature_version: Annotated[
+        Optional[CreateInputSignatureVersionSecurityLake],
+        pydantic.Field(alias="signatureVersion"),
+    ] = CreateInputSignatureVersionSecurityLake.V4
+    r"""Signature version to use for signing S3 requests"""
+
+    reuse_connections: Annotated[
+        Optional[bool], pydantic.Field(alias="reuseConnections")
+    ] = True
+    r"""Reuse connections between requests, which can improve performance"""
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = True
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+
+    breaker_rulesets: Annotated[
+        Optional[List[str]], pydantic.Field(alias="breakerRulesets")
+    ] = None
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+
+    stale_channel_flush_ms: Annotated[
+        Optional[float], pydantic.Field(alias="staleChannelFlushMs")
+    ] = 10000
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+
+    max_messages: Annotated[Optional[float], pydantic.Field(alias="maxMessages")] = 1
+    r"""The maximum number of messages SQS should return in a poll request. Amazon SQS never returns more messages than this value (however, fewer messages might be returned). Valid values: 1 to 10."""
+
+    visibility_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="visibilityTimeout")
+    ] = 600
+    r"""After messages are retrieved by a ReceiveMessage request, @{product} will hide them from subsequent retrieve requests for at least this duration. You can set this as high as 43200 sec. (12 hours)."""
+
+    num_receivers: Annotated[Optional[float], pydantic.Field(alias="numReceivers")] = 1
+    r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
+
+    socket_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="socketTimeout")
+    ] = 300
+    r"""Socket inactivity timeout (in seconds). Increase this value if timeouts occur due to backpressure."""
+
+    skip_on_error: Annotated[Optional[bool], pydantic.Field(alias="skipOnError")] = (
+        False
+    )
+    r"""Skip files that trigger a processing error. Disabled by default, which allows retries after processing errors."""
+
+    enable_assume_role: Annotated[
+        Optional[bool], pydantic.Field(alias="enableAssumeRole")
+    ] = True
+    r"""Use Assume Role credentials to access Amazon S3"""
+
+    assume_role_arn: Annotated[Optional[str], pydantic.Field(alias="assumeRoleArn")] = (
+        None
+    )
+    r"""Amazon Resource Name (ARN) of the role to assume"""
+
+    assume_role_external_id: Annotated[
+        Optional[str], pydantic.Field(alias="assumeRoleExternalId")
+    ] = None
+    r"""External ID to use when assuming role"""
+
+    duration_seconds: Annotated[
+        Optional[float], pydantic.Field(alias="durationSeconds")
+    ] = 3600
+    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+
+    enable_sqs_assume_role: Annotated[
+        Optional[bool], pydantic.Field(alias="enableSQSAssumeRole")
+    ] = False
+    r"""Use Assume Role credentials when accessing Amazon SQS"""
+
+    preprocess: Optional[PreprocessSecurityLake] = None
+
+    metadata: Optional[List[MetadatumSecurityLake]] = None
+    r"""Fields to add to events from this input"""
+
+    parquet_chunk_size_mb: Annotated[
+        Optional[float], pydantic.Field(alias="parquetChunkSizeMB")
+    ] = 5
+    r"""Maximum file size for each Parquet chunk"""
+
+    parquet_chunk_download_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="parquetChunkDownloadTimeout")
+    ] = 600
+    r"""The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
+
+    checkpointing: Optional[CheckpointingSecurityLake] = None
+
+    poll_timeout: Annotated[Optional[float], pydantic.Field(alias="pollTimeout")] = 10
+    r"""How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts."""
+
+    encoding: Optional[str] = None
+    r"""Character encoding to use when parsing ingested data. When not set, @{product} will default to UTF-8 but may incorrectly interpret multi-byte characters."""
+
+    description: Optional[str] = None
+
+    aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+
+    aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
+    r"""Select or create a stored secret that references your access key and secret key"""
+
+    tag_after_processing: Annotated[
+        Optional[TagAfterProcessingSecurityLake],
+        pydantic.Field(alias="tagAfterProcessing"),
+    ] = None
+
+    processed_tag_key: Annotated[
+        Optional[str], pydantic.Field(alias="processedTagKey")
+    ] = None
+    r"""The key for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
+
+    processed_tag_value: Annotated[
+        Optional[str], pydantic.Field(alias="processedTagValue")
+    ] = None
+    r"""The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
+
+
+class CreateInputTypeNetflow(str, Enum):
+    NETFLOW = "netflow"
+
+
+class ConnectionNetflowTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class ConnectionNetflow(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class ModeNetflow(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CompressionNetflow(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class PqNetflowTypedDict(TypedDict):
+    mode: NotRequired[ModeNetflow]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CompressionNetflow]
+    r"""Codec to use to compress the persisted data"""
+
+
+class PqNetflow(BaseModel):
+    mode: Optional[ModeNetflow] = ModeNetflow.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CompressionNetflow] = CompressionNetflow.NONE
+    r"""Codec to use to compress the persisted data"""
+
+
+class MetadatumNetflowTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class MetadatumNetflow(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CreateInputInputNetflowTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    type: NotRequired[CreateInputTypeNetflow]
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ConnectionNetflowTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqNetflowTypedDict]
+    host: NotRequired[str]
+    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
+    port: NotRequired[float]
+    r"""Port to listen on"""
+    enable_pass_through: NotRequired[bool]
+    r"""Allow forwarding of events to a NetFlow destination. Enabling this feature will generate an extra event containing __netflowRaw which can be routed to a NetFlow destination. Note that these events will not count against ingest quota."""
+    ip_allowlist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist."""
+    ip_denylist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+    udp_socket_rx_buf_size: NotRequired[float]
+    r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
+    template_cache_minutes: NotRequired[float]
+    r"""Specifies how many minutes NetFlow v9 templates are cached before being discarded if not refreshed. Adjust based on your network's template update frequency to optimize performance and memory usage."""
+    v5_enabled: NotRequired[bool]
+    r"""Accept messages in Netflow V5 format."""
+    v9_enabled: NotRequired[bool]
+    r"""Accept messages in Netflow V9 format."""
+    ipfix_enabled: NotRequired[bool]
+    r"""Accept messages in IPFIX format."""
+    metadata: NotRequired[List[MetadatumNetflowTypedDict]]
+    r"""Fields to add to events from this input"""
+    description: NotRequired[str]
+
+
+class CreateInputInputNetflow(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    type: Optional[CreateInputTypeNetflow] = None
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ConnectionNetflow]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqNetflow] = None
+
+    host: Optional[str] = "0.0.0.0"
+    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
+
+    port: Optional[float] = 2055
+    r"""Port to listen on"""
+
+    enable_pass_through: Annotated[
+        Optional[bool], pydantic.Field(alias="enablePassThrough")
+    ] = False
+    r"""Allow forwarding of events to a NetFlow destination. Enabling this feature will generate an extra event containing __netflowRaw which can be routed to a NetFlow destination. Note that these events will not count against ingest quota."""
+
+    ip_allowlist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipAllowlistRegex")
+    ] = "/.*/"
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist."""
+
+    ip_denylist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipDenylistRegex")
+    ] = "/^$/"
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+
+    udp_socket_rx_buf_size: Annotated[
+        Optional[float], pydantic.Field(alias="udpSocketRxBufSize")
+    ] = None
+    r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
+
+    template_cache_minutes: Annotated[
+        Optional[float], pydantic.Field(alias="templateCacheMinutes")
+    ] = 30
+    r"""Specifies how many minutes NetFlow v9 templates are cached before being discarded if not refreshed. Adjust based on your network's template update frequency to optimize performance and memory usage."""
+
+    v5_enabled: Annotated[Optional[bool], pydantic.Field(alias="v5Enabled")] = True
+    r"""Accept messages in Netflow V5 format."""
+
+    v9_enabled: Annotated[Optional[bool], pydantic.Field(alias="v9Enabled")] = True
+    r"""Accept messages in Netflow V9 format."""
+
+    ipfix_enabled: Annotated[Optional[bool], pydantic.Field(alias="ipfixEnabled")] = (
+        False
+    )
+    r"""Accept messages in IPFIX format."""
+
+    metadata: Optional[List[MetadatumNetflow]] = None
+    r"""Fields to add to events from this input"""
+
+    description: Optional[str] = None
+
+
+class CreateInputTypeWiz(str, Enum):
+    WIZ = "wiz"
+
+
+class ConnectionWizTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class ConnectionWiz(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class ModeWiz(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CompressionWiz(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class PqWizTypedDict(TypedDict):
+    mode: NotRequired[ModeWiz]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CompressionWiz]
+    r"""Codec to use to compress the persisted data"""
+
+
+class PqWiz(BaseModel):
+    mode: Optional[ModeWiz] = ModeWiz.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CompressionWiz] = CompressionWiz.NONE
+    r"""Codec to use to compress the persisted data"""
+
+
+class ContentConfigWizTypedDict(TypedDict):
+    content_type: str
+    r"""The name of the Wiz query"""
+    content_description: NotRequired[str]
+    enabled: NotRequired[bool]
+
+
+class ContentConfigWiz(BaseModel):
+    content_type: Annotated[str, pydantic.Field(alias="contentType")]
+    r"""The name of the Wiz query"""
+
+    content_description: Annotated[
+        Optional[str], pydantic.Field(alias="contentDescription")
+    ] = None
+
+    enabled: Optional[bool] = False
+
+
+class MetadatumWizTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class MetadatumWiz(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class RetryTypeWiz(str, Enum):
+    r"""The algorithm to use when performing HTTP retries"""
+
+    NONE = "none"
+    BACKOFF = "backoff"
+    STATIC = "static"
+
+
+class RetryRulesWizTypedDict(TypedDict):
+    type: NotRequired[RetryTypeWiz]
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[float]
+    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""The maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
+
+
+class RetryRulesWiz(BaseModel):
+    type: Optional[RetryTypeWiz] = RetryTypeWiz.BACKOFF
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[float] = 1000
+    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
+
+    limit: Optional[float] = 5
+    r"""The maximum number of times to retry a failed HTTP request"""
+
+    multiplier: Optional[float] = 2
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        True
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+
+    retry_connect_timeout: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
+    ] = False
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+
+    retry_connect_reset: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
+    ] = False
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
+
+
+class AuthenticationMethodWiz(str, Enum):
+    r"""Enter client secret directly, or select a stored secret"""
+
+    MANUAL = "manual"
+    SECRET = "secret"
+
+
+class CreateInputInputWizTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    auth_url: str
+    r"""The authentication URL to generate an OAuth token"""
+    client_id: str
+    r"""The client ID of the Wiz application"""
+    content_config: List[ContentConfigWizTypedDict]
+    type: NotRequired[CreateInputTypeWiz]
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ConnectionWizTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqWizTypedDict]
+    endpoint: NotRequired[str]
+    r"""The Wiz GraphQL API endpoint. Example: https://api.us1.app.wiz.io/graphql"""
+    auth_audience_override: NotRequired[str]
+    r"""The audience to use when requesting an OAuth token for a custom auth URL. When not specified, `wiz-api` will be used."""
+    request_timeout: NotRequired[float]
+    r"""HTTP request inactivity timeout. Use 0 to disable."""
+    keep_alive_time: NotRequired[float]
+    r"""How often workers should check in with the scheduler to keep job subscription alive"""
+    max_missed_keep_alives: NotRequired[float]
+    r"""The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked."""
+    ttl: NotRequired[str]
+    r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
+    ignore_group_jobs_limit: NotRequired[bool]
+    r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
+    metadata: NotRequired[List[MetadatumWizTypedDict]]
+    r"""Fields to add to events from this input"""
+    retry_rules: NotRequired[RetryRulesWizTypedDict]
+    auth_type: NotRequired[AuthenticationMethodWiz]
+    r"""Enter client secret directly, or select a stored secret"""
+    description: NotRequired[str]
+    client_secret: NotRequired[str]
+    r"""The client secret of the Wiz application"""
+    text_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
+
+
+class CreateInputInputWiz(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    auth_url: Annotated[str, pydantic.Field(alias="authUrl")]
+    r"""The authentication URL to generate an OAuth token"""
+
+    client_id: Annotated[str, pydantic.Field(alias="clientId")]
+    r"""The client ID of the Wiz application"""
+
+    content_config: Annotated[
+        List[ContentConfigWiz], pydantic.Field(alias="contentConfig")
+    ]
+
+    type: Optional[CreateInputTypeWiz] = None
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ConnectionWiz]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqWiz] = None
+
+    endpoint: Optional[str] = "https://api.<region>.app.wiz.io/graphql"
+    r"""The Wiz GraphQL API endpoint. Example: https://api.us1.app.wiz.io/graphql"""
+
+    auth_audience_override: Annotated[
+        Optional[str], pydantic.Field(alias="authAudienceOverride")
+    ] = None
+    r"""The audience to use when requesting an OAuth token for a custom auth URL. When not specified, `wiz-api` will be used."""
+
+    request_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="requestTimeout")
+    ] = 300
+    r"""HTTP request inactivity timeout. Use 0 to disable."""
+
+    keep_alive_time: Annotated[
+        Optional[float], pydantic.Field(alias="keepAliveTime")
+    ] = 30
+    r"""How often workers should check in with the scheduler to keep job subscription alive"""
+
+    max_missed_keep_alives: Annotated[
+        Optional[float], pydantic.Field(alias="maxMissedKeepAlives")
+    ] = 3
+    r"""The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked."""
+
+    ttl: Optional[str] = "4h"
+    r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
+
+    ignore_group_jobs_limit: Annotated[
+        Optional[bool], pydantic.Field(alias="ignoreGroupJobsLimit")
+    ] = False
+    r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
+
+    metadata: Optional[List[MetadatumWiz]] = None
+    r"""Fields to add to events from this input"""
+
+    retry_rules: Annotated[
+        Optional[RetryRulesWiz], pydantic.Field(alias="retryRules")
+    ] = None
+
+    auth_type: Annotated[
+        Optional[AuthenticationMethodWiz], pydantic.Field(alias="authType")
+    ] = AuthenticationMethodWiz.MANUAL
+    r"""Enter client secret directly, or select a stored secret"""
+
+    description: Optional[str] = None
+
+    client_secret: Annotated[Optional[str], pydantic.Field(alias="clientSecret")] = None
+    r"""The client secret of the Wiz application"""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a stored text secret"""
+
+
+class CreateInputInputJournalFilesType(str, Enum):
+    JOURNAL_FILES = "journal_files"
+
+
+class CreateInputInputJournalFilesConnectionTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class CreateInputInputJournalFilesConnection(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class CreateInputInputJournalFilesMode(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CreateInputInputJournalFilesCompression(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class CreateInputInputJournalFilesPqTypedDict(TypedDict):
+    mode: NotRequired[CreateInputInputJournalFilesMode]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CreateInputInputJournalFilesCompression]
+    r"""Codec to use to compress the persisted data"""
+
+
+class CreateInputInputJournalFilesPq(BaseModel):
+    mode: Optional[CreateInputInputJournalFilesMode] = (
+        CreateInputInputJournalFilesMode.ALWAYS
+    )
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CreateInputInputJournalFilesCompression] = (
+        CreateInputInputJournalFilesCompression.NONE
+    )
+    r"""Codec to use to compress the persisted data"""
+
+
+class CreateInputRuleTypedDict(TypedDict):
+    filter_: str
+    r"""JavaScript expression applied to Journal objects. Return 'true' to include it."""
+    description: NotRequired[str]
+    r"""Optional description of this rule's purpose"""
+
+
+class CreateInputRule(BaseModel):
+    filter_: Annotated[str, pydantic.Field(alias="filter")]
+    r"""JavaScript expression applied to Journal objects. Return 'true' to include it."""
+
+    description: Optional[str] = None
+    r"""Optional description of this rule's purpose"""
+
+
+class CreateInputInputJournalFilesMetadatumTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CreateInputInputJournalFilesMetadatum(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CreateInputInputJournalFilesTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    path: str
+    r"""Directory path to search for journals. Environment variables will be resolved, e.g. $CRIBL_EDGE_FS_ROOT/var/log/journal/$MACHINE_ID."""
+    journals: List[str]
+    r"""The full path of discovered journals are matched against this wildcard list."""
+    type: NotRequired[CreateInputInputJournalFilesType]
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[CreateInputInputJournalFilesConnectionTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[CreateInputInputJournalFilesPqTypedDict]
+    interval: NotRequired[float]
+    r"""Time, in seconds, between scanning for journals."""
+    rules: NotRequired[List[CreateInputRuleTypedDict]]
+    r"""Add rules to decide which journal objects to allow. Events are generated if no rules are given or if all the rules' expressions evaluate to true."""
+    current_boot: NotRequired[bool]
+    r"""Skip log messages that are not part of the current boot session."""
+    max_age_dur: NotRequired[str]
+    r"""The maximum log message age, in duration form (e.g,: 60s, 4h, 3d, 1w).  Default of no value will apply no max age filters."""
+    metadata: NotRequired[List[CreateInputInputJournalFilesMetadatumTypedDict]]
+    r"""Fields to add to events from this input"""
+    description: NotRequired[str]
+
+
+class CreateInputInputJournalFiles(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    path: str
+    r"""Directory path to search for journals. Environment variables will be resolved, e.g. $CRIBL_EDGE_FS_ROOT/var/log/journal/$MACHINE_ID."""
+
+    journals: List[str]
+    r"""The full path of discovered journals are matched against this wildcard list."""
+
+    type: Optional[CreateInputInputJournalFilesType] = None
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[CreateInputInputJournalFilesConnection]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[CreateInputInputJournalFilesPq] = None
+
+    interval: Optional[float] = 10
+    r"""Time, in seconds, between scanning for journals."""
+
+    rules: Optional[List[CreateInputRule]] = None
+    r"""Add rules to decide which journal objects to allow. Events are generated if no rules are given or if all the rules' expressions evaluate to true."""
+
+    current_boot: Annotated[Optional[bool], pydantic.Field(alias="currentBoot")] = False
+    r"""Skip log messages that are not part of the current boot session."""
+
+    max_age_dur: Annotated[Optional[str], pydantic.Field(alias="maxAgeDur")] = None
+    r"""The maximum log message age, in duration form (e.g,: 60s, 4h, 3d, 1w).  Default of no value will apply no max age filters."""
+
+    metadata: Optional[List[CreateInputInputJournalFilesMetadatum]] = None
+    r"""Fields to add to events from this input"""
+
+    description: Optional[str] = None
+
+
+class CreateInputTypeRawUDP(str, Enum):
+    RAW_UDP = "raw_udp"
+
+
+class ConnectionRawUDPTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class ConnectionRawUDP(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class ModeRawUDP(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CompressionRawUDP(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class PqRawUDPTypedDict(TypedDict):
+    mode: NotRequired[ModeRawUDP]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CompressionRawUDP]
+    r"""Codec to use to compress the persisted data"""
+
+
+class PqRawUDP(BaseModel):
+    mode: Optional[ModeRawUDP] = ModeRawUDP.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CompressionRawUDP] = CompressionRawUDP.NONE
+    r"""Codec to use to compress the persisted data"""
+
+
+class MetadatumRawUDPTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class MetadatumRawUDP(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CreateInputInputRawUDPTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    port: float
+    r"""Port to listen on"""
+    type: NotRequired[CreateInputTypeRawUDP]
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ConnectionRawUDPTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqRawUDPTypedDict]
+    host: NotRequired[str]
+    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
+    max_buffer_size: NotRequired[float]
+    r"""Maximum number of events to buffer when downstream is blocking."""
+    ip_whitelist_regex: NotRequired[str]
+    r"""Regex matching IP addresses that are allowed to send data"""
+    single_msg_udp_packets: NotRequired[bool]
+    r"""If true, each UDP packet is assumed to contain a single message. If false, each UDP packet is assumed to contain multiple messages, separated by newlines."""
+    ingest_raw_bytes: NotRequired[bool]
+    r"""If true, a __rawBytes field will be added to each event containing the raw bytes of the datagram."""
+    udp_socket_rx_buf_size: NotRequired[float]
+    r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
+    metadata: NotRequired[List[MetadatumRawUDPTypedDict]]
+    r"""Fields to add to events from this input"""
+    description: NotRequired[str]
+
+
+class CreateInputInputRawUDP(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    port: float
+    r"""Port to listen on"""
+
+    type: Optional[CreateInputTypeRawUDP] = None
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ConnectionRawUDP]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqRawUDP] = None
+
+    host: Optional[str] = "0.0.0.0"
+    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""Maximum number of events to buffer when downstream is blocking."""
+
+    ip_whitelist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipWhitelistRegex")
+    ] = "/.*/"
+    r"""Regex matching IP addresses that are allowed to send data"""
+
+    single_msg_udp_packets: Annotated[
+        Optional[bool], pydantic.Field(alias="singleMsgUdpPackets")
+    ] = False
+    r"""If true, each UDP packet is assumed to contain a single message. If false, each UDP packet is assumed to contain multiple messages, separated by newlines."""
+
+    ingest_raw_bytes: Annotated[
+        Optional[bool], pydantic.Field(alias="ingestRawBytes")
+    ] = False
+    r"""If true, a __rawBytes field will be added to each event containing the raw bytes of the datagram."""
+
+    udp_socket_rx_buf_size: Annotated[
+        Optional[float], pydantic.Field(alias="udpSocketRxBufSize")
+    ] = None
+    r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
+
+    metadata: Optional[List[MetadatumRawUDP]] = None
+    r"""Fields to add to events from this input"""
+
+    description: Optional[str] = None
+
+
+class CreateInputTypeWinEventLogs(str, Enum):
+    WIN_EVENT_LOGS = "win_event_logs"
+
+
+class ConnectionWinEventLogsTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class ConnectionWinEventLogs(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class ModeWinEventLogs(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CompressionWinEventLogs(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class PqWinEventLogsTypedDict(TypedDict):
+    mode: NotRequired[ModeWinEventLogs]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CompressionWinEventLogs]
+    r"""Codec to use to compress the persisted data"""
+
+
+class PqWinEventLogs(BaseModel):
+    mode: Optional[ModeWinEventLogs] = ModeWinEventLogs.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CompressionWinEventLogs] = CompressionWinEventLogs.NONE
+    r"""Codec to use to compress the persisted data"""
+
+
+class CreateInputReadMode(str, Enum):
+    r"""Read all stored and future event logs, or only future events"""
+
+    OLDEST = "oldest"
+    NEWEST = "newest"
+
+
+class CreateInputEventFormat(str, Enum):
+    r"""Format of individual events"""
+
+    JSON = "json"
+    XML = "xml"
+
+
+class MetadatumWinEventLogsTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class MetadatumWinEventLogs(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CreateInputInputWinEventLogsTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    type: CreateInputTypeWinEventLogs
+    log_names: List[str]
+    r"""Enter the event logs to collect. Run \"Get-WinEvent -ListLog *\" in PowerShell to see the available logs."""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ConnectionWinEventLogsTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqWinEventLogsTypedDict]
+    read_mode: NotRequired[CreateInputReadMode]
+    r"""Read all stored and future event logs, or only future events"""
+    event_format: NotRequired[CreateInputEventFormat]
+    r"""Format of individual events"""
+    disable_native_module: NotRequired[bool]
+    r"""Enable to use built-in tools (PowerShell for JSON, wevtutil for XML) to collect event logs instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-windows-event-logs/#advanced-settings)"""
+    interval: NotRequired[float]
+    r"""Time, in seconds, between checking for new entries (Applicable for pre-4.8.0 nodes that use Windows Tools)"""
+    batch_size: NotRequired[float]
+    r"""The maximum number of events to read in one polling interval. A batch size higher than 500 can cause delays when pulling from multiple event logs. (Applicable for pre-4.8.0 nodes that use Windows Tools)"""
+    metadata: NotRequired[List[MetadatumWinEventLogsTypedDict]]
+    r"""Fields to add to events from this input"""
+    max_event_bytes: NotRequired[float]
+    r"""The maximum number of bytes in an event before it is flushed to the pipelines"""
+    description: NotRequired[str]
+
+
+class CreateInputInputWinEventLogs(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    type: CreateInputTypeWinEventLogs
+
+    log_names: Annotated[List[str], pydantic.Field(alias="logNames")]
+    r"""Enter the event logs to collect. Run \"Get-WinEvent -ListLog *\" in PowerShell to see the available logs."""
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ConnectionWinEventLogs]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqWinEventLogs] = None
+
+    read_mode: Annotated[
+        Optional[CreateInputReadMode], pydantic.Field(alias="readMode")
+    ] = CreateInputReadMode.OLDEST
+    r"""Read all stored and future event logs, or only future events"""
+
+    event_format: Annotated[
+        Optional[CreateInputEventFormat], pydantic.Field(alias="eventFormat")
+    ] = CreateInputEventFormat.JSON
+    r"""Format of individual events"""
+
+    disable_native_module: Annotated[
+        Optional[bool], pydantic.Field(alias="disableNativeModule")
+    ] = False
+    r"""Enable to use built-in tools (PowerShell for JSON, wevtutil for XML) to collect event logs instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-windows-event-logs/#advanced-settings)"""
+
+    interval: Optional[float] = 10
+    r"""Time, in seconds, between checking for new entries (Applicable for pre-4.8.0 nodes that use Windows Tools)"""
+
+    batch_size: Annotated[Optional[float], pydantic.Field(alias="batchSize")] = 500
+    r"""The maximum number of events to read in one polling interval. A batch size higher than 500 can cause delays when pulling from multiple event logs. (Applicable for pre-4.8.0 nodes that use Windows Tools)"""
+
+    metadata: Optional[List[MetadatumWinEventLogs]] = None
+    r"""Fields to add to events from this input"""
+
+    max_event_bytes: Annotated[
+        Optional[float], pydantic.Field(alias="maxEventBytes")
+    ] = 51200
+    r"""The maximum number of bytes in an event before it is flushed to the pipelines"""
+
+    description: Optional[str] = None
+
+
+class CreateInputTypeWef(str, Enum):
+    WEF = "wef"
+
+
+class ConnectionWefTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class ConnectionWef(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class ModeWef(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CompressionWef(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class PqWefTypedDict(TypedDict):
+    mode: NotRequired[ModeWef]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CompressionWef]
+    r"""Codec to use to compress the persisted data"""
+
+
+class PqWef(BaseModel):
+    mode: Optional[ModeWef] = ModeWef.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CompressionWef] = CompressionWef.NONE
+    r"""Codec to use to compress the persisted data"""
+
+
+class AuthenticationMethodWef(str, Enum):
+    r"""How to authenticate incoming client connections"""
+
+    CLIENT_CERT = "clientCert"
+    KERBEROS = "kerberos"
+
+
+class MinimumTLSVersionWef(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class MaximumTLSVersionWef(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class CreateInputMTLSSettingsTypedDict(TypedDict):
+    priv_key_path: str
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+    cert_path: str
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+    ca_path: str
+    r"""Server path containing CA certificates (in PEM format) to use. Can reference $ENV_VARS. If multiple certificates are present in a .pem, each must directly certify the one preceding it."""
+    disabled: NotRequired[bool]
+    r"""Enable TLS"""
+    reject_unauthorized: NotRequired[bool]
+    r"""Required for WEF certificate authentication"""
+    request_cert: NotRequired[bool]
+    r"""Required for WEF certificate authentication"""
+    certificate_name: NotRequired[str]
+    r"""Name of the predefined certificate"""
+    passphrase: NotRequired[str]
+    r"""Passphrase to use to decrypt private key"""
+    common_name_regex: NotRequired[str]
+    r"""Regex matching allowable common names in peer certificates' subject attribute"""
+    min_version: NotRequired[MinimumTLSVersionWef]
+    max_version: NotRequired[MaximumTLSVersionWef]
+    ocsp_check: NotRequired[bool]
+    r"""Enable OCSP check of certificate"""
+    keytab: NotRequired[Any]
+    principal: NotRequired[Any]
+    ocsp_check_fail_close: NotRequired[bool]
+    r"""If enabled, checks will fail on any OCSP error. Otherwise, checks will fail only when a certificate is revoked, ignoring other errors."""
+
+
+class CreateInputMTLSSettings(BaseModel):
+    priv_key_path: Annotated[str, pydantic.Field(alias="privKeyPath")]
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+
+    cert_path: Annotated[str, pydantic.Field(alias="certPath")]
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    ca_path: Annotated[str, pydantic.Field(alias="caPath")]
+    r"""Server path containing CA certificates (in PEM format) to use. Can reference $ENV_VARS. If multiple certificates are present in a .pem, each must directly certify the one preceding it."""
+
+    disabled: Optional[bool] = False
+    r"""Enable TLS"""
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = True
+    r"""Required for WEF certificate authentication"""
+
+    request_cert: Annotated[Optional[bool], pydantic.Field(alias="requestCert")] = True
+    r"""Required for WEF certificate authentication"""
+
+    certificate_name: Annotated[
+        Optional[str], pydantic.Field(alias="certificateName")
+    ] = None
+    r"""Name of the predefined certificate"""
+
+    passphrase: Optional[str] = None
+    r"""Passphrase to use to decrypt private key"""
+
+    common_name_regex: Annotated[
+        Optional[str], pydantic.Field(alias="commonNameRegex")
+    ] = "/.*/"
+    r"""Regex matching allowable common names in peer certificates' subject attribute"""
+
+    min_version: Annotated[
+        Optional[MinimumTLSVersionWef], pydantic.Field(alias="minVersion")
+    ] = None
+
+    max_version: Annotated[
+        Optional[MaximumTLSVersionWef], pydantic.Field(alias="maxVersion")
+    ] = None
+
+    ocsp_check: Annotated[Optional[bool], pydantic.Field(alias="ocspCheck")] = False
+    r"""Enable OCSP check of certificate"""
+
+    keytab: Optional[Any] = None
+
+    principal: Optional[Any] = None
+
+    ocsp_check_fail_close: Annotated[
+        Optional[bool], pydantic.Field(alias="ocspCheckFailClose")
+    ] = False
+    r"""If enabled, checks will fail on any OCSP error. Otherwise, checks will fail only when a certificate is revoked, ignoring other errors."""
+
+
+class CreateInputFormat(str, Enum):
+    r"""Content format in which the endpoint should deliver events"""
+
+    RAW = "Raw"
+    RENDERED_TEXT = "RenderedText"
+
+
+class CreateInputQueryBuilderMode(str, Enum):
+    SIMPLE = "simple"
+    XML = "xml"
+
+
+class SubscriptionMetadatumWefTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class SubscriptionMetadatumWef(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CreateInputSubscriptionTypedDict(TypedDict):
+    subscription_name: str
+    targets: List[str]
+    r"""The DNS names of the endpoints that should forward these events. You may use wildcards, such as *.mydomain.com"""
+    version: NotRequired[str]
+    r"""Version UUID for this subscription. If any subscription parameters are modified, this value will change."""
+    content_format: NotRequired[CreateInputFormat]
+    r"""Content format in which the endpoint should deliver events"""
+    heartbeat_interval: NotRequired[float]
+    r"""Maximum time (in seconds) between endpoint checkins before considering it unavailable"""
+    batch_timeout: NotRequired[float]
+    r"""Interval (in seconds) over which the endpoint should collect events before sending them to Stream"""
+    read_existing_events: NotRequired[bool]
+    r"""Newly subscribed endpoints will send previously existing events. Disable to receive new events only."""
+    send_bookmarks: NotRequired[bool]
+    r"""Keep track of which events have been received, resuming from that point after a re-subscription. This setting takes precedence over 'Read existing events'. See [Cribl Docs](https://docs.cribl.io/stream/sources-wef/#subscriptions) for more details."""
+    compress: NotRequired[bool]
+    r"""Receive compressed events from the source"""
+    locale: NotRequired[str]
+    r"""The RFC-3066 locale the Windows clients should use when sending events. Defaults to \"en-US\"."""
+    query_selector: NotRequired[CreateInputQueryBuilderMode]
+    metadata: NotRequired[List[SubscriptionMetadatumWefTypedDict]]
+    r"""Fields to add to events ingested under this subscription"""
+
+
+class CreateInputSubscription(BaseModel):
+    subscription_name: Annotated[str, pydantic.Field(alias="subscriptionName")]
+
+    targets: List[str]
+    r"""The DNS names of the endpoints that should forward these events. You may use wildcards, such as *.mydomain.com"""
+
+    version: Optional[str] = None
+    r"""Version UUID for this subscription. If any subscription parameters are modified, this value will change."""
+
+    content_format: Annotated[
+        Optional[CreateInputFormat], pydantic.Field(alias="contentFormat")
+    ] = CreateInputFormat.RAW
+    r"""Content format in which the endpoint should deliver events"""
+
+    heartbeat_interval: Annotated[
+        Optional[float], pydantic.Field(alias="heartbeatInterval")
+    ] = 60
+    r"""Maximum time (in seconds) between endpoint checkins before considering it unavailable"""
+
+    batch_timeout: Annotated[Optional[float], pydantic.Field(alias="batchTimeout")] = 60
+    r"""Interval (in seconds) over which the endpoint should collect events before sending them to Stream"""
+
+    read_existing_events: Annotated[
+        Optional[bool], pydantic.Field(alias="readExistingEvents")
+    ] = False
+    r"""Newly subscribed endpoints will send previously existing events. Disable to receive new events only."""
+
+    send_bookmarks: Annotated[Optional[bool], pydantic.Field(alias="sendBookmarks")] = (
+        True
+    )
+    r"""Keep track of which events have been received, resuming from that point after a re-subscription. This setting takes precedence over 'Read existing events'. See [Cribl Docs](https://docs.cribl.io/stream/sources-wef/#subscriptions) for more details."""
+
+    compress: Optional[bool] = True
+    r"""Receive compressed events from the source"""
+
+    locale: Optional[str] = "en-US"
+    r"""The RFC-3066 locale the Windows clients should use when sending events. Defaults to \"en-US\"."""
+
+    query_selector: Annotated[
+        Optional[CreateInputQueryBuilderMode], pydantic.Field(alias="querySelector")
+    ] = CreateInputQueryBuilderMode.SIMPLE
+
+    metadata: Optional[List[SubscriptionMetadatumWef]] = None
+    r"""Fields to add to events ingested under this subscription"""
+
+
+class MetadatumWefTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class MetadatumWef(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CreateInputInputWefTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    subscriptions: List[CreateInputSubscriptionTypedDict]
+    r"""Subscriptions to events on forwarding endpoints"""
+    type: NotRequired[CreateInputTypeWef]
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ConnectionWefTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqWefTypedDict]
+    host: NotRequired[str]
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+    port: NotRequired[float]
+    r"""Port to listen on"""
+    auth_method: NotRequired[AuthenticationMethodWef]
+    r"""How to authenticate incoming client connections"""
+    tls: NotRequired[CreateInputMTLSSettingsTypedDict]
+    max_active_req: NotRequired[float]
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+    max_requests_per_socket: NotRequired[int]
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+    enable_proxy_header: NotRequired[bool]
+    r"""Preserve the client’s original IP address in the __srcIpPort field when connecting through an HTTP proxy that supports the X-Forwarded-For header. This does not apply to TCP-layer Proxy Protocol v1/v2."""
+    capture_headers: NotRequired[bool]
+    r"""Add request headers to events in the __headers field"""
+    keep_alive_timeout: NotRequired[float]
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
+    enable_health_check: NotRequired[bool]
+    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
+    ip_allowlist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+    ip_denylist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+    socket_timeout: NotRequired[float]
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+    ca_fingerprint: NotRequired[str]
+    r"""SHA1 fingerprint expected by the client, if it does not match the first certificate in the configured CA chain"""
+    keytab: NotRequired[str]
+    r"""Path to the keytab file containing the service principal credentials. @{product} will use `/etc/krb5.keytab` if not provided."""
+    principal: NotRequired[str]
+    r"""Kerberos principal used for authentication, typically in the form HTTP/<hostname>@<REALM>"""
+    allow_machine_id_mismatch: NotRequired[bool]
+    r"""Allow events to be ingested even if their MachineID does not match the client certificate CN"""
+    metadata: NotRequired[List[MetadatumWefTypedDict]]
+    r"""Fields to add to events from this input"""
+    description: NotRequired[str]
+    log_fingerprint_mismatch: NotRequired[bool]
+    r"""Log a warning if the client certificate authority (CA) fingerprint does not match the expected value. A mismatch prevents Cribl from receiving events from the Windows Event Forwarder."""
+
+
+class CreateInputInputWef(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    subscriptions: List[CreateInputSubscription]
+    r"""Subscriptions to events on forwarding endpoints"""
+
+    type: Optional[CreateInputTypeWef] = None
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ConnectionWef]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqWef] = None
+
+    host: Optional[str] = "0.0.0.0"
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+
+    port: Optional[float] = 5986
+    r"""Port to listen on"""
+
+    auth_method: Annotated[
+        Optional[AuthenticationMethodWef], pydantic.Field(alias="authMethod")
+    ] = AuthenticationMethodWef.CLIENT_CERT
+    r"""How to authenticate incoming client connections"""
+
+    tls: Optional[CreateInputMTLSSettings] = None
+
+    max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
+        256
+    )
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+
+    max_requests_per_socket: Annotated[
+        Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
+    ] = 0
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+
+    enable_proxy_header: Annotated[
+        Optional[bool], pydantic.Field(alias="enableProxyHeader")
+    ] = False
+    r"""Preserve the client’s original IP address in the __srcIpPort field when connecting through an HTTP proxy that supports the X-Forwarded-For header. This does not apply to TCP-layer Proxy Protocol v1/v2."""
+
+    capture_headers: Annotated[
+        Optional[bool], pydantic.Field(alias="captureHeaders")
+    ] = False
+    r"""Add request headers to events in the __headers field"""
+
+    keep_alive_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="keepAliveTimeout")
+    ] = 90
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
+
+    enable_health_check: Annotated[
+        Optional[bool], pydantic.Field(alias="enableHealthCheck")
+    ] = False
+    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
+
+    ip_allowlist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipAllowlistRegex")
+    ] = "/.*/"
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+
+    ip_denylist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipDenylistRegex")
+    ] = "/^$/"
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+
+    socket_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="socketTimeout")
+    ] = 0
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+
+    ca_fingerprint: Annotated[Optional[str], pydantic.Field(alias="caFingerprint")] = (
+        None
+    )
+    r"""SHA1 fingerprint expected by the client, if it does not match the first certificate in the configured CA chain"""
+
+    keytab: Optional[str] = None
+    r"""Path to the keytab file containing the service principal credentials. @{product} will use `/etc/krb5.keytab` if not provided."""
+
+    principal: Optional[str] = None
+    r"""Kerberos principal used for authentication, typically in the form HTTP/<hostname>@<REALM>"""
+
+    allow_machine_id_mismatch: Annotated[
+        Optional[bool], pydantic.Field(alias="allowMachineIdMismatch")
+    ] = False
+    r"""Allow events to be ingested even if their MachineID does not match the client certificate CN"""
+
+    metadata: Optional[List[MetadatumWef]] = None
+    r"""Fields to add to events from this input"""
+
+    description: Optional[str] = None
+
+    log_fingerprint_mismatch: Annotated[
+        Optional[bool], pydantic.Field(alias="logFingerprintMismatch")
+    ] = False
+    r"""Log a warning if the client certificate authority (CA) fingerprint does not match the expected value. A mismatch prevents Cribl from receiving events from the Windows Event Forwarder."""
+
+
+class CreateInputTypeTCP(str, Enum):
+    TCP = "tcp"
+
+
+class ConnectionTCPTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class ConnectionTCP(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class ModeTCP(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CompressionTCP(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class PqTCPTypedDict(TypedDict):
+    mode: NotRequired[ModeTCP]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CompressionTCP]
+    r"""Codec to use to compress the persisted data"""
+
+
+class PqTCP(BaseModel):
+    mode: Optional[ModeTCP] = ModeTCP.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CompressionTCP] = CompressionTCP.NONE
+    r"""Codec to use to compress the persisted data"""
+
+
+class MinimumTLSVersionTCP(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class MaximumTLSVersionTCP(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class TLSSettingsServerSideTCPTypedDict(TypedDict):
+    disabled: NotRequired[bool]
+    certificate_name: NotRequired[str]
+    r"""The name of the predefined certificate"""
+    priv_key_path: NotRequired[str]
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+    passphrase: NotRequired[str]
+    r"""Passphrase to use to decrypt private key"""
+    cert_path: NotRequired[str]
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+    ca_path: NotRequired[str]
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+    request_cert: NotRequired[bool]
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+    reject_unauthorized: NotRequired[Any]
+    common_name_regex: NotRequired[Any]
+    min_version: NotRequired[MinimumTLSVersionTCP]
+    max_version: NotRequired[MaximumTLSVersionTCP]
+
+
+class TLSSettingsServerSideTCP(BaseModel):
+    disabled: Optional[bool] = True
+
+    certificate_name: Annotated[
+        Optional[str], pydantic.Field(alias="certificateName")
+    ] = None
+    r"""The name of the predefined certificate"""
+
+    priv_key_path: Annotated[Optional[str], pydantic.Field(alias="privKeyPath")] = None
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+
+    passphrase: Optional[str] = None
+    r"""Passphrase to use to decrypt private key"""
+
+    cert_path: Annotated[Optional[str], pydantic.Field(alias="certPath")] = None
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    ca_path: Annotated[Optional[str], pydantic.Field(alias="caPath")] = None
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    request_cert: Annotated[Optional[bool], pydantic.Field(alias="requestCert")] = False
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+
+    reject_unauthorized: Annotated[
+        Optional[Any], pydantic.Field(alias="rejectUnauthorized")
+    ] = None
+
+    common_name_regex: Annotated[
+        Optional[Any], pydantic.Field(alias="commonNameRegex")
+    ] = None
+
+    min_version: Annotated[
+        Optional[MinimumTLSVersionTCP], pydantic.Field(alias="minVersion")
+    ] = None
+
+    max_version: Annotated[
+        Optional[MaximumTLSVersionTCP], pydantic.Field(alias="maxVersion")
+    ] = None
+
+
+class MetadatumTCPTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class MetadatumTCP(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class PreprocessTCPTypedDict(TypedDict):
+    disabled: NotRequired[bool]
+    command: NotRequired[str]
+    r"""Command to feed the data through (via stdin) and process its output (stdout)"""
+    args: NotRequired[List[str]]
+    r"""Arguments to be added to the custom command"""
+
+
+class PreprocessTCP(BaseModel):
+    disabled: Optional[bool] = True
+
+    command: Optional[str] = None
+    r"""Command to feed the data through (via stdin) and process its output (stdout)"""
+
+    args: Optional[List[str]] = None
+    r"""Arguments to be added to the custom command"""
+
+
+class AuthenticationMethodTCP(str, Enum):
+    r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
+
+    MANUAL = "manual"
+    SECRET = "secret"
+
+
+class CreateInputInputTCPTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    port: float
+    r"""Port to listen on"""
+    type: NotRequired[CreateInputTypeTCP]
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ConnectionTCPTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTCPTypedDict]
+    host: NotRequired[str]
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+    tls: NotRequired[TLSSettingsServerSideTCPTypedDict]
+    ip_whitelist_regex: NotRequired[str]
+    r"""Regex matching IP addresses that are allowed to establish a connection"""
+    max_active_cxn: NotRequired[float]
+    r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
+    socket_idle_timeout: NotRequired[float]
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. After this time, the connection will be closed. Leave at 0 for no inactive socket monitoring."""
+    socket_ending_max_wait: NotRequired[float]
+    r"""How long the server will wait after initiating a closure for a client to close its end of the connection. If the client doesn't close the connection within this time, the server will forcefully terminate the socket to prevent resource leaks and ensure efficient connection cleanup and system stability. Leave at 0 for no inactive socket monitoring."""
+    socket_max_lifespan: NotRequired[float]
+    r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
+    enable_proxy_header: NotRequired[bool]
+    r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
+    metadata: NotRequired[List[MetadatumTCPTypedDict]]
+    r"""Fields to add to events from this input"""
+    breaker_rulesets: NotRequired[List[str]]
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+    stale_channel_flush_ms: NotRequired[float]
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+    enable_header: NotRequired[bool]
+    r"""Client will pass the header record with every new connection. The header can contain an authToken, and an object with a list of fields and values to add to every event. These fields can be used to simplify Event Breaker selection, routing, etc. Header has this format, and must be followed by a newline: { \"authToken\" : \"myToken\", \"fields\": { \"field1\": \"value1\", \"field2\": \"value2\" } }"""
+    preprocess: NotRequired[PreprocessTCPTypedDict]
+    description: NotRequired[str]
+    auth_type: NotRequired[AuthenticationMethodTCP]
+    r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
+
+
+class CreateInputInputTCP(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    port: float
+    r"""Port to listen on"""
+
+    type: Optional[CreateInputTypeTCP] = None
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ConnectionTCP]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqTCP] = None
+
+    host: Optional[str] = "0.0.0.0"
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+
+    tls: Optional[TLSSettingsServerSideTCP] = None
+
+    ip_whitelist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipWhitelistRegex")
+    ] = "/.*/"
+    r"""Regex matching IP addresses that are allowed to establish a connection"""
+
+    max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
+        1000
+    )
+    r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
+
+    socket_idle_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="socketIdleTimeout")
+    ] = 0
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. After this time, the connection will be closed. Leave at 0 for no inactive socket monitoring."""
+
+    socket_ending_max_wait: Annotated[
+        Optional[float], pydantic.Field(alias="socketEndingMaxWait")
+    ] = 30
+    r"""How long the server will wait after initiating a closure for a client to close its end of the connection. If the client doesn't close the connection within this time, the server will forcefully terminate the socket to prevent resource leaks and ensure efficient connection cleanup and system stability. Leave at 0 for no inactive socket monitoring."""
+
+    socket_max_lifespan: Annotated[
+        Optional[float], pydantic.Field(alias="socketMaxLifespan")
+    ] = 0
+    r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
+
+    enable_proxy_header: Annotated[
+        Optional[bool], pydantic.Field(alias="enableProxyHeader")
+    ] = False
+    r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
+
+    metadata: Optional[List[MetadatumTCP]] = None
+    r"""Fields to add to events from this input"""
+
+    breaker_rulesets: Annotated[
+        Optional[List[str]], pydantic.Field(alias="breakerRulesets")
+    ] = None
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+
+    stale_channel_flush_ms: Annotated[
+        Optional[float], pydantic.Field(alias="staleChannelFlushMs")
+    ] = 10000
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        False
+    )
+    r"""Client will pass the header record with every new connection. The header can contain an authToken, and an object with a list of fields and values to add to every event. These fields can be used to simplify Event Breaker selection, routing, etc. Header has this format, and must be followed by a newline: { \"authToken\" : \"myToken\", \"fields\": { \"field1\": \"value1\", \"field2\": \"value2\" } }"""
+
+    preprocess: Optional[PreprocessTCP] = None
+
+    description: Optional[str] = None
+
+    auth_type: Annotated[
+        Optional[AuthenticationMethodTCP], pydantic.Field(alias="authType")
+    ] = AuthenticationMethodTCP.MANUAL
+    r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
+
+
+class CreateInputInputSyslogType2(str, Enum):
+    SYSLOG = "syslog"
+
+
+class CreateInputInputSyslogConnection2TypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class CreateInputInputSyslogConnection2(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class CreateInputInputSyslogMode2(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CreateInputInputSyslogCompression2(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class CreateInputInputSyslogPq2TypedDict(TypedDict):
+    mode: NotRequired[CreateInputInputSyslogMode2]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CreateInputInputSyslogCompression2]
+    r"""Codec to use to compress the persisted data"""
+
+
+class CreateInputInputSyslogPq2(BaseModel):
+    mode: Optional[CreateInputInputSyslogMode2] = CreateInputInputSyslogMode2.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CreateInputInputSyslogCompression2] = (
+        CreateInputInputSyslogCompression2.NONE
+    )
+    r"""Codec to use to compress the persisted data"""
+
+
+class CreateInputInputSyslogMinimumTLSVersion2(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class CreateInputInputSyslogMaximumTLSVersion2(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class CreateInputInputSyslogTLSSettingsServerSide2TypedDict(TypedDict):
+    disabled: NotRequired[bool]
+    certificate_name: NotRequired[str]
+    r"""The name of the predefined certificate"""
+    priv_key_path: NotRequired[str]
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+    passphrase: NotRequired[str]
+    r"""Passphrase to use to decrypt private key"""
+    cert_path: NotRequired[str]
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+    ca_path: NotRequired[str]
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+    request_cert: NotRequired[bool]
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+    reject_unauthorized: NotRequired[Any]
+    common_name_regex: NotRequired[Any]
+    min_version: NotRequired[CreateInputInputSyslogMinimumTLSVersion2]
+    max_version: NotRequired[CreateInputInputSyslogMaximumTLSVersion2]
+
+
+class CreateInputInputSyslogTLSSettingsServerSide2(BaseModel):
+    disabled: Optional[bool] = True
+
+    certificate_name: Annotated[
+        Optional[str], pydantic.Field(alias="certificateName")
+    ] = None
+    r"""The name of the predefined certificate"""
+
+    priv_key_path: Annotated[Optional[str], pydantic.Field(alias="privKeyPath")] = None
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+
+    passphrase: Optional[str] = None
+    r"""Passphrase to use to decrypt private key"""
+
+    cert_path: Annotated[Optional[str], pydantic.Field(alias="certPath")] = None
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    ca_path: Annotated[Optional[str], pydantic.Field(alias="caPath")] = None
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    request_cert: Annotated[Optional[bool], pydantic.Field(alias="requestCert")] = False
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+
+    reject_unauthorized: Annotated[
+        Optional[Any], pydantic.Field(alias="rejectUnauthorized")
+    ] = None
+
+    common_name_regex: Annotated[
+        Optional[Any], pydantic.Field(alias="commonNameRegex")
+    ] = None
+
+    min_version: Annotated[
+        Optional[CreateInputInputSyslogMinimumTLSVersion2],
+        pydantic.Field(alias="minVersion"),
+    ] = None
+
+    max_version: Annotated[
+        Optional[CreateInputInputSyslogMaximumTLSVersion2],
+        pydantic.Field(alias="maxVersion"),
+    ] = None
+
+
+class CreateInputInputSyslogMetadatum2TypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CreateInputInputSyslogMetadatum2(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CreateInputInputSyslogSyslog2TypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    type: CreateInputInputSyslogType2
+    tcp_port: float
+    r"""Enter TCP port number to listen on. Not required if listening on UDP."""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[CreateInputInputSyslogConnection2TypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[CreateInputInputSyslogPq2TypedDict]
+    host: NotRequired[str]
+    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
+    udp_port: NotRequired[float]
+    r"""Enter UDP port number to listen on. Not required if listening on TCP."""
+    max_buffer_size: NotRequired[float]
+    r"""Maximum number of events to buffer when downstream is blocking. Only applies to UDP."""
+    ip_whitelist_regex: NotRequired[str]
+    r"""Regex matching IP addresses that are allowed to send data"""
+    timestamp_timezone: NotRequired[str]
+    r"""Timezone to assign to timestamps without timezone info"""
+    single_msg_udp_packets: NotRequired[bool]
+    r"""Treat UDP packet data received as full syslog message"""
+    enable_proxy_header: NotRequired[bool]
+    r"""Enable if the connection is proxied by a device that supports Proxy Protocol V1 or V2"""
+    keep_fields_list: NotRequired[List[str]]
+    r"""Wildcard list of fields to keep from source data; * = ALL (default)"""
+    octet_counting: NotRequired[bool]
+    r"""Enable if incoming messages use octet counting per RFC 6587."""
+    infer_framing: NotRequired[bool]
+    r"""Enable if we should infer the syslog framing of the incoming messages."""
+    strictly_infer_octet_counting: NotRequired[bool]
+    r"""Enable if we should infer octet counting only if the messages comply with RFC 5424."""
+    allow_non_standard_app_name: NotRequired[bool]
+    r"""Enable if RFC 3164-formatted messages have hyphens in the app name portion of the TAG section. If disabled, only alphanumeric characters and underscores are allowed. Ignored for RFC 5424-formatted messages."""
+    max_active_cxn: NotRequired[float]
+    r"""Maximum number of active connections allowed per Worker Process for TCP connections. Use 0 for unlimited."""
+    socket_idle_timeout: NotRequired[float]
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. After this time, the connection will be closed. Leave at 0 for no inactive socket monitoring."""
+    socket_ending_max_wait: NotRequired[float]
+    r"""How long the server will wait after initiating a closure for a client to close its end of the connection. If the client doesn't close the connection within this time, the server will forcefully terminate the socket to prevent resource leaks and ensure efficient connection cleanup and system stability. Leave at 0 for no inactive socket monitoring."""
+    socket_max_lifespan: NotRequired[float]
+    r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
+    tls: NotRequired[CreateInputInputSyslogTLSSettingsServerSide2TypedDict]
+    metadata: NotRequired[List[CreateInputInputSyslogMetadatum2TypedDict]]
+    r"""Fields to add to events from this input"""
+    udp_socket_rx_buf_size: NotRequired[float]
+    r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
+    enable_load_balancing: NotRequired[bool]
+    r"""Load balance traffic across all Worker Processes"""
+    description: NotRequired[str]
+    enable_enhanced_proxy_header_parsing: NotRequired[bool]
+    r"""When enabled, parses PROXY protocol headers during the TLS handshake. Disable if compatibility issues arise."""
+
+
+class CreateInputInputSyslogSyslog2(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    type: CreateInputInputSyslogType2
+
+    tcp_port: Annotated[float, pydantic.Field(alias="tcpPort")]
+    r"""Enter TCP port number to listen on. Not required if listening on UDP."""
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[CreateInputInputSyslogConnection2]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[CreateInputInputSyslogPq2] = None
+
+    host: Optional[str] = "0.0.0.0"
+    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
+
+    udp_port: Annotated[Optional[float], pydantic.Field(alias="udpPort")] = None
+    r"""Enter UDP port number to listen on. Not required if listening on TCP."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""Maximum number of events to buffer when downstream is blocking. Only applies to UDP."""
+
+    ip_whitelist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipWhitelistRegex")
+    ] = "/.*/"
+    r"""Regex matching IP addresses that are allowed to send data"""
+
+    timestamp_timezone: Annotated[
+        Optional[str], pydantic.Field(alias="timestampTimezone")
+    ] = "local"
+    r"""Timezone to assign to timestamps without timezone info"""
+
+    single_msg_udp_packets: Annotated[
+        Optional[bool], pydantic.Field(alias="singleMsgUdpPackets")
+    ] = False
+    r"""Treat UDP packet data received as full syslog message"""
+
+    enable_proxy_header: Annotated[
+        Optional[bool], pydantic.Field(alias="enableProxyHeader")
+    ] = False
+    r"""Enable if the connection is proxied by a device that supports Proxy Protocol V1 or V2"""
+
+    keep_fields_list: Annotated[
+        Optional[List[str]], pydantic.Field(alias="keepFieldsList")
+    ] = None
+    r"""Wildcard list of fields to keep from source data; * = ALL (default)"""
+
+    octet_counting: Annotated[Optional[bool], pydantic.Field(alias="octetCounting")] = (
+        False
+    )
+    r"""Enable if incoming messages use octet counting per RFC 6587."""
+
+    infer_framing: Annotated[Optional[bool], pydantic.Field(alias="inferFraming")] = (
+        True
+    )
+    r"""Enable if we should infer the syslog framing of the incoming messages."""
+
+    strictly_infer_octet_counting: Annotated[
+        Optional[bool], pydantic.Field(alias="strictlyInferOctetCounting")
+    ] = True
+    r"""Enable if we should infer octet counting only if the messages comply with RFC 5424."""
+
+    allow_non_standard_app_name: Annotated[
+        Optional[bool], pydantic.Field(alias="allowNonStandardAppName")
+    ] = False
+    r"""Enable if RFC 3164-formatted messages have hyphens in the app name portion of the TAG section. If disabled, only alphanumeric characters and underscores are allowed. Ignored for RFC 5424-formatted messages."""
+
+    max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
+        1000
+    )
+    r"""Maximum number of active connections allowed per Worker Process for TCP connections. Use 0 for unlimited."""
+
+    socket_idle_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="socketIdleTimeout")
+    ] = 0
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. After this time, the connection will be closed. Leave at 0 for no inactive socket monitoring."""
+
+    socket_ending_max_wait: Annotated[
+        Optional[float], pydantic.Field(alias="socketEndingMaxWait")
+    ] = 30
+    r"""How long the server will wait after initiating a closure for a client to close its end of the connection. If the client doesn't close the connection within this time, the server will forcefully terminate the socket to prevent resource leaks and ensure efficient connection cleanup and system stability. Leave at 0 for no inactive socket monitoring."""
+
+    socket_max_lifespan: Annotated[
+        Optional[float], pydantic.Field(alias="socketMaxLifespan")
+    ] = 0
+    r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
+
+    tls: Optional[CreateInputInputSyslogTLSSettingsServerSide2] = None
+
+    metadata: Optional[List[CreateInputInputSyslogMetadatum2]] = None
+    r"""Fields to add to events from this input"""
+
+    udp_socket_rx_buf_size: Annotated[
+        Optional[float], pydantic.Field(alias="udpSocketRxBufSize")
+    ] = None
+    r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
+
+    enable_load_balancing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableLoadBalancing")
+    ] = False
+    r"""Load balance traffic across all Worker Processes"""
+
+    description: Optional[str] = None
+
+    enable_enhanced_proxy_header_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableEnhancedProxyHeaderParsing")
+    ] = None
+    r"""When enabled, parses PROXY protocol headers during the TLS handshake. Disable if compatibility issues arise."""
+
+
+class CreateInputInputSyslogType1(str, Enum):
+    SYSLOG = "syslog"
+
+
+class CreateInputInputSyslogConnection1TypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class CreateInputInputSyslogConnection1(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class CreateInputInputSyslogMode1(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CreateInputInputSyslogCompression1(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class CreateInputInputSyslogPq1TypedDict(TypedDict):
+    mode: NotRequired[CreateInputInputSyslogMode1]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CreateInputInputSyslogCompression1]
+    r"""Codec to use to compress the persisted data"""
+
+
+class CreateInputInputSyslogPq1(BaseModel):
+    mode: Optional[CreateInputInputSyslogMode1] = CreateInputInputSyslogMode1.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CreateInputInputSyslogCompression1] = (
+        CreateInputInputSyslogCompression1.NONE
+    )
+    r"""Codec to use to compress the persisted data"""
+
+
+class CreateInputInputSyslogMinimumTLSVersion1(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class CreateInputInputSyslogMaximumTLSVersion1(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class CreateInputInputSyslogTLSSettingsServerSide1TypedDict(TypedDict):
+    disabled: NotRequired[bool]
+    certificate_name: NotRequired[str]
+    r"""The name of the predefined certificate"""
+    priv_key_path: NotRequired[str]
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+    passphrase: NotRequired[str]
+    r"""Passphrase to use to decrypt private key"""
+    cert_path: NotRequired[str]
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+    ca_path: NotRequired[str]
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+    request_cert: NotRequired[bool]
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+    reject_unauthorized: NotRequired[Any]
+    common_name_regex: NotRequired[Any]
+    min_version: NotRequired[CreateInputInputSyslogMinimumTLSVersion1]
+    max_version: NotRequired[CreateInputInputSyslogMaximumTLSVersion1]
+
+
+class CreateInputInputSyslogTLSSettingsServerSide1(BaseModel):
+    disabled: Optional[bool] = True
+
+    certificate_name: Annotated[
+        Optional[str], pydantic.Field(alias="certificateName")
+    ] = None
+    r"""The name of the predefined certificate"""
+
+    priv_key_path: Annotated[Optional[str], pydantic.Field(alias="privKeyPath")] = None
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+
+    passphrase: Optional[str] = None
+    r"""Passphrase to use to decrypt private key"""
+
+    cert_path: Annotated[Optional[str], pydantic.Field(alias="certPath")] = None
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    ca_path: Annotated[Optional[str], pydantic.Field(alias="caPath")] = None
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    request_cert: Annotated[Optional[bool], pydantic.Field(alias="requestCert")] = False
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+
+    reject_unauthorized: Annotated[
+        Optional[Any], pydantic.Field(alias="rejectUnauthorized")
+    ] = None
+
+    common_name_regex: Annotated[
+        Optional[Any], pydantic.Field(alias="commonNameRegex")
+    ] = None
+
+    min_version: Annotated[
+        Optional[CreateInputInputSyslogMinimumTLSVersion1],
+        pydantic.Field(alias="minVersion"),
+    ] = None
+
+    max_version: Annotated[
+        Optional[CreateInputInputSyslogMaximumTLSVersion1],
+        pydantic.Field(alias="maxVersion"),
+    ] = None
+
+
+class CreateInputInputSyslogMetadatum1TypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CreateInputInputSyslogMetadatum1(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CreateInputInputSyslogSyslog1TypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    type: CreateInputInputSyslogType1
+    udp_port: float
+    r"""Enter UDP port number to listen on. Not required if listening on TCP."""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[CreateInputInputSyslogConnection1TypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[CreateInputInputSyslogPq1TypedDict]
+    host: NotRequired[str]
+    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
+    tcp_port: NotRequired[float]
+    r"""Enter TCP port number to listen on. Not required if listening on UDP."""
+    max_buffer_size: NotRequired[float]
+    r"""Maximum number of events to buffer when downstream is blocking. Only applies to UDP."""
+    ip_whitelist_regex: NotRequired[str]
+    r"""Regex matching IP addresses that are allowed to send data"""
+    timestamp_timezone: NotRequired[str]
+    r"""Timezone to assign to timestamps without timezone info"""
+    single_msg_udp_packets: NotRequired[bool]
+    r"""Treat UDP packet data received as full syslog message"""
+    enable_proxy_header: NotRequired[bool]
+    r"""Enable if the connection is proxied by a device that supports Proxy Protocol V1 or V2"""
+    keep_fields_list: NotRequired[List[str]]
+    r"""Wildcard list of fields to keep from source data; * = ALL (default)"""
+    octet_counting: NotRequired[bool]
+    r"""Enable if incoming messages use octet counting per RFC 6587."""
+    infer_framing: NotRequired[bool]
+    r"""Enable if we should infer the syslog framing of the incoming messages."""
+    strictly_infer_octet_counting: NotRequired[bool]
+    r"""Enable if we should infer octet counting only if the messages comply with RFC 5424."""
+    allow_non_standard_app_name: NotRequired[bool]
+    r"""Enable if RFC 3164-formatted messages have hyphens in the app name portion of the TAG section. If disabled, only alphanumeric characters and underscores are allowed. Ignored for RFC 5424-formatted messages."""
+    max_active_cxn: NotRequired[float]
+    r"""Maximum number of active connections allowed per Worker Process for TCP connections. Use 0 for unlimited."""
+    socket_idle_timeout: NotRequired[float]
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. After this time, the connection will be closed. Leave at 0 for no inactive socket monitoring."""
+    socket_ending_max_wait: NotRequired[float]
+    r"""How long the server will wait after initiating a closure for a client to close its end of the connection. If the client doesn't close the connection within this time, the server will forcefully terminate the socket to prevent resource leaks and ensure efficient connection cleanup and system stability. Leave at 0 for no inactive socket monitoring."""
+    socket_max_lifespan: NotRequired[float]
+    r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
+    tls: NotRequired[CreateInputInputSyslogTLSSettingsServerSide1TypedDict]
+    metadata: NotRequired[List[CreateInputInputSyslogMetadatum1TypedDict]]
+    r"""Fields to add to events from this input"""
+    udp_socket_rx_buf_size: NotRequired[float]
+    r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
+    enable_load_balancing: NotRequired[bool]
+    r"""Load balance traffic across all Worker Processes"""
+    description: NotRequired[str]
+    enable_enhanced_proxy_header_parsing: NotRequired[bool]
+    r"""When enabled, parses PROXY protocol headers during the TLS handshake. Disable if compatibility issues arise."""
+
+
+class CreateInputInputSyslogSyslog1(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    type: CreateInputInputSyslogType1
+
+    udp_port: Annotated[float, pydantic.Field(alias="udpPort")]
+    r"""Enter UDP port number to listen on. Not required if listening on TCP."""
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[CreateInputInputSyslogConnection1]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[CreateInputInputSyslogPq1] = None
+
+    host: Optional[str] = "0.0.0.0"
+    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
+
+    tcp_port: Annotated[Optional[float], pydantic.Field(alias="tcpPort")] = None
+    r"""Enter TCP port number to listen on. Not required if listening on UDP."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""Maximum number of events to buffer when downstream is blocking. Only applies to UDP."""
+
+    ip_whitelist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipWhitelistRegex")
+    ] = "/.*/"
+    r"""Regex matching IP addresses that are allowed to send data"""
+
+    timestamp_timezone: Annotated[
+        Optional[str], pydantic.Field(alias="timestampTimezone")
+    ] = "local"
+    r"""Timezone to assign to timestamps without timezone info"""
+
+    single_msg_udp_packets: Annotated[
+        Optional[bool], pydantic.Field(alias="singleMsgUdpPackets")
+    ] = False
+    r"""Treat UDP packet data received as full syslog message"""
+
+    enable_proxy_header: Annotated[
+        Optional[bool], pydantic.Field(alias="enableProxyHeader")
+    ] = False
+    r"""Enable if the connection is proxied by a device that supports Proxy Protocol V1 or V2"""
+
+    keep_fields_list: Annotated[
+        Optional[List[str]], pydantic.Field(alias="keepFieldsList")
+    ] = None
+    r"""Wildcard list of fields to keep from source data; * = ALL (default)"""
+
+    octet_counting: Annotated[Optional[bool], pydantic.Field(alias="octetCounting")] = (
+        False
+    )
+    r"""Enable if incoming messages use octet counting per RFC 6587."""
+
+    infer_framing: Annotated[Optional[bool], pydantic.Field(alias="inferFraming")] = (
+        True
+    )
+    r"""Enable if we should infer the syslog framing of the incoming messages."""
+
+    strictly_infer_octet_counting: Annotated[
+        Optional[bool], pydantic.Field(alias="strictlyInferOctetCounting")
+    ] = True
+    r"""Enable if we should infer octet counting only if the messages comply with RFC 5424."""
+
+    allow_non_standard_app_name: Annotated[
+        Optional[bool], pydantic.Field(alias="allowNonStandardAppName")
+    ] = False
+    r"""Enable if RFC 3164-formatted messages have hyphens in the app name portion of the TAG section. If disabled, only alphanumeric characters and underscores are allowed. Ignored for RFC 5424-formatted messages."""
+
+    max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
+        1000
+    )
+    r"""Maximum number of active connections allowed per Worker Process for TCP connections. Use 0 for unlimited."""
+
+    socket_idle_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="socketIdleTimeout")
+    ] = 0
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. After this time, the connection will be closed. Leave at 0 for no inactive socket monitoring."""
+
+    socket_ending_max_wait: Annotated[
+        Optional[float], pydantic.Field(alias="socketEndingMaxWait")
+    ] = 30
+    r"""How long the server will wait after initiating a closure for a client to close its end of the connection. If the client doesn't close the connection within this time, the server will forcefully terminate the socket to prevent resource leaks and ensure efficient connection cleanup and system stability. Leave at 0 for no inactive socket monitoring."""
+
+    socket_max_lifespan: Annotated[
+        Optional[float], pydantic.Field(alias="socketMaxLifespan")
+    ] = 0
+    r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
+
+    tls: Optional[CreateInputInputSyslogTLSSettingsServerSide1] = None
+
+    metadata: Optional[List[CreateInputInputSyslogMetadatum1]] = None
+    r"""Fields to add to events from this input"""
+
+    udp_socket_rx_buf_size: Annotated[
+        Optional[float], pydantic.Field(alias="udpSocketRxBufSize")
+    ] = None
+    r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
+
+    enable_load_balancing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableLoadBalancing")
+    ] = False
+    r"""Load balance traffic across all Worker Processes"""
+
+    description: Optional[str] = None
+
+    enable_enhanced_proxy_header_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableEnhancedProxyHeaderParsing")
+    ] = None
+    r"""When enabled, parses PROXY protocol headers during the TLS handshake. Disable if compatibility issues arise."""
+
+
+CreateInputInputSyslogUnionTypedDict = TypeAliasType(
+    "CreateInputInputSyslogUnionTypedDict",
+    Union[
+        CreateInputInputSyslogSyslog1TypedDict, CreateInputInputSyslogSyslog2TypedDict
+    ],
+)
+
+
+CreateInputInputSyslogUnion = TypeAliasType(
+    "CreateInputInputSyslogUnion",
+    Union[CreateInputInputSyslogSyslog1, CreateInputInputSyslogSyslog2],
+)
+
+
+class CreateInputTypeSqs(str, Enum):
+    SQS = "sqs"
+
+
+class ConnectionSqsTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class ConnectionSqs(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class CreateInputModeSqs(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CreateInputCompressionSqs(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class PqSqsTypedDict(TypedDict):
+    mode: NotRequired[CreateInputModeSqs]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CreateInputCompressionSqs]
+    r"""Codec to use to compress the persisted data"""
+
+
+class PqSqs(BaseModel):
+    mode: Optional[CreateInputModeSqs] = CreateInputModeSqs.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CreateInputCompressionSqs] = CreateInputCompressionSqs.NONE
+    r"""Codec to use to compress the persisted data"""
+
+
+class CreateInputQueueType(str, Enum):
+    r"""The queue type used (or created)"""
+
+    STANDARD = "standard"
+    FIFO = "fifo"
+
+
+class CreateInputAuthenticationMethodSqs(str, Enum):
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+
+    AUTO = "auto"
+    MANUAL = "manual"
+    SECRET = "secret"
+
+
+class CreateInputSignatureVersionSqs(str, Enum):
+    r"""Signature version to use for signing SQS requests"""
+
+    V2 = "v2"
+    V4 = "v4"
+
+
+class MetadatumSqsTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class MetadatumSqs(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CreateInputInputSqsTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    queue_name: str
+    r"""The name, URL, or ARN of the SQS queue to read events from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can only be evaluated at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
+    type: NotRequired[CreateInputTypeSqs]
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ConnectionSqsTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqSqsTypedDict]
+    queue_type: NotRequired[CreateInputQueueType]
+    r"""The queue type used (or created)"""
+    aws_account_id: NotRequired[str]
+    r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
+    create_queue: NotRequired[bool]
+    r"""Create queue if it does not exist"""
+    aws_authentication_method: NotRequired[CreateInputAuthenticationMethodSqs]
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+    aws_secret_key: NotRequired[str]
+    region: NotRequired[str]
+    r"""AWS Region where the SQS queue is located. Required, unless the Queue entry is a URL or ARN that includes a Region."""
+    endpoint: NotRequired[str]
+    r"""SQS service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to SQS-compatible endpoint."""
+    signature_version: NotRequired[CreateInputSignatureVersionSqs]
+    r"""Signature version to use for signing SQS requests"""
+    reuse_connections: NotRequired[bool]
+    r"""Reuse connections between requests, which can improve performance"""
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+    enable_assume_role: NotRequired[bool]
+    r"""Use Assume Role credentials to access SQS"""
+    assume_role_arn: NotRequired[str]
+    r"""Amazon Resource Name (ARN) of the role to assume"""
+    assume_role_external_id: NotRequired[str]
+    r"""External ID to use when assuming role"""
+    duration_seconds: NotRequired[float]
+    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+    max_messages: NotRequired[float]
+    r"""The maximum number of messages SQS should return in a poll request. Amazon SQS never returns more messages than this value (however, fewer messages might be returned). Valid values: 1 to 10."""
+    visibility_timeout: NotRequired[float]
+    r"""After messages are retrieved by a ReceiveMessage request, @{product} will hide them from subsequent retrieve requests for at least this duration. You can set this as high as 43200 sec. (12 hours)."""
+    metadata: NotRequired[List[MetadatumSqsTypedDict]]
+    r"""Fields to add to events from this input"""
+    poll_timeout: NotRequired[float]
+    r"""How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts."""
+    description: NotRequired[str]
+    aws_api_key: NotRequired[str]
+    aws_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your access key and secret key"""
+    num_receivers: NotRequired[float]
+    r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
+
+
+class CreateInputInputSqs(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    queue_name: Annotated[str, pydantic.Field(alias="queueName")]
+    r"""The name, URL, or ARN of the SQS queue to read events from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can only be evaluated at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
+
+    type: Optional[CreateInputTypeSqs] = None
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ConnectionSqs]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqSqs] = None
+
+    queue_type: Annotated[
+        Optional[CreateInputQueueType], pydantic.Field(alias="queueType")
+    ] = CreateInputQueueType.STANDARD
+    r"""The queue type used (or created)"""
+
+    aws_account_id: Annotated[Optional[str], pydantic.Field(alias="awsAccountId")] = (
+        None
+    )
+    r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
+
+    create_queue: Annotated[Optional[bool], pydantic.Field(alias="createQueue")] = False
+    r"""Create queue if it does not exist"""
+
+    aws_authentication_method: Annotated[
+        Optional[CreateInputAuthenticationMethodSqs],
+        pydantic.Field(alias="awsAuthenticationMethod"),
+    ] = CreateInputAuthenticationMethodSqs.AUTO
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+
+    aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
+        None
+    )
+
+    region: Optional[str] = None
+    r"""AWS Region where the SQS queue is located. Required, unless the Queue entry is a URL or ARN that includes a Region."""
+
+    endpoint: Optional[str] = None
+    r"""SQS service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to SQS-compatible endpoint."""
+
+    signature_version: Annotated[
+        Optional[CreateInputSignatureVersionSqs],
+        pydantic.Field(alias="signatureVersion"),
+    ] = CreateInputSignatureVersionSqs.V4
+    r"""Signature version to use for signing SQS requests"""
+
+    reuse_connections: Annotated[
+        Optional[bool], pydantic.Field(alias="reuseConnections")
+    ] = True
+    r"""Reuse connections between requests, which can improve performance"""
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = True
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+
+    enable_assume_role: Annotated[
+        Optional[bool], pydantic.Field(alias="enableAssumeRole")
+    ] = False
+    r"""Use Assume Role credentials to access SQS"""
+
+    assume_role_arn: Annotated[Optional[str], pydantic.Field(alias="assumeRoleArn")] = (
+        None
+    )
+    r"""Amazon Resource Name (ARN) of the role to assume"""
+
+    assume_role_external_id: Annotated[
+        Optional[str], pydantic.Field(alias="assumeRoleExternalId")
+    ] = None
+    r"""External ID to use when assuming role"""
+
+    duration_seconds: Annotated[
+        Optional[float], pydantic.Field(alias="durationSeconds")
+    ] = 3600
+    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+
+    max_messages: Annotated[Optional[float], pydantic.Field(alias="maxMessages")] = 10
+    r"""The maximum number of messages SQS should return in a poll request. Amazon SQS never returns more messages than this value (however, fewer messages might be returned). Valid values: 1 to 10."""
+
+    visibility_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="visibilityTimeout")
+    ] = 600
+    r"""After messages are retrieved by a ReceiveMessage request, @{product} will hide them from subsequent retrieve requests for at least this duration. You can set this as high as 43200 sec. (12 hours)."""
+
+    metadata: Optional[List[MetadatumSqs]] = None
+    r"""Fields to add to events from this input"""
+
+    poll_timeout: Annotated[Optional[float], pydantic.Field(alias="pollTimeout")] = 10
+    r"""How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts."""
+
+    description: Optional[str] = None
+
+    aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+
+    aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
+    r"""Select or create a stored secret that references your access key and secret key"""
+
+    num_receivers: Annotated[Optional[float], pydantic.Field(alias="numReceivers")] = 3
+    r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
+
+
+class CreateInputTypeModelDrivenTelemetry(str, Enum):
+    MODEL_DRIVEN_TELEMETRY = "model_driven_telemetry"
+
+
+class ConnectionModelDrivenTelemetryTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class ConnectionModelDrivenTelemetry(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class ModeModelDrivenTelemetry(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CompressionModelDrivenTelemetry(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class PqModelDrivenTelemetryTypedDict(TypedDict):
+    mode: NotRequired[ModeModelDrivenTelemetry]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CompressionModelDrivenTelemetry]
+    r"""Codec to use to compress the persisted data"""
+
+
+class PqModelDrivenTelemetry(BaseModel):
+    mode: Optional[ModeModelDrivenTelemetry] = ModeModelDrivenTelemetry.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CompressionModelDrivenTelemetry] = (
+        CompressionModelDrivenTelemetry.NONE
+    )
+    r"""Codec to use to compress the persisted data"""
+
+
+class MinimumTLSVersionModelDrivenTelemetry(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class MaximumTLSVersionModelDrivenTelemetry(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class TLSSettingsServerSideModelDrivenTelemetryTypedDict(TypedDict):
+    disabled: NotRequired[bool]
+    certificate_name: NotRequired[str]
+    r"""The name of the predefined certificate"""
+    priv_key_path: NotRequired[str]
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+    cert_path: NotRequired[str]
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+    ca_path: NotRequired[str]
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+    request_cert: NotRequired[bool]
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+    reject_unauthorized: NotRequired[Any]
+    common_name_regex: NotRequired[Any]
+    min_version: NotRequired[MinimumTLSVersionModelDrivenTelemetry]
+    max_version: NotRequired[MaximumTLSVersionModelDrivenTelemetry]
+
+
+class TLSSettingsServerSideModelDrivenTelemetry(BaseModel):
+    disabled: Optional[bool] = True
+
+    certificate_name: Annotated[
+        Optional[str], pydantic.Field(alias="certificateName")
+    ] = None
+    r"""The name of the predefined certificate"""
+
+    priv_key_path: Annotated[Optional[str], pydantic.Field(alias="privKeyPath")] = None
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+
+    cert_path: Annotated[Optional[str], pydantic.Field(alias="certPath")] = None
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    ca_path: Annotated[Optional[str], pydantic.Field(alias="caPath")] = None
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    request_cert: Annotated[Optional[bool], pydantic.Field(alias="requestCert")] = False
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+
+    reject_unauthorized: Annotated[
+        Optional[Any], pydantic.Field(alias="rejectUnauthorized")
+    ] = None
+
+    common_name_regex: Annotated[
+        Optional[Any], pydantic.Field(alias="commonNameRegex")
+    ] = None
+
+    min_version: Annotated[
+        Optional[MinimumTLSVersionModelDrivenTelemetry],
+        pydantic.Field(alias="minVersion"),
+    ] = None
+
+    max_version: Annotated[
+        Optional[MaximumTLSVersionModelDrivenTelemetry],
+        pydantic.Field(alias="maxVersion"),
+    ] = None
+
+
+class MetadatumModelDrivenTelemetryTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class MetadatumModelDrivenTelemetry(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CreateInputInputModelDrivenTelemetryTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    type: NotRequired[CreateInputTypeModelDrivenTelemetry]
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ConnectionModelDrivenTelemetryTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqModelDrivenTelemetryTypedDict]
+    host: NotRequired[str]
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+    port: NotRequired[float]
+    r"""Port to listen on"""
+    tls: NotRequired[TLSSettingsServerSideModelDrivenTelemetryTypedDict]
+    metadata: NotRequired[List[MetadatumModelDrivenTelemetryTypedDict]]
+    r"""Fields to add to events from this input"""
+    max_active_cxn: NotRequired[float]
+    r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
+    shutdown_timeout_ms: NotRequired[float]
+    r"""Time in milliseconds to allow the server to shutdown gracefully before forcing shutdown. Defaults to 5000."""
+    description: NotRequired[str]
+
+
+class CreateInputInputModelDrivenTelemetry(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    type: Optional[CreateInputTypeModelDrivenTelemetry] = None
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ConnectionModelDrivenTelemetry]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqModelDrivenTelemetry] = None
+
+    host: Optional[str] = "0.0.0.0"
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+
+    port: Optional[float] = 57000
+    r"""Port to listen on"""
+
+    tls: Optional[TLSSettingsServerSideModelDrivenTelemetry] = None
+
+    metadata: Optional[List[MetadatumModelDrivenTelemetry]] = None
+    r"""Fields to add to events from this input"""
+
+    max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
+        1000
+    )
+    r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
+
+    shutdown_timeout_ms: Annotated[
+        Optional[float], pydantic.Field(alias="shutdownTimeoutMs")
+    ] = 5000
+    r"""Time in milliseconds to allow the server to shutdown gracefully before forcing shutdown. Defaults to 5000."""
+
+    description: Optional[str] = None
+
+
+class CreateInputTypeOpenTelemetry(str, Enum):
+    OPEN_TELEMETRY = "open_telemetry"
+
+
+class ConnectionOpenTelemetryTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class ConnectionOpenTelemetry(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class CreateInputModeOpenTelemetry(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CreateInputCompressionOpenTelemetry(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class PqOpenTelemetryTypedDict(TypedDict):
+    mode: NotRequired[CreateInputModeOpenTelemetry]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CreateInputCompressionOpenTelemetry]
+    r"""Codec to use to compress the persisted data"""
+
+
+class PqOpenTelemetry(BaseModel):
+    mode: Optional[CreateInputModeOpenTelemetry] = CreateInputModeOpenTelemetry.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CreateInputCompressionOpenTelemetry] = (
+        CreateInputCompressionOpenTelemetry.NONE
+    )
+    r"""Codec to use to compress the persisted data"""
+
+
+class CreateInputMinimumTLSVersionOpenTelemetry(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class CreateInputMaximumTLSVersionOpenTelemetry(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class TLSSettingsServerSideOpenTelemetryTypedDict(TypedDict):
+    disabled: NotRequired[bool]
+    certificate_name: NotRequired[str]
+    r"""The name of the predefined certificate"""
+    priv_key_path: NotRequired[str]
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+    passphrase: NotRequired[str]
+    r"""Passphrase to use to decrypt private key"""
+    cert_path: NotRequired[str]
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+    ca_path: NotRequired[str]
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+    request_cert: NotRequired[bool]
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+    reject_unauthorized: NotRequired[Any]
+    common_name_regex: NotRequired[Any]
+    min_version: NotRequired[CreateInputMinimumTLSVersionOpenTelemetry]
+    max_version: NotRequired[CreateInputMaximumTLSVersionOpenTelemetry]
+
+
+class TLSSettingsServerSideOpenTelemetry(BaseModel):
+    disabled: Optional[bool] = True
+
+    certificate_name: Annotated[
+        Optional[str], pydantic.Field(alias="certificateName")
+    ] = None
+    r"""The name of the predefined certificate"""
+
+    priv_key_path: Annotated[Optional[str], pydantic.Field(alias="privKeyPath")] = None
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+
+    passphrase: Optional[str] = None
+    r"""Passphrase to use to decrypt private key"""
+
+    cert_path: Annotated[Optional[str], pydantic.Field(alias="certPath")] = None
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    ca_path: Annotated[Optional[str], pydantic.Field(alias="caPath")] = None
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    request_cert: Annotated[Optional[bool], pydantic.Field(alias="requestCert")] = False
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+
+    reject_unauthorized: Annotated[
+        Optional[Any], pydantic.Field(alias="rejectUnauthorized")
+    ] = None
+
+    common_name_regex: Annotated[
+        Optional[Any], pydantic.Field(alias="commonNameRegex")
+    ] = None
+
+    min_version: Annotated[
+        Optional[CreateInputMinimumTLSVersionOpenTelemetry],
+        pydantic.Field(alias="minVersion"),
+    ] = None
+
+    max_version: Annotated[
+        Optional[CreateInputMaximumTLSVersionOpenTelemetry],
+        pydantic.Field(alias="maxVersion"),
+    ] = None
+
+
+class CreateInputProtocolOpenTelemetry(str, Enum):
+    r"""Select whether to leverage gRPC or HTTP for OpenTelemetry"""
+
+    GRPC = "grpc"
+    HTTP = "http"
+
+
+class CreateInputOTLPVersion(str, Enum):
+    r"""The version of OTLP Protobuf definitions to use when interpreting received data"""
+
+    ZERO_DOT_10_DOT_0 = "0.10.0"
+    ONE_DOT_3_DOT_1 = "1.3.1"
+
+
+class CreateInputAuthenticationTypeOpenTelemetry(str, Enum):
+    r"""OpenTelemetry authentication type"""
+
+    NONE = "none"
+    BASIC = "basic"
+    CREDENTIALS_SECRET = "credentialsSecret"
+    TOKEN = "token"
+    TEXT_SECRET = "textSecret"
+    OAUTH = "oauth"
+
+
+class CreateInputMetadatumOpenTelemetryTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CreateInputMetadatumOpenTelemetry(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CreateInputOauthParamOpenTelemetryTypedDict(TypedDict):
+    name: str
+    r"""OAuth parameter name"""
+    value: str
+    r"""OAuth parameter value"""
+
+
+class CreateInputOauthParamOpenTelemetry(BaseModel):
+    name: str
+    r"""OAuth parameter name"""
+
+    value: str
+    r"""OAuth parameter value"""
+
+
+class CreateInputOauthHeaderOpenTelemetryTypedDict(TypedDict):
+    name: str
+    r"""OAuth header name"""
+    value: str
+    r"""OAuth header value"""
+
+
+class CreateInputOauthHeaderOpenTelemetry(BaseModel):
+    name: str
+    r"""OAuth header name"""
+
+    value: str
+    r"""OAuth header value"""
+
+
+class CreateInputInputOpenTelemetryTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    type: NotRequired[CreateInputTypeOpenTelemetry]
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ConnectionOpenTelemetryTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqOpenTelemetryTypedDict]
+    host: NotRequired[str]
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+    port: NotRequired[float]
+    r"""Port to listen on"""
+    tls: NotRequired[TLSSettingsServerSideOpenTelemetryTypedDict]
+    max_active_req: NotRequired[float]
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+    max_requests_per_socket: NotRequired[int]
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+    enable_proxy_header: NotRequired[Any]
+    capture_headers: NotRequired[Any]
+    activity_log_sample_rate: NotRequired[Any]
+    request_timeout: NotRequired[float]
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+    socket_timeout: NotRequired[float]
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+    keep_alive_timeout: NotRequired[float]
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 sec.; maximum 600 sec. (10 min.)."""
+    enable_health_check: NotRequired[bool]
+    r"""Enable to expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
+    ip_allowlist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist."""
+    ip_denylist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+    protocol: NotRequired[CreateInputProtocolOpenTelemetry]
+    r"""Select whether to leverage gRPC or HTTP for OpenTelemetry"""
+    extract_spans: NotRequired[bool]
+    r"""Enable to extract each incoming span to a separate event"""
+    extract_metrics: NotRequired[bool]
+    r"""Enable to extract each incoming Gauge or IntGauge metric to multiple events, one per data point"""
+    otlp_version: NotRequired[CreateInputOTLPVersion]
+    r"""The version of OTLP Protobuf definitions to use when interpreting received data"""
+    auth_type: NotRequired[CreateInputAuthenticationTypeOpenTelemetry]
+    r"""OpenTelemetry authentication type"""
+    metadata: NotRequired[List[CreateInputMetadatumOpenTelemetryTypedDict]]
+    r"""Fields to add to events from this input"""
+    max_active_cxn: NotRequired[float]
+    r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
+    description: NotRequired[str]
+    username: NotRequired[str]
+    password: NotRequired[str]
+    token: NotRequired[str]
+    r"""Bearer token to include in the authorization header"""
+    credentials_secret: NotRequired[str]
+    r"""Select or create a secret that references your credentials"""
+    text_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
+    login_url: NotRequired[str]
+    r"""URL for OAuth"""
+    secret_param_name: NotRequired[str]
+    r"""Secret parameter name to pass in request body"""
+    secret: NotRequired[str]
+    r"""Secret parameter value to pass in request body"""
+    token_attribute_name: NotRequired[str]
+    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
+    auth_header_expr: NotRequired[str]
+    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
+    token_timeout_secs: NotRequired[float]
+    r"""How often the OAuth token should be refreshed."""
+    oauth_params: NotRequired[List[CreateInputOauthParamOpenTelemetryTypedDict]]
+    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+    oauth_headers: NotRequired[List[CreateInputOauthHeaderOpenTelemetryTypedDict]]
+    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+    extract_logs: NotRequired[bool]
+    r"""Enable to extract each incoming log record to a separate event"""
+
+
+class CreateInputInputOpenTelemetry(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    type: Optional[CreateInputTypeOpenTelemetry] = None
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ConnectionOpenTelemetry]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqOpenTelemetry] = None
+
+    host: Optional[str] = "0.0.0.0"
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+
+    port: Optional[float] = 4317
+    r"""Port to listen on"""
+
+    tls: Optional[TLSSettingsServerSideOpenTelemetry] = None
+
+    max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
+        256
+    )
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+
+    max_requests_per_socket: Annotated[
+        Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
+    ] = 0
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+
+    enable_proxy_header: Annotated[
+        Optional[Any], pydantic.Field(alias="enableProxyHeader")
+    ] = None
+
+    capture_headers: Annotated[
+        Optional[Any], pydantic.Field(alias="captureHeaders")
+    ] = None
+
+    activity_log_sample_rate: Annotated[
+        Optional[Any], pydantic.Field(alias="activityLogSampleRate")
+    ] = None
+
+    request_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="requestTimeout")
+    ] = 0
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+
+    socket_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="socketTimeout")
+    ] = 0
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+
+    keep_alive_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="keepAliveTimeout")
+    ] = 15
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 sec.; maximum 600 sec. (10 min.)."""
+
+    enable_health_check: Annotated[
+        Optional[bool], pydantic.Field(alias="enableHealthCheck")
+    ] = False
+    r"""Enable to expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
+
+    ip_allowlist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipAllowlistRegex")
+    ] = "/.*/"
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist."""
+
+    ip_denylist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipDenylistRegex")
+    ] = "/^$/"
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+
+    protocol: Optional[CreateInputProtocolOpenTelemetry] = (
+        CreateInputProtocolOpenTelemetry.GRPC
+    )
+    r"""Select whether to leverage gRPC or HTTP for OpenTelemetry"""
+
+    extract_spans: Annotated[Optional[bool], pydantic.Field(alias="extractSpans")] = (
+        False
+    )
+    r"""Enable to extract each incoming span to a separate event"""
+
+    extract_metrics: Annotated[
+        Optional[bool], pydantic.Field(alias="extractMetrics")
+    ] = False
+    r"""Enable to extract each incoming Gauge or IntGauge metric to multiple events, one per data point"""
+
+    otlp_version: Annotated[
+        Optional[CreateInputOTLPVersion], pydantic.Field(alias="otlpVersion")
+    ] = CreateInputOTLPVersion.ZERO_DOT_10_DOT_0
+    r"""The version of OTLP Protobuf definitions to use when interpreting received data"""
+
+    auth_type: Annotated[
+        Optional[CreateInputAuthenticationTypeOpenTelemetry],
+        pydantic.Field(alias="authType"),
+    ] = CreateInputAuthenticationTypeOpenTelemetry.NONE
+    r"""OpenTelemetry authentication type"""
+
+    metadata: Optional[List[CreateInputMetadatumOpenTelemetry]] = None
+    r"""Fields to add to events from this input"""
+
+    max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
+        1000
+    )
+    r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
+
+    description: Optional[str] = None
+
+    username: Optional[str] = None
+
+    password: Optional[str] = None
+
+    token: Optional[str] = None
+    r"""Bearer token to include in the authorization header"""
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a secret that references your credentials"""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a stored text secret"""
+
+    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
+    r"""URL for OAuth"""
+
+    secret_param_name: Annotated[
+        Optional[str], pydantic.Field(alias="secretParamName")
+    ] = None
+    r"""Secret parameter name to pass in request body"""
+
+    secret: Optional[str] = None
+    r"""Secret parameter value to pass in request body"""
+
+    token_attribute_name: Annotated[
+        Optional[str], pydantic.Field(alias="tokenAttributeName")
+    ] = None
+    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
+
+    auth_header_expr: Annotated[
+        Optional[str], pydantic.Field(alias="authHeaderExpr")
+    ] = "`Bearer ${token}`"
+    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
+
+    token_timeout_secs: Annotated[
+        Optional[float], pydantic.Field(alias="tokenTimeoutSecs")
+    ] = 3600
+    r"""How often the OAuth token should be refreshed."""
+
+    oauth_params: Annotated[
+        Optional[List[CreateInputOauthParamOpenTelemetry]],
+        pydantic.Field(alias="oauthParams"),
+    ] = None
+    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+
+    oauth_headers: Annotated[
+        Optional[List[CreateInputOauthHeaderOpenTelemetry]],
+        pydantic.Field(alias="oauthHeaders"),
+    ] = None
+    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+
+    extract_logs: Annotated[Optional[bool], pydantic.Field(alias="extractLogs")] = False
+    r"""Enable to extract each incoming log record to a separate event"""
+
+
+class CreateInputTypeSnmp(str, Enum):
+    SNMP = "snmp"
+
+
+class ConnectionSnmpTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class ConnectionSnmp(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class ModeSnmp(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CompressionSnmp(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class PqSnmpTypedDict(TypedDict):
+    mode: NotRequired[ModeSnmp]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CompressionSnmp]
+    r"""Codec to use to compress the persisted data"""
+
+
+class PqSnmp(BaseModel):
+    mode: Optional[ModeSnmp] = ModeSnmp.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CompressionSnmp] = CompressionSnmp.NONE
+    r"""Codec to use to compress the persisted data"""
+
+
+class CreateInputAuthenticationProtocol(str, Enum):
+    NONE = "none"
+    MD5 = "md5"
+    SHA = "sha"
+    SHA224 = "sha224"
+    SHA256 = "sha256"
+    SHA384 = "sha384"
+    SHA512 = "sha512"
+
+
+class CreateInputV3UserTypedDict(TypedDict):
+    name: str
+    auth_protocol: NotRequired[CreateInputAuthenticationProtocol]
+    auth_key: NotRequired[Any]
+    priv_protocol: NotRequired[str]
+
+
+class CreateInputV3User(BaseModel):
+    name: str
+
+    auth_protocol: Annotated[
+        Optional[CreateInputAuthenticationProtocol],
+        pydantic.Field(alias="authProtocol"),
+    ] = CreateInputAuthenticationProtocol.NONE
+
+    auth_key: Annotated[Optional[Any], pydantic.Field(alias="authKey")] = None
+
+    priv_protocol: Annotated[Optional[str], pydantic.Field(alias="privProtocol")] = (
+        "none"
+    )
+
+
+class CreateInputSNMPv3AuthenticationTypedDict(TypedDict):
+    r"""Authentication parameters for SNMPv3 trap. Set the log level to debug if you are experiencing authentication or decryption issues."""
+
+    v3_auth_enabled: NotRequired[bool]
+    allow_unmatched_trap: NotRequired[bool]
+    r"""Pass through traps that don't match any of the configured users. @{product} will not attempt to decrypt these traps."""
+    v3_users: NotRequired[List[CreateInputV3UserTypedDict]]
+    r"""User credentials for receiving v3 traps"""
+
+
+class CreateInputSNMPv3Authentication(BaseModel):
+    r"""Authentication parameters for SNMPv3 trap. Set the log level to debug if you are experiencing authentication or decryption issues."""
+
+    v3_auth_enabled: Annotated[
+        Optional[bool], pydantic.Field(alias="v3AuthEnabled")
+    ] = False
+
+    allow_unmatched_trap: Annotated[
+        Optional[bool], pydantic.Field(alias="allowUnmatchedTrap")
+    ] = False
+    r"""Pass through traps that don't match any of the configured users. @{product} will not attempt to decrypt these traps."""
+
+    v3_users: Annotated[
+        Optional[List[CreateInputV3User]], pydantic.Field(alias="v3Users")
+    ] = None
+    r"""User credentials for receiving v3 traps"""
+
+
+class MetadatumSnmpTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class MetadatumSnmp(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CreateInputInputSnmpTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    type: NotRequired[CreateInputTypeSnmp]
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ConnectionSnmpTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqSnmpTypedDict]
+    host: NotRequired[str]
+    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
+    port: NotRequired[float]
+    r"""UDP port to receive SNMP traps on. Defaults to 162."""
+    snmp_v3_auth: NotRequired[CreateInputSNMPv3AuthenticationTypedDict]
+    r"""Authentication parameters for SNMPv3 trap. Set the log level to debug if you are experiencing authentication or decryption issues."""
+    max_buffer_size: NotRequired[float]
+    r"""Maximum number of events to buffer when downstream is blocking."""
+    ip_whitelist_regex: NotRequired[str]
+    r"""Regex matching IP addresses that are allowed to send data"""
+    metadata: NotRequired[List[MetadatumSnmpTypedDict]]
+    r"""Fields to add to events from this input"""
+    udp_socket_rx_buf_size: NotRequired[float]
+    r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
+    varbinds_with_types: NotRequired[bool]
+    r"""If enabled, parses varbinds as an array of objects that include OID, value, and type"""
+    best_effort_parsing: NotRequired[bool]
+    r"""If enabled, the parser will attempt to parse varbind octet strings as UTF-8, first, otherwise will fallback to other methods"""
+    description: NotRequired[str]
+
+
+class CreateInputInputSnmp(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    type: Optional[CreateInputTypeSnmp] = None
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ConnectionSnmp]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqSnmp] = None
+
+    host: Optional[str] = "0.0.0.0"
+    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
+
+    port: Optional[float] = 162
+    r"""UDP port to receive SNMP traps on. Defaults to 162."""
+
+    snmp_v3_auth: Annotated[
+        Optional[CreateInputSNMPv3Authentication], pydantic.Field(alias="snmpV3Auth")
+    ] = None
+    r"""Authentication parameters for SNMPv3 trap. Set the log level to debug if you are experiencing authentication or decryption issues."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""Maximum number of events to buffer when downstream is blocking."""
+
+    ip_whitelist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipWhitelistRegex")
+    ] = "/.*/"
+    r"""Regex matching IP addresses that are allowed to send data"""
+
+    metadata: Optional[List[MetadatumSnmp]] = None
+    r"""Fields to add to events from this input"""
+
+    udp_socket_rx_buf_size: Annotated[
+        Optional[float], pydantic.Field(alias="udpSocketRxBufSize")
+    ] = None
+    r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
+
+    varbinds_with_types: Annotated[
+        Optional[bool], pydantic.Field(alias="varbindsWithTypes")
+    ] = False
+    r"""If enabled, parses varbinds as an array of objects that include OID, value, and type"""
+
+    best_effort_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="bestEffortParsing")
+    ] = False
+    r"""If enabled, the parser will attempt to parse varbind octet strings as UTF-8, first, otherwise will fallback to other methods"""
+
+    description: Optional[str] = None
+
+
+class CreateInputTypeS3Inventory(str, Enum):
+    S3_INVENTORY = "s3_inventory"
+
+
+class ConnectionS3InventoryTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class ConnectionS3Inventory(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class ModeS3Inventory(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CompressionS3Inventory(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class PqS3InventoryTypedDict(TypedDict):
+    mode: NotRequired[ModeS3Inventory]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CompressionS3Inventory]
+    r"""Codec to use to compress the persisted data"""
+
+
+class PqS3Inventory(BaseModel):
+    mode: Optional[ModeS3Inventory] = ModeS3Inventory.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CompressionS3Inventory] = CompressionS3Inventory.NONE
+    r"""Codec to use to compress the persisted data"""
+
+
+class AuthenticationMethodS3Inventory(str, Enum):
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+
+    AUTO = "auto"
+    MANUAL = "manual"
+    SECRET = "secret"
+
+
+class SignatureVersionS3Inventory(str, Enum):
+    r"""Signature version to use for signing S3 requests"""
+
+    V2 = "v2"
+    V4 = "v4"
+
+
+class PreprocessS3InventoryTypedDict(TypedDict):
+    disabled: NotRequired[bool]
+    command: NotRequired[str]
+    r"""Command to feed the data through (via stdin) and process its output (stdout)"""
+    args: NotRequired[List[str]]
+    r"""Arguments to be added to the custom command"""
+
+
+class PreprocessS3Inventory(BaseModel):
+    disabled: Optional[bool] = True
+
+    command: Optional[str] = None
+    r"""Command to feed the data through (via stdin) and process its output (stdout)"""
+
+    args: Optional[List[str]] = None
+    r"""Arguments to be added to the custom command"""
+
+
+class MetadatumS3InventoryTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class MetadatumS3Inventory(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CheckpointingS3InventoryTypedDict(TypedDict):
+    enabled: NotRequired[bool]
+    r"""Resume processing files after an interruption"""
+    retries: NotRequired[float]
+    r"""The number of times to retry processing when a processing error occurs. If Skip file on error is enabled, this setting is ignored."""
+
+
+class CheckpointingS3Inventory(BaseModel):
+    enabled: Optional[bool] = False
+    r"""Resume processing files after an interruption"""
+
+    retries: Optional[float] = 5
+    r"""The number of times to retry processing when a processing error occurs. If Skip file on error is enabled, this setting is ignored."""
+
+
+class TagAfterProcessingS3Inventory(str, Enum):
+    FALSE = "false"
+    TRUE = "true"
+
+
+class CreateInputInputS3InventoryTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    type: CreateInputTypeS3Inventory
+    queue_name: str
+    r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ConnectionS3InventoryTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqS3InventoryTypedDict]
+    file_filter: NotRequired[str]
+    r"""Regex matching file names to download and process. Defaults to: .*"""
+    aws_account_id: NotRequired[str]
+    r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
+    aws_authentication_method: NotRequired[AuthenticationMethodS3Inventory]
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+    aws_secret_key: NotRequired[str]
+    region: NotRequired[str]
+    r"""AWS Region where the S3 bucket and SQS queue are located. Required, unless the Queue entry is a URL or ARN that includes a Region."""
+    endpoint: NotRequired[str]
+    r"""S3 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint."""
+    signature_version: NotRequired[SignatureVersionS3Inventory]
+    r"""Signature version to use for signing S3 requests"""
+    reuse_connections: NotRequired[bool]
+    r"""Reuse connections between requests, which can improve performance"""
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+    breaker_rulesets: NotRequired[List[str]]
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+    stale_channel_flush_ms: NotRequired[float]
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+    max_messages: NotRequired[float]
+    r"""The maximum number of messages SQS should return in a poll request. Amazon SQS never returns more messages than this value (however, fewer messages might be returned). Valid values: 1 to 10."""
+    visibility_timeout: NotRequired[float]
+    r"""After messages are retrieved by a ReceiveMessage request, @{product} will hide them from subsequent retrieve requests for at least this duration. You can set this as high as 43200 sec. (12 hours)."""
+    num_receivers: NotRequired[float]
+    r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
+    socket_timeout: NotRequired[float]
+    r"""Socket inactivity timeout (in seconds). Increase this value if timeouts occur due to backpressure."""
+    skip_on_error: NotRequired[bool]
+    r"""Skip files that trigger a processing error. Disabled by default, which allows retries after processing errors."""
+    enable_assume_role: NotRequired[bool]
+    r"""Use Assume Role credentials to access Amazon S3"""
+    assume_role_arn: NotRequired[str]
+    r"""Amazon Resource Name (ARN) of the role to assume"""
+    assume_role_external_id: NotRequired[str]
+    r"""External ID to use when assuming role"""
+    duration_seconds: NotRequired[float]
+    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+    enable_sqs_assume_role: NotRequired[bool]
+    r"""Use Assume Role credentials when accessing Amazon SQS"""
+    preprocess: NotRequired[PreprocessS3InventoryTypedDict]
+    metadata: NotRequired[List[MetadatumS3InventoryTypedDict]]
+    r"""Fields to add to events from this input"""
+    parquet_chunk_size_mb: NotRequired[float]
+    r"""Maximum file size for each Parquet chunk"""
+    parquet_chunk_download_timeout: NotRequired[float]
+    r"""The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
+    checkpointing: NotRequired[CheckpointingS3InventoryTypedDict]
+    poll_timeout: NotRequired[float]
+    r"""How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts."""
+    checksum_suffix: NotRequired[str]
+    r"""Filename suffix of the manifest checksum file. If a filename matching this suffix is received        in the queue, the matching manifest file will be downloaded and validated against its value. Defaults to \"checksum\" """
+    max_manifest_size_kb: NotRequired[int]
+    r"""Maximum download size (KB) of each manifest or checksum file. Manifest files larger than this size will not be read.        Defaults to 4096."""
+    validate_inventory_files: NotRequired[bool]
+    r"""If set to Yes, each inventory file in the manifest will be validated against its checksum. Defaults to false"""
+    description: NotRequired[str]
+    aws_api_key: NotRequired[str]
+    aws_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your access key and secret key"""
+    tag_after_processing: NotRequired[TagAfterProcessingS3Inventory]
+    processed_tag_key: NotRequired[str]
+    r"""The key for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
+    processed_tag_value: NotRequired[str]
+    r"""The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
+
+
+class CreateInputInputS3Inventory(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    type: CreateInputTypeS3Inventory
+
+    queue_name: Annotated[str, pydantic.Field(alias="queueName")]
+    r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ConnectionS3Inventory]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqS3Inventory] = None
+
+    file_filter: Annotated[Optional[str], pydantic.Field(alias="fileFilter")] = "/.*/"
+    r"""Regex matching file names to download and process. Defaults to: .*"""
+
+    aws_account_id: Annotated[Optional[str], pydantic.Field(alias="awsAccountId")] = (
+        None
+    )
+    r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
+
+    aws_authentication_method: Annotated[
+        Optional[AuthenticationMethodS3Inventory],
+        pydantic.Field(alias="awsAuthenticationMethod"),
+    ] = AuthenticationMethodS3Inventory.AUTO
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+
+    aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
+        None
+    )
+
+    region: Optional[str] = None
+    r"""AWS Region where the S3 bucket and SQS queue are located. Required, unless the Queue entry is a URL or ARN that includes a Region."""
+
+    endpoint: Optional[str] = None
+    r"""S3 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint."""
+
+    signature_version: Annotated[
+        Optional[SignatureVersionS3Inventory], pydantic.Field(alias="signatureVersion")
+    ] = SignatureVersionS3Inventory.V4
+    r"""Signature version to use for signing S3 requests"""
+
+    reuse_connections: Annotated[
+        Optional[bool], pydantic.Field(alias="reuseConnections")
+    ] = True
+    r"""Reuse connections between requests, which can improve performance"""
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = True
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+
+    breaker_rulesets: Annotated[
+        Optional[List[str]], pydantic.Field(alias="breakerRulesets")
+    ] = None
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+
+    stale_channel_flush_ms: Annotated[
+        Optional[float], pydantic.Field(alias="staleChannelFlushMs")
+    ] = 10000
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+
+    max_messages: Annotated[Optional[float], pydantic.Field(alias="maxMessages")] = 1
+    r"""The maximum number of messages SQS should return in a poll request. Amazon SQS never returns more messages than this value (however, fewer messages might be returned). Valid values: 1 to 10."""
+
+    visibility_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="visibilityTimeout")
+    ] = 600
+    r"""After messages are retrieved by a ReceiveMessage request, @{product} will hide them from subsequent retrieve requests for at least this duration. You can set this as high as 43200 sec. (12 hours)."""
+
+    num_receivers: Annotated[Optional[float], pydantic.Field(alias="numReceivers")] = 1
+    r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
+
+    socket_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="socketTimeout")
+    ] = 300
+    r"""Socket inactivity timeout (in seconds). Increase this value if timeouts occur due to backpressure."""
+
+    skip_on_error: Annotated[Optional[bool], pydantic.Field(alias="skipOnError")] = (
+        False
+    )
+    r"""Skip files that trigger a processing error. Disabled by default, which allows retries after processing errors."""
+
+    enable_assume_role: Annotated[
+        Optional[bool], pydantic.Field(alias="enableAssumeRole")
+    ] = True
+    r"""Use Assume Role credentials to access Amazon S3"""
+
+    assume_role_arn: Annotated[Optional[str], pydantic.Field(alias="assumeRoleArn")] = (
+        None
+    )
+    r"""Amazon Resource Name (ARN) of the role to assume"""
+
+    assume_role_external_id: Annotated[
+        Optional[str], pydantic.Field(alias="assumeRoleExternalId")
+    ] = None
+    r"""External ID to use when assuming role"""
+
+    duration_seconds: Annotated[
+        Optional[float], pydantic.Field(alias="durationSeconds")
+    ] = 3600
+    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+
+    enable_sqs_assume_role: Annotated[
+        Optional[bool], pydantic.Field(alias="enableSQSAssumeRole")
+    ] = False
+    r"""Use Assume Role credentials when accessing Amazon SQS"""
+
+    preprocess: Optional[PreprocessS3Inventory] = None
+
+    metadata: Optional[List[MetadatumS3Inventory]] = None
+    r"""Fields to add to events from this input"""
+
+    parquet_chunk_size_mb: Annotated[
+        Optional[float], pydantic.Field(alias="parquetChunkSizeMB")
+    ] = 5
+    r"""Maximum file size for each Parquet chunk"""
+
+    parquet_chunk_download_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="parquetChunkDownloadTimeout")
+    ] = 600
+    r"""The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
+
+    checkpointing: Optional[CheckpointingS3Inventory] = None
+
+    poll_timeout: Annotated[Optional[float], pydantic.Field(alias="pollTimeout")] = 10
+    r"""How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts."""
+
+    checksum_suffix: Annotated[
+        Optional[str], pydantic.Field(alias="checksumSuffix")
+    ] = "checksum"
+    r"""Filename suffix of the manifest checksum file. If a filename matching this suffix is received        in the queue, the matching manifest file will be downloaded and validated against its value. Defaults to \"checksum\" """
+
+    max_manifest_size_kb: Annotated[
+        Optional[int], pydantic.Field(alias="maxManifestSizeKB")
+    ] = 4096
+    r"""Maximum download size (KB) of each manifest or checksum file. Manifest files larger than this size will not be read.        Defaults to 4096."""
+
+    validate_inventory_files: Annotated[
+        Optional[bool], pydantic.Field(alias="validateInventoryFiles")
+    ] = False
+    r"""If set to Yes, each inventory file in the manifest will be validated against its checksum. Defaults to false"""
+
+    description: Optional[str] = None
+
+    aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+
+    aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
+    r"""Select or create a stored secret that references your access key and secret key"""
+
+    tag_after_processing: Annotated[
+        Optional[TagAfterProcessingS3Inventory],
+        pydantic.Field(alias="tagAfterProcessing"),
+    ] = None
+
+    processed_tag_key: Annotated[
+        Optional[str], pydantic.Field(alias="processedTagKey")
+    ] = None
+    r"""The key for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
+
+    processed_tag_value: Annotated[
+        Optional[str], pydantic.Field(alias="processedTagValue")
+    ] = None
+    r"""The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
+
+
+class CreateInputTypeS3(str, Enum):
+    S3 = "s3"
+
+
+class ConnectionS3TypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class ConnectionS3(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class ModeS3(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CreateInputCompressionS3(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class PqS3TypedDict(TypedDict):
+    mode: NotRequired[ModeS3]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CreateInputCompressionS3]
+    r"""Codec to use to compress the persisted data"""
+
+
+class PqS3(BaseModel):
+    mode: Optional[ModeS3] = ModeS3.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CreateInputCompressionS3] = CreateInputCompressionS3.NONE
+    r"""Codec to use to compress the persisted data"""
+
+
+class CreateInputAuthenticationMethodS3(str, Enum):
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+
+    AUTO = "auto"
+    MANUAL = "manual"
+    SECRET = "secret"
+
+
+class CreateInputSignatureVersionS3(str, Enum):
+    r"""Signature version to use for signing S3 requests"""
+
+    V2 = "v2"
+    V4 = "v4"
+
+
+class PreprocessS3TypedDict(TypedDict):
+    disabled: NotRequired[bool]
+    command: NotRequired[str]
+    r"""Command to feed the data through (via stdin) and process its output (stdout)"""
+    args: NotRequired[List[str]]
+    r"""Arguments to be added to the custom command"""
+
+
+class PreprocessS3(BaseModel):
+    disabled: Optional[bool] = True
+
+    command: Optional[str] = None
+    r"""Command to feed the data through (via stdin) and process its output (stdout)"""
+
+    args: Optional[List[str]] = None
+    r"""Arguments to be added to the custom command"""
+
+
+class MetadatumS3TypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class MetadatumS3(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CheckpointingS3TypedDict(TypedDict):
+    enabled: NotRequired[bool]
+    r"""Resume processing files after an interruption"""
+    retries: NotRequired[float]
+    r"""The number of times to retry processing when a processing error occurs. If Skip file on error is enabled, this setting is ignored."""
+
+
+class CheckpointingS3(BaseModel):
+    enabled: Optional[bool] = False
+    r"""Resume processing files after an interruption"""
+
+    retries: Optional[float] = 5
+    r"""The number of times to retry processing when a processing error occurs. If Skip file on error is enabled, this setting is ignored."""
+
+
+class CreateInputInputS3TypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    type: CreateInputTypeS3
+    queue_name: str
+    r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ConnectionS3TypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqS3TypedDict]
+    file_filter: NotRequired[str]
+    r"""Regex matching file names to download and process. Defaults to: .*"""
+    aws_account_id: NotRequired[str]
+    r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
+    aws_authentication_method: NotRequired[CreateInputAuthenticationMethodS3]
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+    aws_secret_key: NotRequired[str]
+    region: NotRequired[str]
+    r"""AWS Region where the S3 bucket and SQS queue are located. Required, unless the Queue entry is a URL or ARN that includes a Region."""
+    endpoint: NotRequired[str]
+    r"""S3 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint."""
+    signature_version: NotRequired[CreateInputSignatureVersionS3]
+    r"""Signature version to use for signing S3 requests"""
+    reuse_connections: NotRequired[bool]
+    r"""Reuse connections between requests, which can improve performance"""
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+    breaker_rulesets: NotRequired[List[str]]
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+    stale_channel_flush_ms: NotRequired[float]
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+    max_messages: NotRequired[float]
+    r"""The maximum number of messages SQS should return in a poll request. Amazon SQS never returns more messages than this value (however, fewer messages might be returned). Valid values: 1 to 10."""
+    visibility_timeout: NotRequired[float]
+    r"""After messages are retrieved by a ReceiveMessage request, @{product} will hide them from subsequent retrieve requests for at least this duration. You can set this as high as 43200 sec. (12 hours)."""
+    num_receivers: NotRequired[float]
+    r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
+    socket_timeout: NotRequired[float]
+    r"""Socket inactivity timeout (in seconds). Increase this value if timeouts occur due to backpressure."""
+    skip_on_error: NotRequired[bool]
+    r"""Skip files that trigger a processing error. Disabled by default, which allows retries after processing errors."""
+    enable_assume_role: NotRequired[bool]
+    r"""Use Assume Role credentials to access Amazon S3"""
+    assume_role_arn: NotRequired[str]
+    r"""Amazon Resource Name (ARN) of the role to assume"""
+    assume_role_external_id: NotRequired[str]
+    r"""External ID to use when assuming role"""
+    duration_seconds: NotRequired[float]
+    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+    enable_sqs_assume_role: NotRequired[bool]
+    r"""Use Assume Role credentials when accessing Amazon SQS"""
+    preprocess: NotRequired[PreprocessS3TypedDict]
+    metadata: NotRequired[List[MetadatumS3TypedDict]]
+    r"""Fields to add to events from this input"""
+    parquet_chunk_size_mb: NotRequired[float]
+    r"""Maximum file size for each Parquet chunk"""
+    parquet_chunk_download_timeout: NotRequired[float]
+    r"""The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
+    checkpointing: NotRequired[CheckpointingS3TypedDict]
+    poll_timeout: NotRequired[float]
+    r"""How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts."""
+    encoding: NotRequired[str]
+    r"""Character encoding to use when parsing ingested data. When not set, @{product} will default to UTF-8 but may incorrectly interpret multi-byte characters."""
+    tag_after_processing: NotRequired[bool]
+    r"""Add a tag to processed S3 objects. Requires s3:GetObjectTagging and s3:PutObjectTagging AWS permissions."""
+    description: NotRequired[str]
+    aws_api_key: NotRequired[str]
+    aws_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your access key and secret key"""
+    processed_tag_key: NotRequired[str]
+    r"""The key for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
+    processed_tag_value: NotRequired[str]
+    r"""The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
+
+
+class CreateInputInputS3(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    type: CreateInputTypeS3
+
+    queue_name: Annotated[str, pydantic.Field(alias="queueName")]
+    r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ConnectionS3]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqS3] = None
+
+    file_filter: Annotated[Optional[str], pydantic.Field(alias="fileFilter")] = "/.*/"
+    r"""Regex matching file names to download and process. Defaults to: .*"""
+
+    aws_account_id: Annotated[Optional[str], pydantic.Field(alias="awsAccountId")] = (
+        None
+    )
+    r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
+
+    aws_authentication_method: Annotated[
+        Optional[CreateInputAuthenticationMethodS3],
+        pydantic.Field(alias="awsAuthenticationMethod"),
+    ] = CreateInputAuthenticationMethodS3.AUTO
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+
+    aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
+        None
+    )
+
+    region: Optional[str] = None
+    r"""AWS Region where the S3 bucket and SQS queue are located. Required, unless the Queue entry is a URL or ARN that includes a Region."""
+
+    endpoint: Optional[str] = None
+    r"""S3 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint."""
+
+    signature_version: Annotated[
+        Optional[CreateInputSignatureVersionS3],
+        pydantic.Field(alias="signatureVersion"),
+    ] = CreateInputSignatureVersionS3.V4
+    r"""Signature version to use for signing S3 requests"""
+
+    reuse_connections: Annotated[
+        Optional[bool], pydantic.Field(alias="reuseConnections")
+    ] = True
+    r"""Reuse connections between requests, which can improve performance"""
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = True
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+
+    breaker_rulesets: Annotated[
+        Optional[List[str]], pydantic.Field(alias="breakerRulesets")
+    ] = None
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+
+    stale_channel_flush_ms: Annotated[
+        Optional[float], pydantic.Field(alias="staleChannelFlushMs")
+    ] = 10000
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+
+    max_messages: Annotated[Optional[float], pydantic.Field(alias="maxMessages")] = 1
+    r"""The maximum number of messages SQS should return in a poll request. Amazon SQS never returns more messages than this value (however, fewer messages might be returned). Valid values: 1 to 10."""
+
+    visibility_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="visibilityTimeout")
+    ] = 600
+    r"""After messages are retrieved by a ReceiveMessage request, @{product} will hide them from subsequent retrieve requests for at least this duration. You can set this as high as 43200 sec. (12 hours)."""
+
+    num_receivers: Annotated[Optional[float], pydantic.Field(alias="numReceivers")] = 1
+    r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
+
+    socket_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="socketTimeout")
+    ] = 300
+    r"""Socket inactivity timeout (in seconds). Increase this value if timeouts occur due to backpressure."""
+
+    skip_on_error: Annotated[Optional[bool], pydantic.Field(alias="skipOnError")] = (
+        False
+    )
+    r"""Skip files that trigger a processing error. Disabled by default, which allows retries after processing errors."""
+
+    enable_assume_role: Annotated[
+        Optional[bool], pydantic.Field(alias="enableAssumeRole")
+    ] = True
+    r"""Use Assume Role credentials to access Amazon S3"""
+
+    assume_role_arn: Annotated[Optional[str], pydantic.Field(alias="assumeRoleArn")] = (
+        None
+    )
+    r"""Amazon Resource Name (ARN) of the role to assume"""
+
+    assume_role_external_id: Annotated[
+        Optional[str], pydantic.Field(alias="assumeRoleExternalId")
+    ] = None
+    r"""External ID to use when assuming role"""
+
+    duration_seconds: Annotated[
+        Optional[float], pydantic.Field(alias="durationSeconds")
+    ] = 3600
+    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+
+    enable_sqs_assume_role: Annotated[
+        Optional[bool], pydantic.Field(alias="enableSQSAssumeRole")
+    ] = False
+    r"""Use Assume Role credentials when accessing Amazon SQS"""
+
+    preprocess: Optional[PreprocessS3] = None
+
+    metadata: Optional[List[MetadatumS3]] = None
+    r"""Fields to add to events from this input"""
+
+    parquet_chunk_size_mb: Annotated[
+        Optional[float], pydantic.Field(alias="parquetChunkSizeMB")
+    ] = 5
+    r"""Maximum file size for each Parquet chunk"""
+
+    parquet_chunk_download_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="parquetChunkDownloadTimeout")
+    ] = 600
+    r"""The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
+
+    checkpointing: Optional[CheckpointingS3] = None
+
+    poll_timeout: Annotated[Optional[float], pydantic.Field(alias="pollTimeout")] = 10
+    r"""How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts."""
+
+    encoding: Optional[str] = None
+    r"""Character encoding to use when parsing ingested data. When not set, @{product} will default to UTF-8 but may incorrectly interpret multi-byte characters."""
+
+    tag_after_processing: Annotated[
+        Optional[bool], pydantic.Field(alias="tagAfterProcessing")
+    ] = False
+    r"""Add a tag to processed S3 objects. Requires s3:GetObjectTagging and s3:PutObjectTagging AWS permissions."""
+
+    description: Optional[str] = None
+
+    aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+
+    aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
+    r"""Select or create a stored secret that references your access key and secret key"""
+
+    processed_tag_key: Annotated[
+        Optional[str], pydantic.Field(alias="processedTagKey")
+    ] = None
+    r"""The key for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
+
+    processed_tag_value: Annotated[
+        Optional[str], pydantic.Field(alias="processedTagValue")
+    ] = None
+    r"""The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
+
+
+class CreateInputTypeMetrics(str, Enum):
+    METRICS = "metrics"
+
+
+class ConnectionMetricsTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class ConnectionMetrics(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class ModeMetrics(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CompressionMetrics(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class PqMetricsTypedDict(TypedDict):
+    mode: NotRequired[ModeMetrics]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CompressionMetrics]
+    r"""Codec to use to compress the persisted data"""
+
+
+class PqMetrics(BaseModel):
+    mode: Optional[ModeMetrics] = ModeMetrics.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CompressionMetrics] = CompressionMetrics.NONE
+    r"""Codec to use to compress the persisted data"""
+
+
+class MinimumTLSVersionMetrics(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class MaximumTLSVersionMetrics(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class TLSSettingsServerSideMetricsTypedDict(TypedDict):
+    disabled: NotRequired[bool]
+    certificate_name: NotRequired[str]
+    r"""The name of the predefined certificate"""
+    priv_key_path: NotRequired[str]
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+    passphrase: NotRequired[str]
+    r"""Passphrase to use to decrypt private key"""
+    cert_path: NotRequired[str]
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+    ca_path: NotRequired[str]
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+    request_cert: NotRequired[bool]
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+    reject_unauthorized: NotRequired[Any]
+    common_name_regex: NotRequired[Any]
+    min_version: NotRequired[MinimumTLSVersionMetrics]
+    max_version: NotRequired[MaximumTLSVersionMetrics]
+
+
+class TLSSettingsServerSideMetrics(BaseModel):
+    disabled: Optional[bool] = True
+
+    certificate_name: Annotated[
+        Optional[str], pydantic.Field(alias="certificateName")
+    ] = None
+    r"""The name of the predefined certificate"""
+
+    priv_key_path: Annotated[Optional[str], pydantic.Field(alias="privKeyPath")] = None
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+
+    passphrase: Optional[str] = None
+    r"""Passphrase to use to decrypt private key"""
+
+    cert_path: Annotated[Optional[str], pydantic.Field(alias="certPath")] = None
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    ca_path: Annotated[Optional[str], pydantic.Field(alias="caPath")] = None
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    request_cert: Annotated[Optional[bool], pydantic.Field(alias="requestCert")] = False
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+
+    reject_unauthorized: Annotated[
+        Optional[Any], pydantic.Field(alias="rejectUnauthorized")
+    ] = None
+
+    common_name_regex: Annotated[
+        Optional[Any], pydantic.Field(alias="commonNameRegex")
+    ] = None
+
+    min_version: Annotated[
+        Optional[MinimumTLSVersionMetrics], pydantic.Field(alias="minVersion")
+    ] = None
+
+    max_version: Annotated[
+        Optional[MaximumTLSVersionMetrics], pydantic.Field(alias="maxVersion")
+    ] = None
+
+
+class MetadatumMetricsTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class MetadatumMetrics(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CreateInputInputMetricsTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    type: CreateInputTypeMetrics
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ConnectionMetricsTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqMetricsTypedDict]
+    host: NotRequired[str]
+    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
+    udp_port: NotRequired[float]
+    r"""Enter UDP port number to listen on. Not required if listening on TCP."""
+    tcp_port: NotRequired[float]
+    r"""Enter TCP port number to listen on. Not required if listening on UDP."""
+    max_buffer_size: NotRequired[float]
+    r"""Maximum number of events to buffer when downstream is blocking. Only applies to UDP."""
+    ip_whitelist_regex: NotRequired[str]
+    r"""Regex matching IP addresses that are allowed to send data"""
+    enable_proxy_header: NotRequired[bool]
+    r"""Enable if the connection is proxied by a device that supports Proxy Protocol V1 or V2"""
+    tls: NotRequired[TLSSettingsServerSideMetricsTypedDict]
+    metadata: NotRequired[List[MetadatumMetricsTypedDict]]
+    r"""Fields to add to events from this input"""
+    udp_socket_rx_buf_size: NotRequired[float]
+    r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
+    description: NotRequired[str]
+
+
+class CreateInputInputMetrics(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    type: CreateInputTypeMetrics
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ConnectionMetrics]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqMetrics] = None
+
+    host: Optional[str] = "0.0.0.0"
+    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
+
+    udp_port: Annotated[Optional[float], pydantic.Field(alias="udpPort")] = None
+    r"""Enter UDP port number to listen on. Not required if listening on TCP."""
+
+    tcp_port: Annotated[Optional[float], pydantic.Field(alias="tcpPort")] = None
+    r"""Enter TCP port number to listen on. Not required if listening on UDP."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""Maximum number of events to buffer when downstream is blocking. Only applies to UDP."""
+
+    ip_whitelist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipWhitelistRegex")
+    ] = "/.*/"
+    r"""Regex matching IP addresses that are allowed to send data"""
+
+    enable_proxy_header: Annotated[
+        Optional[bool], pydantic.Field(alias="enableProxyHeader")
+    ] = False
+    r"""Enable if the connection is proxied by a device that supports Proxy Protocol V1 or V2"""
+
+    tls: Optional[TLSSettingsServerSideMetrics] = None
+
+    metadata: Optional[List[MetadatumMetrics]] = None
+    r"""Fields to add to events from this input"""
+
+    udp_socket_rx_buf_size: Annotated[
+        Optional[float], pydantic.Field(alias="udpSocketRxBufSize")
+    ] = None
+    r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
+
+    description: Optional[str] = None
+
+
+class CreateInputTypeKinesis(str, Enum):
+    KINESIS = "kinesis"
+
+
+class ConnectionKinesisTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class ConnectionKinesis(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class CreateInputModeKinesis(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CreateInputCompressionKinesis(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class PqKinesisTypedDict(TypedDict):
+    mode: NotRequired[CreateInputModeKinesis]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CreateInputCompressionKinesis]
+    r"""Codec to use to compress the persisted data"""
+
+
+class PqKinesis(BaseModel):
+    mode: Optional[CreateInputModeKinesis] = CreateInputModeKinesis.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CreateInputCompressionKinesis] = (
+        CreateInputCompressionKinesis.NONE
+    )
+    r"""Codec to use to compress the persisted data"""
+
+
+class CreateInputShardIteratorStart(str, Enum):
+    r"""Location at which to start reading a shard for the first time"""
+
+    TRIM_HORIZON = "TRIM_HORIZON"
+    LATEST = "LATEST"
+
+
+class CreateInputRecordDataFormat(str, Enum):
+    r"""Format of data inside the Kinesis Stream records. Gzip compression is automatically detected."""
+
+    CRIBL = "cribl"
+    NDJSON = "ndjson"
+    CLOUDWATCH = "cloudwatch"
+    LINE = "line"
+
+
+class CreateInputShardLoadBalancing(str, Enum):
+    r"""The load-balancing algorithm to use for spreading out shards across Workers and Worker Processes"""
+
+    CONSISTENT_HASHING = "ConsistentHashing"
+    ROUND_ROBIN = "RoundRobin"
+
+
+class CreateInputAuthenticationMethodKinesis(str, Enum):
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+
+    AUTO = "auto"
+    MANUAL = "manual"
+    SECRET = "secret"
+
+
+class CreateInputSignatureVersionKinesis(str, Enum):
+    r"""Signature version to use for signing Kinesis stream requests"""
+
+    V2 = "v2"
+    V4 = "v4"
+
+
+class MetadatumKinesisTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class MetadatumKinesis(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CreateInputInputKinesisTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    stream_name: str
+    r"""Kinesis Data Stream to read data from"""
+    region: str
+    r"""Region where the Kinesis stream is located"""
+    type: NotRequired[CreateInputTypeKinesis]
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ConnectionKinesisTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqKinesisTypedDict]
+    service_interval: NotRequired[float]
+    r"""Time interval in minutes between consecutive service calls"""
+    shard_expr: NotRequired[str]
+    r"""A JavaScript expression to be called with each shardId for the stream. If the expression evaluates to a truthy value, the shard will be processed."""
+    shard_iterator_type: NotRequired[CreateInputShardIteratorStart]
+    r"""Location at which to start reading a shard for the first time"""
+    payload_format: NotRequired[CreateInputRecordDataFormat]
+    r"""Format of data inside the Kinesis Stream records. Gzip compression is automatically detected."""
+    get_records_limit: NotRequired[float]
+    r"""Maximum number of records per getRecords call"""
+    get_records_limit_total: NotRequired[float]
+    r"""Maximum number of records, across all shards, to pull down at once per Worker Process"""
+    load_balancing_algorithm: NotRequired[CreateInputShardLoadBalancing]
+    r"""The load-balancing algorithm to use for spreading out shards across Workers and Worker Processes"""
+    aws_authentication_method: NotRequired[CreateInputAuthenticationMethodKinesis]
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+    aws_secret_key: NotRequired[str]
+    endpoint: NotRequired[str]
+    r"""Kinesis stream service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Kinesis stream-compatible endpoint."""
+    signature_version: NotRequired[CreateInputSignatureVersionKinesis]
+    r"""Signature version to use for signing Kinesis stream requests"""
+    reuse_connections: NotRequired[bool]
+    r"""Reuse connections between requests, which can improve performance"""
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+    enable_assume_role: NotRequired[bool]
+    r"""Use Assume Role credentials to access Kinesis stream"""
+    assume_role_arn: NotRequired[str]
+    r"""Amazon Resource Name (ARN) of the role to assume"""
+    assume_role_external_id: NotRequired[str]
+    r"""External ID to use when assuming role"""
+    duration_seconds: NotRequired[float]
+    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+    verify_kpl_check_sums: NotRequired[bool]
+    r"""Verify Kinesis Producer Library (KPL) event checksums"""
+    avoid_duplicates: NotRequired[bool]
+    r"""When resuming streaming from a stored state, Stream will read the next available record, rather than rereading the last-read record. Enabling this setting can cause data loss after a Worker Node's unexpected shutdown or restart."""
+    metadata: NotRequired[List[MetadatumKinesisTypedDict]]
+    r"""Fields to add to events from this input"""
+    description: NotRequired[str]
+    aws_api_key: NotRequired[str]
+    aws_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your access key and secret key"""
+
+
+class CreateInputInputKinesis(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    stream_name: Annotated[str, pydantic.Field(alias="streamName")]
+    r"""Kinesis Data Stream to read data from"""
+
+    region: str
+    r"""Region where the Kinesis stream is located"""
+
+    type: Optional[CreateInputTypeKinesis] = None
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ConnectionKinesis]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqKinesis] = None
+
+    service_interval: Annotated[
+        Optional[float], pydantic.Field(alias="serviceInterval")
+    ] = 1
+    r"""Time interval in minutes between consecutive service calls"""
+
+    shard_expr: Annotated[Optional[str], pydantic.Field(alias="shardExpr")] = "true"
+    r"""A JavaScript expression to be called with each shardId for the stream. If the expression evaluates to a truthy value, the shard will be processed."""
+
+    shard_iterator_type: Annotated[
+        Optional[CreateInputShardIteratorStart],
+        pydantic.Field(alias="shardIteratorType"),
+    ] = CreateInputShardIteratorStart.TRIM_HORIZON
+    r"""Location at which to start reading a shard for the first time"""
+
+    payload_format: Annotated[
+        Optional[CreateInputRecordDataFormat], pydantic.Field(alias="payloadFormat")
+    ] = CreateInputRecordDataFormat.CRIBL
+    r"""Format of data inside the Kinesis Stream records. Gzip compression is automatically detected."""
+
+    get_records_limit: Annotated[
+        Optional[float], pydantic.Field(alias="getRecordsLimit")
+    ] = 5000
+    r"""Maximum number of records per getRecords call"""
+
+    get_records_limit_total: Annotated[
+        Optional[float], pydantic.Field(alias="getRecordsLimitTotal")
+    ] = 20000
+    r"""Maximum number of records, across all shards, to pull down at once per Worker Process"""
+
+    load_balancing_algorithm: Annotated[
+        Optional[CreateInputShardLoadBalancing],
+        pydantic.Field(alias="loadBalancingAlgorithm"),
+    ] = CreateInputShardLoadBalancing.CONSISTENT_HASHING
+    r"""The load-balancing algorithm to use for spreading out shards across Workers and Worker Processes"""
+
+    aws_authentication_method: Annotated[
+        Optional[CreateInputAuthenticationMethodKinesis],
+        pydantic.Field(alias="awsAuthenticationMethod"),
+    ] = CreateInputAuthenticationMethodKinesis.AUTO
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+
+    aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
+        None
+    )
+
+    endpoint: Optional[str] = None
+    r"""Kinesis stream service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Kinesis stream-compatible endpoint."""
+
+    signature_version: Annotated[
+        Optional[CreateInputSignatureVersionKinesis],
+        pydantic.Field(alias="signatureVersion"),
+    ] = CreateInputSignatureVersionKinesis.V4
+    r"""Signature version to use for signing Kinesis stream requests"""
+
+    reuse_connections: Annotated[
+        Optional[bool], pydantic.Field(alias="reuseConnections")
+    ] = True
+    r"""Reuse connections between requests, which can improve performance"""
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = True
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+
+    enable_assume_role: Annotated[
+        Optional[bool], pydantic.Field(alias="enableAssumeRole")
+    ] = False
+    r"""Use Assume Role credentials to access Kinesis stream"""
+
+    assume_role_arn: Annotated[Optional[str], pydantic.Field(alias="assumeRoleArn")] = (
+        None
+    )
+    r"""Amazon Resource Name (ARN) of the role to assume"""
+
+    assume_role_external_id: Annotated[
+        Optional[str], pydantic.Field(alias="assumeRoleExternalId")
+    ] = None
+    r"""External ID to use when assuming role"""
+
+    duration_seconds: Annotated[
+        Optional[float], pydantic.Field(alias="durationSeconds")
+    ] = 3600
+    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+
+    verify_kpl_check_sums: Annotated[
+        Optional[bool], pydantic.Field(alias="verifyKPLCheckSums")
+    ] = False
+    r"""Verify Kinesis Producer Library (KPL) event checksums"""
+
+    avoid_duplicates: Annotated[
+        Optional[bool], pydantic.Field(alias="avoidDuplicates")
+    ] = False
+    r"""When resuming streaming from a stored state, Stream will read the next available record, rather than rereading the last-read record. Enabling this setting can cause data loss after a Worker Node's unexpected shutdown or restart."""
+
+    metadata: Optional[List[MetadatumKinesis]] = None
+    r"""Fields to add to events from this input"""
+
+    description: Optional[str] = None
+
+    aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+
+    aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
+    r"""Select or create a stored secret that references your access key and secret key"""
+
+
+class CreateInputTypeHTTPRaw(str, Enum):
+    HTTP_RAW = "http_raw"
+
+
+class ConnectionHTTPRawTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class ConnectionHTTPRaw(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class ModeHTTPRaw(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CompressionHTTPRaw(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class PqHTTPRawTypedDict(TypedDict):
+    mode: NotRequired[ModeHTTPRaw]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CompressionHTTPRaw]
+    r"""Codec to use to compress the persisted data"""
+
+
+class PqHTTPRaw(BaseModel):
+    mode: Optional[ModeHTTPRaw] = ModeHTTPRaw.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CompressionHTTPRaw] = CompressionHTTPRaw.NONE
+    r"""Codec to use to compress the persisted data"""
+
+
+class MinimumTLSVersionHTTPRaw(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class MaximumTLSVersionHTTPRaw(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class TLSSettingsServerSideHTTPRawTypedDict(TypedDict):
+    disabled: NotRequired[bool]
+    certificate_name: NotRequired[str]
+    r"""The name of the predefined certificate"""
+    priv_key_path: NotRequired[str]
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+    passphrase: NotRequired[str]
+    r"""Passphrase to use to decrypt private key"""
+    cert_path: NotRequired[str]
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+    ca_path: NotRequired[str]
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+    request_cert: NotRequired[bool]
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+    reject_unauthorized: NotRequired[Any]
+    common_name_regex: NotRequired[Any]
+    min_version: NotRequired[MinimumTLSVersionHTTPRaw]
+    max_version: NotRequired[MaximumTLSVersionHTTPRaw]
+
+
+class TLSSettingsServerSideHTTPRaw(BaseModel):
+    disabled: Optional[bool] = True
+
+    certificate_name: Annotated[
+        Optional[str], pydantic.Field(alias="certificateName")
+    ] = None
+    r"""The name of the predefined certificate"""
+
+    priv_key_path: Annotated[Optional[str], pydantic.Field(alias="privKeyPath")] = None
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+
+    passphrase: Optional[str] = None
+    r"""Passphrase to use to decrypt private key"""
+
+    cert_path: Annotated[Optional[str], pydantic.Field(alias="certPath")] = None
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    ca_path: Annotated[Optional[str], pydantic.Field(alias="caPath")] = None
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    request_cert: Annotated[Optional[bool], pydantic.Field(alias="requestCert")] = False
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+
+    reject_unauthorized: Annotated[
+        Optional[Any], pydantic.Field(alias="rejectUnauthorized")
+    ] = None
+
+    common_name_regex: Annotated[
+        Optional[Any], pydantic.Field(alias="commonNameRegex")
+    ] = None
+
+    min_version: Annotated[
+        Optional[MinimumTLSVersionHTTPRaw], pydantic.Field(alias="minVersion")
+    ] = None
+
+    max_version: Annotated[
+        Optional[MaximumTLSVersionHTTPRaw], pydantic.Field(alias="maxVersion")
+    ] = None
+
+
+class MetadatumHTTPRawTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class MetadatumHTTPRaw(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class AuthTokensExtMetadatumHTTPRawTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class AuthTokensExtMetadatumHTTPRaw(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class AuthTokensExtHTTPRawTypedDict(TypedDict):
+    token: str
+    r"""Shared secret to be provided by any client (Authorization: <token>)"""
+    description: NotRequired[str]
+    metadata: NotRequired[List[AuthTokensExtMetadatumHTTPRawTypedDict]]
+    r"""Fields to add to events referencing this token"""
+
+
+class AuthTokensExtHTTPRaw(BaseModel):
+    token: str
+    r"""Shared secret to be provided by any client (Authorization: <token>)"""
+
+    description: Optional[str] = None
+
+    metadata: Optional[List[AuthTokensExtMetadatumHTTPRaw]] = None
+    r"""Fields to add to events referencing this token"""
+
+
+class CreateInputInputHTTPRawTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    port: float
+    r"""Port to listen on"""
+    type: NotRequired[CreateInputTypeHTTPRaw]
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ConnectionHTTPRawTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqHTTPRawTypedDict]
+    host: NotRequired[str]
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+    auth_tokens: NotRequired[List[str]]
+    r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
+    tls: NotRequired[TLSSettingsServerSideHTTPRawTypedDict]
+    max_active_req: NotRequired[float]
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+    max_requests_per_socket: NotRequired[int]
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+    enable_proxy_header: NotRequired[bool]
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+    capture_headers: NotRequired[bool]
+    r"""Add request headers to events, in the __headers field"""
+    activity_log_sample_rate: NotRequired[float]
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+    request_timeout: NotRequired[float]
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+    socket_timeout: NotRequired[float]
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+    keep_alive_timeout: NotRequired[float]
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
+    enable_health_check: NotRequired[bool]
+    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
+    ip_allowlist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+    ip_denylist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+    breaker_rulesets: NotRequired[List[str]]
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+    stale_channel_flush_ms: NotRequired[float]
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+    metadata: NotRequired[List[MetadatumHTTPRawTypedDict]]
+    r"""Fields to add to events from this input"""
+    allowed_paths: NotRequired[List[str]]
+    r"""List of URI paths accepted by this input, wildcards are supported, e.g /api/v*/hook. Defaults to allow all."""
+    allowed_methods: NotRequired[List[str]]
+    r"""List of HTTP methods accepted by this input. Wildcards are supported (such as P*, GET). Defaults to allow all."""
+    auth_tokens_ext: NotRequired[List[AuthTokensExtHTTPRawTypedDict]]
+    r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
+    description: NotRequired[str]
+
+
+class CreateInputInputHTTPRaw(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    port: float
+    r"""Port to listen on"""
+
+    type: Optional[CreateInputTypeHTTPRaw] = None
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ConnectionHTTPRaw]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqHTTPRaw] = None
+
+    host: Optional[str] = "0.0.0.0"
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+
+    auth_tokens: Annotated[Optional[List[str]], pydantic.Field(alias="authTokens")] = (
+        None
+    )
+    r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
+
+    tls: Optional[TLSSettingsServerSideHTTPRaw] = None
+
+    max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
+        256
+    )
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+
+    max_requests_per_socket: Annotated[
+        Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
+    ] = 0
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+
+    enable_proxy_header: Annotated[
+        Optional[bool], pydantic.Field(alias="enableProxyHeader")
+    ] = False
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+
+    capture_headers: Annotated[
+        Optional[bool], pydantic.Field(alias="captureHeaders")
+    ] = False
+    r"""Add request headers to events, in the __headers field"""
+
+    activity_log_sample_rate: Annotated[
+        Optional[float], pydantic.Field(alias="activityLogSampleRate")
+    ] = 100
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+
+    request_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="requestTimeout")
+    ] = 0
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+
+    socket_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="socketTimeout")
+    ] = 0
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+
+    keep_alive_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="keepAliveTimeout")
+    ] = 5
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
+
+    enable_health_check: Annotated[
+        Optional[bool], pydantic.Field(alias="enableHealthCheck")
+    ] = False
+    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
+
+    ip_allowlist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipAllowlistRegex")
+    ] = "/.*/"
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+
+    ip_denylist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipDenylistRegex")
+    ] = "/^$/"
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+
+    breaker_rulesets: Annotated[
+        Optional[List[str]], pydantic.Field(alias="breakerRulesets")
+    ] = None
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+
+    stale_channel_flush_ms: Annotated[
+        Optional[float], pydantic.Field(alias="staleChannelFlushMs")
+    ] = 10000
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+
+    metadata: Optional[List[MetadatumHTTPRaw]] = None
+    r"""Fields to add to events from this input"""
+
+    allowed_paths: Annotated[
+        Optional[List[str]], pydantic.Field(alias="allowedPaths")
+    ] = None
+    r"""List of URI paths accepted by this input, wildcards are supported, e.g /api/v*/hook. Defaults to allow all."""
+
+    allowed_methods: Annotated[
+        Optional[List[str]], pydantic.Field(alias="allowedMethods")
+    ] = None
+    r"""List of HTTP methods accepted by this input. Wildcards are supported (such as P*, GET). Defaults to allow all."""
+
+    auth_tokens_ext: Annotated[
+        Optional[List[AuthTokensExtHTTPRaw]], pydantic.Field(alias="authTokensExt")
+    ] = None
+    r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
+
+    description: Optional[str] = None
+
+
+class CreateInputTypeDatagen(str, Enum):
+    DATAGEN = "datagen"
+
+
+class ConnectionDatagenTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class ConnectionDatagen(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class ModeDatagen(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CompressionDatagen(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class PqDatagenTypedDict(TypedDict):
+    mode: NotRequired[ModeDatagen]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CompressionDatagen]
+    r"""Codec to use to compress the persisted data"""
+
+
+class PqDatagen(BaseModel):
+    mode: Optional[ModeDatagen] = ModeDatagen.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CompressionDatagen] = CompressionDatagen.NONE
+    r"""Codec to use to compress the persisted data"""
+
+
+class CreateInputSampleTypedDict(TypedDict):
+    sample: str
+    events_per_sec: NotRequired[float]
+    r"""Maximum number of events to generate per second per Worker Node. Defaults to 10."""
+
+
+class CreateInputSample(BaseModel):
+    sample: str
+
+    events_per_sec: Annotated[Optional[float], pydantic.Field(alias="eventsPerSec")] = (
+        10
+    )
+    r"""Maximum number of events to generate per second per Worker Node. Defaults to 10."""
+
+
+class MetadatumDatagenTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class MetadatumDatagen(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CreateInputInputDatagenTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    type: CreateInputTypeDatagen
+    samples: List[CreateInputSampleTypedDict]
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ConnectionDatagenTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqDatagenTypedDict]
+    metadata: NotRequired[List[MetadatumDatagenTypedDict]]
+    r"""Fields to add to events from this input"""
+    description: NotRequired[str]
+
+
+class CreateInputInputDatagen(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    type: CreateInputTypeDatagen
+
+    samples: List[CreateInputSample]
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ConnectionDatagen]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqDatagen] = None
+
+    metadata: Optional[List[MetadatumDatagen]] = None
+    r"""Fields to add to events from this input"""
+
+    description: Optional[str] = None
+
+
+class CreateInputTypeDatadogAgent(str, Enum):
+    DATADOG_AGENT = "datadog_agent"
+
+
+class ConnectionDatadogAgentTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class ConnectionDatadogAgent(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class ModeDatadogAgent(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CompressionDatadogAgent(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class PqDatadogAgentTypedDict(TypedDict):
+    mode: NotRequired[ModeDatadogAgent]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CompressionDatadogAgent]
+    r"""Codec to use to compress the persisted data"""
+
+
+class PqDatadogAgent(BaseModel):
+    mode: Optional[ModeDatadogAgent] = ModeDatadogAgent.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CompressionDatadogAgent] = CompressionDatadogAgent.NONE
+    r"""Codec to use to compress the persisted data"""
+
+
+class MinimumTLSVersionDatadogAgent(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class MaximumTLSVersionDatadogAgent(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class TLSSettingsServerSideDatadogAgentTypedDict(TypedDict):
+    disabled: NotRequired[bool]
+    certificate_name: NotRequired[str]
+    r"""The name of the predefined certificate"""
+    priv_key_path: NotRequired[str]
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+    passphrase: NotRequired[str]
+    r"""Passphrase to use to decrypt private key"""
+    cert_path: NotRequired[str]
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+    ca_path: NotRequired[str]
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+    request_cert: NotRequired[bool]
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+    reject_unauthorized: NotRequired[Any]
+    common_name_regex: NotRequired[Any]
+    min_version: NotRequired[MinimumTLSVersionDatadogAgent]
+    max_version: NotRequired[MaximumTLSVersionDatadogAgent]
+
+
+class TLSSettingsServerSideDatadogAgent(BaseModel):
+    disabled: Optional[bool] = True
+
+    certificate_name: Annotated[
+        Optional[str], pydantic.Field(alias="certificateName")
+    ] = None
+    r"""The name of the predefined certificate"""
+
+    priv_key_path: Annotated[Optional[str], pydantic.Field(alias="privKeyPath")] = None
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+
+    passphrase: Optional[str] = None
+    r"""Passphrase to use to decrypt private key"""
+
+    cert_path: Annotated[Optional[str], pydantic.Field(alias="certPath")] = None
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    ca_path: Annotated[Optional[str], pydantic.Field(alias="caPath")] = None
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    request_cert: Annotated[Optional[bool], pydantic.Field(alias="requestCert")] = False
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+
+    reject_unauthorized: Annotated[
+        Optional[Any], pydantic.Field(alias="rejectUnauthorized")
+    ] = None
+
+    common_name_regex: Annotated[
+        Optional[Any], pydantic.Field(alias="commonNameRegex")
+    ] = None
+
+    min_version: Annotated[
+        Optional[MinimumTLSVersionDatadogAgent], pydantic.Field(alias="minVersion")
+    ] = None
+
+    max_version: Annotated[
+        Optional[MaximumTLSVersionDatadogAgent], pydantic.Field(alias="maxVersion")
+    ] = None
+
+
+class MetadatumDatadogAgentTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class MetadatumDatadogAgent(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class ProxyModeDatadogAgentTypedDict(TypedDict):
+    enabled: NotRequired[bool]
+    r"""Toggle to Yes to send key validation requests from Datadog Agent to the Datadog API. If toggled to No (the default), Stream handles key validation requests by always responding that the key is valid."""
+    reject_unauthorized: NotRequired[bool]
+    r"""Whether to reject certificates that cannot be verified against a valid CA (e.g., self-signed certificates)."""
+
+
+class ProxyModeDatadogAgent(BaseModel):
+    enabled: Optional[bool] = False
+    r"""Toggle to Yes to send key validation requests from Datadog Agent to the Datadog API. If toggled to No (the default), Stream handles key validation requests by always responding that the key is valid."""
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = True
+    r"""Whether to reject certificates that cannot be verified against a valid CA (e.g., self-signed certificates)."""
+
+
+class CreateInputInputDatadogAgentTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    port: float
+    r"""Port to listen on"""
+    type: NotRequired[CreateInputTypeDatadogAgent]
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ConnectionDatadogAgentTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqDatadogAgentTypedDict]
+    host: NotRequired[str]
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+    tls: NotRequired[TLSSettingsServerSideDatadogAgentTypedDict]
+    max_active_req: NotRequired[float]
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+    max_requests_per_socket: NotRequired[int]
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+    enable_proxy_header: NotRequired[bool]
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+    capture_headers: NotRequired[bool]
+    r"""Add request headers to events, in the __headers field"""
+    activity_log_sample_rate: NotRequired[float]
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+    request_timeout: NotRequired[float]
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+    socket_timeout: NotRequired[float]
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+    keep_alive_timeout: NotRequired[float]
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
+    enable_health_check: NotRequired[bool]
+    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
+    ip_allowlist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+    ip_denylist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+    extract_metrics: NotRequired[bool]
+    r"""Toggle to Yes to extract each incoming metric to multiple events, one per data point. This works well when sending metrics to a statsd-type output. If sending metrics to DatadogHQ or any destination that accepts arbitrary JSON, leave toggled to No (the default)."""
+    metadata: NotRequired[List[MetadatumDatadogAgentTypedDict]]
+    r"""Fields to add to events from this input"""
+    proxy_mode: NotRequired[ProxyModeDatadogAgentTypedDict]
+    description: NotRequired[str]
+
+
+class CreateInputInputDatadogAgent(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    port: float
+    r"""Port to listen on"""
+
+    type: Optional[CreateInputTypeDatadogAgent] = None
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ConnectionDatadogAgent]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqDatadogAgent] = None
+
+    host: Optional[str] = "0.0.0.0"
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+
+    tls: Optional[TLSSettingsServerSideDatadogAgent] = None
+
+    max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
+        256
+    )
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+
+    max_requests_per_socket: Annotated[
+        Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
+    ] = 0
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+
+    enable_proxy_header: Annotated[
+        Optional[bool], pydantic.Field(alias="enableProxyHeader")
+    ] = False
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+
+    capture_headers: Annotated[
+        Optional[bool], pydantic.Field(alias="captureHeaders")
+    ] = False
+    r"""Add request headers to events, in the __headers field"""
+
+    activity_log_sample_rate: Annotated[
+        Optional[float], pydantic.Field(alias="activityLogSampleRate")
+    ] = 100
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+
+    request_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="requestTimeout")
+    ] = 0
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+
+    socket_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="socketTimeout")
+    ] = 0
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+
+    keep_alive_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="keepAliveTimeout")
+    ] = 5
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
+
+    enable_health_check: Annotated[
+        Optional[bool], pydantic.Field(alias="enableHealthCheck")
+    ] = False
+    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
+
+    ip_allowlist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipAllowlistRegex")
+    ] = "/.*/"
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+
+    ip_denylist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipDenylistRegex")
+    ] = "/^$/"
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+
+    extract_metrics: Annotated[
+        Optional[bool], pydantic.Field(alias="extractMetrics")
+    ] = False
+    r"""Toggle to Yes to extract each incoming metric to multiple events, one per data point. This works well when sending metrics to a statsd-type output. If sending metrics to DatadogHQ or any destination that accepts arbitrary JSON, leave toggled to No (the default)."""
+
+    metadata: Optional[List[MetadatumDatadogAgent]] = None
+    r"""Fields to add to events from this input"""
+
+    proxy_mode: Annotated[
+        Optional[ProxyModeDatadogAgent], pydantic.Field(alias="proxyMode")
+    ] = None
+
+    description: Optional[str] = None
+
+
+class CreateInputTypeCrowdstrike(str, Enum):
+    CROWDSTRIKE = "crowdstrike"
+
+
+class ConnectionCrowdstrikeTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class ConnectionCrowdstrike(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class ModeCrowdstrike(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CompressionCrowdstrike(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class PqCrowdstrikeTypedDict(TypedDict):
+    mode: NotRequired[ModeCrowdstrike]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CompressionCrowdstrike]
+    r"""Codec to use to compress the persisted data"""
+
+
+class PqCrowdstrike(BaseModel):
+    mode: Optional[ModeCrowdstrike] = ModeCrowdstrike.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CompressionCrowdstrike] = CompressionCrowdstrike.NONE
+    r"""Codec to use to compress the persisted data"""
+
+
+class AuthenticationMethodCrowdstrike(str, Enum):
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+
+    AUTO = "auto"
+    MANUAL = "manual"
+    SECRET = "secret"
+
+
+class SignatureVersionCrowdstrike(str, Enum):
+    r"""Signature version to use for signing S3 requests"""
+
+    V2 = "v2"
+    V4 = "v4"
+
+
+class PreprocessCrowdstrikeTypedDict(TypedDict):
+    disabled: NotRequired[bool]
+    command: NotRequired[str]
+    r"""Command to feed the data through (via stdin) and process its output (stdout)"""
+    args: NotRequired[List[str]]
+    r"""Arguments to be added to the custom command"""
+
+
+class PreprocessCrowdstrike(BaseModel):
+    disabled: Optional[bool] = True
+
+    command: Optional[str] = None
+    r"""Command to feed the data through (via stdin) and process its output (stdout)"""
+
+    args: Optional[List[str]] = None
+    r"""Arguments to be added to the custom command"""
+
+
+class MetadatumCrowdstrikeTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class MetadatumCrowdstrike(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CheckpointingCrowdstrikeTypedDict(TypedDict):
+    enabled: NotRequired[bool]
+    r"""Resume processing files after an interruption"""
+    retries: NotRequired[float]
+    r"""The number of times to retry processing when a processing error occurs. If Skip file on error is enabled, this setting is ignored."""
+
+
+class CheckpointingCrowdstrike(BaseModel):
+    enabled: Optional[bool] = False
+    r"""Resume processing files after an interruption"""
+
+    retries: Optional[float] = 5
+    r"""The number of times to retry processing when a processing error occurs. If Skip file on error is enabled, this setting is ignored."""
+
+
+class TagAfterProcessingCrowdstrike(str, Enum):
+    FALSE = "false"
+    TRUE = "true"
+
+
+class CreateInputInputCrowdstrikeTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    type: CreateInputTypeCrowdstrike
+    queue_name: str
+    r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ConnectionCrowdstrikeTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqCrowdstrikeTypedDict]
+    file_filter: NotRequired[str]
+    r"""Regex matching file names to download and process. Defaults to: .*"""
+    aws_account_id: NotRequired[str]
+    r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
+    aws_authentication_method: NotRequired[AuthenticationMethodCrowdstrike]
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+    aws_secret_key: NotRequired[str]
+    region: NotRequired[str]
+    r"""AWS Region where the S3 bucket and SQS queue are located. Required, unless the Queue entry is a URL or ARN that includes a Region."""
+    endpoint: NotRequired[str]
+    r"""S3 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint."""
+    signature_version: NotRequired[SignatureVersionCrowdstrike]
+    r"""Signature version to use for signing S3 requests"""
+    reuse_connections: NotRequired[bool]
+    r"""Reuse connections between requests, which can improve performance"""
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+    breaker_rulesets: NotRequired[List[str]]
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+    stale_channel_flush_ms: NotRequired[float]
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+    max_messages: NotRequired[float]
+    r"""The maximum number of messages SQS should return in a poll request. Amazon SQS never returns more messages than this value (however, fewer messages might be returned). Valid values: 1 to 10."""
+    visibility_timeout: NotRequired[float]
+    r"""After messages are retrieved by a ReceiveMessage request, @{product} will hide them from subsequent retrieve requests for at least this duration. You can set this as high as 43200 sec. (12 hours)."""
+    num_receivers: NotRequired[float]
+    r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
+    socket_timeout: NotRequired[float]
+    r"""Socket inactivity timeout (in seconds). Increase this value if timeouts occur due to backpressure."""
+    skip_on_error: NotRequired[bool]
+    r"""Skip files that trigger a processing error. Disabled by default, which allows retries after processing errors."""
+    enable_assume_role: NotRequired[bool]
+    r"""Use Assume Role credentials to access Amazon S3"""
+    assume_role_arn: NotRequired[str]
+    r"""Amazon Resource Name (ARN) of the role to assume"""
+    assume_role_external_id: NotRequired[str]
+    r"""External ID to use when assuming role"""
+    duration_seconds: NotRequired[float]
+    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+    enable_sqs_assume_role: NotRequired[bool]
+    r"""Use Assume Role credentials when accessing Amazon SQS"""
+    preprocess: NotRequired[PreprocessCrowdstrikeTypedDict]
+    metadata: NotRequired[List[MetadatumCrowdstrikeTypedDict]]
+    r"""Fields to add to events from this input"""
+    checkpointing: NotRequired[CheckpointingCrowdstrikeTypedDict]
+    poll_timeout: NotRequired[float]
+    r"""How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts."""
+    encoding: NotRequired[str]
+    r"""Character encoding to use when parsing ingested data. When not set, @{product} will default to UTF-8 but may incorrectly interpret multi-byte characters."""
+    description: NotRequired[str]
+    aws_api_key: NotRequired[str]
+    aws_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your access key and secret key"""
+    tag_after_processing: NotRequired[TagAfterProcessingCrowdstrike]
+    processed_tag_key: NotRequired[str]
+    r"""The key for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
+    processed_tag_value: NotRequired[str]
+    r"""The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
+
+
+class CreateInputInputCrowdstrike(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    type: CreateInputTypeCrowdstrike
+
+    queue_name: Annotated[str, pydantic.Field(alias="queueName")]
+    r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ConnectionCrowdstrike]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqCrowdstrike] = None
+
+    file_filter: Annotated[Optional[str], pydantic.Field(alias="fileFilter")] = "/.*/"
+    r"""Regex matching file names to download and process. Defaults to: .*"""
+
+    aws_account_id: Annotated[Optional[str], pydantic.Field(alias="awsAccountId")] = (
+        None
+    )
+    r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
+
+    aws_authentication_method: Annotated[
+        Optional[AuthenticationMethodCrowdstrike],
+        pydantic.Field(alias="awsAuthenticationMethod"),
+    ] = AuthenticationMethodCrowdstrike.AUTO
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+
+    aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
+        None
+    )
+
+    region: Optional[str] = None
+    r"""AWS Region where the S3 bucket and SQS queue are located. Required, unless the Queue entry is a URL or ARN that includes a Region."""
+
+    endpoint: Optional[str] = None
+    r"""S3 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint."""
+
+    signature_version: Annotated[
+        Optional[SignatureVersionCrowdstrike], pydantic.Field(alias="signatureVersion")
+    ] = SignatureVersionCrowdstrike.V4
+    r"""Signature version to use for signing S3 requests"""
+
+    reuse_connections: Annotated[
+        Optional[bool], pydantic.Field(alias="reuseConnections")
+    ] = True
+    r"""Reuse connections between requests, which can improve performance"""
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = True
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+
+    breaker_rulesets: Annotated[
+        Optional[List[str]], pydantic.Field(alias="breakerRulesets")
+    ] = None
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+
+    stale_channel_flush_ms: Annotated[
+        Optional[float], pydantic.Field(alias="staleChannelFlushMs")
+    ] = 10000
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+
+    max_messages: Annotated[Optional[float], pydantic.Field(alias="maxMessages")] = 1
+    r"""The maximum number of messages SQS should return in a poll request. Amazon SQS never returns more messages than this value (however, fewer messages might be returned). Valid values: 1 to 10."""
+
+    visibility_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="visibilityTimeout")
+    ] = 21600
+    r"""After messages are retrieved by a ReceiveMessage request, @{product} will hide them from subsequent retrieve requests for at least this duration. You can set this as high as 43200 sec. (12 hours)."""
+
+    num_receivers: Annotated[Optional[float], pydantic.Field(alias="numReceivers")] = 1
+    r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
+
+    socket_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="socketTimeout")
+    ] = 300
+    r"""Socket inactivity timeout (in seconds). Increase this value if timeouts occur due to backpressure."""
+
+    skip_on_error: Annotated[Optional[bool], pydantic.Field(alias="skipOnError")] = (
+        False
+    )
+    r"""Skip files that trigger a processing error. Disabled by default, which allows retries after processing errors."""
+
+    enable_assume_role: Annotated[
+        Optional[bool], pydantic.Field(alias="enableAssumeRole")
+    ] = True
+    r"""Use Assume Role credentials to access Amazon S3"""
+
+    assume_role_arn: Annotated[Optional[str], pydantic.Field(alias="assumeRoleArn")] = (
+        None
+    )
+    r"""Amazon Resource Name (ARN) of the role to assume"""
+
+    assume_role_external_id: Annotated[
+        Optional[str], pydantic.Field(alias="assumeRoleExternalId")
+    ] = None
+    r"""External ID to use when assuming role"""
+
+    duration_seconds: Annotated[
+        Optional[float], pydantic.Field(alias="durationSeconds")
+    ] = 3600
+    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+
+    enable_sqs_assume_role: Annotated[
+        Optional[bool], pydantic.Field(alias="enableSQSAssumeRole")
+    ] = False
+    r"""Use Assume Role credentials when accessing Amazon SQS"""
+
+    preprocess: Optional[PreprocessCrowdstrike] = None
+
+    metadata: Optional[List[MetadatumCrowdstrike]] = None
+    r"""Fields to add to events from this input"""
+
+    checkpointing: Optional[CheckpointingCrowdstrike] = None
+
+    poll_timeout: Annotated[Optional[float], pydantic.Field(alias="pollTimeout")] = 10
+    r"""How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts."""
+
+    encoding: Optional[str] = None
+    r"""Character encoding to use when parsing ingested data. When not set, @{product} will default to UTF-8 but may incorrectly interpret multi-byte characters."""
+
+    description: Optional[str] = None
+
+    aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+
+    aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
+    r"""Select or create a stored secret that references your access key and secret key"""
+
+    tag_after_processing: Annotated[
+        Optional[TagAfterProcessingCrowdstrike],
+        pydantic.Field(alias="tagAfterProcessing"),
+    ] = None
+
+    processed_tag_key: Annotated[
+        Optional[str], pydantic.Field(alias="processedTagKey")
+    ] = None
+    r"""The key for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
+
+    processed_tag_value: Annotated[
+        Optional[str], pydantic.Field(alias="processedTagValue")
+    ] = None
+    r"""The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
+
+
+class CreateInputTypeTcpjson(str, Enum):
+    TCPJSON = "tcpjson"
+
+
+class ConnectionTcpjsonTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class ConnectionTcpjson(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class ModeTcpjson(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CompressionTcpjson(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class PqTcpjsonTypedDict(TypedDict):
+    mode: NotRequired[ModeTcpjson]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CompressionTcpjson]
+    r"""Codec to use to compress the persisted data"""
+
+
+class PqTcpjson(BaseModel):
+    mode: Optional[ModeTcpjson] = ModeTcpjson.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CompressionTcpjson] = CompressionTcpjson.NONE
+    r"""Codec to use to compress the persisted data"""
+
+
+class MinimumTLSVersionTcpjson(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class MaximumTLSVersionTcpjson(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class TLSSettingsServerSideTcpjsonTypedDict(TypedDict):
+    disabled: NotRequired[bool]
+    certificate_name: NotRequired[str]
+    r"""The name of the predefined certificate"""
+    priv_key_path: NotRequired[str]
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+    passphrase: NotRequired[str]
+    r"""Passphrase to use to decrypt private key"""
+    cert_path: NotRequired[str]
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+    ca_path: NotRequired[str]
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+    request_cert: NotRequired[bool]
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+    reject_unauthorized: NotRequired[Any]
+    common_name_regex: NotRequired[Any]
+    min_version: NotRequired[MinimumTLSVersionTcpjson]
+    max_version: NotRequired[MaximumTLSVersionTcpjson]
+
+
+class TLSSettingsServerSideTcpjson(BaseModel):
+    disabled: Optional[bool] = True
+
+    certificate_name: Annotated[
+        Optional[str], pydantic.Field(alias="certificateName")
+    ] = None
+    r"""The name of the predefined certificate"""
+
+    priv_key_path: Annotated[Optional[str], pydantic.Field(alias="privKeyPath")] = None
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+
+    passphrase: Optional[str] = None
+    r"""Passphrase to use to decrypt private key"""
+
+    cert_path: Annotated[Optional[str], pydantic.Field(alias="certPath")] = None
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    ca_path: Annotated[Optional[str], pydantic.Field(alias="caPath")] = None
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    request_cert: Annotated[Optional[bool], pydantic.Field(alias="requestCert")] = False
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+
+    reject_unauthorized: Annotated[
+        Optional[Any], pydantic.Field(alias="rejectUnauthorized")
+    ] = None
+
+    common_name_regex: Annotated[
+        Optional[Any], pydantic.Field(alias="commonNameRegex")
+    ] = None
+
+    min_version: Annotated[
+        Optional[MinimumTLSVersionTcpjson], pydantic.Field(alias="minVersion")
+    ] = None
+
+    max_version: Annotated[
+        Optional[MaximumTLSVersionTcpjson], pydantic.Field(alias="maxVersion")
+    ] = None
+
+
+class MetadatumTcpjsonTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class MetadatumTcpjson(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class AuthenticationMethodTcpjson(str, Enum):
+    r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
+
+    MANUAL = "manual"
+    SECRET = "secret"
+
+
+class CreateInputInputTcpjsonTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    port: float
+    r"""Port to listen on"""
+    type: NotRequired[CreateInputTypeTcpjson]
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ConnectionTcpjsonTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTcpjsonTypedDict]
+    host: NotRequired[str]
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+    tls: NotRequired[TLSSettingsServerSideTcpjsonTypedDict]
+    ip_whitelist_regex: NotRequired[str]
+    r"""Regex matching IP addresses that are allowed to establish a connection"""
+    max_active_cxn: NotRequired[float]
+    r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
+    socket_idle_timeout: NotRequired[float]
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. After this time, the connection will be closed. Leave at 0 for no inactive socket monitoring."""
+    socket_ending_max_wait: NotRequired[float]
+    r"""How long the server will wait after initiating a closure for a client to close its end of the connection. If the client doesn't close the connection within this time, the server will forcefully terminate the socket to prevent resource leaks and ensure efficient connection cleanup and system stability. Leave at 0 for no inactive socket monitoring."""
+    socket_max_lifespan: NotRequired[float]
+    r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
+    enable_proxy_header: NotRequired[bool]
+    r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
+    metadata: NotRequired[List[MetadatumTcpjsonTypedDict]]
+    r"""Fields to add to events from this input"""
+    enable_load_balancing: NotRequired[bool]
+    r"""Load balance traffic across all Worker Processes"""
+    auth_type: NotRequired[AuthenticationMethodTcpjson]
+    r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
+    description: NotRequired[str]
+    auth_token: NotRequired[str]
+    r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
+    text_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
+
+
+class CreateInputInputTcpjson(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    port: float
+    r"""Port to listen on"""
+
+    type: Optional[CreateInputTypeTcpjson] = None
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ConnectionTcpjson]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqTcpjson] = None
+
+    host: Optional[str] = "0.0.0.0"
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+
+    tls: Optional[TLSSettingsServerSideTcpjson] = None
+
+    ip_whitelist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipWhitelistRegex")
+    ] = "/.*/"
+    r"""Regex matching IP addresses that are allowed to establish a connection"""
+
+    max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
+        1000
+    )
+    r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
+
+    socket_idle_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="socketIdleTimeout")
+    ] = 0
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. After this time, the connection will be closed. Leave at 0 for no inactive socket monitoring."""
+
+    socket_ending_max_wait: Annotated[
+        Optional[float], pydantic.Field(alias="socketEndingMaxWait")
+    ] = 30
+    r"""How long the server will wait after initiating a closure for a client to close its end of the connection. If the client doesn't close the connection within this time, the server will forcefully terminate the socket to prevent resource leaks and ensure efficient connection cleanup and system stability. Leave at 0 for no inactive socket monitoring."""
+
+    socket_max_lifespan: Annotated[
+        Optional[float], pydantic.Field(alias="socketMaxLifespan")
+    ] = 0
+    r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
+
+    enable_proxy_header: Annotated[
+        Optional[bool], pydantic.Field(alias="enableProxyHeader")
+    ] = False
+    r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
+
+    metadata: Optional[List[MetadatumTcpjson]] = None
+    r"""Fields to add to events from this input"""
+
+    enable_load_balancing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableLoadBalancing")
+    ] = False
+    r"""Load balance traffic across all Worker Processes"""
+
+    auth_type: Annotated[
+        Optional[AuthenticationMethodTcpjson], pydantic.Field(alias="authType")
+    ] = AuthenticationMethodTcpjson.MANUAL
+    r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
+
+    description: Optional[str] = None
+
+    auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = ""
+    r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a stored text secret"""
+
+
+class CreateInputTypeCriblLakeHTTP(str, Enum):
+    CRIBL_LAKE_HTTP = "cribl_lake_http"
+
+
+class ConnectionCriblLakeHTTPTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class ConnectionCriblLakeHTTP(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class ModeCriblLakeHTTP(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CompressionCriblLakeHTTP(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class PqCriblLakeHTTPTypedDict(TypedDict):
+    mode: NotRequired[ModeCriblLakeHTTP]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CompressionCriblLakeHTTP]
+    r"""Codec to use to compress the persisted data"""
+
+
+class PqCriblLakeHTTP(BaseModel):
+    mode: Optional[ModeCriblLakeHTTP] = ModeCriblLakeHTTP.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CompressionCriblLakeHTTP] = CompressionCriblLakeHTTP.NONE
+    r"""Codec to use to compress the persisted data"""
+
+
+class MinimumTLSVersionCriblLakeHTTP(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class MaximumTLSVersionCriblLakeHTTP(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class TLSSettingsServerSideCriblLakeHTTPTypedDict(TypedDict):
+    disabled: NotRequired[bool]
+    certificate_name: NotRequired[str]
+    r"""The name of the predefined certificate"""
+    priv_key_path: NotRequired[str]
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+    passphrase: NotRequired[str]
+    r"""Passphrase to use to decrypt private key"""
+    cert_path: NotRequired[str]
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+    ca_path: NotRequired[str]
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+    request_cert: NotRequired[bool]
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+    reject_unauthorized: NotRequired[Any]
+    common_name_regex: NotRequired[Any]
+    min_version: NotRequired[MinimumTLSVersionCriblLakeHTTP]
+    max_version: NotRequired[MaximumTLSVersionCriblLakeHTTP]
+
+
+class TLSSettingsServerSideCriblLakeHTTP(BaseModel):
+    disabled: Optional[bool] = True
+
+    certificate_name: Annotated[
+        Optional[str], pydantic.Field(alias="certificateName")
+    ] = None
+    r"""The name of the predefined certificate"""
+
+    priv_key_path: Annotated[Optional[str], pydantic.Field(alias="privKeyPath")] = None
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+
+    passphrase: Optional[str] = None
+    r"""Passphrase to use to decrypt private key"""
+
+    cert_path: Annotated[Optional[str], pydantic.Field(alias="certPath")] = None
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    ca_path: Annotated[Optional[str], pydantic.Field(alias="caPath")] = None
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    request_cert: Annotated[Optional[bool], pydantic.Field(alias="requestCert")] = False
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+
+    reject_unauthorized: Annotated[
+        Optional[Any], pydantic.Field(alias="rejectUnauthorized")
+    ] = None
+
+    common_name_regex: Annotated[
+        Optional[Any], pydantic.Field(alias="commonNameRegex")
+    ] = None
+
+    min_version: Annotated[
+        Optional[MinimumTLSVersionCriblLakeHTTP], pydantic.Field(alias="minVersion")
+    ] = None
+
+    max_version: Annotated[
+        Optional[MaximumTLSVersionCriblLakeHTTP], pydantic.Field(alias="maxVersion")
+    ] = None
+
+
+class MetadatumCriblLakeHTTPTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class MetadatumCriblLakeHTTP(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CreateInputInputCriblLakeHTTPTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    port: float
+    r"""Port to listen on"""
+    type: NotRequired[CreateInputTypeCriblLakeHTTP]
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ConnectionCriblLakeHTTPTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqCriblLakeHTTPTypedDict]
+    host: NotRequired[str]
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+    auth_tokens: NotRequired[List[str]]
+    r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
+    tls: NotRequired[TLSSettingsServerSideCriblLakeHTTPTypedDict]
+    max_active_req: NotRequired[float]
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+    max_requests_per_socket: NotRequired[int]
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+    enable_proxy_header: NotRequired[bool]
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+    capture_headers: NotRequired[bool]
+    r"""Add request headers to events, in the __headers field"""
+    activity_log_sample_rate: NotRequired[float]
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+    request_timeout: NotRequired[float]
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+    socket_timeout: NotRequired[float]
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+    keep_alive_timeout: NotRequired[float]
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
+    enable_health_check: NotRequired[bool]
+    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
+    ip_allowlist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+    ip_denylist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+    metadata: NotRequired[List[MetadatumCriblLakeHTTPTypedDict]]
+    r"""Fields to add to events from this input"""
+    description: NotRequired[str]
+
+
+class CreateInputInputCriblLakeHTTP(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    port: float
+    r"""Port to listen on"""
+
+    type: Optional[CreateInputTypeCriblLakeHTTP] = None
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ConnectionCriblLakeHTTP]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqCriblLakeHTTP] = None
+
+    host: Optional[str] = "0.0.0.0"
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+
+    auth_tokens: Annotated[Optional[List[str]], pydantic.Field(alias="authTokens")] = (
+        None
+    )
+    r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
+
+    tls: Optional[TLSSettingsServerSideCriblLakeHTTP] = None
+
+    max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
+        256
+    )
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+
+    max_requests_per_socket: Annotated[
+        Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
+    ] = 0
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+
+    enable_proxy_header: Annotated[
+        Optional[bool], pydantic.Field(alias="enableProxyHeader")
+    ] = False
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+
+    capture_headers: Annotated[
+        Optional[bool], pydantic.Field(alias="captureHeaders")
+    ] = False
+    r"""Add request headers to events, in the __headers field"""
+
+    activity_log_sample_rate: Annotated[
+        Optional[float], pydantic.Field(alias="activityLogSampleRate")
+    ] = 100
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+
+    request_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="requestTimeout")
+    ] = 0
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+
+    socket_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="socketTimeout")
+    ] = 0
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+
+    keep_alive_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="keepAliveTimeout")
+    ] = 5
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
+
+    enable_health_check: Annotated[
+        Optional[bool], pydantic.Field(alias="enableHealthCheck")
+    ] = False
+    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
+
+    ip_allowlist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipAllowlistRegex")
+    ] = "/.*/"
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+
+    ip_denylist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipDenylistRegex")
+    ] = "/^$/"
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+
+    metadata: Optional[List[MetadatumCriblLakeHTTP]] = None
+    r"""Fields to add to events from this input"""
+
+    description: Optional[str] = None
+
+
+class CreateInputTypeCriblHTTP(str, Enum):
+    CRIBL_HTTP = "cribl_http"
+
+
+class ConnectionCriblHTTPTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class ConnectionCriblHTTP(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class ModeCriblHTTP(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CompressionCriblHTTP(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class PqCriblHTTPTypedDict(TypedDict):
+    mode: NotRequired[ModeCriblHTTP]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CompressionCriblHTTP]
+    r"""Codec to use to compress the persisted data"""
+
+
+class PqCriblHTTP(BaseModel):
+    mode: Optional[ModeCriblHTTP] = ModeCriblHTTP.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CompressionCriblHTTP] = CompressionCriblHTTP.NONE
+    r"""Codec to use to compress the persisted data"""
+
+
+class MinimumTLSVersionCriblHTTP(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class MaximumTLSVersionCriblHTTP(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class TLSSettingsServerSideCriblHTTPTypedDict(TypedDict):
+    disabled: NotRequired[bool]
+    certificate_name: NotRequired[str]
+    r"""The name of the predefined certificate"""
+    priv_key_path: NotRequired[str]
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+    passphrase: NotRequired[str]
+    r"""Passphrase to use to decrypt private key"""
+    cert_path: NotRequired[str]
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+    ca_path: NotRequired[str]
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+    request_cert: NotRequired[bool]
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+    reject_unauthorized: NotRequired[Any]
+    common_name_regex: NotRequired[Any]
+    min_version: NotRequired[MinimumTLSVersionCriblHTTP]
+    max_version: NotRequired[MaximumTLSVersionCriblHTTP]
+
+
+class TLSSettingsServerSideCriblHTTP(BaseModel):
+    disabled: Optional[bool] = True
+
+    certificate_name: Annotated[
+        Optional[str], pydantic.Field(alias="certificateName")
+    ] = None
+    r"""The name of the predefined certificate"""
+
+    priv_key_path: Annotated[Optional[str], pydantic.Field(alias="privKeyPath")] = None
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+
+    passphrase: Optional[str] = None
+    r"""Passphrase to use to decrypt private key"""
+
+    cert_path: Annotated[Optional[str], pydantic.Field(alias="certPath")] = None
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    ca_path: Annotated[Optional[str], pydantic.Field(alias="caPath")] = None
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    request_cert: Annotated[Optional[bool], pydantic.Field(alias="requestCert")] = False
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+
+    reject_unauthorized: Annotated[
+        Optional[Any], pydantic.Field(alias="rejectUnauthorized")
+    ] = None
+
+    common_name_regex: Annotated[
+        Optional[Any], pydantic.Field(alias="commonNameRegex")
+    ] = None
+
+    min_version: Annotated[
+        Optional[MinimumTLSVersionCriblHTTP], pydantic.Field(alias="minVersion")
+    ] = None
+
+    max_version: Annotated[
+        Optional[MaximumTLSVersionCriblHTTP], pydantic.Field(alias="maxVersion")
+    ] = None
+
+
+class MetadatumCriblHTTPTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class MetadatumCriblHTTP(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CreateInputInputCriblHTTPTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    port: float
+    r"""Port to listen on"""
+    type: NotRequired[CreateInputTypeCriblHTTP]
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ConnectionCriblHTTPTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqCriblHTTPTypedDict]
+    host: NotRequired[str]
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+    auth_tokens: NotRequired[List[str]]
+    r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
+    tls: NotRequired[TLSSettingsServerSideCriblHTTPTypedDict]
+    max_active_req: NotRequired[float]
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+    max_requests_per_socket: NotRequired[int]
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+    enable_proxy_header: NotRequired[bool]
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+    capture_headers: NotRequired[bool]
+    r"""Add request headers to events, in the __headers field"""
+    activity_log_sample_rate: NotRequired[float]
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+    request_timeout: NotRequired[float]
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+    socket_timeout: NotRequired[float]
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+    keep_alive_timeout: NotRequired[float]
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
+    enable_health_check: NotRequired[bool]
+    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
+    ip_allowlist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+    ip_denylist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+    metadata: NotRequired[List[MetadatumCriblHTTPTypedDict]]
+    r"""Fields to add to events from this input"""
+    description: NotRequired[str]
+
+
+class CreateInputInputCriblHTTP(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    port: float
+    r"""Port to listen on"""
+
+    type: Optional[CreateInputTypeCriblHTTP] = None
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ConnectionCriblHTTP]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqCriblHTTP] = None
+
+    host: Optional[str] = "0.0.0.0"
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+
+    auth_tokens: Annotated[Optional[List[str]], pydantic.Field(alias="authTokens")] = (
+        None
+    )
+    r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
+
+    tls: Optional[TLSSettingsServerSideCriblHTTP] = None
+
+    max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
+        256
+    )
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+
+    max_requests_per_socket: Annotated[
+        Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
+    ] = 0
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+
+    enable_proxy_header: Annotated[
+        Optional[bool], pydantic.Field(alias="enableProxyHeader")
+    ] = False
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+
+    capture_headers: Annotated[
+        Optional[bool], pydantic.Field(alias="captureHeaders")
+    ] = False
+    r"""Add request headers to events, in the __headers field"""
+
+    activity_log_sample_rate: Annotated[
+        Optional[float], pydantic.Field(alias="activityLogSampleRate")
+    ] = 100
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+
+    request_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="requestTimeout")
+    ] = 0
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+
+    socket_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="socketTimeout")
+    ] = 0
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+
+    keep_alive_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="keepAliveTimeout")
+    ] = 5
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
+
+    enable_health_check: Annotated[
+        Optional[bool], pydantic.Field(alias="enableHealthCheck")
+    ] = False
+    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
+
+    ip_allowlist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipAllowlistRegex")
+    ] = "/.*/"
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+
+    ip_denylist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipDenylistRegex")
+    ] = "/^$/"
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+
+    metadata: Optional[List[MetadatumCriblHTTP]] = None
+    r"""Fields to add to events from this input"""
+
+    description: Optional[str] = None
+
+
+class CreateInputTypeCriblTCP(str, Enum):
+    CRIBL_TCP = "cribl_tcp"
+
+
+class ConnectionCriblTCPTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class ConnectionCriblTCP(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class ModeCriblTCP(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CompressionCriblTCP(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class PqCriblTCPTypedDict(TypedDict):
+    mode: NotRequired[ModeCriblTCP]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CompressionCriblTCP]
+    r"""Codec to use to compress the persisted data"""
+
+
+class PqCriblTCP(BaseModel):
+    mode: Optional[ModeCriblTCP] = ModeCriblTCP.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CompressionCriblTCP] = CompressionCriblTCP.NONE
+    r"""Codec to use to compress the persisted data"""
+
+
+class MinimumTLSVersionCriblTCP(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class MaximumTLSVersionCriblTCP(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class TLSSettingsServerSideCriblTCPTypedDict(TypedDict):
+    disabled: NotRequired[bool]
+    certificate_name: NotRequired[str]
+    r"""The name of the predefined certificate"""
+    priv_key_path: NotRequired[str]
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+    passphrase: NotRequired[str]
+    r"""Passphrase to use to decrypt private key"""
+    cert_path: NotRequired[str]
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+    ca_path: NotRequired[str]
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+    request_cert: NotRequired[bool]
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+    reject_unauthorized: NotRequired[Any]
+    common_name_regex: NotRequired[Any]
+    min_version: NotRequired[MinimumTLSVersionCriblTCP]
+    max_version: NotRequired[MaximumTLSVersionCriblTCP]
+
+
+class TLSSettingsServerSideCriblTCP(BaseModel):
+    disabled: Optional[bool] = True
+
+    certificate_name: Annotated[
+        Optional[str], pydantic.Field(alias="certificateName")
+    ] = None
+    r"""The name of the predefined certificate"""
+
+    priv_key_path: Annotated[Optional[str], pydantic.Field(alias="privKeyPath")] = None
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+
+    passphrase: Optional[str] = None
+    r"""Passphrase to use to decrypt private key"""
+
+    cert_path: Annotated[Optional[str], pydantic.Field(alias="certPath")] = None
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    ca_path: Annotated[Optional[str], pydantic.Field(alias="caPath")] = None
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    request_cert: Annotated[Optional[bool], pydantic.Field(alias="requestCert")] = False
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+
+    reject_unauthorized: Annotated[
+        Optional[Any], pydantic.Field(alias="rejectUnauthorized")
+    ] = None
+
+    common_name_regex: Annotated[
+        Optional[Any], pydantic.Field(alias="commonNameRegex")
+    ] = None
+
+    min_version: Annotated[
+        Optional[MinimumTLSVersionCriblTCP], pydantic.Field(alias="minVersion")
+    ] = None
+
+    max_version: Annotated[
+        Optional[MaximumTLSVersionCriblTCP], pydantic.Field(alias="maxVersion")
+    ] = None
+
+
+class MetadatumCriblTCPTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class MetadatumCriblTCP(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CreateInputInputCriblTCPTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    port: float
+    r"""Port to listen on"""
+    type: NotRequired[CreateInputTypeCriblTCP]
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ConnectionCriblTCPTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqCriblTCPTypedDict]
+    host: NotRequired[str]
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+    tls: NotRequired[TLSSettingsServerSideCriblTCPTypedDict]
+    max_active_cxn: NotRequired[float]
+    r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
+    socket_idle_timeout: NotRequired[float]
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. After this time, the connection will be closed. Leave at 0 for no inactive socket monitoring."""
+    socket_ending_max_wait: NotRequired[float]
+    r"""How long the server will wait after initiating a closure for a client to close its end of the connection. If the client doesn't close the connection within this time, the server will forcefully terminate the socket to prevent resource leaks and ensure efficient connection cleanup and system stability. Leave at 0 for no inactive socket monitoring."""
+    socket_max_lifespan: NotRequired[float]
+    r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
+    enable_proxy_header: NotRequired[bool]
+    r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
+    metadata: NotRequired[List[MetadatumCriblTCPTypedDict]]
+    r"""Fields to add to events from this input"""
+    enable_load_balancing: NotRequired[bool]
+    r"""Load balance traffic across all Worker Processes"""
+    description: NotRequired[str]
+
+
+class CreateInputInputCriblTCP(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    port: float
+    r"""Port to listen on"""
+
+    type: Optional[CreateInputTypeCriblTCP] = None
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ConnectionCriblTCP]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqCriblTCP] = None
+
+    host: Optional[str] = "0.0.0.0"
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+
+    tls: Optional[TLSSettingsServerSideCriblTCP] = None
+
+    max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
+        1000
+    )
+    r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
+
+    socket_idle_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="socketIdleTimeout")
+    ] = 0
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. After this time, the connection will be closed. Leave at 0 for no inactive socket monitoring."""
+
+    socket_ending_max_wait: Annotated[
+        Optional[float], pydantic.Field(alias="socketEndingMaxWait")
+    ] = 30
+    r"""How long the server will wait after initiating a closure for a client to close its end of the connection. If the client doesn't close the connection within this time, the server will forcefully terminate the socket to prevent resource leaks and ensure efficient connection cleanup and system stability. Leave at 0 for no inactive socket monitoring."""
+
+    socket_max_lifespan: Annotated[
+        Optional[float], pydantic.Field(alias="socketMaxLifespan")
+    ] = 0
+    r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
+
+    enable_proxy_header: Annotated[
+        Optional[bool], pydantic.Field(alias="enableProxyHeader")
+    ] = False
+    r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
+
+    metadata: Optional[List[MetadatumCriblTCP]] = None
+    r"""Fields to add to events from this input"""
+
+    enable_load_balancing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableLoadBalancing")
+    ] = False
+    r"""Load balance traffic across all Worker Processes"""
+
+    description: Optional[str] = None
+
+
+class CreateInputTypeGooglePubsub(str, Enum):
+    GOOGLE_PUBSUB = "google_pubsub"
+
+
+class ConnectionGooglePubsubTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class ConnectionGooglePubsub(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class CreateInputModeGooglePubsub(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CreateInputCompressionGooglePubsub(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class PqGooglePubsubTypedDict(TypedDict):
+    mode: NotRequired[CreateInputModeGooglePubsub]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CreateInputCompressionGooglePubsub]
+    r"""Codec to use to compress the persisted data"""
+
+
+class PqGooglePubsub(BaseModel):
+    mode: Optional[CreateInputModeGooglePubsub] = CreateInputModeGooglePubsub.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CreateInputCompressionGooglePubsub] = (
+        CreateInputCompressionGooglePubsub.NONE
+    )
+    r"""Codec to use to compress the persisted data"""
+
+
+class CreateInputGoogleAuthenticationMethod(str, Enum):
+    r"""Choose Auto to use Google Application Default Credentials (ADC), Manual to enter Google service account credentials directly, or Secret to select or create a stored secret that references Google service account credentials."""
+
+    AUTO = "auto"
+    MANUAL = "manual"
+    SECRET = "secret"
+
+
+class MetadatumGooglePubsubTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class MetadatumGooglePubsub(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CreateInputInputGooglePubsubTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    topic_name: str
+    r"""ID of the topic to receive events from"""
+    subscription_name: str
+    r"""ID of the subscription to use when receiving events"""
+    type: NotRequired[CreateInputTypeGooglePubsub]
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ConnectionGooglePubsubTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqGooglePubsubTypedDict]
+    create_topic: NotRequired[bool]
+    r"""Create topic if it does not exist"""
+    create_subscription: NotRequired[bool]
+    r"""Create subscription if it does not exist"""
+    region: NotRequired[str]
+    r"""Region to retrieve messages from. Select 'default' to allow Google to auto-select the nearest region. When using ordered delivery, the selected region must be allowed by message storage policy."""
+    google_auth_method: NotRequired[CreateInputGoogleAuthenticationMethod]
+    r"""Choose Auto to use Google Application Default Credentials (ADC), Manual to enter Google service account credentials directly, or Secret to select or create a stored secret that references Google service account credentials."""
+    service_account_credentials: NotRequired[str]
+    r"""Contents of service account credentials (JSON keys) file downloaded from Google Cloud. To upload a file, click the upload button at this field's upper right."""
+    secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
+    max_backlog: NotRequired[float]
+    r"""If Destination exerts backpressure, this setting limits how many inbound events Stream will queue for processing before it stops retrieving events"""
+    concurrency: NotRequired[float]
+    r"""How many streams to pull messages from at one time. Doubling the value doubles the number of messages this Source pulls from the topic (if available), while consuming more CPU and memory. Defaults to 5."""
+    request_timeout: NotRequired[float]
+    r"""Pull request timeout, in milliseconds"""
+    metadata: NotRequired[List[MetadatumGooglePubsubTypedDict]]
+    r"""Fields to add to events from this input"""
+    description: NotRequired[str]
+    ordered_delivery: NotRequired[bool]
+    r"""Receive events in the order they were added to the queue. The process sending events must have ordering enabled."""
+
+
+class CreateInputInputGooglePubsub(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    topic_name: Annotated[str, pydantic.Field(alias="topicName")]
+    r"""ID of the topic to receive events from"""
+
+    subscription_name: Annotated[str, pydantic.Field(alias="subscriptionName")]
+    r"""ID of the subscription to use when receiving events"""
+
+    type: Optional[CreateInputTypeGooglePubsub] = None
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ConnectionGooglePubsub]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqGooglePubsub] = None
+
+    create_topic: Annotated[Optional[bool], pydantic.Field(alias="createTopic")] = False
+    r"""Create topic if it does not exist"""
+
+    create_subscription: Annotated[
+        Optional[bool], pydantic.Field(alias="createSubscription")
+    ] = True
+    r"""Create subscription if it does not exist"""
+
+    region: Optional[str] = None
+    r"""Region to retrieve messages from. Select 'default' to allow Google to auto-select the nearest region. When using ordered delivery, the selected region must be allowed by message storage policy."""
+
+    google_auth_method: Annotated[
+        Optional[CreateInputGoogleAuthenticationMethod],
+        pydantic.Field(alias="googleAuthMethod"),
+    ] = CreateInputGoogleAuthenticationMethod.MANUAL
+    r"""Choose Auto to use Google Application Default Credentials (ADC), Manual to enter Google service account credentials directly, or Secret to select or create a stored secret that references Google service account credentials."""
+
+    service_account_credentials: Annotated[
+        Optional[str], pydantic.Field(alias="serviceAccountCredentials")
+    ] = None
+    r"""Contents of service account credentials (JSON keys) file downloaded from Google Cloud. To upload a file, click the upload button at this field's upper right."""
+
+    secret: Optional[str] = None
+    r"""Select or create a stored text secret"""
+
+    max_backlog: Annotated[Optional[float], pydantic.Field(alias="maxBacklog")] = 1000
+    r"""If Destination exerts backpressure, this setting limits how many inbound events Stream will queue for processing before it stops retrieving events"""
+
+    concurrency: Optional[float] = 5
+    r"""How many streams to pull messages from at one time. Doubling the value doubles the number of messages this Source pulls from the topic (if available), while consuming more CPU and memory. Defaults to 5."""
+
+    request_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="requestTimeout")
+    ] = 60000
+    r"""Pull request timeout, in milliseconds"""
+
+    metadata: Optional[List[MetadatumGooglePubsub]] = None
+    r"""Fields to add to events from this input"""
+
+    description: Optional[str] = None
+
+    ordered_delivery: Annotated[
+        Optional[bool], pydantic.Field(alias="orderedDelivery")
+    ] = False
+    r"""Receive events in the order they were added to the queue. The process sending events must have ordering enabled."""
+
+
+class CreateInputTypeFirehose(str, Enum):
+    FIREHOSE = "firehose"
+
+
+class ConnectionFirehoseTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class ConnectionFirehose(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class ModeFirehose(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CompressionFirehose(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class PqFirehoseTypedDict(TypedDict):
+    mode: NotRequired[ModeFirehose]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CompressionFirehose]
+    r"""Codec to use to compress the persisted data"""
+
+
+class PqFirehose(BaseModel):
+    mode: Optional[ModeFirehose] = ModeFirehose.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CompressionFirehose] = CompressionFirehose.NONE
+    r"""Codec to use to compress the persisted data"""
+
+
+class MinimumTLSVersionFirehose(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class MaximumTLSVersionFirehose(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class TLSSettingsServerSideFirehoseTypedDict(TypedDict):
+    disabled: NotRequired[bool]
+    certificate_name: NotRequired[str]
+    r"""The name of the predefined certificate"""
+    priv_key_path: NotRequired[str]
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+    passphrase: NotRequired[str]
+    r"""Passphrase to use to decrypt private key"""
+    cert_path: NotRequired[str]
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+    ca_path: NotRequired[str]
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+    request_cert: NotRequired[bool]
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+    reject_unauthorized: NotRequired[Any]
+    common_name_regex: NotRequired[Any]
+    min_version: NotRequired[MinimumTLSVersionFirehose]
+    max_version: NotRequired[MaximumTLSVersionFirehose]
+
+
+class TLSSettingsServerSideFirehose(BaseModel):
+    disabled: Optional[bool] = True
+
+    certificate_name: Annotated[
+        Optional[str], pydantic.Field(alias="certificateName")
+    ] = None
+    r"""The name of the predefined certificate"""
+
+    priv_key_path: Annotated[Optional[str], pydantic.Field(alias="privKeyPath")] = None
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+
+    passphrase: Optional[str] = None
+    r"""Passphrase to use to decrypt private key"""
+
+    cert_path: Annotated[Optional[str], pydantic.Field(alias="certPath")] = None
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    ca_path: Annotated[Optional[str], pydantic.Field(alias="caPath")] = None
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    request_cert: Annotated[Optional[bool], pydantic.Field(alias="requestCert")] = False
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+
+    reject_unauthorized: Annotated[
+        Optional[Any], pydantic.Field(alias="rejectUnauthorized")
+    ] = None
+
+    common_name_regex: Annotated[
+        Optional[Any], pydantic.Field(alias="commonNameRegex")
+    ] = None
+
+    min_version: Annotated[
+        Optional[MinimumTLSVersionFirehose], pydantic.Field(alias="minVersion")
+    ] = None
+
+    max_version: Annotated[
+        Optional[MaximumTLSVersionFirehose], pydantic.Field(alias="maxVersion")
+    ] = None
+
+
+class MetadatumFirehoseTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class MetadatumFirehose(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CreateInputInputFirehoseTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    port: float
+    r"""Port to listen on"""
+    type: NotRequired[CreateInputTypeFirehose]
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ConnectionFirehoseTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqFirehoseTypedDict]
+    host: NotRequired[str]
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+    auth_tokens: NotRequired[List[str]]
+    r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
+    tls: NotRequired[TLSSettingsServerSideFirehoseTypedDict]
+    max_active_req: NotRequired[float]
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+    max_requests_per_socket: NotRequired[int]
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+    enable_proxy_header: NotRequired[bool]
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+    capture_headers: NotRequired[bool]
+    r"""Add request headers to events, in the __headers field"""
+    activity_log_sample_rate: NotRequired[float]
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+    request_timeout: NotRequired[float]
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+    socket_timeout: NotRequired[float]
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+    keep_alive_timeout: NotRequired[float]
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
+    enable_health_check: NotRequired[bool]
+    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
+    ip_allowlist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+    ip_denylist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+    metadata: NotRequired[List[MetadatumFirehoseTypedDict]]
+    r"""Fields to add to events from this input"""
+    description: NotRequired[str]
+
+
+class CreateInputInputFirehose(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    port: float
+    r"""Port to listen on"""
+
+    type: Optional[CreateInputTypeFirehose] = None
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ConnectionFirehose]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqFirehose] = None
+
+    host: Optional[str] = "0.0.0.0"
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+
+    auth_tokens: Annotated[Optional[List[str]], pydantic.Field(alias="authTokens")] = (
+        None
+    )
+    r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
+
+    tls: Optional[TLSSettingsServerSideFirehose] = None
+
+    max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
+        256
+    )
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+
+    max_requests_per_socket: Annotated[
+        Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
+    ] = 0
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+
+    enable_proxy_header: Annotated[
+        Optional[bool], pydantic.Field(alias="enableProxyHeader")
+    ] = False
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+
+    capture_headers: Annotated[
+        Optional[bool], pydantic.Field(alias="captureHeaders")
+    ] = False
+    r"""Add request headers to events, in the __headers field"""
+
+    activity_log_sample_rate: Annotated[
+        Optional[float], pydantic.Field(alias="activityLogSampleRate")
+    ] = 100
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+
+    request_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="requestTimeout")
+    ] = 0
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+
+    socket_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="socketTimeout")
+    ] = 0
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+
+    keep_alive_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="keepAliveTimeout")
+    ] = 5
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
+
+    enable_health_check: Annotated[
+        Optional[bool], pydantic.Field(alias="enableHealthCheck")
+    ] = False
+    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
+
+    ip_allowlist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipAllowlistRegex")
+    ] = "/.*/"
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+
+    ip_denylist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipDenylistRegex")
+    ] = "/^$/"
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+
+    metadata: Optional[List[MetadatumFirehose]] = None
+    r"""Fields to add to events from this input"""
+
+    description: Optional[str] = None
+
+
+class CreateInputInputExecType(str, Enum):
+    EXEC = "exec"
+
+
+class CreateInputInputExecConnectionTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class CreateInputInputExecConnection(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class CreateInputInputExecMode(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CreateInputInputExecCompression(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class CreateInputInputExecPqTypedDict(TypedDict):
+    mode: NotRequired[CreateInputInputExecMode]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CreateInputInputExecCompression]
+    r"""Codec to use to compress the persisted data"""
+
+
+class CreateInputInputExecPq(BaseModel):
+    mode: Optional[CreateInputInputExecMode] = CreateInputInputExecMode.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CreateInputInputExecCompression] = (
+        CreateInputInputExecCompression.NONE
+    )
+    r"""Codec to use to compress the persisted data"""
+
+
+class CreateInputScheduleType(str, Enum):
+    r"""Select a schedule type; either an interval (in seconds) or a cron-style schedule."""
+
+    INTERVAL = "interval"
+    CRON_SCHEDULE = "cronSchedule"
+
+
+class CreateInputInputExecMetadatumTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CreateInputInputExecMetadatum(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CreateInputInputExecTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    type: CreateInputInputExecType
+    command: str
+    r"""Command to execute; supports Bourne shell (or CMD on Windows) syntax"""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[CreateInputInputExecConnectionTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[CreateInputInputExecPqTypedDict]
+    retries: NotRequired[float]
+    r"""Maximum number of retry attempts in the event that the command fails"""
+    schedule_type: NotRequired[CreateInputScheduleType]
+    r"""Select a schedule type; either an interval (in seconds) or a cron-style schedule."""
+    breaker_rulesets: NotRequired[List[str]]
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+    stale_channel_flush_ms: NotRequired[float]
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+    metadata: NotRequired[List[CreateInputInputExecMetadatumTypedDict]]
+    r"""Fields to add to events from this input"""
+    description: NotRequired[str]
+    interval: NotRequired[float]
+    r"""Interval between command executions in seconds."""
+    cron_schedule: NotRequired[str]
+    r"""Cron schedule to execute the command on."""
+
+
+class CreateInputInputExec(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    type: CreateInputInputExecType
+
+    command: str
+    r"""Command to execute; supports Bourne shell (or CMD on Windows) syntax"""
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[CreateInputInputExecConnection]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[CreateInputInputExecPq] = None
+
+    retries: Optional[float] = 10
+    r"""Maximum number of retry attempts in the event that the command fails"""
+
+    schedule_type: Annotated[
+        Optional[CreateInputScheduleType], pydantic.Field(alias="scheduleType")
+    ] = CreateInputScheduleType.INTERVAL
+    r"""Select a schedule type; either an interval (in seconds) or a cron-style schedule."""
+
+    breaker_rulesets: Annotated[
+        Optional[List[str]], pydantic.Field(alias="breakerRulesets")
+    ] = None
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+
+    stale_channel_flush_ms: Annotated[
+        Optional[float], pydantic.Field(alias="staleChannelFlushMs")
+    ] = 10000
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+
+    metadata: Optional[List[CreateInputInputExecMetadatum]] = None
+    r"""Fields to add to events from this input"""
+
+    description: Optional[str] = None
+
+    interval: Optional[float] = 60
+    r"""Interval between command executions in seconds."""
+
+    cron_schedule: Annotated[Optional[str], pydantic.Field(alias="cronSchedule")] = (
+        "* * * * *"
+    )
+    r"""Cron schedule to execute the command on."""
+
+
+class CreateInputTypeEventhub(str, Enum):
+    EVENTHUB = "eventhub"
+
+
+class ConnectionEventhubTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class ConnectionEventhub(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class ModeEventhub(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CompressionEventhub(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class PqEventhubTypedDict(TypedDict):
+    mode: NotRequired[ModeEventhub]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CompressionEventhub]
+    r"""Codec to use to compress the persisted data"""
+
+
+class PqEventhub(BaseModel):
+    mode: Optional[ModeEventhub] = ModeEventhub.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CompressionEventhub] = CompressionEventhub.NONE
+    r"""Codec to use to compress the persisted data"""
+
+
+class SASLMechanismEventhub(str, Enum):
+    PLAIN = "plain"
+    OAUTHBEARER = "oauthbearer"
+
+
+class AuthenticationEventhubTypedDict(TypedDict):
+    r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
+
+    disabled: NotRequired[bool]
+    mechanism: NotRequired[SASLMechanismEventhub]
+
+
+class AuthenticationEventhub(BaseModel):
+    r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
+
+    disabled: Optional[bool] = False
+
+    mechanism: Optional[SASLMechanismEventhub] = SASLMechanismEventhub.PLAIN
+
+
+class TLSSettingsClientSideEventhubTypedDict(TypedDict):
+    disabled: NotRequired[bool]
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates that are not authorized by a CA in the CA certificate path, or by another trusted CA (such as the system's)"""
+
+
+class TLSSettingsClientSideEventhub(BaseModel):
+    disabled: Optional[bool] = False
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = True
+    r"""Reject certificates that are not authorized by a CA in the CA certificate path, or by another trusted CA (such as the system's)"""
+
+
+class MetadatumEventhubTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class MetadatumEventhub(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CreateInputInputEventhubTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    brokers: List[str]
+    r"""List of Event Hubs Kafka brokers to connect to (example: yourdomain.servicebus.windows.net:9093). The hostname can be found in the host portion of the primary or secondary connection string in Shared Access Policies."""
+    topics: List[str]
+    r"""The name of the Event Hub (Kafka topic) to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Event Hubs Source to only a single topic."""
+    type: NotRequired[CreateInputTypeEventhub]
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ConnectionEventhubTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqEventhubTypedDict]
+    group_id: NotRequired[str]
+    r"""The consumer group this instance belongs to. Default is 'Cribl'."""
+    from_beginning: NotRequired[bool]
+    r"""Start reading from earliest available data; relevant only during initial subscription"""
+    connection_timeout: NotRequired[float]
+    r"""Maximum time to wait for a connection to complete successfully"""
+    request_timeout: NotRequired[float]
+    r"""Maximum time to wait for Kafka to respond to a request"""
+    max_retries: NotRequired[float]
+    r"""If messages are failing, you can set the maximum number of retries as high as 100 to prevent loss of data"""
+    max_back_off: NotRequired[float]
+    r"""The maximum wait time for a retry, in milliseconds. Default (and minimum) is 30,000 ms (30 seconds); maximum is 180,000 ms (180 seconds)."""
+    initial_backoff: NotRequired[float]
+    r"""Initial value used to calculate the retry, in milliseconds. Maximum is 600,000 ms (10 minutes)."""
+    backoff_rate: NotRequired[float]
+    r"""Set the backoff multiplier (2-20) to control the retry frequency for failed messages. For faster retries, use a lower multiplier. For slower retries with more delay between attempts, use a higher multiplier. The multiplier is used in an exponential backoff formula; see the Kafka [documentation](https://kafka.js.org/docs/retry-detailed) for details."""
+    authentication_timeout: NotRequired[float]
+    r"""Maximum time to wait for Kafka to respond to an authentication request"""
+    reauthentication_threshold: NotRequired[float]
+    r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
+    sasl: NotRequired[AuthenticationEventhubTypedDict]
+    r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
+    tls: NotRequired[TLSSettingsClientSideEventhubTypedDict]
+    session_timeout: NotRequired[float]
+    r"""Timeout (session.timeout.ms in Kafka domain) used to detect client failures when using Kafka's group-management facilities.
+    If the client sends no heartbeats to the broker before the timeout expires, the broker will remove the client from the group and initiate a rebalance.
+    Value must be lower than rebalanceTimeout.
+    See details [here](https://github.com/Azure/azure-event-hubs-for-kafka/blob/master/CONFIGURATION.md).
+    """
+    rebalance_timeout: NotRequired[float]
+    r"""Maximum allowed time (rebalance.timeout.ms in Kafka domain) for each worker to join the group after a rebalance begins.
+    If the timeout is exceeded, the coordinator broker will remove the worker from the group.
+    See [Recommended configurations](https://github.com/Azure/azure-event-hubs-for-kafka/blob/master/CONFIGURATION.md).
+    """
+    heartbeat_interval: NotRequired[float]
+    r"""Expected time (heartbeat.interval.ms in Kafka domain) between heartbeats to the consumer coordinator when using Kafka's group-management facilities.
+    Value must be lower than sessionTimeout and typically should not exceed 1/3 of the sessionTimeout value.
+    See [Recommended configurations](https://github.com/Azure/azure-event-hubs-for-kafka/blob/master/CONFIGURATION.md).
+    """
+    auto_commit_interval: NotRequired[float]
+    r"""How often to commit offsets. If both this and Offset commit threshold are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
+    auto_commit_threshold: NotRequired[float]
+    r"""How many events are needed to trigger an offset commit. If both this and Offset commit interval are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
+    max_bytes_per_partition: NotRequired[float]
+    r"""Maximum amount of data that Kafka will return per partition, per fetch request. Must equal or exceed the maximum message size (maxBytesPerPartition) that Kafka is configured to allow. Otherwise, @{product} can get stuck trying to retrieve messages. Defaults to 1048576 (1 MB)."""
+    max_bytes: NotRequired[float]
+    r"""Maximum number of bytes that Kafka will return per fetch request. Defaults to 10485760 (10 MB)."""
+    max_socket_errors: NotRequired[float]
+    r"""Maximum number of network errors before the consumer re-creates a socket"""
+    minimize_duplicates: NotRequired[bool]
+    r"""Minimize duplicate events by starting only one consumer for each topic partition"""
+    metadata: NotRequired[List[MetadatumEventhubTypedDict]]
+    r"""Fields to add to events from this input"""
+    description: NotRequired[str]
+
+
+class CreateInputInputEventhub(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    brokers: List[str]
+    r"""List of Event Hubs Kafka brokers to connect to (example: yourdomain.servicebus.windows.net:9093). The hostname can be found in the host portion of the primary or secondary connection string in Shared Access Policies."""
+
+    topics: List[str]
+    r"""The name of the Event Hub (Kafka topic) to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Event Hubs Source to only a single topic."""
+
+    type: Optional[CreateInputTypeEventhub] = None
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ConnectionEventhub]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqEventhub] = None
+
+    group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = "Cribl"
+    r"""The consumer group this instance belongs to. Default is 'Cribl'."""
+
+    from_beginning: Annotated[Optional[bool], pydantic.Field(alias="fromBeginning")] = (
+        True
+    )
+    r"""Start reading from earliest available data; relevant only during initial subscription"""
+
+    connection_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="connectionTimeout")
+    ] = 10000
+    r"""Maximum time to wait for a connection to complete successfully"""
+
+    request_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="requestTimeout")
+    ] = 60000
+    r"""Maximum time to wait for Kafka to respond to a request"""
+
+    max_retries: Annotated[Optional[float], pydantic.Field(alias="maxRetries")] = 5
+    r"""If messages are failing, you can set the maximum number of retries as high as 100 to prevent loss of data"""
+
+    max_back_off: Annotated[Optional[float], pydantic.Field(alias="maxBackOff")] = 30000
+    r"""The maximum wait time for a retry, in milliseconds. Default (and minimum) is 30,000 ms (30 seconds); maximum is 180,000 ms (180 seconds)."""
+
+    initial_backoff: Annotated[
+        Optional[float], pydantic.Field(alias="initialBackoff")
+    ] = 300
+    r"""Initial value used to calculate the retry, in milliseconds. Maximum is 600,000 ms (10 minutes)."""
+
+    backoff_rate: Annotated[Optional[float], pydantic.Field(alias="backoffRate")] = 2
+    r"""Set the backoff multiplier (2-20) to control the retry frequency for failed messages. For faster retries, use a lower multiplier. For slower retries with more delay between attempts, use a higher multiplier. The multiplier is used in an exponential backoff formula; see the Kafka [documentation](https://kafka.js.org/docs/retry-detailed) for details."""
+
+    authentication_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="authenticationTimeout")
+    ] = 10000
+    r"""Maximum time to wait for Kafka to respond to an authentication request"""
+
+    reauthentication_threshold: Annotated[
+        Optional[float], pydantic.Field(alias="reauthenticationThreshold")
+    ] = 10000
+    r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
+
+    sasl: Optional[AuthenticationEventhub] = None
+    r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
+
+    tls: Optional[TLSSettingsClientSideEventhub] = None
+
+    session_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="sessionTimeout")
+    ] = 30000
+    r"""Timeout (session.timeout.ms in Kafka domain) used to detect client failures when using Kafka's group-management facilities.
+    If the client sends no heartbeats to the broker before the timeout expires, the broker will remove the client from the group and initiate a rebalance.
+    Value must be lower than rebalanceTimeout.
+    See details [here](https://github.com/Azure/azure-event-hubs-for-kafka/blob/master/CONFIGURATION.md).
+    """
+
+    rebalance_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="rebalanceTimeout")
+    ] = 60000
+    r"""Maximum allowed time (rebalance.timeout.ms in Kafka domain) for each worker to join the group after a rebalance begins.
+    If the timeout is exceeded, the coordinator broker will remove the worker from the group.
+    See [Recommended configurations](https://github.com/Azure/azure-event-hubs-for-kafka/blob/master/CONFIGURATION.md).
+    """
+
+    heartbeat_interval: Annotated[
+        Optional[float], pydantic.Field(alias="heartbeatInterval")
+    ] = 3000
+    r"""Expected time (heartbeat.interval.ms in Kafka domain) between heartbeats to the consumer coordinator when using Kafka's group-management facilities.
+    Value must be lower than sessionTimeout and typically should not exceed 1/3 of the sessionTimeout value.
+    See [Recommended configurations](https://github.com/Azure/azure-event-hubs-for-kafka/blob/master/CONFIGURATION.md).
+    """
+
+    auto_commit_interval: Annotated[
+        Optional[float], pydantic.Field(alias="autoCommitInterval")
+    ] = None
+    r"""How often to commit offsets. If both this and Offset commit threshold are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
+
+    auto_commit_threshold: Annotated[
+        Optional[float], pydantic.Field(alias="autoCommitThreshold")
+    ] = None
+    r"""How many events are needed to trigger an offset commit. If both this and Offset commit interval are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
+
+    max_bytes_per_partition: Annotated[
+        Optional[float], pydantic.Field(alias="maxBytesPerPartition")
+    ] = 1048576
+    r"""Maximum amount of data that Kafka will return per partition, per fetch request. Must equal or exceed the maximum message size (maxBytesPerPartition) that Kafka is configured to allow. Otherwise, @{product} can get stuck trying to retrieve messages. Defaults to 1048576 (1 MB)."""
+
+    max_bytes: Annotated[Optional[float], pydantic.Field(alias="maxBytes")] = 10485760
+    r"""Maximum number of bytes that Kafka will return per fetch request. Defaults to 10485760 (10 MB)."""
+
+    max_socket_errors: Annotated[
+        Optional[float], pydantic.Field(alias="maxSocketErrors")
+    ] = 0
+    r"""Maximum number of network errors before the consumer re-creates a socket"""
+
+    minimize_duplicates: Annotated[
+        Optional[bool], pydantic.Field(alias="minimizeDuplicates")
+    ] = False
+    r"""Minimize duplicate events by starting only one consumer for each topic partition"""
+
+    metadata: Optional[List[MetadatumEventhub]] = None
+    r"""Fields to add to events from this input"""
+
+    description: Optional[str] = None
+
+
+class CreateInputTypeOffice365MsgTrace(str, Enum):
+    OFFICE365_MSG_TRACE = "office365_msg_trace"
+
+
+class ConnectionOffice365MsgTraceTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class ConnectionOffice365MsgTrace(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class ModeOffice365MsgTrace(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CompressionOffice365MsgTrace(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class PqOffice365MsgTraceTypedDict(TypedDict):
+    mode: NotRequired[ModeOffice365MsgTrace]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CompressionOffice365MsgTrace]
+    r"""Codec to use to compress the persisted data"""
+
+
+class PqOffice365MsgTrace(BaseModel):
+    mode: Optional[ModeOffice365MsgTrace] = ModeOffice365MsgTrace.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CompressionOffice365MsgTrace] = CompressionOffice365MsgTrace.NONE
+    r"""Codec to use to compress the persisted data"""
+
+
+class AuthenticationMethodOffice365MsgTrace(str, Enum):
+    r"""Select authentication method."""
+
+    MANUAL = "manual"
+    SECRET = "secret"
+    OAUTH = "oauth"
+    OAUTH_SECRET = "oauthSecret"
+    OAUTH_CERT = "oauthCert"
+
+
+class LogLevelOffice365MsgTrace(str, Enum):
+    r"""Log Level (verbosity) for collection runtime behavior."""
+
+    ERROR = "error"
+    WARN = "warn"
+    INFO = "info"
+    DEBUG = "debug"
+    SILLY = "silly"
+
+
+class MetadatumOffice365MsgTraceTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class MetadatumOffice365MsgTrace(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class RetryTypeOffice365MsgTrace(str, Enum):
+    r"""The algorithm to use when performing HTTP retries"""
+
+    NONE = "none"
+    BACKOFF = "backoff"
+    STATIC = "static"
+
+
+class RetryRulesOffice365MsgTraceTypedDict(TypedDict):
+    type: NotRequired[RetryTypeOffice365MsgTrace]
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[float]
+    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""The maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
+    codes: NotRequired[List[float]]
+    r"""List of http codes that trigger a retry. Leave empty to use the default list of 429, 500, and 503."""
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
+
+
+class RetryRulesOffice365MsgTrace(BaseModel):
+    type: Optional[RetryTypeOffice365MsgTrace] = RetryTypeOffice365MsgTrace.BACKOFF
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[float] = 1000
+    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
+
+    limit: Optional[float] = 5
+    r"""The maximum number of times to retry a failed HTTP request"""
+
+    multiplier: Optional[float] = 2
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
+
+    codes: Optional[List[float]] = None
+    r"""List of http codes that trigger a retry. Leave empty to use the default list of 429, 500, and 503."""
+
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        True
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+
+    retry_connect_timeout: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
+    ] = False
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+
+    retry_connect_reset: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
+    ] = False
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
+
+
+class SubscriptionPlanOffice365MsgTrace(str, Enum):
+    r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
+
+    ENTERPRISE_GCC = "enterprise_gcc"
+    GCC = "gcc"
+    GCC_HIGH = "gcc_high"
+    DOD = "dod"
+
+
+class CreateInputCertOptionsTypedDict(TypedDict):
+    priv_key_path: str
+    r"""Path to the private key to use. Key should be in PEM format. Can reference $ENV_VARS."""
+    cert_path: str
+    r"""Path to the certificate to use. Certificate should be in PEM format. Can reference $ENV_VARS."""
+    certificate_name: NotRequired[str]
+    r"""The name of the predefined certificate."""
+    passphrase: NotRequired[str]
+    r"""Passphrase to use to decrypt the private key."""
+
+
+class CreateInputCertOptions(BaseModel):
+    priv_key_path: Annotated[str, pydantic.Field(alias="privKeyPath")]
+    r"""Path to the private key to use. Key should be in PEM format. Can reference $ENV_VARS."""
+
+    cert_path: Annotated[str, pydantic.Field(alias="certPath")]
+    r"""Path to the certificate to use. Certificate should be in PEM format. Can reference $ENV_VARS."""
+
+    certificate_name: Annotated[
+        Optional[str], pydantic.Field(alias="certificateName")
+    ] = None
+    r"""The name of the predefined certificate."""
+
+    passphrase: Optional[str] = None
+    r"""Passphrase to use to decrypt the private key."""
+
+
+class CreateInputInputOffice365MsgTraceTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    type: NotRequired[CreateInputTypeOffice365MsgTrace]
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ConnectionOffice365MsgTraceTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqOffice365MsgTraceTypedDict]
+    url: NotRequired[str]
+    r"""URL to use when retrieving report data."""
+    interval: NotRequired[float]
+    r"""How often (in minutes) to run the report. Must divide evenly into 60 minutes to create a predictable schedule, or Save will fail."""
+    start_date: NotRequired[str]
+    r"""Backward offset for the search range's head. (E.g.: -3h@h) Message Trace data is delayed; this parameter (with Date range end) compensates for delay and gaps."""
+    end_date: NotRequired[str]
+    r"""Backward offset for the search range's tail. (E.g.: -2h@h) Message Trace data is delayed; this parameter (with Date range start) compensates for delay and gaps."""
+    timeout: NotRequired[float]
+    r"""HTTP request inactivity timeout. Maximum is 2400 (40 minutes); enter 0 to wait indefinitely."""
+    disable_time_filter: NotRequired[bool]
+    r"""Disables time filtering of events when a date range is specified."""
+    auth_type: NotRequired[AuthenticationMethodOffice365MsgTrace]
+    r"""Select authentication method."""
+    reschedule_dropped_tasks: NotRequired[bool]
+    r"""Reschedule tasks that failed with non-fatal errors"""
+    max_task_reschedule: NotRequired[float]
+    r"""Maximum number of times a task can be rescheduled"""
+    log_level: NotRequired[LogLevelOffice365MsgTrace]
+    r"""Log Level (verbosity) for collection runtime behavior."""
+    job_timeout: NotRequired[str]
+    r"""Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time."""
+    keep_alive_time: NotRequired[float]
+    r"""How often workers should check in with the scheduler to keep job subscription alive"""
+    max_missed_keep_alives: NotRequired[float]
+    r"""The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked."""
+    ttl: NotRequired[str]
+    r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
+    ignore_group_jobs_limit: NotRequired[bool]
+    r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
+    metadata: NotRequired[List[MetadatumOffice365MsgTraceTypedDict]]
+    r"""Fields to add to events from this input"""
+    retry_rules: NotRequired[RetryRulesOffice365MsgTraceTypedDict]
+    description: NotRequired[str]
+    username: NotRequired[str]
+    r"""Username to run Message Trace API call."""
+    password: NotRequired[str]
+    r"""Password to run Message Trace API call."""
+    credentials_secret: NotRequired[str]
+    r"""Select or create a secret that references your credentials."""
+    client_secret: NotRequired[str]
+    r"""client_secret to pass in the OAuth request parameter."""
+    tenant_id: NotRequired[str]
+    r"""Directory ID (tenant identifier) in Azure Active Directory."""
+    client_id: NotRequired[str]
+    r"""client_id to pass in the OAuth request parameter."""
+    resource: NotRequired[str]
+    r"""Resource to pass in the OAuth request parameter."""
+    plan_type: NotRequired[SubscriptionPlanOffice365MsgTrace]
+    r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
+    text_secret: NotRequired[str]
+    r"""Select or create a secret that references your client_secret to pass in the OAuth request parameter."""
+    cert_options: NotRequired[CreateInputCertOptionsTypedDict]
+
+
+class CreateInputInputOffice365MsgTrace(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    type: Optional[CreateInputTypeOffice365MsgTrace] = None
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ConnectionOffice365MsgTrace]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqOffice365MsgTrace] = None
+
+    url: Optional[str] = (
+        "https://reports.office365.com/ecp/reportingwebservice/reporting.svc/MessageTrace"
+    )
+    r"""URL to use when retrieving report data."""
+
+    interval: Optional[float] = 60
+    r"""How often (in minutes) to run the report. Must divide evenly into 60 minutes to create a predictable schedule, or Save will fail."""
+
+    start_date: Annotated[Optional[str], pydantic.Field(alias="startDate")] = None
+    r"""Backward offset for the search range's head. (E.g.: -3h@h) Message Trace data is delayed; this parameter (with Date range end) compensates for delay and gaps."""
+
+    end_date: Annotated[Optional[str], pydantic.Field(alias="endDate")] = None
+    r"""Backward offset for the search range's tail. (E.g.: -2h@h) Message Trace data is delayed; this parameter (with Date range start) compensates for delay and gaps."""
+
+    timeout: Optional[float] = 300
+    r"""HTTP request inactivity timeout. Maximum is 2400 (40 minutes); enter 0 to wait indefinitely."""
+
+    disable_time_filter: Annotated[
+        Optional[bool], pydantic.Field(alias="disableTimeFilter")
+    ] = True
+    r"""Disables time filtering of events when a date range is specified."""
+
+    auth_type: Annotated[
+        Optional[AuthenticationMethodOffice365MsgTrace],
+        pydantic.Field(alias="authType"),
+    ] = AuthenticationMethodOffice365MsgTrace.OAUTH
+    r"""Select authentication method."""
+
+    reschedule_dropped_tasks: Annotated[
+        Optional[bool], pydantic.Field(alias="rescheduleDroppedTasks")
+    ] = True
+    r"""Reschedule tasks that failed with non-fatal errors"""
+
+    max_task_reschedule: Annotated[
+        Optional[float], pydantic.Field(alias="maxTaskReschedule")
+    ] = 1
+    r"""Maximum number of times a task can be rescheduled"""
+
+    log_level: Annotated[
+        Optional[LogLevelOffice365MsgTrace], pydantic.Field(alias="logLevel")
+    ] = LogLevelOffice365MsgTrace.INFO
+    r"""Log Level (verbosity) for collection runtime behavior."""
+
+    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = "0"
+    r"""Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time."""
+
+    keep_alive_time: Annotated[
+        Optional[float], pydantic.Field(alias="keepAliveTime")
+    ] = 30
+    r"""How often workers should check in with the scheduler to keep job subscription alive"""
+
+    max_missed_keep_alives: Annotated[
+        Optional[float], pydantic.Field(alias="maxMissedKeepAlives")
+    ] = 3
+    r"""The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked."""
+
+    ttl: Optional[str] = "4h"
+    r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
+
+    ignore_group_jobs_limit: Annotated[
+        Optional[bool], pydantic.Field(alias="ignoreGroupJobsLimit")
+    ] = False
+    r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
+
+    metadata: Optional[List[MetadatumOffice365MsgTrace]] = None
+    r"""Fields to add to events from this input"""
+
+    retry_rules: Annotated[
+        Optional[RetryRulesOffice365MsgTrace], pydantic.Field(alias="retryRules")
+    ] = None
+
+    description: Optional[str] = None
+
+    username: Optional[str] = None
+    r"""Username to run Message Trace API call."""
+
+    password: Optional[str] = None
+    r"""Password to run Message Trace API call."""
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a secret that references your credentials."""
+
+    client_secret: Annotated[Optional[str], pydantic.Field(alias="clientSecret")] = None
+    r"""client_secret to pass in the OAuth request parameter."""
+
+    tenant_id: Annotated[Optional[str], pydantic.Field(alias="tenantId")] = None
+    r"""Directory ID (tenant identifier) in Azure Active Directory."""
+
+    client_id: Annotated[Optional[str], pydantic.Field(alias="clientId")] = None
+    r"""client_id to pass in the OAuth request parameter."""
+
+    resource: Optional[str] = "https://outlook.office365.com"
+    r"""Resource to pass in the OAuth request parameter."""
+
+    plan_type: Annotated[
+        Optional[SubscriptionPlanOffice365MsgTrace], pydantic.Field(alias="planType")
+    ] = SubscriptionPlanOffice365MsgTrace.ENTERPRISE_GCC
+    r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a secret that references your client_secret to pass in the OAuth request parameter."""
+
+    cert_options: Annotated[
+        Optional[CreateInputCertOptions], pydantic.Field(alias="certOptions")
+    ] = None
+
+
+class CreateInputTypeOffice365Service(str, Enum):
+    OFFICE365_SERVICE = "office365_service"
+
+
+class ConnectionOffice365ServiceTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class ConnectionOffice365Service(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class ModeOffice365Service(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CompressionOffice365Service(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class PqOffice365ServiceTypedDict(TypedDict):
+    mode: NotRequired[ModeOffice365Service]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CompressionOffice365Service]
+    r"""Codec to use to compress the persisted data"""
+
+
+class PqOffice365Service(BaseModel):
+    mode: Optional[ModeOffice365Service] = ModeOffice365Service.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CompressionOffice365Service] = CompressionOffice365Service.NONE
+    r"""Codec to use to compress the persisted data"""
+
+
+class SubscriptionPlanOffice365Service(str, Enum):
+    r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
+
+    ENTERPRISE_GCC = "enterprise_gcc"
+    GCC = "gcc"
+    GCC_HIGH = "gcc_high"
+    DOD = "dod"
+
+
+class MetadatumOffice365ServiceTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class MetadatumOffice365Service(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class LogLevelOffice365Service(str, Enum):
+    r"""Collector runtime Log Level"""
+
+    ERROR = "error"
+    WARN = "warn"
+    INFO = "info"
+    DEBUG = "debug"
+
+
+class ContentConfigOffice365ServiceTypedDict(TypedDict):
+    content_type: NotRequired[str]
+    r"""Office 365 Services API Content Type"""
+    description: NotRequired[str]
+    r"""If interval type is minutes the value entered must evenly divisible by 60 or save will fail"""
+    interval: NotRequired[float]
+    log_level: NotRequired[LogLevelOffice365Service]
+    r"""Collector runtime Log Level"""
+    enabled: NotRequired[bool]
+
+
+class ContentConfigOffice365Service(BaseModel):
+    content_type: Annotated[Optional[str], pydantic.Field(alias="contentType")] = None
+    r"""Office 365 Services API Content Type"""
+
+    description: Optional[str] = None
+    r"""If interval type is minutes the value entered must evenly divisible by 60 or save will fail"""
+
+    interval: Optional[float] = None
+
+    log_level: Annotated[
+        Optional[LogLevelOffice365Service], pydantic.Field(alias="logLevel")
+    ] = None
+    r"""Collector runtime Log Level"""
+
+    enabled: Optional[bool] = None
+
+
+class RetryTypeOffice365Service(str, Enum):
+    r"""The algorithm to use when performing HTTP retries"""
+
+    NONE = "none"
+    BACKOFF = "backoff"
+    STATIC = "static"
+
+
+class RetryRulesOffice365ServiceTypedDict(TypedDict):
+    type: NotRequired[RetryTypeOffice365Service]
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[float]
+    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""The maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
+    codes: NotRequired[List[float]]
+    r"""List of http codes that trigger a retry. Leave empty to use the default list of 429, 500, and 503."""
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
+
+
+class RetryRulesOffice365Service(BaseModel):
+    type: Optional[RetryTypeOffice365Service] = RetryTypeOffice365Service.BACKOFF
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[float] = 1000
+    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
+
+    limit: Optional[float] = 5
+    r"""The maximum number of times to retry a failed HTTP request"""
+
+    multiplier: Optional[float] = 2
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
+
+    codes: Optional[List[float]] = None
+    r"""List of http codes that trigger a retry. Leave empty to use the default list of 429, 500, and 503."""
+
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        True
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+
+    retry_connect_timeout: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
+    ] = False
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+
+    retry_connect_reset: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
+    ] = False
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
+
+
+class AuthenticationMethodOffice365Service(str, Enum):
+    r"""Enter client secret directly, or select a stored secret"""
+
+    MANUAL = "manual"
+    SECRET = "secret"
+
+
+class CreateInputInputOffice365ServiceTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    tenant_id: str
+    r"""Office 365 Azure Tenant ID"""
+    app_id: str
+    r"""Office 365 Azure Application ID"""
+    type: NotRequired[CreateInputTypeOffice365Service]
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ConnectionOffice365ServiceTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqOffice365ServiceTypedDict]
+    plan_type: NotRequired[SubscriptionPlanOffice365Service]
+    r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
+    timeout: NotRequired[float]
+    r"""HTTP request inactivity timeout, use 0 to disable"""
+    keep_alive_time: NotRequired[float]
+    r"""How often workers should check in with the scheduler to keep job subscription alive"""
+    job_timeout: NotRequired[str]
+    r"""Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time."""
+    max_missed_keep_alives: NotRequired[float]
+    r"""The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked."""
+    ttl: NotRequired[str]
+    r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
+    ignore_group_jobs_limit: NotRequired[bool]
+    r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
+    metadata: NotRequired[List[MetadatumOffice365ServiceTypedDict]]
+    r"""Fields to add to events from this input"""
+    content_config: NotRequired[List[ContentConfigOffice365ServiceTypedDict]]
+    r"""Enable Office 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."""
+    retry_rules: NotRequired[RetryRulesOffice365ServiceTypedDict]
+    auth_type: NotRequired[AuthenticationMethodOffice365Service]
+    r"""Enter client secret directly, or select a stored secret"""
+    description: NotRequired[str]
+    client_secret: NotRequired[str]
+    r"""Office 365 Azure client secret"""
+    text_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
+
+
+class CreateInputInputOffice365Service(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    tenant_id: Annotated[str, pydantic.Field(alias="tenantId")]
+    r"""Office 365 Azure Tenant ID"""
+
+    app_id: Annotated[str, pydantic.Field(alias="appId")]
+    r"""Office 365 Azure Application ID"""
+
+    type: Optional[CreateInputTypeOffice365Service] = None
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ConnectionOffice365Service]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqOffice365Service] = None
+
+    plan_type: Annotated[
+        Optional[SubscriptionPlanOffice365Service], pydantic.Field(alias="planType")
+    ] = SubscriptionPlanOffice365Service.ENTERPRISE_GCC
+    r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
+
+    timeout: Optional[float] = 300
+    r"""HTTP request inactivity timeout, use 0 to disable"""
+
+    keep_alive_time: Annotated[
+        Optional[float], pydantic.Field(alias="keepAliveTime")
+    ] = 30
+    r"""How often workers should check in with the scheduler to keep job subscription alive"""
+
+    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = "0"
+    r"""Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time."""
+
+    max_missed_keep_alives: Annotated[
+        Optional[float], pydantic.Field(alias="maxMissedKeepAlives")
+    ] = 3
+    r"""The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked."""
+
+    ttl: Optional[str] = "4h"
+    r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
+
+    ignore_group_jobs_limit: Annotated[
+        Optional[bool], pydantic.Field(alias="ignoreGroupJobsLimit")
+    ] = False
+    r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
+
+    metadata: Optional[List[MetadatumOffice365Service]] = None
+    r"""Fields to add to events from this input"""
+
+    content_config: Annotated[
+        Optional[List[ContentConfigOffice365Service]],
+        pydantic.Field(alias="contentConfig"),
+    ] = None
+    r"""Enable Office 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."""
+
+    retry_rules: Annotated[
+        Optional[RetryRulesOffice365Service], pydantic.Field(alias="retryRules")
+    ] = None
+
+    auth_type: Annotated[
+        Optional[AuthenticationMethodOffice365Service], pydantic.Field(alias="authType")
+    ] = AuthenticationMethodOffice365Service.MANUAL
+    r"""Enter client secret directly, or select a stored secret"""
+
+    description: Optional[str] = None
+
+    client_secret: Annotated[Optional[str], pydantic.Field(alias="clientSecret")] = None
+    r"""Office 365 Azure client secret"""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a stored text secret"""
+
+
+class CreateInputTypeOffice365Mgmt(str, Enum):
+    OFFICE365_MGMT = "office365_mgmt"
+
+
+class ConnectionOffice365MgmtTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class ConnectionOffice365Mgmt(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class ModeOffice365Mgmt(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CompressionOffice365Mgmt(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class PqOffice365MgmtTypedDict(TypedDict):
+    mode: NotRequired[ModeOffice365Mgmt]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CompressionOffice365Mgmt]
+    r"""Codec to use to compress the persisted data"""
+
+
+class PqOffice365Mgmt(BaseModel):
+    mode: Optional[ModeOffice365Mgmt] = ModeOffice365Mgmt.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CompressionOffice365Mgmt] = CompressionOffice365Mgmt.NONE
+    r"""Codec to use to compress the persisted data"""
+
+
+class SubscriptionPlanOffice365Mgmt(str, Enum):
+    r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
+
+    ENTERPRISE_GCC = "enterprise_gcc"
+    GCC = "gcc"
+    GCC_HIGH = "gcc_high"
+    DOD = "dod"
+
+
+class MetadatumOffice365MgmtTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class MetadatumOffice365Mgmt(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class LogLevelOffice365Mgmt(str, Enum):
+    r"""Collector runtime Log Level"""
+
+    ERROR = "error"
+    WARN = "warn"
+    INFO = "info"
+    DEBUG = "debug"
+
+
+class ContentConfigOffice365MgmtTypedDict(TypedDict):
+    content_type: NotRequired[str]
+    r"""Office 365 Management Activity API Content Type"""
+    description: NotRequired[str]
+    r"""If interval type is minutes the value entered must evenly divisible by 60 or save will fail"""
+    interval: NotRequired[float]
+    log_level: NotRequired[LogLevelOffice365Mgmt]
+    r"""Collector runtime Log Level"""
+    enabled: NotRequired[bool]
+
+
+class ContentConfigOffice365Mgmt(BaseModel):
+    content_type: Annotated[Optional[str], pydantic.Field(alias="contentType")] = None
+    r"""Office 365 Management Activity API Content Type"""
+
+    description: Optional[str] = None
+    r"""If interval type is minutes the value entered must evenly divisible by 60 or save will fail"""
+
+    interval: Optional[float] = None
+
+    log_level: Annotated[
+        Optional[LogLevelOffice365Mgmt], pydantic.Field(alias="logLevel")
+    ] = None
+    r"""Collector runtime Log Level"""
+
+    enabled: Optional[bool] = None
+
+
+class RetryTypeOffice365Mgmt(str, Enum):
+    r"""The algorithm to use when performing HTTP retries"""
+
+    NONE = "none"
+    BACKOFF = "backoff"
+    STATIC = "static"
+
+
+class RetryRulesOffice365MgmtTypedDict(TypedDict):
+    type: NotRequired[RetryTypeOffice365Mgmt]
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[float]
+    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""The maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
+    codes: NotRequired[List[float]]
+    r"""List of http codes that trigger a retry. Leave empty to use the default list of 429, 500, and 503."""
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
+
+
+class RetryRulesOffice365Mgmt(BaseModel):
+    type: Optional[RetryTypeOffice365Mgmt] = RetryTypeOffice365Mgmt.BACKOFF
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[float] = 1000
+    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
+
+    limit: Optional[float] = 5
+    r"""The maximum number of times to retry a failed HTTP request"""
+
+    multiplier: Optional[float] = 2
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
+
+    codes: Optional[List[float]] = None
+    r"""List of http codes that trigger a retry. Leave empty to use the default list of 429, 500, and 503."""
+
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        True
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+
+    retry_connect_timeout: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
+    ] = False
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+
+    retry_connect_reset: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
+    ] = False
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
+
+
+class AuthenticationMethodOffice365Mgmt(str, Enum):
+    r"""Enter client secret directly, or select a stored secret"""
+
+    MANUAL = "manual"
+    SECRET = "secret"
+
+
+class CreateInputInputOffice365MgmtTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    tenant_id: str
+    r"""Office 365 Azure Tenant ID"""
+    app_id: str
+    r"""Office 365 Azure Application ID"""
+    type: NotRequired[CreateInputTypeOffice365Mgmt]
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ConnectionOffice365MgmtTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqOffice365MgmtTypedDict]
+    plan_type: NotRequired[SubscriptionPlanOffice365Mgmt]
+    r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
+    timeout: NotRequired[float]
+    r"""HTTP request inactivity timeout, use 0 to disable"""
+    keep_alive_time: NotRequired[float]
+    r"""How often workers should check in with the scheduler to keep job subscription alive"""
+    job_timeout: NotRequired[str]
+    r"""Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time."""
+    max_missed_keep_alives: NotRequired[float]
+    r"""The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked."""
+    ttl: NotRequired[str]
+    r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
+    ignore_group_jobs_limit: NotRequired[bool]
+    r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
+    metadata: NotRequired[List[MetadatumOffice365MgmtTypedDict]]
+    r"""Fields to add to events from this input"""
+    publisher_identifier: NotRequired[str]
+    r"""Optional Publisher Identifier to use in API requests, defaults to tenant id if not defined. For more information see [here](https://docs.microsoft.com/en-us/office/office-365-management-api/office-365-management-activity-api-reference#start-a-subscription)"""
+    content_config: NotRequired[List[ContentConfigOffice365MgmtTypedDict]]
+    r"""Enable Office 365 Management Activity API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered must be evenly divisible by 60 to give a predictable schedule."""
+    ingestion_lag: NotRequired[float]
+    r"""Use this setting to account for ingestion lag. This is necessary because there can be a lag of 60 - 90 minutes (or longer) before Office 365 events are available for retrieval."""
+    retry_rules: NotRequired[RetryRulesOffice365MgmtTypedDict]
+    auth_type: NotRequired[AuthenticationMethodOffice365Mgmt]
+    r"""Enter client secret directly, or select a stored secret"""
+    description: NotRequired[str]
+    client_secret: NotRequired[str]
+    r"""Office 365 Azure client secret"""
+    text_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
+
+
+class CreateInputInputOffice365Mgmt(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    tenant_id: Annotated[str, pydantic.Field(alias="tenantId")]
+    r"""Office 365 Azure Tenant ID"""
+
+    app_id: Annotated[str, pydantic.Field(alias="appId")]
+    r"""Office 365 Azure Application ID"""
+
+    type: Optional[CreateInputTypeOffice365Mgmt] = None
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ConnectionOffice365Mgmt]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqOffice365Mgmt] = None
+
+    plan_type: Annotated[
+        Optional[SubscriptionPlanOffice365Mgmt], pydantic.Field(alias="planType")
+    ] = SubscriptionPlanOffice365Mgmt.ENTERPRISE_GCC
+    r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
+
+    timeout: Optional[float] = 300
+    r"""HTTP request inactivity timeout, use 0 to disable"""
+
+    keep_alive_time: Annotated[
+        Optional[float], pydantic.Field(alias="keepAliveTime")
+    ] = 30
+    r"""How often workers should check in with the scheduler to keep job subscription alive"""
+
+    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = "0"
+    r"""Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time."""
+
+    max_missed_keep_alives: Annotated[
+        Optional[float], pydantic.Field(alias="maxMissedKeepAlives")
+    ] = 3
+    r"""The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked."""
+
+    ttl: Optional[str] = "4h"
+    r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
+
+    ignore_group_jobs_limit: Annotated[
+        Optional[bool], pydantic.Field(alias="ignoreGroupJobsLimit")
+    ] = False
+    r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
+
+    metadata: Optional[List[MetadatumOffice365Mgmt]] = None
+    r"""Fields to add to events from this input"""
+
+    publisher_identifier: Annotated[
+        Optional[str], pydantic.Field(alias="publisherIdentifier")
+    ] = None
+    r"""Optional Publisher Identifier to use in API requests, defaults to tenant id if not defined. For more information see [here](https://docs.microsoft.com/en-us/office/office-365-management-api/office-365-management-activity-api-reference#start-a-subscription)"""
+
+    content_config: Annotated[
+        Optional[List[ContentConfigOffice365Mgmt]],
+        pydantic.Field(alias="contentConfig"),
+    ] = None
+    r"""Enable Office 365 Management Activity API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered must be evenly divisible by 60 to give a predictable schedule."""
+
+    ingestion_lag: Annotated[Optional[float], pydantic.Field(alias="ingestionLag")] = 0
+    r"""Use this setting to account for ingestion lag. This is necessary because there can be a lag of 60 - 90 minutes (or longer) before Office 365 events are available for retrieval."""
+
+    retry_rules: Annotated[
+        Optional[RetryRulesOffice365Mgmt], pydantic.Field(alias="retryRules")
+    ] = None
+
+    auth_type: Annotated[
+        Optional[AuthenticationMethodOffice365Mgmt], pydantic.Field(alias="authType")
+    ] = AuthenticationMethodOffice365Mgmt.MANUAL
+    r"""Enter client secret directly, or select a stored secret"""
+
+    description: Optional[str] = None
+
+    client_secret: Annotated[Optional[str], pydantic.Field(alias="clientSecret")] = None
+    r"""Office 365 Azure client secret"""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a stored text secret"""
+
+
+class CreateInputTypeEdgePrometheus(str, Enum):
+    EDGE_PROMETHEUS = "edge_prometheus"
+
+
+class ConnectionEdgePrometheusTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class ConnectionEdgePrometheus(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class ModeEdgePrometheus(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class PqCompressionEdgePrometheus(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class PqEdgePrometheusTypedDict(TypedDict):
+    mode: NotRequired[ModeEdgePrometheus]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[PqCompressionEdgePrometheus]
+    r"""Codec to use to compress the persisted data"""
+
+
+class PqEdgePrometheus(BaseModel):
+    mode: Optional[ModeEdgePrometheus] = ModeEdgePrometheus.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[PqCompressionEdgePrometheus] = PqCompressionEdgePrometheus.NONE
+    r"""Codec to use to compress the persisted data"""
+
+
+class DiscoveryTypeEdgePrometheus(str, Enum):
+    r"""Target discovery mechanism. Use static to manually enter a list of targets."""
+
+    STATIC = "static"
+    DNS = "dns"
+    EC2 = "ec2"
+    K8S_NODE = "k8s-node"
+    K8S_PODS = "k8s-pods"
+
+
+class PersistenceCompressionEdgePrometheus(str, Enum):
+    r"""Data compression format. Default is gzip."""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class CreateInputDiskSpoolingTypedDict(TypedDict):
+    enable: NotRequired[bool]
+    r"""Spool events on disk for Cribl Edge and Search. Default is disabled."""
+    time_window: NotRequired[str]
+    r"""Time period for grouping spooled events. Default is 10m."""
+    max_data_size: NotRequired[str]
+    r"""Maximum disk space that can be consumed before older buckets are deleted. Examples: 420MB, 4GB. Default is 1GB."""
+    max_data_time: NotRequired[str]
+    r"""Maximum amount of time to retain data before older buckets are deleted. Examples: 2h, 4d. Default is 24h."""
+    compress: NotRequired[PersistenceCompressionEdgePrometheus]
+    r"""Data compression format. Default is gzip."""
+
+
+class CreateInputDiskSpooling(BaseModel):
+    enable: Optional[bool] = False
+    r"""Spool events on disk for Cribl Edge and Search. Default is disabled."""
+
+    time_window: Annotated[Optional[str], pydantic.Field(alias="timeWindow")] = "10m"
+    r"""Time period for grouping spooled events. Default is 10m."""
+
+    max_data_size: Annotated[Optional[str], pydantic.Field(alias="maxDataSize")] = "1GB"
+    r"""Maximum disk space that can be consumed before older buckets are deleted. Examples: 420MB, 4GB. Default is 1GB."""
+
+    max_data_time: Annotated[Optional[str], pydantic.Field(alias="maxDataTime")] = "24h"
+    r"""Maximum amount of time to retain data before older buckets are deleted. Examples: 2h, 4d. Default is 24h."""
+
+    compress: Optional[PersistenceCompressionEdgePrometheus] = (
+        PersistenceCompressionEdgePrometheus.GZIP
+    )
+    r"""Data compression format. Default is gzip."""
+
+
+class MetadatumEdgePrometheusTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class MetadatumEdgePrometheus(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class AuthTypeAuthenticationMethodEdgePrometheus(str, Enum):
+    r"""Enter credentials directly, or select a stored secret"""
+
+    MANUAL = "manual"
+    SECRET = "secret"
+    KUBERNETES = "kubernetes"
+
+
+class TargetProtocolEdgePrometheus(str, Enum):
+    r"""Protocol to use when collecting metrics"""
+
+    HTTP = "http"
+    HTTPS = "https"
+
+
+class CreateInputTargetTypedDict(TypedDict):
+    host: str
+    r"""Name of host from which to pull metrics."""
+    protocol: NotRequired[TargetProtocolEdgePrometheus]
+    r"""Protocol to use when collecting metrics"""
+    port: NotRequired[float]
+    r"""The port number in the metrics URL for discovered targets."""
+    path: NotRequired[str]
+    r"""Path to use when collecting metrics from discovered targets"""
+
+
+class CreateInputTarget(BaseModel):
+    host: str
+    r"""Name of host from which to pull metrics."""
+
+    protocol: Optional[TargetProtocolEdgePrometheus] = TargetProtocolEdgePrometheus.HTTP
+    r"""Protocol to use when collecting metrics"""
+
+    port: Optional[float] = 9090
+    r"""The port number in the metrics URL for discovered targets."""
+
+    path: Optional[str] = "/metrics"
+    r"""Path to use when collecting metrics from discovered targets"""
+
+
+class RecordTypeEdgePrometheus(str, Enum):
+    r"""DNS Record type to resolve"""
+
+    SRV = "SRV"
+    A = "A"
+    AAAA = "AAAA"
+
+
+class ScrapeProtocolProtocolEdgePrometheus(str, Enum):
+    r"""Protocol to use when collecting metrics"""
+
+    HTTP = "http"
+    HTTPS = "https"
+
+
+class SearchFilterEdgePrometheusTypedDict(TypedDict):
+    name: str
+    r"""Search filter attribute name, see: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html for more information. Attributes can be manually entered if not present in the drop down list"""
+    values: List[str]
+    r"""Search Filter Values, if empty only \"running\" EC2 instances will be returned"""
+
+
+class SearchFilterEdgePrometheus(BaseModel):
+    name: Annotated[str, pydantic.Field(alias="Name")]
+    r"""Search filter attribute name, see: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html for more information. Attributes can be manually entered if not present in the drop down list"""
+
+    values: Annotated[List[str], pydantic.Field(alias="Values")]
+    r"""Search Filter Values, if empty only \"running\" EC2 instances will be returned"""
+
+
+class AwsAuthenticationMethodAuthenticationMethodEdgePrometheus(str, Enum):
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+
+    AUTO = "auto"
+    MANUAL = "manual"
+    SECRET = "secret"
+
+
+class SignatureVersionEdgePrometheus(str, Enum):
+    r"""Signature version to use for signing EC2 requests"""
+
+    V2 = "v2"
+    V4 = "v4"
+
+
+class CreateInputPodFilterTypedDict(TypedDict):
+    filter_: str
+    r"""JavaScript expression applied to pods objects. Return 'true' to include it."""
+    description: NotRequired[str]
+    r"""Optional description of this rule's purpose"""
+
+
+class CreateInputPodFilter(BaseModel):
+    filter_: Annotated[str, pydantic.Field(alias="filter")]
+    r"""JavaScript expression applied to pods objects. Return 'true' to include it."""
+
+    description: Optional[str] = None
+    r"""Optional description of this rule's purpose"""
+
+
+class CreateInputInputEdgePrometheusTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    type: NotRequired[CreateInputTypeEdgePrometheus]
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ConnectionEdgePrometheusTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqEdgePrometheusTypedDict]
+    dimension_list: NotRequired[List[str]]
+    r"""Other dimensions to include in events"""
+    discovery_type: NotRequired[DiscoveryTypeEdgePrometheus]
+    r"""Target discovery mechanism. Use static to manually enter a list of targets."""
+    interval: NotRequired[float]
+    r"""How often in seconds to scrape targets for metrics."""
+    timeout: NotRequired[float]
+    r"""Timeout, in milliseconds, before aborting HTTP connection attempts; 1-60000 or 0 to disable"""
+    persistence: NotRequired[CreateInputDiskSpoolingTypedDict]
+    metadata: NotRequired[List[MetadatumEdgePrometheusTypedDict]]
+    r"""Fields to add to events from this input"""
+    auth_type: NotRequired[AuthTypeAuthenticationMethodEdgePrometheus]
+    r"""Enter credentials directly, or select a stored secret"""
+    description: NotRequired[str]
+    targets: NotRequired[List[CreateInputTargetTypedDict]]
+    name_list: NotRequired[List[str]]
+    r"""List of DNS names to resolve"""
+    record_type: NotRequired[RecordTypeEdgePrometheus]
+    r"""DNS Record type to resolve"""
+    scrape_protocol: NotRequired[ScrapeProtocolProtocolEdgePrometheus]
+    r"""Protocol to use when collecting metrics"""
+    scrape_path: NotRequired[str]
+    r"""Path to use when collecting metrics from discovered targets"""
+    use_public_ip: NotRequired[bool]
+    r"""Use public IP address for discovered targets. Set to false if the private IP address should be used."""
+    scrape_port: NotRequired[float]
+    r"""The port number in the metrics URL for discovered targets."""
+    search_filter: NotRequired[List[SearchFilterEdgePrometheusTypedDict]]
+    r"""EC2 Instance Search Filter"""
+    aws_authentication_method: NotRequired[
+        AwsAuthenticationMethodAuthenticationMethodEdgePrometheus
+    ]
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+    aws_secret_key: NotRequired[str]
+    region: NotRequired[str]
+    r"""Region where the EC2 is located"""
+    endpoint: NotRequired[str]
+    r"""EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint."""
+    signature_version: NotRequired[SignatureVersionEdgePrometheus]
+    r"""Signature version to use for signing EC2 requests"""
+    reuse_connections: NotRequired[bool]
+    r"""Reuse connections between requests, which can improve performance"""
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+    enable_assume_role: NotRequired[bool]
+    r"""Use Assume Role credentials to access EC2"""
+    assume_role_arn: NotRequired[str]
+    r"""Amazon Resource Name (ARN) of the role to assume"""
+    assume_role_external_id: NotRequired[str]
+    r"""External ID to use when assuming role"""
+    duration_seconds: NotRequired[float]
+    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+    scrape_protocol_expr: NotRequired[str]
+    r"""Protocol to use when collecting metrics"""
+    scrape_port_expr: NotRequired[str]
+    r"""The port number in the metrics URL for discovered targets."""
+    scrape_path_expr: NotRequired[str]
+    r"""Path to use when collecting metrics from discovered targets"""
+    pod_filter: NotRequired[List[CreateInputPodFilterTypedDict]]
+    r"""Add rules to decide which pods to discover for metrics.
+    Pods are searched if no rules are given or of all the rules'
+    expressions evaluate to true.
+
+    """
+    username: NotRequired[str]
+    r"""Username for Prometheus Basic authentication"""
+    password: NotRequired[str]
+    r"""Password for Prometheus Basic authentication"""
+    credentials_secret: NotRequired[str]
+    r"""Select or create a secret that references your credentials"""
+
+
+class CreateInputInputEdgePrometheus(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    type: Optional[CreateInputTypeEdgePrometheus] = None
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ConnectionEdgePrometheus]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqEdgePrometheus] = None
+
+    dimension_list: Annotated[
+        Optional[List[str]], pydantic.Field(alias="dimensionList")
+    ] = None
+    r"""Other dimensions to include in events"""
+
+    discovery_type: Annotated[
+        Optional[DiscoveryTypeEdgePrometheus], pydantic.Field(alias="discoveryType")
+    ] = DiscoveryTypeEdgePrometheus.STATIC
+    r"""Target discovery mechanism. Use static to manually enter a list of targets."""
+
+    interval: Optional[float] = 15
+    r"""How often in seconds to scrape targets for metrics."""
+
+    timeout: Optional[float] = 5000
+    r"""Timeout, in milliseconds, before aborting HTTP connection attempts; 1-60000 or 0 to disable"""
+
+    persistence: Optional[CreateInputDiskSpooling] = None
+
+    metadata: Optional[List[MetadatumEdgePrometheus]] = None
+    r"""Fields to add to events from this input"""
+
+    auth_type: Annotated[
+        Optional[AuthTypeAuthenticationMethodEdgePrometheus],
+        pydantic.Field(alias="authType"),
+    ] = AuthTypeAuthenticationMethodEdgePrometheus.MANUAL
+    r"""Enter credentials directly, or select a stored secret"""
+
+    description: Optional[str] = None
+
+    targets: Optional[List[CreateInputTarget]] = None
+
+    name_list: Annotated[Optional[List[str]], pydantic.Field(alias="nameList")] = None
+    r"""List of DNS names to resolve"""
+
+    record_type: Annotated[
+        Optional[RecordTypeEdgePrometheus], pydantic.Field(alias="recordType")
+    ] = RecordTypeEdgePrometheus.SRV
+    r"""DNS Record type to resolve"""
+
+    scrape_protocol: Annotated[
+        Optional[ScrapeProtocolProtocolEdgePrometheus],
+        pydantic.Field(alias="scrapeProtocol"),
+    ] = ScrapeProtocolProtocolEdgePrometheus.HTTP
+    r"""Protocol to use when collecting metrics"""
+
+    scrape_path: Annotated[Optional[str], pydantic.Field(alias="scrapePath")] = (
+        "/metrics"
+    )
+    r"""Path to use when collecting metrics from discovered targets"""
+
+    use_public_ip: Annotated[Optional[bool], pydantic.Field(alias="usePublicIp")] = True
+    r"""Use public IP address for discovered targets. Set to false if the private IP address should be used."""
+
+    scrape_port: Annotated[Optional[float], pydantic.Field(alias="scrapePort")] = 9090
+    r"""The port number in the metrics URL for discovered targets."""
+
+    search_filter: Annotated[
+        Optional[List[SearchFilterEdgePrometheus]], pydantic.Field(alias="searchFilter")
+    ] = None
+    r"""EC2 Instance Search Filter"""
+
+    aws_authentication_method: Annotated[
+        Optional[AwsAuthenticationMethodAuthenticationMethodEdgePrometheus],
+        pydantic.Field(alias="awsAuthenticationMethod"),
+    ] = AwsAuthenticationMethodAuthenticationMethodEdgePrometheus.AUTO
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+
+    aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
+        None
+    )
+
+    region: Optional[str] = None
+    r"""Region where the EC2 is located"""
+
+    endpoint: Optional[str] = None
+    r"""EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint."""
+
+    signature_version: Annotated[
+        Optional[SignatureVersionEdgePrometheus],
+        pydantic.Field(alias="signatureVersion"),
+    ] = SignatureVersionEdgePrometheus.V4
+    r"""Signature version to use for signing EC2 requests"""
+
+    reuse_connections: Annotated[
+        Optional[bool], pydantic.Field(alias="reuseConnections")
+    ] = True
+    r"""Reuse connections between requests, which can improve performance"""
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = True
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+
+    enable_assume_role: Annotated[
+        Optional[bool], pydantic.Field(alias="enableAssumeRole")
+    ] = False
+    r"""Use Assume Role credentials to access EC2"""
+
+    assume_role_arn: Annotated[Optional[str], pydantic.Field(alias="assumeRoleArn")] = (
+        None
+    )
+    r"""Amazon Resource Name (ARN) of the role to assume"""
+
+    assume_role_external_id: Annotated[
+        Optional[str], pydantic.Field(alias="assumeRoleExternalId")
+    ] = None
+    r"""External ID to use when assuming role"""
+
+    duration_seconds: Annotated[
+        Optional[float], pydantic.Field(alias="durationSeconds")
+    ] = 3600
+    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+
+    scrape_protocol_expr: Annotated[
+        Optional[str], pydantic.Field(alias="scrapeProtocolExpr")
+    ] = "metadata.annotations['prometheus.io/scheme'] || 'http'"
+    r"""Protocol to use when collecting metrics"""
+
+    scrape_port_expr: Annotated[
+        Optional[str], pydantic.Field(alias="scrapePortExpr")
+    ] = "metadata.annotations['prometheus.io/port'] || 9090"
+    r"""The port number in the metrics URL for discovered targets."""
+
+    scrape_path_expr: Annotated[
+        Optional[str], pydantic.Field(alias="scrapePathExpr")
+    ] = "metadata.annotations['prometheus.io/path'] || '/metrics'"
+    r"""Path to use when collecting metrics from discovered targets"""
+
+    pod_filter: Annotated[
+        Optional[List[CreateInputPodFilter]], pydantic.Field(alias="podFilter")
+    ] = None
+    r"""Add rules to decide which pods to discover for metrics.
+    Pods are searched if no rules are given or of all the rules'
+    expressions evaluate to true.
+
+    """
+
+    username: Optional[str] = None
+    r"""Username for Prometheus Basic authentication"""
+
+    password: Optional[str] = None
+    r"""Password for Prometheus Basic authentication"""
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a secret that references your credentials"""
+
+
+class CreateInputTypePrometheus(str, Enum):
+    PROMETHEUS = "prometheus"
+
+
+class ConnectionPrometheusTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class ConnectionPrometheus(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class CreateInputModePrometheus(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CreateInputCompressionPrometheus(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class PqPrometheusTypedDict(TypedDict):
+    mode: NotRequired[CreateInputModePrometheus]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CreateInputCompressionPrometheus]
+    r"""Codec to use to compress the persisted data"""
+
+
+class PqPrometheus(BaseModel):
+    mode: Optional[CreateInputModePrometheus] = CreateInputModePrometheus.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CreateInputCompressionPrometheus] = (
+        CreateInputCompressionPrometheus.NONE
+    )
+    r"""Codec to use to compress the persisted data"""
+
+
+class DiscoveryTypePrometheus(str, Enum):
+    r"""Target discovery mechanism. Use static to manually enter a list of targets."""
+
+    STATIC = "static"
+    DNS = "dns"
+    EC2 = "ec2"
+
+
+class LogLevelPrometheus(str, Enum):
+    r"""Collector runtime Log Level"""
+
+    ERROR = "error"
+    WARN = "warn"
+    INFO = "info"
+    DEBUG = "debug"
+
+
+class MetadatumPrometheusTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class MetadatumPrometheus(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class AuthTypeAuthenticationMethodPrometheus(str, Enum):
+    r"""Enter credentials directly, or select a stored secret"""
+
+    MANUAL = "manual"
+    SECRET = "secret"
+
+
+class RecordTypePrometheus(str, Enum):
+    r"""DNS Record type to resolve"""
+
+    SRV = "SRV"
+    A = "A"
+    AAAA = "AAAA"
+
+
+class CreateInputMetricsProtocol(str, Enum):
+    r"""Protocol to use when collecting metrics"""
+
+    HTTP = "http"
+    HTTPS = "https"
+
+
+class SearchFilterPrometheusTypedDict(TypedDict):
+    name: str
+    r"""Search filter attribute name, see: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html for more information. Attributes can be manually entered if not present in the drop down list"""
+    values: List[str]
+    r"""Search Filter Values, if empty only \"running\" EC2 instances will be returned"""
+
+
+class SearchFilterPrometheus(BaseModel):
+    name: Annotated[str, pydantic.Field(alias="Name")]
+    r"""Search filter attribute name, see: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html for more information. Attributes can be manually entered if not present in the drop down list"""
+
+    values: Annotated[List[str], pydantic.Field(alias="Values")]
+    r"""Search Filter Values, if empty only \"running\" EC2 instances will be returned"""
+
+
+class AwsAuthenticationMethodAuthenticationMethodPrometheus(str, Enum):
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+
+    AUTO = "auto"
+    MANUAL = "manual"
+    SECRET = "secret"
+
+
+class SignatureVersionPrometheus(str, Enum):
+    r"""Signature version to use for signing EC2 requests"""
+
+    V2 = "v2"
+    V4 = "v4"
+
+
+class CreateInputInputPrometheusTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    type: NotRequired[CreateInputTypePrometheus]
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ConnectionPrometheusTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqPrometheusTypedDict]
+    dimension_list: NotRequired[List[str]]
+    r"""Other dimensions to include in events"""
+    discovery_type: NotRequired[DiscoveryTypePrometheus]
+    r"""Target discovery mechanism. Use static to manually enter a list of targets."""
+    interval: NotRequired[float]
+    r"""How often in minutes to scrape targets for metrics, 60 must be evenly divisible by the value or save will fail."""
+    log_level: NotRequired[LogLevelPrometheus]
+    r"""Collector runtime Log Level"""
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+    keep_alive_time: NotRequired[float]
+    r"""How often workers should check in with the scheduler to keep job subscription alive"""
+    job_timeout: NotRequired[str]
+    r"""Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time."""
+    max_missed_keep_alives: NotRequired[float]
+    r"""The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked."""
+    ttl: NotRequired[str]
+    r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
+    ignore_group_jobs_limit: NotRequired[bool]
+    r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
+    metadata: NotRequired[List[MetadatumPrometheusTypedDict]]
+    r"""Fields to add to events from this input"""
+    auth_type: NotRequired[AuthTypeAuthenticationMethodPrometheus]
+    r"""Enter credentials directly, or select a stored secret"""
+    description: NotRequired[str]
+    target_list: NotRequired[List[str]]
+    r"""List of Prometheus targets to pull metrics from. Values can be in URL or host[:port] format. For example: http://localhost:9090/metrics, localhost:9090, or localhost. In cases where just host[:port] is specified, the endpoint will resolve to 'http://host[:port]/metrics'."""
+    name_list: NotRequired[List[str]]
+    r"""List of DNS names to resolve"""
+    record_type: NotRequired[RecordTypePrometheus]
+    r"""DNS Record type to resolve"""
+    scrape_protocol: NotRequired[CreateInputMetricsProtocol]
+    r"""Protocol to use when collecting metrics"""
+    scrape_path: NotRequired[str]
+    r"""Path to use when collecting metrics from discovered targets"""
+    use_public_ip: NotRequired[bool]
+    r"""Use public IP address for discovered targets. Set to false if the private IP address should be used."""
+    scrape_port: NotRequired[float]
+    r"""The port number in the metrics URL for discovered targets."""
+    search_filter: NotRequired[List[SearchFilterPrometheusTypedDict]]
+    r"""EC2 Instance Search Filter"""
+    aws_authentication_method: NotRequired[
+        AwsAuthenticationMethodAuthenticationMethodPrometheus
+    ]
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+    aws_secret_key: NotRequired[str]
+    region: NotRequired[str]
+    r"""Region where the EC2 is located"""
+    endpoint: NotRequired[str]
+    r"""EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint."""
+    signature_version: NotRequired[SignatureVersionPrometheus]
+    r"""Signature version to use for signing EC2 requests"""
+    reuse_connections: NotRequired[bool]
+    r"""Reuse connections between requests, which can improve performance"""
+    enable_assume_role: NotRequired[bool]
+    r"""Use Assume Role credentials to access EC2"""
+    assume_role_arn: NotRequired[str]
+    r"""Amazon Resource Name (ARN) of the role to assume"""
+    assume_role_external_id: NotRequired[str]
+    r"""External ID to use when assuming role"""
+    duration_seconds: NotRequired[float]
+    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+    username: NotRequired[str]
+    r"""Username for Prometheus Basic authentication"""
+    password: NotRequired[str]
+    r"""Password for Prometheus Basic authentication"""
+    credentials_secret: NotRequired[str]
+    r"""Select or create a secret that references your credentials"""
+
+
+class CreateInputInputPrometheus(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    type: Optional[CreateInputTypePrometheus] = None
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ConnectionPrometheus]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqPrometheus] = None
+
+    dimension_list: Annotated[
+        Optional[List[str]], pydantic.Field(alias="dimensionList")
+    ] = None
+    r"""Other dimensions to include in events"""
+
+    discovery_type: Annotated[
+        Optional[DiscoveryTypePrometheus], pydantic.Field(alias="discoveryType")
+    ] = DiscoveryTypePrometheus.STATIC
+    r"""Target discovery mechanism. Use static to manually enter a list of targets."""
+
+    interval: Optional[float] = 15
+    r"""How often in minutes to scrape targets for metrics, 60 must be evenly divisible by the value or save will fail."""
+
+    log_level: Annotated[
+        Optional[LogLevelPrometheus], pydantic.Field(alias="logLevel")
+    ] = LogLevelPrometheus.INFO
+    r"""Collector runtime Log Level"""
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = True
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+
+    keep_alive_time: Annotated[
+        Optional[float], pydantic.Field(alias="keepAliveTime")
+    ] = 30
+    r"""How often workers should check in with the scheduler to keep job subscription alive"""
+
+    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = "0"
+    r"""Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time."""
+
+    max_missed_keep_alives: Annotated[
+        Optional[float], pydantic.Field(alias="maxMissedKeepAlives")
+    ] = 3
+    r"""The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked."""
+
+    ttl: Optional[str] = "4h"
+    r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
+
+    ignore_group_jobs_limit: Annotated[
+        Optional[bool], pydantic.Field(alias="ignoreGroupJobsLimit")
+    ] = False
+    r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
+
+    metadata: Optional[List[MetadatumPrometheus]] = None
+    r"""Fields to add to events from this input"""
+
+    auth_type: Annotated[
+        Optional[AuthTypeAuthenticationMethodPrometheus],
+        pydantic.Field(alias="authType"),
+    ] = AuthTypeAuthenticationMethodPrometheus.MANUAL
+    r"""Enter credentials directly, or select a stored secret"""
+
+    description: Optional[str] = None
+
+    target_list: Annotated[Optional[List[str]], pydantic.Field(alias="targetList")] = (
+        None
+    )
+    r"""List of Prometheus targets to pull metrics from. Values can be in URL or host[:port] format. For example: http://localhost:9090/metrics, localhost:9090, or localhost. In cases where just host[:port] is specified, the endpoint will resolve to 'http://host[:port]/metrics'."""
+
+    name_list: Annotated[Optional[List[str]], pydantic.Field(alias="nameList")] = None
+    r"""List of DNS names to resolve"""
+
+    record_type: Annotated[
+        Optional[RecordTypePrometheus], pydantic.Field(alias="recordType")
+    ] = RecordTypePrometheus.SRV
+    r"""DNS Record type to resolve"""
+
+    scrape_protocol: Annotated[
+        Optional[CreateInputMetricsProtocol], pydantic.Field(alias="scrapeProtocol")
+    ] = CreateInputMetricsProtocol.HTTP
+    r"""Protocol to use when collecting metrics"""
+
+    scrape_path: Annotated[Optional[str], pydantic.Field(alias="scrapePath")] = (
+        "/metrics"
+    )
+    r"""Path to use when collecting metrics from discovered targets"""
+
+    use_public_ip: Annotated[Optional[bool], pydantic.Field(alias="usePublicIp")] = True
+    r"""Use public IP address for discovered targets. Set to false if the private IP address should be used."""
+
+    scrape_port: Annotated[Optional[float], pydantic.Field(alias="scrapePort")] = 9090
+    r"""The port number in the metrics URL for discovered targets."""
+
+    search_filter: Annotated[
+        Optional[List[SearchFilterPrometheus]], pydantic.Field(alias="searchFilter")
+    ] = None
+    r"""EC2 Instance Search Filter"""
+
+    aws_authentication_method: Annotated[
+        Optional[AwsAuthenticationMethodAuthenticationMethodPrometheus],
+        pydantic.Field(alias="awsAuthenticationMethod"),
+    ] = AwsAuthenticationMethodAuthenticationMethodPrometheus.AUTO
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+
+    aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
+        None
+    )
+
+    region: Optional[str] = None
+    r"""Region where the EC2 is located"""
+
+    endpoint: Optional[str] = None
+    r"""EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint."""
+
+    signature_version: Annotated[
+        Optional[SignatureVersionPrometheus], pydantic.Field(alias="signatureVersion")
+    ] = SignatureVersionPrometheus.V4
+    r"""Signature version to use for signing EC2 requests"""
+
+    reuse_connections: Annotated[
+        Optional[bool], pydantic.Field(alias="reuseConnections")
+    ] = True
+    r"""Reuse connections between requests, which can improve performance"""
+
+    enable_assume_role: Annotated[
+        Optional[bool], pydantic.Field(alias="enableAssumeRole")
+    ] = False
+    r"""Use Assume Role credentials to access EC2"""
+
+    assume_role_arn: Annotated[Optional[str], pydantic.Field(alias="assumeRoleArn")] = (
+        None
+    )
+    r"""Amazon Resource Name (ARN) of the role to assume"""
+
+    assume_role_external_id: Annotated[
+        Optional[str], pydantic.Field(alias="assumeRoleExternalId")
+    ] = None
+    r"""External ID to use when assuming role"""
+
+    duration_seconds: Annotated[
+        Optional[float], pydantic.Field(alias="durationSeconds")
+    ] = 3600
+    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+
+    username: Optional[str] = None
+    r"""Username for Prometheus Basic authentication"""
+
+    password: Optional[str] = None
+    r"""Password for Prometheus Basic authentication"""
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a secret that references your credentials"""
+
+
+class CreateInputTypePrometheusRw(str, Enum):
+    PROMETHEUS_RW = "prometheus_rw"
+
+
+class ConnectionPrometheusRwTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class ConnectionPrometheusRw(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class ModePrometheusRw(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CompressionPrometheusRw(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class PqPrometheusRwTypedDict(TypedDict):
+    mode: NotRequired[ModePrometheusRw]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CompressionPrometheusRw]
+    r"""Codec to use to compress the persisted data"""
+
+
+class PqPrometheusRw(BaseModel):
+    mode: Optional[ModePrometheusRw] = ModePrometheusRw.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CompressionPrometheusRw] = CompressionPrometheusRw.NONE
+    r"""Codec to use to compress the persisted data"""
+
+
+class MinimumTLSVersionPrometheusRw(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class MaximumTLSVersionPrometheusRw(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class TLSSettingsServerSidePrometheusRwTypedDict(TypedDict):
+    disabled: NotRequired[bool]
+    certificate_name: NotRequired[str]
+    r"""The name of the predefined certificate"""
+    priv_key_path: NotRequired[str]
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+    passphrase: NotRequired[str]
+    r"""Passphrase to use to decrypt private key"""
+    cert_path: NotRequired[str]
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+    ca_path: NotRequired[str]
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+    request_cert: NotRequired[bool]
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+    reject_unauthorized: NotRequired[Any]
+    common_name_regex: NotRequired[Any]
+    min_version: NotRequired[MinimumTLSVersionPrometheusRw]
+    max_version: NotRequired[MaximumTLSVersionPrometheusRw]
+
+
+class TLSSettingsServerSidePrometheusRw(BaseModel):
+    disabled: Optional[bool] = True
+
+    certificate_name: Annotated[
+        Optional[str], pydantic.Field(alias="certificateName")
+    ] = None
+    r"""The name of the predefined certificate"""
+
+    priv_key_path: Annotated[Optional[str], pydantic.Field(alias="privKeyPath")] = None
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+
+    passphrase: Optional[str] = None
+    r"""Passphrase to use to decrypt private key"""
+
+    cert_path: Annotated[Optional[str], pydantic.Field(alias="certPath")] = None
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    ca_path: Annotated[Optional[str], pydantic.Field(alias="caPath")] = None
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    request_cert: Annotated[Optional[bool], pydantic.Field(alias="requestCert")] = False
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+
+    reject_unauthorized: Annotated[
+        Optional[Any], pydantic.Field(alias="rejectUnauthorized")
+    ] = None
+
+    common_name_regex: Annotated[
+        Optional[Any], pydantic.Field(alias="commonNameRegex")
+    ] = None
+
+    min_version: Annotated[
+        Optional[MinimumTLSVersionPrometheusRw], pydantic.Field(alias="minVersion")
+    ] = None
+
+    max_version: Annotated[
+        Optional[MaximumTLSVersionPrometheusRw], pydantic.Field(alias="maxVersion")
+    ] = None
+
+
+class AuthenticationTypePrometheusRw(str, Enum):
+    r"""Remote Write authentication type"""
+
+    NONE = "none"
+    BASIC = "basic"
+    CREDENTIALS_SECRET = "credentialsSecret"
+    TOKEN = "token"
+    TEXT_SECRET = "textSecret"
+    OAUTH = "oauth"
+
+
+class MetadatumPrometheusRwTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class MetadatumPrometheusRw(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class OauthParamPrometheusRwTypedDict(TypedDict):
+    name: str
+    r"""OAuth parameter name"""
+    value: str
+    r"""OAuth parameter value"""
+
+
+class OauthParamPrometheusRw(BaseModel):
+    name: str
+    r"""OAuth parameter name"""
+
+    value: str
+    r"""OAuth parameter value"""
+
+
+class OauthHeaderPrometheusRwTypedDict(TypedDict):
+    name: str
+    r"""OAuth header name"""
+    value: str
+    r"""OAuth header value"""
+
+
+class OauthHeaderPrometheusRw(BaseModel):
+    name: str
+    r"""OAuth header name"""
+
+    value: str
+    r"""OAuth header value"""
+
+
+class CreateInputInputPrometheusRwTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    port: float
+    r"""Port to listen on"""
+    type: NotRequired[CreateInputTypePrometheusRw]
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ConnectionPrometheusRwTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqPrometheusRwTypedDict]
+    host: NotRequired[str]
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+    tls: NotRequired[TLSSettingsServerSidePrometheusRwTypedDict]
+    max_active_req: NotRequired[float]
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+    max_requests_per_socket: NotRequired[int]
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+    enable_proxy_header: NotRequired[bool]
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+    capture_headers: NotRequired[bool]
+    r"""Add request headers to events, in the __headers field"""
+    activity_log_sample_rate: NotRequired[float]
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+    request_timeout: NotRequired[float]
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+    socket_timeout: NotRequired[float]
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+    keep_alive_timeout: NotRequired[float]
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
+    enable_health_check: NotRequired[bool]
+    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
+    ip_allowlist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+    ip_denylist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+    prometheus_api: NotRequired[str]
+    r"""Absolute path on which to listen for Prometheus requests. Defaults to /write, which will expand as: http://<your‑upstream‑URL>:<your‑port>/write."""
+    auth_type: NotRequired[AuthenticationTypePrometheusRw]
+    r"""Remote Write authentication type"""
+    metadata: NotRequired[List[MetadatumPrometheusRwTypedDict]]
+    r"""Fields to add to events from this input"""
+    description: NotRequired[str]
+    username: NotRequired[str]
+    password: NotRequired[str]
+    token: NotRequired[str]
+    r"""Bearer token to include in the authorization header"""
+    credentials_secret: NotRequired[str]
+    r"""Select or create a secret that references your credentials"""
+    text_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
+    login_url: NotRequired[str]
+    r"""URL for OAuth"""
+    secret_param_name: NotRequired[str]
+    r"""Secret parameter name to pass in request body"""
+    secret: NotRequired[str]
+    r"""Secret parameter value to pass in request body"""
+    token_attribute_name: NotRequired[str]
+    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
+    auth_header_expr: NotRequired[str]
+    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
+    token_timeout_secs: NotRequired[float]
+    r"""How often the OAuth token should be refreshed."""
+    oauth_params: NotRequired[List[OauthParamPrometheusRwTypedDict]]
+    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+    oauth_headers: NotRequired[List[OauthHeaderPrometheusRwTypedDict]]
+    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+
+
+class CreateInputInputPrometheusRw(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    port: float
+    r"""Port to listen on"""
+
+    type: Optional[CreateInputTypePrometheusRw] = None
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ConnectionPrometheusRw]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqPrometheusRw] = None
+
+    host: Optional[str] = "0.0.0.0"
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+
+    tls: Optional[TLSSettingsServerSidePrometheusRw] = None
+
+    max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
+        256
+    )
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+
+    max_requests_per_socket: Annotated[
+        Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
+    ] = 0
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+
+    enable_proxy_header: Annotated[
+        Optional[bool], pydantic.Field(alias="enableProxyHeader")
+    ] = False
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+
+    capture_headers: Annotated[
+        Optional[bool], pydantic.Field(alias="captureHeaders")
+    ] = False
+    r"""Add request headers to events, in the __headers field"""
+
+    activity_log_sample_rate: Annotated[
+        Optional[float], pydantic.Field(alias="activityLogSampleRate")
+    ] = 100
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+
+    request_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="requestTimeout")
+    ] = 0
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+
+    socket_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="socketTimeout")
+    ] = 0
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+
+    keep_alive_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="keepAliveTimeout")
+    ] = 5
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
+
+    enable_health_check: Annotated[
+        Optional[bool], pydantic.Field(alias="enableHealthCheck")
+    ] = False
+    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
+
+    ip_allowlist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipAllowlistRegex")
+    ] = "/.*/"
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+
+    ip_denylist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipDenylistRegex")
+    ] = "/^$/"
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+
+    prometheus_api: Annotated[Optional[str], pydantic.Field(alias="prometheusAPI")] = (
+        "/write"
+    )
+    r"""Absolute path on which to listen for Prometheus requests. Defaults to /write, which will expand as: http://<your‑upstream‑URL>:<your‑port>/write."""
+
+    auth_type: Annotated[
+        Optional[AuthenticationTypePrometheusRw], pydantic.Field(alias="authType")
+    ] = AuthenticationTypePrometheusRw.NONE
+    r"""Remote Write authentication type"""
+
+    metadata: Optional[List[MetadatumPrometheusRw]] = None
+    r"""Fields to add to events from this input"""
+
+    description: Optional[str] = None
+
+    username: Optional[str] = None
+
+    password: Optional[str] = None
+
+    token: Optional[str] = None
+    r"""Bearer token to include in the authorization header"""
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a secret that references your credentials"""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a stored text secret"""
+
+    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
+    r"""URL for OAuth"""
+
+    secret_param_name: Annotated[
+        Optional[str], pydantic.Field(alias="secretParamName")
+    ] = None
+    r"""Secret parameter name to pass in request body"""
+
+    secret: Optional[str] = None
+    r"""Secret parameter value to pass in request body"""
+
+    token_attribute_name: Annotated[
+        Optional[str], pydantic.Field(alias="tokenAttributeName")
+    ] = None
+    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
+
+    auth_header_expr: Annotated[
+        Optional[str], pydantic.Field(alias="authHeaderExpr")
+    ] = "`Bearer ${token}`"
+    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
+
+    token_timeout_secs: Annotated[
+        Optional[float], pydantic.Field(alias="tokenTimeoutSecs")
+    ] = 3600
+    r"""How often the OAuth token should be refreshed."""
+
+    oauth_params: Annotated[
+        Optional[List[OauthParamPrometheusRw]], pydantic.Field(alias="oauthParams")
+    ] = None
+    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+
+    oauth_headers: Annotated[
+        Optional[List[OauthHeaderPrometheusRw]], pydantic.Field(alias="oauthHeaders")
+    ] = None
+    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+
+
+class CreateInputTypeLoki(str, Enum):
+    LOKI = "loki"
+
+
+class ConnectionLokiTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class ConnectionLoki(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class CreateInputModeLoki(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CreateInputCompressionLoki(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class PqLokiTypedDict(TypedDict):
+    mode: NotRequired[CreateInputModeLoki]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CreateInputCompressionLoki]
+    r"""Codec to use to compress the persisted data"""
+
+
+class PqLoki(BaseModel):
+    mode: Optional[CreateInputModeLoki] = CreateInputModeLoki.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CreateInputCompressionLoki] = CreateInputCompressionLoki.NONE
+    r"""Codec to use to compress the persisted data"""
+
+
+class MinimumTLSVersionLoki(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class MaximumTLSVersionLoki(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class TLSSettingsServerSideLokiTypedDict(TypedDict):
+    disabled: NotRequired[bool]
+    certificate_name: NotRequired[str]
+    r"""The name of the predefined certificate"""
+    priv_key_path: NotRequired[str]
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+    passphrase: NotRequired[str]
+    r"""Passphrase to use to decrypt private key"""
+    cert_path: NotRequired[str]
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+    ca_path: NotRequired[str]
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+    request_cert: NotRequired[bool]
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+    reject_unauthorized: NotRequired[Any]
+    common_name_regex: NotRequired[Any]
+    min_version: NotRequired[MinimumTLSVersionLoki]
+    max_version: NotRequired[MaximumTLSVersionLoki]
+
+
+class TLSSettingsServerSideLoki(BaseModel):
+    disabled: Optional[bool] = True
+
+    certificate_name: Annotated[
+        Optional[str], pydantic.Field(alias="certificateName")
+    ] = None
+    r"""The name of the predefined certificate"""
+
+    priv_key_path: Annotated[Optional[str], pydantic.Field(alias="privKeyPath")] = None
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+
+    passphrase: Optional[str] = None
+    r"""Passphrase to use to decrypt private key"""
+
+    cert_path: Annotated[Optional[str], pydantic.Field(alias="certPath")] = None
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    ca_path: Annotated[Optional[str], pydantic.Field(alias="caPath")] = None
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    request_cert: Annotated[Optional[bool], pydantic.Field(alias="requestCert")] = False
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+
+    reject_unauthorized: Annotated[
+        Optional[Any], pydantic.Field(alias="rejectUnauthorized")
+    ] = None
+
+    common_name_regex: Annotated[
+        Optional[Any], pydantic.Field(alias="commonNameRegex")
+    ] = None
+
+    min_version: Annotated[
+        Optional[MinimumTLSVersionLoki], pydantic.Field(alias="minVersion")
+    ] = None
+
+    max_version: Annotated[
+        Optional[MaximumTLSVersionLoki], pydantic.Field(alias="maxVersion")
+    ] = None
+
+
+class CreateInputAuthenticationTypeLoki(str, Enum):
+    r"""Loki logs authentication type"""
+
+    NONE = "none"
+    BASIC = "basic"
+    CREDENTIALS_SECRET = "credentialsSecret"
+    TOKEN = "token"
+    TEXT_SECRET = "textSecret"
+    OAUTH = "oauth"
+
+
+class MetadatumLokiTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class MetadatumLoki(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class OauthParamLokiTypedDict(TypedDict):
+    name: str
+    r"""OAuth parameter name"""
+    value: str
+    r"""OAuth parameter value"""
+
+
+class OauthParamLoki(BaseModel):
+    name: str
+    r"""OAuth parameter name"""
+
+    value: str
+    r"""OAuth parameter value"""
+
+
+class OauthHeaderLokiTypedDict(TypedDict):
+    name: str
+    r"""OAuth header name"""
+    value: str
+    r"""OAuth header value"""
+
+
+class OauthHeaderLoki(BaseModel):
+    name: str
+    r"""OAuth header name"""
+
+    value: str
+    r"""OAuth header value"""
+
+
+class CreateInputInputLokiTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    port: float
+    r"""Port to listen on"""
+    type: NotRequired[CreateInputTypeLoki]
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ConnectionLokiTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqLokiTypedDict]
+    host: NotRequired[str]
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+    tls: NotRequired[TLSSettingsServerSideLokiTypedDict]
+    max_active_req: NotRequired[float]
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+    max_requests_per_socket: NotRequired[int]
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+    enable_proxy_header: NotRequired[bool]
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+    capture_headers: NotRequired[bool]
+    r"""Add request headers to events, in the __headers field"""
+    activity_log_sample_rate: NotRequired[float]
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+    request_timeout: NotRequired[float]
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+    socket_timeout: NotRequired[float]
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+    keep_alive_timeout: NotRequired[float]
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
+    enable_health_check: NotRequired[bool]
+    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
+    ip_allowlist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+    ip_denylist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+    loki_api: NotRequired[str]
+    r"""Absolute path on which to listen for Loki logs requests. Defaults to /loki/api/v1/push, which will (in this example) expand as: 'http://<your‑upstream‑URL>:<your‑port>/loki/api/v1/push'."""
+    auth_type: NotRequired[CreateInputAuthenticationTypeLoki]
+    r"""Loki logs authentication type"""
+    metadata: NotRequired[List[MetadatumLokiTypedDict]]
+    r"""Fields to add to events from this input"""
+    description: NotRequired[str]
+    username: NotRequired[str]
+    password: NotRequired[str]
+    token: NotRequired[str]
+    r"""Bearer token to include in the authorization header"""
+    credentials_secret: NotRequired[str]
+    r"""Select or create a secret that references your credentials"""
+    text_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
+    login_url: NotRequired[str]
+    r"""URL for OAuth"""
+    secret_param_name: NotRequired[str]
+    r"""Secret parameter name to pass in request body"""
+    secret: NotRequired[str]
+    r"""Secret parameter value to pass in request body"""
+    token_attribute_name: NotRequired[str]
+    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
+    auth_header_expr: NotRequired[str]
+    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
+    token_timeout_secs: NotRequired[float]
+    r"""How often the OAuth token should be refreshed."""
+    oauth_params: NotRequired[List[OauthParamLokiTypedDict]]
+    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+    oauth_headers: NotRequired[List[OauthHeaderLokiTypedDict]]
+    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+
+
+class CreateInputInputLoki(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    port: float
+    r"""Port to listen on"""
+
+    type: Optional[CreateInputTypeLoki] = None
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ConnectionLoki]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqLoki] = None
+
+    host: Optional[str] = "0.0.0.0"
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+
+    tls: Optional[TLSSettingsServerSideLoki] = None
+
+    max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
+        256
+    )
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+
+    max_requests_per_socket: Annotated[
+        Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
+    ] = 0
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+
+    enable_proxy_header: Annotated[
+        Optional[bool], pydantic.Field(alias="enableProxyHeader")
+    ] = False
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+
+    capture_headers: Annotated[
+        Optional[bool], pydantic.Field(alias="captureHeaders")
+    ] = False
+    r"""Add request headers to events, in the __headers field"""
+
+    activity_log_sample_rate: Annotated[
+        Optional[float], pydantic.Field(alias="activityLogSampleRate")
+    ] = 100
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+
+    request_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="requestTimeout")
+    ] = 0
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+
+    socket_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="socketTimeout")
+    ] = 0
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+
+    keep_alive_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="keepAliveTimeout")
+    ] = 5
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
+
+    enable_health_check: Annotated[
+        Optional[bool], pydantic.Field(alias="enableHealthCheck")
+    ] = False
+    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
+
+    ip_allowlist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipAllowlistRegex")
+    ] = "/.*/"
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+
+    ip_denylist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipDenylistRegex")
+    ] = "/^$/"
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+
+    loki_api: Annotated[Optional[str], pydantic.Field(alias="lokiAPI")] = (
+        "/loki/api/v1/push"
+    )
+    r"""Absolute path on which to listen for Loki logs requests. Defaults to /loki/api/v1/push, which will (in this example) expand as: 'http://<your‑upstream‑URL>:<your‑port>/loki/api/v1/push'."""
+
+    auth_type: Annotated[
+        Optional[CreateInputAuthenticationTypeLoki], pydantic.Field(alias="authType")
+    ] = CreateInputAuthenticationTypeLoki.NONE
+    r"""Loki logs authentication type"""
+
+    metadata: Optional[List[MetadatumLoki]] = None
+    r"""Fields to add to events from this input"""
+
+    description: Optional[str] = None
+
+    username: Optional[str] = None
+
+    password: Optional[str] = None
+
+    token: Optional[str] = None
+    r"""Bearer token to include in the authorization header"""
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a secret that references your credentials"""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a stored text secret"""
+
+    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
+    r"""URL for OAuth"""
+
+    secret_param_name: Annotated[
+        Optional[str], pydantic.Field(alias="secretParamName")
+    ] = None
+    r"""Secret parameter name to pass in request body"""
+
+    secret: Optional[str] = None
+    r"""Secret parameter value to pass in request body"""
+
+    token_attribute_name: Annotated[
+        Optional[str], pydantic.Field(alias="tokenAttributeName")
+    ] = None
+    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
+
+    auth_header_expr: Annotated[
+        Optional[str], pydantic.Field(alias="authHeaderExpr")
+    ] = "`Bearer ${token}`"
+    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
+
+    token_timeout_secs: Annotated[
+        Optional[float], pydantic.Field(alias="tokenTimeoutSecs")
+    ] = 3600
+    r"""How often the OAuth token should be refreshed."""
+
+    oauth_params: Annotated[
+        Optional[List[OauthParamLoki]], pydantic.Field(alias="oauthParams")
+    ] = None
+    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+
+    oauth_headers: Annotated[
+        Optional[List[OauthHeaderLoki]], pydantic.Field(alias="oauthHeaders")
+    ] = None
+    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+
+
+class CreateInputInputGrafanaType2(str, Enum):
+    GRAFANA = "grafana"
+
+
+class CreateInputInputGrafanaConnection2TypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class CreateInputInputGrafanaConnection2(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class CreateInputInputGrafanaMode2(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CreateInputInputGrafanaCompression2(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class CreateInputInputGrafanaPq2TypedDict(TypedDict):
+    mode: NotRequired[CreateInputInputGrafanaMode2]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CreateInputInputGrafanaCompression2]
+    r"""Codec to use to compress the persisted data"""
+
+
+class CreateInputInputGrafanaPq2(BaseModel):
+    mode: Optional[CreateInputInputGrafanaMode2] = CreateInputInputGrafanaMode2.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CreateInputInputGrafanaCompression2] = (
+        CreateInputInputGrafanaCompression2.NONE
+    )
+    r"""Codec to use to compress the persisted data"""
+
+
+class CreateInputInputGrafanaMinimumTLSVersion2(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class CreateInputInputGrafanaMaximumTLSVersion2(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class CreateInputInputGrafanaTLSSettingsServerSide2TypedDict(TypedDict):
+    disabled: NotRequired[bool]
+    certificate_name: NotRequired[str]
+    r"""The name of the predefined certificate"""
+    priv_key_path: NotRequired[str]
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+    passphrase: NotRequired[str]
+    r"""Passphrase to use to decrypt private key"""
+    cert_path: NotRequired[str]
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+    ca_path: NotRequired[str]
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+    request_cert: NotRequired[bool]
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+    reject_unauthorized: NotRequired[Any]
+    common_name_regex: NotRequired[Any]
+    min_version: NotRequired[CreateInputInputGrafanaMinimumTLSVersion2]
+    max_version: NotRequired[CreateInputInputGrafanaMaximumTLSVersion2]
+
+
+class CreateInputInputGrafanaTLSSettingsServerSide2(BaseModel):
+    disabled: Optional[bool] = True
+
+    certificate_name: Annotated[
+        Optional[str], pydantic.Field(alias="certificateName")
+    ] = None
+    r"""The name of the predefined certificate"""
+
+    priv_key_path: Annotated[Optional[str], pydantic.Field(alias="privKeyPath")] = None
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+
+    passphrase: Optional[str] = None
+    r"""Passphrase to use to decrypt private key"""
+
+    cert_path: Annotated[Optional[str], pydantic.Field(alias="certPath")] = None
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    ca_path: Annotated[Optional[str], pydantic.Field(alias="caPath")] = None
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    request_cert: Annotated[Optional[bool], pydantic.Field(alias="requestCert")] = False
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+
+    reject_unauthorized: Annotated[
+        Optional[Any], pydantic.Field(alias="rejectUnauthorized")
+    ] = None
+
+    common_name_regex: Annotated[
+        Optional[Any], pydantic.Field(alias="commonNameRegex")
+    ] = None
+
+    min_version: Annotated[
+        Optional[CreateInputInputGrafanaMinimumTLSVersion2],
+        pydantic.Field(alias="minVersion"),
+    ] = None
+
+    max_version: Annotated[
+        Optional[CreateInputInputGrafanaMaximumTLSVersion2],
+        pydantic.Field(alias="maxVersion"),
+    ] = None
+
+
+class CreateInputPrometheusAuthAuthenticationType2(str, Enum):
+    r"""Remote Write authentication type"""
+
+    NONE = "none"
+    BASIC = "basic"
+    CREDENTIALS_SECRET = "credentialsSecret"
+    TOKEN = "token"
+    TEXT_SECRET = "textSecret"
+    OAUTH = "oauth"
+
+
+class CreateInputPrometheusAuthOauthParam2TypedDict(TypedDict):
+    name: str
+    r"""OAuth parameter name"""
+    value: str
+    r"""OAuth parameter value"""
+
+
+class CreateInputPrometheusAuthOauthParam2(BaseModel):
+    name: str
+    r"""OAuth parameter name"""
+
+    value: str
+    r"""OAuth parameter value"""
+
+
+class CreateInputPrometheusAuthOauthHeader2TypedDict(TypedDict):
+    name: str
+    r"""OAuth header name"""
+    value: str
+    r"""OAuth header value"""
+
+
+class CreateInputPrometheusAuthOauthHeader2(BaseModel):
+    name: str
+    r"""OAuth header name"""
+
+    value: str
+    r"""OAuth header value"""
+
+
+class CreateInputPrometheusAuth2TypedDict(TypedDict):
+    auth_type: NotRequired[CreateInputPrometheusAuthAuthenticationType2]
+    r"""Remote Write authentication type"""
+    username: NotRequired[str]
+    password: NotRequired[str]
+    token: NotRequired[str]
+    r"""Bearer token to include in the authorization header"""
+    credentials_secret: NotRequired[str]
+    r"""Select or create a secret that references your credentials"""
+    text_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
+    login_url: NotRequired[str]
+    r"""URL for OAuth"""
+    secret_param_name: NotRequired[str]
+    r"""Secret parameter name to pass in request body"""
+    secret: NotRequired[str]
+    r"""Secret parameter value to pass in request body"""
+    token_attribute_name: NotRequired[str]
+    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
+    auth_header_expr: NotRequired[str]
+    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
+    token_timeout_secs: NotRequired[float]
+    r"""How often the OAuth token should be refreshed."""
+    oauth_params: NotRequired[List[CreateInputPrometheusAuthOauthParam2TypedDict]]
+    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+    oauth_headers: NotRequired[List[CreateInputPrometheusAuthOauthHeader2TypedDict]]
+    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+
+
+class CreateInputPrometheusAuth2(BaseModel):
+    auth_type: Annotated[
+        Optional[CreateInputPrometheusAuthAuthenticationType2],
+        pydantic.Field(alias="authType"),
+    ] = CreateInputPrometheusAuthAuthenticationType2.NONE
+    r"""Remote Write authentication type"""
+
+    username: Optional[str] = None
+
+    password: Optional[str] = None
+
+    token: Optional[str] = None
+    r"""Bearer token to include in the authorization header"""
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a secret that references your credentials"""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a stored text secret"""
+
+    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
+    r"""URL for OAuth"""
+
+    secret_param_name: Annotated[
+        Optional[str], pydantic.Field(alias="secretParamName")
+    ] = None
+    r"""Secret parameter name to pass in request body"""
+
+    secret: Optional[str] = None
+    r"""Secret parameter value to pass in request body"""
+
+    token_attribute_name: Annotated[
+        Optional[str], pydantic.Field(alias="tokenAttributeName")
+    ] = None
+    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
+
+    auth_header_expr: Annotated[
+        Optional[str], pydantic.Field(alias="authHeaderExpr")
+    ] = "`Bearer ${token}`"
+    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
+
+    token_timeout_secs: Annotated[
+        Optional[float], pydantic.Field(alias="tokenTimeoutSecs")
+    ] = 3600
+    r"""How often the OAuth token should be refreshed."""
+
+    oauth_params: Annotated[
+        Optional[List[CreateInputPrometheusAuthOauthParam2]],
+        pydantic.Field(alias="oauthParams"),
+    ] = None
+    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+
+    oauth_headers: Annotated[
+        Optional[List[CreateInputPrometheusAuthOauthHeader2]],
+        pydantic.Field(alias="oauthHeaders"),
+    ] = None
+    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+
+
+class CreateInputLokiAuthAuthenticationType2(str, Enum):
+    r"""Loki logs authentication type"""
+
+    NONE = "none"
+    BASIC = "basic"
+    CREDENTIALS_SECRET = "credentialsSecret"
+    TOKEN = "token"
+    TEXT_SECRET = "textSecret"
+    OAUTH = "oauth"
+
+
+class CreateInputLokiAuthOauthParam2TypedDict(TypedDict):
+    name: str
+    r"""OAuth parameter name"""
+    value: str
+    r"""OAuth parameter value"""
+
+
+class CreateInputLokiAuthOauthParam2(BaseModel):
+    name: str
+    r"""OAuth parameter name"""
+
+    value: str
+    r"""OAuth parameter value"""
+
+
+class CreateInputLokiAuthOauthHeader2TypedDict(TypedDict):
+    name: str
+    r"""OAuth header name"""
+    value: str
+    r"""OAuth header value"""
+
+
+class CreateInputLokiAuthOauthHeader2(BaseModel):
+    name: str
+    r"""OAuth header name"""
+
+    value: str
+    r"""OAuth header value"""
+
+
+class CreateInputLokiAuth2TypedDict(TypedDict):
+    auth_type: NotRequired[CreateInputLokiAuthAuthenticationType2]
+    r"""Loki logs authentication type"""
+    username: NotRequired[str]
+    password: NotRequired[str]
+    token: NotRequired[str]
+    r"""Bearer token to include in the authorization header"""
+    credentials_secret: NotRequired[str]
+    r"""Select or create a secret that references your credentials"""
+    text_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
+    login_url: NotRequired[str]
+    r"""URL for OAuth"""
+    secret_param_name: NotRequired[str]
+    r"""Secret parameter name to pass in request body"""
+    secret: NotRequired[str]
+    r"""Secret parameter value to pass in request body"""
+    token_attribute_name: NotRequired[str]
+    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
+    auth_header_expr: NotRequired[str]
+    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
+    token_timeout_secs: NotRequired[float]
+    r"""How often the OAuth token should be refreshed."""
+    oauth_params: NotRequired[List[CreateInputLokiAuthOauthParam2TypedDict]]
+    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+    oauth_headers: NotRequired[List[CreateInputLokiAuthOauthHeader2TypedDict]]
+    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+
+
+class CreateInputLokiAuth2(BaseModel):
+    auth_type: Annotated[
+        Optional[CreateInputLokiAuthAuthenticationType2],
+        pydantic.Field(alias="authType"),
+    ] = CreateInputLokiAuthAuthenticationType2.NONE
+    r"""Loki logs authentication type"""
+
+    username: Optional[str] = None
+
+    password: Optional[str] = None
+
+    token: Optional[str] = None
+    r"""Bearer token to include in the authorization header"""
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a secret that references your credentials"""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a stored text secret"""
+
+    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
+    r"""URL for OAuth"""
+
+    secret_param_name: Annotated[
+        Optional[str], pydantic.Field(alias="secretParamName")
+    ] = None
+    r"""Secret parameter name to pass in request body"""
+
+    secret: Optional[str] = None
+    r"""Secret parameter value to pass in request body"""
+
+    token_attribute_name: Annotated[
+        Optional[str], pydantic.Field(alias="tokenAttributeName")
+    ] = None
+    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
+
+    auth_header_expr: Annotated[
+        Optional[str], pydantic.Field(alias="authHeaderExpr")
+    ] = "`Bearer ${token}`"
+    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
+
+    token_timeout_secs: Annotated[
+        Optional[float], pydantic.Field(alias="tokenTimeoutSecs")
+    ] = 3600
+    r"""How often the OAuth token should be refreshed."""
+
+    oauth_params: Annotated[
+        Optional[List[CreateInputLokiAuthOauthParam2]],
+        pydantic.Field(alias="oauthParams"),
+    ] = None
+    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+
+    oauth_headers: Annotated[
+        Optional[List[CreateInputLokiAuthOauthHeader2]],
+        pydantic.Field(alias="oauthHeaders"),
+    ] = None
+    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+
+
+class CreateInputInputGrafanaMetadatum2TypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CreateInputInputGrafanaMetadatum2(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CreateInputInputGrafanaGrafana2TypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    port: float
+    r"""Port to listen on"""
+    type: NotRequired[CreateInputInputGrafanaType2]
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[CreateInputInputGrafanaConnection2TypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[CreateInputInputGrafanaPq2TypedDict]
+    host: NotRequired[str]
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+    tls: NotRequired[CreateInputInputGrafanaTLSSettingsServerSide2TypedDict]
+    max_active_req: NotRequired[float]
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+    max_requests_per_socket: NotRequired[int]
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+    enable_proxy_header: NotRequired[bool]
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+    capture_headers: NotRequired[bool]
+    r"""Add request headers to events, in the __headers field"""
+    activity_log_sample_rate: NotRequired[float]
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+    request_timeout: NotRequired[float]
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+    socket_timeout: NotRequired[float]
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+    keep_alive_timeout: NotRequired[float]
+    r"""Maximum time to wait for additional data, after the last response was sent, before closing a socket connection. This can be very useful when Grafana Agent remote write's request frequency is high so, reusing connections, would help mitigating the cost of creating a new connection per request. Note that Grafana Agent's embedded Prometheus would attempt to keep connections open for up to 5 minutes."""
+    enable_health_check: NotRequired[bool]
+    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
+    ip_allowlist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+    ip_denylist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+    prometheus_api: NotRequired[str]
+    r"""Absolute path on which to listen for Grafana Agent's Remote Write requests. Defaults to /api/prom/push, which will expand as: 'http://<your‑upstream‑URL>:<your‑port>/api/prom/push'. Either this field or 'Logs API endpoint' must be configured."""
+    loki_api: NotRequired[str]
+    r"""Absolute path on which to listen for Loki logs requests. Defaults to /loki/api/v1/push, which will (in this example) expand as: 'http://<your‑upstream‑URL>:<your‑port>/loki/api/v1/push'. Either this field or 'Remote Write API endpoint' must be configured."""
+    prometheus_auth: NotRequired[CreateInputPrometheusAuth2TypedDict]
+    loki_auth: NotRequired[CreateInputLokiAuth2TypedDict]
+    metadata: NotRequired[List[CreateInputInputGrafanaMetadatum2TypedDict]]
+    r"""Fields to add to events from this input"""
+    description: NotRequired[str]
+
+
+class CreateInputInputGrafanaGrafana2(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    port: float
+    r"""Port to listen on"""
+
+    type: Optional[CreateInputInputGrafanaType2] = None
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[CreateInputInputGrafanaConnection2]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[CreateInputInputGrafanaPq2] = None
+
+    host: Optional[str] = "0.0.0.0"
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+
+    tls: Optional[CreateInputInputGrafanaTLSSettingsServerSide2] = None
+
+    max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
+        256
+    )
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+
+    max_requests_per_socket: Annotated[
+        Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
+    ] = 0
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+
+    enable_proxy_header: Annotated[
+        Optional[bool], pydantic.Field(alias="enableProxyHeader")
+    ] = False
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+
+    capture_headers: Annotated[
+        Optional[bool], pydantic.Field(alias="captureHeaders")
+    ] = False
+    r"""Add request headers to events, in the __headers field"""
+
+    activity_log_sample_rate: Annotated[
+        Optional[float], pydantic.Field(alias="activityLogSampleRate")
+    ] = 100
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+
+    request_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="requestTimeout")
+    ] = 0
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+
+    socket_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="socketTimeout")
+    ] = 0
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+
+    keep_alive_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="keepAliveTimeout")
+    ] = 5
+    r"""Maximum time to wait for additional data, after the last response was sent, before closing a socket connection. This can be very useful when Grafana Agent remote write's request frequency is high so, reusing connections, would help mitigating the cost of creating a new connection per request. Note that Grafana Agent's embedded Prometheus would attempt to keep connections open for up to 5 minutes."""
+
+    enable_health_check: Annotated[
+        Optional[bool], pydantic.Field(alias="enableHealthCheck")
+    ] = False
+    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
+
+    ip_allowlist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipAllowlistRegex")
+    ] = "/.*/"
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+
+    ip_denylist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipDenylistRegex")
+    ] = "/^$/"
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+
+    prometheus_api: Annotated[Optional[str], pydantic.Field(alias="prometheusAPI")] = (
+        "/api/prom/push"
+    )
+    r"""Absolute path on which to listen for Grafana Agent's Remote Write requests. Defaults to /api/prom/push, which will expand as: 'http://<your‑upstream‑URL>:<your‑port>/api/prom/push'. Either this field or 'Logs API endpoint' must be configured."""
+
+    loki_api: Annotated[Optional[str], pydantic.Field(alias="lokiAPI")] = (
+        "/loki/api/v1/push"
+    )
+    r"""Absolute path on which to listen for Loki logs requests. Defaults to /loki/api/v1/push, which will (in this example) expand as: 'http://<your‑upstream‑URL>:<your‑port>/loki/api/v1/push'. Either this field or 'Remote Write API endpoint' must be configured."""
+
+    prometheus_auth: Annotated[
+        Optional[CreateInputPrometheusAuth2], pydantic.Field(alias="prometheusAuth")
+    ] = None
+
+    loki_auth: Annotated[
+        Optional[CreateInputLokiAuth2], pydantic.Field(alias="lokiAuth")
+    ] = None
+
+    metadata: Optional[List[CreateInputInputGrafanaMetadatum2]] = None
+    r"""Fields to add to events from this input"""
+
+    description: Optional[str] = None
+
+
+class CreateInputInputGrafanaType1(str, Enum):
+    GRAFANA = "grafana"
+
+
+class CreateInputInputGrafanaConnection1TypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class CreateInputInputGrafanaConnection1(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class CreateInputInputGrafanaMode1(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CreateInputInputGrafanaCompression1(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class CreateInputInputGrafanaPq1TypedDict(TypedDict):
+    mode: NotRequired[CreateInputInputGrafanaMode1]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CreateInputInputGrafanaCompression1]
+    r"""Codec to use to compress the persisted data"""
+
+
+class CreateInputInputGrafanaPq1(BaseModel):
+    mode: Optional[CreateInputInputGrafanaMode1] = CreateInputInputGrafanaMode1.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CreateInputInputGrafanaCompression1] = (
+        CreateInputInputGrafanaCompression1.NONE
+    )
+    r"""Codec to use to compress the persisted data"""
+
+
+class CreateInputInputGrafanaMinimumTLSVersion1(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class CreateInputInputGrafanaMaximumTLSVersion1(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class CreateInputInputGrafanaTLSSettingsServerSide1TypedDict(TypedDict):
+    disabled: NotRequired[bool]
+    certificate_name: NotRequired[str]
+    r"""The name of the predefined certificate"""
+    priv_key_path: NotRequired[str]
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+    passphrase: NotRequired[str]
+    r"""Passphrase to use to decrypt private key"""
+    cert_path: NotRequired[str]
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+    ca_path: NotRequired[str]
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+    request_cert: NotRequired[bool]
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+    reject_unauthorized: NotRequired[Any]
+    common_name_regex: NotRequired[Any]
+    min_version: NotRequired[CreateInputInputGrafanaMinimumTLSVersion1]
+    max_version: NotRequired[CreateInputInputGrafanaMaximumTLSVersion1]
+
+
+class CreateInputInputGrafanaTLSSettingsServerSide1(BaseModel):
+    disabled: Optional[bool] = True
+
+    certificate_name: Annotated[
+        Optional[str], pydantic.Field(alias="certificateName")
+    ] = None
+    r"""The name of the predefined certificate"""
+
+    priv_key_path: Annotated[Optional[str], pydantic.Field(alias="privKeyPath")] = None
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+
+    passphrase: Optional[str] = None
+    r"""Passphrase to use to decrypt private key"""
+
+    cert_path: Annotated[Optional[str], pydantic.Field(alias="certPath")] = None
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    ca_path: Annotated[Optional[str], pydantic.Field(alias="caPath")] = None
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    request_cert: Annotated[Optional[bool], pydantic.Field(alias="requestCert")] = False
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+
+    reject_unauthorized: Annotated[
+        Optional[Any], pydantic.Field(alias="rejectUnauthorized")
+    ] = None
+
+    common_name_regex: Annotated[
+        Optional[Any], pydantic.Field(alias="commonNameRegex")
+    ] = None
+
+    min_version: Annotated[
+        Optional[CreateInputInputGrafanaMinimumTLSVersion1],
+        pydantic.Field(alias="minVersion"),
+    ] = None
+
+    max_version: Annotated[
+        Optional[CreateInputInputGrafanaMaximumTLSVersion1],
+        pydantic.Field(alias="maxVersion"),
+    ] = None
+
+
+class CreateInputPrometheusAuthAuthenticationType1(str, Enum):
+    r"""Remote Write authentication type"""
+
+    NONE = "none"
+    BASIC = "basic"
+    CREDENTIALS_SECRET = "credentialsSecret"
+    TOKEN = "token"
+    TEXT_SECRET = "textSecret"
+    OAUTH = "oauth"
+
+
+class CreateInputPrometheusAuthOauthParam1TypedDict(TypedDict):
+    name: str
+    r"""OAuth parameter name"""
+    value: str
+    r"""OAuth parameter value"""
+
+
+class CreateInputPrometheusAuthOauthParam1(BaseModel):
+    name: str
+    r"""OAuth parameter name"""
+
+    value: str
+    r"""OAuth parameter value"""
+
+
+class CreateInputPrometheusAuthOauthHeader1TypedDict(TypedDict):
+    name: str
+    r"""OAuth header name"""
+    value: str
+    r"""OAuth header value"""
+
+
+class CreateInputPrometheusAuthOauthHeader1(BaseModel):
+    name: str
+    r"""OAuth header name"""
+
+    value: str
+    r"""OAuth header value"""
+
+
+class CreateInputPrometheusAuth1TypedDict(TypedDict):
+    auth_type: NotRequired[CreateInputPrometheusAuthAuthenticationType1]
+    r"""Remote Write authentication type"""
+    username: NotRequired[str]
+    password: NotRequired[str]
+    token: NotRequired[str]
+    r"""Bearer token to include in the authorization header"""
+    credentials_secret: NotRequired[str]
+    r"""Select or create a secret that references your credentials"""
+    text_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
+    login_url: NotRequired[str]
+    r"""URL for OAuth"""
+    secret_param_name: NotRequired[str]
+    r"""Secret parameter name to pass in request body"""
+    secret: NotRequired[str]
+    r"""Secret parameter value to pass in request body"""
+    token_attribute_name: NotRequired[str]
+    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
+    auth_header_expr: NotRequired[str]
+    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
+    token_timeout_secs: NotRequired[float]
+    r"""How often the OAuth token should be refreshed."""
+    oauth_params: NotRequired[List[CreateInputPrometheusAuthOauthParam1TypedDict]]
+    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+    oauth_headers: NotRequired[List[CreateInputPrometheusAuthOauthHeader1TypedDict]]
+    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+
+
+class CreateInputPrometheusAuth1(BaseModel):
+    auth_type: Annotated[
+        Optional[CreateInputPrometheusAuthAuthenticationType1],
+        pydantic.Field(alias="authType"),
+    ] = CreateInputPrometheusAuthAuthenticationType1.NONE
+    r"""Remote Write authentication type"""
+
+    username: Optional[str] = None
+
+    password: Optional[str] = None
+
+    token: Optional[str] = None
+    r"""Bearer token to include in the authorization header"""
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a secret that references your credentials"""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a stored text secret"""
+
+    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
+    r"""URL for OAuth"""
+
+    secret_param_name: Annotated[
+        Optional[str], pydantic.Field(alias="secretParamName")
+    ] = None
+    r"""Secret parameter name to pass in request body"""
+
+    secret: Optional[str] = None
+    r"""Secret parameter value to pass in request body"""
+
+    token_attribute_name: Annotated[
+        Optional[str], pydantic.Field(alias="tokenAttributeName")
+    ] = None
+    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
+
+    auth_header_expr: Annotated[
+        Optional[str], pydantic.Field(alias="authHeaderExpr")
+    ] = "`Bearer ${token}`"
+    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
+
+    token_timeout_secs: Annotated[
+        Optional[float], pydantic.Field(alias="tokenTimeoutSecs")
+    ] = 3600
+    r"""How often the OAuth token should be refreshed."""
+
+    oauth_params: Annotated[
+        Optional[List[CreateInputPrometheusAuthOauthParam1]],
+        pydantic.Field(alias="oauthParams"),
+    ] = None
+    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+
+    oauth_headers: Annotated[
+        Optional[List[CreateInputPrometheusAuthOauthHeader1]],
+        pydantic.Field(alias="oauthHeaders"),
+    ] = None
+    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+
+
+class CreateInputLokiAuthAuthenticationType1(str, Enum):
+    r"""Loki logs authentication type"""
+
+    NONE = "none"
+    BASIC = "basic"
+    CREDENTIALS_SECRET = "credentialsSecret"
+    TOKEN = "token"
+    TEXT_SECRET = "textSecret"
+    OAUTH = "oauth"
+
+
+class CreateInputLokiAuthOauthParam1TypedDict(TypedDict):
+    name: str
+    r"""OAuth parameter name"""
+    value: str
+    r"""OAuth parameter value"""
+
+
+class CreateInputLokiAuthOauthParam1(BaseModel):
+    name: str
+    r"""OAuth parameter name"""
+
+    value: str
+    r"""OAuth parameter value"""
+
+
+class CreateInputLokiAuthOauthHeader1TypedDict(TypedDict):
+    name: str
+    r"""OAuth header name"""
+    value: str
+    r"""OAuth header value"""
+
+
+class CreateInputLokiAuthOauthHeader1(BaseModel):
+    name: str
+    r"""OAuth header name"""
+
+    value: str
+    r"""OAuth header value"""
+
+
+class CreateInputLokiAuth1TypedDict(TypedDict):
+    auth_type: NotRequired[CreateInputLokiAuthAuthenticationType1]
+    r"""Loki logs authentication type"""
+    username: NotRequired[str]
+    password: NotRequired[str]
+    token: NotRequired[str]
+    r"""Bearer token to include in the authorization header"""
+    credentials_secret: NotRequired[str]
+    r"""Select or create a secret that references your credentials"""
+    text_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
+    login_url: NotRequired[str]
+    r"""URL for OAuth"""
+    secret_param_name: NotRequired[str]
+    r"""Secret parameter name to pass in request body"""
+    secret: NotRequired[str]
+    r"""Secret parameter value to pass in request body"""
+    token_attribute_name: NotRequired[str]
+    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
+    auth_header_expr: NotRequired[str]
+    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
+    token_timeout_secs: NotRequired[float]
+    r"""How often the OAuth token should be refreshed."""
+    oauth_params: NotRequired[List[CreateInputLokiAuthOauthParam1TypedDict]]
+    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+    oauth_headers: NotRequired[List[CreateInputLokiAuthOauthHeader1TypedDict]]
+    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+
+
+class CreateInputLokiAuth1(BaseModel):
+    auth_type: Annotated[
+        Optional[CreateInputLokiAuthAuthenticationType1],
+        pydantic.Field(alias="authType"),
+    ] = CreateInputLokiAuthAuthenticationType1.NONE
+    r"""Loki logs authentication type"""
+
+    username: Optional[str] = None
+
+    password: Optional[str] = None
+
+    token: Optional[str] = None
+    r"""Bearer token to include in the authorization header"""
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a secret that references your credentials"""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a stored text secret"""
+
+    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
+    r"""URL for OAuth"""
+
+    secret_param_name: Annotated[
+        Optional[str], pydantic.Field(alias="secretParamName")
+    ] = None
+    r"""Secret parameter name to pass in request body"""
+
+    secret: Optional[str] = None
+    r"""Secret parameter value to pass in request body"""
+
+    token_attribute_name: Annotated[
+        Optional[str], pydantic.Field(alias="tokenAttributeName")
+    ] = None
+    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
+
+    auth_header_expr: Annotated[
+        Optional[str], pydantic.Field(alias="authHeaderExpr")
+    ] = "`Bearer ${token}`"
+    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
+
+    token_timeout_secs: Annotated[
+        Optional[float], pydantic.Field(alias="tokenTimeoutSecs")
+    ] = 3600
+    r"""How often the OAuth token should be refreshed."""
+
+    oauth_params: Annotated[
+        Optional[List[CreateInputLokiAuthOauthParam1]],
+        pydantic.Field(alias="oauthParams"),
+    ] = None
+    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+
+    oauth_headers: Annotated[
+        Optional[List[CreateInputLokiAuthOauthHeader1]],
+        pydantic.Field(alias="oauthHeaders"),
+    ] = None
+    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+
+
+class CreateInputInputGrafanaMetadatum1TypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CreateInputInputGrafanaMetadatum1(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CreateInputInputGrafanaGrafana1TypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    port: float
+    r"""Port to listen on"""
+    type: NotRequired[CreateInputInputGrafanaType1]
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[CreateInputInputGrafanaConnection1TypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[CreateInputInputGrafanaPq1TypedDict]
+    host: NotRequired[str]
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+    tls: NotRequired[CreateInputInputGrafanaTLSSettingsServerSide1TypedDict]
+    max_active_req: NotRequired[float]
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+    max_requests_per_socket: NotRequired[int]
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+    enable_proxy_header: NotRequired[bool]
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+    capture_headers: NotRequired[bool]
+    r"""Add request headers to events, in the __headers field"""
+    activity_log_sample_rate: NotRequired[float]
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+    request_timeout: NotRequired[float]
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+    socket_timeout: NotRequired[float]
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+    keep_alive_timeout: NotRequired[float]
+    r"""Maximum time to wait for additional data, after the last response was sent, before closing a socket connection. This can be very useful when Grafana Agent remote write's request frequency is high so, reusing connections, would help mitigating the cost of creating a new connection per request. Note that Grafana Agent's embedded Prometheus would attempt to keep connections open for up to 5 minutes."""
+    enable_health_check: NotRequired[bool]
+    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
+    ip_allowlist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+    ip_denylist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+    prometheus_api: NotRequired[str]
+    r"""Absolute path on which to listen for Grafana Agent's Remote Write requests. Defaults to /api/prom/push, which will expand as: 'http://<your‑upstream‑URL>:<your‑port>/api/prom/push'. Either this field or 'Logs API endpoint' must be configured."""
+    loki_api: NotRequired[str]
+    r"""Absolute path on which to listen for Loki logs requests. Defaults to /loki/api/v1/push, which will (in this example) expand as: 'http://<your‑upstream‑URL>:<your‑port>/loki/api/v1/push'. Either this field or 'Remote Write API endpoint' must be configured."""
+    prometheus_auth: NotRequired[CreateInputPrometheusAuth1TypedDict]
+    loki_auth: NotRequired[CreateInputLokiAuth1TypedDict]
+    metadata: NotRequired[List[CreateInputInputGrafanaMetadatum1TypedDict]]
+    r"""Fields to add to events from this input"""
+    description: NotRequired[str]
+
+
+class CreateInputInputGrafanaGrafana1(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    port: float
+    r"""Port to listen on"""
+
+    type: Optional[CreateInputInputGrafanaType1] = None
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[CreateInputInputGrafanaConnection1]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[CreateInputInputGrafanaPq1] = None
+
+    host: Optional[str] = "0.0.0.0"
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+
+    tls: Optional[CreateInputInputGrafanaTLSSettingsServerSide1] = None
+
+    max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
+        256
+    )
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+
+    max_requests_per_socket: Annotated[
+        Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
+    ] = 0
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+
+    enable_proxy_header: Annotated[
+        Optional[bool], pydantic.Field(alias="enableProxyHeader")
+    ] = False
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+
+    capture_headers: Annotated[
+        Optional[bool], pydantic.Field(alias="captureHeaders")
+    ] = False
+    r"""Add request headers to events, in the __headers field"""
+
+    activity_log_sample_rate: Annotated[
+        Optional[float], pydantic.Field(alias="activityLogSampleRate")
+    ] = 100
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+
+    request_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="requestTimeout")
+    ] = 0
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+
+    socket_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="socketTimeout")
+    ] = 0
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+
+    keep_alive_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="keepAliveTimeout")
+    ] = 5
+    r"""Maximum time to wait for additional data, after the last response was sent, before closing a socket connection. This can be very useful when Grafana Agent remote write's request frequency is high so, reusing connections, would help mitigating the cost of creating a new connection per request. Note that Grafana Agent's embedded Prometheus would attempt to keep connections open for up to 5 minutes."""
+
+    enable_health_check: Annotated[
+        Optional[bool], pydantic.Field(alias="enableHealthCheck")
+    ] = False
+    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
+
+    ip_allowlist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipAllowlistRegex")
+    ] = "/.*/"
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+
+    ip_denylist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipDenylistRegex")
+    ] = "/^$/"
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+
+    prometheus_api: Annotated[Optional[str], pydantic.Field(alias="prometheusAPI")] = (
+        "/api/prom/push"
+    )
+    r"""Absolute path on which to listen for Grafana Agent's Remote Write requests. Defaults to /api/prom/push, which will expand as: 'http://<your‑upstream‑URL>:<your‑port>/api/prom/push'. Either this field or 'Logs API endpoint' must be configured."""
+
+    loki_api: Annotated[Optional[str], pydantic.Field(alias="lokiAPI")] = (
+        "/loki/api/v1/push"
+    )
+    r"""Absolute path on which to listen for Loki logs requests. Defaults to /loki/api/v1/push, which will (in this example) expand as: 'http://<your‑upstream‑URL>:<your‑port>/loki/api/v1/push'. Either this field or 'Remote Write API endpoint' must be configured."""
+
+    prometheus_auth: Annotated[
+        Optional[CreateInputPrometheusAuth1], pydantic.Field(alias="prometheusAuth")
+    ] = None
+
+    loki_auth: Annotated[
+        Optional[CreateInputLokiAuth1], pydantic.Field(alias="lokiAuth")
+    ] = None
+
+    metadata: Optional[List[CreateInputInputGrafanaMetadatum1]] = None
+    r"""Fields to add to events from this input"""
+
+    description: Optional[str] = None
+
+
+CreateInputInputGrafanaUnionTypedDict = TypeAliasType(
+    "CreateInputInputGrafanaUnionTypedDict",
+    Union[
+        CreateInputInputGrafanaGrafana1TypedDict,
+        CreateInputInputGrafanaGrafana2TypedDict,
+    ],
+)
+
+
+CreateInputInputGrafanaUnion = TypeAliasType(
+    "CreateInputInputGrafanaUnion",
+    Union[CreateInputInputGrafanaGrafana1, CreateInputInputGrafanaGrafana2],
+)
+
+
+class CreateInputTypeConfluentCloud(str, Enum):
+    CONFLUENT_CLOUD = "confluent_cloud"
+
+
+class ConnectionConfluentCloudTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class ConnectionConfluentCloud(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class CreateInputModeConfluentCloud(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CreateInputCompressionConfluentCloud(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class PqConfluentCloudTypedDict(TypedDict):
+    mode: NotRequired[CreateInputModeConfluentCloud]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CreateInputCompressionConfluentCloud]
+    r"""Codec to use to compress the persisted data"""
+
+
+class PqConfluentCloud(BaseModel):
+    mode: Optional[CreateInputModeConfluentCloud] = CreateInputModeConfluentCloud.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CreateInputCompressionConfluentCloud] = (
+        CreateInputCompressionConfluentCloud.NONE
+    )
+    r"""Codec to use to compress the persisted data"""
+
+
+class CreateInputMinimumTLSVersionConfluentCloud(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class CreateInputMaximumTLSVersionConfluentCloud(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class CreateInputTLSSettingsClientSideConfluentCloudTypedDict(TypedDict):
+    disabled: NotRequired[bool]
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates that are not authorized by a CA in the CA certificate path, or by another
+    trusted CA (such as the system's). Defaults to Enabled. Overrides the toggle from Advanced Settings, when also present.
+    """
+    servername: NotRequired[str]
+    r"""Server name for the SNI (Server Name Indication) TLS extension. It must be a host name, and not an IP address."""
+    certificate_name: NotRequired[str]
+    r"""The name of the predefined certificate"""
+    ca_path: NotRequired[str]
+    r"""Path on client in which to find CA certificates to verify the server's cert. PEM format. Can reference $ENV_VARS."""
+    priv_key_path: NotRequired[str]
+    r"""Path on client in which to find the private key to use. PEM format. Can reference $ENV_VARS."""
+    cert_path: NotRequired[str]
+    r"""Path on client in which to find certificates to use. PEM format. Can reference $ENV_VARS."""
+    passphrase: NotRequired[str]
+    r"""Passphrase to use to decrypt private key"""
+    min_version: NotRequired[CreateInputMinimumTLSVersionConfluentCloud]
+    max_version: NotRequired[CreateInputMaximumTLSVersionConfluentCloud]
+
+
+class CreateInputTLSSettingsClientSideConfluentCloud(BaseModel):
+    disabled: Optional[bool] = False
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = True
+    r"""Reject certificates that are not authorized by a CA in the CA certificate path, or by another
+    trusted CA (such as the system's). Defaults to Enabled. Overrides the toggle from Advanced Settings, when also present.
+    """
+
+    servername: Optional[str] = None
+    r"""Server name for the SNI (Server Name Indication) TLS extension. It must be a host name, and not an IP address."""
+
+    certificate_name: Annotated[
+        Optional[str], pydantic.Field(alias="certificateName")
+    ] = None
+    r"""The name of the predefined certificate"""
+
+    ca_path: Annotated[Optional[str], pydantic.Field(alias="caPath")] = None
+    r"""Path on client in which to find CA certificates to verify the server's cert. PEM format. Can reference $ENV_VARS."""
+
+    priv_key_path: Annotated[Optional[str], pydantic.Field(alias="privKeyPath")] = None
+    r"""Path on client in which to find the private key to use. PEM format. Can reference $ENV_VARS."""
+
+    cert_path: Annotated[Optional[str], pydantic.Field(alias="certPath")] = None
+    r"""Path on client in which to find certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    passphrase: Optional[str] = None
+    r"""Passphrase to use to decrypt private key"""
+
+    min_version: Annotated[
+        Optional[CreateInputMinimumTLSVersionConfluentCloud],
+        pydantic.Field(alias="minVersion"),
+    ] = None
+
+    max_version: Annotated[
+        Optional[CreateInputMaximumTLSVersionConfluentCloud],
+        pydantic.Field(alias="maxVersion"),
+    ] = None
+
+
+class CreateInputAuthConfluentCloudTypedDict(TypedDict):
+    r"""Credentials to use when authenticating with the schema registry using basic HTTP authentication"""
+
+    disabled: NotRequired[bool]
+    credentials_secret: NotRequired[str]
+    r"""Select or create a secret that references your credentials"""
+
+
+class CreateInputAuthConfluentCloud(BaseModel):
+    r"""Credentials to use when authenticating with the schema registry using basic HTTP authentication"""
+
+    disabled: Optional[bool] = True
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a secret that references your credentials"""
+
+
+class CreateInputKafkaSchemaRegistryMinimumTLSVersionConfluentCloud(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class CreateInputKafkaSchemaRegistryMaximumTLSVersionConfluentCloud(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class CreateInputKafkaSchemaRegistryTLSSettingsClientSideConfluentCloudTypedDict(
+    TypedDict
+):
+    disabled: NotRequired[bool]
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates that are not authorized by a CA in the CA certificate path, or by another
+    trusted CA (such as the system's). Defaults to Enabled. Overrides the toggle from Advanced Settings, when also present.
+    """
+    servername: NotRequired[str]
+    r"""Server name for the SNI (Server Name Indication) TLS extension. It must be a host name, and not an IP address."""
+    certificate_name: NotRequired[str]
+    r"""The name of the predefined certificate"""
+    ca_path: NotRequired[str]
+    r"""Path on client in which to find CA certificates to verify the server's cert. PEM format. Can reference $ENV_VARS."""
+    priv_key_path: NotRequired[str]
+    r"""Path on client in which to find the private key to use. PEM format. Can reference $ENV_VARS."""
+    cert_path: NotRequired[str]
+    r"""Path on client in which to find certificates to use. PEM format. Can reference $ENV_VARS."""
+    passphrase: NotRequired[str]
+    r"""Passphrase to use to decrypt private key"""
+    min_version: NotRequired[
+        CreateInputKafkaSchemaRegistryMinimumTLSVersionConfluentCloud
+    ]
+    max_version: NotRequired[
+        CreateInputKafkaSchemaRegistryMaximumTLSVersionConfluentCloud
+    ]
+
+
+class CreateInputKafkaSchemaRegistryTLSSettingsClientSideConfluentCloud(BaseModel):
+    disabled: Optional[bool] = True
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = True
+    r"""Reject certificates that are not authorized by a CA in the CA certificate path, or by another
+    trusted CA (such as the system's). Defaults to Enabled. Overrides the toggle from Advanced Settings, when also present.
+    """
+
+    servername: Optional[str] = None
+    r"""Server name for the SNI (Server Name Indication) TLS extension. It must be a host name, and not an IP address."""
+
+    certificate_name: Annotated[
+        Optional[str], pydantic.Field(alias="certificateName")
+    ] = None
+    r"""The name of the predefined certificate"""
+
+    ca_path: Annotated[Optional[str], pydantic.Field(alias="caPath")] = None
+    r"""Path on client in which to find CA certificates to verify the server's cert. PEM format. Can reference $ENV_VARS."""
+
+    priv_key_path: Annotated[Optional[str], pydantic.Field(alias="privKeyPath")] = None
+    r"""Path on client in which to find the private key to use. PEM format. Can reference $ENV_VARS."""
+
+    cert_path: Annotated[Optional[str], pydantic.Field(alias="certPath")] = None
+    r"""Path on client in which to find certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    passphrase: Optional[str] = None
+    r"""Passphrase to use to decrypt private key"""
+
+    min_version: Annotated[
+        Optional[CreateInputKafkaSchemaRegistryMinimumTLSVersionConfluentCloud],
+        pydantic.Field(alias="minVersion"),
+    ] = None
+
+    max_version: Annotated[
+        Optional[CreateInputKafkaSchemaRegistryMaximumTLSVersionConfluentCloud],
+        pydantic.Field(alias="maxVersion"),
+    ] = None
+
+
+class CreateInputKafkaSchemaRegistryAuthenticationConfluentCloudTypedDict(TypedDict):
+    disabled: NotRequired[bool]
+    schema_registry_url: NotRequired[str]
+    r"""URL for accessing the Confluent Schema Registry. Example: http://localhost:8081. To connect over TLS, use https instead of http."""
+    connection_timeout: NotRequired[float]
+    r"""Maximum time to wait for a Schema Registry connection to complete successfully"""
+    request_timeout: NotRequired[float]
+    r"""Maximum time to wait for the Schema Registry to respond to a request"""
+    max_retries: NotRequired[float]
+    r"""Maximum number of times to try fetching schemas from the Schema Registry"""
+    auth: NotRequired[CreateInputAuthConfluentCloudTypedDict]
+    r"""Credentials to use when authenticating with the schema registry using basic HTTP authentication"""
+    tls: NotRequired[
+        CreateInputKafkaSchemaRegistryTLSSettingsClientSideConfluentCloudTypedDict
+    ]
+
+
+class CreateInputKafkaSchemaRegistryAuthenticationConfluentCloud(BaseModel):
+    disabled: Optional[bool] = True
+
+    schema_registry_url: Annotated[
+        Optional[str], pydantic.Field(alias="schemaRegistryURL")
+    ] = "http://localhost:8081"
+    r"""URL for accessing the Confluent Schema Registry. Example: http://localhost:8081. To connect over TLS, use https instead of http."""
+
+    connection_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="connectionTimeout")
+    ] = 30000
+    r"""Maximum time to wait for a Schema Registry connection to complete successfully"""
+
+    request_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="requestTimeout")
+    ] = 30000
+    r"""Maximum time to wait for the Schema Registry to respond to a request"""
+
+    max_retries: Annotated[Optional[float], pydantic.Field(alias="maxRetries")] = 1
+    r"""Maximum number of times to try fetching schemas from the Schema Registry"""
+
+    auth: Optional[CreateInputAuthConfluentCloud] = None
+    r"""Credentials to use when authenticating with the schema registry using basic HTTP authentication"""
+
+    tls: Optional[CreateInputKafkaSchemaRegistryTLSSettingsClientSideConfluentCloud] = (
+        None
+    )
+
+
+class CreateInputSASLMechanismConfluentCloud(str, Enum):
+    PLAIN = "plain"
+    SCRAM_SHA_256 = "scram-sha-256"
+    SCRAM_SHA_512 = "scram-sha-512"
+    KERBEROS = "kerberos"
+
+
+class CreateInputAuthenticationConfluentCloudTypedDict(TypedDict):
+    r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
+
+    disabled: NotRequired[bool]
+    mechanism: NotRequired[CreateInputSASLMechanismConfluentCloud]
+
+
+class CreateInputAuthenticationConfluentCloud(BaseModel):
+    r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
+
+    disabled: Optional[bool] = True
+
+    mechanism: Optional[CreateInputSASLMechanismConfluentCloud] = (
+        CreateInputSASLMechanismConfluentCloud.PLAIN
+    )
+
+
+class MetadatumConfluentCloudTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class MetadatumConfluentCloud(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CreateInputInputConfluentCloudTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    brokers: List[str]
+    r"""List of Confluent Cloud bootstrap servers to use, such as yourAccount.confluent.cloud:9092"""
+    topics: List[str]
+    r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
+    type: NotRequired[CreateInputTypeConfluentCloud]
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ConnectionConfluentCloudTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqConfluentCloudTypedDict]
+    tls: NotRequired[CreateInputTLSSettingsClientSideConfluentCloudTypedDict]
+    group_id: NotRequired[str]
+    r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
+    from_beginning: NotRequired[bool]
+    r"""Leave enabled if you want the Source, upon first subscribing to a topic, to read starting with the earliest available message"""
+    kafka_schema_registry: NotRequired[
+        CreateInputKafkaSchemaRegistryAuthenticationConfluentCloudTypedDict
+    ]
+    connection_timeout: NotRequired[float]
+    r"""Maximum time to wait for a connection to complete successfully"""
+    request_timeout: NotRequired[float]
+    r"""Maximum time to wait for Kafka to respond to a request"""
+    max_retries: NotRequired[float]
+    r"""If messages are failing, you can set the maximum number of retries as high as 100 to prevent loss of data"""
+    max_back_off: NotRequired[float]
+    r"""The maximum wait time for a retry, in milliseconds. Default (and minimum) is 30,000 ms (30 seconds); maximum is 180,000 ms (180 seconds)."""
+    initial_backoff: NotRequired[float]
+    r"""Initial value used to calculate the retry, in milliseconds. Maximum is 600,000 ms (10 minutes)."""
+    backoff_rate: NotRequired[float]
+    r"""Set the backoff multiplier (2-20) to control the retry frequency for failed messages. For faster retries, use a lower multiplier. For slower retries with more delay between attempts, use a higher multiplier. The multiplier is used in an exponential backoff formula; see the Kafka [documentation](https://kafka.js.org/docs/retry-detailed) for details."""
+    authentication_timeout: NotRequired[float]
+    r"""Maximum time to wait for Kafka to respond to an authentication request"""
+    reauthentication_threshold: NotRequired[float]
+    r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
+    sasl: NotRequired[CreateInputAuthenticationConfluentCloudTypedDict]
+    r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
+    session_timeout: NotRequired[float]
+    r"""Timeout used to detect client failures when using Kafka's group-management facilities.
+    If the client sends no heartbeats to the broker before the timeout expires,
+    the broker will remove the client from the group and initiate a rebalance.
+    Value must be between the broker's configured group.min.session.timeout.ms and group.max.session.timeout.ms.
+    See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_session.timeout.ms) for details.
+    """
+    rebalance_timeout: NotRequired[float]
+    r"""Maximum allowed time for each worker to join the group after a rebalance begins.
+    If the timeout is exceeded, the coordinator broker will remove the worker from the group.
+    See [Kafka's documentation](https://kafka.apache.org/documentation/#connectconfigs_rebalance.timeout.ms) for details.
+    """
+    heartbeat_interval: NotRequired[float]
+    r"""Expected time between heartbeats to the consumer coordinator when using Kafka's group-management facilities.
+    Value must be lower than sessionTimeout and typically should not exceed 1/3 of the sessionTimeout value.
+    See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_heartbeat.interval.ms) for details.
+    """
+    auto_commit_interval: NotRequired[float]
+    r"""How often to commit offsets. If both this and Offset commit threshold are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
+    auto_commit_threshold: NotRequired[float]
+    r"""How many events are needed to trigger an offset commit. If both this and Offset commit interval are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
+    max_bytes_per_partition: NotRequired[float]
+    r"""Maximum amount of data that Kafka will return per partition, per fetch request. Must equal or exceed the maximum message size (maxBytesPerPartition) that Kafka is configured to allow. Otherwise, @{product} can get stuck trying to retrieve messages. Defaults to 1048576 (1 MB)."""
+    max_bytes: NotRequired[float]
+    r"""Maximum number of bytes that Kafka will return per fetch request. Defaults to 10485760 (10 MB)."""
+    max_socket_errors: NotRequired[float]
+    r"""Maximum number of network errors before the consumer re-creates a socket"""
+    metadata: NotRequired[List[MetadatumConfluentCloudTypedDict]]
+    r"""Fields to add to events from this input"""
+    description: NotRequired[str]
+
+
+class CreateInputInputConfluentCloud(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    brokers: List[str]
+    r"""List of Confluent Cloud bootstrap servers to use, such as yourAccount.confluent.cloud:9092"""
+
+    topics: List[str]
+    r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
+
+    type: Optional[CreateInputTypeConfluentCloud] = None
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ConnectionConfluentCloud]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqConfluentCloud] = None
+
+    tls: Optional[CreateInputTLSSettingsClientSideConfluentCloud] = None
+
+    group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = "Cribl"
+    r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
+
+    from_beginning: Annotated[Optional[bool], pydantic.Field(alias="fromBeginning")] = (
+        True
+    )
+    r"""Leave enabled if you want the Source, upon first subscribing to a topic, to read starting with the earliest available message"""
+
+    kafka_schema_registry: Annotated[
+        Optional[CreateInputKafkaSchemaRegistryAuthenticationConfluentCloud],
+        pydantic.Field(alias="kafkaSchemaRegistry"),
+    ] = None
+
+    connection_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="connectionTimeout")
+    ] = 10000
+    r"""Maximum time to wait for a connection to complete successfully"""
+
+    request_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="requestTimeout")
+    ] = 60000
+    r"""Maximum time to wait for Kafka to respond to a request"""
+
+    max_retries: Annotated[Optional[float], pydantic.Field(alias="maxRetries")] = 5
+    r"""If messages are failing, you can set the maximum number of retries as high as 100 to prevent loss of data"""
+
+    max_back_off: Annotated[Optional[float], pydantic.Field(alias="maxBackOff")] = 30000
+    r"""The maximum wait time for a retry, in milliseconds. Default (and minimum) is 30,000 ms (30 seconds); maximum is 180,000 ms (180 seconds)."""
+
+    initial_backoff: Annotated[
+        Optional[float], pydantic.Field(alias="initialBackoff")
+    ] = 300
+    r"""Initial value used to calculate the retry, in milliseconds. Maximum is 600,000 ms (10 minutes)."""
+
+    backoff_rate: Annotated[Optional[float], pydantic.Field(alias="backoffRate")] = 2
+    r"""Set the backoff multiplier (2-20) to control the retry frequency for failed messages. For faster retries, use a lower multiplier. For slower retries with more delay between attempts, use a higher multiplier. The multiplier is used in an exponential backoff formula; see the Kafka [documentation](https://kafka.js.org/docs/retry-detailed) for details."""
+
+    authentication_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="authenticationTimeout")
+    ] = 10000
+    r"""Maximum time to wait for Kafka to respond to an authentication request"""
+
+    reauthentication_threshold: Annotated[
+        Optional[float], pydantic.Field(alias="reauthenticationThreshold")
+    ] = 10000
+    r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
+
+    sasl: Optional[CreateInputAuthenticationConfluentCloud] = None
+    r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
+
+    session_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="sessionTimeout")
+    ] = 30000
+    r"""Timeout used to detect client failures when using Kafka's group-management facilities.
+    If the client sends no heartbeats to the broker before the timeout expires,
+    the broker will remove the client from the group and initiate a rebalance.
+    Value must be between the broker's configured group.min.session.timeout.ms and group.max.session.timeout.ms.
+    See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_session.timeout.ms) for details.
+    """
+
+    rebalance_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="rebalanceTimeout")
+    ] = 60000
+    r"""Maximum allowed time for each worker to join the group after a rebalance begins.
+    If the timeout is exceeded, the coordinator broker will remove the worker from the group.
+    See [Kafka's documentation](https://kafka.apache.org/documentation/#connectconfigs_rebalance.timeout.ms) for details.
+    """
+
+    heartbeat_interval: Annotated[
+        Optional[float], pydantic.Field(alias="heartbeatInterval")
+    ] = 3000
+    r"""Expected time between heartbeats to the consumer coordinator when using Kafka's group-management facilities.
+    Value must be lower than sessionTimeout and typically should not exceed 1/3 of the sessionTimeout value.
+    See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_heartbeat.interval.ms) for details.
+    """
+
+    auto_commit_interval: Annotated[
+        Optional[float], pydantic.Field(alias="autoCommitInterval")
+    ] = None
+    r"""How often to commit offsets. If both this and Offset commit threshold are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
+
+    auto_commit_threshold: Annotated[
+        Optional[float], pydantic.Field(alias="autoCommitThreshold")
+    ] = None
+    r"""How many events are needed to trigger an offset commit. If both this and Offset commit interval are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
+
+    max_bytes_per_partition: Annotated[
+        Optional[float], pydantic.Field(alias="maxBytesPerPartition")
+    ] = 1048576
+    r"""Maximum amount of data that Kafka will return per partition, per fetch request. Must equal or exceed the maximum message size (maxBytesPerPartition) that Kafka is configured to allow. Otherwise, @{product} can get stuck trying to retrieve messages. Defaults to 1048576 (1 MB)."""
+
+    max_bytes: Annotated[Optional[float], pydantic.Field(alias="maxBytes")] = 10485760
+    r"""Maximum number of bytes that Kafka will return per fetch request. Defaults to 10485760 (10 MB)."""
+
+    max_socket_errors: Annotated[
+        Optional[float], pydantic.Field(alias="maxSocketErrors")
+    ] = 0
+    r"""Maximum number of network errors before the consumer re-creates a socket"""
+
+    metadata: Optional[List[MetadatumConfluentCloud]] = None
+    r"""Fields to add to events from this input"""
+
+    description: Optional[str] = None
+
+
+class CreateInputTypeElastic(str, Enum):
+    ELASTIC = "elastic"
+
+
+class ConnectionElasticTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class ConnectionElastic(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class CreateInputModeElastic(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CreateInputCompressionElastic(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class PqElasticTypedDict(TypedDict):
+    mode: NotRequired[CreateInputModeElastic]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CreateInputCompressionElastic]
+    r"""Codec to use to compress the persisted data"""
+
+
+class PqElastic(BaseModel):
+    mode: Optional[CreateInputModeElastic] = CreateInputModeElastic.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CreateInputCompressionElastic] = (
+        CreateInputCompressionElastic.NONE
+    )
+    r"""Codec to use to compress the persisted data"""
+
+
+class MinimumTLSVersionElastic(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class MaximumTLSVersionElastic(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class TLSSettingsServerSideElasticTypedDict(TypedDict):
+    disabled: NotRequired[bool]
+    certificate_name: NotRequired[str]
+    r"""The name of the predefined certificate"""
+    priv_key_path: NotRequired[str]
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+    passphrase: NotRequired[str]
+    r"""Passphrase to use to decrypt private key"""
+    cert_path: NotRequired[str]
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+    ca_path: NotRequired[str]
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+    request_cert: NotRequired[bool]
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+    reject_unauthorized: NotRequired[Any]
+    common_name_regex: NotRequired[Any]
+    min_version: NotRequired[MinimumTLSVersionElastic]
+    max_version: NotRequired[MaximumTLSVersionElastic]
+
+
+class TLSSettingsServerSideElastic(BaseModel):
+    disabled: Optional[bool] = True
+
+    certificate_name: Annotated[
+        Optional[str], pydantic.Field(alias="certificateName")
+    ] = None
+    r"""The name of the predefined certificate"""
+
+    priv_key_path: Annotated[Optional[str], pydantic.Field(alias="privKeyPath")] = None
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+
+    passphrase: Optional[str] = None
+    r"""Passphrase to use to decrypt private key"""
+
+    cert_path: Annotated[Optional[str], pydantic.Field(alias="certPath")] = None
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    ca_path: Annotated[Optional[str], pydantic.Field(alias="caPath")] = None
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    request_cert: Annotated[Optional[bool], pydantic.Field(alias="requestCert")] = False
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+
+    reject_unauthorized: Annotated[
+        Optional[Any], pydantic.Field(alias="rejectUnauthorized")
+    ] = None
+
+    common_name_regex: Annotated[
+        Optional[Any], pydantic.Field(alias="commonNameRegex")
+    ] = None
+
+    min_version: Annotated[
+        Optional[MinimumTLSVersionElastic], pydantic.Field(alias="minVersion")
+    ] = None
+
+    max_version: Annotated[
+        Optional[MaximumTLSVersionElastic], pydantic.Field(alias="maxVersion")
+    ] = None
+
+
+class AuthenticationTypeElastic(str, Enum):
+    NONE = "none"
+    BASIC = "basic"
+    CREDENTIALS_SECRET = "credentialsSecret"
+    AUTH_TOKENS = "authTokens"
+
+
+class CreateInputAPIVersion(str, Enum):
+    r"""The API version to use for communicating with the server"""
+
+    SIX_DOT_8_DOT_4 = "6.8.4"
+    EIGHT_DOT_3_DOT_2 = "8.3.2"
+    CUSTOM = "custom"
+
+
+class CreateInputExtraHTTPHeaderTypedDict(TypedDict):
+    value: str
+    name: NotRequired[str]
+
+
+class CreateInputExtraHTTPHeader(BaseModel):
+    value: str
+
+    name: Optional[str] = None
+
+
+class MetadatumElasticTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class MetadatumElastic(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class ProxyModeAuthenticationMethodElastic(str, Enum):
+    r"""Enter credentials directly, or select a stored secret"""
+
+    NONE = "none"
+    MANUAL = "manual"
+    SECRET = "secret"
+
+
+class ProxyModeElasticTypedDict(TypedDict):
+    enabled: NotRequired[bool]
+    r"""Enable proxying of non-bulk API requests to an external Elastic server. Enable this only if you understand the implications. See [Cribl Docs](https://docs.cribl.io/stream/sources-elastic/#proxy-mode) for more details."""
+    url: NotRequired[str]
+    r"""URL of the Elastic server to proxy non-bulk requests to, such as http://elastic:9200"""
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
+    remove_headers: NotRequired[List[str]]
+    r"""List of headers to remove from the request to proxy"""
+    timeout_sec: NotRequired[float]
+    r"""Amount of time, in seconds, to wait for a proxy request to complete before canceling it"""
+    auth_type: NotRequired[ProxyModeAuthenticationMethodElastic]
+    r"""Enter credentials directly, or select a stored secret"""
+
+
+class ProxyModeElastic(BaseModel):
+    enabled: Optional[bool] = False
+    r"""Enable proxying of non-bulk API requests to an external Elastic server. Enable this only if you understand the implications. See [Cribl Docs](https://docs.cribl.io/stream/sources-elastic/#proxy-mode) for more details."""
+
+    url: Optional[str] = None
+    r"""URL of the Elastic server to proxy non-bulk requests to, such as http://elastic:9200"""
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = False
+    r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
+
+    remove_headers: Annotated[
+        Optional[List[str]], pydantic.Field(alias="removeHeaders")
+    ] = None
+    r"""List of headers to remove from the request to proxy"""
+
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 60
+    r"""Amount of time, in seconds, to wait for a proxy request to complete before canceling it"""
+
+    auth_type: Annotated[
+        Optional[ProxyModeAuthenticationMethodElastic], pydantic.Field(alias="authType")
+    ] = ProxyModeAuthenticationMethodElastic.NONE
+    r"""Enter credentials directly, or select a stored secret"""
+
+
+class CreateInputInputElasticTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    port: float
+    r"""Port to listen on"""
+    type: NotRequired[CreateInputTypeElastic]
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ConnectionElasticTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqElasticTypedDict]
+    host: NotRequired[str]
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+    tls: NotRequired[TLSSettingsServerSideElasticTypedDict]
+    max_active_req: NotRequired[float]
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+    max_requests_per_socket: NotRequired[int]
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+    enable_proxy_header: NotRequired[bool]
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+    capture_headers: NotRequired[bool]
+    r"""Add request headers to events, in the __headers field"""
+    activity_log_sample_rate: NotRequired[float]
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+    request_timeout: NotRequired[float]
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+    socket_timeout: NotRequired[float]
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+    keep_alive_timeout: NotRequired[float]
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
+    enable_health_check: NotRequired[bool]
+    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
+    ip_allowlist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+    ip_denylist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+    elastic_api: NotRequired[str]
+    r"""Absolute path on which to listen for Elasticsearch API requests. Defaults to /. _bulk will be appended automatically. For example, /myPath becomes /myPath/_bulk. Requests can then be made to either /myPath/_bulk or /myPath/<myIndexName>/_bulk. Other entries are faked as success."""
+    auth_type: NotRequired[AuthenticationTypeElastic]
+    api_version: NotRequired[CreateInputAPIVersion]
+    r"""The API version to use for communicating with the server"""
+    extra_http_headers: NotRequired[List[CreateInputExtraHTTPHeaderTypedDict]]
+    r"""Headers to add to all events"""
+    metadata: NotRequired[List[MetadatumElasticTypedDict]]
+    r"""Fields to add to events from this input"""
+    proxy_mode: NotRequired[ProxyModeElasticTypedDict]
+    description: NotRequired[str]
+    username: NotRequired[str]
+    password: NotRequired[str]
+    credentials_secret: NotRequired[str]
+    r"""Select or create a secret that references your credentials"""
+    auth_tokens: NotRequired[List[str]]
+    r"""Bearer tokens to include in the authorization header"""
+    custom_api_version: NotRequired[str]
+    r"""Custom version information to respond to requests"""
+
+
+class CreateInputInputElastic(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    port: float
+    r"""Port to listen on"""
+
+    type: Optional[CreateInputTypeElastic] = None
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ConnectionElastic]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqElastic] = None
+
+    host: Optional[str] = "0.0.0.0"
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+
+    tls: Optional[TLSSettingsServerSideElastic] = None
+
+    max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
+        256
+    )
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+
+    max_requests_per_socket: Annotated[
+        Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
+    ] = 0
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+
+    enable_proxy_header: Annotated[
+        Optional[bool], pydantic.Field(alias="enableProxyHeader")
+    ] = False
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+
+    capture_headers: Annotated[
+        Optional[bool], pydantic.Field(alias="captureHeaders")
+    ] = False
+    r"""Add request headers to events, in the __headers field"""
+
+    activity_log_sample_rate: Annotated[
+        Optional[float], pydantic.Field(alias="activityLogSampleRate")
+    ] = 100
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+
+    request_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="requestTimeout")
+    ] = 0
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+
+    socket_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="socketTimeout")
+    ] = 0
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+
+    keep_alive_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="keepAliveTimeout")
+    ] = 5
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
+
+    enable_health_check: Annotated[
+        Optional[bool], pydantic.Field(alias="enableHealthCheck")
+    ] = False
+    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
+
+    ip_allowlist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipAllowlistRegex")
+    ] = "/.*/"
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+
+    ip_denylist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipDenylistRegex")
+    ] = "/^$/"
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+
+    elastic_api: Annotated[Optional[str], pydantic.Field(alias="elasticAPI")] = "/"
+    r"""Absolute path on which to listen for Elasticsearch API requests. Defaults to /. _bulk will be appended automatically. For example, /myPath becomes /myPath/_bulk. Requests can then be made to either /myPath/_bulk or /myPath/<myIndexName>/_bulk. Other entries are faked as success."""
+
+    auth_type: Annotated[
+        Optional[AuthenticationTypeElastic], pydantic.Field(alias="authType")
+    ] = AuthenticationTypeElastic.NONE
+
+    api_version: Annotated[
+        Optional[CreateInputAPIVersion], pydantic.Field(alias="apiVersion")
+    ] = CreateInputAPIVersion.EIGHT_DOT_3_DOT_2
+    r"""The API version to use for communicating with the server"""
+
+    extra_http_headers: Annotated[
+        Optional[List[CreateInputExtraHTTPHeader]],
+        pydantic.Field(alias="extraHttpHeaders"),
+    ] = None
+    r"""Headers to add to all events"""
+
+    metadata: Optional[List[MetadatumElastic]] = None
+    r"""Fields to add to events from this input"""
+
+    proxy_mode: Annotated[
+        Optional[ProxyModeElastic], pydantic.Field(alias="proxyMode")
+    ] = None
+
+    description: Optional[str] = None
+
+    username: Optional[str] = None
+
+    password: Optional[str] = None
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a secret that references your credentials"""
+
+    auth_tokens: Annotated[Optional[List[str]], pydantic.Field(alias="authTokens")] = (
+        None
+    )
+    r"""Bearer tokens to include in the authorization header"""
+
+    custom_api_version: Annotated[
+        Optional[str], pydantic.Field(alias="customAPIVersion")
+    ] = (
+        "{\n"
+        '    "name": "AzU84iL",\n'
+        '    "cluster_name": "cribl",\n'
+        '    "cluster_uuid": "Js6_Z2VKS3KbfRSxPmPbaw",\n'
+        '    "version": {\n'
+        '        "number": "8.3.2",\n'
+        '        "build_type": "tar",\n'
+        '        "build_hash": "bca0c8d",\n'
+        '        "build_date": "2019-10-16T06:19:49.319352Z",\n'
+        '        "build_snapshot": false,\n'
+        '        "lucene_version": "9.7.2",\n'
+        '        "minimum_wire_compatibility_version": "7.17.0",\n'
+        '        "minimum_index_compatibility_version": "7.0.0"\n'
+        "    },\n"
+        '    "tagline": "You Know, for Search"\n'
+        "}"
+    )
+    r"""Custom version information to respond to requests"""
+
+
+class CreateInputTypeAzureBlob(str, Enum):
+    AZURE_BLOB = "azure_blob"
+
+
+class ConnectionAzureBlobTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class ConnectionAzureBlob(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class ModeAzureBlob(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CreateInputCompressionAzureBlob(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class PqAzureBlobTypedDict(TypedDict):
+    mode: NotRequired[ModeAzureBlob]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CreateInputCompressionAzureBlob]
+    r"""Codec to use to compress the persisted data"""
+
+
+class PqAzureBlob(BaseModel):
+    mode: Optional[ModeAzureBlob] = ModeAzureBlob.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CreateInputCompressionAzureBlob] = (
+        CreateInputCompressionAzureBlob.NONE
+    )
+    r"""Codec to use to compress the persisted data"""
+
+
+class MetadatumAzureBlobTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class MetadatumAzureBlob(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CreateInputAuthenticationMethodAzureBlob(str, Enum):
+    MANUAL = "manual"
+    SECRET = "secret"
+    CLIENT_SECRET = "clientSecret"
+    CLIENT_CERT = "clientCert"
+
+
+class CreateInputCertificateTypedDict(TypedDict):
+    certificate_name: str
+    r"""The certificate you registered as credentials for your app in the Azure portal"""
+
+
+class CreateInputCertificate(BaseModel):
+    certificate_name: Annotated[str, pydantic.Field(alias="certificateName")]
+    r"""The certificate you registered as credentials for your app in the Azure portal"""
+
+
+class CreateInputInputAzureBlobTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    type: CreateInputTypeAzureBlob
+    queue_name: str
+    r"""The storage account queue name blob notifications will be read from. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myQueue-${C.vars.myVar}`"""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ConnectionAzureBlobTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqAzureBlobTypedDict]
+    file_filter: NotRequired[str]
+    r"""Regex matching file names to download and process. Defaults to: .*"""
+    visibility_timeout: NotRequired[float]
+    r"""The duration (in seconds) that the received messages are hidden from subsequent retrieve requests after being retrieved by a ReceiveMessage request."""
+    num_receivers: NotRequired[float]
+    r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
+    max_messages: NotRequired[float]
+    r"""The maximum number of messages to return in a poll request. Azure storage queues never returns more messages than this value (however, fewer messages might be returned). Valid values: 1 to 32."""
+    service_period_secs: NotRequired[float]
+    r"""The duration (in seconds) which pollers should be validated and restarted if exited"""
+    skip_on_error: NotRequired[bool]
+    r"""Skip files that trigger a processing error. Disabled by default, which allows retries after processing errors."""
+    metadata: NotRequired[List[MetadatumAzureBlobTypedDict]]
+    r"""Fields to add to events from this input"""
+    breaker_rulesets: NotRequired[List[str]]
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+    stale_channel_flush_ms: NotRequired[float]
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+    parquet_chunk_size_mb: NotRequired[float]
+    r"""Maximum file size for each Parquet chunk"""
+    parquet_chunk_download_timeout: NotRequired[float]
+    r"""The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
+    auth_type: NotRequired[CreateInputAuthenticationMethodAzureBlob]
+    description: NotRequired[str]
+    connection_string: NotRequired[str]
+    r"""Enter your Azure Storage account connection string. If left blank, Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING."""
+    text_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
+    storage_account_name: NotRequired[str]
+    r"""The name of your Azure storage account"""
+    tenant_id: NotRequired[str]
+    r"""The service principal's tenant ID"""
+    client_id: NotRequired[str]
+    r"""The service principal's client ID"""
+    azure_cloud: NotRequired[str]
+    r"""The Azure cloud to use. Defaults to Azure Public Cloud."""
+    endpoint_suffix: NotRequired[str]
+    r"""Endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net."""
+    client_text_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
+    certificate: NotRequired[CreateInputCertificateTypedDict]
+
+
+class CreateInputInputAzureBlob(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    type: CreateInputTypeAzureBlob
+
+    queue_name: Annotated[str, pydantic.Field(alias="queueName")]
+    r"""The storage account queue name blob notifications will be read from. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myQueue-${C.vars.myVar}`"""
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ConnectionAzureBlob]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqAzureBlob] = None
+
+    file_filter: Annotated[Optional[str], pydantic.Field(alias="fileFilter")] = "/.*/"
+    r"""Regex matching file names to download and process. Defaults to: .*"""
+
+    visibility_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="visibilityTimeout")
+    ] = 600
+    r"""The duration (in seconds) that the received messages are hidden from subsequent retrieve requests after being retrieved by a ReceiveMessage request."""
+
+    num_receivers: Annotated[Optional[float], pydantic.Field(alias="numReceivers")] = 1
+    r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
+
+    max_messages: Annotated[Optional[float], pydantic.Field(alias="maxMessages")] = 1
+    r"""The maximum number of messages to return in a poll request. Azure storage queues never returns more messages than this value (however, fewer messages might be returned). Valid values: 1 to 32."""
+
+    service_period_secs: Annotated[
+        Optional[float], pydantic.Field(alias="servicePeriodSecs")
+    ] = 5
+    r"""The duration (in seconds) which pollers should be validated and restarted if exited"""
+
+    skip_on_error: Annotated[Optional[bool], pydantic.Field(alias="skipOnError")] = (
+        False
+    )
+    r"""Skip files that trigger a processing error. Disabled by default, which allows retries after processing errors."""
+
+    metadata: Optional[List[MetadatumAzureBlob]] = None
+    r"""Fields to add to events from this input"""
+
+    breaker_rulesets: Annotated[
+        Optional[List[str]], pydantic.Field(alias="breakerRulesets")
+    ] = None
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+
+    stale_channel_flush_ms: Annotated[
+        Optional[float], pydantic.Field(alias="staleChannelFlushMs")
+    ] = 10000
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+
+    parquet_chunk_size_mb: Annotated[
+        Optional[float], pydantic.Field(alias="parquetChunkSizeMB")
+    ] = 5
+    r"""Maximum file size for each Parquet chunk"""
+
+    parquet_chunk_download_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="parquetChunkDownloadTimeout")
+    ] = 600
+    r"""The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
+
+    auth_type: Annotated[
+        Optional[CreateInputAuthenticationMethodAzureBlob],
+        pydantic.Field(alias="authType"),
+    ] = CreateInputAuthenticationMethodAzureBlob.MANUAL
+
+    description: Optional[str] = None
+
+    connection_string: Annotated[
+        Optional[str], pydantic.Field(alias="connectionString")
+    ] = None
+    r"""Enter your Azure Storage account connection string. If left blank, Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING."""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a stored text secret"""
+
+    storage_account_name: Annotated[
+        Optional[str], pydantic.Field(alias="storageAccountName")
+    ] = None
+    r"""The name of your Azure storage account"""
+
+    tenant_id: Annotated[Optional[str], pydantic.Field(alias="tenantId")] = None
+    r"""The service principal's tenant ID"""
+
+    client_id: Annotated[Optional[str], pydantic.Field(alias="clientId")] = None
+    r"""The service principal's client ID"""
+
+    azure_cloud: Annotated[Optional[str], pydantic.Field(alias="azureCloud")] = None
+    r"""The Azure cloud to use. Defaults to Azure Public Cloud."""
+
+    endpoint_suffix: Annotated[
+        Optional[str], pydantic.Field(alias="endpointSuffix")
+    ] = None
+    r"""Endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net."""
+
+    client_text_secret: Annotated[
+        Optional[str], pydantic.Field(alias="clientTextSecret")
+    ] = None
+    r"""Select or create a stored text secret"""
+
+    certificate: Optional[CreateInputCertificate] = None
+
+
+class CreateInputTypeSplunkHec(str, Enum):
+    SPLUNK_HEC = "splunk_hec"
+
+
+class ConnectionSplunkHecTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class ConnectionSplunkHec(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class ModeSplunkHec(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CompressionSplunkHec(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class PqSplunkHecTypedDict(TypedDict):
+    mode: NotRequired[ModeSplunkHec]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CompressionSplunkHec]
+    r"""Codec to use to compress the persisted data"""
+
+
+class PqSplunkHec(BaseModel):
+    mode: Optional[ModeSplunkHec] = ModeSplunkHec.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CompressionSplunkHec] = CompressionSplunkHec.NONE
+    r"""Codec to use to compress the persisted data"""
+
+
+class AuthenticationMethodSplunkHec(str, Enum):
+    r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
+
+    MANUAL = "manual"
+    SECRET = "secret"
+
+
+class AuthTokenMetadatumSplunkHecTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class AuthTokenMetadatumSplunkHec(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class AuthTokenSplunkHecTypedDict(TypedDict):
+    token: Any
+    auth_type: NotRequired[AuthenticationMethodSplunkHec]
+    r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
+    token_secret: NotRequired[Any]
+    enabled: NotRequired[bool]
+    description: NotRequired[str]
+    r"""Optional token description"""
+    allowed_indexes_at_token: NotRequired[List[str]]
+    r"""Enter the values you want to allow in the HEC event index field at the token level. Supports wildcards. To skip validation, leave blank."""
+    metadata: NotRequired[List[AuthTokenMetadatumSplunkHecTypedDict]]
+    r"""Fields to add to events referencing this token"""
+
+
+class AuthTokenSplunkHec(BaseModel):
+    token: Any
+
+    auth_type: Annotated[
+        Optional[AuthenticationMethodSplunkHec], pydantic.Field(alias="authType")
+    ] = AuthenticationMethodSplunkHec.MANUAL
+    r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
+
+    token_secret: Annotated[Optional[Any], pydantic.Field(alias="tokenSecret")] = None
+
+    enabled: Optional[bool] = True
+
+    description: Optional[str] = None
+    r"""Optional token description"""
+
+    allowed_indexes_at_token: Annotated[
+        Optional[List[str]], pydantic.Field(alias="allowedIndexesAtToken")
+    ] = None
+    r"""Enter the values you want to allow in the HEC event index field at the token level. Supports wildcards. To skip validation, leave blank."""
+
+    metadata: Optional[List[AuthTokenMetadatumSplunkHec]] = None
+    r"""Fields to add to events referencing this token"""
+
+
+class MinimumTLSVersionSplunkHec(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class MaximumTLSVersionSplunkHec(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class TLSSettingsServerSideSplunkHecTypedDict(TypedDict):
+    disabled: NotRequired[bool]
+    certificate_name: NotRequired[str]
+    r"""The name of the predefined certificate"""
+    priv_key_path: NotRequired[str]
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+    passphrase: NotRequired[str]
+    r"""Passphrase to use to decrypt private key"""
+    cert_path: NotRequired[str]
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+    ca_path: NotRequired[str]
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+    request_cert: NotRequired[bool]
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+    reject_unauthorized: NotRequired[Any]
+    common_name_regex: NotRequired[Any]
+    min_version: NotRequired[MinimumTLSVersionSplunkHec]
+    max_version: NotRequired[MaximumTLSVersionSplunkHec]
+
+
+class TLSSettingsServerSideSplunkHec(BaseModel):
+    disabled: Optional[bool] = True
+
+    certificate_name: Annotated[
+        Optional[str], pydantic.Field(alias="certificateName")
+    ] = None
+    r"""The name of the predefined certificate"""
+
+    priv_key_path: Annotated[Optional[str], pydantic.Field(alias="privKeyPath")] = None
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+
+    passphrase: Optional[str] = None
+    r"""Passphrase to use to decrypt private key"""
+
+    cert_path: Annotated[Optional[str], pydantic.Field(alias="certPath")] = None
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    ca_path: Annotated[Optional[str], pydantic.Field(alias="caPath")] = None
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    request_cert: Annotated[Optional[bool], pydantic.Field(alias="requestCert")] = False
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+
+    reject_unauthorized: Annotated[
+        Optional[Any], pydantic.Field(alias="rejectUnauthorized")
+    ] = None
+
+    common_name_regex: Annotated[
+        Optional[Any], pydantic.Field(alias="commonNameRegex")
+    ] = None
+
+    min_version: Annotated[
+        Optional[MinimumTLSVersionSplunkHec], pydantic.Field(alias="minVersion")
+    ] = None
+
+    max_version: Annotated[
+        Optional[MaximumTLSVersionSplunkHec], pydantic.Field(alias="maxVersion")
+    ] = None
+
+
+class MetadatumSplunkHecTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class MetadatumSplunkHec(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CreateInputInputSplunkHecTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    port: float
+    r"""Port to listen on"""
+    type: NotRequired[CreateInputTypeSplunkHec]
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ConnectionSplunkHecTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqSplunkHecTypedDict]
+    host: NotRequired[str]
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+    auth_tokens: NotRequired[List[AuthTokenSplunkHecTypedDict]]
+    r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
+    tls: NotRequired[TLSSettingsServerSideSplunkHecTypedDict]
+    max_active_req: NotRequired[float]
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+    max_requests_per_socket: NotRequired[int]
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+    enable_proxy_header: NotRequired[bool]
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+    capture_headers: NotRequired[bool]
+    r"""Add request headers to events, in the __headers field"""
+    activity_log_sample_rate: NotRequired[float]
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+    request_timeout: NotRequired[float]
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+    socket_timeout: NotRequired[float]
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+    keep_alive_timeout: NotRequired[float]
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
+    enable_health_check: NotRequired[Any]
+    ip_allowlist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+    ip_denylist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+    splunk_hec_api: NotRequired[str]
+    r"""Absolute path on which to listen for the Splunk HTTP Event Collector API requests. This input supports the /event, /raw and /s2s endpoints."""
+    metadata: NotRequired[List[MetadatumSplunkHecTypedDict]]
+    r"""Fields to add to every event. Overrides fields added at the token or request level. See [the Source documentation](https://docs.cribl.io/stream/sources-splunk-hec/#fields) for more info."""
+    allowed_indexes: NotRequired[List[str]]
+    r"""List values allowed in HEC event index field. Leave blank to skip validation. Supports wildcards. The values here can expand index validation at the token level."""
+    splunk_hec_acks: NotRequired[bool]
+    r"""Enable Splunk HEC acknowledgements"""
+    breaker_rulesets: NotRequired[List[str]]
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+    stale_channel_flush_ms: NotRequired[float]
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+    use_fwd_timezone: NotRequired[bool]
+    r"""Event Breakers will determine events' time zone from UF-provided metadata, when TZ can't be inferred from the raw event"""
+    drop_control_fields: NotRequired[bool]
+    r"""Drop Splunk control fields such as `crcSalt` and `_savedPort`. If disabled, control fields are stored in the internal field `__ctrlFields`."""
+    extract_metrics: NotRequired[bool]
+    r"""Extract and process Splunk-generated metrics as Cribl metrics"""
+    access_control_allow_origin: NotRequired[List[str]]
+    r"""Optionally, list HTTP origins to which @{product} should send CORS (cross-origin resource sharing) Access-Control-Allow-* headers. Supports wildcards."""
+    access_control_allow_headers: NotRequired[List[str]]
+    r"""Optionally, list HTTP headers that @{product} will send to allowed origins as \"Access-Control-Allow-Headers\" in a CORS preflight response. Use \"*\" to allow all headers."""
+    emit_token_metrics: NotRequired[bool]
+    r"""Emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
+    description: NotRequired[str]
+
+
+class CreateInputInputSplunkHec(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    port: float
+    r"""Port to listen on"""
+
+    type: Optional[CreateInputTypeSplunkHec] = None
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ConnectionSplunkHec]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqSplunkHec] = None
+
+    host: Optional[str] = "0.0.0.0"
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+
+    auth_tokens: Annotated[
+        Optional[List[AuthTokenSplunkHec]], pydantic.Field(alias="authTokens")
+    ] = None
+    r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
+
+    tls: Optional[TLSSettingsServerSideSplunkHec] = None
+
+    max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
+        256
+    )
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+
+    max_requests_per_socket: Annotated[
+        Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
+    ] = 0
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+
+    enable_proxy_header: Annotated[
+        Optional[bool], pydantic.Field(alias="enableProxyHeader")
+    ] = False
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+
+    capture_headers: Annotated[
+        Optional[bool], pydantic.Field(alias="captureHeaders")
+    ] = False
+    r"""Add request headers to events, in the __headers field"""
+
+    activity_log_sample_rate: Annotated[
+        Optional[float], pydantic.Field(alias="activityLogSampleRate")
+    ] = 100
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+
+    request_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="requestTimeout")
+    ] = 0
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+
+    socket_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="socketTimeout")
+    ] = 0
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+
+    keep_alive_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="keepAliveTimeout")
+    ] = 5
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
+
+    enable_health_check: Annotated[
+        Optional[Any], pydantic.Field(alias="enableHealthCheck")
+    ] = None
+
+    ip_allowlist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipAllowlistRegex")
+    ] = "/.*/"
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+
+    ip_denylist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipDenylistRegex")
+    ] = "/^$/"
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+
+    splunk_hec_api: Annotated[Optional[str], pydantic.Field(alias="splunkHecAPI")] = (
+        "/services/collector"
+    )
+    r"""Absolute path on which to listen for the Splunk HTTP Event Collector API requests. This input supports the /event, /raw and /s2s endpoints."""
+
+    metadata: Optional[List[MetadatumSplunkHec]] = None
+    r"""Fields to add to every event. Overrides fields added at the token or request level. See [the Source documentation](https://docs.cribl.io/stream/sources-splunk-hec/#fields) for more info."""
+
+    allowed_indexes: Annotated[
+        Optional[List[str]], pydantic.Field(alias="allowedIndexes")
+    ] = None
+    r"""List values allowed in HEC event index field. Leave blank to skip validation. Supports wildcards. The values here can expand index validation at the token level."""
+
+    splunk_hec_acks: Annotated[
+        Optional[bool], pydantic.Field(alias="splunkHecAcks")
+    ] = False
+    r"""Enable Splunk HEC acknowledgements"""
+
+    breaker_rulesets: Annotated[
+        Optional[List[str]], pydantic.Field(alias="breakerRulesets")
+    ] = None
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+
+    stale_channel_flush_ms: Annotated[
+        Optional[float], pydantic.Field(alias="staleChannelFlushMs")
+    ] = 10000
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+
+    use_fwd_timezone: Annotated[
+        Optional[bool], pydantic.Field(alias="useFwdTimezone")
+    ] = True
+    r"""Event Breakers will determine events' time zone from UF-provided metadata, when TZ can't be inferred from the raw event"""
+
+    drop_control_fields: Annotated[
+        Optional[bool], pydantic.Field(alias="dropControlFields")
+    ] = True
+    r"""Drop Splunk control fields such as `crcSalt` and `_savedPort`. If disabled, control fields are stored in the internal field `__ctrlFields`."""
+
+    extract_metrics: Annotated[
+        Optional[bool], pydantic.Field(alias="extractMetrics")
+    ] = False
+    r"""Extract and process Splunk-generated metrics as Cribl metrics"""
+
+    access_control_allow_origin: Annotated[
+        Optional[List[str]], pydantic.Field(alias="accessControlAllowOrigin")
+    ] = None
+    r"""Optionally, list HTTP origins to which @{product} should send CORS (cross-origin resource sharing) Access-Control-Allow-* headers. Supports wildcards."""
+
+    access_control_allow_headers: Annotated[
+        Optional[List[str]], pydantic.Field(alias="accessControlAllowHeaders")
+    ] = None
+    r"""Optionally, list HTTP headers that @{product} will send to allowed origins as \"Access-Control-Allow-Headers\" in a CORS preflight response. Use \"*\" to allow all headers."""
+
+    emit_token_metrics: Annotated[
+        Optional[bool], pydantic.Field(alias="emitTokenMetrics")
+    ] = False
+    r"""Emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
+
+    description: Optional[str] = None
+
+
+class CreateInputTypeSplunkSearch(str, Enum):
+    SPLUNK_SEARCH = "splunk_search"
+
+
+class ConnectionSplunkSearchTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class ConnectionSplunkSearch(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class ModeSplunkSearch(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CompressionSplunkSearch(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class PqSplunkSearchTypedDict(TypedDict):
+    mode: NotRequired[ModeSplunkSearch]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CompressionSplunkSearch]
+    r"""Codec to use to compress the persisted data"""
+
+
+class PqSplunkSearch(BaseModel):
+    mode: Optional[ModeSplunkSearch] = ModeSplunkSearch.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CompressionSplunkSearch] = CompressionSplunkSearch.NONE
+    r"""Codec to use to compress the persisted data"""
+
+
+class CreateInputOutputMode(str, Enum):
+    r"""Format of the returned output"""
+
+    CSV = "csv"
+    JSON = "json"
+
+
+class CreateInputEndpointParamTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute the parameter's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings."""
+
+
+class CreateInputEndpointParam(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute the parameter's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings."""
+
+
+class CreateInputEndpointHeaderTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute the header's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings."""
+
+
+class CreateInputEndpointHeader(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute the header's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings."""
+
+
+class LogLevelSplunkSearch(str, Enum):
+    r"""Collector runtime log level (verbosity)"""
+
+    ERROR = "error"
+    WARN = "warn"
+    INFO = "info"
+    DEBUG = "debug"
+
+
+class MetadatumSplunkSearchTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class MetadatumSplunkSearch(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class RetryTypeSplunkSearch(str, Enum):
+    r"""The algorithm to use when performing HTTP retries"""
+
+    NONE = "none"
+    BACKOFF = "backoff"
+    STATIC = "static"
+
+
+class RetryRulesSplunkSearchTypedDict(TypedDict):
+    type: NotRequired[RetryTypeSplunkSearch]
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[float]
+    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""The maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
+
+
+class RetryRulesSplunkSearch(BaseModel):
+    type: Optional[RetryTypeSplunkSearch] = RetryTypeSplunkSearch.BACKOFF
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[float] = 1000
+    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
+
+    limit: Optional[float] = 5
+    r"""The maximum number of times to retry a failed HTTP request"""
+
+    multiplier: Optional[float] = 2
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        True
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+
+    retry_connect_timeout: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
+    ] = False
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+
+    retry_connect_reset: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
+    ] = False
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
+
+
+class AuthenticationTypeSplunkSearch(str, Enum):
+    r"""Splunk Search authentication type"""
+
+    NONE = "none"
+    BASIC = "basic"
+    CREDENTIALS_SECRET = "credentialsSecret"
+    TOKEN = "token"
+    TEXT_SECRET = "textSecret"
+    OAUTH = "oauth"
+
+
+class OauthParamSplunkSearchTypedDict(TypedDict):
+    name: str
+    r"""OAuth parameter name"""
+    value: str
+    r"""OAuth parameter value"""
+
+
+class OauthParamSplunkSearch(BaseModel):
+    name: str
+    r"""OAuth parameter name"""
+
+    value: str
+    r"""OAuth parameter value"""
+
+
+class OauthHeaderSplunkSearchTypedDict(TypedDict):
+    name: str
+    r"""OAuth header name"""
+    value: str
+    r"""OAuth header value"""
+
+
+class OauthHeaderSplunkSearch(BaseModel):
+    name: str
+    r"""OAuth header name"""
+
+    value: str
+    r"""OAuth header value"""
+
+
+class CreateInputInputSplunkSearchTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    search: str
+    r"""Enter Splunk search here. Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'"""
+    type: NotRequired[CreateInputTypeSplunkSearch]
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ConnectionSplunkSearchTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqSplunkSearchTypedDict]
+    search_head: NotRequired[str]
+    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
+    earliest: NotRequired[str]
+    r"""The earliest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-16m@m'"""
+    latest: NotRequired[str]
+    r"""The latest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-1m@m'"""
+    cron_schedule: NotRequired[str]
+    r"""A cron schedule on which to run this job"""
+    endpoint: NotRequired[str]
+    r"""REST API used to create a search"""
+    output_mode: NotRequired[CreateInputOutputMode]
+    r"""Format of the returned output"""
+    endpoint_params: NotRequired[List[CreateInputEndpointParamTypedDict]]
+    r"""Optional request parameters to send to the endpoint"""
+    endpoint_headers: NotRequired[List[CreateInputEndpointHeaderTypedDict]]
+    r"""Optional request headers to send to the endpoint"""
+    log_level: NotRequired[LogLevelSplunkSearch]
+    r"""Collector runtime log level (verbosity)"""
+    request_timeout: NotRequired[float]
+    r"""HTTP request inactivity timeout. Use 0 for no timeout."""
+    use_round_robin_dns: NotRequired[bool]
+    r"""When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned"""
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
+    encoding: NotRequired[str]
+    r"""Character encoding to use when parsing ingested data. When not set, @{product} will default to UTF-8 but may incorrectly interpret multi-byte characters."""
+    keep_alive_time: NotRequired[float]
+    r"""How often workers should check in with the scheduler to keep job subscription alive"""
+    job_timeout: NotRequired[str]
+    r"""Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time."""
+    max_missed_keep_alives: NotRequired[float]
+    r"""The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked."""
+    ttl: NotRequired[str]
+    r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
+    ignore_group_jobs_limit: NotRequired[bool]
+    r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
+    metadata: NotRequired[List[MetadatumSplunkSearchTypedDict]]
+    r"""Fields to add to events from this input"""
+    retry_rules: NotRequired[RetryRulesSplunkSearchTypedDict]
+    breaker_rulesets: NotRequired[List[str]]
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+    stale_channel_flush_ms: NotRequired[float]
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+    auth_type: NotRequired[AuthenticationTypeSplunkSearch]
+    r"""Splunk Search authentication type"""
+    description: NotRequired[str]
+    username: NotRequired[str]
+    password: NotRequired[str]
+    token: NotRequired[str]
+    r"""Bearer token to include in the authorization header"""
+    credentials_secret: NotRequired[str]
+    r"""Select or create a secret that references your credentials"""
+    text_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
+    login_url: NotRequired[str]
+    r"""URL for OAuth"""
+    secret_param_name: NotRequired[str]
+    r"""Secret parameter name to pass in request body"""
+    secret: NotRequired[str]
+    r"""Secret parameter value to pass in request body"""
+    token_attribute_name: NotRequired[str]
+    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
+    auth_header_expr: NotRequired[str]
+    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
+    token_timeout_secs: NotRequired[float]
+    r"""How often the OAuth token should be refreshed."""
+    oauth_params: NotRequired[List[OauthParamSplunkSearchTypedDict]]
+    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+    oauth_headers: NotRequired[List[OauthHeaderSplunkSearchTypedDict]]
+    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+
+
+class CreateInputInputSplunkSearch(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    search: str
+    r"""Enter Splunk search here. Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'"""
+
+    type: Optional[CreateInputTypeSplunkSearch] = None
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ConnectionSplunkSearch]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqSplunkSearch] = None
+
+    search_head: Annotated[Optional[str], pydantic.Field(alias="searchHead")] = (
+        "https://localhost:8089"
+    )
+    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
+
+    earliest: Optional[str] = "-16m@m"
+    r"""The earliest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-16m@m'"""
+
+    latest: Optional[str] = "-1m@m"
+    r"""The latest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-1m@m'"""
+
+    cron_schedule: Annotated[Optional[str], pydantic.Field(alias="cronSchedule")] = (
+        "*/15 * * * *"
+    )
+    r"""A cron schedule on which to run this job"""
+
+    endpoint: Optional[str] = "/services/search/v2/jobs/export"
+    r"""REST API used to create a search"""
+
+    output_mode: Annotated[
+        Optional[CreateInputOutputMode], pydantic.Field(alias="outputMode")
+    ] = CreateInputOutputMode.JSON
+    r"""Format of the returned output"""
+
+    endpoint_params: Annotated[
+        Optional[List[CreateInputEndpointParam]], pydantic.Field(alias="endpointParams")
+    ] = None
+    r"""Optional request parameters to send to the endpoint"""
+
+    endpoint_headers: Annotated[
+        Optional[List[CreateInputEndpointHeader]],
+        pydantic.Field(alias="endpointHeaders"),
+    ] = None
+    r"""Optional request headers to send to the endpoint"""
+
+    log_level: Annotated[
+        Optional[LogLevelSplunkSearch], pydantic.Field(alias="logLevel")
+    ] = None
+    r"""Collector runtime log level (verbosity)"""
+
+    request_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="requestTimeout")
+    ] = 0
+    r"""HTTP request inactivity timeout. Use 0 for no timeout."""
+
+    use_round_robin_dns: Annotated[
+        Optional[bool], pydantic.Field(alias="useRoundRobinDns")
+    ] = False
+    r"""When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned"""
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = False
+    r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
+
+    encoding: Optional[str] = None
+    r"""Character encoding to use when parsing ingested data. When not set, @{product} will default to UTF-8 but may incorrectly interpret multi-byte characters."""
+
+    keep_alive_time: Annotated[
+        Optional[float], pydantic.Field(alias="keepAliveTime")
+    ] = 30
+    r"""How often workers should check in with the scheduler to keep job subscription alive"""
+
+    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = "0"
+    r"""Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time."""
+
+    max_missed_keep_alives: Annotated[
+        Optional[float], pydantic.Field(alias="maxMissedKeepAlives")
+    ] = 3
+    r"""The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked."""
+
+    ttl: Optional[str] = "4h"
+    r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
+
+    ignore_group_jobs_limit: Annotated[
+        Optional[bool], pydantic.Field(alias="ignoreGroupJobsLimit")
+    ] = False
+    r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
+
+    metadata: Optional[List[MetadatumSplunkSearch]] = None
+    r"""Fields to add to events from this input"""
+
+    retry_rules: Annotated[
+        Optional[RetryRulesSplunkSearch], pydantic.Field(alias="retryRules")
+    ] = None
+
+    breaker_rulesets: Annotated[
+        Optional[List[str]], pydantic.Field(alias="breakerRulesets")
+    ] = None
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+
+    stale_channel_flush_ms: Annotated[
+        Optional[float], pydantic.Field(alias="staleChannelFlushMs")
+    ] = 10000
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+
+    auth_type: Annotated[
+        Optional[AuthenticationTypeSplunkSearch], pydantic.Field(alias="authType")
+    ] = AuthenticationTypeSplunkSearch.BASIC
+    r"""Splunk Search authentication type"""
+
+    description: Optional[str] = None
+
+    username: Optional[str] = None
+
+    password: Optional[str] = None
+
+    token: Optional[str] = None
+    r"""Bearer token to include in the authorization header"""
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a secret that references your credentials"""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a stored text secret"""
+
+    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
+    r"""URL for OAuth"""
+
+    secret_param_name: Annotated[
+        Optional[str], pydantic.Field(alias="secretParamName")
+    ] = None
+    r"""Secret parameter name to pass in request body"""
+
+    secret: Optional[str] = None
+    r"""Secret parameter value to pass in request body"""
+
+    token_attribute_name: Annotated[
+        Optional[str], pydantic.Field(alias="tokenAttributeName")
+    ] = None
+    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
+
+    auth_header_expr: Annotated[
+        Optional[str], pydantic.Field(alias="authHeaderExpr")
+    ] = "`Bearer ${token}`"
+    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
+
+    token_timeout_secs: Annotated[
+        Optional[float], pydantic.Field(alias="tokenTimeoutSecs")
+    ] = 3600
+    r"""How often the OAuth token should be refreshed."""
+
+    oauth_params: Annotated[
+        Optional[List[OauthParamSplunkSearch]], pydantic.Field(alias="oauthParams")
+    ] = None
+    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+
+    oauth_headers: Annotated[
+        Optional[List[OauthHeaderSplunkSearch]], pydantic.Field(alias="oauthHeaders")
+    ] = None
+    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+
+
+class CreateInputTypeSplunk(str, Enum):
+    SPLUNK = "splunk"
+
+
+class ConnectionSplunkTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class ConnectionSplunk(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class CreateInputModeSplunk(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class PqCompressionSplunk(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class PqSplunkTypedDict(TypedDict):
+    mode: NotRequired[CreateInputModeSplunk]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[PqCompressionSplunk]
+    r"""Codec to use to compress the persisted data"""
+
+
+class PqSplunk(BaseModel):
+    mode: Optional[CreateInputModeSplunk] = CreateInputModeSplunk.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[PqCompressionSplunk] = PqCompressionSplunk.NONE
+    r"""Codec to use to compress the persisted data"""
+
+
+class CreateInputMinimumTLSVersionSplunk(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class CreateInputMaximumTLSVersionSplunk(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class TLSSettingsServerSideSplunkTypedDict(TypedDict):
+    disabled: NotRequired[bool]
+    certificate_name: NotRequired[str]
+    r"""The name of the predefined certificate"""
+    priv_key_path: NotRequired[str]
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+    passphrase: NotRequired[str]
+    r"""Passphrase to use to decrypt private key"""
+    cert_path: NotRequired[str]
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+    ca_path: NotRequired[str]
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+    request_cert: NotRequired[bool]
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+    reject_unauthorized: NotRequired[Any]
+    common_name_regex: NotRequired[Any]
+    min_version: NotRequired[CreateInputMinimumTLSVersionSplunk]
+    max_version: NotRequired[CreateInputMaximumTLSVersionSplunk]
+
+
+class TLSSettingsServerSideSplunk(BaseModel):
+    disabled: Optional[bool] = True
+
+    certificate_name: Annotated[
+        Optional[str], pydantic.Field(alias="certificateName")
+    ] = None
+    r"""The name of the predefined certificate"""
+
+    priv_key_path: Annotated[Optional[str], pydantic.Field(alias="privKeyPath")] = None
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+
+    passphrase: Optional[str] = None
+    r"""Passphrase to use to decrypt private key"""
+
+    cert_path: Annotated[Optional[str], pydantic.Field(alias="certPath")] = None
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    ca_path: Annotated[Optional[str], pydantic.Field(alias="caPath")] = None
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    request_cert: Annotated[Optional[bool], pydantic.Field(alias="requestCert")] = False
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+
+    reject_unauthorized: Annotated[
+        Optional[Any], pydantic.Field(alias="rejectUnauthorized")
+    ] = None
+
+    common_name_regex: Annotated[
+        Optional[Any], pydantic.Field(alias="commonNameRegex")
+    ] = None
+
+    min_version: Annotated[
+        Optional[CreateInputMinimumTLSVersionSplunk], pydantic.Field(alias="minVersion")
+    ] = None
+
+    max_version: Annotated[
+        Optional[CreateInputMaximumTLSVersionSplunk], pydantic.Field(alias="maxVersion")
+    ] = None
+
+
+class MetadatumSplunkTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class MetadatumSplunk(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class AuthTokenSplunkTypedDict(TypedDict):
+    token: str
+    r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
+    description: NotRequired[str]
+
+
+class AuthTokenSplunk(BaseModel):
+    token: str
+    r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
+
+    description: Optional[str] = None
+
+
+class CreateInputMaxS2SVersion(str, Enum):
+    r"""The highest S2S protocol version to advertise during handshake"""
+
+    V3 = "v3"
+    V4 = "v4"
+
+
+class CreateInputCompressionSplunk(str, Enum):
+    r"""Controls whether to support reading compressed data from a forwarder. Select 'Automatic' to match the forwarder's configuration, or 'Disabled' to reject compressed connections."""
+
+    DISABLED = "disabled"
+    AUTO = "auto"
+    ALWAYS = "always"
+
+
+class CreateInputInputSplunkTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    port: float
+    r"""Port to listen on"""
+    type: NotRequired[CreateInputTypeSplunk]
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ConnectionSplunkTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqSplunkTypedDict]
+    host: NotRequired[str]
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+    tls: NotRequired[TLSSettingsServerSideSplunkTypedDict]
+    ip_whitelist_regex: NotRequired[str]
+    r"""Regex matching IP addresses that are allowed to establish a connection"""
+    max_active_cxn: NotRequired[float]
+    r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
+    socket_idle_timeout: NotRequired[float]
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. After this time, the connection will be closed. Leave at 0 for no inactive socket monitoring."""
+    socket_ending_max_wait: NotRequired[float]
+    r"""How long the server will wait after initiating a closure for a client to close its end of the connection. If the client doesn't close the connection within this time, the server will forcefully terminate the socket to prevent resource leaks and ensure efficient connection cleanup and system stability. Leave at 0 for no inactive socket monitoring."""
+    socket_max_lifespan: NotRequired[float]
+    r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
+    enable_proxy_header: NotRequired[bool]
+    r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
+    metadata: NotRequired[List[MetadatumSplunkTypedDict]]
+    r"""Fields to add to events from this input"""
+    breaker_rulesets: NotRequired[List[str]]
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+    stale_channel_flush_ms: NotRequired[float]
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+    auth_tokens: NotRequired[List[AuthTokenSplunkTypedDict]]
+    r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
+    max_s2_sversion: NotRequired[CreateInputMaxS2SVersion]
+    r"""The highest S2S protocol version to advertise during handshake"""
+    description: NotRequired[str]
+    use_fwd_timezone: NotRequired[bool]
+    r"""Event Breakers will determine events' time zone from UF-provided metadata, when TZ can't be inferred from the raw event"""
+    drop_control_fields: NotRequired[bool]
+    r"""Drop Splunk control fields such as `crcSalt` and `_savedPort`. If disabled, control fields are stored in the internal field `__ctrlFields`."""
+    extract_metrics: NotRequired[bool]
+    r"""Extract and process Splunk-generated metrics as Cribl metrics"""
+    compress: NotRequired[CreateInputCompressionSplunk]
+    r"""Controls whether to support reading compressed data from a forwarder. Select 'Automatic' to match the forwarder's configuration, or 'Disabled' to reject compressed connections."""
+
+
+class CreateInputInputSplunk(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    port: float
+    r"""Port to listen on"""
+
+    type: Optional[CreateInputTypeSplunk] = None
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ConnectionSplunk]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqSplunk] = None
+
+    host: Optional[str] = "0.0.0.0"
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+
+    tls: Optional[TLSSettingsServerSideSplunk] = None
+
+    ip_whitelist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipWhitelistRegex")
+    ] = "/.*/"
+    r"""Regex matching IP addresses that are allowed to establish a connection"""
+
+    max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
+        1000
+    )
+    r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
+
+    socket_idle_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="socketIdleTimeout")
+    ] = 0
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. After this time, the connection will be closed. Leave at 0 for no inactive socket monitoring."""
+
+    socket_ending_max_wait: Annotated[
+        Optional[float], pydantic.Field(alias="socketEndingMaxWait")
+    ] = 30
+    r"""How long the server will wait after initiating a closure for a client to close its end of the connection. If the client doesn't close the connection within this time, the server will forcefully terminate the socket to prevent resource leaks and ensure efficient connection cleanup and system stability. Leave at 0 for no inactive socket monitoring."""
+
+    socket_max_lifespan: Annotated[
+        Optional[float], pydantic.Field(alias="socketMaxLifespan")
+    ] = 0
+    r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
+
+    enable_proxy_header: Annotated[
+        Optional[bool], pydantic.Field(alias="enableProxyHeader")
+    ] = False
+    r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
+
+    metadata: Optional[List[MetadatumSplunk]] = None
+    r"""Fields to add to events from this input"""
+
+    breaker_rulesets: Annotated[
+        Optional[List[str]], pydantic.Field(alias="breakerRulesets")
+    ] = None
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+
+    stale_channel_flush_ms: Annotated[
+        Optional[float], pydantic.Field(alias="staleChannelFlushMs")
+    ] = 10000
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+
+    auth_tokens: Annotated[
+        Optional[List[AuthTokenSplunk]], pydantic.Field(alias="authTokens")
+    ] = None
+    r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
+
+    max_s2_sversion: Annotated[
+        Optional[CreateInputMaxS2SVersion], pydantic.Field(alias="maxS2Sversion")
+    ] = CreateInputMaxS2SVersion.V3
+    r"""The highest S2S protocol version to advertise during handshake"""
+
+    description: Optional[str] = None
+
+    use_fwd_timezone: Annotated[
+        Optional[bool], pydantic.Field(alias="useFwdTimezone")
+    ] = True
+    r"""Event Breakers will determine events' time zone from UF-provided metadata, when TZ can't be inferred from the raw event"""
+
+    drop_control_fields: Annotated[
+        Optional[bool], pydantic.Field(alias="dropControlFields")
+    ] = True
+    r"""Drop Splunk control fields such as `crcSalt` and `_savedPort`. If disabled, control fields are stored in the internal field `__ctrlFields`."""
+
+    extract_metrics: Annotated[
+        Optional[bool], pydantic.Field(alias="extractMetrics")
+    ] = False
+    r"""Extract and process Splunk-generated metrics as Cribl metrics"""
+
+    compress: Optional[CreateInputCompressionSplunk] = (
+        CreateInputCompressionSplunk.DISABLED
+    )
+    r"""Controls whether to support reading compressed data from a forwarder. Select 'Automatic' to match the forwarder's configuration, or 'Disabled' to reject compressed connections."""
+
+
+class CreateInputTypeHTTP(str, Enum):
+    HTTP = "http"
+
+
+class ConnectionHTTPTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class ConnectionHTTP(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class CreateInputModeHTTP(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CreateInputCompressionHTTP(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class PqHTTPTypedDict(TypedDict):
+    mode: NotRequired[CreateInputModeHTTP]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CreateInputCompressionHTTP]
+    r"""Codec to use to compress the persisted data"""
+
+
+class PqHTTP(BaseModel):
+    mode: Optional[CreateInputModeHTTP] = CreateInputModeHTTP.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CreateInputCompressionHTTP] = CreateInputCompressionHTTP.NONE
+    r"""Codec to use to compress the persisted data"""
+
+
+class MinimumTLSVersionHTTP(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class MaximumTLSVersionHTTP(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class TLSSettingsServerSideHTTPTypedDict(TypedDict):
+    disabled: NotRequired[bool]
+    certificate_name: NotRequired[str]
+    r"""The name of the predefined certificate"""
+    priv_key_path: NotRequired[str]
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+    passphrase: NotRequired[str]
+    r"""Passphrase to use to decrypt private key"""
+    cert_path: NotRequired[str]
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+    ca_path: NotRequired[str]
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+    request_cert: NotRequired[bool]
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+    reject_unauthorized: NotRequired[Any]
+    common_name_regex: NotRequired[Any]
+    min_version: NotRequired[MinimumTLSVersionHTTP]
+    max_version: NotRequired[MaximumTLSVersionHTTP]
+
+
+class TLSSettingsServerSideHTTP(BaseModel):
+    disabled: Optional[bool] = True
+
+    certificate_name: Annotated[
+        Optional[str], pydantic.Field(alias="certificateName")
+    ] = None
+    r"""The name of the predefined certificate"""
+
+    priv_key_path: Annotated[Optional[str], pydantic.Field(alias="privKeyPath")] = None
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+
+    passphrase: Optional[str] = None
+    r"""Passphrase to use to decrypt private key"""
+
+    cert_path: Annotated[Optional[str], pydantic.Field(alias="certPath")] = None
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    ca_path: Annotated[Optional[str], pydantic.Field(alias="caPath")] = None
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    request_cert: Annotated[Optional[bool], pydantic.Field(alias="requestCert")] = False
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+
+    reject_unauthorized: Annotated[
+        Optional[Any], pydantic.Field(alias="rejectUnauthorized")
+    ] = None
+
+    common_name_regex: Annotated[
+        Optional[Any], pydantic.Field(alias="commonNameRegex")
+    ] = None
+
+    min_version: Annotated[
+        Optional[MinimumTLSVersionHTTP], pydantic.Field(alias="minVersion")
+    ] = None
+
+    max_version: Annotated[
+        Optional[MaximumTLSVersionHTTP], pydantic.Field(alias="maxVersion")
+    ] = None
+
+
+class CreateInputMetadatumHTTPTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CreateInputMetadatumHTTP(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class AuthTokensExtMetadatumHTTPTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class AuthTokensExtMetadatumHTTP(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class AuthTokensExtHTTPTypedDict(TypedDict):
+    token: str
+    r"""Shared secret to be provided by any client (Authorization: <token>)"""
+    description: NotRequired[str]
+    metadata: NotRequired[List[AuthTokensExtMetadatumHTTPTypedDict]]
+    r"""Fields to add to events referencing this token"""
+
+
+class AuthTokensExtHTTP(BaseModel):
+    token: str
+    r"""Shared secret to be provided by any client (Authorization: <token>)"""
+
+    description: Optional[str] = None
+
+    metadata: Optional[List[AuthTokensExtMetadatumHTTP]] = None
+    r"""Fields to add to events referencing this token"""
+
+
+class CreateInputInputHTTPTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    port: float
+    r"""Port to listen on"""
+    type: NotRequired[CreateInputTypeHTTP]
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ConnectionHTTPTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqHTTPTypedDict]
+    host: NotRequired[str]
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+    auth_tokens: NotRequired[List[str]]
+    r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
+    tls: NotRequired[TLSSettingsServerSideHTTPTypedDict]
+    max_active_req: NotRequired[float]
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+    max_requests_per_socket: NotRequired[int]
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+    enable_proxy_header: NotRequired[bool]
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+    capture_headers: NotRequired[bool]
+    r"""Add request headers to events, in the __headers field"""
+    activity_log_sample_rate: NotRequired[float]
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+    request_timeout: NotRequired[float]
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+    socket_timeout: NotRequired[float]
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+    keep_alive_timeout: NotRequired[float]
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
+    enable_health_check: NotRequired[bool]
+    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
+    ip_allowlist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+    ip_denylist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+    cribl_api: NotRequired[str]
+    r"""Absolute path on which to listen for the Cribl HTTP API requests. Only _bulk (default /cribl/_bulk) is available. Use empty string to disable."""
+    elastic_api: NotRequired[str]
+    r"""Absolute path on which to listen for the Elasticsearch API requests. Only _bulk (default /elastic/_bulk) is available. Use empty string to disable."""
+    splunk_hec_api: NotRequired[str]
+    r"""Absolute path on which listen for the Splunk HTTP Event Collector API requests. Use empty string to disable."""
+    splunk_hec_acks: NotRequired[bool]
+    metadata: NotRequired[List[CreateInputMetadatumHTTPTypedDict]]
+    r"""Fields to add to events from this input"""
+    auth_tokens_ext: NotRequired[List[AuthTokensExtHTTPTypedDict]]
+    r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
+    description: NotRequired[str]
+
+
+class CreateInputInputHTTP(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    port: float
+    r"""Port to listen on"""
+
+    type: Optional[CreateInputTypeHTTP] = None
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ConnectionHTTP]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqHTTP] = None
+
+    host: Optional[str] = "0.0.0.0"
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+
+    auth_tokens: Annotated[Optional[List[str]], pydantic.Field(alias="authTokens")] = (
+        None
+    )
+    r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
+
+    tls: Optional[TLSSettingsServerSideHTTP] = None
+
+    max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
+        256
+    )
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+
+    max_requests_per_socket: Annotated[
+        Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
+    ] = 0
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+
+    enable_proxy_header: Annotated[
+        Optional[bool], pydantic.Field(alias="enableProxyHeader")
+    ] = False
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+
+    capture_headers: Annotated[
+        Optional[bool], pydantic.Field(alias="captureHeaders")
+    ] = False
+    r"""Add request headers to events, in the __headers field"""
+
+    activity_log_sample_rate: Annotated[
+        Optional[float], pydantic.Field(alias="activityLogSampleRate")
+    ] = 100
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+
+    request_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="requestTimeout")
+    ] = 0
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+
+    socket_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="socketTimeout")
+    ] = 0
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+
+    keep_alive_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="keepAliveTimeout")
+    ] = 5
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
+
+    enable_health_check: Annotated[
+        Optional[bool], pydantic.Field(alias="enableHealthCheck")
+    ] = False
+    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
+
+    ip_allowlist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipAllowlistRegex")
+    ] = "/.*/"
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+
+    ip_denylist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipDenylistRegex")
+    ] = "/^$/"
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+
+    cribl_api: Annotated[Optional[str], pydantic.Field(alias="criblAPI")] = "/cribl"
+    r"""Absolute path on which to listen for the Cribl HTTP API requests. Only _bulk (default /cribl/_bulk) is available. Use empty string to disable."""
+
+    elastic_api: Annotated[Optional[str], pydantic.Field(alias="elasticAPI")] = (
+        "/elastic"
+    )
+    r"""Absolute path on which to listen for the Elasticsearch API requests. Only _bulk (default /elastic/_bulk) is available. Use empty string to disable."""
+
+    splunk_hec_api: Annotated[Optional[str], pydantic.Field(alias="splunkHecAPI")] = (
+        "/services/collector"
+    )
+    r"""Absolute path on which listen for the Splunk HTTP Event Collector API requests. Use empty string to disable."""
+
+    splunk_hec_acks: Annotated[
+        Optional[bool], pydantic.Field(alias="splunkHecAcks")
+    ] = False
+
+    metadata: Optional[List[CreateInputMetadatumHTTP]] = None
+    r"""Fields to add to events from this input"""
+
+    auth_tokens_ext: Annotated[
+        Optional[List[AuthTokensExtHTTP]], pydantic.Field(alias="authTokensExt")
+    ] = None
+    r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
+
+    description: Optional[str] = None
+
+
+class CreateInputTypeMsk(str, Enum):
+    MSK = "msk"
+
+
+class ConnectionMskTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class ConnectionMsk(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class CreateInputModeMsk(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CreateInputCompressionMsk(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class PqMskTypedDict(TypedDict):
+    mode: NotRequired[CreateInputModeMsk]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CreateInputCompressionMsk]
+    r"""Codec to use to compress the persisted data"""
+
+
+class PqMsk(BaseModel):
+    mode: Optional[CreateInputModeMsk] = CreateInputModeMsk.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CreateInputCompressionMsk] = CreateInputCompressionMsk.NONE
+    r"""Codec to use to compress the persisted data"""
+
+
+class MetadatumMskTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class MetadatumMsk(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CreateInputAuthMskTypedDict(TypedDict):
+    r"""Credentials to use when authenticating with the schema registry using basic HTTP authentication"""
+
+    disabled: NotRequired[bool]
+    credentials_secret: NotRequired[str]
+    r"""Select or create a secret that references your credentials"""
+
+
+class CreateInputAuthMsk(BaseModel):
+    r"""Credentials to use when authenticating with the schema registry using basic HTTP authentication"""
+
+    disabled: Optional[bool] = True
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a secret that references your credentials"""
+
+
+class CreateInputKafkaSchemaRegistryMinimumTLSVersionMsk(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class CreateInputKafkaSchemaRegistryMaximumTLSVersionMsk(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class CreateInputKafkaSchemaRegistryTLSSettingsClientSideMskTypedDict(TypedDict):
+    disabled: NotRequired[bool]
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates that are not authorized by a CA in the CA certificate path, or by another
+    trusted CA (such as the system's). Defaults to Enabled. Overrides the toggle from Advanced Settings, when also present.
+    """
+    servername: NotRequired[str]
+    r"""Server name for the SNI (Server Name Indication) TLS extension. It must be a host name, and not an IP address."""
+    certificate_name: NotRequired[str]
+    r"""The name of the predefined certificate"""
+    ca_path: NotRequired[str]
+    r"""Path on client in which to find CA certificates to verify the server's cert. PEM format. Can reference $ENV_VARS."""
+    priv_key_path: NotRequired[str]
+    r"""Path on client in which to find the private key to use. PEM format. Can reference $ENV_VARS."""
+    cert_path: NotRequired[str]
+    r"""Path on client in which to find certificates to use. PEM format. Can reference $ENV_VARS."""
+    passphrase: NotRequired[str]
+    r"""Passphrase to use to decrypt private key"""
+    min_version: NotRequired[CreateInputKafkaSchemaRegistryMinimumTLSVersionMsk]
+    max_version: NotRequired[CreateInputKafkaSchemaRegistryMaximumTLSVersionMsk]
+
+
+class CreateInputKafkaSchemaRegistryTLSSettingsClientSideMsk(BaseModel):
+    disabled: Optional[bool] = True
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = True
+    r"""Reject certificates that are not authorized by a CA in the CA certificate path, or by another
+    trusted CA (such as the system's). Defaults to Enabled. Overrides the toggle from Advanced Settings, when also present.
+    """
+
+    servername: Optional[str] = None
+    r"""Server name for the SNI (Server Name Indication) TLS extension. It must be a host name, and not an IP address."""
+
+    certificate_name: Annotated[
+        Optional[str], pydantic.Field(alias="certificateName")
+    ] = None
+    r"""The name of the predefined certificate"""
+
+    ca_path: Annotated[Optional[str], pydantic.Field(alias="caPath")] = None
+    r"""Path on client in which to find CA certificates to verify the server's cert. PEM format. Can reference $ENV_VARS."""
+
+    priv_key_path: Annotated[Optional[str], pydantic.Field(alias="privKeyPath")] = None
+    r"""Path on client in which to find the private key to use. PEM format. Can reference $ENV_VARS."""
+
+    cert_path: Annotated[Optional[str], pydantic.Field(alias="certPath")] = None
+    r"""Path on client in which to find certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    passphrase: Optional[str] = None
+    r"""Passphrase to use to decrypt private key"""
+
+    min_version: Annotated[
+        Optional[CreateInputKafkaSchemaRegistryMinimumTLSVersionMsk],
+        pydantic.Field(alias="minVersion"),
+    ] = None
+
+    max_version: Annotated[
+        Optional[CreateInputKafkaSchemaRegistryMaximumTLSVersionMsk],
+        pydantic.Field(alias="maxVersion"),
+    ] = None
+
+
+class CreateInputKafkaSchemaRegistryAuthenticationMskTypedDict(TypedDict):
+    disabled: NotRequired[bool]
+    schema_registry_url: NotRequired[str]
+    r"""URL for accessing the Confluent Schema Registry. Example: http://localhost:8081. To connect over TLS, use https instead of http."""
+    connection_timeout: NotRequired[float]
+    r"""Maximum time to wait for a Schema Registry connection to complete successfully"""
+    request_timeout: NotRequired[float]
+    r"""Maximum time to wait for the Schema Registry to respond to a request"""
+    max_retries: NotRequired[float]
+    r"""Maximum number of times to try fetching schemas from the Schema Registry"""
+    auth: NotRequired[CreateInputAuthMskTypedDict]
+    r"""Credentials to use when authenticating with the schema registry using basic HTTP authentication"""
+    tls: NotRequired[CreateInputKafkaSchemaRegistryTLSSettingsClientSideMskTypedDict]
+
+
+class CreateInputKafkaSchemaRegistryAuthenticationMsk(BaseModel):
+    disabled: Optional[bool] = True
+
+    schema_registry_url: Annotated[
+        Optional[str], pydantic.Field(alias="schemaRegistryURL")
+    ] = "http://localhost:8081"
+    r"""URL for accessing the Confluent Schema Registry. Example: http://localhost:8081. To connect over TLS, use https instead of http."""
+
+    connection_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="connectionTimeout")
+    ] = 30000
+    r"""Maximum time to wait for a Schema Registry connection to complete successfully"""
+
+    request_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="requestTimeout")
+    ] = 30000
+    r"""Maximum time to wait for the Schema Registry to respond to a request"""
+
+    max_retries: Annotated[Optional[float], pydantic.Field(alias="maxRetries")] = 1
+    r"""Maximum number of times to try fetching schemas from the Schema Registry"""
+
+    auth: Optional[CreateInputAuthMsk] = None
+    r"""Credentials to use when authenticating with the schema registry using basic HTTP authentication"""
+
+    tls: Optional[CreateInputKafkaSchemaRegistryTLSSettingsClientSideMsk] = None
+
+
+class CreateInputAuthenticationMethodMsk(str, Enum):
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+
+    AUTO = "auto"
+    MANUAL = "manual"
+    SECRET = "secret"
+
+
+class CreateInputSignatureVersionMsk(str, Enum):
+    r"""Signature version to use for signing MSK cluster requests"""
+
+    V2 = "v2"
+    V4 = "v4"
+
+
+class CreateInputMinimumTLSVersionMsk(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class CreateInputMaximumTLSVersionMsk(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class CreateInputTLSSettingsClientSideMskTypedDict(TypedDict):
+    disabled: NotRequired[bool]
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates that are not authorized by a CA in the CA certificate path, or by another
+    trusted CA (such as the system's). Defaults to Enabled. Overrides the toggle from Advanced Settings, when also present.
+    """
+    servername: NotRequired[str]
+    r"""Server name for the SNI (Server Name Indication) TLS extension. It must be a host name, and not an IP address."""
+    certificate_name: NotRequired[str]
+    r"""The name of the predefined certificate"""
+    ca_path: NotRequired[str]
+    r"""Path on client in which to find CA certificates to verify the server's cert. PEM format. Can reference $ENV_VARS."""
+    priv_key_path: NotRequired[str]
+    r"""Path on client in which to find the private key to use. PEM format. Can reference $ENV_VARS."""
+    cert_path: NotRequired[str]
+    r"""Path on client in which to find certificates to use. PEM format. Can reference $ENV_VARS."""
+    passphrase: NotRequired[str]
+    r"""Passphrase to use to decrypt private key"""
+    min_version: NotRequired[CreateInputMinimumTLSVersionMsk]
+    max_version: NotRequired[CreateInputMaximumTLSVersionMsk]
+
+
+class CreateInputTLSSettingsClientSideMsk(BaseModel):
+    disabled: Optional[bool] = False
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = True
+    r"""Reject certificates that are not authorized by a CA in the CA certificate path, or by another
+    trusted CA (such as the system's). Defaults to Enabled. Overrides the toggle from Advanced Settings, when also present.
+    """
+
+    servername: Optional[str] = None
+    r"""Server name for the SNI (Server Name Indication) TLS extension. It must be a host name, and not an IP address."""
+
+    certificate_name: Annotated[
+        Optional[str], pydantic.Field(alias="certificateName")
+    ] = None
+    r"""The name of the predefined certificate"""
+
+    ca_path: Annotated[Optional[str], pydantic.Field(alias="caPath")] = None
+    r"""Path on client in which to find CA certificates to verify the server's cert. PEM format. Can reference $ENV_VARS."""
+
+    priv_key_path: Annotated[Optional[str], pydantic.Field(alias="privKeyPath")] = None
+    r"""Path on client in which to find the private key to use. PEM format. Can reference $ENV_VARS."""
+
+    cert_path: Annotated[Optional[str], pydantic.Field(alias="certPath")] = None
+    r"""Path on client in which to find certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    passphrase: Optional[str] = None
+    r"""Passphrase to use to decrypt private key"""
+
+    min_version: Annotated[
+        Optional[CreateInputMinimumTLSVersionMsk], pydantic.Field(alias="minVersion")
+    ] = None
+
+    max_version: Annotated[
+        Optional[CreateInputMaximumTLSVersionMsk], pydantic.Field(alias="maxVersion")
+    ] = None
+
+
+class CreateInputInputMskTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    brokers: List[str]
+    r"""Enter each Kafka bootstrap server you want to use. Specify the hostname and port (such as mykafkabroker:9092) or just the hostname (in which case @{product} will assign port 9092)."""
+    topics: List[str]
+    r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
+    region: str
+    r"""Region where the MSK cluster is located"""
+    type: NotRequired[CreateInputTypeMsk]
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ConnectionMskTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqMskTypedDict]
+    group_id: NotRequired[str]
+    r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
+    from_beginning: NotRequired[bool]
+    r"""Leave enabled if you want the Source, upon first subscribing to a topic, to read starting with the earliest available message"""
+    session_timeout: NotRequired[float]
+    r"""Timeout used to detect client failures when using Kafka's group-management facilities.
+    If the client sends no heartbeats to the broker before the timeout expires,
+    the broker will remove the client from the group and initiate a rebalance.
+    Value must be between the broker's configured group.min.session.timeout.ms and group.max.session.timeout.ms.
+    See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_session.timeout.ms) for details.
+    """
+    rebalance_timeout: NotRequired[float]
+    r"""Maximum allowed time for each worker to join the group after a rebalance begins.
+    If the timeout is exceeded, the coordinator broker will remove the worker from the group.
+    See [Kafka's documentation](https://kafka.apache.org/documentation/#connectconfigs_rebalance.timeout.ms) for details.
+    """
+    heartbeat_interval: NotRequired[float]
+    r"""Expected time between heartbeats to the consumer coordinator when using Kafka's group-management facilities.
+    Value must be lower than sessionTimeout and typically should not exceed 1/3 of the sessionTimeout value.
+    See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_heartbeat.interval.ms) for details.
+    """
+    metadata: NotRequired[List[MetadatumMskTypedDict]]
+    r"""Fields to add to events from this input"""
+    kafka_schema_registry: NotRequired[
+        CreateInputKafkaSchemaRegistryAuthenticationMskTypedDict
+    ]
+    connection_timeout: NotRequired[float]
+    r"""Maximum time to wait for a connection to complete successfully"""
+    request_timeout: NotRequired[float]
+    r"""Maximum time to wait for Kafka to respond to a request"""
+    max_retries: NotRequired[float]
+    r"""If messages are failing, you can set the maximum number of retries as high as 100 to prevent loss of data"""
+    max_back_off: NotRequired[float]
+    r"""The maximum wait time for a retry, in milliseconds. Default (and minimum) is 30,000 ms (30 seconds); maximum is 180,000 ms (180 seconds)."""
+    initial_backoff: NotRequired[float]
+    r"""Initial value used to calculate the retry, in milliseconds. Maximum is 600,000 ms (10 minutes)."""
+    backoff_rate: NotRequired[float]
+    r"""Set the backoff multiplier (2-20) to control the retry frequency for failed messages. For faster retries, use a lower multiplier. For slower retries with more delay between attempts, use a higher multiplier. The multiplier is used in an exponential backoff formula; see the Kafka [documentation](https://kafka.js.org/docs/retry-detailed) for details."""
+    authentication_timeout: NotRequired[float]
+    r"""Maximum time to wait for Kafka to respond to an authentication request"""
+    reauthentication_threshold: NotRequired[float]
+    r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
+    aws_authentication_method: NotRequired[CreateInputAuthenticationMethodMsk]
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+    aws_secret_key: NotRequired[str]
+    endpoint: NotRequired[str]
+    r"""MSK cluster service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to MSK cluster-compatible endpoint."""
+    signature_version: NotRequired[CreateInputSignatureVersionMsk]
+    r"""Signature version to use for signing MSK cluster requests"""
+    reuse_connections: NotRequired[bool]
+    r"""Reuse connections between requests, which can improve performance"""
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+    enable_assume_role: NotRequired[bool]
+    r"""Use Assume Role credentials to access MSK"""
+    assume_role_arn: NotRequired[str]
+    r"""Amazon Resource Name (ARN) of the role to assume"""
+    assume_role_external_id: NotRequired[str]
+    r"""External ID to use when assuming role"""
+    duration_seconds: NotRequired[float]
+    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+    tls: NotRequired[CreateInputTLSSettingsClientSideMskTypedDict]
+    auto_commit_interval: NotRequired[float]
+    r"""How often to commit offsets. If both this and Offset commit threshold are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
+    auto_commit_threshold: NotRequired[float]
+    r"""How many events are needed to trigger an offset commit. If both this and Offset commit interval are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
+    max_bytes_per_partition: NotRequired[float]
+    r"""Maximum amount of data that Kafka will return per partition, per fetch request. Must equal or exceed the maximum message size (maxBytesPerPartition) that Kafka is configured to allow. Otherwise, @{product} can get stuck trying to retrieve messages. Defaults to 1048576 (1 MB)."""
+    max_bytes: NotRequired[float]
+    r"""Maximum number of bytes that Kafka will return per fetch request. Defaults to 10485760 (10 MB)."""
+    max_socket_errors: NotRequired[float]
+    r"""Maximum number of network errors before the consumer re-creates a socket"""
+    description: NotRequired[str]
+    aws_api_key: NotRequired[str]
+    aws_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your access key and secret key"""
+
+
+class CreateInputInputMsk(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    brokers: List[str]
+    r"""Enter each Kafka bootstrap server you want to use. Specify the hostname and port (such as mykafkabroker:9092) or just the hostname (in which case @{product} will assign port 9092)."""
+
+    topics: List[str]
+    r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
+
+    region: str
+    r"""Region where the MSK cluster is located"""
+
+    type: Optional[CreateInputTypeMsk] = None
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ConnectionMsk]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqMsk] = None
+
+    group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = "Cribl"
+    r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
+
+    from_beginning: Annotated[Optional[bool], pydantic.Field(alias="fromBeginning")] = (
+        True
+    )
+    r"""Leave enabled if you want the Source, upon first subscribing to a topic, to read starting with the earliest available message"""
+
+    session_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="sessionTimeout")
+    ] = 30000
+    r"""Timeout used to detect client failures when using Kafka's group-management facilities.
+    If the client sends no heartbeats to the broker before the timeout expires,
+    the broker will remove the client from the group and initiate a rebalance.
+    Value must be between the broker's configured group.min.session.timeout.ms and group.max.session.timeout.ms.
+    See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_session.timeout.ms) for details.
+    """
+
+    rebalance_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="rebalanceTimeout")
+    ] = 60000
+    r"""Maximum allowed time for each worker to join the group after a rebalance begins.
+    If the timeout is exceeded, the coordinator broker will remove the worker from the group.
+    See [Kafka's documentation](https://kafka.apache.org/documentation/#connectconfigs_rebalance.timeout.ms) for details.
+    """
+
+    heartbeat_interval: Annotated[
+        Optional[float], pydantic.Field(alias="heartbeatInterval")
+    ] = 3000
+    r"""Expected time between heartbeats to the consumer coordinator when using Kafka's group-management facilities.
+    Value must be lower than sessionTimeout and typically should not exceed 1/3 of the sessionTimeout value.
+    See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_heartbeat.interval.ms) for details.
+    """
+
+    metadata: Optional[List[MetadatumMsk]] = None
+    r"""Fields to add to events from this input"""
+
+    kafka_schema_registry: Annotated[
+        Optional[CreateInputKafkaSchemaRegistryAuthenticationMsk],
+        pydantic.Field(alias="kafkaSchemaRegistry"),
+    ] = None
+
+    connection_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="connectionTimeout")
+    ] = 10000
+    r"""Maximum time to wait for a connection to complete successfully"""
+
+    request_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="requestTimeout")
+    ] = 60000
+    r"""Maximum time to wait for Kafka to respond to a request"""
+
+    max_retries: Annotated[Optional[float], pydantic.Field(alias="maxRetries")] = 5
+    r"""If messages are failing, you can set the maximum number of retries as high as 100 to prevent loss of data"""
+
+    max_back_off: Annotated[Optional[float], pydantic.Field(alias="maxBackOff")] = 30000
+    r"""The maximum wait time for a retry, in milliseconds. Default (and minimum) is 30,000 ms (30 seconds); maximum is 180,000 ms (180 seconds)."""
+
+    initial_backoff: Annotated[
+        Optional[float], pydantic.Field(alias="initialBackoff")
+    ] = 300
+    r"""Initial value used to calculate the retry, in milliseconds. Maximum is 600,000 ms (10 minutes)."""
+
+    backoff_rate: Annotated[Optional[float], pydantic.Field(alias="backoffRate")] = 2
+    r"""Set the backoff multiplier (2-20) to control the retry frequency for failed messages. For faster retries, use a lower multiplier. For slower retries with more delay between attempts, use a higher multiplier. The multiplier is used in an exponential backoff formula; see the Kafka [documentation](https://kafka.js.org/docs/retry-detailed) for details."""
+
+    authentication_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="authenticationTimeout")
+    ] = 10000
+    r"""Maximum time to wait for Kafka to respond to an authentication request"""
+
+    reauthentication_threshold: Annotated[
+        Optional[float], pydantic.Field(alias="reauthenticationThreshold")
+    ] = 10000
+    r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
+
+    aws_authentication_method: Annotated[
+        Optional[CreateInputAuthenticationMethodMsk],
+        pydantic.Field(alias="awsAuthenticationMethod"),
+    ] = CreateInputAuthenticationMethodMsk.AUTO
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+
+    aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
+        None
+    )
+
+    endpoint: Optional[str] = None
+    r"""MSK cluster service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to MSK cluster-compatible endpoint."""
+
+    signature_version: Annotated[
+        Optional[CreateInputSignatureVersionMsk],
+        pydantic.Field(alias="signatureVersion"),
+    ] = CreateInputSignatureVersionMsk.V4
+    r"""Signature version to use for signing MSK cluster requests"""
+
+    reuse_connections: Annotated[
+        Optional[bool], pydantic.Field(alias="reuseConnections")
+    ] = True
+    r"""Reuse connections between requests, which can improve performance"""
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = True
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+
+    enable_assume_role: Annotated[
+        Optional[bool], pydantic.Field(alias="enableAssumeRole")
+    ] = False
+    r"""Use Assume Role credentials to access MSK"""
+
+    assume_role_arn: Annotated[Optional[str], pydantic.Field(alias="assumeRoleArn")] = (
+        None
+    )
+    r"""Amazon Resource Name (ARN) of the role to assume"""
+
+    assume_role_external_id: Annotated[
+        Optional[str], pydantic.Field(alias="assumeRoleExternalId")
+    ] = None
+    r"""External ID to use when assuming role"""
+
+    duration_seconds: Annotated[
+        Optional[float], pydantic.Field(alias="durationSeconds")
+    ] = 3600
+    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+
+    tls: Optional[CreateInputTLSSettingsClientSideMsk] = None
+
+    auto_commit_interval: Annotated[
+        Optional[float], pydantic.Field(alias="autoCommitInterval")
+    ] = None
+    r"""How often to commit offsets. If both this and Offset commit threshold are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
+
+    auto_commit_threshold: Annotated[
+        Optional[float], pydantic.Field(alias="autoCommitThreshold")
+    ] = None
+    r"""How many events are needed to trigger an offset commit. If both this and Offset commit interval are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
+
+    max_bytes_per_partition: Annotated[
+        Optional[float], pydantic.Field(alias="maxBytesPerPartition")
+    ] = 1048576
+    r"""Maximum amount of data that Kafka will return per partition, per fetch request. Must equal or exceed the maximum message size (maxBytesPerPartition) that Kafka is configured to allow. Otherwise, @{product} can get stuck trying to retrieve messages. Defaults to 1048576 (1 MB)."""
+
+    max_bytes: Annotated[Optional[float], pydantic.Field(alias="maxBytes")] = 10485760
+    r"""Maximum number of bytes that Kafka will return per fetch request. Defaults to 10485760 (10 MB)."""
+
+    max_socket_errors: Annotated[
+        Optional[float], pydantic.Field(alias="maxSocketErrors")
+    ] = 0
+    r"""Maximum number of network errors before the consumer re-creates a socket"""
+
+    description: Optional[str] = None
+
+    aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+
+    aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
+    r"""Select or create a stored secret that references your access key and secret key"""
+
+
+class CreateInputTypeKafka(str, Enum):
+    KAFKA = "kafka"
+
+
+class ConnectionKafkaTypedDict(TypedDict):
+    output: str
+    pipeline: NotRequired[str]
+
+
+class ConnectionKafka(BaseModel):
+    output: str
+
+    pipeline: Optional[str] = None
+
+
+class CreateInputModeKafka(str, Enum):
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    SMART = "smart"
+    ALWAYS = "always"
+
+
+class CreateInputCompressionKafka(str, Enum):
+    r"""Codec to use to compress the persisted data"""
+
+    NONE = "none"
+    GZIP = "gzip"
+
+
+class PqKafkaTypedDict(TypedDict):
+    mode: NotRequired[CreateInputModeKafka]
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    commit_frequency: NotRequired[float]
+    r"""The number of events to send downstream before committing that Stream has read them"""
+    max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+    max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+    compress: NotRequired[CreateInputCompressionKafka]
+    r"""Codec to use to compress the persisted data"""
+
+
+class PqKafka(BaseModel):
+    mode: Optional[CreateInputModeKafka] = CreateInputModeKafka.ALWAYS
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    commit_frequency: Annotated[
+        Optional[float], pydantic.Field(alias="commitFrequency")
+    ] = 42
+    r"""The number of events to send downstream before committing that Stream has read them"""
+
+    max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = (
+        "1 MB"
+    )
+    r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
+
+    max_size: Annotated[Optional[str], pydantic.Field(alias="maxSize")] = "5GB"
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    path: Optional[str] = "$CRIBL_HOME/state/queues"
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
+
+    compress: Optional[CreateInputCompressionKafka] = CreateInputCompressionKafka.NONE
+    r"""Codec to use to compress the persisted data"""
+
+
+class CreateInputAuthKafkaTypedDict(TypedDict):
+    r"""Credentials to use when authenticating with the schema registry using basic HTTP authentication"""
+
+    disabled: NotRequired[bool]
+    credentials_secret: NotRequired[str]
+    r"""Select or create a secret that references your credentials"""
+
+
+class CreateInputAuthKafka(BaseModel):
+    r"""Credentials to use when authenticating with the schema registry using basic HTTP authentication"""
+
+    disabled: Optional[bool] = True
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a secret that references your credentials"""
+
+
+class CreateInputKafkaSchemaRegistryMinimumTLSVersionKafka(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class CreateInputKafkaSchemaRegistryMaximumTLSVersionKafka(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class CreateInputKafkaSchemaRegistryTLSSettingsClientSideKafkaTypedDict(TypedDict):
+    disabled: NotRequired[bool]
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates that are not authorized by a CA in the CA certificate path, or by another
+    trusted CA (such as the system's). Defaults to Enabled. Overrides the toggle from Advanced Settings, when also present.
+    """
+    servername: NotRequired[str]
+    r"""Server name for the SNI (Server Name Indication) TLS extension. It must be a host name, and not an IP address."""
+    certificate_name: NotRequired[str]
+    r"""The name of the predefined certificate"""
+    ca_path: NotRequired[str]
+    r"""Path on client in which to find CA certificates to verify the server's cert. PEM format. Can reference $ENV_VARS."""
+    priv_key_path: NotRequired[str]
+    r"""Path on client in which to find the private key to use. PEM format. Can reference $ENV_VARS."""
+    cert_path: NotRequired[str]
+    r"""Path on client in which to find certificates to use. PEM format. Can reference $ENV_VARS."""
+    passphrase: NotRequired[str]
+    r"""Passphrase to use to decrypt private key"""
+    min_version: NotRequired[CreateInputKafkaSchemaRegistryMinimumTLSVersionKafka]
+    max_version: NotRequired[CreateInputKafkaSchemaRegistryMaximumTLSVersionKafka]
+
+
+class CreateInputKafkaSchemaRegistryTLSSettingsClientSideKafka(BaseModel):
+    disabled: Optional[bool] = True
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = True
+    r"""Reject certificates that are not authorized by a CA in the CA certificate path, or by another
+    trusted CA (such as the system's). Defaults to Enabled. Overrides the toggle from Advanced Settings, when also present.
+    """
+
+    servername: Optional[str] = None
+    r"""Server name for the SNI (Server Name Indication) TLS extension. It must be a host name, and not an IP address."""
+
+    certificate_name: Annotated[
+        Optional[str], pydantic.Field(alias="certificateName")
+    ] = None
+    r"""The name of the predefined certificate"""
+
+    ca_path: Annotated[Optional[str], pydantic.Field(alias="caPath")] = None
+    r"""Path on client in which to find CA certificates to verify the server's cert. PEM format. Can reference $ENV_VARS."""
+
+    priv_key_path: Annotated[Optional[str], pydantic.Field(alias="privKeyPath")] = None
+    r"""Path on client in which to find the private key to use. PEM format. Can reference $ENV_VARS."""
+
+    cert_path: Annotated[Optional[str], pydantic.Field(alias="certPath")] = None
+    r"""Path on client in which to find certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    passphrase: Optional[str] = None
+    r"""Passphrase to use to decrypt private key"""
+
+    min_version: Annotated[
+        Optional[CreateInputKafkaSchemaRegistryMinimumTLSVersionKafka],
+        pydantic.Field(alias="minVersion"),
+    ] = None
+
+    max_version: Annotated[
+        Optional[CreateInputKafkaSchemaRegistryMaximumTLSVersionKafka],
+        pydantic.Field(alias="maxVersion"),
+    ] = None
+
+
+class CreateInputKafkaSchemaRegistryAuthenticationKafkaTypedDict(TypedDict):
+    disabled: NotRequired[bool]
+    schema_registry_url: NotRequired[str]
+    r"""URL for accessing the Confluent Schema Registry. Example: http://localhost:8081. To connect over TLS, use https instead of http."""
+    connection_timeout: NotRequired[float]
+    r"""Maximum time to wait for a Schema Registry connection to complete successfully"""
+    request_timeout: NotRequired[float]
+    r"""Maximum time to wait for the Schema Registry to respond to a request"""
+    max_retries: NotRequired[float]
+    r"""Maximum number of times to try fetching schemas from the Schema Registry"""
+    auth: NotRequired[CreateInputAuthKafkaTypedDict]
+    r"""Credentials to use when authenticating with the schema registry using basic HTTP authentication"""
+    tls: NotRequired[CreateInputKafkaSchemaRegistryTLSSettingsClientSideKafkaTypedDict]
+
+
+class CreateInputKafkaSchemaRegistryAuthenticationKafka(BaseModel):
+    disabled: Optional[bool] = True
+
+    schema_registry_url: Annotated[
+        Optional[str], pydantic.Field(alias="schemaRegistryURL")
+    ] = "http://localhost:8081"
+    r"""URL for accessing the Confluent Schema Registry. Example: http://localhost:8081. To connect over TLS, use https instead of http."""
+
+    connection_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="connectionTimeout")
+    ] = 30000
+    r"""Maximum time to wait for a Schema Registry connection to complete successfully"""
+
+    request_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="requestTimeout")
+    ] = 30000
+    r"""Maximum time to wait for the Schema Registry to respond to a request"""
+
+    max_retries: Annotated[Optional[float], pydantic.Field(alias="maxRetries")] = 1
+    r"""Maximum number of times to try fetching schemas from the Schema Registry"""
+
+    auth: Optional[CreateInputAuthKafka] = None
+    r"""Credentials to use when authenticating with the schema registry using basic HTTP authentication"""
+
+    tls: Optional[CreateInputKafkaSchemaRegistryTLSSettingsClientSideKafka] = None
+
+
+class CreateInputSASLMechanismKafka(str, Enum):
+    PLAIN = "plain"
+    SCRAM_SHA_256 = "scram-sha-256"
+    SCRAM_SHA_512 = "scram-sha-512"
+    KERBEROS = "kerberos"
+
+
+class CreateInputAuthenticationKafkaTypedDict(TypedDict):
+    r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
+
+    disabled: NotRequired[bool]
+    mechanism: NotRequired[CreateInputSASLMechanismKafka]
+
+
+class CreateInputAuthenticationKafka(BaseModel):
+    r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
+
+    disabled: Optional[bool] = True
+
+    mechanism: Optional[CreateInputSASLMechanismKafka] = (
+        CreateInputSASLMechanismKafka.PLAIN
+    )
+
+
+class CreateInputMinimumTLSVersionKafka(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class CreateInputMaximumTLSVersionKafka(str, Enum):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class CreateInputTLSSettingsClientSideKafkaTypedDict(TypedDict):
+    disabled: NotRequired[bool]
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates that are not authorized by a CA in the CA certificate path, or by another
+    trusted CA (such as the system's). Defaults to Enabled. Overrides the toggle from Advanced Settings, when also present.
+    """
+    servername: NotRequired[str]
+    r"""Server name for the SNI (Server Name Indication) TLS extension. It must be a host name, and not an IP address."""
+    certificate_name: NotRequired[str]
+    r"""The name of the predefined certificate"""
+    ca_path: NotRequired[str]
+    r"""Path on client in which to find CA certificates to verify the server's cert. PEM format. Can reference $ENV_VARS."""
+    priv_key_path: NotRequired[str]
+    r"""Path on client in which to find the private key to use. PEM format. Can reference $ENV_VARS."""
+    cert_path: NotRequired[str]
+    r"""Path on client in which to find certificates to use. PEM format. Can reference $ENV_VARS."""
+    passphrase: NotRequired[str]
+    r"""Passphrase to use to decrypt private key"""
+    min_version: NotRequired[CreateInputMinimumTLSVersionKafka]
+    max_version: NotRequired[CreateInputMaximumTLSVersionKafka]
+
+
+class CreateInputTLSSettingsClientSideKafka(BaseModel):
+    disabled: Optional[bool] = True
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = True
+    r"""Reject certificates that are not authorized by a CA in the CA certificate path, or by another
+    trusted CA (such as the system's). Defaults to Enabled. Overrides the toggle from Advanced Settings, when also present.
+    """
+
+    servername: Optional[str] = None
+    r"""Server name for the SNI (Server Name Indication) TLS extension. It must be a host name, and not an IP address."""
+
+    certificate_name: Annotated[
+        Optional[str], pydantic.Field(alias="certificateName")
+    ] = None
+    r"""The name of the predefined certificate"""
+
+    ca_path: Annotated[Optional[str], pydantic.Field(alias="caPath")] = None
+    r"""Path on client in which to find CA certificates to verify the server's cert. PEM format. Can reference $ENV_VARS."""
+
+    priv_key_path: Annotated[Optional[str], pydantic.Field(alias="privKeyPath")] = None
+    r"""Path on client in which to find the private key to use. PEM format. Can reference $ENV_VARS."""
+
+    cert_path: Annotated[Optional[str], pydantic.Field(alias="certPath")] = None
+    r"""Path on client in which to find certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    passphrase: Optional[str] = None
+    r"""Passphrase to use to decrypt private key"""
+
+    min_version: Annotated[
+        Optional[CreateInputMinimumTLSVersionKafka], pydantic.Field(alias="minVersion")
+    ] = None
+
+    max_version: Annotated[
+        Optional[CreateInputMaximumTLSVersionKafka], pydantic.Field(alias="maxVersion")
+    ] = None
+
+
+class MetadatumKafkaTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class MetadatumKafka(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CreateInputInputKafkaTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    brokers: List[str]
+    r"""Enter each Kafka bootstrap server you want to use. Specify the hostname and port (such as mykafkabroker:9092) or just the hostname (in which case @{product} will assign port 9092)."""
+    topics: List[str]
+    r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
+    type: NotRequired[CreateInputTypeKafka]
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ConnectionKafkaTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqKafkaTypedDict]
+    group_id: NotRequired[str]
+    r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
+    from_beginning: NotRequired[bool]
+    r"""Leave enabled if you want the Source, upon first subscribing to a topic, to read starting with the earliest available message"""
+    kafka_schema_registry: NotRequired[
+        CreateInputKafkaSchemaRegistryAuthenticationKafkaTypedDict
+    ]
+    connection_timeout: NotRequired[float]
+    r"""Maximum time to wait for a connection to complete successfully"""
+    request_timeout: NotRequired[float]
+    r"""Maximum time to wait for Kafka to respond to a request"""
+    max_retries: NotRequired[float]
+    r"""If messages are failing, you can set the maximum number of retries as high as 100 to prevent loss of data"""
+    max_back_off: NotRequired[float]
+    r"""The maximum wait time for a retry, in milliseconds. Default (and minimum) is 30,000 ms (30 seconds); maximum is 180,000 ms (180 seconds)."""
+    initial_backoff: NotRequired[float]
+    r"""Initial value used to calculate the retry, in milliseconds. Maximum is 600,000 ms (10 minutes)."""
+    backoff_rate: NotRequired[float]
+    r"""Set the backoff multiplier (2-20) to control the retry frequency for failed messages. For faster retries, use a lower multiplier. For slower retries with more delay between attempts, use a higher multiplier. The multiplier is used in an exponential backoff formula; see the Kafka [documentation](https://kafka.js.org/docs/retry-detailed) for details."""
+    authentication_timeout: NotRequired[float]
+    r"""Maximum time to wait for Kafka to respond to an authentication request"""
+    reauthentication_threshold: NotRequired[float]
+    r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
+    sasl: NotRequired[CreateInputAuthenticationKafkaTypedDict]
+    r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
+    tls: NotRequired[CreateInputTLSSettingsClientSideKafkaTypedDict]
+    session_timeout: NotRequired[float]
+    r"""Timeout used to detect client failures when using Kafka's group-management facilities.
+    If the client sends no heartbeats to the broker before the timeout expires,
+    the broker will remove the client from the group and initiate a rebalance.
+    Value must be between the broker's configured group.min.session.timeout.ms and group.max.session.timeout.ms.
+    See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_session.timeout.ms) for details.
+    """
+    rebalance_timeout: NotRequired[float]
+    r"""Maximum allowed time for each worker to join the group after a rebalance begins.
+    If the timeout is exceeded, the coordinator broker will remove the worker from the group.
+    See [Kafka's documentation](https://kafka.apache.org/documentation/#connectconfigs_rebalance.timeout.ms) for details.
+    """
+    heartbeat_interval: NotRequired[float]
+    r"""Expected time between heartbeats to the consumer coordinator when using Kafka's group-management facilities.
+    Value must be lower than sessionTimeout and typically should not exceed 1/3 of the sessionTimeout value.
+    See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_heartbeat.interval.ms) for details.
+    """
+    auto_commit_interval: NotRequired[float]
+    r"""How often to commit offsets. If both this and Offset commit threshold are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
+    auto_commit_threshold: NotRequired[float]
+    r"""How many events are needed to trigger an offset commit. If both this and Offset commit interval are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
+    max_bytes_per_partition: NotRequired[float]
+    r"""Maximum amount of data that Kafka will return per partition, per fetch request. Must equal or exceed the maximum message size (maxBytesPerPartition) that Kafka is configured to allow. Otherwise, @{product} can get stuck trying to retrieve messages. Defaults to 1048576 (1 MB)."""
+    max_bytes: NotRequired[float]
+    r"""Maximum number of bytes that Kafka will return per fetch request. Defaults to 10485760 (10 MB)."""
+    max_socket_errors: NotRequired[float]
+    r"""Maximum number of network errors before the consumer re-creates a socket"""
+    metadata: NotRequired[List[MetadatumKafkaTypedDict]]
+    r"""Fields to add to events from this input"""
+    description: NotRequired[str]
+
+
+class CreateInputInputKafka(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    brokers: List[str]
+    r"""Enter each Kafka bootstrap server you want to use. Specify the hostname and port (such as mykafkabroker:9092) or just the hostname (in which case @{product} will assign port 9092)."""
+
+    topics: List[str]
+    r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
+
+    type: Optional[CreateInputTypeKafka] = None
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ConnectionKafka]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqKafka] = None
+
+    group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = "Cribl"
+    r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
+
+    from_beginning: Annotated[Optional[bool], pydantic.Field(alias="fromBeginning")] = (
+        True
+    )
+    r"""Leave enabled if you want the Source, upon first subscribing to a topic, to read starting with the earliest available message"""
+
+    kafka_schema_registry: Annotated[
+        Optional[CreateInputKafkaSchemaRegistryAuthenticationKafka],
+        pydantic.Field(alias="kafkaSchemaRegistry"),
+    ] = None
+
+    connection_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="connectionTimeout")
+    ] = 10000
+    r"""Maximum time to wait for a connection to complete successfully"""
+
+    request_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="requestTimeout")
+    ] = 60000
+    r"""Maximum time to wait for Kafka to respond to a request"""
+
+    max_retries: Annotated[Optional[float], pydantic.Field(alias="maxRetries")] = 5
+    r"""If messages are failing, you can set the maximum number of retries as high as 100 to prevent loss of data"""
+
+    max_back_off: Annotated[Optional[float], pydantic.Field(alias="maxBackOff")] = 30000
+    r"""The maximum wait time for a retry, in milliseconds. Default (and minimum) is 30,000 ms (30 seconds); maximum is 180,000 ms (180 seconds)."""
+
+    initial_backoff: Annotated[
+        Optional[float], pydantic.Field(alias="initialBackoff")
+    ] = 300
+    r"""Initial value used to calculate the retry, in milliseconds. Maximum is 600,000 ms (10 minutes)."""
+
+    backoff_rate: Annotated[Optional[float], pydantic.Field(alias="backoffRate")] = 2
+    r"""Set the backoff multiplier (2-20) to control the retry frequency for failed messages. For faster retries, use a lower multiplier. For slower retries with more delay between attempts, use a higher multiplier. The multiplier is used in an exponential backoff formula; see the Kafka [documentation](https://kafka.js.org/docs/retry-detailed) for details."""
+
+    authentication_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="authenticationTimeout")
+    ] = 10000
+    r"""Maximum time to wait for Kafka to respond to an authentication request"""
+
+    reauthentication_threshold: Annotated[
+        Optional[float], pydantic.Field(alias="reauthenticationThreshold")
+    ] = 10000
+    r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
+
+    sasl: Optional[CreateInputAuthenticationKafka] = None
+    r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
+
+    tls: Optional[CreateInputTLSSettingsClientSideKafka] = None
+
+    session_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="sessionTimeout")
+    ] = 30000
+    r"""Timeout used to detect client failures when using Kafka's group-management facilities.
+    If the client sends no heartbeats to the broker before the timeout expires,
+    the broker will remove the client from the group and initiate a rebalance.
+    Value must be between the broker's configured group.min.session.timeout.ms and group.max.session.timeout.ms.
+    See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_session.timeout.ms) for details.
+    """
+
+    rebalance_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="rebalanceTimeout")
+    ] = 60000
+    r"""Maximum allowed time for each worker to join the group after a rebalance begins.
+    If the timeout is exceeded, the coordinator broker will remove the worker from the group.
+    See [Kafka's documentation](https://kafka.apache.org/documentation/#connectconfigs_rebalance.timeout.ms) for details.
+    """
+
+    heartbeat_interval: Annotated[
+        Optional[float], pydantic.Field(alias="heartbeatInterval")
+    ] = 3000
+    r"""Expected time between heartbeats to the consumer coordinator when using Kafka's group-management facilities.
+    Value must be lower than sessionTimeout and typically should not exceed 1/3 of the sessionTimeout value.
+    See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_heartbeat.interval.ms) for details.
+    """
+
+    auto_commit_interval: Annotated[
+        Optional[float], pydantic.Field(alias="autoCommitInterval")
+    ] = None
+    r"""How often to commit offsets. If both this and Offset commit threshold are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
+
+    auto_commit_threshold: Annotated[
+        Optional[float], pydantic.Field(alias="autoCommitThreshold")
+    ] = None
+    r"""How many events are needed to trigger an offset commit. If both this and Offset commit interval are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
+
+    max_bytes_per_partition: Annotated[
+        Optional[float], pydantic.Field(alias="maxBytesPerPartition")
+    ] = 1048576
+    r"""Maximum amount of data that Kafka will return per partition, per fetch request. Must equal or exceed the maximum message size (maxBytesPerPartition) that Kafka is configured to allow. Otherwise, @{product} can get stuck trying to retrieve messages. Defaults to 1048576 (1 MB)."""
+
+    max_bytes: Annotated[Optional[float], pydantic.Field(alias="maxBytes")] = 10485760
+    r"""Maximum number of bytes that Kafka will return per fetch request. Defaults to 10485760 (10 MB)."""
+
+    max_socket_errors: Annotated[
+        Optional[float], pydantic.Field(alias="maxSocketErrors")
+    ] = 0
+    r"""Maximum number of network errors before the consumer re-creates a socket"""
+
+    metadata: Optional[List[MetadatumKafka]] = None
+    r"""Fields to add to events from this input"""
+
+    description: Optional[str] = None
+
+
+CreateInputRequestTypedDict = TypeAliasType(
+    "CreateInputRequestTypedDict",
+    Union[
+        InputCriblTypedDict,
+        InputKubeEventsTypedDict,
+        CreateInputInputDatagenTypedDict,
+        InputCriblmetricsTypedDict,
+        InputKubeMetricsTypedDict,
+        InputSystemStateTypedDict,
+        InputCollectionTypedDict,
+        InputSystemMetricsTypedDict,
+        CreateInputInputModelDrivenTelemetryTypedDict,
+        InputWindowsMetricsTypedDict,
+        CreateInputInputJournalFilesTypedDict,
+        CreateInputInputRawUDPTypedDict,
+        CreateInputInputWinEventLogsTypedDict,
+        CreateInputInputExecTypedDict,
+        InputKubeLogsTypedDict,
+        CreateInputInputMetricsTypedDict,
+        CreateInputInputSnmpTypedDict,
+        CreateInputInputCriblTCPTypedDict,
+        CreateInputInputNetflowTypedDict,
+        CreateInputInputGooglePubsubTypedDict,
+        CreateInputInputTcpjsonTypedDict,
+        CreateInputInputOffice365ServiceTypedDict,
+        CreateInputInputTCPTypedDict,
+        CreateInputInputWizTypedDict,
+        CreateInputInputFirehoseTypedDict,
+        CreateInputInputCriblHTTPTypedDict,
+        CreateInputInputCriblLakeHTTPTypedDict,
+        CreateInputInputDatadogAgentTypedDict,
+        CreateInputInputOffice365MgmtTypedDict,
+        InputFileTypedDict,
+        CreateInputInputSplunkTypedDict,
+        CreateInputInputWefTypedDict,
+        InputAppscopeTypedDict,
+        CreateInputInputHTTPRawTypedDict,
+        CreateInputInputHTTPTypedDict,
+        CreateInputInputAzureBlobTypedDict,
+        CreateInputInputZscalerHecTypedDict,
+        CreateInputInputSqsTypedDict,
+        CreateInputInputConfluentCloudTypedDict,
+        CreateInputInputKinesisTypedDict,
+        CreateInputInputEventhubTypedDict,
+        CreateInputInputKafkaTypedDict,
+        CreateInputInputElasticTypedDict,
+        CreateInputInputSplunkHecTypedDict,
+        CreateInputInputOffice365MsgTraceTypedDict,
+        CreateInputInputLokiTypedDict,
+        CreateInputInputPrometheusRwTypedDict,
+        CreateInputInputCrowdstrikeTypedDict,
+        CreateInputInputPrometheusTypedDict,
+        CreateInputInputEdgePrometheusTypedDict,
+        CreateInputInputS3TypedDict,
+        CreateInputInputSecurityLakeTypedDict,
+        CreateInputInputOpenTelemetryTypedDict,
+        CreateInputInputS3InventoryTypedDict,
+        CreateInputInputMskTypedDict,
+        CreateInputInputSplunkSearchTypedDict,
+        CreateInputInputSyslogUnionTypedDict,
+        CreateInputInputGrafanaUnionTypedDict,
+    ],
+)
+r"""New Source object"""
+
+
+CreateInputRequest = TypeAliasType(
+    "CreateInputRequest",
+    Union[
+        InputCribl,
+        InputKubeEvents,
+        CreateInputInputDatagen,
+        InputCriblmetrics,
+        InputKubeMetrics,
+        InputSystemState,
+        InputCollection,
+        InputSystemMetrics,
+        CreateInputInputModelDrivenTelemetry,
+        InputWindowsMetrics,
+        CreateInputInputJournalFiles,
+        CreateInputInputRawUDP,
+        CreateInputInputWinEventLogs,
+        CreateInputInputExec,
+        InputKubeLogs,
+        CreateInputInputMetrics,
+        CreateInputInputSnmp,
+        CreateInputInputCriblTCP,
+        CreateInputInputNetflow,
+        CreateInputInputGooglePubsub,
+        CreateInputInputTcpjson,
+        CreateInputInputOffice365Service,
+        CreateInputInputTCP,
+        CreateInputInputWiz,
+        CreateInputInputFirehose,
+        CreateInputInputCriblHTTP,
+        CreateInputInputCriblLakeHTTP,
+        CreateInputInputDatadogAgent,
+        CreateInputInputOffice365Mgmt,
+        InputFile,
+        CreateInputInputSplunk,
+        CreateInputInputWef,
+        InputAppscope,
+        CreateInputInputHTTPRaw,
+        CreateInputInputHTTP,
+        CreateInputInputAzureBlob,
+        CreateInputInputZscalerHec,
+        CreateInputInputSqs,
+        CreateInputInputConfluentCloud,
+        CreateInputInputKinesis,
+        CreateInputInputEventhub,
+        CreateInputInputKafka,
+        CreateInputInputElastic,
+        CreateInputInputSplunkHec,
+        CreateInputInputOffice365MsgTrace,
+        CreateInputInputLoki,
+        CreateInputInputPrometheusRw,
+        CreateInputInputCrowdstrike,
+        CreateInputInputPrometheus,
+        CreateInputInputEdgePrometheus,
+        CreateInputInputS3,
+        CreateInputInputSecurityLake,
+        CreateInputInputOpenTelemetry,
+        CreateInputInputS3Inventory,
+        CreateInputInputMsk,
+        CreateInputInputSplunkSearch,
+        CreateInputInputSyslogUnion,
+        CreateInputInputGrafanaUnion,
+    ],
+)
+r"""New Source object"""
 
 
 class CreateInputResponseTypedDict(TypedDict):

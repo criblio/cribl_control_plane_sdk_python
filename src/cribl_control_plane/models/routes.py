@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 from .routesroute import RoutesRoute, RoutesRouteTypedDict
+from .routesroute_input import RoutesRouteInput, RoutesRouteInputTypedDict
 from cribl_control_plane.types import BaseModel
 import pydantic
 from pydantic import ConfigDict
@@ -62,6 +63,29 @@ class RoutesTypedDict(TypedDict):
 
 class Routes(BaseModel):
     routes: List[RoutesRoute]
+    r"""Pipeline routing rules"""
+
+    id: Optional[str] = None
+    r"""Routes ID"""
+
+    groups: Optional[Dict[str, RoutesGroups]] = None
+
+    comments: Optional[List[Comment]] = None
+    r"""Comments"""
+
+
+class RoutesInputTypedDict(TypedDict):
+    routes: List[RoutesRouteInputTypedDict]
+    r"""Pipeline routing rules"""
+    id: NotRequired[str]
+    r"""Routes ID"""
+    groups: NotRequired[Dict[str, RoutesGroupsTypedDict]]
+    comments: NotRequired[List[CommentTypedDict]]
+    r"""Comments"""
+
+
+class RoutesInput(BaseModel):
+    routes: List[RoutesRouteInput]
     r"""Pipeline routing rules"""
 
     id: Optional[str] = None

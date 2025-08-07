@@ -155,7 +155,7 @@ class InputEdgePrometheusAuthTypeAuthenticationMethod(str, Enum):
     KUBERNETES = "kubernetes"
 
 
-class TargetProtocol(str, Enum):
+class InputEdgePrometheusTargetProtocol(str, Enum):
     r"""Protocol to use when collecting metrics"""
 
     HTTP = "http"
@@ -165,7 +165,7 @@ class TargetProtocol(str, Enum):
 class TargetTypedDict(TypedDict):
     host: str
     r"""Name of host from which to pull metrics."""
-    protocol: NotRequired[TargetProtocol]
+    protocol: NotRequired[InputEdgePrometheusTargetProtocol]
     r"""Protocol to use when collecting metrics"""
     port: NotRequired[float]
     r"""The port number in the metrics URL for discovered targets."""
@@ -177,7 +177,9 @@ class Target(BaseModel):
     host: str
     r"""Name of host from which to pull metrics."""
 
-    protocol: Optional[TargetProtocol] = TargetProtocol.HTTP
+    protocol: Optional[InputEdgePrometheusTargetProtocol] = (
+        InputEdgePrometheusTargetProtocol.HTTP
+    )
     r"""Protocol to use when collecting metrics"""
 
     port: Optional[float] = 9090
@@ -195,7 +197,7 @@ class InputEdgePrometheusRecordType(str, Enum):
     AAAA = "AAAA"
 
 
-class ScrapeProtocolProtocol(str, Enum):
+class InputEdgePrometheusScrapeProtocolProtocol(str, Enum):
     r"""Protocol to use when collecting metrics"""
 
     HTTP = "http"
@@ -284,7 +286,7 @@ class InputEdgePrometheusTypedDict(TypedDict):
     r"""List of DNS names to resolve"""
     record_type: NotRequired[InputEdgePrometheusRecordType]
     r"""DNS Record type to resolve"""
-    scrape_protocol: NotRequired[ScrapeProtocolProtocol]
+    scrape_protocol: NotRequired[InputEdgePrometheusScrapeProtocolProtocol]
     r"""Protocol to use when collecting metrics"""
     scrape_path: NotRequired[str]
     r"""Path to use when collecting metrics from discovered targets"""
@@ -408,8 +410,9 @@ class InputEdgePrometheus(BaseModel):
     r"""DNS Record type to resolve"""
 
     scrape_protocol: Annotated[
-        Optional[ScrapeProtocolProtocol], pydantic.Field(alias="scrapeProtocol")
-    ] = ScrapeProtocolProtocol.HTTP
+        Optional[InputEdgePrometheusScrapeProtocolProtocol],
+        pydantic.Field(alias="scrapeProtocol"),
+    ] = InputEdgePrometheusScrapeProtocolProtocol.HTTP
     r"""Protocol to use when collecting metrics"""
 
     scrape_path: Annotated[Optional[str], pydantic.Field(alias="scrapePath")] = (

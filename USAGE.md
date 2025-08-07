@@ -12,40 +12,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.lake.create_cribl_lake_dataset_by_lake_id(lake_id="<id>", id="<id>", accelerated_fields=[
-        "<value 1>",
-        "<value 2>",
-    ], bucket_name="<value>", cache_connection={
-        "accelerated_fields": [
-            "<value 1>",
-            "<value 2>",
-        ],
-        "backfill_status": models.CacheConnectionBackfillStatus.PENDING,
-        "cache_ref": "<value>",
-        "created_at": 7795.06,
-        "lakehouse_connection_type": models.LakehouseConnectionType.CACHE,
-        "migration_query_id": "<id>",
-        "retention_in_days": 1466.58,
-    }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.CriblLakeDatasetFormat.DDSS, http_da_used=True, retention_period_in_days=456.37, search_config={
-        "datatypes": [
-            "<value 1>",
-        ],
-        "metadata": {
-            "earliest": "<value>",
-            "enable_acceleration": True,
-            "field_list": [
-                "<value 1>",
-                "<value 2>",
-            ],
-            "latest_run_info": {
-                "earliest_scanned_time": 4334.7,
-                "finished_at": 6811.22,
-                "latest_scanned_time": 5303.3,
-                "object_count": 9489.04,
-            },
-            "scan_mode": models.ScanMode.DETAILED,
-        },
-    }, storage_location_id="<id>", view_name="<value>")
+    res = ccp_client.sources.list_source()
 
     # Handle response
     print(res)
@@ -69,40 +36,7 @@ async def main():
         ),
     ) as ccp_client:
 
-        res = await ccp_client.lake.create_cribl_lake_dataset_by_lake_id_async(lake_id="<id>", id="<id>", accelerated_fields=[
-            "<value 1>",
-            "<value 2>",
-        ], bucket_name="<value>", cache_connection={
-            "accelerated_fields": [
-                "<value 1>",
-                "<value 2>",
-            ],
-            "backfill_status": models.CacheConnectionBackfillStatus.PENDING,
-            "cache_ref": "<value>",
-            "created_at": 7795.06,
-            "lakehouse_connection_type": models.LakehouseConnectionType.CACHE,
-            "migration_query_id": "<id>",
-            "retention_in_days": 1466.58,
-        }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.CriblLakeDatasetFormat.DDSS, http_da_used=True, retention_period_in_days=456.37, search_config={
-            "datatypes": [
-                "<value 1>",
-            ],
-            "metadata": {
-                "earliest": "<value>",
-                "enable_acceleration": True,
-                "field_list": [
-                    "<value 1>",
-                    "<value 2>",
-                ],
-                "latest_run_info": {
-                    "earliest_scanned_time": 4334.7,
-                    "finished_at": 6811.22,
-                    "latest_scanned_time": 5303.3,
-                    "object_count": 9489.04,
-                },
-                "scan_mode": models.ScanMode.DETAILED,
-            },
-        }, storage_location_id="<id>", view_name="<value>")
+        res = await ccp_client.sources.list_source_async()
 
         # Handle response
         print(res)

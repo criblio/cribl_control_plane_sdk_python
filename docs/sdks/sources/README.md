@@ -75,7 +75,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create_source(request={
         "id": "<id>",
-        "type": models.InputTCPType.TCP,
+        "type": models.CreateInputTypeTCP.TCP,
         "disabled": False,
         "pipeline": "<value>",
         "send_to_routes": True,
@@ -93,13 +93,13 @@ with CriblControlPlane(
             },
         ],
         "pq": {
-            "mode": models.InputTCPMode.ALWAYS,
+            "mode": models.ModeTCP.ALWAYS,
             "max_buffer_size": 1000,
             "commit_frequency": 42,
             "max_file_size": "1 MB",
             "max_size": "5GB",
             "path": "$CRIBL_HOME/state/queues",
-            "compress": models.InputTCPCompression.NONE,
+            "compress": models.CompressionTCP.NONE,
         },
         "host": "0.0.0.0",
         "port": 301.76,
@@ -113,8 +113,8 @@ with CriblControlPlane(
             "request_cert": False,
             "reject_unauthorized": "<value>",
             "common_name_regex": "<value>",
-            "min_version": models.InputTCPMinimumTLSVersion.TL_SV1,
-            "max_version": models.InputTCPMaximumTLSVersion.TL_SV1_1,
+            "min_version": models.MinimumTLSVersionTCP.TL_SV1,
+            "max_version": models.MaximumTLSVersionTCP.TL_SV1_1,
         },
         "ip_whitelist_regex": "/.*/",
         "max_active_cxn": 1000,
@@ -143,7 +143,7 @@ with CriblControlPlane(
             ],
         },
         "description": "classic pish supposing misguided carefully fen",
-        "auth_type": models.InputTCPAuthenticationMethod.MANUAL,
+        "auth_type": models.AuthenticationMethodTCP.MANUAL,
     })
 
     # Handle response
@@ -155,7 +155,7 @@ with CriblControlPlane(
 
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `request`                                                           | [models.Input](../../models/input.md)                               | :heavy_check_mark:                                                  | The request object to use for the request.                          |
+| `request`                                                           | [models.CreateInputRequest](../../models/createinputrequest.md)     | :heavy_check_mark:                                                  | The request object to use for the request.                          |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
@@ -282,7 +282,7 @@ with CriblControlPlane(
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
 | `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | Unique ID to PATCH                                                  |
-| `input`                                                             | [models.Input](../../models/input.md)                               | :heavy_check_mark:                                                  | Input object                                                        |
+| `input`                                                             | [models.Input](../../models/input.md)                               | :heavy_check_mark:                                                  | Source object to be updated                                         |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response

@@ -1,0 +1,26 @@
+name: publish-prerelease
+permissions:
+  checks: write
+  contents: write
+  pull-requests: write
+  statuses: write
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to publish from'
+        required: true
+        default: 'dev-remote'
+
+jobs:
+  publish:
+    # only run if the dispatch ref matches the selected branch
+    if: ${{ github.ref == format('refs/heads/{0}', github.event.inputs.branch) }}
+    uses: speakeasy-api/sdk-generation-action/.github/workflows/sdk-publish.yaml@b729bcda8a0650e7faf3da46ae199cb3668f45ba
+    with:
+      target: cribl-control-plane
+    secrets:
+      github_access_token: ${{ secrets.GITHUB_TOKEN }}
+      pypi_token:        ${{ secrets.PYPI_TOKEN }}
+      speakeasy_api_key: ${{ secrets.SPEAKEASY_API_KEY }}

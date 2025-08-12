@@ -161,7 +161,7 @@ class OutputDlS3TypedDict(TypedDict):
     add_id_to_stage_path: NotRequired[bool]
     r"""Add the Output ID value to staging location"""
     dest_path: NotRequired[str]
-    r"""Prefix to append to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"""
+    r"""Prefix to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"""
     object_acl: NotRequired[OutputDlS3ObjectACL]
     r"""Object ACL to assign to uploaded objects"""
     storage_class: NotRequired[OutputDlS3StorageClass]
@@ -328,7 +328,7 @@ class OutputDlS3(BaseModel):
     r"""Add the Output ID value to staging location"""
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = ""
-    r"""Prefix to append to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"""
+    r"""Prefix to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"""
 
     object_acl: Annotated[
         Optional[OutputDlS3ObjectACL], pydantic.Field(alias="objectACL")

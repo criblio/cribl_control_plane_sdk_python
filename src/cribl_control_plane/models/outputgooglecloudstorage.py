@@ -132,7 +132,7 @@ class OutputGoogleCloudStorageTypedDict(TypedDict):
     stage_path: NotRequired[str]
     r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
     dest_path: NotRequired[str]
-    r"""Prefix to append to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"""
+    r"""Prefix to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"""
     verify_permissions: NotRequired[bool]
     r"""Disable if you can access files within the bucket but not the bucket itself"""
     object_acl: NotRequired[OutputGoogleCloudStorageObjectACL]
@@ -260,7 +260,7 @@ class OutputGoogleCloudStorage(BaseModel):
     r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = ""
-    r"""Prefix to append to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"""
+    r"""Prefix to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"""
 
     verify_permissions: Annotated[
         Optional[bool], pydantic.Field(alias="verifyPermissions")

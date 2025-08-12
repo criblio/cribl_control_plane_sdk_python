@@ -12,7 +12,7 @@ from typing import Any, Mapping, Optional, Union
 class Pipelines(BaseSDK):
     r"""Actions related to Pipelines"""
 
-    def list_pipeline(
+    def list(
         self,
         *,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -20,9 +20,9 @@ class Pipelines(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.ListPipelineResponse:
-        r"""Get a list of Pipeline objects
+        r"""List all Pipelines
 
-        Get a list of Pipeline objects
+        List all Pipelines
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -92,7 +92,7 @@ class Pipelines(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def list_pipeline_async(
+    async def list_async(
         self,
         *,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -100,9 +100,9 @@ class Pipelines(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.ListPipelineResponse:
-        r"""Get a list of Pipeline objects
+        r"""List all Pipelines
 
-        Get a list of Pipeline objects
+        List all Pipelines
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -358,7 +358,7 @@ class Pipelines(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def get_pipeline_by_id(
+    def get(
         self,
         *,
         id: str,
@@ -367,9 +367,9 @@ class Pipelines(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetPipelineByIDResponse:
-        r"""Get Pipeline by ID
+        r"""Retrieve a Pipeline
 
-        Get Pipeline by ID
+        Retrieve a Pipeline
 
         :param id: Unique ID to GET
         :param retries: Override the default retry configuration for this method
@@ -445,7 +445,7 @@ class Pipelines(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_pipeline_by_id_async(
+    async def get_async(
         self,
         *,
         id: str,
@@ -454,9 +454,9 @@ class Pipelines(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetPipelineByIDResponse:
-        r"""Get Pipeline by ID
+        r"""Retrieve a Pipeline
 
-        Get Pipeline by ID
+        Retrieve a Pipeline
 
         :param id: Unique ID to GET
         :param retries: Override the default retry configuration for this method
@@ -532,7 +532,7 @@ class Pipelines(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def update_pipeline_by_id(
+    def update(
         self,
         *,
         id_param: str,
@@ -630,7 +630,7 @@ class Pipelines(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def update_pipeline_by_id_async(
+    async def update_async(
         self,
         *,
         id_param: str,
@@ -728,7 +728,7 @@ class Pipelines(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def delete_pipeline_by_id(
+    def delete(
         self,
         *,
         id: str,
@@ -737,9 +737,9 @@ class Pipelines(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.DeletePipelineByIDResponse:
-        r"""Delete Pipeline
+        r"""Delete a Pipeline
 
-        Delete Pipeline
+        Delete a Pipeline
 
         :param id: Unique ID to DELETE
         :param retries: Override the default retry configuration for this method
@@ -815,7 +815,7 @@ class Pipelines(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def delete_pipeline_by_id_async(
+    async def delete_async(
         self,
         *,
         id: str,
@@ -824,9 +824,9 @@ class Pipelines(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.DeletePipelineByIDResponse:
-        r"""Delete Pipeline
+        r"""Delete a Pipeline
 
-        Delete Pipeline
+        Delete a Pipeline
 
         :param id: Unique ID to DELETE
         :param retries: Override the default retry configuration for this method

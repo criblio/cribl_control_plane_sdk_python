@@ -105,10 +105,8 @@ class InputGooglePubsubMetadatum(BaseModel):
 
 
 class InputGooglePubsubTypedDict(TypedDict):
-    topic_name: str
-    r"""ID of the topic to receive events from"""
     subscription_name: str
-    r"""ID of the subscription to use when receiving events"""
+    r"""ID of the subscription to use when receiving events. When Monitor subscription is enabled, the fully qualified subscription name must be entered. Example: projects/myProject/subscriptions/mySubscription"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     type: NotRequired[InputGooglePubsubType]
@@ -126,6 +124,10 @@ class InputGooglePubsubTypedDict(TypedDict):
     connections: NotRequired[List[InputGooglePubsubConnectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[InputGooglePubsubPqTypedDict]
+    topic_name: NotRequired[str]
+    r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""
+    monitor_subscription: NotRequired[bool]
+    r"""Use when the subscription is not created by this Source and topic is not known"""
     create_topic: NotRequired[bool]
     r"""Create topic if it does not exist"""
     create_subscription: NotRequired[bool]
@@ -152,11 +154,8 @@ class InputGooglePubsubTypedDict(TypedDict):
 
 
 class InputGooglePubsub(BaseModel):
-    topic_name: Annotated[str, pydantic.Field(alias="topicName")]
-    r"""ID of the topic to receive events from"""
-
     subscription_name: Annotated[str, pydantic.Field(alias="subscriptionName")]
-    r"""ID of the subscription to use when receiving events"""
+    r"""ID of the subscription to use when receiving events. When Monitor subscription is enabled, the fully qualified subscription name must be entered. Example: projects/myProject/subscriptions/mySubscription"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -186,6 +185,14 @@ class InputGooglePubsub(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[InputGooglePubsubPq] = None
+
+    topic_name: Annotated[Optional[str], pydantic.Field(alias="topicName")] = "cribl"
+    r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""
+
+    monitor_subscription: Annotated[
+        Optional[bool], pydantic.Field(alias="monitorSubscription")
+    ] = False
+    r"""Use when the subscription is not created by this Source and topic is not known"""
 
     create_topic: Annotated[Optional[bool], pydantic.Field(alias="createTopic")] = False
     r"""Create topic if it does not exist"""

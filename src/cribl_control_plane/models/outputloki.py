@@ -198,6 +198,10 @@ class OutputLokiTypedDict(TypedDict):
     timeout_retry_settings: NotRequired[OutputLokiTimeoutRetrySettingsTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
+    enable_dynamic_headers: NotRequired[bool]
+    r"""Add per-event HTTP headers from the __headers field to outgoing requests. Events with different headers are batched and sent separately."""
+    send_structured_metadata: NotRequired[bool]
+    r"""Add structured metadata fields from __structuredMetadata to each log. Key-value pairs must be strings."""
     on_backpressure: NotRequired[OutputLokiBackpressureBehavior]
     r"""How to handle events when all receivers are exerting backpressure"""
     total_memory_limit_kb: NotRequired[float]
@@ -334,6 +338,16 @@ class OutputLoki(BaseModel):
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
     ] = False
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
+
+    enable_dynamic_headers: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDynamicHeaders")
+    ] = False
+    r"""Add per-event HTTP headers from the __headers field to outgoing requests. Events with different headers are batched and sent separately."""
+
+    send_structured_metadata: Annotated[
+        Optional[bool], pydantic.Field(alias="sendStructuredMetadata")
+    ] = False
+    r"""Add structured metadata fields from __structuredMetadata to each log. Key-value pairs must be strings."""
 
     on_backpressure: Annotated[
         Optional[OutputLokiBackpressureBehavior], pydantic.Field(alias="onBackpressure")

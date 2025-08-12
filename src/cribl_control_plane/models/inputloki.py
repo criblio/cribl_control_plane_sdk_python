@@ -258,6 +258,8 @@ class InputLokiTypedDict(TypedDict):
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
     loki_api: NotRequired[str]
     r"""Absolute path on which to listen for Loki logs requests. Defaults to /loki/api/v1/push, which will (in this example) expand as: 'http://<your‑upstream‑URL>:<your‑port>/loki/api/v1/push'."""
+    extract_structured_metadata: NotRequired[bool]
+    r"""Extract structured metadata from the Loki 3.5.3+ format and place it in the __structuredMetadata field. When disabled, uses legacy Loki parsing for backward compatibility."""
     auth_type: NotRequired[InputLokiAuthenticationType]
     r"""Loki logs authentication type"""
     metadata: NotRequired[List[InputLokiMetadatumTypedDict]]
@@ -386,6 +388,11 @@ class InputLoki(BaseModel):
         "/loki/api/v1/push"
     )
     r"""Absolute path on which to listen for Loki logs requests. Defaults to /loki/api/v1/push, which will (in this example) expand as: 'http://<your‑upstream‑URL>:<your‑port>/loki/api/v1/push'."""
+
+    extract_structured_metadata: Annotated[
+        Optional[bool], pydantic.Field(alias="extractStructuredMetadata")
+    ] = False
+    r"""Extract structured metadata from the Loki 3.5.3+ format and place it in the __structuredMetadata field. When disabled, uses legacy Loki parsing for backward compatibility."""
 
     auth_type: Annotated[
         Optional[InputLokiAuthenticationType], pydantic.Field(alias="authType")

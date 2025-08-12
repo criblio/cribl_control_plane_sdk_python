@@ -2143,9 +2143,9 @@ class Versioning(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreateVersionUndoResponse:
-        r"""Undo the most recent commit and restore the local repository to the previous commit
+        r"""Discard uncommitted (staged) changes
 
-        undo the last commit
+        Discards all uncommitted (staged) configuration changes, resetting the working directory to the last committed state.
 
         :param group: Group ID
         :param retries: Override the default retry configuration for this method
@@ -2230,9 +2230,9 @@ class Versioning(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreateVersionUndoResponse:
-        r"""Undo the most recent commit and restore the local repository to the previous commit
+        r"""Discard uncommitted (staged) changes
 
-        undo the last commit
+        Discards all uncommitted (staged) configuration changes, resetting the working directory to the last committed state.
 
         :param group: Group ID
         :param retries: Override the default retry configuration for this method

@@ -83,6 +83,13 @@ class InputKafkaPq(BaseModel):
     r"""Codec to use to compress the persisted data"""
 
 
+class InputKafkaSchemaType(str, Enum):
+    r"""The schema format used to encode and decode event data"""
+
+    AVRO = "avro"
+    JSON = "json"
+
+
 class InputKafkaAuthTypedDict(TypedDict):
     r"""Credentials to use when authenticating with the schema registry using basic HTTP authentication"""
 
@@ -183,6 +190,8 @@ class InputKafkaKafkaSchemaRegistryAuthenticationTypedDict(TypedDict):
     disabled: NotRequired[bool]
     schema_registry_url: NotRequired[str]
     r"""URL for accessing the Confluent Schema Registry. Example: http://localhost:8081. To connect over TLS, use https instead of http."""
+    schema_type: NotRequired[InputKafkaSchemaType]
+    r"""The schema format used to encode and decode event data"""
     connection_timeout: NotRequired[float]
     r"""Maximum time to wait for a Schema Registry connection to complete successfully"""
     request_timeout: NotRequired[float]
@@ -201,6 +210,11 @@ class InputKafkaKafkaSchemaRegistryAuthentication(BaseModel):
         Optional[str], pydantic.Field(alias="schemaRegistryURL")
     ] = "http://localhost:8081"
     r"""URL for accessing the Confluent Schema Registry. Example: http://localhost:8081. To connect over TLS, use https instead of http."""
+
+    schema_type: Annotated[
+        Optional[InputKafkaSchemaType], pydantic.Field(alias="schemaType")
+    ] = InputKafkaSchemaType.AVRO
+    r"""The schema format used to encode and decode event data"""
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")

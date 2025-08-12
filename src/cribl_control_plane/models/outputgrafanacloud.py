@@ -284,6 +284,8 @@ class OutputGrafanaCloudGrafanaCloud2TypedDict(TypedDict):
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text"""
+    send_structured_metadata: NotRequired[bool]
+    r"""Add structured metadata fields from __structuredMetadata to each log. Key-value pairs must be strings."""
     response_retry_settings: NotRequired[
         List[OutputGrafanaCloudResponseRetrySetting2TypedDict]
     ]
@@ -415,6 +417,11 @@ class OutputGrafanaCloudGrafanaCloud2(BaseModel):
         Optional[List[str]], pydantic.Field(alias="safeHeaders")
     ] = None
     r"""List of headers that are safe to log in plain text"""
+
+    send_structured_metadata: Annotated[
+        Optional[bool], pydantic.Field(alias="sendStructuredMetadata")
+    ] = False
+    r"""Add structured metadata fields from __structuredMetadata to each log. Key-value pairs must be strings."""
 
     response_retry_settings: Annotated[
         Optional[List[OutputGrafanaCloudResponseRetrySetting2]],
@@ -753,6 +760,8 @@ class OutputGrafanaCloudGrafanaCloud1TypedDict(TypedDict):
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text"""
+    send_structured_metadata: NotRequired[bool]
+    r"""Add structured metadata fields from __structuredMetadata to each log. Key-value pairs must be strings."""
     response_retry_settings: NotRequired[
         List[OutputGrafanaCloudResponseRetrySetting1TypedDict]
     ]
@@ -886,6 +895,11 @@ class OutputGrafanaCloudGrafanaCloud1(BaseModel):
         Optional[List[str]], pydantic.Field(alias="safeHeaders")
     ] = None
     r"""List of headers that are safe to log in plain text"""
+
+    send_structured_metadata: Annotated[
+        Optional[bool], pydantic.Field(alias="sendStructuredMetadata")
+    ] = False
+    r"""Add structured metadata fields from __structuredMetadata to each log. Key-value pairs must be strings."""
 
     response_retry_settings: Annotated[
         Optional[List[OutputGrafanaCloudResponseRetrySetting1]],

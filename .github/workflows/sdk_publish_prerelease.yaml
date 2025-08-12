@@ -75,7 +75,7 @@ jobs:
 
   publish:
     needs: generate-and-push
-    uses: speakeasy-api/sdk-generation-action/.github/workflows/sdk-publish.yaml@b729bcda8a0650e7faf3da46ae199cb3668f45ba
+    uses: speakeasy-api/sdk-generation-action/.github/workflows/sdk-publish.yaml@ca0ffab4fec7166f0e60778154df8d7ec8ae3cc7
     with:
       target: cribl-control-plane
     secrets:

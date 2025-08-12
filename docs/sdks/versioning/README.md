@@ -19,7 +19,7 @@ Actions related to Versioning
 * [show_commit](#show_commit) - Retrieve the diff and log message for a commit
 * [get_current_status](#get_current_status) - Retrieve the status of the current working tree
 * [sync_local_remote](#sync_local_remote) - Synchronize the local branch with the remote repository
-* [clean_working_dir](#clean_working_dir) - Undo the most recent commit and restore the local repository to the previous commit
+* [clean_working_dir](#clean_working_dir) - Discard uncommitted (staged) changes
 
 ## get_branch
 
@@ -550,7 +550,7 @@ with CriblControlPlane(
 
 ## clean_working_dir
 
-undo the last commit
+Discards all uncommitted (staged) configuration changes, resetting the working directory to the last committed state.
 
 ### Example Usage
 

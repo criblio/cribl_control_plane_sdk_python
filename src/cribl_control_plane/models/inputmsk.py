@@ -96,6 +96,13 @@ class InputMskMetadatum(BaseModel):
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
+class InputMskSchemaType(str, Enum):
+    r"""The schema format used to encode and decode event data"""
+
+    AVRO = "avro"
+    JSON = "json"
+
+
 class InputMskAuthTypedDict(TypedDict):
     r"""Credentials to use when authenticating with the schema registry using basic HTTP authentication"""
 
@@ -196,6 +203,8 @@ class InputMskKafkaSchemaRegistryAuthenticationTypedDict(TypedDict):
     disabled: NotRequired[bool]
     schema_registry_url: NotRequired[str]
     r"""URL for accessing the Confluent Schema Registry. Example: http://localhost:8081. To connect over TLS, use https instead of http."""
+    schema_type: NotRequired[InputMskSchemaType]
+    r"""The schema format used to encode and decode event data"""
     connection_timeout: NotRequired[float]
     r"""Maximum time to wait for a Schema Registry connection to complete successfully"""
     request_timeout: NotRequired[float]
@@ -214,6 +223,11 @@ class InputMskKafkaSchemaRegistryAuthentication(BaseModel):
         Optional[str], pydantic.Field(alias="schemaRegistryURL")
     ] = "http://localhost:8081"
     r"""URL for accessing the Confluent Schema Registry. Example: http://localhost:8081. To connect over TLS, use https instead of http."""
+
+    schema_type: Annotated[
+        Optional[InputMskSchemaType], pydantic.Field(alias="schemaType")
+    ] = InputMskSchemaType.AVRO
+    r"""The schema format used to encode and decode event data"""
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")

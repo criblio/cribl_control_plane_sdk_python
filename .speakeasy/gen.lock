@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 003ffb570b46c120ea1b3dfb734f1a3b
-  docVersion: 4.14.0-alpha.1754581489015-f79f2920
+  docChecksum: 4a717d8691b3667b3a195dc9ca370eff
+  docVersion: 4.14.0-alpha.1754945439857-0a86c294
   speakeasyVersion: 1.585.0
   generationVersion: 2.660.0
-  releaseVersion: 0.0.24
-  configChecksum: cf606ad3696761c2c752dd81b48a6dc3
+  releaseVersion: 0.0.25
+  configChecksum: d3eeb3853d05a135ec0c4b522bdb3bf3
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -269,6 +269,7 @@ generatedFiles:
   - docs/models/inputconfluentcloudmode.md
   - docs/models/inputconfluentcloudpq.md
   - docs/models/inputconfluentcloudsaslmechanism.md
+  - docs/models/inputconfluentcloudschematype.md
   - docs/models/inputconfluentcloudtlssettingsclientside.md
   - docs/models/inputconfluentcloudtype.md
   - docs/models/inputcribl.md
@@ -494,6 +495,7 @@ generatedFiles:
   - docs/models/inputkafkamode.md
   - docs/models/inputkafkapq.md
   - docs/models/inputkafkasaslmechanism.md
+  - docs/models/inputkafkaschematype.md
   - docs/models/inputkafkatlssettingsclientside.md
   - docs/models/inputkafkatype.md
   - docs/models/inputkinesis.md
@@ -581,6 +583,7 @@ generatedFiles:
   - docs/models/inputmskminimumtlsversion.md
   - docs/models/inputmskmode.md
   - docs/models/inputmskpq.md
+  - docs/models/inputmskschematype.md
   - docs/models/inputmsksignatureversion.md
   - docs/models/inputmsktlssettingsclientside.md
   - docs/models/inputmsktype.md
@@ -1048,6 +1051,7 @@ generatedFiles:
   - docs/models/outputconfluentcloudqueuefullbehavior.md
   - docs/models/outputconfluentcloudrecorddataformat.md
   - docs/models/outputconfluentcloudsaslmechanism.md
+  - docs/models/outputconfluentcloudschematype.md
   - docs/models/outputconfluentcloudtlssettingsclientside.md
   - docs/models/outputconfluentcloudtype.md
   - docs/models/outputcriblhttp.md
@@ -1368,6 +1372,7 @@ generatedFiles:
   - docs/models/outputkafkaqueuefullbehavior.md
   - docs/models/outputkafkarecorddataformat.md
   - docs/models/outputkafkasaslmechanism.md
+  - docs/models/outputkafkaschematype.md
   - docs/models/outputkafkatlssettingsclientside.md
   - docs/models/outputkafkatype.md
   - docs/models/outputkinesis.md
@@ -1426,6 +1431,7 @@ generatedFiles:
   - docs/models/outputmskpqcontrols.md
   - docs/models/outputmskqueuefullbehavior.md
   - docs/models/outputmskrecorddataformat.md
+  - docs/models/outputmskschematype.md
   - docs/models/outputmsksignatureversion.md
   - docs/models/outputmsktlssettingsclientside.md
   - docs/models/outputmsktype.md
@@ -1849,6 +1855,7 @@ generatedFiles:
   - docs/sdks/routessdk/README.md
   - docs/sdks/sources/README.md
   - docs/sdks/versioning/README.md
+  - docs/sdks/workerssdk/README.md
   - poetry.toml
   - py.typed
   - pylintrc
@@ -2148,6 +2155,7 @@ generatedFiles:
   - src/cribl_control_plane/utils/url.py
   - src/cribl_control_plane/utils/values.py
   - src/cribl_control_plane/versioning.py
+  - src/cribl_control_plane/workers_sdk.py
 examples:
   getHealthInfo:
     speakeasy-default-get-health-info:
@@ -2271,7 +2279,7 @@ examples:
         application/json: {"id": "<id>", "type": "signalfx", "pipeline": "<value>", "systemFields": ["<value 1>"], "environment": "<value>", "streamtags": ["<value 1>", "<value 2>"], "authType": "manual", "realm": "us0", "concurrency": 5, "maxPayloadSizeKB": 4096, "maxPayloadEvents": 0, "compress": true, "rejectUnauthorized": true, "timeoutSec": 30, "flushPeriodSec": 1, "extraHttpHeaders": [{"name": "<value>", "value": "<value>"}], "useRoundRobinDns": false, "failedRequestLoggingMode": "none", "safeHeaders": ["<value 1>"], "responseRetrySettings": [{"httpStatus": 2924.72, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}], "timeoutRetrySettings": {"timeoutRetry": false, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}, "responseHonorRetryAfterHeader": false, "onBackpressure": "block", "description": "phooey positively a consequently meh until", "token": "<value>", "textSecret": "<value>", "pqMaxFileSize": "1 MB", "pqMaxSize": "5GB", "pqPath": "$CRIBL_HOME/state/queues", "pqCompress": "none", "pqOnBackpressure": "block", "pqMode": "error", "pqControls": {}}
       responses:
         "200":
-          application/json: {"count": 194446, "items": [{"id": "<id>", "type": "grafana_cloud", "pipeline": "<value>", "systemFields": ["<value 1>"], "environment": "<value>", "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "lokiUrl": "https://funny-premise.biz/", "prometheusUrl": "https://shady-zebra.com/", "message": "<value>", "messageFormat": "protobuf", "labels": [{"name": "", "value": "<value>"}], "metricRenameExpr": "name.replace(/[^a-zA-Z0-9_]/g, '_')", "prometheusAuth": {"authType": "basic", "token": "<value>", "textSecret": "<value>", "username": "Lora_Gottlieb24", "password": "r_ivPa2hrC6f_iq", "credentialsSecret": "<value>"}, "lokiAuth": {"authType": "basic", "token": "<value>", "textSecret": "<value>", "username": "Elinor.Spencer73", "password": "eJz4Ts89q_oZrsD", "credentialsSecret": "<value>"}, "concurrency": 1, "maxPayloadSizeKB": 4096, "maxPayloadEvents": 0, "rejectUnauthorized": true, "timeoutSec": 30, "flushPeriodSec": 15, "extraHttpHeaders": [{"name": "<value>", "value": "<value>"}], "useRoundRobinDns": false, "failedRequestLoggingMode": "none", "safeHeaders": ["<value 1>", "<value 2>", "<value 3>"], "responseRetrySettings": [{"httpStatus": 6882.35, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}], "timeoutRetrySettings": {"timeoutRetry": false, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}, "responseHonorRetryAfterHeader": false, "onBackpressure": "block", "description": "lady concerning supposing drat um", "compress": true, "pqMaxFileSize": "1 MB", "pqMaxSize": "5GB", "pqPath": "$CRIBL_HOME/state/queues", "pqCompress": "none", "pqOnBackpressure": "block", "pqMode": "error", "pqControls": {}}]}
+          application/json: {"count": 194446, "items": [{"id": "<id>", "type": "grafana_cloud", "pipeline": "<value>", "systemFields": ["<value 1>"], "environment": "<value>", "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "lokiUrl": "https://funny-premise.biz/", "prometheusUrl": "https://shady-zebra.com/", "message": "<value>", "messageFormat": "protobuf", "labels": [{"name": "", "value": "<value>"}], "metricRenameExpr": "name.replace(/[^a-zA-Z0-9_]/g, '_')", "prometheusAuth": {"authType": "basic", "token": "<value>", "textSecret": "<value>", "username": "Lora_Gottlieb24", "password": "r_ivPa2hrC6f_iq", "credentialsSecret": "<value>"}, "lokiAuth": {"authType": "basic", "token": "<value>", "textSecret": "<value>", "username": "Elinor.Spencer73", "password": "eJz4Ts89q_oZrsD", "credentialsSecret": "<value>"}, "concurrency": 1, "maxPayloadSizeKB": 4096, "maxPayloadEvents": 0, "rejectUnauthorized": true, "timeoutSec": 30, "flushPeriodSec": 15, "extraHttpHeaders": [{"name": "<value>", "value": "<value>"}], "useRoundRobinDns": false, "failedRequestLoggingMode": "none", "safeHeaders": ["<value 1>", "<value 2>", "<value 3>"], "sendStructuredMetadata": false, "responseRetrySettings": [{"httpStatus": 6882.35, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}], "timeoutRetrySettings": {"timeoutRetry": false, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}, "responseHonorRetryAfterHeader": false, "onBackpressure": "block", "description": "lady concerning supposing drat um", "compress": true, "pqMaxFileSize": "1 MB", "pqMaxSize": "5GB", "pqPath": "$CRIBL_HOME/state/queues", "pqCompress": "none", "pqOnBackpressure": "block", "pqMode": "error", "pqControls": {}}]}
         "500":
           application/json: {"message": "<value>"}
   deleteOutputById:

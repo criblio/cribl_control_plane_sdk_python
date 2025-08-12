@@ -326,7 +326,6 @@ with CriblControlPlane(
 
 ### [nodes](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/nodes/README.md)
 
-* [get_count](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/nodes/README.md#get_count) - Retrieve a count of Worker and Edge Nodes
 * [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/nodes/README.md#list) - Retrieve detailed metadata for Worker and Edge Nodes
 * [restart](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/nodes/README.md#restart) - Restart Worker and Edge Nodes
 
@@ -339,11 +338,11 @@ with CriblControlPlane(
 
 ### [pipelines](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/pipelines/README.md)
 
-* [list_pipeline](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/pipelines/README.md#list_pipeline) - Get a list of Pipeline objects
+* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/pipelines/README.md#list) - List all Pipelines
 * [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/pipelines/README.md#create) - Create a Pipeline
-* [get_pipeline_by_id](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/pipelines/README.md#get_pipeline_by_id) - Get Pipeline by ID
-* [update_pipeline_by_id](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/pipelines/README.md#update_pipeline_by_id) - Update a Pipeline
-* [delete_pipeline_by_id](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/pipelines/README.md#delete_pipeline_by_id) - Delete Pipeline
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/pipelines/README.md#get) - Retrieve a Pipeline
+* [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/pipelines/README.md#update) - Update a Pipeline
+* [delete](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/pipelines/README.md#delete) - Delete a Pipeline
 
 ### [routes](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/routessdk/README.md)
 
@@ -376,7 +375,11 @@ with CriblControlPlane(
 * [show_commit](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/versioning/README.md#show_commit) - Retrieve the diff and log message for a commit
 * [get_current_status](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/versioning/README.md#get_current_status) - Retrieve the status of the current working tree
 * [sync_local_remote](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/versioning/README.md#sync_local_remote) - Synchronize the local branch with the remote repository
-* [clean_working_dir](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/versioning/README.md#clean_working_dir) - Undo the most recent commit and restore the local repository to the previous commit
+* [clean_working_dir](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/versioning/README.md#clean_working_dir) - Discard uncommitted (staged) changes
+
+### [workers](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/workerssdk/README.md)
+
+* [get_summary_workers](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/workerssdk/README.md#get_summary_workers) - Retrieve a count of Worker and Edge Nodes
 
 </details>
 <!-- End Available Resources and Operations [operations] -->

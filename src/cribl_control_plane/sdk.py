@@ -26,6 +26,7 @@ if TYPE_CHECKING:
     from cribl_control_plane.routes_sdk import RoutesSDK
     from cribl_control_plane.sources import Sources
     from cribl_control_plane.versioning import Versioning
+    from cribl_control_plane.workers_sdk import WorkersSDK
 
 
 class CriblControlPlane(BaseSDK):
@@ -40,13 +41,15 @@ class CriblControlPlane(BaseSDK):
     r"""Actions related to Routes"""
     auth: "AuthSDK"
     r"""Actions related to authentication. Do not use the /auth endpoints in Cribl.Cloud deployments. Instead, follow the instructions at https://docs.cribl.io/stream/api-tutorials/#criblcloud to authenticate for Cribl.Cloud."""
-    nodes: "Nodes"
     deployments: "Deployments"
     health_info: "HealthInfo"
     packs: "Packs"
     r"""Actions related to Packs"""
     versioning: "Versioning"
     r"""Actions related to Versioning"""
+    workers: "WorkersSDK"
+    r"""Actions related to Workers"""
+    nodes: "Nodes"
     groups: "GroupsSDK"
     r"""Actions related to Groups"""
     _sub_sdk_map = {
@@ -56,11 +59,12 @@ class CriblControlPlane(BaseSDK):
         "pipelines": ("cribl_control_plane.pipelines", "Pipelines"),
         "routes": ("cribl_control_plane.routes_sdk", "RoutesSDK"),
         "auth": ("cribl_control_plane.auth_sdk", "AuthSDK"),
-        "nodes": ("cribl_control_plane.nodes", "Nodes"),
         "deployments": ("cribl_control_plane.deployments", "Deployments"),
         "health_info": ("cribl_control_plane.healthinfo", "HealthInfo"),
         "packs": ("cribl_control_plane.packs", "Packs"),
         "versioning": ("cribl_control_plane.versioning", "Versioning"),
+        "workers": ("cribl_control_plane.workers_sdk", "WorkersSDK"),
+        "nodes": ("cribl_control_plane.nodes", "Nodes"),
         "groups": ("cribl_control_plane.groups_sdk", "GroupsSDK"),
     }
 

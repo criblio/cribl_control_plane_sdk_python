@@ -7,15 +7,15 @@ Actions related to Pipelines
 
 ### Available Operations
 
-* [list_pipeline](#list_pipeline) - Get a list of Pipeline objects
+* [list](#list) - List all Pipelines
 * [create](#create) - Create a Pipeline
-* [get_pipeline_by_id](#get_pipeline_by_id) - Get Pipeline by ID
-* [update_pipeline_by_id](#update_pipeline_by_id) - Update a Pipeline
-* [delete_pipeline_by_id](#delete_pipeline_by_id) - Delete Pipeline
+* [get](#get) - Retrieve a Pipeline
+* [update](#update) - Update a Pipeline
+* [delete](#delete) - Delete a Pipeline
 
-## list_pipeline
+## list
 
-Get a list of Pipeline objects
+List all Pipelines
 
 ### Example Usage
 
@@ -31,7 +31,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.pipelines.list_pipeline()
+    res = ccp_client.pipelines.list()
 
     # Handle response
     print(res)
@@ -122,9 +122,9 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## get_pipeline_by_id
+## get
 
-Get Pipeline by ID
+Retrieve a Pipeline
 
 ### Example Usage
 
@@ -140,7 +140,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.pipelines.get_pipeline_by_id(id="<id>")
+    res = ccp_client.pipelines.get(id="<id>")
 
     # Handle response
     print(res)
@@ -165,7 +165,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## update_pipeline_by_id
+## update
 
 Update a Pipeline
 
@@ -183,7 +183,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.pipelines.update_pipeline_by_id(id_param="<value>", id="<id>", conf={
+    res = ccp_client.pipelines.update(id_param="<value>", id="<id>", conf={
         "async_func_timeout": 430119,
         "description": "reflecting for productive extroverted instead upwardly",
         "streamtags": [
@@ -233,9 +233,9 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## delete_pipeline_by_id
+## delete
 
-Delete Pipeline
+Delete a Pipeline
 
 ### Example Usage
 
@@ -251,7 +251,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.pipelines.delete_pipeline_by_id(id="<id>")
+    res = ccp_client.pipelines.delete(id="<id>")
 
     # Handle response
     print(res)

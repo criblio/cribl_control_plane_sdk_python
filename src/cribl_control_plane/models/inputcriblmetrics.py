@@ -97,9 +97,9 @@ class InputCriblmetricsMetadatum(BaseModel):
 
 
 class InputCriblmetricsTypedDict(TypedDict):
-    id: str
-    r"""Unique ID for this input"""
     type: InputCriblmetricsType
+    id: NotRequired[str]
+    r"""Unique ID for this input"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -124,10 +124,10 @@ class InputCriblmetricsTypedDict(TypedDict):
 
 
 class InputCriblmetrics(BaseModel):
-    id: str
-    r"""Unique ID for this input"""
-
     type: InputCriblmetricsType
+
+    id: Optional[str] = None
+    r"""Unique ID for this input"""
 
     disabled: Optional[bool] = False
 

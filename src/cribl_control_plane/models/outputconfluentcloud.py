@@ -345,13 +345,13 @@ class OutputConfluentCloudPqControls(BaseModel):
 
 
 class OutputConfluentCloudTypedDict(TypedDict):
+    type: OutputConfluentCloudType
     brokers: List[str]
     r"""List of Confluent Cloud bootstrap servers to use, such as yourAccount.confluent.cloud:9092."""
     topic: str
     r"""The topic to publish events to. Can be overridden using the __topicOut field."""
     id: NotRequired[str]
     r"""Unique ID for this output"""
-    type: NotRequired[OutputConfluentCloudType]
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -415,6 +415,8 @@ class OutputConfluentCloudTypedDict(TypedDict):
 
 
 class OutputConfluentCloud(BaseModel):
+    type: OutputConfluentCloudType
+
     brokers: List[str]
     r"""List of Confluent Cloud bootstrap servers to use, such as yourAccount.confluent.cloud:9092."""
 
@@ -423,8 +425,6 @@ class OutputConfluentCloud(BaseModel):
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
-
-    type: Optional[OutputConfluentCloudType] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""

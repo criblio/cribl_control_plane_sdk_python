@@ -101,11 +101,11 @@ class OutputAzureBlobCertificate(BaseModel):
 
 
 class OutputAzureBlobTypedDict(TypedDict):
+    type: OutputAzureBlobType
     container_name: str
     r"""The Azure Blob Storage container name. Name can include only lowercase letters, numbers, and hyphens. For dynamic container names, enter a JavaScript expression within quotes or backticks, to be evaluated at initialization. The expression can evaluate to a constant value and can reference Global Variables, such as `myContainer-${C.env[\"CRIBL_WORKER_ID\"]}`."""
     id: NotRequired[str]
     r"""Unique ID for this output"""
-    type: NotRequired[OutputAzureBlobType]
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -205,13 +205,13 @@ class OutputAzureBlobTypedDict(TypedDict):
 
 
 class OutputAzureBlob(BaseModel):
+    type: OutputAzureBlobType
+
     container_name: Annotated[str, pydantic.Field(alias="containerName")]
     r"""The Azure Blob Storage container name. Name can include only lowercase letters, numbers, and hyphens. For dynamic container names, enter a JavaScript expression within quotes or backticks, to be evaluated at initialization. The expression can evaluate to a constant value and can reference Global Variables, such as `myContainer-${C.env[\"CRIBL_WORKER_ID\"]}`."""
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
-
-    type: Optional[OutputAzureBlobType] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""

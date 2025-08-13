@@ -211,6 +211,7 @@ class OutputAzureDataExplorerPqControls(BaseModel):
 
 
 class OutputAzureDataExplorerTypedDict(TypedDict):
+    type: OutputAzureDataExplorerType
     cluster_url: str
     r"""The base URI for your cluster. Typically, `https://<cluster>.<region>.kusto.windows.net`."""
     database: str
@@ -225,7 +226,6 @@ class OutputAzureDataExplorerTypedDict(TypedDict):
     r"""Scope to pass in the OAuth request parameter"""
     id: NotRequired[str]
     r"""Unique ID for this output"""
-    type: NotRequired[OutputAzureDataExplorerType]
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -339,6 +339,8 @@ class OutputAzureDataExplorerTypedDict(TypedDict):
 
 
 class OutputAzureDataExplorer(BaseModel):
+    type: OutputAzureDataExplorerType
+
     cluster_url: Annotated[str, pydantic.Field(alias="clusterUrl")]
     r"""The base URI for your cluster. Typically, `https://<cluster>.<region>.kusto.windows.net`."""
 
@@ -359,8 +361,6 @@ class OutputAzureDataExplorer(BaseModel):
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
-
-    type: Optional[OutputAzureDataExplorerType] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""

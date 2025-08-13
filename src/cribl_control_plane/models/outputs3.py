@@ -121,11 +121,11 @@ class OutputS3KeyValueMetadatum(BaseModel):
 
 
 class OutputS3TypedDict(TypedDict):
+    type: OutputS3Type
     bucket: str
     r"""Name of the destination S3 bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
     id: NotRequired[str]
     r"""Unique ID for this output"""
-    type: NotRequired[OutputS3Type]
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -241,13 +241,13 @@ class OutputS3TypedDict(TypedDict):
 
 
 class OutputS3(BaseModel):
+    type: OutputS3Type
+
     bucket: str
     r"""Name of the destination S3 bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
-
-    type: Optional[OutputS3Type] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""

@@ -227,11 +227,11 @@ class InputZscalerHecMetadatum(BaseModel):
 
 
 class InputZscalerHecTypedDict(TypedDict):
+    type: InputZscalerHecType
     port: float
     r"""Port to listen on"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
-    type: NotRequired[InputZscalerHecType]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -290,13 +290,13 @@ class InputZscalerHecTypedDict(TypedDict):
 
 
 class InputZscalerHec(BaseModel):
+    type: InputZscalerHecType
+
     port: float
     r"""Port to listen on"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
-
-    type: Optional[InputZscalerHecType] = None
 
     disabled: Optional[bool] = False
 

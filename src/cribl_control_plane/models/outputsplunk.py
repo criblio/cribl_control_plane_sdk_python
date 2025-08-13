@@ -155,11 +155,11 @@ class OutputSplunkPqControls(BaseModel):
 
 
 class OutputSplunkTypedDict(TypedDict):
+    type: OutputSplunkType
     host: str
     r"""The hostname of the receiver"""
     id: NotRequired[str]
     r"""Unique ID for this output"""
-    type: NotRequired[OutputSplunkType]
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -216,13 +216,13 @@ class OutputSplunkTypedDict(TypedDict):
 
 
 class OutputSplunk(BaseModel):
+    type: OutputSplunkType
+
     host: str
     r"""The hostname of the receiver"""
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
-
-    type: Optional[OutputSplunkType] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""

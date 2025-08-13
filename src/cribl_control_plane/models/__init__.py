@@ -342,12 +342,7 @@ if TYPE_CHECKING:
     )
     from .hbcriblinfo import Config, ConfigTypedDict, HBCriblInfo, HBCriblInfoTypedDict
     from .hbleaderinfo import HBLeaderInfo, HBLeaderInfoTypedDict
-    from .healthstatus import (
-        HealthStatus,
-        HealthStatusStatus,
-        HealthStatusTypedDict,
-        Role,
-    )
+    from .healthstatus import HealthStatus, HealthStatusTypedDict, Role, Status
     from .heartbeatmetadata import (
         HeartbeatMetadata,
         HeartbeatMetadataAws,
@@ -2944,11 +2939,6 @@ if TYPE_CHECKING:
     )
     from .rbacresource import RbacResource
     from .resourcepolicy import ResourcePolicy, ResourcePolicyTypedDict
-    from .restartresponse import (
-        RestartResponse,
-        RestartResponseStatus,
-        RestartResponseTypedDict,
-    )
     from .routecloneconf import RouteCloneConf, RouteCloneConfTypedDict
     from .routeconf import RouteConf, RouteConfTypedDict
     from .routes import (
@@ -3025,10 +3015,6 @@ if TYPE_CHECKING:
         UpdateRoutesByIDRequestTypedDict,
         UpdateRoutesByIDResponse,
         UpdateRoutesByIDResponseTypedDict,
-    )
-    from .updateworkersrestartop import (
-        UpdateWorkersRestartResponse,
-        UpdateWorkersRestartResponseTypedDict,
     )
     from .useraccesscontrollist import (
         UserAccessControlList,
@@ -3336,7 +3322,6 @@ __all__ = [
     "HBLeaderInfo",
     "HBLeaderInfoTypedDict",
     "HealthStatus",
-    "HealthStatusStatus",
     "HealthStatusTypedDict",
     "HeartbeatMetadata",
     "HeartbeatMetadataAws",
@@ -5616,9 +5601,6 @@ __all__ = [
     "ResourcePolicyTypedDict",
     "ResourceTypeLabel",
     "ResourceTypeLabelTypedDict",
-    "RestartResponse",
-    "RestartResponseStatus",
-    "RestartResponseTypedDict",
     "Role",
     "RouteCloneConf",
     "RouteCloneConfTypedDict",
@@ -5648,6 +5630,7 @@ __all__ = [
     "ServicesTypedDict",
     "ShardIteratorStart",
     "ShardLoadBalancing",
+    "Status",
     "Subscription",
     "SubscriptionMetadatum",
     "SubscriptionMetadatumTypedDict",
@@ -5702,8 +5685,6 @@ __all__ = [
     "UpdateRoutesByIDRequestTypedDict",
     "UpdateRoutesByIDResponse",
     "UpdateRoutesByIDResponseTypedDict",
-    "UpdateWorkersRestartResponse",
-    "UpdateWorkersRestartResponseTypedDict",
     "UserAccessControlList",
     "UserAccessControlListTypedDict",
     "UsersAndGroups",
@@ -5969,9 +5950,9 @@ _dynamic_imports: dict[str, str] = {
     "HBLeaderInfo": ".hbleaderinfo",
     "HBLeaderInfoTypedDict": ".hbleaderinfo",
     "HealthStatus": ".healthstatus",
-    "HealthStatusStatus": ".healthstatus",
     "HealthStatusTypedDict": ".healthstatus",
     "Role": ".healthstatus",
+    "Status": ".healthstatus",
     "HeartbeatMetadata": ".heartbeatmetadata",
     "HeartbeatMetadataAws": ".heartbeatmetadata",
     "HeartbeatMetadataAwsTypedDict": ".heartbeatmetadata",
@@ -8324,9 +8305,6 @@ _dynamic_imports: dict[str, str] = {
     "RbacResource": ".rbacresource",
     "ResourcePolicy": ".resourcepolicy",
     "ResourcePolicyTypedDict": ".resourcepolicy",
-    "RestartResponse": ".restartresponse",
-    "RestartResponseStatus": ".restartresponse",
-    "RestartResponseTypedDict": ".restartresponse",
     "RouteCloneConf": ".routecloneconf",
     "RouteCloneConfTypedDict": ".routecloneconf",
     "RouteConf": ".routeconf",
@@ -8385,8 +8363,6 @@ _dynamic_imports: dict[str, str] = {
     "UpdateRoutesByIDRequestTypedDict": ".updateroutesbyidop",
     "UpdateRoutesByIDResponse": ".updateroutesbyidop",
     "UpdateRoutesByIDResponseTypedDict": ".updateroutesbyidop",
-    "UpdateWorkersRestartResponse": ".updateworkersrestartop",
-    "UpdateWorkersRestartResponseTypedDict": ".updateworkersrestartop",
     "UserAccessControlList": ".useraccesscontrollist",
     "UserAccessControlListTypedDict": ".useraccesscontrollist",
 }

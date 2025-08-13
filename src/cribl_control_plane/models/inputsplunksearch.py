@@ -239,11 +239,11 @@ class InputSplunkSearchOauthHeader(BaseModel):
 
 
 class InputSplunkSearchTypedDict(TypedDict):
+    type: InputSplunkSearchType
     search: str
     r"""Enter Splunk search here. Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
-    type: NotRequired[InputSplunkSearchType]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -331,13 +331,13 @@ class InputSplunkSearchTypedDict(TypedDict):
 
 
 class InputSplunkSearch(BaseModel):
+    type: InputSplunkSearchType
+
     search: str
     r"""Enter Splunk search here. Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
-
-    type: Optional[InputSplunkSearchType] = None
 
     disabled: Optional[bool] = False
 

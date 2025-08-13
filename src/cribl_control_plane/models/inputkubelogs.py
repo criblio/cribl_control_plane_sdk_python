@@ -151,9 +151,9 @@ class InputKubeLogsDiskSpooling(BaseModel):
 
 
 class InputKubeLogsTypedDict(TypedDict):
-    id: str
-    r"""Unique ID for this input"""
     type: InputKubeLogsType
+    id: NotRequired[str]
+    r"""Unique ID for this input"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -187,10 +187,10 @@ class InputKubeLogsTypedDict(TypedDict):
 
 
 class InputKubeLogs(BaseModel):
-    id: str
-    r"""Unique ID for this input"""
-
     type: InputKubeLogsType
+
+    id: Optional[str] = None
+    r"""Unique ID for this input"""
 
     disabled: Optional[bool] = False
 

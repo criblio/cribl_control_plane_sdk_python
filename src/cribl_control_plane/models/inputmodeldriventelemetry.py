@@ -170,9 +170,9 @@ class InputModelDrivenTelemetryMetadatum(BaseModel):
 
 
 class InputModelDrivenTelemetryTypedDict(TypedDict):
+    type: InputModelDrivenTelemetryType
     id: NotRequired[str]
     r"""Unique ID for this input"""
-    type: NotRequired[InputModelDrivenTelemetryType]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -202,10 +202,10 @@ class InputModelDrivenTelemetryTypedDict(TypedDict):
 
 
 class InputModelDrivenTelemetry(BaseModel):
+    type: InputModelDrivenTelemetryType
+
     id: Optional[str] = None
     r"""Unique ID for this input"""
-
-    type: Optional[InputModelDrivenTelemetryType] = None
 
     disabled: Optional[bool] = False
 

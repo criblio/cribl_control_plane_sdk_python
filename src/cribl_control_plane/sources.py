@@ -10,6 +10,8 @@ from typing import Any, List, Mapping, Optional, Union, cast
 
 
 class Sources(BaseSDK):
+    r"""Actions related to Sources"""
+
     def list(
         self,
         *,

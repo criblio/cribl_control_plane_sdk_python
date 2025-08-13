@@ -155,9 +155,9 @@ class OutputDynatraceHTTPPqControls(BaseModel):
 
 
 class OutputDynatraceHTTPTypedDict(TypedDict):
+    type: OutputDynatraceHTTPType
     id: NotRequired[str]
     r"""Unique ID for this output"""
-    type: NotRequired[OutputDynatraceHTTPType]
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -242,10 +242,10 @@ class OutputDynatraceHTTPTypedDict(TypedDict):
 
 
 class OutputDynatraceHTTP(BaseModel):
+    type: OutputDynatraceHTTPType
+
     id: Optional[str] = None
     r"""Unique ID for this output"""
-
-    type: Optional[OutputDynatraceHTTPType] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""

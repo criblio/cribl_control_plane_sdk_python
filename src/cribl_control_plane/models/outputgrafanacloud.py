@@ -234,11 +234,11 @@ class OutputGrafanaCloudPqControls2(BaseModel):
 
 
 class OutputGrafanaCloudGrafanaCloud2TypedDict(TypedDict):
-    id: str
-    r"""Unique ID for this output"""
     type: OutputGrafanaCloudType2
     prometheus_url: str
     r"""The remote_write endpoint to send Prometheus metrics to, such as https://prometheus-blocks-prod-us-central1.grafana.net/api/prom/push"""
+    id: NotRequired[str]
+    r"""Unique ID for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -316,13 +316,13 @@ class OutputGrafanaCloudGrafanaCloud2TypedDict(TypedDict):
 
 
 class OutputGrafanaCloudGrafanaCloud2(BaseModel):
-    id: str
-    r"""Unique ID for this output"""
-
     type: OutputGrafanaCloudType2
 
     prometheus_url: Annotated[str, pydantic.Field(alias="prometheusUrl")]
     r"""The remote_write endpoint to send Prometheus metrics to, such as https://prometheus-blocks-prod-us-central1.grafana.net/api/prom/push"""
+
+    id: Optional[str] = None
+    r"""Unique ID for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -710,11 +710,11 @@ class OutputGrafanaCloudPqControls1(BaseModel):
 
 
 class OutputGrafanaCloudGrafanaCloud1TypedDict(TypedDict):
-    id: str
-    r"""Unique ID for this output"""
     type: OutputGrafanaCloudType1
     loki_url: str
     r"""The endpoint to send logs to, such as https://logs-prod-us-central1.grafana.net"""
+    id: NotRequired[str]
+    r"""Unique ID for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -792,13 +792,13 @@ class OutputGrafanaCloudGrafanaCloud1TypedDict(TypedDict):
 
 
 class OutputGrafanaCloudGrafanaCloud1(BaseModel):
-    id: str
-    r"""Unique ID for this output"""
-
     type: OutputGrafanaCloudType1
 
     loki_url: Annotated[str, pydantic.Field(alias="lokiUrl")]
     r"""The endpoint to send logs to, such as https://logs-prod-us-central1.grafana.net"""
+
+    id: Optional[str] = None
+    r"""Unique ID for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""

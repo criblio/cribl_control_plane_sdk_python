@@ -116,13 +116,13 @@ class OutputMinioKeyValueMetadatum(BaseModel):
 
 
 class OutputMinioTypedDict(TypedDict):
+    type: OutputMinioType
     endpoint: str
     r"""MinIO service url (e.g. http://minioHost:9000)"""
     bucket: str
     r"""Name of the destination MinIO bucket. This value can be a constant or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
     id: NotRequired[str]
     r"""Unique ID for this output"""
-    type: NotRequired[OutputMinioType]
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -225,6 +225,8 @@ class OutputMinioTypedDict(TypedDict):
 
 
 class OutputMinio(BaseModel):
+    type: OutputMinioType
+
     endpoint: str
     r"""MinIO service url (e.g. http://minioHost:9000)"""
 
@@ -233,8 +235,6 @@ class OutputMinio(BaseModel):
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
-
-    type: Optional[OutputMinioType] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""

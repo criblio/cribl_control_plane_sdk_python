@@ -54,6 +54,7 @@ class OutputExabeamDiskSpaceProtection(str, Enum):
 
 
 class OutputExabeamTypedDict(TypedDict):
+    type: OutputExabeamType
     bucket: str
     r"""Name of the destination bucket. A constant or a JavaScript expression that can only be evaluated at init time. Example of referencing a JavaScript Global Variable: `myBucket-${C.vars.myVar}`."""
     region: str
@@ -64,7 +65,6 @@ class OutputExabeamTypedDict(TypedDict):
     """
     id: NotRequired[str]
     r"""Unique ID for this output"""
-    type: NotRequired[OutputExabeamType]
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -126,6 +126,8 @@ class OutputExabeamTypedDict(TypedDict):
 
 
 class OutputExabeam(BaseModel):
+    type: OutputExabeamType
+
     bucket: str
     r"""Name of the destination bucket. A constant or a JavaScript expression that can only be evaluated at init time. Example of referencing a JavaScript Global Variable: `myBucket-${C.vars.myVar}`."""
 
@@ -139,8 +141,6 @@ class OutputExabeam(BaseModel):
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
-
-    type: Optional[OutputExabeamType] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""

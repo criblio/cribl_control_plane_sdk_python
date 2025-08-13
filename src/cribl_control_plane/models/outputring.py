@@ -32,9 +32,9 @@ class OutputRingBackpressureBehavior(str, Enum):
 
 
 class OutputRingTypedDict(TypedDict):
-    id: str
-    r"""Unique ID for this output"""
     type: OutputRingType
+    id: NotRequired[str]
+    r"""Unique ID for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -60,10 +60,10 @@ class OutputRingTypedDict(TypedDict):
 
 
 class OutputRing(BaseModel):
-    id: str
-    r"""Unique ID for this output"""
-
     type: OutputRingType
+
+    id: Optional[str] = None
+    r"""Unique ID for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""

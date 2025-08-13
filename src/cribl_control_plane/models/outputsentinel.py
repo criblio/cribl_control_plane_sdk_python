@@ -142,6 +142,7 @@ class OutputSentinelPqControls(BaseModel):
 
 
 class OutputSentinelTypedDict(TypedDict):
+    type: OutputSentinelType
     login_url: str
     r"""URL for OAuth"""
     secret: str
@@ -150,7 +151,6 @@ class OutputSentinelTypedDict(TypedDict):
     r"""JavaScript expression to compute the Client ID for the Azure application. Can be a constant."""
     id: NotRequired[str]
     r"""Unique ID for this output"""
-    type: NotRequired[OutputSentinelType]
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -244,6 +244,8 @@ class OutputSentinelTypedDict(TypedDict):
 
 
 class OutputSentinel(BaseModel):
+    type: OutputSentinelType
+
     login_url: Annotated[str, pydantic.Field(alias="loginUrl")]
     r"""URL for OAuth"""
 
@@ -255,8 +257,6 @@ class OutputSentinel(BaseModel):
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
-
-    type: Optional[OutputSentinelType] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""

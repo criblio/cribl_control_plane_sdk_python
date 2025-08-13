@@ -264,6 +264,7 @@ class OutputClickHousePqControls(BaseModel):
 
 
 class OutputClickHouseTypedDict(TypedDict):
+    type: OutputClickHouseType
     url: str
     r"""URL of the ClickHouse instance. Example: http://localhost:8123/"""
     database: str
@@ -271,7 +272,6 @@ class OutputClickHouseTypedDict(TypedDict):
     r"""Name of the ClickHouse table where data will be inserted. Name can contain letters (A-Z, a-z), numbers (0-9), and the character \"_\", and must start with either a letter or the character \"_\"."""
     id: NotRequired[str]
     r"""Unique ID for this output"""
-    type: NotRequired[OutputClickHouseType]
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -374,6 +374,8 @@ class OutputClickHouseTypedDict(TypedDict):
 
 
 class OutputClickHouse(BaseModel):
+    type: OutputClickHouseType
+
     url: str
     r"""URL of the ClickHouse instance. Example: http://localhost:8123/"""
 
@@ -384,8 +386,6 @@ class OutputClickHouse(BaseModel):
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
-
-    type: Optional[OutputClickHouseType] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""

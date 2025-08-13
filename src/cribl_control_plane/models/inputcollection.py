@@ -115,7 +115,7 @@ class InputCollectionMetadatum(BaseModel):
 
 
 class InputCollectionTypedDict(TypedDict):
-    id: str
+    id: NotRequired[str]
     r"""Unique ID for this input"""
     type: NotRequired[InputCollectionType]
     disabled: NotRequired[bool]
@@ -146,7 +146,7 @@ class InputCollectionTypedDict(TypedDict):
 
 
 class InputCollection(BaseModel):
-    id: str
+    id: Optional[str] = None
     r"""Unique ID for this input"""
 
     type: Optional[InputCollectionType] = InputCollectionType.COLLECTION

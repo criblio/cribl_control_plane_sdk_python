@@ -202,11 +202,11 @@ class InputHTTPRawAuthTokensExt(BaseModel):
 
 
 class InputHTTPRawTypedDict(TypedDict):
+    type: InputHTTPRawType
     port: float
     r"""Port to listen on"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
-    type: NotRequired[InputHTTPRawType]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -264,13 +264,13 @@ class InputHTTPRawTypedDict(TypedDict):
 
 
 class InputHTTPRaw(BaseModel):
+    type: InputHTTPRawType
+
     port: float
     r"""Port to listen on"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
-
-    type: Optional[InputHTTPRawType] = None
 
     disabled: Optional[bool] = False
 

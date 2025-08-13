@@ -146,9 +146,9 @@ class OutputSplunkHecPqControls(BaseModel):
 
 
 class OutputSplunkHecTypedDict(TypedDict):
-    id: str
-    r"""Unique ID for this output"""
     type: OutputSplunkHecType
+    id: NotRequired[str]
+    r"""Unique ID for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -231,10 +231,10 @@ class OutputSplunkHecTypedDict(TypedDict):
 
 
 class OutputSplunkHec(BaseModel):
-    id: str
-    r"""Unique ID for this output"""
-
     type: OutputSplunkHecType
+
+    id: Optional[str] = None
+    r"""Unique ID for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""

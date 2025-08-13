@@ -59,6 +59,7 @@ class OutputCloudwatchPqControls(BaseModel):
 
 
 class OutputCloudwatchTypedDict(TypedDict):
+    type: OutputCloudwatchType
     log_group_name: str
     r"""CloudWatch log group to associate events with"""
     log_stream_name: str
@@ -67,7 +68,6 @@ class OutputCloudwatchTypedDict(TypedDict):
     r"""Region where the CloudWatchLogs is located"""
     id: NotRequired[str]
     r"""Unique ID for this output"""
-    type: NotRequired[OutputCloudwatchType]
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -121,6 +121,8 @@ class OutputCloudwatchTypedDict(TypedDict):
 
 
 class OutputCloudwatch(BaseModel):
+    type: OutputCloudwatchType
+
     log_group_name: Annotated[str, pydantic.Field(alias="logGroupName")]
     r"""CloudWatch log group to associate events with"""
 
@@ -132,8 +134,6 @@ class OutputCloudwatch(BaseModel):
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
-
-    type: Optional[OutputCloudwatchType] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""

@@ -73,13 +73,13 @@ class OutputKinesisPqControls(BaseModel):
 
 
 class OutputKinesisTypedDict(TypedDict):
+    type: OutputKinesisType
     stream_name: str
     r"""Kinesis stream name to send events to."""
     region: str
     r"""Region where the Kinesis stream is located"""
     id: NotRequired[str]
     r"""Unique ID for this output"""
-    type: NotRequired[OutputKinesisType]
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -141,6 +141,8 @@ class OutputKinesisTypedDict(TypedDict):
 
 
 class OutputKinesis(BaseModel):
+    type: OutputKinesisType
+
     stream_name: Annotated[str, pydantic.Field(alias="streamName")]
     r"""Kinesis stream name to send events to."""
 
@@ -149,8 +151,6 @@ class OutputKinesis(BaseModel):
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
-
-    type: Optional[OutputKinesisType] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""

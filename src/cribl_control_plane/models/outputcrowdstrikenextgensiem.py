@@ -138,13 +138,13 @@ class OutputCrowdstrikeNextGenSiemPqControls(BaseModel):
 
 
 class OutputCrowdstrikeNextGenSiemTypedDict(TypedDict):
+    type: OutputCrowdstrikeNextGenSiemType
     url: str
     r"""URL provided from a CrowdStrike data connector.
     Example: https://ingest.<region>.crowdstrike.com/api/ingest/hec/<connection-id>/v1/services/collector
     """
     id: NotRequired[str]
     r"""Unique ID for this output"""
-    type: NotRequired[OutputCrowdstrikeNextGenSiemType]
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -217,6 +217,8 @@ class OutputCrowdstrikeNextGenSiemTypedDict(TypedDict):
 
 
 class OutputCrowdstrikeNextGenSiem(BaseModel):
+    type: OutputCrowdstrikeNextGenSiemType
+
     url: str
     r"""URL provided from a CrowdStrike data connector.
     Example: https://ingest.<region>.crowdstrike.com/api/ingest/hec/<connection-id>/v1/services/collector
@@ -224,8 +226,6 @@ class OutputCrowdstrikeNextGenSiem(BaseModel):
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
-
-    type: Optional[OutputCrowdstrikeNextGenSiemType] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""

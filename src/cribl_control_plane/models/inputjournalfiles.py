@@ -112,13 +112,13 @@ class InputJournalFilesMetadatum(BaseModel):
 
 
 class InputJournalFilesTypedDict(TypedDict):
+    type: InputJournalFilesType
     path: str
     r"""Directory path to search for journals. Environment variables will be resolved, e.g. $CRIBL_EDGE_FS_ROOT/var/log/journal/$MACHINE_ID."""
     journals: List[str]
     r"""The full path of discovered journals are matched against this wildcard list."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
-    type: NotRequired[InputJournalFilesType]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -147,6 +147,8 @@ class InputJournalFilesTypedDict(TypedDict):
 
 
 class InputJournalFiles(BaseModel):
+    type: InputJournalFilesType
+
     path: str
     r"""Directory path to search for journals. Environment variables will be resolved, e.g. $CRIBL_EDGE_FS_ROOT/var/log/journal/$MACHINE_ID."""
 
@@ -155,8 +157,6 @@ class InputJournalFiles(BaseModel):
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
-
-    type: Optional[InputJournalFilesType] = None
 
     disabled: Optional[bool] = False
 

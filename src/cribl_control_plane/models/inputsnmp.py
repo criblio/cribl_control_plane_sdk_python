@@ -154,9 +154,9 @@ class InputSnmpMetadatum(BaseModel):
 
 
 class InputSnmpTypedDict(TypedDict):
+    type: InputSnmpType
     id: NotRequired[str]
     r"""Unique ID for this input"""
-    type: NotRequired[InputSnmpType]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -193,10 +193,10 @@ class InputSnmpTypedDict(TypedDict):
 
 
 class InputSnmp(BaseModel):
+    type: InputSnmpType
+
     id: Optional[str] = None
     r"""Unique ID for this input"""
-
-    type: Optional[InputSnmpType] = None
 
     disabled: Optional[bool] = False
 

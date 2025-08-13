@@ -284,10 +284,6 @@ with CriblControlPlane(
 * [fetch_token](docs/sdks/authsdk/README.md#fetch_token) - Log in and fetch an authentication token
 
 
-### [deployments](docs/sdks/deployments/README.md)
-
-* [get_summary](docs/sdks/deployments/README.md#get_summary) - Retrieve a summary of the Distributed deployment
-
 ### [destinations](docs/sdks/destinations/README.md)
 
 * [list](docs/sdks/destinations/README.md#list) - List all Destinations
@@ -295,26 +291,26 @@ with CriblControlPlane(
 * [get](docs/sdks/destinations/README.md#get) - Retrieve a Destination
 * [update](docs/sdks/destinations/README.md#update) - Update a Destination
 * [delete](docs/sdks/destinations/README.md#delete) - Delete a Destination
-* [clear_persistent_queue](docs/sdks/destinations/README.md#clear_persistent_queue) - Clear the persistent queue for a Destination
-* [get_persistent_queue_status](docs/sdks/destinations/README.md#get_persistent_queue_status) - Retrieve information about the latest job to clear the persistent queue for a Destination
-* [get_sample_data](docs/sdks/destinations/README.md#get_sample_data) - Retrieve sample event data for a Destination
-* [create_sample_data](docs/sdks/destinations/README.md#create_sample_data) - Send sample event data to a Destination
+* [clear_pq](docs/sdks/destinations/README.md#clear_pq) - Clear the persistent queue for a Destination
+* [get_pq_status](docs/sdks/destinations/README.md#get_pq_status) - Retrieve information about the latest job to clear the persistent queue for a Destination
+* [get_sample](docs/sdks/destinations/README.md#get_sample) - Retrieve sample event data for a Destination
+* [create_sample](docs/sdks/destinations/README.md#create_sample) - Send sample event data to a Destination
 
 ### [groups](docs/sdks/groupssdk/README.md)
 
 * [get_config_version](docs/sdks/groupssdk/README.md#get_config_version) - Retrieve the configuration version for a Worker Group or Edge Fleet
-* [create_by_product](docs/sdks/groupssdk/README.md#create_by_product) - Create a Worker Group or Edge Fleet for the specified Cribl product
-* [get_by_product](docs/sdks/groupssdk/README.md#get_by_product) - List all Worker Groups or Edge Fleets for the specified Cribl product
+* [create](docs/sdks/groupssdk/README.md#create) - Create a Worker Group or Edge Fleet for the specified Cribl product
+* [list](docs/sdks/groupssdk/README.md#list) - List all Worker Groups or Edge Fleets for the specified Cribl product
 * [delete](docs/sdks/groupssdk/README.md#delete) - Delete a Worker Group or Edge Fleet
 * [get](docs/sdks/groupssdk/README.md#get) - Retrieve a Worker Group or Edge Fleet
 * [update](docs/sdks/groupssdk/README.md#update) - Update a Worker Group or Edge Fleet
-* [deploy_commits](docs/sdks/groupssdk/README.md#deploy_commits) - Deploy commits to a Worker Group or Edge Fleet
-* [get_team_access_control_list_by_product](docs/sdks/groupssdk/README.md#get_team_access_control_list_by_product) - Retrieve the Access Control List (ACL) for teams with permissions on a Worker Group or Edge Fleet for the specified Cribl product
-* [get_access_control_list](docs/sdks/groupssdk/README.md#get_access_control_list) - Retrieve the Access Control List (ACL) for a Worker Group or Edge Fleet
+* [deploy](docs/sdks/groupssdk/README.md#deploy) - Deploy commits to a Worker Group or Edge Fleet
+* [get_team_acl](docs/sdks/groupssdk/README.md#get_team_acl) - Retrieve the Access Control List (ACL) for teams with permissions on a Worker Group or Edge Fleet for the specified Cribl product
+* [get_acl](docs/sdks/groupssdk/README.md#get_acl) - Retrieve the Access Control List (ACL) for a Worker Group or Edge Fleet
 
-### [health_info](docs/sdks/healthinfo/README.md)
+### [health](docs/sdks/health/README.md)
 
-* [get](docs/sdks/healthinfo/README.md#get) - Retrieve health status of the server
+* [get](docs/sdks/health/README.md#get) - Retrieve health status of the server
 
 ### [lake_datasets](docs/sdks/lakedatasets/README.md)
 
@@ -326,8 +322,9 @@ with CriblControlPlane(
 
 ### [nodes](docs/sdks/nodes/README.md)
 
+* [get_summary](docs/sdks/nodes/README.md#get_summary) - Retrieve a summary of the Distributed deployment
+* [count](docs/sdks/nodes/README.md#count) - Retrieve a count of Worker and Edge Nodes
 * [list](docs/sdks/nodes/README.md#list) - Retrieve detailed metadata for Worker and Edge Nodes
-* [restart](docs/sdks/nodes/README.md#restart) - Restart Worker and Edge Nodes
 
 ### [packs](docs/sdks/packs/README.md)
 
@@ -363,23 +360,19 @@ with CriblControlPlane(
 
 ### [versioning](docs/sdks/versioning/README.md)
 
-* [get_branch](docs/sdks/versioning/README.md#get_branch) - List all branches in the Git repository used for Cribl configuration
+* [list_branches](docs/sdks/versioning/README.md#list_branches) - List all branches in the Git repository used for Cribl configuration
 * [create_commit](docs/sdks/versioning/README.md#create_commit) - Create a new commit for pending changes to the Cribl configuration
 * [get_file_count](docs/sdks/versioning/README.md#get_file_count) - Retrieve a count of files that changed since a commit
-* [get_branch_name](docs/sdks/versioning/README.md#get_branch_name) - Retrieve the name of the Git branch that the Cribl configuration is checked out to
+* [get_branch](docs/sdks/versioning/README.md#get_branch) - Retrieve the name of the Git branch that the Cribl configuration is checked out to
 * [get_diff](docs/sdks/versioning/README.md#get_diff) - Retrieve the diff for a commit
-* [get_file_info](docs/sdks/versioning/README.md#get_file_info) - Retrieve the names and statuses of files that changed since a commit
+* [list_files](docs/sdks/versioning/README.md#list_files) - Retrieve the names and statuses of files that changed since a commit
 * [get_config_status](docs/sdks/versioning/README.md#get_config_status) - Retrieve the configuration and status for the Git integration
 * [push_commit](docs/sdks/versioning/README.md#push_commit) - Push a commit from the local repository to the remote repository
 * [revert_commit](docs/sdks/versioning/README.md#revert_commit) - Revert a commit in the local repository
-* [show_commit](docs/sdks/versioning/README.md#show_commit) - Retrieve the diff and log message for a commit
+* [get_commit](docs/sdks/versioning/README.md#get_commit) - Retrieve the diff and log message for a commit
 * [get_current_status](docs/sdks/versioning/README.md#get_current_status) - Retrieve the status of the current working tree
 * [sync_local_remote](docs/sdks/versioning/README.md#sync_local_remote) - Synchronize the local branch with the remote repository
-* [clean_working_dir](docs/sdks/versioning/README.md#clean_working_dir) - Discard uncommitted (staged) changes
-
-### [workers](docs/sdks/workerssdk/README.md)
-
-* [get_summary_workers](docs/sdks/workerssdk/README.md#get_summary_workers) - Retrieve a count of Worker and Edge Nodes
+* [undo](docs/sdks/versioning/README.md#undo) - Discard uncommitted (staged) changes
 
 </details>
 <!-- End Available Resources and Operations [operations] -->
@@ -597,7 +590,7 @@ with CriblControlPlane(
 
 
 **Inherit from [`CriblControlPlaneError`](./src/cribl_control_plane/errors/criblcontrolplaneerror.py)**:
-* [`HealthStatusError`](./src/cribl_control_plane/errors/healthstatuserror.py): Healthy status. Status code `420`. Applicable to 1 of 62 methods.*
+* [`HealthStatusError`](./src/cribl_control_plane/errors/healthstatuserror.py): Healthy status. Status code `420`. Applicable to 1 of 61 methods.*
 * [`ResponseValidationError`](./src/cribl_control_plane/errors/responsevalidationerror.py): Type mismatch between the response data and the expected Pydantic model. Provides access to the Pydantic validation error via the `cause` attribute.
 
 </details>

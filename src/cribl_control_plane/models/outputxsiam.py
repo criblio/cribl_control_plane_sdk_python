@@ -144,9 +144,9 @@ class OutputXsiamPqControls(BaseModel):
 
 
 class OutputXsiamTypedDict(TypedDict):
-    id: str
-    r"""Unique ID for this output"""
     type: OutputXsiamType
+    id: NotRequired[str]
+    r"""Unique ID for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -223,10 +223,10 @@ class OutputXsiamTypedDict(TypedDict):
 
 
 class OutputXsiam(BaseModel):
-    id: str
-    r"""Unique ID for this output"""
-
     type: OutputXsiamType
+
+    id: Optional[str] = None
+    r"""Unique ID for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""

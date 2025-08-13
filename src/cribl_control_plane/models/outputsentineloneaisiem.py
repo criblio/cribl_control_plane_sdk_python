@@ -150,9 +150,9 @@ class OutputSentinelOneAiSiemPqControls(BaseModel):
 
 
 class OutputSentinelOneAiSiemTypedDict(TypedDict):
+    type: OutputSentinelOneAiSiemType
     id: NotRequired[str]
     r"""Unique ID for this output"""
-    type: NotRequired[OutputSentinelOneAiSiemType]
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -256,10 +256,10 @@ class OutputSentinelOneAiSiemTypedDict(TypedDict):
 
 
 class OutputSentinelOneAiSiem(BaseModel):
+    type: OutputSentinelOneAiSiemType
+
     id: Optional[str] = None
     r"""Unique ID for this output"""
-
-    type: Optional[OutputSentinelOneAiSiemType] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""

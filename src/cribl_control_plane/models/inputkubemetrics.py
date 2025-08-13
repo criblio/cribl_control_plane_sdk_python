@@ -154,9 +154,9 @@ class InputKubeMetricsPersistence(BaseModel):
 
 
 class InputKubeMetricsTypedDict(TypedDict):
-    id: str
-    r"""Unique ID for this input"""
     type: InputKubeMetricsType
+    id: NotRequired[str]
+    r"""Unique ID for this input"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -182,10 +182,10 @@ class InputKubeMetricsTypedDict(TypedDict):
 
 
 class InputKubeMetrics(BaseModel):
-    id: str
-    r"""Unique ID for this input"""
-
     type: InputKubeMetricsType
+
+    id: Optional[str] = None
+    r"""Unique ID for this input"""
 
     disabled: Optional[bool] = False
 

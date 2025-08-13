@@ -3,6 +3,8 @@
 
 ## Overview
 
+Actions related to Destinations
+
 ### Available Operations
 
 * [list](#list) - List all Destinations
@@ -10,10 +12,10 @@
 * [get](#get) - Retrieve a Destination
 * [update](#update) - Update a Destination
 * [delete](#delete) - Delete a Destination
-* [clear_persistent_queue](#clear_persistent_queue) - Clear the persistent queue for a Destination
-* [get_persistent_queue_status](#get_persistent_queue_status) - Retrieve information about the latest job to clear the persistent queue for a Destination
-* [get_sample_data](#get_sample_data) - Retrieve sample event data for a Destination
-* [create_sample_data](#create_sample_data) - Send sample event data to a Destination
+* [clear_pq](#clear_pq) - Clear the persistent queue for a Destination
+* [get_pq_status](#get_pq_status) - Retrieve information about the latest job to clear the persistent queue for a Destination
+* [get_sample](#get_sample) - Retrieve sample event data for a Destination
+* [create_sample](#create_sample) - Send sample event data to a Destination
 
 ## list
 
@@ -356,7 +358,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## clear_persistent_queue
+## clear_pq
 
 Clears destination persistent queue
 
@@ -374,7 +376,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.destinations.clear_persistent_queue(id="<id>")
+    res = ccp_client.destinations.clear_pq(id="<id>")
 
     # Handle response
     print(res)
@@ -399,7 +401,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## get_persistent_queue_status
+## get_pq_status
 
 Retrieves status of latest clear PQ job for a destination
 
@@ -417,7 +419,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.destinations.get_persistent_queue_status(id="<id>")
+    res = ccp_client.destinations.get_pq_status(id="<id>")
 
     # Handle response
     print(res)
@@ -442,7 +444,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## get_sample_data
+## get_sample
 
 Retrieve samples data for the specified destination. Used to get sample data for the test action.
 
@@ -460,7 +462,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.destinations.get_sample_data(id="<id>")
+    res = ccp_client.destinations.get_sample(id="<id>")
 
     # Handle response
     print(res)
@@ -485,7 +487,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## create_sample_data
+## create_sample
 
 Send sample data to a destination to validate configuration or test connectivity
 
@@ -503,7 +505,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.destinations.create_sample_data(id="<id>", events=[
+    res = ccp_client.destinations.create_sample(id="<id>", events=[
         {
             "raw": "<value>",
         },

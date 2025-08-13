@@ -233,11 +233,11 @@ class OutputServiceNowPqControls(BaseModel):
 
 
 class OutputServiceNowTypedDict(TypedDict):
+    type: OutputServiceNowType
     token_secret: str
     r"""Select or create a stored text secret"""
     id: NotRequired[str]
     r"""Unique ID for this output"""
-    type: NotRequired[OutputServiceNowType]
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -319,13 +319,13 @@ class OutputServiceNowTypedDict(TypedDict):
 
 
 class OutputServiceNow(BaseModel):
+    type: OutputServiceNowType
+
     token_secret: Annotated[str, pydantic.Field(alias="tokenSecret")]
     r"""Select or create a stored text secret"""
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
-
-    type: Optional[OutputServiceNowType] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""

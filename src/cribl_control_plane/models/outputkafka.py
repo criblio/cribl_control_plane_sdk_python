@@ -339,13 +339,13 @@ class OutputKafkaPqControls(BaseModel):
 
 
 class OutputKafkaTypedDict(TypedDict):
+    type: OutputKafkaType
     brokers: List[str]
     r"""Enter each Kafka bootstrap server you want to use. Specify hostname and port, e.g., mykafkabroker:9092, or just hostname, in which case @{product} will assign port 9092."""
     topic: str
     r"""The topic to publish events to. Can be overridden using the __topicOut field."""
     id: NotRequired[str]
     r"""Unique ID for this output"""
-    type: NotRequired[OutputKafkaType]
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -409,6 +409,8 @@ class OutputKafkaTypedDict(TypedDict):
 
 
 class OutputKafka(BaseModel):
+    type: OutputKafkaType
+
     brokers: List[str]
     r"""Enter each Kafka bootstrap server you want to use. Specify hostname and port, e.g., mykafkabroker:9092, or just hostname, in which case @{product} will assign port 9092."""
 
@@ -417,8 +419,6 @@ class OutputKafka(BaseModel):
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
-
-    type: Optional[OutputKafkaType] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""

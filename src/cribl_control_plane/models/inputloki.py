@@ -212,11 +212,11 @@ class InputLokiOauthHeader(BaseModel):
 
 
 class InputLokiTypedDict(TypedDict):
+    type: InputLokiType
     port: float
     r"""Port to listen on"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
-    type: NotRequired[InputLokiType]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -292,13 +292,13 @@ class InputLokiTypedDict(TypedDict):
 
 
 class InputLoki(BaseModel):
+    type: InputLokiType
+
     port: float
     r"""Port to listen on"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
-
-    type: Optional[InputLokiType] = None
 
     disabled: Optional[bool] = False
 

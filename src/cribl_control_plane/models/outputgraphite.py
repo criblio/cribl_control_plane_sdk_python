@@ -58,11 +58,11 @@ class OutputGraphitePqControls(BaseModel):
 
 
 class OutputGraphiteTypedDict(TypedDict):
+    type: OutputGraphiteType
     host: str
     r"""The hostname of the destination."""
     id: NotRequired[str]
     r"""Unique ID for this output"""
-    type: NotRequired[OutputGraphiteType]
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -106,13 +106,13 @@ class OutputGraphiteTypedDict(TypedDict):
 
 
 class OutputGraphite(BaseModel):
+    type: OutputGraphiteType
+
     host: str
     r"""The hostname of the destination."""
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
-
-    type: Optional[OutputGraphiteType] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""

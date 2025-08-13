@@ -132,13 +132,13 @@ class InputEventhubMetadatum(BaseModel):
 
 
 class InputEventhubTypedDict(TypedDict):
+    type: InputEventhubType
     brokers: List[str]
     r"""List of Event Hubs Kafka brokers to connect to (example: yourdomain.servicebus.windows.net:9093). The hostname can be found in the host portion of the primary or secondary connection string in Shared Access Policies."""
     topics: List[str]
     r"""The name of the Event Hub (Kafka topic) to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Event Hubs Source to only a single topic."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
-    type: NotRequired[InputEventhubType]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -210,6 +210,8 @@ class InputEventhubTypedDict(TypedDict):
 
 
 class InputEventhub(BaseModel):
+    type: InputEventhubType
+
     brokers: List[str]
     r"""List of Event Hubs Kafka brokers to connect to (example: yourdomain.servicebus.windows.net:9093). The hostname can be found in the host portion of the primary or secondary connection string in Shared Access Policies."""
 
@@ -218,8 +220,6 @@ class InputEventhub(BaseModel):
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
-
-    type: Optional[InputEventhubType] = None
 
     disabled: Optional[bool] = False
 

@@ -139,13 +139,13 @@ class OutputNewrelicEventsPqControls(BaseModel):
 
 
 class OutputNewrelicEventsTypedDict(TypedDict):
+    type: OutputNewrelicEventsType
     account_id: str
     r"""New Relic account ID"""
     event_type: str
     r"""Default eventType to use when not present in an event. For more information, see [here](https://docs.newrelic.com/docs/telemetry-data-platform/custom-data/custom-events/data-requirements-limits-custom-event-data/#reserved-words)."""
     id: NotRequired[str]
     r"""Unique ID for this output"""
-    type: NotRequired[OutputNewrelicEventsType]
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -218,6 +218,8 @@ class OutputNewrelicEventsTypedDict(TypedDict):
 
 
 class OutputNewrelicEvents(BaseModel):
+    type: OutputNewrelicEventsType
+
     account_id: Annotated[str, pydantic.Field(alias="accountId")]
     r"""New Relic account ID"""
 
@@ -226,8 +228,6 @@ class OutputNewrelicEvents(BaseModel):
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
-
-    type: Optional[OutputNewrelicEventsType] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""

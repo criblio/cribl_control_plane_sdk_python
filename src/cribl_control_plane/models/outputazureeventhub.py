@@ -103,13 +103,13 @@ class OutputAzureEventhubPqControls(BaseModel):
 
 
 class OutputAzureEventhubTypedDict(TypedDict):
+    type: OutputAzureEventhubType
     brokers: List[str]
     r"""List of Event Hubs Kafka brokers to connect to, eg. yourdomain.servicebus.windows.net:9093. The hostname can be found in the host portion of the primary or secondary connection string in Shared Access Policies."""
     topic: str
     r"""The name of the Event Hub (Kafka Topic) to publish events. Can be overwritten using field __topicOut."""
     id: NotRequired[str]
     r"""Unique ID for this output"""
-    type: NotRequired[OutputAzureEventhubType]
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -166,6 +166,8 @@ class OutputAzureEventhubTypedDict(TypedDict):
 
 
 class OutputAzureEventhub(BaseModel):
+    type: OutputAzureEventhubType
+
     brokers: List[str]
     r"""List of Event Hubs Kafka brokers to connect to, eg. yourdomain.servicebus.windows.net:9093. The hostname can be found in the host portion of the primary or secondary connection string in Shared Access Policies."""
 
@@ -174,8 +176,6 @@ class OutputAzureEventhub(BaseModel):
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
-
-    type: Optional[OutputAzureEventhubType] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""

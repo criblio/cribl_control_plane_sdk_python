@@ -151,9 +151,9 @@ class OutputDatasetPqControls(BaseModel):
 
 
 class OutputDatasetTypedDict(TypedDict):
-    id: str
-    r"""Unique ID for this output"""
     type: OutputDatasetType
+    id: NotRequired[str]
+    r"""Unique ID for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -234,10 +234,10 @@ class OutputDatasetTypedDict(TypedDict):
 
 
 class OutputDataset(BaseModel):
-    id: str
-    r"""Unique ID for this output"""
-
     type: OutputDatasetType
+
+    id: Optional[str] = None
+    r"""Unique ID for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""

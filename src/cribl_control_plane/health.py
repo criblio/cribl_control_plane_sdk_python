@@ -4,26 +4,23 @@ from .basesdk import BaseSDK
 from cribl_control_plane import errors, models, utils
 from cribl_control_plane._hooks import HookContext
 from cribl_control_plane.types import OptionalNullable, UNSET
-from cribl_control_plane.utils import get_security_from_env
 from cribl_control_plane.utils.unmarshal_json_response import unmarshal_json_response
 from typing import Any, Mapping, Optional
 
 
-class Deployments(BaseSDK):
-    def get_summary(
+class Health(BaseSDK):
+    r"""Actions related to REST server health"""
+
+    def get(
         self,
         *,
-        mode: Optional[models.GetSummaryMode] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetSummaryResponse:
-        r"""Retrieve a summary of the Distributed deployment
+    ) -> models.HealthStatus:
+        r"""Retrieve health status of the server
 
-        Get summary of Distributed deployment
-
-        :param mode: product filter
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -38,24 +35,18 @@ class Deployments(BaseSDK):
             base_url = server_url
         else:
             base_url = self._get_url(base_url, url_variables)
-
-        request = models.GetSummaryRequest(
-            mode=mode,
-        )
-
         req = self._build_request(
             method="GET",
-            path="/master/summary",
+            path="/health",
             base_url=base_url,
             url_variables=url_variables,
-            request=request,
+            request=None,
             request_body_required=False,
             request_has_path_params=False,
-            request_has_query_params=True,
+            request_has_query_params=False,
             user_agent_header="user-agent",
             accept_header_value="application/json",
             http_headers=http_headers,
-            security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
 
@@ -71,24 +62,24 @@ class Deployments(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="getSummary",
+                operation_id="getHealthInfo",
                 oauth2_scopes=[],
-                security_source=get_security_from_env(
-                    self.sdk_configuration.security, models.Security
-                ),
+                security_source=None,
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            error_status_codes=["420", "4XX", "5XX"],
             retry_config=retry_config,
         )
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.GetSummaryResponse, http_res)
-        if utils.match_response(http_res, "500", "application/json"):
-            response_data = unmarshal_json_response(errors.ErrorData, http_res)
-            raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+            return unmarshal_json_response(models.HealthStatus, http_res)
+        if utils.match_response(http_res, "420", "application/json"):
+            response_data = unmarshal_json_response(
+                errors.HealthStatusErrorData, http_res
+            )
+            raise errors.HealthStatusError(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -97,20 +88,16 @@ class Deployments(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_summary_async(
+    async def get_async(
         self,
         *,
-        mode: Optional[models.GetSummaryMode] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetSummaryResponse:
-        r"""Retrieve a summary of the Distributed deployment
+    ) -> models.HealthStatus:
+        r"""Retrieve health status of the server
 
-        Get summary of Distributed deployment
-
-        :param mode: product filter
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -125,24 +112,18 @@ class Deployments(BaseSDK):
             base_url = server_url
         else:
             base_url = self._get_url(base_url, url_variables)
-
-        request = models.GetSummaryRequest(
-            mode=mode,
-        )
-
         req = self._build_request_async(
             method="GET",
-            path="/master/summary",
+            path="/health",
             base_url=base_url,
             url_variables=url_variables,
-            request=request,
+            request=None,
             request_body_required=False,
             request_has_path_params=False,
-            request_has_query_params=True,
+            request_has_query_params=False,
             user_agent_header="user-agent",
             accept_header_value="application/json",
             http_headers=http_headers,
-            security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
 
@@ -158,24 +139,24 @@ class Deployments(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="getSummary",
+                operation_id="getHealthInfo",
                 oauth2_scopes=[],
-                security_source=get_security_from_env(
-                    self.sdk_configuration.security, models.Security
-                ),
+                security_source=None,
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            error_status_codes=["420", "4XX", "5XX"],
             retry_config=retry_config,
         )
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.GetSummaryResponse, http_res)
-        if utils.match_response(http_res, "500", "application/json"):
-            response_data = unmarshal_json_response(errors.ErrorData, http_res)
-            raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+            return unmarshal_json_response(models.HealthStatus, http_res)
+        if utils.match_response(http_res, "420", "application/json"):
+            response_data = unmarshal_json_response(
+                errors.HealthStatusErrorData, http_res
+            )
+            raise errors.HealthStatusError(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):

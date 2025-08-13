@@ -171,11 +171,11 @@ class InputCriblHTTPMetadatum(BaseModel):
 
 
 class InputCriblHTTPTypedDict(TypedDict):
+    type: InputCriblHTTPType
     port: float
     r"""Port to listen on"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
-    type: NotRequired[InputCriblHTTPType]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -223,13 +223,13 @@ class InputCriblHTTPTypedDict(TypedDict):
 
 
 class InputCriblHTTP(BaseModel):
+    type: InputCriblHTTPType
+
     port: float
     r"""Port to listen on"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
-
-    type: Optional[InputCriblHTTPType] = None
 
     disabled: Optional[bool] = False
 

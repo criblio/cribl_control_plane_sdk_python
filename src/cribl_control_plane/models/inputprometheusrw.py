@@ -212,11 +212,11 @@ class InputPrometheusRwOauthHeader(BaseModel):
 
 
 class InputPrometheusRwTypedDict(TypedDict):
+    type: InputPrometheusRwType
     port: float
     r"""Port to listen on"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
-    type: NotRequired[InputPrometheusRwType]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -290,13 +290,13 @@ class InputPrometheusRwTypedDict(TypedDict):
 
 
 class InputPrometheusRw(BaseModel):
+    type: InputPrometheusRwType
+
     port: float
     r"""Port to listen on"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
-
-    type: Optional[InputPrometheusRwType] = None
 
     disabled: Optional[bool] = False
 

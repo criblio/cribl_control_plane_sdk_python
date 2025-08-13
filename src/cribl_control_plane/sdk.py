@@ -15,10 +15,9 @@ import weakref
 
 if TYPE_CHECKING:
     from cribl_control_plane.auth_sdk import AuthSDK
-    from cribl_control_plane.deployments import Deployments
     from cribl_control_plane.destinations import Destinations
     from cribl_control_plane.groups_sdk import GroupsSDK
-    from cribl_control_plane.healthinfo import HealthInfo
+    from cribl_control_plane.health import Health
     from cribl_control_plane.lakedatasets import LakeDatasets
     from cribl_control_plane.nodes import Nodes
     from cribl_control_plane.packs import Packs
@@ -26,7 +25,6 @@ if TYPE_CHECKING:
     from cribl_control_plane.routes_sdk import RoutesSDK
     from cribl_control_plane.sources import Sources
     from cribl_control_plane.versioning import Versioning
-    from cribl_control_plane.workers_sdk import WorkersSDK
 
 
 class CriblControlPlane(BaseSDK):
@@ -34,22 +32,22 @@ class CriblControlPlane(BaseSDK):
 
     lake_datasets: "LakeDatasets"
     sources: "Sources"
+    r"""Actions related to Sources"""
     destinations: "Destinations"
+    r"""Actions related to Destinations"""
     pipelines: "Pipelines"
     r"""Actions related to Pipelines"""
     routes: "RoutesSDK"
     r"""Actions related to Routes"""
     auth: "AuthSDK"
     r"""Actions related to authentication. Do not use the /auth endpoints in Cribl.Cloud deployments. Instead, follow the instructions at https://docs.cribl.io/stream/api-tutorials/#criblcloud to authenticate for Cribl.Cloud."""
-    deployments: "Deployments"
-    health_info: "HealthInfo"
+    nodes: "Nodes"
+    health: "Health"
+    r"""Actions related to REST server health"""
     packs: "Packs"
     r"""Actions related to Packs"""
     versioning: "Versioning"
     r"""Actions related to Versioning"""
-    workers: "WorkersSDK"
-    r"""Actions related to Workers"""
-    nodes: "Nodes"
     groups: "GroupsSDK"
     r"""Actions related to Groups"""
     _sub_sdk_map = {
@@ -59,12 +57,10 @@ class CriblControlPlane(BaseSDK):
         "pipelines": ("cribl_control_plane.pipelines", "Pipelines"),
         "routes": ("cribl_control_plane.routes_sdk", "RoutesSDK"),
         "auth": ("cribl_control_plane.auth_sdk", "AuthSDK"),
-        "deployments": ("cribl_control_plane.deployments", "Deployments"),
-        "health_info": ("cribl_control_plane.healthinfo", "HealthInfo"),
+        "nodes": ("cribl_control_plane.nodes", "Nodes"),
+        "health": ("cribl_control_plane.health", "Health"),
         "packs": ("cribl_control_plane.packs", "Packs"),
         "versioning": ("cribl_control_plane.versioning", "Versioning"),
-        "workers": ("cribl_control_plane.workers_sdk", "WorkersSDK"),
-        "nodes": ("cribl_control_plane.nodes", "Nodes"),
         "groups": ("cribl_control_plane.groups_sdk", "GroupsSDK"),
     }
 

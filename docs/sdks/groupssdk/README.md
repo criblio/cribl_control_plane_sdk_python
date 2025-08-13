@@ -8,14 +8,14 @@ Actions related to Groups
 ### Available Operations
 
 * [get_config_version](#get_config_version) - Retrieve the configuration version for a Worker Group or Edge Fleet
-* [create_by_product](#create_by_product) - Create a Worker Group or Edge Fleet for the specified Cribl product
-* [get_by_product](#get_by_product) - List all Worker Groups or Edge Fleets for the specified Cribl product
+* [create](#create) - Create a Worker Group or Edge Fleet for the specified Cribl product
+* [list](#list) - List all Worker Groups or Edge Fleets for the specified Cribl product
 * [delete](#delete) - Delete a Worker Group or Edge Fleet
 * [get](#get) - Retrieve a Worker Group or Edge Fleet
 * [update](#update) - Update a Worker Group or Edge Fleet
-* [deploy_commits](#deploy_commits) - Deploy commits to a Worker Group or Edge Fleet
-* [get_team_access_control_list_by_product](#get_team_access_control_list_by_product) - Retrieve the Access Control List (ACL) for teams with permissions on a Worker Group or Edge Fleet for the specified Cribl product
-* [get_access_control_list](#get_access_control_list) - Retrieve the Access Control List (ACL) for a Worker Group or Edge Fleet
+* [deploy](#deploy) - Deploy commits to a Worker Group or Edge Fleet
+* [get_team_acl](#get_team_acl) - Retrieve the Access Control List (ACL) for teams with permissions on a Worker Group or Edge Fleet for the specified Cribl product
+* [get_acl](#get_acl) - Retrieve the Access Control List (ACL) for a Worker Group or Edge Fleet
 
 ## get_config_version
 
@@ -60,7 +60,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## create_by_product
+## create
 
 Create a Fleet or Worker Group
 
@@ -78,7 +78,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.groups.create_by_product(product=models.CreateProductsGroupsByProductProduct.STREAM, config_version="<value>", id="<id>", cloud={
+    res = ccp_client.groups.create(product=models.CreateProductsGroupsByProductProduct.STREAM, config_version="<value>", id="<id>", cloud={
         "provider": models.CloudProvider.AWS,
         "region": "<value>",
     }, deploying_worker_count=1848.32, description="director um why forgery apud once er though off", estimated_ingest_rate=6663.53, git={
@@ -156,7 +156,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## get_by_product
+## list
 
 Get a list of ConfigGroup objects
 
@@ -174,7 +174,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.groups.get_by_product(product=models.GetProductsGroupsByProductProduct.STREAM, fields="<value>")
+    res = ccp_client.groups.list(product=models.GetProductsGroupsByProductProduct.STREAM, fields="<value>")
 
     # Handle response
     print(res)
@@ -381,7 +381,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## deploy_commits
+## deploy
 
 Deploy commits for a Fleet or Worker Group
 
@@ -399,7 +399,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.groups.deploy_commits(id="<id>", version="<value>", lookups=[
+    res = ccp_client.groups.deploy(id="<id>", version="<value>", lookups=[
         {
             "context": "<value>",
             "lookups": [
@@ -436,7 +436,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## get_team_access_control_list_by_product
+## get_team_acl
 
 ACL of team with permissions for resources in this Group
 
@@ -454,7 +454,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.groups.get_team_access_control_list_by_product(product=models.GetProductsGroupsACLTeamsByProductAndIDProduct.STREAM, id="<id>", type_=models.GetProductsGroupsACLTeamsByProductAndIDType.DATASETS)
+    res = ccp_client.groups.get_team_acl(product=models.GetProductsGroupsACLTeamsByProductAndIDProduct.STREAM, id="<id>", type_=models.GetProductsGroupsACLTeamsByProductAndIDType.DATASETS)
 
     # Handle response
     print(res)
@@ -481,7 +481,7 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## get_access_control_list
+## get_acl
 
 ACL of members with permissions for resources in this Group
 
@@ -499,7 +499,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.groups.get_access_control_list(id="<id>", type_=models.GetGroupsACLByIDType.INSIGHTS)
+    res = ccp_client.groups.get_acl(id="<id>", type_=models.GetGroupsACLByIDType.INSIGHTS)
 
     # Handle response
     print(res)

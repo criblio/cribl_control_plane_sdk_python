@@ -358,9 +358,9 @@ class InputWindowsMetricsPersistence(BaseModel):
 
 
 class InputWindowsMetricsTypedDict(TypedDict):
-    id: str
-    r"""Unique ID for this input"""
     type: InputWindowsMetricsType
+    id: NotRequired[str]
+    r"""Unique ID for this input"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -388,10 +388,10 @@ class InputWindowsMetricsTypedDict(TypedDict):
 
 
 class InputWindowsMetrics(BaseModel):
-    id: str
-    r"""Unique ID for this input"""
-
     type: InputWindowsMetricsType
+
+    id: Optional[str] = None
+    r"""Unique ID for this input"""
 
     disabled: Optional[bool] = False
 

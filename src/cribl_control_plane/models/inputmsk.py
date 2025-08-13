@@ -339,6 +339,7 @@ class InputMskTLSSettingsClientSide(BaseModel):
 
 
 class InputMskTypedDict(TypedDict):
+    type: InputMskType
     brokers: List[str]
     r"""Enter each Kafka bootstrap server you want to use. Specify the hostname and port (such as mykafkabroker:9092) or just the hostname (in which case @{product} will assign port 9092)."""
     topics: List[str]
@@ -347,7 +348,6 @@ class InputMskTypedDict(TypedDict):
     r"""Region where the MSK cluster is located"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
-    type: NotRequired[InputMskType]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -441,6 +441,8 @@ class InputMskTypedDict(TypedDict):
 
 
 class InputMsk(BaseModel):
+    type: InputMskType
+
     brokers: List[str]
     r"""Enter each Kafka bootstrap server you want to use. Specify the hostname and port (such as mykafkabroker:9092) or just the hostname (in which case @{product} will assign port 9092)."""
 
@@ -452,8 +454,6 @@ class InputMsk(BaseModel):
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
-
-    type: Optional[InputMskType] = None
 
     disabled: Optional[bool] = False
 

@@ -98,6 +98,7 @@ class OutputSecurityLakeKeyValueMetadatum(BaseModel):
 
 
 class OutputSecurityLakeTypedDict(TypedDict):
+    type: OutputSecurityLakeType
     bucket: str
     r"""Name of the destination S3 bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
     region: str
@@ -110,7 +111,6 @@ class OutputSecurityLakeTypedDict(TypedDict):
     r"""Name of the custom source configured in Amazon Security Lake"""
     id: NotRequired[str]
     r"""Unique ID for this output"""
-    type: NotRequired[OutputSecurityLakeType]
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -213,6 +213,8 @@ class OutputSecurityLakeTypedDict(TypedDict):
 
 
 class OutputSecurityLake(BaseModel):
+    type: OutputSecurityLakeType
+
     bucket: str
     r"""Name of the destination S3 bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
 
@@ -230,8 +232,6 @@ class OutputSecurityLake(BaseModel):
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
-
-    type: Optional[OutputSecurityLakeType] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""

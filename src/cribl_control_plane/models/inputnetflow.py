@@ -97,9 +97,9 @@ class InputNetflowMetadatum(BaseModel):
 
 
 class InputNetflowTypedDict(TypedDict):
+    type: InputNetflowType
     id: NotRequired[str]
     r"""Unique ID for this input"""
-    type: NotRequired[InputNetflowType]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -140,10 +140,10 @@ class InputNetflowTypedDict(TypedDict):
 
 
 class InputNetflow(BaseModel):
+    type: InputNetflowType
+
     id: Optional[str] = None
     r"""Unique ID for this input"""
-
-    type: Optional[InputNetflowType] = None
 
     disabled: Optional[bool] = False
 

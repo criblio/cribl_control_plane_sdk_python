@@ -332,6 +332,7 @@ class OutputMskPqControls(BaseModel):
 
 
 class OutputMskTypedDict(TypedDict):
+    type: OutputMskType
     brokers: List[str]
     r"""Enter each Kafka bootstrap server you want to use. Specify hostname and port, e.g., mykafkabroker:9092, or just hostname, in which case @{product} will assign port 9092."""
     topic: str
@@ -340,7 +341,6 @@ class OutputMskTypedDict(TypedDict):
     r"""Region where the MSK cluster is located"""
     id: NotRequired[str]
     r"""Unique ID for this output"""
-    type: NotRequired[OutputMskType]
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -424,6 +424,8 @@ class OutputMskTypedDict(TypedDict):
 
 
 class OutputMsk(BaseModel):
+    type: OutputMskType
+
     brokers: List[str]
     r"""Enter each Kafka bootstrap server you want to use. Specify hostname and port, e.g., mykafkabroker:9092, or just hostname, in which case @{product} will assign port 9092."""
 
@@ -435,8 +437,6 @@ class OutputMsk(BaseModel):
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
-
-    type: Optional[OutputMskType] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""

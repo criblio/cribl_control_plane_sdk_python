@@ -105,11 +105,11 @@ class InputGooglePubsubMetadatum(BaseModel):
 
 
 class InputGooglePubsubTypedDict(TypedDict):
+    type: InputGooglePubsubType
     subscription_name: str
     r"""ID of the subscription to use when receiving events. When Monitor subscription is enabled, the fully qualified subscription name must be entered. Example: projects/myProject/subscriptions/mySubscription"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
-    type: NotRequired[InputGooglePubsubType]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -154,13 +154,13 @@ class InputGooglePubsubTypedDict(TypedDict):
 
 
 class InputGooglePubsub(BaseModel):
+    type: InputGooglePubsubType
+
     subscription_name: Annotated[str, pydantic.Field(alias="subscriptionName")]
     r"""ID of the subscription to use when receiving events. When Monitor subscription is enabled, the fully qualified subscription name must be entered. Example: projects/myProject/subscriptions/mySubscription"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
-
-    type: Optional[InputGooglePubsubType] = None
 
     disabled: Optional[bool] = False
 

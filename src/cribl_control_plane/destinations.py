@@ -10,6 +10,8 @@ from typing import Any, List, Mapping, Optional, Union, cast
 
 
 class Destinations(BaseSDK):
+    r"""Actions related to Destinations"""
+
     def list(
         self,
         *,
@@ -884,7 +886,7 @@ class Destinations(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def clear_persistent_queue(
+    def clear_pq(
         self,
         *,
         id: str,
@@ -971,7 +973,7 @@ class Destinations(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def clear_persistent_queue_async(
+    async def clear_pq_async(
         self,
         *,
         id: str,
@@ -1058,7 +1060,7 @@ class Destinations(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def get_persistent_queue_status(
+    def get_pq_status(
         self,
         *,
         id: str,
@@ -1145,7 +1147,7 @@ class Destinations(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_persistent_queue_status_async(
+    async def get_pq_status_async(
         self,
         *,
         id: str,
@@ -1232,7 +1234,7 @@ class Destinations(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def get_sample_data(
+    def get_sample(
         self,
         *,
         id: str,
@@ -1321,7 +1323,7 @@ class Destinations(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_sample_data_async(
+    async def get_sample_async(
         self,
         *,
         id: str,
@@ -1410,7 +1412,7 @@ class Destinations(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def create_sample_data(
+    def create_sample(
         self,
         *,
         id: str,
@@ -1511,7 +1513,7 @@ class Destinations(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def create_sample_data_async(
+    async def create_sample_async(
         self,
         *,
         id: str,

@@ -190,7 +190,7 @@ class GroupsSDK(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def create_by_product(
+    def create(
         self,
         *,
         product: models.CreateProductsGroupsByProductProduct,
@@ -361,7 +361,7 @@ class GroupsSDK(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def create_by_product_async(
+    async def create_async(
         self,
         *,
         product: models.CreateProductsGroupsByProductProduct,
@@ -532,7 +532,7 @@ class GroupsSDK(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def get_by_product(
+    def list(
         self,
         *,
         product: models.GetProductsGroupsByProductProduct,
@@ -624,7 +624,7 @@ class GroupsSDK(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_by_product_async(
+    async def list_async(
         self,
         *,
         product: models.GetProductsGroupsByProductProduct,
@@ -1408,7 +1408,7 @@ class GroupsSDK(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def deploy_commits(
+    def deploy(
         self,
         *,
         id: str,
@@ -1515,7 +1515,7 @@ class GroupsSDK(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def deploy_commits_async(
+    async def deploy_async(
         self,
         *,
         id: str,
@@ -1622,7 +1622,7 @@ class GroupsSDK(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def get_team_access_control_list_by_product(
+    def get_team_acl(
         self,
         *,
         product: models.GetProductsGroupsACLTeamsByProductAndIDProduct,
@@ -1717,7 +1717,7 @@ class GroupsSDK(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_team_access_control_list_by_product_async(
+    async def get_team_acl_async(
         self,
         *,
         product: models.GetProductsGroupsACLTeamsByProductAndIDProduct,
@@ -1812,7 +1812,7 @@ class GroupsSDK(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def get_access_control_list(
+    def get_acl(
         self,
         *,
         id: str,
@@ -1902,7 +1902,7 @@ class GroupsSDK(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_access_control_list_async(
+    async def get_acl_async(
         self,
         *,
         id: str,

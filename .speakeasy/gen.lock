@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 4a717d8691b3667b3a195dc9ca370eff
-  docVersion: 4.14.0-alpha.1754945439857-0a86c294
+  docChecksum: a3648302114f4f5a98e6e988376a1911
+  docVersion: 4.14.0-alpha.1755082027273-8cf9b57a
   speakeasyVersion: 1.585.0
   generationVersion: 2.660.0
-  releaseVersion: 0.0.26a1
-  configChecksum: 10acf4356af1a385890f85cdc44dd733
+  releaseVersion: 0.0.26
+  configChecksum: 0f4f7b60cc0ef0b30a61b67bd6723567
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -207,7 +207,6 @@ generatedFiles:
   - docs/models/hbcriblinfo.md
   - docs/models/hbleaderinfo.md
   - docs/models/healthstatus.md
-  - docs/models/healthstatusstatus.md
   - docs/models/heartbeatmetadata.md
   - docs/models/heartbeatmetadataaws.md
   - docs/models/heartbeatmetadatahostos.md
@@ -1786,8 +1785,6 @@ generatedFiles:
   - docs/models/reportmethod.md
   - docs/models/resourcepolicy.md
   - docs/models/resourcetypelabel.md
-  - docs/models/restartresponse.md
-  - docs/models/restartresponsestatus.md
   - docs/models/role.md
   - docs/models/routecloneconf.md
   - docs/models/routeconf.md
@@ -1807,6 +1804,7 @@ generatedFiles:
   - docs/models/sharditeratorstart.md
   - docs/models/shardloadbalancing.md
   - docs/models/snmpv3authentication.md
+  - docs/models/status.md
   - docs/models/subscription.md
   - docs/models/subscriptionmetadatum.md
   - docs/models/summary.md
@@ -1836,7 +1834,6 @@ generatedFiles:
   - docs/models/updatepipelinebyidresponse.md
   - docs/models/updateroutesbyidrequest.md
   - docs/models/updateroutesbyidresponse.md
-  - docs/models/updateworkersrestartresponse.md
   - docs/models/useraccesscontrollist.md
   - docs/models/usersandgroups.md
   - docs/models/utils/retryconfig.md
@@ -1844,10 +1841,9 @@ generatedFiles:
   - docs/models/writeaction.md
   - docs/sdks/authsdk/README.md
   - docs/sdks/criblcontrolplane/README.md
-  - docs/sdks/deployments/README.md
   - docs/sdks/destinations/README.md
   - docs/sdks/groupssdk/README.md
-  - docs/sdks/healthinfo/README.md
+  - docs/sdks/health/README.md
   - docs/sdks/lakedatasets/README.md
   - docs/sdks/nodes/README.md
   - docs/sdks/packs/README.md
@@ -1855,7 +1851,6 @@ generatedFiles:
   - docs/sdks/routessdk/README.md
   - docs/sdks/sources/README.md
   - docs/sdks/versioning/README.md
-  - docs/sdks/workerssdk/README.md
   - poetry.toml
   - py.typed
   - pylintrc
@@ -1869,7 +1864,6 @@ generatedFiles:
   - src/cribl_control_plane/_version.py
   - src/cribl_control_plane/auth_sdk.py
   - src/cribl_control_plane/basesdk.py
-  - src/cribl_control_plane/deployments.py
   - src/cribl_control_plane/destinations.py
   - src/cribl_control_plane/errors/__init__.py
   - src/cribl_control_plane/errors/apierror.py
@@ -1879,7 +1873,7 @@ generatedFiles:
   - src/cribl_control_plane/errors/no_response_error.py
   - src/cribl_control_plane/errors/responsevalidationerror.py
   - src/cribl_control_plane/groups_sdk.py
-  - src/cribl_control_plane/healthinfo.py
+  - src/cribl_control_plane/health.py
   - src/cribl_control_plane/httpclient.py
   - src/cribl_control_plane/lakedatasets.py
   - src/cribl_control_plane/models/__init__.py
@@ -2107,7 +2101,6 @@ generatedFiles:
   - src/cribl_control_plane/models/pipelinefunctionconf.py
   - src/cribl_control_plane/models/rbacresource.py
   - src/cribl_control_plane/models/resourcepolicy.py
-  - src/cribl_control_plane/models/restartresponse.py
   - src/cribl_control_plane/models/routecloneconf.py
   - src/cribl_control_plane/models/routeconf.py
   - src/cribl_control_plane/models/routes.py
@@ -2125,7 +2118,6 @@ generatedFiles:
   - src/cribl_control_plane/models/updatepacksbyidop.py
   - src/cribl_control_plane/models/updatepipelinebyidop.py
   - src/cribl_control_plane/models/updateroutesbyidop.py
-  - src/cribl_control_plane/models/updateworkersrestartop.py
   - src/cribl_control_plane/models/useraccesscontrollist.py
   - src/cribl_control_plane/nodes.py
   - src/cribl_control_plane/packs.py
@@ -2155,7 +2147,6 @@ generatedFiles:
   - src/cribl_control_plane/utils/url.py
   - src/cribl_control_plane/utils/values.py
   - src/cribl_control_plane/versioning.py
-  - src/cribl_control_plane/workers_sdk.py
 examples:
   getHealthInfo:
     speakeasy-default-get-health-info:

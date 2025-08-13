@@ -188,11 +188,11 @@ class InputDatadogAgentProxyMode(BaseModel):
 
 
 class InputDatadogAgentTypedDict(TypedDict):
+    type: InputDatadogAgentType
     port: float
     r"""Port to listen on"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
-    type: NotRequired[InputDatadogAgentType]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -241,13 +241,13 @@ class InputDatadogAgentTypedDict(TypedDict):
 
 
 class InputDatadogAgent(BaseModel):
+    type: InputDatadogAgentType
+
     port: float
     r"""Port to listen on"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
-
-    type: Optional[InputDatadogAgentType] = None
 
     disabled: Optional[bool] = False
 

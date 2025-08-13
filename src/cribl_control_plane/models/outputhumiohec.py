@@ -138,9 +138,9 @@ class OutputHumioHecPqControls(BaseModel):
 
 
 class OutputHumioHecTypedDict(TypedDict):
+    type: OutputHumioHecType
     id: NotRequired[str]
     r"""Unique ID for this output"""
-    type: NotRequired[OutputHumioHecType]
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -210,10 +210,10 @@ class OutputHumioHecTypedDict(TypedDict):
 
 
 class OutputHumioHec(BaseModel):
+    type: OutputHumioHecType
+
     id: Optional[str] = None
     r"""Unique ID for this output"""
-
-    type: Optional[OutputHumioHecType] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""

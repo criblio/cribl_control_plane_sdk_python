@@ -1,7 +1,9 @@
-# HealthInfo
-(*health_info*)
+# Health
+(*health*)
 
 ## Overview
+
+Actions related to REST server health
 
 ### Available Operations
 
@@ -21,7 +23,7 @@ with CriblControlPlane(
     server_url="https://api.example.com",
 ) as ccp_client:
 
-    res = ccp_client.health_info.get()
+    res = ccp_client.health.get()
 
     # Handle response
     print(res)

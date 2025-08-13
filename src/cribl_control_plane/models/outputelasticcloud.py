@@ -160,13 +160,13 @@ class OutputElasticCloudPqControls(BaseModel):
 
 
 class OutputElasticCloudTypedDict(TypedDict):
+    type: OutputElasticCloudType
     url: str
     r"""Enter Cloud ID of the Elastic Cloud environment to send events to"""
     index: str
     r"""Data stream or index to send events to. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be overwritten by an event's __index field."""
     id: NotRequired[str]
     r"""Unique ID for this output"""
-    type: NotRequired[OutputElasticCloudType]
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -231,6 +231,8 @@ class OutputElasticCloudTypedDict(TypedDict):
 
 
 class OutputElasticCloud(BaseModel):
+    type: OutputElasticCloudType
+
     url: str
     r"""Enter Cloud ID of the Elastic Cloud environment to send events to"""
 
@@ -239,8 +241,6 @@ class OutputElasticCloud(BaseModel):
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
-
-    type: Optional[OutputElasticCloudType] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""

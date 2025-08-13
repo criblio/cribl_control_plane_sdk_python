@@ -434,9 +434,9 @@ class InputSystemMetricsPersistence(BaseModel):
 
 
 class InputSystemMetricsTypedDict(TypedDict):
-    id: str
-    r"""Unique ID for this input"""
     type: InputSystemMetricsType
+    id: NotRequired[str]
+    r"""Unique ID for this input"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -463,10 +463,10 @@ class InputSystemMetricsTypedDict(TypedDict):
 
 
 class InputSystemMetrics(BaseModel):
-    id: str
-    r"""Unique ID for this input"""
-
     type: InputSystemMetricsType
+
+    id: Optional[str] = None
+    r"""Unique ID for this input"""
 
     disabled: Optional[bool] = False
 

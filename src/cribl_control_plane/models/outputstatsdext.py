@@ -58,11 +58,11 @@ class OutputStatsdExtPqControls(BaseModel):
 
 
 class OutputStatsdExtTypedDict(TypedDict):
+    type: OutputStatsdExtType
     host: str
     r"""The hostname of the destination."""
     id: NotRequired[str]
     r"""Unique ID for this output"""
-    type: NotRequired[OutputStatsdExtType]
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -106,13 +106,13 @@ class OutputStatsdExtTypedDict(TypedDict):
 
 
 class OutputStatsdExt(BaseModel):
+    type: OutputStatsdExtType
+
     host: str
     r"""The hostname of the destination."""
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
-
-    type: Optional[OutputStatsdExtType] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""

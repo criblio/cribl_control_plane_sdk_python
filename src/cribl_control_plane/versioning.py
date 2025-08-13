@@ -12,7 +12,7 @@ from typing import Any, List, Mapping, Optional
 class Versioning(BaseSDK):
     r"""Actions related to Versioning"""
 
-    def get_branch(
+    def list_branches(
         self,
         *,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -92,7 +92,7 @@ class Versioning(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_branch_async(
+    async def list_branches_async(
         self,
         *,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -550,7 +550,7 @@ class Versioning(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def get_branch_name(
+    def get_branch(
         self,
         *,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -632,7 +632,7 @@ class Versioning(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_branch_name_async(
+    async def get_branch_async(
         self,
         *,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -906,7 +906,7 @@ class Versioning(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def get_file_info(
+    def list_files(
         self,
         *,
         group: Optional[str] = None,
@@ -996,7 +996,7 @@ class Versioning(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_file_info_async(
+    async def list_files_async(
         self,
         *,
         group: Optional[str] = None,
@@ -1608,7 +1608,7 @@ class Versioning(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def show_commit(
+    def get_commit(
         self,
         *,
         commit: Optional[str] = None,
@@ -1704,7 +1704,7 @@ class Versioning(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def show_commit_async(
+    async def get_commit_async(
         self,
         *,
         commit: Optional[str] = None,
@@ -2134,7 +2134,7 @@ class Versioning(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def clean_working_dir(
+    def undo(
         self,
         *,
         group: Optional[str] = None,
@@ -2221,7 +2221,7 @@ class Versioning(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def clean_working_dir_async(
+    async def undo_async(
         self,
         *,
         group: Optional[str] = None,

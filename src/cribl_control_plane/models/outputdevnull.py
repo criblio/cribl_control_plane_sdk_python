@@ -13,9 +13,9 @@ class OutputDevnullType(str, Enum):
 
 
 class OutputDevnullTypedDict(TypedDict):
-    id: str
-    r"""Unique ID for this output"""
     type: OutputDevnullType
+    id: NotRequired[str]
+    r"""Unique ID for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -27,10 +27,10 @@ class OutputDevnullTypedDict(TypedDict):
 
 
 class OutputDevnull(BaseModel):
-    id: str
-    r"""Unique ID for this output"""
-
     type: OutputDevnullType
+
+    id: Optional[str] = None
+    r"""Unique ID for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""

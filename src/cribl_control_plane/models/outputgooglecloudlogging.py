@@ -103,6 +103,7 @@ class OutputGoogleCloudLoggingPqControls(BaseModel):
 
 
 class OutputGoogleCloudLoggingTypedDict(TypedDict):
+    type: OutputGoogleCloudLoggingType
     log_location_type: LogLocationType
     log_name_expression: str
     r"""JavaScript expression to compute the value of the log name."""
@@ -110,7 +111,6 @@ class OutputGoogleCloudLoggingTypedDict(TypedDict):
     r"""JavaScript expression to compute the value of the folder ID with which log entries should be associated."""
     id: NotRequired[str]
     r"""Unique ID for this output"""
-    type: NotRequired[OutputGoogleCloudLoggingType]
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -230,6 +230,8 @@ class OutputGoogleCloudLoggingTypedDict(TypedDict):
 
 
 class OutputGoogleCloudLogging(BaseModel):
+    type: OutputGoogleCloudLoggingType
+
     log_location_type: Annotated[
         LogLocationType, pydantic.Field(alias="logLocationType")
     ]
@@ -244,8 +246,6 @@ class OutputGoogleCloudLogging(BaseModel):
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
-
-    type: Optional[OutputGoogleCloudLoggingType] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""

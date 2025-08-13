@@ -166,9 +166,9 @@ class InputPrometheusSignatureVersion(str, Enum):
 
 
 class InputPrometheusTypedDict(TypedDict):
+    type: InputPrometheusType
     id: NotRequired[str]
     r"""Unique ID for this input"""
-    type: NotRequired[InputPrometheusType]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -254,10 +254,10 @@ class InputPrometheusTypedDict(TypedDict):
 
 
 class InputPrometheus(BaseModel):
+    type: InputPrometheusType
+
     id: Optional[str] = None
     r"""Unique ID for this input"""
-
-    type: Optional[InputPrometheusType] = None
 
     disabled: Optional[bool] = False
 

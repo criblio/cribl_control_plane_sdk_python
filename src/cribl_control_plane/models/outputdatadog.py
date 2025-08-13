@@ -163,9 +163,9 @@ class OutputDatadogPqControls(BaseModel):
 
 
 class OutputDatadogTypedDict(TypedDict):
-    id: str
-    r"""Unique ID for this output"""
     type: OutputDatadogType
+    id: NotRequired[str]
+    r"""Unique ID for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -256,10 +256,10 @@ class OutputDatadogTypedDict(TypedDict):
 
 
 class OutputDatadog(BaseModel):
-    id: str
-    r"""Unique ID for this output"""
-
     type: OutputDatadogType
+
+    id: Optional[str] = None
+    r"""Unique ID for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""

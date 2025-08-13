@@ -429,11 +429,11 @@ class InputGrafanaMetadatum2(BaseModel):
 
 
 class InputGrafanaGrafana2TypedDict(TypedDict):
+    type: InputGrafanaType2
     port: float
     r"""Port to listen on"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
-    type: NotRequired[InputGrafanaType2]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -487,13 +487,13 @@ class InputGrafanaGrafana2TypedDict(TypedDict):
 
 
 class InputGrafanaGrafana2(BaseModel):
+    type: InputGrafanaType2
+
     port: float
     r"""Port to listen on"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
-
-    type: Optional[InputGrafanaType2] = None
 
     disabled: Optional[bool] = False
 
@@ -1029,11 +1029,11 @@ class InputGrafanaMetadatum1(BaseModel):
 
 
 class InputGrafanaGrafana1TypedDict(TypedDict):
+    type: InputGrafanaType1
     port: float
     r"""Port to listen on"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
-    type: NotRequired[InputGrafanaType1]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -1087,13 +1087,13 @@ class InputGrafanaGrafana1TypedDict(TypedDict):
 
 
 class InputGrafanaGrafana1(BaseModel):
+    type: InputGrafanaType1
+
     port: float
     r"""Port to listen on"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
-
-    type: Optional[InputGrafanaType1] = None
 
     disabled: Optional[bool] = False
 

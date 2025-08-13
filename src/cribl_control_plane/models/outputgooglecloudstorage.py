@@ -109,13 +109,13 @@ class OutputGoogleCloudStorageKeyValueMetadatum(BaseModel):
 
 
 class OutputGoogleCloudStorageTypedDict(TypedDict):
+    type: OutputGoogleCloudStorageType
     bucket: str
     r"""Name of the destination bucket. This value can be a constant or a JavaScript expression that can only be evaluated at init time. Example of referencing a Global Variable: `myBucket-${C.vars.myVar}`."""
     region: str
     r"""Region where the bucket is located"""
     id: NotRequired[str]
     r"""Unique ID for this output"""
-    type: NotRequired[OutputGoogleCloudStorageType]
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -215,6 +215,8 @@ class OutputGoogleCloudStorageTypedDict(TypedDict):
 
 
 class OutputGoogleCloudStorage(BaseModel):
+    type: OutputGoogleCloudStorageType
+
     bucket: str
     r"""Name of the destination bucket. This value can be a constant or a JavaScript expression that can only be evaluated at init time. Example of referencing a Global Variable: `myBucket-${C.vars.myVar}`."""
 
@@ -223,8 +225,6 @@ class OutputGoogleCloudStorage(BaseModel):
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
-
-    type: Optional[OutputGoogleCloudStorageType] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""

@@ -169,11 +169,11 @@ class OutputDynatraceOtlpPqControls(BaseModel):
 
 
 class OutputDynatraceOtlpTypedDict(TypedDict):
+    type: OutputDynatraceOtlpType
     token_secret: str
     r"""Select or create a stored text secret"""
     id: NotRequired[str]
     r"""Unique ID for this output"""
-    type: NotRequired[OutputDynatraceOtlpType]
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -260,13 +260,13 @@ class OutputDynatraceOtlpTypedDict(TypedDict):
 
 
 class OutputDynatraceOtlp(BaseModel):
+    type: OutputDynatraceOtlpType
+
     token_secret: Annotated[str, pydantic.Field(alias="tokenSecret")]
     r"""Select or create a stored text secret"""
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
-
-    type: Optional[OutputDynatraceOtlpType] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""

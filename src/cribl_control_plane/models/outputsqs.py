@@ -73,11 +73,11 @@ class OutputSqsPqControls(BaseModel):
 
 
 class OutputSqsTypedDict(TypedDict):
+    type: OutputSqsType
     queue_name: str
     r"""The name, URL, or ARN of the SQS queue to send events to. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
     id: NotRequired[str]
     r"""Unique ID for this output"""
-    type: NotRequired[OutputSqsType]
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -145,13 +145,13 @@ class OutputSqsTypedDict(TypedDict):
 
 
 class OutputSqs(BaseModel):
+    type: OutputSqsType
+
     queue_name: Annotated[str, pydantic.Field(alias="queueName")]
     r"""The name, URL, or ARN of the SQS queue to send events to. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
-
-    type: Optional[OutputSqsType] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""

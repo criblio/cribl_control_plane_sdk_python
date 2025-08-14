@@ -24,7 +24,7 @@ if TYPE_CHECKING:
     from cribl_control_plane.pipelines import Pipelines
     from cribl_control_plane.routes_sdk import RoutesSDK
     from cribl_control_plane.sources import Sources
-    from cribl_control_plane.versioning import Versioning
+    from cribl_control_plane.versions import Versions
 
 
 class CriblControlPlane(BaseSDK):
@@ -40,14 +40,12 @@ class CriblControlPlane(BaseSDK):
     routes: "RoutesSDK"
     r"""Actions related to Routes"""
     auth: "AuthSDK"
-    r"""Actions related to authentication. Do not use the /auth endpoints in Cribl.Cloud deployments. Instead, follow the instructions at https://docs.cribl.io/stream/api-tutorials/#criblcloud to authenticate for Cribl.Cloud."""
     nodes: "Nodes"
     health: "Health"
     r"""Actions related to REST server health"""
     packs: "Packs"
     r"""Actions related to Packs"""
-    versioning: "Versioning"
-    r"""Actions related to Versioning"""
+    versions: "Versions"
     groups: "GroupsSDK"
     r"""Actions related to Groups"""
     _sub_sdk_map = {
@@ -60,7 +58,7 @@ class CriblControlPlane(BaseSDK):
         "nodes": ("cribl_control_plane.nodes", "Nodes"),
         "health": ("cribl_control_plane.health", "Health"),
         "packs": ("cribl_control_plane.packs", "Packs"),
-        "versioning": ("cribl_control_plane.versioning", "Versioning"),
+        "versions": ("cribl_control_plane.versions", "Versions"),
         "groups": ("cribl_control_plane.groups_sdk", "GroupsSDK"),
     }
 

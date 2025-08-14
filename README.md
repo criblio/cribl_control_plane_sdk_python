@@ -281,7 +281,10 @@ with CriblControlPlane(
 
 ### [auth](docs/sdks/authsdk/README.md)
 
-* [fetch_token](docs/sdks/authsdk/README.md#fetch_token) - Log in and fetch an authentication token
+
+#### [auth.tokens](docs/sdks/tokens/README.md)
+
+* [get](docs/sdks/tokens/README.md#get) - Log in and fetch an authentication token
 
 
 ### [destinations](docs/sdks/destinations/README.md)
@@ -291,22 +294,37 @@ with CriblControlPlane(
 * [get](docs/sdks/destinations/README.md#get) - Retrieve a Destination
 * [update](docs/sdks/destinations/README.md#update) - Update a Destination
 * [delete](docs/sdks/destinations/README.md#delete) - Delete a Destination
-* [clear_pq](docs/sdks/destinations/README.md#clear_pq) - Clear the persistent queue for a Destination
-* [get_pq_status](docs/sdks/destinations/README.md#get_pq_status) - Retrieve information about the latest job to clear the persistent queue for a Destination
-* [get_sample](docs/sdks/destinations/README.md#get_sample) - Retrieve sample event data for a Destination
-* [create_sample](docs/sdks/destinations/README.md#create_sample) - Send sample event data to a Destination
+
+#### [destinations.pq](docs/sdks/destinationspq/README.md)
+
+* [clear](docs/sdks/destinationspq/README.md#clear) - Clear the persistent queue for a Destination
+* [get](docs/sdks/destinationspq/README.md#get) - Retrieve information about the latest job to clear the persistent queue for a Destination
+
+#### [destinations.samples](docs/sdks/samples/README.md)
+
+* [get](docs/sdks/samples/README.md#get) - Retrieve sample event data for a Destination
+* [create](docs/sdks/samples/README.md#create) - Send sample event data to a Destination
 
 ### [groups](docs/sdks/groupssdk/README.md)
 
-* [get_config_version](docs/sdks/groupssdk/README.md#get_config_version) - Retrieve the configuration version for a Worker Group or Edge Fleet
 * [create](docs/sdks/groupssdk/README.md#create) - Create a Worker Group or Edge Fleet for the specified Cribl product
 * [list](docs/sdks/groupssdk/README.md#list) - List all Worker Groups or Edge Fleets for the specified Cribl product
 * [delete](docs/sdks/groupssdk/README.md#delete) - Delete a Worker Group or Edge Fleet
 * [get](docs/sdks/groupssdk/README.md#get) - Retrieve a Worker Group or Edge Fleet
 * [update](docs/sdks/groupssdk/README.md#update) - Update a Worker Group or Edge Fleet
 * [deploy](docs/sdks/groupssdk/README.md#deploy) - Deploy commits to a Worker Group or Edge Fleet
-* [get_team_acl](docs/sdks/groupssdk/README.md#get_team_acl) - Retrieve the Access Control List (ACL) for teams with permissions on a Worker Group or Edge Fleet for the specified Cribl product
-* [get_acl](docs/sdks/groupssdk/README.md#get_acl) - Retrieve the Access Control List (ACL) for a Worker Group or Edge Fleet
+
+#### [groups.acl](docs/sdks/acl/README.md)
+
+* [get](docs/sdks/acl/README.md#get) - Retrieve the Access Control List (ACL) for a Worker Group or Edge Fleet
+
+#### [groups.acl.teams](docs/sdks/teams/README.md)
+
+* [get](docs/sdks/teams/README.md#get) - Retrieve the Access Control List (ACL) for teams with permissions on a Worker Group or Edge Fleet for the specified Cribl product
+
+#### [groups.configs.versions](docs/sdks/configsversions/README.md)
+
+* [get](docs/sdks/configsversions/README.md#get) - Retrieve the configuration version for a Worker Group or Edge Fleet
 
 ### [health](docs/sdks/health/README.md)
 
@@ -322,9 +340,12 @@ with CriblControlPlane(
 
 ### [nodes](docs/sdks/nodes/README.md)
 
-* [get_summary](docs/sdks/nodes/README.md#get_summary) - Retrieve a summary of the Distributed deployment
 * [count](docs/sdks/nodes/README.md#count) - Retrieve a count of Worker and Edge Nodes
 * [list](docs/sdks/nodes/README.md#list) - Retrieve detailed metadata for Worker and Edge Nodes
+
+#### [nodes.summaries](docs/sdks/summaries/README.md)
+
+* [get](docs/sdks/summaries/README.md#get) - Retrieve a summary of the Distributed deployment
 
 ### [packs](docs/sdks/packs/README.md)
 
@@ -355,24 +376,41 @@ with CriblControlPlane(
 * [get](docs/sdks/sources/README.md#get) - Retrieve a Source
 * [update](docs/sdks/sources/README.md#update) - Update a Source
 * [delete](docs/sdks/sources/README.md#delete) - Delete a Source
-* [create_hec_token](docs/sdks/sources/README.md#create_hec_token) - Add an HEC token and optional metadata to a Splunk HEC Source
-* [update_hec_token_metadata](docs/sdks/sources/README.md#update_hec_token_metadata) - Update metadata for an HEC token for a Splunk HEC Source
 
-### [versioning](docs/sdks/versioning/README.md)
+#### [sources.hec_tokens](docs/sdks/hectokens/README.md)
 
-* [list_branches](docs/sdks/versioning/README.md#list_branches) - List all branches in the Git repository used for Cribl configuration
-* [create_commit](docs/sdks/versioning/README.md#create_commit) - Create a new commit for pending changes to the Cribl configuration
-* [get_file_count](docs/sdks/versioning/README.md#get_file_count) - Retrieve a count of files that changed since a commit
-* [get_branch](docs/sdks/versioning/README.md#get_branch) - Retrieve the name of the Git branch that the Cribl configuration is checked out to
-* [get_diff](docs/sdks/versioning/README.md#get_diff) - Retrieve the diff for a commit
-* [list_files](docs/sdks/versioning/README.md#list_files) - Retrieve the names and statuses of files that changed since a commit
-* [get_config_status](docs/sdks/versioning/README.md#get_config_status) - Retrieve the configuration and status for the Git integration
-* [push_commit](docs/sdks/versioning/README.md#push_commit) - Push a commit from the local repository to the remote repository
-* [revert_commit](docs/sdks/versioning/README.md#revert_commit) - Revert a commit in the local repository
-* [get_commit](docs/sdks/versioning/README.md#get_commit) - Retrieve the diff and log message for a commit
-* [get_current_status](docs/sdks/versioning/README.md#get_current_status) - Retrieve the status of the current working tree
-* [sync_local_remote](docs/sdks/versioning/README.md#sync_local_remote) - Synchronize the local branch with the remote repository
-* [undo](docs/sdks/versioning/README.md#undo) - Discard uncommitted (staged) changes
+* [create](docs/sdks/hectokens/README.md#create) - Add an HEC token and optional metadata to a Splunk HEC Source
+* [update](docs/sdks/hectokens/README.md#update) - Update metadata for an HEC token for a Splunk HEC Source
+
+### [versions](docs/sdks/versions/README.md)
+
+
+#### [versions.branches](docs/sdks/branches/README.md)
+
+* [list](docs/sdks/branches/README.md#list) - List all branches in the Git repository used for Cribl configuration
+* [get](docs/sdks/branches/README.md#get) - Retrieve the name of the Git branch that the Cribl configuration is checked out to
+
+#### [versions.commits](docs/sdks/commits/README.md)
+
+* [create](docs/sdks/commits/README.md#create) - Create a new commit for pending changes to the Cribl configuration
+* [diff](docs/sdks/commits/README.md#diff) - Retrieve the diff for a commit
+* [push](docs/sdks/commits/README.md#push) - Push a commit from the local repository to the remote repository
+* [revert](docs/sdks/commits/README.md#revert) - Revert a commit in the local repository
+* [get](docs/sdks/commits/README.md#get) - Retrieve the diff and log message for a commit
+* [undo](docs/sdks/commits/README.md#undo) - Discard uncommitted (staged) changes
+
+#### [versions.commits.files](docs/sdks/commitsfiles/README.md)
+
+* [count](docs/sdks/commitsfiles/README.md#count) - Retrieve a count of files that changed since a commit
+* [list](docs/sdks/commitsfiles/README.md#list) - Retrieve the names and statuses of files that changed since a commit
+
+#### [versions.configs](docs/sdks/versionsconfigs/README.md)
+
+* [get](docs/sdks/versionsconfigs/README.md#get) - Retrieve the configuration and status for the Git integration
+
+#### [versions.statuses](docs/sdks/statuses/README.md)
+
+* [get](docs/sdks/statuses/README.md#get) - Retrieve the status of the current working tree
 
 </details>
 <!-- End Available Resources and Operations [operations] -->
@@ -590,7 +628,7 @@ with CriblControlPlane(
 
 
 **Inherit from [`CriblControlPlaneError`](./src/cribl_control_plane/errors/criblcontrolplaneerror.py)**:
-* [`HealthStatusError`](./src/cribl_control_plane/errors/healthstatuserror.py): Healthy status. Status code `420`. Applicable to 1 of 61 methods.*
+* [`HealthStatusError`](./src/cribl_control_plane/errors/healthstatuserror.py): Healthy status. Status code `420`. Applicable to 1 of 60 methods.*
 * [`ResponseValidationError`](./src/cribl_control_plane/errors/responsevalidationerror.py): Type mismatch between the response data and the expected Pydantic model. Provides access to the Pydantic validation error via the `cause` attribute.
 
 </details>

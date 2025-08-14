@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.14.0-alpha.1755082027273-8cf9b57a
+  version: 4.14.0-alpha.1755179421376-c4612cd3
   contact:
     name: Support
     email: support@cribl.io
@@ -37449,8 +37449,8 @@ paths:
       operationId: createInputHecTokenById
       tags:
         - sources
-      x-speakeasy-group: sources
-      x-speakeasy-name-override: createHecToken
+      x-speakeasy-group: sources.hecTokens
+      x-speakeasy-name-override: create
       summary: Add an HEC token and optional metadata to a Splunk HEC Source
       description: Add token and optional metadata to an existing HEC Source
       responses:
@@ -37496,8 +37496,8 @@ paths:
       operationId: updateInputHecTokenByIdAndToken
       tags:
         - sources
-      x-speakeasy-group: sources
-      x-speakeasy-name-override: updateHecTokenMetadata
+      x-speakeasy-group: sources.hecTokens
+      x-speakeasy-name-override: update
       summary: Update metadata for an HEC token for a Splunk HEC Source
       description: Update token metadata on existing HEC Source
       responses:
@@ -37746,8 +37746,8 @@ paths:
       operationId: deleteOutputPqById
       tags:
         - destinations
-      x-speakeasy-group: destinations
-      x-speakeasy-name-override: clearPQ
+      x-speakeasy-group: destinations.pq
+      x-speakeasy-name-override: clear
       summary: Clear the persistent queue for a Destination
       description: Clears destination persistent queue
       responses:
@@ -37785,8 +37785,8 @@ paths:
       operationId: getOutputPqById
       tags:
         - destinations
-      x-speakeasy-group: destinations
-      x-speakeasy-name-override: getPQStatus
+      x-speakeasy-group: destinations.pq
+      x-speakeasy-name-override: get
       summary: Retrieve information about the latest job to clear the persistent queue for a Destination
       description: Retrieves status of latest clear PQ job for a destination
       responses:
@@ -37825,8 +37825,8 @@ paths:
       operationId: getOutputSamplesById
       tags:
         - destinations
-      x-speakeasy-group: destinations
-      x-speakeasy-name-override: getSample
+      x-speakeasy-group: destinations.samples
+      x-speakeasy-name-override: get
       summary: Retrieve sample event data for a Destination
       description: Retrieve samples data for the specified destination. Used to get sample data for the test action.
       responses:
@@ -37864,8 +37864,8 @@ paths:
       operationId: createOutputTestById
       tags:
         - destinations
-      x-speakeasy-group: destinations
-      x-speakeasy-name-override: createSample
+      x-speakeasy-group: destinations.samples
+      x-speakeasy-name-override: create
       summary: Send sample event data to a Destination
       description: Send sample data to a destination to validate configuration or test connectivity
       responses:
@@ -38266,8 +38266,8 @@ paths:
     post:
       operationId: login
       summary: Log in and fetch an authentication token
-      x-speakeasy-group: auth
-      x-speakeasy-name-override: fetchToken
+      x-speakeasy-group: auth.tokens
+      x-speakeasy-name-override: get
       description: This endpoint is unavailable on Cribl.Cloud. Instead, follow the instructions at https://docs.cribl.io/stream/api-tutorials/#criblcloud to get an Auth token for Cribl.Cloud.
       tags:
         - auth
@@ -38296,8 +38296,8 @@ paths:
       operationId: getSummary
       tags:
         - distributed
-      x-speakeasy-group: nodes
-      x-speakeasy-name-override: getSummary
+      x-speakeasy-group: nodes.summaries
+      x-speakeasy-name-override: get
       summary: Retrieve a summary of the Distributed deployment
       description: Get summary of Distributed deployment
       responses:
@@ -38532,8 +38532,8 @@ paths:
       operationId: getVersionBranch
       tags:
         - versioning
-      x-speakeasy-group: versioning
-      x-speakeasy-name-override: listBranches
+      x-speakeasy-group: versions.branches
+      x-speakeasy-name-override: list
       summary: List all branches in the Git repository used for Cribl configuration
       description: get the list of branches
       responses:
@@ -38565,8 +38565,8 @@ paths:
       operationId: createVersionCommit
       tags:
         - versioning
-      x-speakeasy-group: versioning
-      x-speakeasy-name-override: createCommit
+      x-speakeasy-group: versions.commits
+      x-speakeasy-name-override: create
       summary: Create a new commit for pending changes to the Cribl configuration
       description: create a new commit containing the current configs the given log message describing the changes.
       responses:
@@ -38604,8 +38604,8 @@ paths:
       operationId: getVersionCount
       tags:
         - versioning
-      x-speakeasy-group: versioning
-      x-speakeasy-name-override: getFileCount
+      x-speakeasy-group: versions.commits.files
+      x-speakeasy-name-override: count
       summary: Retrieve a count of files that changed since a commit
       description: get the count of files of changed
       responses:
@@ -38650,8 +38650,8 @@ paths:
       operationId: getVersionCurrentBranch
       tags:
         - versioning
-      x-speakeasy-group: versioning
-      x-speakeasy-name-override: getBranch
+      x-speakeasy-group: versions.branches
+      x-speakeasy-name-override: get
       summary: Retrieve the name of the Git branch that the Cribl configuration is checked out to
       description: returns git branch that the config is checked out to, if any
       responses:
@@ -38683,8 +38683,8 @@ paths:
       operationId: getVersionDiff
       tags:
         - versioning
-      x-speakeasy-group: versioning
-      x-speakeasy-name-override: getDiff
+      x-speakeasy-group: versions.commits
+      x-speakeasy-name-override: diff
       summary: Retrieve the diff for a commit
       description: get the textual diff for given commit
       responses:
@@ -38741,8 +38741,8 @@ paths:
       operationId: getVersionFiles
       tags:
         - versioning
-      x-speakeasy-group: versioning
-      x-speakeasy-name-override: listFiles
+      x-speakeasy-group: versions.commits.files
+      x-speakeasy-name-override: list
       summary: Retrieve the names and statuses of files that changed since a commit
       description: get the files changed
       responses:
@@ -38786,8 +38786,8 @@ paths:
       operationId: getVersionInfo
       tags:
         - versioning
-      x-speakeasy-group: versioning
-      x-speakeasy-name-override: getConfigStatus
+      x-speakeasy-group: versions.configs
+      x-speakeasy-name-override: get
       summary: Retrieve the configuration and status for the Git integration
       description: Get info about versioning availability
       responses:
@@ -38818,8 +38818,8 @@ paths:
       operationId: createVersionPush
       tags:
         - versioning
-      x-speakeasy-group: versioning
-      x-speakeasy-name-override: pushCommit
+      x-speakeasy-group: versions.commits
+      x-speakeasy-name-override: push
       summary: Push a commit from the local repository to the remote repository
       description: push the current configs to the remote repository.
       responses:
@@ -38851,8 +38851,8 @@ paths:
       operationId: createVersionRevert
       tags:
         - versioning
-      x-speakeasy-group: versioning
-      x-speakeasy-name-override: revertCommit
+      x-speakeasy-group: versions.commits
+      x-speakeasy-name-override: revert
       summary: Revert a commit in the local repository
       description: revert a commit
       responses:
@@ -38897,8 +38897,8 @@ paths:
       operationId: getVersionShow
       tags:
         - versioning
-      x-speakeasy-group: versioning
-      x-speakeasy-name-override: getCommit
+      x-speakeasy-group: versions.commits
+      x-speakeasy-name-override: get
       summary: Retrieve the diff and log message for a commit
       description: get the log message and textual diff for given commit
       responses:
@@ -38955,8 +38955,8 @@ paths:
       operationId: getVersionStatus
       tags:
         - versioning
-      x-speakeasy-group: versioning
-      x-speakeasy-name-override: getCurrentStatus
+      x-speakeasy-group: versions.statuses
+      x-speakeasy-name-override: get
       summary: Retrieve the status of the current working tree
       description: get the the working tree status
       responses:
@@ -38989,45 +38989,12 @@ paths:
           schema:
             type: string
           description: Group ID
-  /version/sync:
-    post:
-      operationId: createVersionSync
-      tags:
-        - versioning
-      x-speakeasy-group: versioning
-      x-speakeasy-name-override: syncLocalRemote
-      summary: Synchronize the local branch with the remote repository
-      description: syncs with remote repo via POST requests
-      responses:
-        "200":
-          description: a list of any objects
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      type: object
-                      additionalProperties: true
-        "401":
-          description: Unauthorized
-        "500":
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
   /version/undo:
     post:
       operationId: createVersionUndo
       tags:
         - versioning
-      x-speakeasy-group: versioning
+      x-speakeasy-group: versions.commits
       x-speakeasy-name-override: undo
       summary: Discard uncommitted (staged) changes
       description: Discards all uncommitted (staged) configuration changes, resetting the working directory to the last committed state.
@@ -39174,8 +39141,8 @@ paths:
       operationId: getGroupsConfigVersionById
       tags:
         - groups
-      x-speakeasy-group: groups
-      x-speakeasy-name-override: getConfigVersion
+      x-speakeasy-group: groups.configs.versions
+      x-speakeasy-name-override: get
       summary: Retrieve the configuration version for a Worker Group or Edge Fleet
       description: Get effective bundle version for given Group
       responses:
@@ -39483,8 +39450,8 @@ paths:
       operationId: getProductsGroupsAclTeamsByProductAndId
       tags:
         - teams
-      x-speakeasy-group: groups
-      x-speakeasy-name-override: getTeamACL
+      x-speakeasy-group: groups.acl.teams
+      x-speakeasy-name-override: get
       summary: Retrieve the Access Control List (ACL) for teams with permissions on a Worker Group or Edge Fleet for the specified Cribl product
       description: ACL of team with permissions for resources in this Group
       responses:
@@ -39546,8 +39513,8 @@ paths:
       operationId: getGroupsAclById
       tags:
         - groups
-      x-speakeasy-group: groups
-      x-speakeasy-name-override: getACL
+      x-speakeasy-group: groups.acl
+      x-speakeasy-name-override: get
       summary: Retrieve the Access Control List (ACL) for a Worker Group or Edge Fleet
       description: ACL of members with permissions for resources in this Group
       responses:

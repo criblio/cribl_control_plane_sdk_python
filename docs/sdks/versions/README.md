@@ -1,5 +1,5 @@
-# AuthSDK
-(*auth*)
+# Versions
+(*versions*)
 
 ## Overview
 

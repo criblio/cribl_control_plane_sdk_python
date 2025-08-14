@@ -2,11 +2,11 @@
 
 from .basesdk import BaseSDK
 from .sdkconfiguration import SDKConfiguration
-from cribl_control_plane.tokens import Tokens
+from cribl_control_plane.configs_versions import ConfigsVersions
 
 
-class AuthSDK(BaseSDK):
-    tokens: Tokens
+class GroupsConfigs(BaseSDK):
+    versions: ConfigsVersions
 
     def __init__(self, sdk_config: SDKConfiguration) -> None:
         BaseSDK.__init__(self, sdk_config)
@@ -14,4 +14,4 @@ class AuthSDK(BaseSDK):
         self._init_sdks()
 
     def _init_sdks(self):
-        self.tokens = Tokens(self.sdk_configuration)
+        self.versions = ConfigsVersions(self.sdk_configuration)

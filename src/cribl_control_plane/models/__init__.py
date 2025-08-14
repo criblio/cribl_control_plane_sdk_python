@@ -82,10 +82,6 @@ if TYPE_CHECKING:
         CreateVersionRevertResponse,
         CreateVersionRevertResponseTypedDict,
     )
-    from .createversionsyncop import (
-        CreateVersionSyncResponse,
-        CreateVersionSyncResponseTypedDict,
-    )
     from .createversionundoop import (
         CreateVersionUndoRequest,
         CreateVersionUndoRequestTypedDict,
@@ -3109,8 +3105,6 @@ __all__ = [
     "CreateVersionRevertRequestTypedDict",
     "CreateVersionRevertResponse",
     "CreateVersionRevertResponseTypedDict",
-    "CreateVersionSyncResponse",
-    "CreateVersionSyncResponseTypedDict",
     "CreateVersionUndoRequest",
     "CreateVersionUndoRequestTypedDict",
     "CreateVersionUndoResponse",
@@ -5756,8 +5750,6 @@ _dynamic_imports: dict[str, str] = {
     "CreateVersionRevertRequestTypedDict": ".createversionrevertop",
     "CreateVersionRevertResponse": ".createversionrevertop",
     "CreateVersionRevertResponseTypedDict": ".createversionrevertop",
-    "CreateVersionSyncResponse": ".createversionsyncop",
-    "CreateVersionSyncResponseTypedDict": ".createversionsyncop",
     "CreateVersionUndoRequest": ".createversionundoop",
     "CreateVersionUndoRequestTypedDict": ".createversionundoop",
     "CreateVersionUndoResponse": ".createversionundoop",

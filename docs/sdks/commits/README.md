@@ -18,6 +18,7 @@ create a new commit containing the current configs the given log message describ
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="createVersionCommit" method="post" path="/version/commit" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -66,6 +67,7 @@ get the textual diff for given commit
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getVersionDiff" method="get" path="/version/diff" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -112,6 +114,7 @@ push the current configs to the remote repository.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="createVersionPush" method="post" path="/version/push" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -154,6 +157,7 @@ revert a commit
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="createVersionRevert" method="post" path="/version/revert" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -200,6 +204,7 @@ get the log message and textual diff for given commit
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getVersionShow" method="get" path="/version/show" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -246,6 +251,7 @@ Discards all uncommitted (staged) configuration changes, resetting the working d
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="createVersionUndo" method="post" path="/version/undo" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os

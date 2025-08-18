@@ -20,6 +20,7 @@ Create a Fleet or Worker Group
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="createProductsGroupsByProduct" method="post" path="/products/{product}/groups" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -116,6 +117,7 @@ Get a list of ConfigGroup objects
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getProductsGroupsByProduct" method="get" path="/products/{product}/groups" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -160,6 +162,7 @@ Delete a Fleet or Worker Group
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="deleteGroupsById" method="delete" path="/master/groups/{id}" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -203,6 +206,7 @@ Get a specific ConfigGroup object
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getGroupsById" method="get" path="/master/groups/{id}" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -247,6 +251,7 @@ Update a Fleet or Worker Group
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="updateGroupsById" method="patch" path="/master/groups/{id}" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -341,6 +346,7 @@ Deploy commits for a Fleet or Worker Group
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="updateGroupsDeployById" method="patch" path="/master/groups/{id}/deploy" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os

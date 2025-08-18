@@ -82,6 +82,11 @@ def get_security_from_env(security: Any, security_class: Any) -> Optional[BaseMo
             "CRIBLCONTROLPLANE_TOKEN_URL"
         )
 
+    if os.getenv("CRIBLCONTROLPLANE_AUDIENCE"):
+        security_dict.setdefault("client_oauth", {})["audience"] = os.getenv(
+            "CRIBLCONTROLPLANE_AUDIENCE"
+        )
+
     return security_class(**security_dict) if security_dict else None
 
 

@@ -13,6 +13,7 @@ Get effective bundle version for given Group
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getGroupsConfigVersionById" method="get" path="/master/groups/{id}/configVersion" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os

@@ -13,6 +13,7 @@ get the the working tree status
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getVersionStatus" method="get" path="/version/status" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os

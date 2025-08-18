@@ -14,6 +14,7 @@ get worker and edge nodes count
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getSummaryWorkers" method="get" path="/master/summary/workers" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -57,6 +58,7 @@ get worker and edge nodes
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getWorkers" method="get" path="/master/workers" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os

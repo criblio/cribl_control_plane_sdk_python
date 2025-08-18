@@ -15,6 +15,7 @@ Retrieve health status of the server
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getHealthInfo" method="get" path="/health" -->
 ```python
 from cribl_control_plane import CriblControlPlane
 

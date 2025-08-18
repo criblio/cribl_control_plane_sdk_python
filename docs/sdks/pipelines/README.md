@@ -19,6 +19,7 @@ List all Pipelines
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="listPipeline" method="get" path="/pipelines" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -61,6 +62,7 @@ Create a Pipeline
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="createPipeline" method="post" path="/pipelines" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -128,6 +130,7 @@ Retrieve a Pipeline
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getPipelineById" method="get" path="/pipelines/{id}" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -171,6 +174,7 @@ Update a Pipeline
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="updatePipelineById" method="patch" path="/pipelines/{id}" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -239,6 +243,7 @@ Delete a Pipeline
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="deletePipelineById" method="delete" path="/pipelines/{id}" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os

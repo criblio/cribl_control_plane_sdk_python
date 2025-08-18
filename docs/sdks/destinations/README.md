@@ -19,6 +19,7 @@ Get a list of Destination objects
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="listOutput" method="get" path="/system/outputs" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -61,6 +62,7 @@ Create Destination
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="createOutput" method="post" path="/system/outputs" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -172,6 +174,7 @@ Get Destination by ID
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getOutputById" method="get" path="/system/outputs/{id}" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -215,6 +218,7 @@ Update Destination
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -317,6 +321,7 @@ Delete Destination
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="deleteOutputById" method="delete" path="/system/outputs/{id}" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os

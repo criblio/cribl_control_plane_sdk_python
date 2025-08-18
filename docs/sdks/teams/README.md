@@ -13,6 +13,7 @@ ACL of team with permissions for resources in this Group
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getProductsGroupsAclTeamsByProductAndId" method="get" path="/products/{product}/groups/{id}/acl/teams" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os

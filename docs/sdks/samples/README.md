@@ -14,6 +14,7 @@ Retrieve samples data for the specified destination. Used to get sample data for
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getOutputSamplesById" method="get" path="/system/outputs/{id}/samples" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -57,6 +58,7 @@ Send sample data to a destination to validate configuration or test connectivity
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="createOutputTestById" method="post" path="/system/outputs/{id}/test" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os

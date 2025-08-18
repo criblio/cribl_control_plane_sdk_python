@@ -13,6 +13,7 @@ ACL of members with permissions for resources in this Group
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getGroupsAclById" method="get" path="/master/groups/{id}/acl" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os

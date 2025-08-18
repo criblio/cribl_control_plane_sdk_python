@@ -14,6 +14,7 @@ Clears destination persistent queue
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="deleteOutputPqById" method="delete" path="/system/outputs/{id}/pq" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -57,6 +58,7 @@ Retrieves status of latest clear PQ job for a destination
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getOutputPqById" method="get" path="/system/outputs/{id}/pq" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os

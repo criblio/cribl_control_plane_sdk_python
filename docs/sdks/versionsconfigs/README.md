@@ -13,6 +13,7 @@ Get info about versioning availability
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getVersionInfo" method="get" path="/version/info" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os

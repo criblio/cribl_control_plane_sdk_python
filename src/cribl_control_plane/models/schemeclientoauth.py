@@ -9,6 +9,7 @@ from typing_extensions import Annotated, TypedDict
 class SchemeClientOauthTypedDict(TypedDict):
     client_id: str
     client_secret: str
+    audience: str
     token_url: str
 
 
@@ -19,6 +20,10 @@ class SchemeClientOauth(BaseModel):
 
     client_secret: Annotated[
         str, FieldMetadata(security=SecurityMetadata(field_name="clientSecret"))
+    ]
+
+    audience: Annotated[
+        str, FieldMetadata(security=SecurityMetadata(field_name="audience"))
     ]
 
     token_url: str = "https://login.cribl.cloud/oauth/token"

@@ -14,6 +14,7 @@ get the list of branches
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getVersionBranch" method="get" path="/version/branch" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -56,6 +57,7 @@ returns git branch that the config is checked out to, if any
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getVersionCurrentBranch" method="get" path="/version/current-branch" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os

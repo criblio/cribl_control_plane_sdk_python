@@ -14,6 +14,7 @@ Add token and optional metadata to an existing HEC Source
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="createInputHecTokenById" method="post" path="/system/inputs/{id}/hectoken" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -66,6 +67,7 @@ Update token metadata on existing HEC Source
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="updateInputHecTokenByIdAndToken" method="patch" path="/system/inputs/{id}/hectoken/{token}" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os

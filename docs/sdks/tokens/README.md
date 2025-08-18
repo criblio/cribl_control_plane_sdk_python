@@ -13,6 +13,7 @@ This endpoint is unavailable on Cribl.Cloud. Instead, follow the instructions at
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="login" method="post" path="/auth/login" -->
 ```python
 from cribl_control_plane import CriblControlPlane
 

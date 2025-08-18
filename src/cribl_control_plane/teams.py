@@ -13,20 +13,20 @@ class Teams(BaseSDK):
     def get(
         self,
         *,
-        product: models.GetProductsGroupsACLTeamsByProductAndIDProduct,
+        product: models.GetConfigGroupACLTeamsByProductAndIDProduct,
         id: str,
-        type_: Optional[models.GetProductsGroupsACLTeamsByProductAndIDType] = None,
+        type_: Optional[models.GetConfigGroupACLTeamsByProductAndIDType] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetProductsGroupsACLTeamsByProductAndIDResponse:
-        r"""Retrieve the Access Control List (ACL) for teams with permissions on a Worker Group or Edge Fleet for the specified Cribl product
+    ) -> models.GetConfigGroupACLTeamsByProductAndIDResponse:
+        r"""Get the Access Control List for teams with permissions on a Worker Group or Edge Fleet for the specified Cribl product
 
-        ACL of team with permissions for resources in this Group
+        Get the Access Control List (ACL) for teams that have permissions on a Worker Group or Edge Fleet for the specified Cribl product.
 
-        :param product: Cribl Product
-        :param id: Group ID
+        :param product: Name of the Cribl product that contains the Worker Group or Edge Fleet.
+        :param id: The <code>id</code> of the Worker Group or Edge Fleet to get the team ACL for.
         :param type: resource type by which to filter access levels
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -43,7 +43,7 @@ class Teams(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.GetProductsGroupsACLTeamsByProductAndIDRequest(
+        request = models.GetConfigGroupACLTeamsByProductAndIDRequest(
             product=product,
             id=id,
             type=type_,
@@ -77,7 +77,7 @@ class Teams(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="getProductsGroupsAclTeamsByProductAndId",
+                operation_id="getConfigGroupAclTeamsByProductAndId",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
@@ -91,7 +91,7 @@ class Teams(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(
-                models.GetProductsGroupsACLTeamsByProductAndIDResponse, http_res
+                models.GetConfigGroupACLTeamsByProductAndIDResponse, http_res
             )
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
@@ -108,20 +108,20 @@ class Teams(BaseSDK):
     async def get_async(
         self,
         *,
-        product: models.GetProductsGroupsACLTeamsByProductAndIDProduct,
+        product: models.GetConfigGroupACLTeamsByProductAndIDProduct,
         id: str,
-        type_: Optional[models.GetProductsGroupsACLTeamsByProductAndIDType] = None,
+        type_: Optional[models.GetConfigGroupACLTeamsByProductAndIDType] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetProductsGroupsACLTeamsByProductAndIDResponse:
-        r"""Retrieve the Access Control List (ACL) for teams with permissions on a Worker Group or Edge Fleet for the specified Cribl product
+    ) -> models.GetConfigGroupACLTeamsByProductAndIDResponse:
+        r"""Get the Access Control List for teams with permissions on a Worker Group or Edge Fleet for the specified Cribl product
 
-        ACL of team with permissions for resources in this Group
+        Get the Access Control List (ACL) for teams that have permissions on a Worker Group or Edge Fleet for the specified Cribl product.
 
-        :param product: Cribl Product
-        :param id: Group ID
+        :param product: Name of the Cribl product that contains the Worker Group or Edge Fleet.
+        :param id: The <code>id</code> of the Worker Group or Edge Fleet to get the team ACL for.
         :param type: resource type by which to filter access levels
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -138,7 +138,7 @@ class Teams(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.GetProductsGroupsACLTeamsByProductAndIDRequest(
+        request = models.GetConfigGroupACLTeamsByProductAndIDRequest(
             product=product,
             id=id,
             type=type_,
@@ -172,7 +172,7 @@ class Teams(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="getProductsGroupsAclTeamsByProductAndId",
+                operation_id="getConfigGroupAclTeamsByProductAndId",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
@@ -186,7 +186,7 @@ class Teams(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(
-                models.GetProductsGroupsACLTeamsByProductAndIDResponse, http_res
+                models.GetConfigGroupACLTeamsByProductAndIDResponse, http_res
             )
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)

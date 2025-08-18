@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.14.0-alpha.1755516762461-7e2ae3eb
+  version: 4.14.0-alpha.1755543348575-fc1d9ba2
   contact:
     name: Support
     email: support@cribl.io
@@ -31,6 +31,128 @@ components:
         message:
           type: string
           description: Error message
+    CloudProvider:
+      type: string
+      nullable: true
+      enum:
+        - aws
+        - azure
+    ConfigGroupCloud:
+      type: object
+      properties:
+        provider:
+          $ref: "#/components/schemas/CloudProvider"
+        region:
+          type: string
+      required:
+        - provider
+        - region
+    Commit:
+      type: object
+      properties:
+        author_email:
+          type: string
+        author_name:
+          type: string
+        date:
+          type: string
+        hash:
+          type: string
+        message:
+          type: string
+        short:
+          type: string
+      required:
+        - date
+        - hash
+        - message
+        - short
+    ConfigGroupLookups:
+      type: object
+      properties:
+        context:
+          type: string
+        lookups:
+          type: array
+          items:
+            type: object
+            properties:
+              deployedVersion:
+                type: string
+              file:
+                type: string
+              version:
+                type: string
+            required:
+              - file
+      required:
+        - context
+        - lookups
+    ConfigGroup:
+      type: object
+      properties:
+        cloud:
+          $ref: "#/components/schemas/ConfigGroupCloud"
+        configVersion:
+          type: string
+        deployingWorkerCount:
+          type: number
+        description:
+          type: string
+        estimatedIngestRate:
+          type: number
+        git:
+          type: object
+          properties:
+            commit:
+              type: string
+            localChanges:
+              type: number
+            log:
+              type: array
+              items:
+                $ref: "#/components/schemas/Commit"
+        id:
+          type: string
+        incompatibleWorkerCount:
+          type: number
+        inherits:
+          type: string
+        isFleet:
+          type: boolean
+        isSearch:
+          type: boolean
+        lookupDeployments:
+          type: array
+          items:
+            $ref: "#/components/schemas/ConfigGroupLookups"
+        maxWorkerAge:
+          type: string
+        name:
+          type: string
+        onPrem:
+          type: boolean
+        provisioned:
+          type: boolean
+        streamtags:
+          type: array
+          items:
+            type: string
+        tags:
+          type: string
+        type:
+          type: string
+          enum:
+            - lake_access
+        upgradeVersion:
+          type: string
+        workerCount:
+          type: number
+        workerRemoteAccess:
+          type: boolean
+      required:
+        - configVersion
+        - id
     RbacResource:
       type: string
       enum:
@@ -56,6 +178,49 @@ components:
         - gid
         - policy
         - type
+    UserAccessControlList:
+      type: object
+      properties:
+        perms:
+          type: array
+          items:
+            $ref: "#/components/schemas/ResourcePolicy"
+        user:
+          type: string
+      required:
+        - perms
+        - user
+    DeployRequestLookups:
+      type: object
+      properties:
+        context:
+          type: string
+        lookups:
+          type: array
+          items:
+            type: object
+            properties:
+              file:
+                type: string
+              version:
+                type: string
+            required:
+              - file
+              - version
+      required:
+        - context
+        - lookups
+    DeployRequest:
+      type: object
+      properties:
+        lookups:
+          type: array
+          items:
+            $ref: "#/components/schemas/DeployRequestLookups"
+        version:
+          type: string
+      required:
+        - version
     CacheConnectionBackfillStatus:
       type: string
       enum:
@@ -170,18 +335,6 @@ components:
           type: string
       required:
         - id
-    UserAccessControlList:
-      type: object
-      properties:
-        perms:
-          type: array
-          items:
-            $ref: "#/components/schemas/ResourcePolicy"
-        user:
-          type: string
-      required:
-        - perms
-        - user
     object:
       type: string
     InputCollection:
@@ -36180,7 +36333,6 @@ components:
             - deletions
             - insertions
       required:
-        - author
         - branch
         - commit
         - files
@@ -36752,159 +36904,6 @@ components:
         - info
         - lastMsgTime
         - workerProcesses
-    CloudProvider:
-      type: string
-      nullable: true
-      enum:
-        - aws
-        - azure
-    ConfigGroupCloud:
-      type: object
-      properties:
-        provider:
-          $ref: "#/components/schemas/CloudProvider"
-        region:
-          type: string
-      required:
-        - provider
-        - region
-    Commit:
-      type: object
-      properties:
-        author_email:
-          type: string
-        author_name:
-          type: string
-        date:
-          type: string
-        hash:
-          type: string
-        message:
-          type: string
-        short:
-          type: string
-      required:
-        - date
-        - hash
-        - message
-        - short
-    ConfigGroupLookups:
-      type: object
-      properties:
-        context:
-          type: string
-        lookups:
-          type: array
-          items:
-            type: object
-            properties:
-              deployedVersion:
-                type: string
-              file:
-                type: string
-              version:
-                type: string
-            required:
-              - file
-      required:
-        - context
-        - lookups
-    ConfigGroup:
-      type: object
-      properties:
-        cloud:
-          $ref: "#/components/schemas/ConfigGroupCloud"
-        configVersion:
-          type: string
-        deployingWorkerCount:
-          type: number
-        description:
-          type: string
-        estimatedIngestRate:
-          type: number
-        git:
-          type: object
-          properties:
-            commit:
-              type: string
-            localChanges:
-              type: number
-            log:
-              type: array
-              items:
-                $ref: "#/components/schemas/Commit"
-        id:
-          type: string
-        incompatibleWorkerCount:
-          type: number
-        inherits:
-          type: string
-        isFleet:
-          type: boolean
-        isSearch:
-          type: boolean
-        lookupDeployments:
-          type: array
-          items:
-            $ref: "#/components/schemas/ConfigGroupLookups"
-        maxWorkerAge:
-          type: string
-        name:
-          type: string
-        onPrem:
-          type: boolean
-        provisioned:
-          type: boolean
-        streamtags:
-          type: array
-          items:
-            type: string
-        tags:
-          type: string
-        type:
-          type: string
-          enum:
-            - lake_access
-        upgradeVersion:
-          type: string
-        workerCount:
-          type: number
-        workerRemoteAccess:
-          type: boolean
-      required:
-        - configVersion
-        - id
-    DeployRequestLookups:
-      type: object
-      properties:
-        context:
-          type: string
-        lookups:
-          type: array
-          items:
-            type: object
-            properties:
-              file:
-                type: string
-              version:
-                type: string
-            required:
-              - file
-              - version
-      required:
-        - context
-        - lookups
-    DeployRequest:
-      type: object
-      properties:
-        lookups:
-          type: array
-          items:
-            $ref: "#/components/schemas/DeployRequestLookups"
-        version:
-          type: string
-      required:
-        - version
     TeamAccessControlList:
       type: object
       properties:
@@ -39098,52 +39097,11 @@ paths:
           schema:
             type: string
           description: Group ID
-  /master/summary/workers:
-    get:
-      operationId: getSummaryWorkers
-      tags:
-        - workers
-      x-speakeasy-group: nodes
-      x-speakeasy-name-override: count
-      summary: Retrieve a count of Worker and Edge Nodes
-      description: get worker and edge nodes count
-      responses:
-        "200":
-          description: a list of number objects
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      type: number
-        "401":
-          description: Unauthorized
-        "500":
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-      parameters:
-        - name: filterExp
-          in: query
-          required: false
-          schema:
-            type: string
-          description: Filter expression evaluated against nodes
   /master/workers:
     get:
-      operationId: getWorkers
+      operationId: listMasterWorkerEntry
       tags:
         - workers
-      x-speakeasy-group: nodes
-      x-speakeasy-name-override: list
       summary: Retrieve detailed metadata for Worker and Edge Nodes
       description: get worker and edge nodes
       responses:
@@ -39169,6 +39127,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+      x-speakeasy-group: nodes
+      x-speakeasy-name-override: list
       parameters:
         - name: filterExp
           in: query
@@ -39206,15 +39166,305 @@ paths:
           schema:
             type: string
           description: Filter object (JSON stringified) to select nodes
-  "/master/groups/{id}/configVersion":
+  /master/summary/workers:
     get:
-      operationId: getGroupsConfigVersionById
+      operationId: getMasterWorkerEntry
+      tags:
+        - workers
+      x-speakeasy-group: nodes
+      x-speakeasy-name-override: count
+      summary: Retrieve a count of Worker and Edge Nodes
+      description: get worker and edge nodes count
+      responses:
+        "200":
+          description: a list of number objects
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: number of items present in the items array
+                  items:
+                    type: array
+                    items:
+                      type: number
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: filterExp
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Filter expression evaluated against nodes
+  "/products/{product}/groups":
+    get:
+      operationId: listConfigGroupByProduct
+      tags:
+        - groups
+      summary: List all Worker Groups or Edge Fleets for the specified Cribl product
+      description: Get a list of all Worker Groups or Edge Fleets for the specified Cribl product.
+      responses:
+        "200":
+          description: a list of ConfigGroup objects
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: number of items present in the items array
+                  items:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/ConfigGroup"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      x-speakeasy-group: groups
+      x-speakeasy-name-override: list
+      parameters:
+        - name: fields
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Comma-separated list of additional properties to include in the response. Available values are <code>git.commit</code>, <code>git.localChanges</code>, and <code>git.log</code>.
+        - name: product
+          in: path
+          required: true
+          schema:
+            type: string
+            enum:
+              - stream
+              - edge
+          description: Name of the Cribl product to get the Worker Groups or Edge Fleets for.
+    post:
+      operationId: createConfigGroupByProduct
+      tags:
+        - groups
+      summary: Create a Worker Group or Edge Fleet for the specified Cribl product
+      description: Create a new Worker Group or Edge Fleet for the specified Cribl product.
+      requestBody:
+        description: ConfigGroup object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConfigGroup"
+      responses:
+        "200":
+          description: a list of ConfigGroup objects
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: number of items present in the items array
+                  items:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/ConfigGroup"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      x-speakeasy-group: groups
+      x-speakeasy-name-override: create
+      parameters:
+        - name: product
+          in: path
+          required: true
+          schema:
+            type: string
+            enum:
+              - stream
+              - edge
+          description: Name of the Cribl product to add the Worker Group or Edge Fleet to.
+  "/products/{product}/groups/{id}":
+    get:
+      operationId: getConfigGroupByProductAndId
+      tags:
+        - groups
+      summary: Get a Worker Group or Edge Fleet
+      description: Get the specified Worker Group or Edge Fleet.
+      parameters:
+        - name: product
+          in: path
+          required: true
+          schema:
+            type: string
+            enum:
+              - stream
+              - edge
+          description: Name of the Cribl product to get the Worker Groups or Edge Fleets for.
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Worker Group or Edge Fleet to get.
+        - name: fields
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Comma-separated list of additional properties to include in the response. Available values are <code>git.commit</code>, <code>git.localChanges</code>, and <code>git.log</code>.
+      responses:
+        "200":
+          description: a list of ConfigGroup objects
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: number of items present in the items array
+                  items:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/ConfigGroup"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      x-speakeasy-group: groups
+      x-speakeasy-name-override: get
+    patch:
+      operationId: updateConfigGroupByProductAndId
+      tags:
+        - groups
+      summary: Update a Worker Group or Edge Fleet
+      description: Update the specified Worker Group or Edge Fleet.
+      parameters:
+        - name: product
+          in: path
+          required: true
+          schema:
+            type: string
+            enum:
+              - stream
+              - edge
+          description: Name of the Cribl product to get the Worker Groups or Edge Fleets for.
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Worker Group or Edge Fleet to update.
+      requestBody:
+        description: ConfigGroup object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConfigGroup"
+      responses:
+        "200":
+          description: a list of ConfigGroup objects
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: number of items present in the items array
+                  items:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/ConfigGroup"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      x-speakeasy-group: groups
+      x-speakeasy-name-override: update
+    delete:
+      operationId: deleteConfigGroupByProductAndId
+      tags:
+        - groups
+      summary: Delete a Worker Group or Edge Fleet
+      description: Delete the specified Worker Group or Edge Fleet.
+      parameters:
+        - name: product
+          in: path
+          required: true
+          schema:
+            type: string
+            enum:
+              - stream
+              - edge
+          description: Name of the Cribl product to get the Worker Groups or Edge Fleets for.
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Worker Group or Edge Fleet to delete.
+      responses:
+        "200":
+          description: a list of ConfigGroup objects
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: number of items present in the items array
+                  items:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/ConfigGroup"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      x-speakeasy-group: groups
+      x-speakeasy-name-override: delete
+  "/products/{product}/groups/{id}/configVersion":
+    get:
+      operationId: getConfigGroupConfigVersionByProductAndId
       tags:
         - groups
       x-speakeasy-group: groups.configs.versions
       x-speakeasy-name-override: get
-      summary: Retrieve the configuration version for a Worker Group or Edge Fleet
-      description: Get effective bundle version for given Group
+      summary: Get the configuration version for a Worker Group or Edge Fleet
+      description: Get the configuration version for the specified Worker Group or Edge Fleet.
       responses:
         "200":
           description: a list of string objects
@@ -39239,52 +39489,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Group ID
-  "/products/{product}/groups":
-    post:
-      operationId: createProductsGroupsByProduct
-      tags:
-        - groups
-      x-speakeasy-group: groups
-      x-speakeasy-name-override: create
-      summary: Create a Worker Group or Edge Fleet for the specified Cribl product
-      description: Create a Fleet or Worker Group
-      responses:
-        "200":
-          description: a list of ConfigGroup objects
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/ConfigGroup"
-        "401":
-          description: Unauthorized
-        "500":
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-      requestBody:
-        description: ConfigGroup object
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/ConfigGroup"
-      parameters:
         - name: product
           in: path
           required: true
@@ -39293,191 +39497,22 @@ paths:
             enum:
               - stream
               - edge
-          description: Cribl Product
-    get:
-      operationId: getProductsGroupsByProduct
-      tags:
-        - groups
-      x-speakeasy-group: groups
-      x-speakeasy-name-override: list
-      summary: List all Worker Groups or Edge Fleets for the specified Cribl product
-      description: Get a list of ConfigGroup objects
-      responses:
-        "200":
-          description: a list of ConfigGroup objects
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/ConfigGroup"
-        "401":
-          description: Unauthorized
-        "500":
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-      parameters:
-        - name: fields
-          in: query
-          required: false
-          schema:
-            type: string
-          description: "fields to add to results: git.commit, git.localChanges, git.log"
-        - name: product
-          in: path
-          required: true
-          schema:
-            type: string
-            enum:
-              - stream
-              - edge
-          description: Cribl Product
-  "/master/groups/{id}":
-    delete:
-      operationId: deleteGroupsById
-      tags:
-        - groups
-      x-speakeasy-group: groups
-      x-speakeasy-name-override: delete
-      summary: Delete a Worker Group or Edge Fleet
-      description: Delete a Fleet or Worker Group
-      responses:
-        "200":
-          description: a list of ConfigGroup objects
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/ConfigGroup"
-        "401":
-          description: Unauthorized
-        "500":
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-      parameters:
+          description: Name of the Cribl product to get the Worker Groups or Edge Fleets for.
         - name: id
           in: path
           required: true
           schema:
             type: string
-          description: Group ID
-    get:
-      operationId: getGroupsById
-      tags:
-        - groups
-      x-speakeasy-group: groups
-      x-speakeasy-name-override: get
-      summary: Retrieve a Worker Group or Edge Fleet
-      description: Get a specific ConfigGroup object
-      responses:
-        "200":
-          description: a list of ConfigGroup objects
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/ConfigGroup"
-        "401":
-          description: Unauthorized
-        "500":
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Group id
-        - name: fields
-          in: query
-          required: false
-          schema:
-            type: string
-          description: "fields to add to results: git.commit, git.localChanges, git.log"
+          description: The <code>id</code> of the Worker Group or Edge Fleet to get the configuration version for.
+  "/products/{product}/groups/{id}/deploy":
     patch:
-      operationId: updateGroupsById
-      tags:
-        - groups
-      x-speakeasy-group: groups
-      x-speakeasy-name-override: update
-      summary: Update a Worker Group or Edge Fleet
-      description: Update a Fleet or Worker Group
-      responses:
-        "200":
-          description: a list of ConfigGroup objects
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/ConfigGroup"
-        "401":
-          description: Unauthorized
-        "500":
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-      requestBody:
-        description: ConfigGroup object
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/ConfigGroup"
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Group ID
-  "/master/groups/{id}/deploy":
-    patch:
-      operationId: updateGroupsDeployById
+      operationId: updateConfigGroupDeployByProductAndId
       tags:
         - groups
       x-speakeasy-group: groups
       x-speakeasy-name-override: deploy
       summary: Deploy commits to a Worker Group or Edge Fleet
-      description: Deploy commits for a Fleet or Worker Group
+      description: Deploy commits to the specified Worker Group or Edge Fleet.
       responses:
         "200":
           description: a list of ConfigGroup objects
@@ -39509,21 +39544,30 @@ paths:
             schema:
               $ref: "#/components/schemas/DeployRequest"
       parameters:
+        - name: product
+          in: path
+          required: true
+          schema:
+            type: string
+            enum:
+              - stream
+              - edge
+          description: Name of the Cribl product to get the Worker Groups or Edge Fleets for.
         - name: id
           in: path
           required: true
           schema:
             type: string
-          description: Group ID
+          description: The <code>id</code> of the target Worker Group or Edge Fleet for commit deployment.
   "/products/{product}/groups/{id}/acl/teams":
     get:
-      operationId: getProductsGroupsAclTeamsByProductAndId
+      operationId: getConfigGroupAclTeamsByProductAndId
       tags:
         - teams
       x-speakeasy-group: groups.acl.teams
       x-speakeasy-name-override: get
-      summary: Retrieve the Access Control List (ACL) for teams with permissions on a Worker Group or Edge Fleet for the specified Cribl product
-      description: ACL of team with permissions for resources in this Group
+      summary: Get the Access Control List for teams with permissions on a Worker Group or Edge Fleet for the specified Cribl product
+      description: Get the Access Control List (ACL) for teams that have permissions on a Worker Group or Edge Fleet for the specified Cribl product.
       responses:
         "200":
           description: a list of TeamAccessControlList objects
@@ -39556,13 +39600,13 @@ paths:
             enum:
               - stream
               - edge
-          description: Cribl Product
+          description: Name of the Cribl product that contains the Worker Group or Edge Fleet.
         - name: id
           in: path
           required: true
           schema:
             type: string
-          description: Group ID
+          description: The <code>id</code> of the Worker Group or Edge Fleet to get the team ACL for.
         - name: type
           in: query
           required: false
@@ -39578,15 +39622,15 @@ paths:
               - notebooks
               - insights
           description: resource type by which to filter access levels
-  "/master/groups/{id}/acl":
+  "/products/{product}/groups/{id}/acl":
     get:
-      operationId: getGroupsAclById
+      operationId: getConfigGroupAclByProductAndId
       tags:
         - groups
       x-speakeasy-group: groups.acl
       x-speakeasy-name-override: get
-      summary: Retrieve the Access Control List (ACL) for a Worker Group or Edge Fleet
-      description: ACL of members with permissions for resources in this Group
+      summary: Get the Access Control List for a Worker Group or Edge Fleet
+      description: Get the Access Control List (ACL) for the specified Worker Group or Edge Fleet.
       responses:
         "200":
           description: a list of UserAccessControlList objects
@@ -39611,12 +39655,21 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
       parameters:
+        - name: product
+          in: path
+          required: true
+          schema:
+            type: string
+            enum:
+              - stream
+              - edge
+          description: Name of the Cribl product to get the Worker Groups or Edge Fleets for.
         - name: id
           in: path
           required: true
           schema:
             type: string
-          description: Group id
+          description: The <code>id</code> of the Worker Group or Edge Fleet to get the ACL for.
         - name: type
           in: query
           required: false
@@ -39631,4 +39684,4 @@ paths:
               - macros
               - notebooks
               - insights
-          description: resource type by which to filter access levels
+          description: Filter for limiting the response to ACL entries for the specified RBAC resource type.

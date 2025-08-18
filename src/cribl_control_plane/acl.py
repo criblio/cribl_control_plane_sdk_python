@@ -25,19 +25,21 @@ class ACL(BaseSDK):
     def get(
         self,
         *,
+        product: models.GetConfigGroupACLByProductAndIDProduct,
         id: str,
-        type_: Optional[models.GetGroupsACLByIDType] = None,
+        type_: Optional[models.GetConfigGroupACLByProductAndIDType] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetGroupsACLByIDResponse:
-        r"""Retrieve the Access Control List (ACL) for a Worker Group or Edge Fleet
+    ) -> models.GetConfigGroupACLByProductAndIDResponse:
+        r"""Get the Access Control List for a Worker Group or Edge Fleet
 
-        ACL of members with permissions for resources in this Group
+        Get the Access Control List (ACL) for the specified Worker Group or Edge Fleet.
 
-        :param id: Group id
-        :param type: resource type by which to filter access levels
+        :param product: Name of the Cribl product to get the Worker Groups or Edge Fleets for.
+        :param id: The <code>id</code> of the Worker Group or Edge Fleet to get the ACL for.
+        :param type: Filter for limiting the response to ACL entries for the specified RBAC resource type.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -53,14 +55,15 @@ class ACL(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.GetGroupsACLByIDRequest(
+        request = models.GetConfigGroupACLByProductAndIDRequest(
+            product=product,
             id=id,
             type=type_,
         )
 
         req = self._build_request(
             method="GET",
-            path="/master/groups/{id}/acl",
+            path="/products/{product}/groups/{id}/acl",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -86,7 +89,7 @@ class ACL(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="getGroupsAclById",
+                operation_id="getConfigGroupAclByProductAndId",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
@@ -99,7 +102,9 @@ class ACL(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.GetGroupsACLByIDResponse, http_res)
+            return unmarshal_json_response(
+                models.GetConfigGroupACLByProductAndIDResponse, http_res
+            )
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -115,19 +120,21 @@ class ACL(BaseSDK):
     async def get_async(
         self,
         *,
+        product: models.GetConfigGroupACLByProductAndIDProduct,
         id: str,
-        type_: Optional[models.GetGroupsACLByIDType] = None,
+        type_: Optional[models.GetConfigGroupACLByProductAndIDType] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetGroupsACLByIDResponse:
-        r"""Retrieve the Access Control List (ACL) for a Worker Group or Edge Fleet
+    ) -> models.GetConfigGroupACLByProductAndIDResponse:
+        r"""Get the Access Control List for a Worker Group or Edge Fleet
 
-        ACL of members with permissions for resources in this Group
+        Get the Access Control List (ACL) for the specified Worker Group or Edge Fleet.
 
-        :param id: Group id
-        :param type: resource type by which to filter access levels
+        :param product: Name of the Cribl product to get the Worker Groups or Edge Fleets for.
+        :param id: The <code>id</code> of the Worker Group or Edge Fleet to get the ACL for.
+        :param type: Filter for limiting the response to ACL entries for the specified RBAC resource type.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -143,14 +150,15 @@ class ACL(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.GetGroupsACLByIDRequest(
+        request = models.GetConfigGroupACLByProductAndIDRequest(
+            product=product,
             id=id,
             type=type_,
         )
 
         req = self._build_request_async(
             method="GET",
-            path="/master/groups/{id}/acl",
+            path="/products/{product}/groups/{id}/acl",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -176,7 +184,7 @@ class ACL(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="getGroupsAclById",
+                operation_id="getConfigGroupAclByProductAndId",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
@@ -189,7 +197,9 @@ class ACL(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.GetGroupsACLByIDResponse, http_res)
+            return unmarshal_json_response(
+                models.GetConfigGroupACLByProductAndIDResponse, http_res
+            )
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)

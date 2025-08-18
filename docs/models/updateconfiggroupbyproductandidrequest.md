@@ -1,0 +1,10 @@
+# UpdateConfigGroupByProductAndIDRequest
+
+
+## Fields
+
+| Field                                                                                                | Type                                                                                                 | Required                                                                                             | Description                                                                                          |
+| ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `product`                                                                                            | [models.UpdateConfigGroupByProductAndIDProduct](../models/updateconfiggroupbyproductandidproduct.md) | :heavy_check_mark:                                                                                   | Name of the Cribl product to get the Worker Groups or Edge Fleets for.                               |
+| `id_param`                                                                                           | *str*                                                                                                | :heavy_check_mark:                                                                                   | The <code>id</code> of the Worker Group or Edge Fleet to update.                                     |
+| `config_group`                                                                                       | [models.ConfigGroup](../models/configgroup.md)                                                       | :heavy_check_mark:                                                                                   | ConfigGroup object                                                                                   |

@@ -5,15 +5,15 @@
 
 ### Available Operations
 
-* [get](#get) - Retrieve the Access Control List (ACL) for teams with permissions on a Worker Group or Edge Fleet for the specified Cribl product
+* [get](#get) - Get the Access Control List for teams with permissions on a Worker Group or Edge Fleet for the specified Cribl product
 
 ## get
 
-ACL of team with permissions for resources in this Group
+Get the Access Control List (ACL) for teams that have permissions on a Worker Group or Edge Fleet for the specified Cribl product.
 
 ### Example Usage
 
-<!-- UsageSnippet language="python" operationID="getProductsGroupsAclTeamsByProductAndId" method="get" path="/products/{product}/groups/{id}/acl/teams" -->
+<!-- UsageSnippet language="python" operationID="getConfigGroupAclTeamsByProductAndId" method="get" path="/products/{product}/groups/{id}/acl/teams" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -26,7 +26,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.groups.acl.teams.get(product=models.GetProductsGroupsACLTeamsByProductAndIDProduct.STREAM, id="<id>", type_=models.GetProductsGroupsACLTeamsByProductAndIDType.DATASETS)
+    res = ccp_client.groups.acl.teams.get(product=models.GetConfigGroupACLTeamsByProductAndIDProduct.EDGE, id="<id>", type_=models.GetConfigGroupACLTeamsByProductAndIDType.MACROS)
 
     # Handle response
     print(res)
@@ -35,16 +35,16 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                                                                                   | Type                                                                                                                        | Required                                                                                                                    | Description                                                                                                                 |
-| --------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| `product`                                                                                                                   | [models.GetProductsGroupsACLTeamsByProductAndIDProduct](../../models/getproductsgroupsaclteamsbyproductandidproduct.md)     | :heavy_check_mark:                                                                                                          | Cribl Product                                                                                                               |
-| `id`                                                                                                                        | *str*                                                                                                                       | :heavy_check_mark:                                                                                                          | Group ID                                                                                                                    |
-| `type`                                                                                                                      | [Optional[models.GetProductsGroupsACLTeamsByProductAndIDType]](../../models/getproductsgroupsaclteamsbyproductandidtype.md) | :heavy_minus_sign:                                                                                                          | resource type by which to filter access levels                                                                              |
-| `retries`                                                                                                                   | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                            | :heavy_minus_sign:                                                                                                          | Configuration to override the default retry behavior of the client.                                                         |
+| Parameter                                                                                                             | Type                                                                                                                  | Required                                                                                                              | Description                                                                                                           |
+| --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `product`                                                                                                             | [models.GetConfigGroupACLTeamsByProductAndIDProduct](../../models/getconfiggroupaclteamsbyproductandidproduct.md)     | :heavy_check_mark:                                                                                                    | Name of the Cribl product that contains the Worker Group or Edge Fleet.                                               |
+| `id`                                                                                                                  | *str*                                                                                                                 | :heavy_check_mark:                                                                                                    | The <code>id</code> of the Worker Group or Edge Fleet to get the team ACL for.                                        |
+| `type`                                                                                                                | [Optional[models.GetConfigGroupACLTeamsByProductAndIDType]](../../models/getconfiggroupaclteamsbyproductandidtype.md) | :heavy_minus_sign:                                                                                                    | resource type by which to filter access levels                                                                        |
+| `retries`                                                                                                             | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                      | :heavy_minus_sign:                                                                                                    | Configuration to override the default retry behavior of the client.                                                   |
 
 ### Response
 
-**[models.GetProductsGroupsACLTeamsByProductAndIDResponse](../../models/getproductsgroupsaclteamsbyproductandidresponse.md)**
+**[models.GetConfigGroupACLTeamsByProductAndIDResponse](../../models/getconfiggroupaclteamsbyproductandidresponse.md)**
 
 ### Errors
 

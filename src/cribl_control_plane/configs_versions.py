@@ -13,17 +13,19 @@ class ConfigsVersions(BaseSDK):
     def get(
         self,
         *,
+        product: models.GetConfigGroupConfigVersionByProductAndIDProduct,
         id: str,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetGroupsConfigVersionByIDResponse:
-        r"""Retrieve the configuration version for a Worker Group or Edge Fleet
+    ) -> models.GetConfigGroupConfigVersionByProductAndIDResponse:
+        r"""Get the configuration version for a Worker Group or Edge Fleet
 
-        Get effective bundle version for given Group
+        Get the configuration version for the specified Worker Group or Edge Fleet.
 
-        :param id: Group ID
+        :param product: Name of the Cribl product to get the Worker Groups or Edge Fleets for.
+        :param id: The <code>id</code> of the Worker Group or Edge Fleet to get the configuration version for.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -39,13 +41,14 @@ class ConfigsVersions(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.GetGroupsConfigVersionByIDRequest(
+        request = models.GetConfigGroupConfigVersionByProductAndIDRequest(
+            product=product,
             id=id,
         )
 
         req = self._build_request(
             method="GET",
-            path="/master/groups/{id}/configVersion",
+            path="/products/{product}/groups/{id}/configVersion",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -71,7 +74,7 @@ class ConfigsVersions(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="getGroupsConfigVersionById",
+                operation_id="getConfigGroupConfigVersionByProductAndId",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
@@ -85,7 +88,7 @@ class ConfigsVersions(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(
-                models.GetGroupsConfigVersionByIDResponse, http_res
+                models.GetConfigGroupConfigVersionByProductAndIDResponse, http_res
             )
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
@@ -102,17 +105,19 @@ class ConfigsVersions(BaseSDK):
     async def get_async(
         self,
         *,
+        product: models.GetConfigGroupConfigVersionByProductAndIDProduct,
         id: str,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetGroupsConfigVersionByIDResponse:
-        r"""Retrieve the configuration version for a Worker Group or Edge Fleet
+    ) -> models.GetConfigGroupConfigVersionByProductAndIDResponse:
+        r"""Get the configuration version for a Worker Group or Edge Fleet
 
-        Get effective bundle version for given Group
+        Get the configuration version for the specified Worker Group or Edge Fleet.
 
-        :param id: Group ID
+        :param product: Name of the Cribl product to get the Worker Groups or Edge Fleets for.
+        :param id: The <code>id</code> of the Worker Group or Edge Fleet to get the configuration version for.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -128,13 +133,14 @@ class ConfigsVersions(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.GetGroupsConfigVersionByIDRequest(
+        request = models.GetConfigGroupConfigVersionByProductAndIDRequest(
+            product=product,
             id=id,
         )
 
         req = self._build_request_async(
             method="GET",
-            path="/master/groups/{id}/configVersion",
+            path="/products/{product}/groups/{id}/configVersion",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -160,7 +166,7 @@ class ConfigsVersions(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="getGroupsConfigVersionById",
+                operation_id="getConfigGroupConfigVersionByProductAndId",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
@@ -174,7 +180,7 @@ class ConfigsVersions(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(
-                models.GetGroupsConfigVersionByIDResponse, http_res
+                models.GetConfigGroupConfigVersionByProductAndIDResponse, http_res
             )
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)

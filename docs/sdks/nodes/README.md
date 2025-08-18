@@ -5,8 +5,57 @@
 
 ### Available Operations
 
-* [count](#count) - Retrieve a count of Worker and Edge Nodes
 * [list](#list) - Retrieve detailed metadata for Worker and Edge Nodes
+* [count](#count) - Retrieve a count of Worker and Edge Nodes
+
+## list
+
+get worker and edge nodes
+
+### Example Usage
+
+<!-- UsageSnippet language="python" operationID="listMasterWorkerEntry" method="get" path="/master/workers" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    server_url="https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.nodes.list(filter_exp="<value>", sort="<value>", sort_exp="<value>", limit=554169, offset=426660, filter_="<value>")
+
+    # Handle response
+    print(res)
+
+```
+
+### Parameters
+
+| Parameter                                                            | Type                                                                 | Required                                                             | Description                                                          |
+| -------------------------------------------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| `filter_exp`                                                         | *Optional[str]*                                                      | :heavy_minus_sign:                                                   | Filter expression evaluated against nodes                            |
+| `sort`                                                               | *Optional[str]*                                                      | :heavy_minus_sign:                                                   | Sorting object (JSON stringified) expression evaluated against nodes |
+| `sort_exp`                                                           | *Optional[str]*                                                      | :heavy_minus_sign:                                                   | Sorting expression evaluated against nodes                           |
+| `limit`                                                              | *Optional[int]*                                                      | :heavy_minus_sign:                                                   | Maximum number of nodes to return                                    |
+| `offset`                                                             | *Optional[int]*                                                      | :heavy_minus_sign:                                                   | Pagination offset                                                    |
+| `filter_`                                                            | *Optional[str]*                                                      | :heavy_minus_sign:                                                   | Filter object (JSON stringified) to select nodes                     |
+| `retries`                                                            | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)     | :heavy_minus_sign:                                                   | Configuration to override the default retry behavior of the client.  |
+
+### Response
+
+**[models.ListMasterWorkerEntryResponse](../../models/listmasterworkerentryresponse.md)**
+
+### Errors
+
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Error     | 500              | application/json |
+| errors.APIError  | 4XX, 5XX         | \*/\*            |
 
 ## count
 
@@ -14,7 +63,7 @@ get worker and edge nodes count
 
 ### Example Usage
 
-<!-- UsageSnippet language="python" operationID="getSummaryWorkers" method="get" path="/master/summary/workers" -->
+<!-- UsageSnippet language="python" operationID="getMasterWorkerEntry" method="get" path="/master/summary/workers" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -43,56 +92,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.GetSummaryWorkersResponse](../../models/getsummaryworkersresponse.md)**
-
-### Errors
-
-| Error Type       | Status Code      | Content Type     |
-| ---------------- | ---------------- | ---------------- |
-| errors.Error     | 500              | application/json |
-| errors.APIError  | 4XX, 5XX         | \*/\*            |
-
-## list
-
-get worker and edge nodes
-
-### Example Usage
-
-<!-- UsageSnippet language="python" operationID="getWorkers" method="get" path="/master/workers" -->
-```python
-from cribl_control_plane import CriblControlPlane, models
-import os
-
-
-with CriblControlPlane(
-    server_url="https://api.example.com",
-    security=models.Security(
-        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
-    ),
-) as ccp_client:
-
-    res = ccp_client.nodes.list(filter_exp="<value>", sort="<value>", sort_exp="<value>", limit=402753, offset=848752, filter_="<value>")
-
-    # Handle response
-    print(res)
-
-```
-
-### Parameters
-
-| Parameter                                                            | Type                                                                 | Required                                                             | Description                                                          |
-| -------------------------------------------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| `filter_exp`                                                         | *Optional[str]*                                                      | :heavy_minus_sign:                                                   | Filter expression evaluated against nodes                            |
-| `sort`                                                               | *Optional[str]*                                                      | :heavy_minus_sign:                                                   | Sorting object (JSON stringified) expression evaluated against nodes |
-| `sort_exp`                                                           | *Optional[str]*                                                      | :heavy_minus_sign:                                                   | Sorting expression evaluated against nodes                           |
-| `limit`                                                              | *Optional[int]*                                                      | :heavy_minus_sign:                                                   | Maximum number of nodes to return                                    |
-| `offset`                                                             | *Optional[int]*                                                      | :heavy_minus_sign:                                                   | Pagination offset                                                    |
-| `filter_`                                                            | *Optional[str]*                                                      | :heavy_minus_sign:                                                   | Filter object (JSON stringified) to select nodes                     |
-| `retries`                                                            | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)     | :heavy_minus_sign:                                                   | Configuration to override the default retry behavior of the client.  |
-
-### Response
-
-**[models.GetWorkersResponse](../../models/getworkersresponse.md)**
+**[models.GetMasterWorkerEntryResponse](../../models/getmasterworkerentryresponse.md)**
 
 ### Errors
 

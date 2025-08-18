@@ -44,7 +44,6 @@ class GitStatusResultTypedDict(TypedDict):
     not_added: List[str]
     renamed: List[RenamedTypedDict]
     staged: List[str]
-    tracking: str
 
 
 class GitStatusResult(BaseModel):
@@ -69,5 +68,3 @@ class GitStatusResult(BaseModel):
     renamed: List[Renamed]
 
     staged: List[str]
-
-    tracking: str

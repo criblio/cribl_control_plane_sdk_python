@@ -16,4 +16,3 @@
 | `not_added`                                  | List[*str*]                                  | :heavy_check_mark:                           | N/A                                          |
 | `renamed`                                    | List[[models.Renamed](../models/renamed.md)] | :heavy_check_mark:                           | N/A                                          |
 | `staged`                                     | List[*str*]                                  | :heavy_check_mark:                           | N/A                                          |
-| `tracking`                                   | *str*                                        | :heavy_check_mark:                           | N/A                                          |

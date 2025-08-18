@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 776d906845341fa77614583a04735310
-  docVersion: 4.14.0-alpha.1755179421376-c4612cd3
+  docChecksum: e7ba4e14655bcc4921625880b3348e93
+  docVersion: 4.14.0-alpha.1755516762461-7e2ae3eb
   speakeasyVersion: 1.605.1
   generationVersion: 2.684.0
-  releaseVersion: 0.0.28
-  configChecksum: ac5aa34fc239d1887d21753e16fdaee3
+  releaseVersion: 0.0.29
+  configChecksum: 8f222bca336d816ba72fc917438e5e17
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -97,6 +97,7 @@ generatedFiles:
   - docs/models/criblevent.md
   - docs/models/cribllakedataset.md
   - docs/models/cribllakedatasetformat.md
+  - docs/models/currentbranchresult.md
   - docs/models/customlabel.md
   - docs/models/datadogsite.md
   - docs/models/datasetmetadata.md
@@ -180,7 +181,6 @@ generatedFiles:
   - docs/models/getversionbranchresponse.md
   - docs/models/getversioncountrequest.md
   - docs/models/getversioncountresponse.md
-  - docs/models/getversioncurrentbranchresponse.md
   - docs/models/getversiondiffrequest.md
   - docs/models/getversiondiffresponse.md
   - docs/models/getversionfilesrequest.md
@@ -284,6 +284,8 @@ generatedFiles:
   - docs/models/inputcriblhttptlssettingsserverside.md
   - docs/models/inputcriblhttptype.md
   - docs/models/inputcribllakehttp.md
+  - docs/models/inputcribllakehttpauthtokensext.md
+  - docs/models/inputcribllakehttpauthtokensextmetadatum.md
   - docs/models/inputcribllakehttpcompression.md
   - docs/models/inputcribllakehttpconnection.md
   - docs/models/inputcribllakehttpmaximumtlsversion.md
@@ -1923,6 +1925,7 @@ generatedFiles:
   - src/cribl_control_plane/models/createversionundoop.py
   - src/cribl_control_plane/models/criblevent.py
   - src/cribl_control_plane/models/cribllakedataset.py
+  - src/cribl_control_plane/models/currentbranchresult.py
   - src/cribl_control_plane/models/datasetmetadata.py
   - src/cribl_control_plane/models/datasetmetadataruninfo.py
   - src/cribl_control_plane/models/deletecribllakedatasetbylakeidandidop.py
@@ -1953,7 +1956,6 @@ generatedFiles:
   - src/cribl_control_plane/models/getsummaryworkersop.py
   - src/cribl_control_plane/models/getversionbranchop.py
   - src/cribl_control_plane/models/getversioncountop.py
-  - src/cribl_control_plane/models/getversioncurrentbranchop.py
   - src/cribl_control_plane/models/getversiondiffop.py
   - src/cribl_control_plane/models/getversionfilesop.py
   - src/cribl_control_plane/models/getversioninfoop.py
@@ -2471,7 +2473,7 @@ examples:
     speakeasy-default-get-version-current-branch:
       responses:
         "200":
-          application/json: {"count": 561043, "items": [{"key": "<value>", "key1": "<value>"}, {"key": "<value>"}, {"key": "<value>", "key1": "<value>", "key2": "<value>"}]}
+          application/json: {"branch": "<value>"}
         "500":
           application/json: {"message": "<value>"}
   getVersionDiff:
@@ -2544,7 +2546,7 @@ examples:
           group: "<value>"
       responses:
         "200":
-          application/json: {"count": 616511, "items": [{"ahead": 3019.14, "behind": 4465.56, "conflicted": ["<value 1>", "<value 2>"], "created": ["<value 1>", "<value 2>"], "current": "<value>", "deleted": ["<value 1>"], "files": [], "modified": ["<value 1>", "<value 2>", "<value 3>"], "not_added": [], "renamed": [{"from": "<value>", "to": "<value>"}], "staged": ["<value 1>", "<value 2>", "<value 3>"], "tracking": "<value>"}]}
+          application/json: {"count": 616511, "items": [{"ahead": 3019.14, "behind": 4465.56, "conflicted": ["<value 1>", "<value 2>"], "created": ["<value 1>", "<value 2>"], "current": "<value>", "deleted": ["<value 1>"], "files": [], "modified": ["<value 1>", "<value 2>", "<value 3>"], "not_added": [], "renamed": [{"from": "<value>", "to": "<value>"}], "staged": ["<value 1>", "<value 2>", "<value 3>"]}]}
         "500":
           application/json: {"message": "<value>"}
   createVersionSync:

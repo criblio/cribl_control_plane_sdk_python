@@ -85,7 +85,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.GetVersionCurrentBranchResponse](../../models/getversioncurrentbranchresponse.md)**
+**[models.CurrentBranchResult](../../models/currentbranchresult.md)**
 
 ### Errors
 

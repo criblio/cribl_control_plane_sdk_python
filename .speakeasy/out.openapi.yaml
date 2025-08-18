@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.14.0-alpha.1755179421376-c4612cd3
+  version: 4.14.0-alpha.1755516762461-7e2ae3eb
   contact:
     name: Support
     email: support@cribl.io
@@ -8457,6 +8457,28 @@ components:
           title: IP denylist regex
           description: Messages from matched IP addresses will be ignored. This takes precedence over the allowlist.
           default: /^$/
+        criblAPI:
+          type: string
+          title: Cribl HTTP event API
+          description: Absolute path on which to listen for the Cribl HTTP API requests. Only _bulk (default /cribl/_bulk) is available. Use empty string to disable.
+          default: /cribl
+          pattern: ^/|^$
+        elasticAPI:
+          type: string
+          title: Elasticsearch API endpoint (Bulk API)
+          description: Absolute path on which to listen for the Elasticsearch API requests. Only _bulk (default /elastic/_bulk) is available. Use empty string to disable.
+          default: /elastic
+          pattern: ^/|^$
+        splunkHecAPI:
+          type: string
+          title: Splunk HEC endpoint
+          description: Absolute path on which listen for the Splunk HTTP Event Collector API requests. Use empty string to disable.
+          default: /services/collector
+          pattern: ^/|^$
+        splunkHecAcks:
+          type: boolean
+          title: Enable Splunk HEC acknowledgements
+          default: false
         metadata:
           type: array
           title: Fields
@@ -8474,6 +8496,39 @@ components:
                 type: string
                 title: Value
                 description: JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
+        authTokensExt:
+          type: array
+          title: Auth tokens
+          description: "Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."
+          items:
+            type: object
+            required:
+              - token
+            properties:
+              token:
+                type: string
+                title: Token
+                description: "Shared secret to be provided by any client (Authorization: <token>)"
+              description:
+                type: string
+                title: Description
+              metadata:
+                type: array
+                title: Fields
+                description: Fields to add to events referencing this token
+                items:
+                  type: object
+                  required:
+                    - name
+                    - value
+                  properties:
+                    name:
+                      type: string
+                      title: Field Name
+                    value:
+                      type: string
+                      title: Value
+                      description: JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
         description:
           type: string
           title: Description
@@ -10463,6 +10518,11 @@ components:
           title: Skip file on error
           description: Skip files that trigger a processing error. Disabled by default, which allows retries after processing errors.
           default: false
+        includeSqsMetadata:
+          type: boolean
+          title: Include notification metadata
+          description: Include metadata from SQS notifications on outgoing events
+          default: false
         enableAssumeRole:
           type: boolean
           title: Enable for Amazon S3
@@ -12115,6 +12175,11 @@ components:
           title: Skip file on error
           description: Skip files that trigger a processing error. Disabled by default, which allows retries after processing errors.
           default: false
+        includeSqsMetadata:
+          type: boolean
+          title: Include notification metadata
+          description: Include metadata from SQS notifications on outgoing events
+          default: false
         enableAssumeRole:
           type: boolean
           title: Enable for Amazon S3
@@ -12444,6 +12509,11 @@ components:
           type: boolean
           title: Skip file on error
           description: Skip files that trigger a processing error. Disabled by default, which allows retries after processing errors.
+          default: false
+        includeSqsMetadata:
+          type: boolean
+          title: Include notification metadata
+          description: Include metadata from SQS notifications on outgoing events
           default: false
         enableAssumeRole:
           type: boolean
@@ -16694,6 +16764,11 @@ components:
           type: boolean
           title: Skip file on error
           description: Skip files that trigger a processing error. Disabled by default, which allows retries after processing errors.
+          default: false
+        includeSqsMetadata:
+          type: boolean
+          title: Include notification metadata
+          description: Include metadata from SQS notifications on outgoing events
           default: false
         enableAssumeRole:
           type: boolean
@@ -36201,6 +36276,13 @@ components:
           type: string
       required:
         - message
+    CurrentBranchResult:
+      type: object
+      properties:
+        branch:
+          type: string
+      required:
+        - branch
     GitInfo:
       type: object
       properties:
@@ -36285,8 +36367,6 @@ components:
           type: array
           items:
             type: string
-        tracking:
-          type: string
       required:
         - ahead
         - behind
@@ -36299,7 +36379,6 @@ components:
         - not_added
         - renamed
         - staged
-        - tracking
     LookupVersions:
       type: object
     HBLeaderInfo:
@@ -38656,20 +38735,11 @@ paths:
       description: returns git branch that the config is checked out to, if any
       responses:
         "200":
-          description: a list of any objects
+          description: CurrentBranchResult object
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      type: object
-                      additionalProperties: true
+                $ref: "#/components/schemas/CurrentBranchResult"
         "401":
           description: Unauthorized
         "500":

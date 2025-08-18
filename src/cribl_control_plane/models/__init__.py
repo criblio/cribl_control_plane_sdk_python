@@ -95,6 +95,7 @@ if TYPE_CHECKING:
         CriblLakeDatasetFormat,
         CriblLakeDatasetTypedDict,
     )
+    from .currentbranchresult import CurrentBranchResult, CurrentBranchResultTypedDict
     from .datasetmetadata import DatasetMetadata, DatasetMetadataTypedDict, ScanMode
     from .datasetmetadataruninfo import (
         DatasetMetadataRunInfo,
@@ -267,10 +268,6 @@ if TYPE_CHECKING:
         GetVersionCountRequestTypedDict,
         GetVersionCountResponse,
         GetVersionCountResponseTypedDict,
-    )
-    from .getversioncurrentbranchop import (
-        GetVersionCurrentBranchResponse,
-        GetVersionCurrentBranchResponseTypedDict,
     )
     from .getversiondiffop import (
         GetVersionDiffRequest,
@@ -474,6 +471,10 @@ if TYPE_CHECKING:
     )
     from .inputcribllakehttp import (
         InputCriblLakeHTTP,
+        InputCriblLakeHTTPAuthTokensExt,
+        InputCriblLakeHTTPAuthTokensExtMetadatum,
+        InputCriblLakeHTTPAuthTokensExtMetadatumTypedDict,
+        InputCriblLakeHTTPAuthTokensExtTypedDict,
         InputCriblLakeHTTPCompression,
         InputCriblLakeHTTPConnection,
         InputCriblLakeHTTPConnectionTypedDict,
@@ -3115,6 +3116,8 @@ __all__ = [
     "CriblLakeDataset",
     "CriblLakeDatasetFormat",
     "CriblLakeDatasetTypedDict",
+    "CurrentBranchResult",
+    "CurrentBranchResultTypedDict",
     "CustomLabel",
     "CustomLabelTypedDict",
     "DNS",
@@ -3266,8 +3269,6 @@ __all__ = [
     "GetVersionCountRequestTypedDict",
     "GetVersionCountResponse",
     "GetVersionCountResponseTypedDict",
-    "GetVersionCurrentBranchResponse",
-    "GetVersionCurrentBranchResponseTypedDict",
     "GetVersionDiffRequest",
     "GetVersionDiffRequestTypedDict",
     "GetVersionDiffResponse",
@@ -3439,6 +3440,10 @@ __all__ = [
     "InputCriblHTTPType",
     "InputCriblHTTPTypedDict",
     "InputCriblLakeHTTP",
+    "InputCriblLakeHTTPAuthTokensExt",
+    "InputCriblLakeHTTPAuthTokensExtMetadatum",
+    "InputCriblLakeHTTPAuthTokensExtMetadatumTypedDict",
+    "InputCriblLakeHTTPAuthTokensExtTypedDict",
     "InputCriblLakeHTTPCompression",
     "InputCriblLakeHTTPConnection",
     "InputCriblLakeHTTPConnectionTypedDict",
@@ -5760,6 +5765,8 @@ _dynamic_imports: dict[str, str] = {
     "CriblLakeDataset": ".cribllakedataset",
     "CriblLakeDatasetFormat": ".cribllakedataset",
     "CriblLakeDatasetTypedDict": ".cribllakedataset",
+    "CurrentBranchResult": ".currentbranchresult",
+    "CurrentBranchResultTypedDict": ".currentbranchresult",
     "DatasetMetadata": ".datasetmetadata",
     "DatasetMetadataTypedDict": ".datasetmetadata",
     "ScanMode": ".datasetmetadata",
@@ -5880,8 +5887,6 @@ _dynamic_imports: dict[str, str] = {
     "GetVersionCountRequestTypedDict": ".getversioncountop",
     "GetVersionCountResponse": ".getversioncountop",
     "GetVersionCountResponseTypedDict": ".getversioncountop",
-    "GetVersionCurrentBranchResponse": ".getversioncurrentbranchop",
-    "GetVersionCurrentBranchResponseTypedDict": ".getversioncurrentbranchop",
     "GetVersionDiffRequest": ".getversiondiffop",
     "GetVersionDiffRequestTypedDict": ".getversiondiffop",
     "GetVersionDiffResponse": ".getversiondiffop",
@@ -6066,6 +6071,10 @@ _dynamic_imports: dict[str, str] = {
     "InputCriblHTTPType": ".inputcriblhttp",
     "InputCriblHTTPTypedDict": ".inputcriblhttp",
     "InputCriblLakeHTTP": ".inputcribllakehttp",
+    "InputCriblLakeHTTPAuthTokensExt": ".inputcribllakehttp",
+    "InputCriblLakeHTTPAuthTokensExtMetadatum": ".inputcribllakehttp",
+    "InputCriblLakeHTTPAuthTokensExtMetadatumTypedDict": ".inputcribllakehttp",
+    "InputCriblLakeHTTPAuthTokensExtTypedDict": ".inputcribllakehttp",
     "InputCriblLakeHTTPCompression": ".inputcribllakehttp",
     "InputCriblLakeHTTPConnection": ".inputcribllakehttp",
     "InputCriblLakeHTTPConnectionTypedDict": ".inputcribllakehttp",

@@ -200,6 +200,8 @@ class InputCrowdstrikeTypedDict(TypedDict):
     r"""Socket inactivity timeout (in seconds). Increase this value if timeouts occur due to backpressure."""
     skip_on_error: NotRequired[bool]
     r"""Skip files that trigger a processing error. Disabled by default, which allows retries after processing errors."""
+    include_sqs_metadata: NotRequired[bool]
+    r"""Include metadata from SQS notifications on outgoing events"""
     enable_assume_role: NotRequired[bool]
     r"""Use Assume Role credentials to access Amazon S3"""
     assume_role_arn: NotRequired[str]
@@ -332,6 +334,11 @@ class InputCrowdstrike(BaseModel):
         False
     )
     r"""Skip files that trigger a processing error. Disabled by default, which allows retries after processing errors."""
+
+    include_sqs_metadata: Annotated[
+        Optional[bool], pydantic.Field(alias="includeSqsMetadata")
+    ] = False
+    r"""Include metadata from SQS notifications on outgoing events"""
 
     enable_assume_role: Annotated[
         Optional[bool], pydantic.Field(alias="enableAssumeRole")

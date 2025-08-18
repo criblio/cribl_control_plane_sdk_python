@@ -174,6 +174,37 @@ class InputCriblLakeHTTPMetadatum(BaseModel):
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
+class InputCriblLakeHTTPAuthTokensExtMetadatumTypedDict(TypedDict):
+    name: str
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class InputCriblLakeHTTPAuthTokensExtMetadatum(BaseModel):
+    name: str
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class InputCriblLakeHTTPAuthTokensExtTypedDict(TypedDict):
+    token: str
+    r"""Shared secret to be provided by any client (Authorization: <token>)"""
+    description: NotRequired[str]
+    metadata: NotRequired[List[InputCriblLakeHTTPAuthTokensExtMetadatumTypedDict]]
+    r"""Fields to add to events referencing this token"""
+
+
+class InputCriblLakeHTTPAuthTokensExt(BaseModel):
+    token: str
+    r"""Shared secret to be provided by any client (Authorization: <token>)"""
+
+    description: Optional[str] = None
+
+    metadata: Optional[List[InputCriblLakeHTTPAuthTokensExtMetadatum]] = None
+    r"""Fields to add to events referencing this token"""
+
+
 class InputCriblLakeHTTPTypedDict(TypedDict):
     type: InputCriblLakeHTTPType
     port: float
@@ -221,8 +252,17 @@ class InputCriblLakeHTTPTypedDict(TypedDict):
     r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
     ip_denylist_regex: NotRequired[str]
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+    cribl_api: NotRequired[str]
+    r"""Absolute path on which to listen for the Cribl HTTP API requests. Only _bulk (default /cribl/_bulk) is available. Use empty string to disable."""
+    elastic_api: NotRequired[str]
+    r"""Absolute path on which to listen for the Elasticsearch API requests. Only _bulk (default /elastic/_bulk) is available. Use empty string to disable."""
+    splunk_hec_api: NotRequired[str]
+    r"""Absolute path on which listen for the Splunk HTTP Event Collector API requests. Use empty string to disable."""
+    splunk_hec_acks: NotRequired[bool]
     metadata: NotRequired[List[InputCriblLakeHTTPMetadatumTypedDict]]
     r"""Fields to add to events from this input"""
+    auth_tokens_ext: NotRequired[List[InputCriblLakeHTTPAuthTokensExtTypedDict]]
+    r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     description: NotRequired[str]
 
 
@@ -324,7 +364,30 @@ class InputCriblLakeHTTP(BaseModel):
     ] = "/^$/"
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
 
+    cribl_api: Annotated[Optional[str], pydantic.Field(alias="criblAPI")] = "/cribl"
+    r"""Absolute path on which to listen for the Cribl HTTP API requests. Only _bulk (default /cribl/_bulk) is available. Use empty string to disable."""
+
+    elastic_api: Annotated[Optional[str], pydantic.Field(alias="elasticAPI")] = (
+        "/elastic"
+    )
+    r"""Absolute path on which to listen for the Elasticsearch API requests. Only _bulk (default /elastic/_bulk) is available. Use empty string to disable."""
+
+    splunk_hec_api: Annotated[Optional[str], pydantic.Field(alias="splunkHecAPI")] = (
+        "/services/collector"
+    )
+    r"""Absolute path on which listen for the Splunk HTTP Event Collector API requests. Use empty string to disable."""
+
+    splunk_hec_acks: Annotated[
+        Optional[bool], pydantic.Field(alias="splunkHecAcks")
+    ] = False
+
     metadata: Optional[List[InputCriblLakeHTTPMetadatum]] = None
     r"""Fields to add to events from this input"""
+
+    auth_tokens_ext: Annotated[
+        Optional[List[InputCriblLakeHTTPAuthTokensExt]],
+        pydantic.Field(alias="authTokensExt"),
+    ] = None
+    r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
     description: Optional[str] = None

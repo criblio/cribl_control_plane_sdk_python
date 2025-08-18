@@ -177,7 +177,7 @@ class Branches(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetVersionCurrentBranchResponse:
+    ) -> models.CurrentBranchResult:
         r"""Retrieve the name of the Git branch that the Cribl configuration is checked out to
 
         returns git branch that the config is checked out to, if any
@@ -237,9 +237,7 @@ class Branches(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.GetVersionCurrentBranchResponse, http_res
-            )
+            return unmarshal_json_response(models.CurrentBranchResult, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -259,7 +257,7 @@ class Branches(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetVersionCurrentBranchResponse:
+    ) -> models.CurrentBranchResult:
         r"""Retrieve the name of the Git branch that the Cribl configuration is checked out to
 
         returns git branch that the config is checked out to, if any
@@ -319,9 +317,7 @@ class Branches(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.GetVersionCurrentBranchResponse, http_res
-            )
+            return unmarshal_json_response(models.CurrentBranchResult, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)

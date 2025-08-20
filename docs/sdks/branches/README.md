@@ -6,11 +6,11 @@
 ### Available Operations
 
 * [list](#list) - List all branches in the Git repository used for Cribl configuration
-* [get](#get) - Retrieve the name of the Git branch that the Cribl configuration is checked out to
+* [get](#get) - Get the name of the Git branch that the Cribl configuration is checked out to
 
 ## list
 
-get the list of branches
+Get a list of all branches in the Git repository used for Cribl configuration.
 
 ### Example Usage
 
@@ -53,7 +53,7 @@ with CriblControlPlane(
 
 ## get
 
-returns git branch that the config is checked out to, if any
+Get the name of the Git branch that the Cribl configuration is checked out to. Useful for verifying the active configuration branch.
 
 ### Example Usage
 

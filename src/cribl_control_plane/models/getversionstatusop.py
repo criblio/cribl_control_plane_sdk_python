@@ -10,7 +10,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class GetVersionStatusRequestTypedDict(TypedDict):
     group: NotRequired[str]
-    r"""Group ID"""
+    r"""The <code>id</code> of the Worker Group or Edge Fleet to get the status for."""
 
 
 class GetVersionStatusRequest(BaseModel):
@@ -18,7 +18,7 @@ class GetVersionStatusRequest(BaseModel):
         Optional[str],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Group ID"""
+    r"""The <code>id</code> of the Worker Group or Edge Fleet to get the status for."""
 
 
 class GetVersionStatusResponseTypedDict(TypedDict):

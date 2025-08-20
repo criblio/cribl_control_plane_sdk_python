@@ -5,11 +5,11 @@
 
 ### Available Operations
 
-* [get](#get) - Retrieve the configuration and status for the Git integration
+* [get](#get) - Get the configuration and status for the Git integration
 
 ## get
 
-Get info about versioning availability
+Get the configuration and versioning status for the Git integration for the Cribl configuration.
 
 ### Example Usage
 

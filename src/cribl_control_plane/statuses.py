@@ -19,11 +19,11 @@ class Statuses(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetVersionStatusResponse:
-        r"""Retrieve the status of the current working tree
+        r"""Get the status of the current working tree
 
-        get the the working tree status
+        Get the status of the current working tree of the Git repository used for Cribl configuration. The response includes details about modified, staged, untracked, and conflicted files, as well as branch and remote tracking information.
 
-        :param group: Group ID
+        :param group: The <code>id</code> of the Worker Group or Edge Fleet to get the status for.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -106,11 +106,11 @@ class Statuses(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetVersionStatusResponse:
-        r"""Retrieve the status of the current working tree
+        r"""Get the status of the current working tree
 
-        get the the working tree status
+        Get the status of the current working tree of the Git repository used for Cribl configuration. The response includes details about modified, staged, untracked, and conflicted files, as well as branch and remote tracking information.
 
-        :param group: Group ID
+        :param group: The <code>id</code> of the Worker Group or Edge Fleet to get the status for.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds

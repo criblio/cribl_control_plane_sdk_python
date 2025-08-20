@@ -10,14 +10,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class GetOutputSamplesByIDRequestTypedDict(TypedDict):
     id: str
-    r"""Destination Id"""
+    r"""The <code>id</code> of the Destination to get sample event data for."""
 
 
 class GetOutputSamplesByIDRequest(BaseModel):
     id: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""Destination Id"""
+    r"""The <code>id</code> of the Destination to get sample event data for."""
 
 
 class GetOutputSamplesByIDResponseTypedDict(TypedDict):

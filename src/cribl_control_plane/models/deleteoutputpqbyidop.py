@@ -9,14 +9,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class DeleteOutputPqByIDRequestTypedDict(TypedDict):
     id: str
-    r"""Destination Id"""
+    r"""The <code>id</code> of the Destination to clear the PQ for."""
 
 
 class DeleteOutputPqByIDRequest(BaseModel):
     id: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""Destination Id"""
+    r"""The <code>id</code> of the Destination to clear the PQ for."""
 
 
 class DeleteOutputPqByIDResponseTypedDict(TypedDict):

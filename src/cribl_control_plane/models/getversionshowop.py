@@ -10,13 +10,13 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class GetVersionShowRequestTypedDict(TypedDict):
     commit: NotRequired[str]
-    r"""Commit hash (default is HEAD)"""
+    r"""The Git commit hash to retrieve the diff and log message for."""
     group: NotRequired[str]
-    r"""Group ID"""
+    r"""The <code>id</code> of the Worker Group or Edge Fleet to get the diff and log message for."""
     filename: NotRequired[str]
-    r"""Filename"""
+    r"""The relative path of the file to get the diff and log message for."""
     diff_line_limit: NotRequired[float]
-    r"""Limit maximum lines in the diff"""
+    r"""Number of lines of the diff to return. Default is 1000. Set to <code>0</code> to return the full diff, regardless of the number of lines."""
 
 
 class GetVersionShowRequest(BaseModel):
@@ -24,26 +24,26 @@ class GetVersionShowRequest(BaseModel):
         Optional[str],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Commit hash (default is HEAD)"""
+    r"""The Git commit hash to retrieve the diff and log message for."""
 
     group: Annotated[
         Optional[str],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Group ID"""
+    r"""The <code>id</code> of the Worker Group or Edge Fleet to get the diff and log message for."""
 
     filename: Annotated[
         Optional[str],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Filename"""
+    r"""The relative path of the file to get the diff and log message for."""
 
     diff_line_limit: Annotated[
         Optional[float],
         pydantic.Field(alias="diffLineLimit"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Limit maximum lines in the diff"""
+    r"""Number of lines of the diff to return. Default is 1000. Set to <code>0</code> to return the full diff, regardless of the number of lines."""
 
 
 class GetVersionShowResponseTypedDict(TypedDict):

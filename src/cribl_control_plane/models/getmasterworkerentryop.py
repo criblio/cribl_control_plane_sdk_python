@@ -10,7 +10,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class GetMasterWorkerEntryRequestTypedDict(TypedDict):
     filter_exp: NotRequired[str]
-    r"""Filter expression evaluated against nodes"""
+    r"""Filter expression to evaluate against Nodes for inclusion in the response."""
 
 
 class GetMasterWorkerEntryRequest(BaseModel):
@@ -19,7 +19,7 @@ class GetMasterWorkerEntryRequest(BaseModel):
         pydantic.Field(alias="filterExp"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Filter expression evaluated against nodes"""
+    r"""Filter expression to evaluate against Nodes for inclusion in the response."""
 
 
 class GetMasterWorkerEntryResponseTypedDict(TypedDict):

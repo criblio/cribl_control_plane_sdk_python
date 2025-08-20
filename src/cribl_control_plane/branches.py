@@ -20,7 +20,7 @@ class Branches(BaseSDK):
     ) -> models.GetVersionBranchResponse:
         r"""List all branches in the Git repository used for Cribl configuration
 
-        get the list of branches
+        Get a list of all branches in the Git repository used for Cribl configuration.
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -100,7 +100,7 @@ class Branches(BaseSDK):
     ) -> models.GetVersionBranchResponse:
         r"""List all branches in the Git repository used for Cribl configuration
 
-        get the list of branches
+        Get a list of all branches in the Git repository used for Cribl configuration.
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -178,9 +178,9 @@ class Branches(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CurrentBranchResult:
-        r"""Retrieve the name of the Git branch that the Cribl configuration is checked out to
+        r"""Get the name of the Git branch that the Cribl configuration is checked out to
 
-        returns git branch that the config is checked out to, if any
+        Get the name of the Git branch that the Cribl configuration is checked out to. Useful for verifying the active configuration branch.
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -258,9 +258,9 @@ class Branches(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CurrentBranchResult:
-        r"""Retrieve the name of the Git branch that the Cribl configuration is checked out to
+        r"""Get the name of the Git branch that the Cribl configuration is checked out to
 
-        returns git branch that the config is checked out to, if any
+        Get the name of the Git branch that the Cribl configuration is checked out to. Useful for verifying the active configuration branch.
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method

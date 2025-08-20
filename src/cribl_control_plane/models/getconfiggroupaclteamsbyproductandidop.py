@@ -21,7 +21,7 @@ class GetConfigGroupACLTeamsByProductAndIDProduct(str, Enum):
 
 
 class GetConfigGroupACLTeamsByProductAndIDType(str, Enum):
-    r"""resource type by which to filter access levels"""
+    r"""Filter for limiting the response to ACL entries for the specified RBAC resource type."""
 
     GROUPS = "groups"
     DATASETS = "datasets"
@@ -39,7 +39,7 @@ class GetConfigGroupACLTeamsByProductAndIDRequestTypedDict(TypedDict):
     id: str
     r"""The <code>id</code> of the Worker Group or Edge Fleet to get the team ACL for."""
     type: NotRequired[GetConfigGroupACLTeamsByProductAndIDType]
-    r"""resource type by which to filter access levels"""
+    r"""Filter for limiting the response to ACL entries for the specified RBAC resource type."""
 
 
 class GetConfigGroupACLTeamsByProductAndIDRequest(BaseModel):
@@ -58,7 +58,7 @@ class GetConfigGroupACLTeamsByProductAndIDRequest(BaseModel):
         Optional[GetConfigGroupACLTeamsByProductAndIDType],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""resource type by which to filter access levels"""
+    r"""Filter for limiting the response to ACL entries for the specified RBAC resource type."""
 
 
 class GetConfigGroupACLTeamsByProductAndIDResponseTypedDict(TypedDict):

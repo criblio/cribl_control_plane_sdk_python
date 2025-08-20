@@ -10,14 +10,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class DeleteInputByIDRequestTypedDict(TypedDict):
     id: str
-    r"""Unique ID to DELETE"""
+    r"""The <code>id</code> of the Source to delete."""
 
 
 class DeleteInputByIDRequest(BaseModel):
     id: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""Unique ID to DELETE"""
+    r"""The <code>id</code> of the Source to delete."""
 
 
 class DeleteInputByIDResponseTypedDict(TypedDict):

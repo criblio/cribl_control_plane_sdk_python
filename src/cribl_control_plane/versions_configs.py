@@ -18,9 +18,9 @@ class VersionsConfigs(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetVersionInfoResponse:
-        r"""Retrieve the configuration and status for the Git integration
+        r"""Get the configuration and status for the Git integration
 
-        Get info about versioning availability
+        Get the configuration and versioning status for the Git integration for the Cribl configuration.
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -98,9 +98,9 @@ class VersionsConfigs(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetVersionInfoResponse:
-        r"""Retrieve the configuration and status for the Git integration
+        r"""Get the configuration and status for the Git integration
 
-        Get info about versioning availability
+        Get the configuration and versioning status for the Git integration for the Cribl configuration.
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method

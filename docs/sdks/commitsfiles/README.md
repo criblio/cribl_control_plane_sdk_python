@@ -5,12 +5,12 @@
 
 ### Available Operations
 
-* [count](#count) - Retrieve a count of files that changed since a commit
-* [list](#list) - Retrieve the names and statuses of files that changed since a commit
+* [count](#count) - Get a count of files that changed since a commit
+* [list](#list) - Get the names and statuses of files that changed since a commit
 
 ## count
 
-get the count of files of changed
+Get a count of the files that changed since a commit. Default is the latest commit (HEAD).
 
 ### Example Usage
 
@@ -36,11 +36,11 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
-| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `group`                                                             | *Optional[str]*                                                     | :heavy_minus_sign:                                                  | Group ID                                                            |
-| `id`                                                                | *Optional[str]*                                                     | :heavy_minus_sign:                                                  | Commit ID                                                           |
-| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
+| Parameter                                                                   | Type                                                                        | Required                                                                    | Description                                                                 |
+| --------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| `group`                                                                     | *Optional[str]*                                                             | :heavy_minus_sign:                                                          | The <code>id</code> of the Worker Group or Edge Fleet to get the count for. |
+| `id`                                                                        | *Optional[str]*                                                             | :heavy_minus_sign:                                                          | The Git commit hash to use as the starting point for the count.             |
+| `retries`                                                                   | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)            | :heavy_minus_sign:                                                          | Configuration to override the default retry behavior of the client.         |
 
 ### Response
 
@@ -55,7 +55,7 @@ with CriblControlPlane(
 
 ## list
 
-get the files changed
+Get the names and statuses of files that changed since a commit. Default is the latest commit (HEAD).
 
 ### Example Usage
 
@@ -81,11 +81,11 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
-| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `group`                                                             | *Optional[str]*                                                     | :heavy_minus_sign:                                                  | Group ID                                                            |
-| `id`                                                                | *Optional[str]*                                                     | :heavy_minus_sign:                                                  | Commit ID                                                           |
-| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
+| Parameter                                                                               | Type                                                                                    | Required                                                                                | Description                                                                             |
+| --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| `group`                                                                                 | *Optional[str]*                                                                         | :heavy_minus_sign:                                                                      | The <code>id</code> of the Worker Group or Edge Fleet to get file names and status for. |
+| `id`                                                                                    | *Optional[str]*                                                                         | :heavy_minus_sign:                                                                      | The Git commit hash to use as the starting point for the request.                       |
+| `retries`                                                                               | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                        | :heavy_minus_sign:                                                                      | Configuration to override the default retry behavior of the client.                     |
 
 ### Response
 

@@ -11,7 +11,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class CreateOutputTestByIDRequestTypedDict(TypedDict):
     id: str
-    r"""Destination Id"""
+    r"""The <code>id</code> of the Destination to send sample event data to."""
     output_test_request: OutputTestRequestTypedDict
     r"""OutputTestRequest object"""
 
@@ -20,7 +20,7 @@ class CreateOutputTestByIDRequest(BaseModel):
     id: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""Destination Id"""
+    r"""The <code>id</code> of the Destination to send sample event data to."""
 
     output_test_request: Annotated[
         OutputTestRequest,

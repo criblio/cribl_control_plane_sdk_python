@@ -11,9 +11,9 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class DeleteCriblLakeDatasetByLakeIDAndIDRequestTypedDict(TypedDict):
     lake_id: str
-    r"""lake id that contains the Datasets"""
+    r"""The <code>id</code> of the Lake that contains the Lake Dataset to delete."""
     id: str
-    r"""dataset id to delete"""
+    r"""The <code>id</code> of the Lake Dataset to delete."""
 
 
 class DeleteCriblLakeDatasetByLakeIDAndIDRequest(BaseModel):
@@ -22,12 +22,12 @@ class DeleteCriblLakeDatasetByLakeIDAndIDRequest(BaseModel):
         pydantic.Field(alias="lakeId"),
         FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
     ]
-    r"""lake id that contains the Datasets"""
+    r"""The <code>id</code> of the Lake that contains the Lake Dataset to delete."""
 
     id: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""dataset id to delete"""
+    r"""The <code>id</code> of the Lake Dataset to delete."""
 
 
 class DeleteCriblLakeDatasetByLakeIDAndIDResponseTypedDict(TypedDict):

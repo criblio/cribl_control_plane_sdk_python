@@ -9,13 +9,13 @@ Actions related to Destinations
 
 * [list](#list) - List all Destinations
 * [create](#create) - Create a Destination
-* [get](#get) - Retrieve a Destination
+* [get](#get) - Get a Destination
 * [update](#update) - Update a Destination
 * [delete](#delete) - Delete a Destination
 
 ## list
 
-Get a list of Destination objects
+Get a list of all Destinations.
 
 ### Example Usage
 
@@ -58,7 +58,7 @@ with CriblControlPlane(
 
 ## create
 
-Create Destination
+Create a new Destination.
 
 ### Example Usage
 
@@ -170,7 +170,7 @@ with CriblControlPlane(
 
 ## get
 
-Get Destination by ID
+Get the specified Destination.
 
 ### Example Usage
 
@@ -198,7 +198,7 @@ with CriblControlPlane(
 
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | Unique ID to GET                                                    |
+| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Destination to get.                      |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
@@ -214,7 +214,7 @@ with CriblControlPlane(
 
 ## update
 
-Update Destination
+Update the specified Destination.</br></br>Provide a complete representation of the Destination that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Destination.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Destination might not function as expected.
 
 ### Example Usage
 
@@ -300,7 +300,7 @@ with CriblControlPlane(
 
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | Unique ID to PATCH                                                  |
+| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Destination to update.                   |
 | `output`                                                            | [models.Output](../../models/output.md)                             | :heavy_check_mark:                                                  | Output object                                                       |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
@@ -317,7 +317,7 @@ with CriblControlPlane(
 
 ## delete
 
-Delete Destination
+Delete the specified Destination.
 
 ### Example Usage
 
@@ -345,7 +345,7 @@ with CriblControlPlane(
 
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | Unique ID to DELETE                                                 |
+| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Destination to delete.                   |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response

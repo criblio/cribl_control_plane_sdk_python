@@ -5,15 +5,15 @@
 
 ### Available Operations
 
-* [create](#create) - Create a Lake Dataset in the specified Lake
-* [list](#list) - List all Lake Datasets in the specified Lake
-* [delete](#delete) - Delete a Lake Dataset in the specified Lake
-* [get](#get) - Retrieve a Lake Dataset in the specified Lake
-* [update](#update) - Update a Lake Dataset in the specified Lake
+* [create](#create) - Create a Lake Dataset
+* [list](#list) - List all Lake Datasets
+* [delete](#delete) - Delete a Lake Dataset
+* [get](#get) - Get a Lake Dataset
+* [update](#update) - Update a Lake Dataset
 
 ## create
 
-Create a Dataset in the specified Lake
+Create a new Lake Dataset in the specified Lake.
 
 ### Example Usage
 
@@ -74,7 +74,7 @@ with CriblControlPlane(
 
 | Parameter                                                                           | Type                                                                                | Required                                                                            | Description                                                                         |
 | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| `lake_id`                                                                           | *str*                                                                               | :heavy_check_mark:                                                                  | lake id that contains the Datasets                                                  |
+| `lake_id`                                                                           | *str*                                                                               | :heavy_check_mark:                                                                  | The <code>id</code> of the Lake to create the Lake Dataset in.                      |
 | `id`                                                                                | *str*                                                                               | :heavy_check_mark:                                                                  | N/A                                                                                 |
 | `accelerated_fields`                                                                | List[*str*]                                                                         | :heavy_minus_sign:                                                                  | N/A                                                                                 |
 | `bucket_name`                                                                       | *Optional[str]*                                                                     | :heavy_minus_sign:                                                                  | N/A                                                                                 |
@@ -102,7 +102,7 @@ with CriblControlPlane(
 
 ## list
 
-Get the list of Dataset contained in the specified Lake
+Get a list of all Lake Datasets in the specified Lake.
 
 ### Example Usage
 
@@ -128,10 +128,10 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
-| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `lake_id`                                                           | *str*                                                               | :heavy_check_mark:                                                  | lake id that contains the Datasets                                  |
-| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
+| Parameter                                                                | Type                                                                     | Required                                                                 | Description                                                              |
+| ------------------------------------------------------------------------ | ------------------------------------------------------------------------ | ------------------------------------------------------------------------ | ------------------------------------------------------------------------ |
+| `lake_id`                                                                | *str*                                                                    | :heavy_check_mark:                                                       | The <code>id</code> of the Lake that contains the Lake Datasets to list. |
+| `retries`                                                                | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)         | :heavy_minus_sign:                                                       | Configuration to override the default retry behavior of the client.      |
 
 ### Response
 
@@ -146,7 +146,7 @@ with CriblControlPlane(
 
 ## delete
 
-Delete a Dataset in the specified Lake
+Delete the specified Lake Dataset in the specified Lake
 
 ### Example Usage
 
@@ -172,11 +172,11 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
-| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `lake_id`                                                           | *str*                                                               | :heavy_check_mark:                                                  | lake id that contains the Datasets                                  |
-| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | dataset id to delete                                                |
-| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
+| Parameter                                                                 | Type                                                                      | Required                                                                  | Description                                                               |
+| ------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| `lake_id`                                                                 | *str*                                                                     | :heavy_check_mark:                                                        | The <code>id</code> of the Lake that contains the Lake Dataset to delete. |
+| `id`                                                                      | *str*                                                                     | :heavy_check_mark:                                                        | The <code>id</code> of the Lake Dataset to delete.                        |
+| `retries`                                                                 | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)          | :heavy_minus_sign:                                                        | Configuration to override the default retry behavior of the client.       |
 
 ### Response
 
@@ -191,7 +191,7 @@ with CriblControlPlane(
 
 ## get
 
-Get a Dataset in the specified Lake
+Get the specified Lake Dataset in the specified Lake.
 
 ### Example Usage
 
@@ -217,11 +217,11 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
-| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `lake_id`                                                           | *str*                                                               | :heavy_check_mark:                                                  | lake id that contains the Datasets                                  |
-| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | dataset id to get                                                   |
-| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
+| Parameter                                                              | Type                                                                   | Required                                                               | Description                                                            |
+| ---------------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| `lake_id`                                                              | *str*                                                                  | :heavy_check_mark:                                                     | The <code>id</code> of the Lake that contains the Lake Dataset to get. |
+| `id`                                                                   | *str*                                                                  | :heavy_check_mark:                                                     | The <code>id</code> of the Lake Dataset to get.                        |
+| `retries`                                                              | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)       | :heavy_minus_sign:                                                     | Configuration to override the default retry behavior of the client.    |
 
 ### Response
 
@@ -236,7 +236,7 @@ with CriblControlPlane(
 
 ## update
 
-Update a Dataset in the specified Lake
+Update the specified Lake Dataset in the specified Lake.
 
 ### Example Usage
 
@@ -298,8 +298,8 @@ with CriblControlPlane(
 
 | Parameter                                                                           | Type                                                                                | Required                                                                            | Description                                                                         |
 | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| `lake_id`                                                                           | *str*                                                                               | :heavy_check_mark:                                                                  | lake id that contains the Datasets                                                  |
-| `id_param`                                                                          | *str*                                                                               | :heavy_check_mark:                                                                  | dataset id to update                                                                |
+| `lake_id`                                                                           | *str*                                                                               | :heavy_check_mark:                                                                  | The <code>id</code> of the Lake that contains the Lake Dataset to update.           |
+| `id_param`                                                                          | *str*                                                                               | :heavy_check_mark:                                                                  | The <code>id</code> of the Lake Dataset to update.                                  |
 | `id`                                                                                | *str*                                                                               | :heavy_check_mark:                                                                  | N/A                                                                                 |
 | `accelerated_fields`                                                                | List[*str*]                                                                         | :heavy_minus_sign:                                                                  | N/A                                                                                 |
 | `bucket_name`                                                                       | *Optional[str]*                                                                     | :heavy_minus_sign:                                                                  | N/A                                                                                 |

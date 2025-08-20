@@ -11,17 +11,17 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class ListMasterWorkerEntryRequestTypedDict(TypedDict):
     filter_exp: NotRequired[str]
-    r"""Filter expression evaluated against nodes"""
-    sort: NotRequired[str]
-    r"""Sorting object (JSON stringified) expression evaluated against nodes"""
+    r"""Filter expression to evaluate against Nodes for inclusion in the response."""
     sort_exp: NotRequired[str]
-    r"""Sorting expression evaluated against nodes"""
-    limit: NotRequired[int]
-    r"""Maximum number of nodes to return"""
-    offset: NotRequired[int]
-    r"""Pagination offset"""
+    r"""Sorting expression to evaluate against Nodes to specify the sort order for the response."""
     filter_: NotRequired[str]
-    r"""Filter object (JSON stringified) to select nodes"""
+    r"""JSON-stringified filter object to evaluate against Nodes for inclusion in the response."""
+    sort: NotRequired[str]
+    r"""JSON-stringified sorting object to evaluate against Nodes to specify the sort order for the response."""
+    limit: NotRequired[int]
+    r"""Maximum number of Nodes to return in the response for this request. Use with <code>offset</code> to paginate the response into manageable batches."""
+    offset: NotRequired[int]
+    r"""Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches."""
 
 
 class ListMasterWorkerEntryRequest(BaseModel):
@@ -30,39 +30,39 @@ class ListMasterWorkerEntryRequest(BaseModel):
         pydantic.Field(alias="filterExp"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Filter expression evaluated against nodes"""
-
-    sort: Annotated[
-        Optional[str],
-        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = None
-    r"""Sorting object (JSON stringified) expression evaluated against nodes"""
+    r"""Filter expression to evaluate against Nodes for inclusion in the response."""
 
     sort_exp: Annotated[
         Optional[str],
         pydantic.Field(alias="sortExp"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Sorting expression evaluated against nodes"""
-
-    limit: Annotated[
-        Optional[int],
-        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = None
-    r"""Maximum number of nodes to return"""
-
-    offset: Annotated[
-        Optional[int],
-        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = None
-    r"""Pagination offset"""
+    r"""Sorting expression to evaluate against Nodes to specify the sort order for the response."""
 
     filter_: Annotated[
         Optional[str],
         pydantic.Field(alias="filter"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Filter object (JSON stringified) to select nodes"""
+    r"""JSON-stringified filter object to evaluate against Nodes for inclusion in the response."""
+
+    sort: Annotated[
+        Optional[str],
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = None
+    r"""JSON-stringified sorting object to evaluate against Nodes to specify the sort order for the response."""
+
+    limit: Annotated[
+        Optional[int],
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = None
+    r"""Maximum number of Nodes to return in the response for this request. Use with <code>offset</code> to paginate the response into manageable batches."""
+
+    offset: Annotated[
+        Optional[int],
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = None
+    r"""Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches."""
 
 
 class ListMasterWorkerEntryResponseTypedDict(TypedDict):

@@ -11,9 +11,9 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class GetCriblLakeDatasetByLakeIDAndIDRequestTypedDict(TypedDict):
     lake_id: str
-    r"""lake id that contains the Datasets"""
+    r"""The <code>id</code> of the Lake that contains the Lake Dataset to get."""
     id: str
-    r"""dataset id to get"""
+    r"""The <code>id</code> of the Lake Dataset to get."""
 
 
 class GetCriblLakeDatasetByLakeIDAndIDRequest(BaseModel):
@@ -22,12 +22,12 @@ class GetCriblLakeDatasetByLakeIDAndIDRequest(BaseModel):
         pydantic.Field(alias="lakeId"),
         FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
     ]
-    r"""lake id that contains the Datasets"""
+    r"""The <code>id</code> of the Lake that contains the Lake Dataset to get."""
 
     id: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""dataset id to get"""
+    r"""The <code>id</code> of the Lake Dataset to get."""
 
 
 class GetCriblLakeDatasetByLakeIDAndIDResponseTypedDict(TypedDict):

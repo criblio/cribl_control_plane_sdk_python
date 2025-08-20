@@ -10,9 +10,9 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class UpdateInputHecTokenByIDAndTokenRequestTypedDict(TypedDict):
     id: str
-    r"""HEC Source id"""
+    r"""The <code>id</code> of the Splunk HEC Source."""
     token: str
-    r"""token to update"""
+    r"""The <code>id</code> of the HEC token to update."""
     update_hec_token_request: UpdateHecTokenRequestTypedDict
     r"""UpdateHecTokenRequest object"""
 
@@ -21,12 +21,12 @@ class UpdateInputHecTokenByIDAndTokenRequest(BaseModel):
     id: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""HEC Source id"""
+    r"""The <code>id</code> of the Splunk HEC Source."""
 
     token: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""token to update"""
+    r"""The <code>id</code> of the HEC token to update."""
 
     update_hec_token_request: Annotated[
         UpdateHecTokenRequest,

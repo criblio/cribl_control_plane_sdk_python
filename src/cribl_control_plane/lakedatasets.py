@@ -37,11 +37,11 @@ class LakeDatasets(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreateCriblLakeDatasetByLakeIDResponse:
-        r"""Create a Lake Dataset in the specified Lake
+        r"""Create a Lake Dataset
 
-        Create a Dataset in the specified Lake
+        Create a new Lake Dataset in the specified Lake.
 
-        :param lake_id: lake id that contains the Datasets
+        :param lake_id: The <code>id</code> of the Lake to create the Lake Dataset in.
         :param id:
         :param accelerated_fields:
         :param bucket_name:
@@ -181,11 +181,11 @@ class LakeDatasets(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreateCriblLakeDatasetByLakeIDResponse:
-        r"""Create a Lake Dataset in the specified Lake
+        r"""Create a Lake Dataset
 
-        Create a Dataset in the specified Lake
+        Create a new Lake Dataset in the specified Lake.
 
-        :param lake_id: lake id that contains the Datasets
+        :param lake_id: The <code>id</code> of the Lake to create the Lake Dataset in.
         :param id:
         :param accelerated_fields:
         :param bucket_name:
@@ -307,11 +307,11 @@ class LakeDatasets(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetCriblLakeDatasetByLakeIDResponse:
-        r"""List all Lake Datasets in the specified Lake
+        r"""List all Lake Datasets
 
-        Get the list of Dataset contained in the specified Lake
+        Get a list of all Lake Datasets in the specified Lake.
 
-        :param lake_id: lake id that contains the Datasets
+        :param lake_id: The <code>id</code> of the Lake that contains the Lake Datasets to list.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -396,11 +396,11 @@ class LakeDatasets(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetCriblLakeDatasetByLakeIDResponse:
-        r"""List all Lake Datasets in the specified Lake
+        r"""List all Lake Datasets
 
-        Get the list of Dataset contained in the specified Lake
+        Get a list of all Lake Datasets in the specified Lake.
 
-        :param lake_id: lake id that contains the Datasets
+        :param lake_id: The <code>id</code> of the Lake that contains the Lake Datasets to list.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -486,12 +486,12 @@ class LakeDatasets(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.DeleteCriblLakeDatasetByLakeIDAndIDResponse:
-        r"""Delete a Lake Dataset in the specified Lake
+        r"""Delete a Lake Dataset
 
-        Delete a Dataset in the specified Lake
+        Delete the specified Lake Dataset in the specified Lake
 
-        :param lake_id: lake id that contains the Datasets
-        :param id: dataset id to delete
+        :param lake_id: The <code>id</code> of the Lake that contains the Lake Dataset to delete.
+        :param id: The <code>id</code> of the Lake Dataset to delete.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -578,12 +578,12 @@ class LakeDatasets(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.DeleteCriblLakeDatasetByLakeIDAndIDResponse:
-        r"""Delete a Lake Dataset in the specified Lake
+        r"""Delete a Lake Dataset
 
-        Delete a Dataset in the specified Lake
+        Delete the specified Lake Dataset in the specified Lake
 
-        :param lake_id: lake id that contains the Datasets
-        :param id: dataset id to delete
+        :param lake_id: The <code>id</code> of the Lake that contains the Lake Dataset to delete.
+        :param id: The <code>id</code> of the Lake Dataset to delete.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -670,12 +670,12 @@ class LakeDatasets(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetCriblLakeDatasetByLakeIDAndIDResponse:
-        r"""Retrieve a Lake Dataset in the specified Lake
+        r"""Get a Lake Dataset
 
-        Get a Dataset in the specified Lake
+        Get the specified Lake Dataset in the specified Lake.
 
-        :param lake_id: lake id that contains the Datasets
-        :param id: dataset id to get
+        :param lake_id: The <code>id</code> of the Lake that contains the Lake Dataset to get.
+        :param id: The <code>id</code> of the Lake Dataset to get.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -762,12 +762,12 @@ class LakeDatasets(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetCriblLakeDatasetByLakeIDAndIDResponse:
-        r"""Retrieve a Lake Dataset in the specified Lake
+        r"""Get a Lake Dataset
 
-        Get a Dataset in the specified Lake
+        Get the specified Lake Dataset in the specified Lake.
 
-        :param lake_id: lake id that contains the Datasets
-        :param id: dataset id to get
+        :param lake_id: The <code>id</code> of the Lake that contains the Lake Dataset to get.
+        :param id: The <code>id</code> of the Lake Dataset to get.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -872,12 +872,12 @@ class LakeDatasets(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.UpdateCriblLakeDatasetByLakeIDAndIDResponse:
-        r"""Update a Lake Dataset in the specified Lake
+        r"""Update a Lake Dataset
 
-        Update a Dataset in the specified Lake
+        Update the specified Lake Dataset in the specified Lake.
 
-        :param lake_id: lake id that contains the Datasets
-        :param id_param: dataset id to update
+        :param lake_id: The <code>id</code> of the Lake that contains the Lake Dataset to update.
+        :param id_param: The <code>id</code> of the Lake Dataset to update.
         :param id:
         :param accelerated_fields:
         :param bucket_name:
@@ -1019,12 +1019,12 @@ class LakeDatasets(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.UpdateCriblLakeDatasetByLakeIDAndIDResponse:
-        r"""Update a Lake Dataset in the specified Lake
+        r"""Update a Lake Dataset
 
-        Update a Dataset in the specified Lake
+        Update the specified Lake Dataset in the specified Lake.
 
-        :param lake_id: lake id that contains the Datasets
-        :param id_param: dataset id to update
+        :param lake_id: The <code>id</code> of the Lake that contains the Lake Dataset to update.
+        :param id_param: The <code>id</code> of the Lake Dataset to update.
         :param id:
         :param accelerated_fields:
         :param bucket_name:

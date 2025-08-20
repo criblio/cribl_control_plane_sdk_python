@@ -10,7 +10,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class UpdateInputByIDRequestTypedDict(TypedDict):
     id: str
-    r"""Unique ID to PATCH"""
+    r"""The <code>id</code> of the Source to update."""
     input: InputTypedDict
     r"""Input object"""
 
@@ -19,7 +19,7 @@ class UpdateInputByIDRequest(BaseModel):
     id: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""Unique ID to PATCH"""
+    r"""The <code>id</code> of the Source to update."""
 
     input: Annotated[
         Input, FieldMetadata(request=RequestMetadata(media_type="application/json"))

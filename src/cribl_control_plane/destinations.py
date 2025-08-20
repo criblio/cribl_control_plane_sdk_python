@@ -37,7 +37,7 @@ class Destinations(BaseSDK):
     ) -> models.ListOutputResponse:
         r"""List all Destinations
 
-        Get a list of Destination objects
+        Get a list of all Destinations.
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -117,7 +117,7 @@ class Destinations(BaseSDK):
     ) -> models.ListOutputResponse:
         r"""List all Destinations
 
-        Get a list of Destination objects
+        Get a list of all Destinations.
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -198,7 +198,7 @@ class Destinations(BaseSDK):
     ) -> models.CreateOutputResponse:
         r"""Create a Destination
 
-        Create Destination
+        Create a new Destination.
 
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
@@ -288,7 +288,7 @@ class Destinations(BaseSDK):
     ) -> models.CreateOutputResponse:
         r"""Create a Destination
 
-        Create Destination
+        Create a new Destination.
 
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
@@ -376,11 +376,11 @@ class Destinations(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetOutputByIDResponse:
-        r"""Retrieve a Destination
+        r"""Get a Destination
 
-        Get Destination by ID
+        Get the specified Destination.
 
-        :param id: Unique ID to GET
+        :param id: The <code>id</code> of the Destination to get.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -463,11 +463,11 @@ class Destinations(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetOutputByIDResponse:
-        r"""Retrieve a Destination
+        r"""Get a Destination
 
-        Get Destination by ID
+        Get the specified Destination.
 
-        :param id: Unique ID to GET
+        :param id: The <code>id</code> of the Destination to get.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -553,9 +553,9 @@ class Destinations(BaseSDK):
     ) -> models.UpdateOutputByIDResponse:
         r"""Update a Destination
 
-        Update Destination
+        Update the specified Destination.</br></br>Provide a complete representation of the Destination that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Destination.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Destination might not function as expected.
 
-        :param id: Unique ID to PATCH
+        :param id: The <code>id</code> of the Destination to update.
         :param output: Output object
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -646,9 +646,9 @@ class Destinations(BaseSDK):
     ) -> models.UpdateOutputByIDResponse:
         r"""Update a Destination
 
-        Update Destination
+        Update the specified Destination.</br></br>Provide a complete representation of the Destination that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Destination.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Destination might not function as expected.
 
-        :param id: Unique ID to PATCH
+        :param id: The <code>id</code> of the Destination to update.
         :param output: Output object
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -738,9 +738,9 @@ class Destinations(BaseSDK):
     ) -> models.DeleteOutputByIDResponse:
         r"""Delete a Destination
 
-        Delete Destination
+        Delete the specified Destination.
 
-        :param id: Unique ID to DELETE
+        :param id: The <code>id</code> of the Destination to delete.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -825,9 +825,9 @@ class Destinations(BaseSDK):
     ) -> models.DeleteOutputByIDResponse:
         r"""Delete a Destination
 
-        Delete Destination
+        Delete the specified Destination.
 
-        :param id: Unique ID to DELETE
+        :param id: The <code>id</code> of the Destination to delete.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds

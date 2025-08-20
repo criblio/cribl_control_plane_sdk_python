@@ -5,11 +5,11 @@
 
 ### Available Operations
 
-* [get](#get) - Retrieve a summary of the Distributed deployment
+* [get](#get) - Get a summary of the Distributed deployment
 
 ## get
 
-Get summary of Distributed deployment
+Get a summary of the Distributed deployment. The response includes counts of Worker Groups, Edge Fleets, Pipelines, Routes, Sources, Destinations, and Worker and Edge Nodes, as well as statistics for the Worker and Edge Nodes.
 
 ### Example Usage
 
@@ -35,10 +35,10 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
-| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `mode`                                                              | [Optional[models.GetSummaryMode]](../../models/getsummarymode.md)   | :heavy_minus_sign:                                                  | product filter                                                      |
-| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
+| Parameter                                                                                                                        | Type                                                                                                                             | Required                                                                                                                         | Description                                                                                                                      |
+| -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `mode`                                                                                                                           | [Optional[models.GetSummaryMode]](../../models/getsummarymode.md)                                                                | :heavy_minus_sign:                                                                                                               | Filter for limiting the response by Cribl product: Cribl Stream (<code>worker</code>) or Cribl Edge (<code>managed-edge</code>). |
+| `retries`                                                                                                                        | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                 | :heavy_minus_sign:                                                                                                               | Configuration to override the default retry behavior of the client.                                                              |
 
 ### Response
 

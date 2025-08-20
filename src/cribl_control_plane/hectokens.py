@@ -30,9 +30,9 @@ class HecTokens(BaseSDK):
     ) -> models.CreateInputHecTokenByIDResponse:
         r"""Add an HEC token and optional metadata to a Splunk HEC Source
 
-        Add token and optional metadata to an existing HEC Source
+        Add an HEC token and optional metadata to the specified Splunk HEC Source.
 
-        :param id: HEC Source id
+        :param id: The <code>id</code> of the Splunk HEC Source.
         :param token:
         :param description:
         :param enabled:
@@ -147,9 +147,9 @@ class HecTokens(BaseSDK):
     ) -> models.CreateInputHecTokenByIDResponse:
         r"""Add an HEC token and optional metadata to a Splunk HEC Source
 
-        Add token and optional metadata to an existing HEC Source
+        Add an HEC token and optional metadata to the specified Splunk HEC Source.
 
-        :param id: HEC Source id
+        :param id: The <code>id</code> of the Splunk HEC Source.
         :param token:
         :param description:
         :param enabled:
@@ -264,10 +264,10 @@ class HecTokens(BaseSDK):
     ) -> models.UpdateInputHecTokenByIDAndTokenResponse:
         r"""Update metadata for an HEC token for a Splunk HEC Source
 
-        Update token metadata on existing HEC Source
+        Update the metadata for the specified HEC token for the specified Splunk HEC Source.
 
-        :param id: HEC Source id
-        :param token: token to update
+        :param id: The <code>id</code> of the Splunk HEC Source.
+        :param token: The <code>id</code> of the HEC token to update.
         :param description:
         :param enabled:
         :param metadata:
@@ -381,10 +381,10 @@ class HecTokens(BaseSDK):
     ) -> models.UpdateInputHecTokenByIDAndTokenResponse:
         r"""Update metadata for an HEC token for a Splunk HEC Source
 
-        Update token metadata on existing HEC Source
+        Update the metadata for the specified HEC token for the specified Splunk HEC Source.
 
-        :param id: HEC Source id
-        :param token: token to update
+        :param id: The <code>id</code> of the Splunk HEC Source.
+        :param token: The <code>id</code> of the HEC token to update.
         :param description:
         :param enabled:
         :param metadata:

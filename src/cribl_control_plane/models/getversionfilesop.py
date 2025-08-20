@@ -11,9 +11,9 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class GetVersionFilesRequestTypedDict(TypedDict):
     group: NotRequired[str]
-    r"""Group ID"""
+    r"""The <code>id</code> of the Worker Group or Edge Fleet to get file names and status for."""
     id: NotRequired[str]
-    r"""Commit ID"""
+    r"""The Git commit hash to use as the starting point for the request."""
 
 
 class GetVersionFilesRequest(BaseModel):
@@ -21,14 +21,14 @@ class GetVersionFilesRequest(BaseModel):
         Optional[str],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Group ID"""
+    r"""The <code>id</code> of the Worker Group or Edge Fleet to get file names and status for."""
 
     id: Annotated[
         Optional[str],
         pydantic.Field(alias="ID"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Commit ID"""
+    r"""The Git commit hash to use as the starting point for the request."""
 
 
 class GetVersionFilesResponseTypedDict(TypedDict):

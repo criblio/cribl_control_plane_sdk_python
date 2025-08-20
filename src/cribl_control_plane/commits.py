@@ -36,7 +36,7 @@ class Commits(BaseSDK):
     ) -> models.CreateVersionCommitResponse:
         r"""Create a new commit for pending changes to the Cribl configuration
 
-        create a new commit containing the current configs the given log message describing the changes.
+        Create a new commit for pending changes to the Cribl configuration. Any merge conflicts indicated in the response must be resolved using Git.</br></br>To commit only a subset of configuration changes, specify the files to include in the commit in the <code>files</code> array.
 
         :param message:
         :param effective:
@@ -135,7 +135,7 @@ class Commits(BaseSDK):
     ) -> models.CreateVersionCommitResponse:
         r"""Create a new commit for pending changes to the Cribl configuration
 
-        create a new commit containing the current configs the given log message describing the changes.
+        Create a new commit for pending changes to the Cribl configuration. Any merge conflicts indicated in the response must be resolved using Git.</br></br>To commit only a subset of configuration changes, specify the files to include in the commit in the <code>files</code> array.
 
         :param message:
         :param effective:
@@ -232,14 +232,14 @@ class Commits(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetVersionDiffResponse:
-        r"""Retrieve the diff for a commit
+        r"""Get the diff for a commit
 
-        get the textual diff for given commit
+        Get the diff for a commit. Default is the latest commit (HEAD).
 
-        :param commit: Commit hash (default is HEAD)
-        :param group: Group ID
-        :param filename: Filename
-        :param diff_line_limit: Limit maximum lines in the diff
+        :param commit: The Git commit hash to get the diff for.
+        :param group: The <code>id</code> of the Worker Group or Edge Fleet to get the diff for.
+        :param filename: The relative path of the file to get the diff for.
+        :param diff_line_limit: Number of lines of the diff to return. Default is 1000. Set to <code>0</code> to return the full diff, regardless of the number of lines.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -328,14 +328,14 @@ class Commits(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetVersionDiffResponse:
-        r"""Retrieve the diff for a commit
+        r"""Get the diff for a commit
 
-        get the textual diff for given commit
+        Get the diff for a commit. Default is the latest commit (HEAD).
 
-        :param commit: Commit hash (default is HEAD)
-        :param group: Group ID
-        :param filename: Filename
-        :param diff_line_limit: Limit maximum lines in the diff
+        :param commit: The Git commit hash to get the diff for.
+        :param group: The <code>id</code> of the Worker Group or Edge Fleet to get the diff for.
+        :param filename: The relative path of the file to get the diff for.
+        :param diff_line_limit: Number of lines of the diff to return. Default is 1000. Set to <code>0</code> to return the full diff, regardless of the number of lines.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -600,9 +600,9 @@ class Commits(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreateVersionPushResponse:
-        r"""Push a commit from the local repository to the remote repository
+        r"""Push local commits to the remote repository
 
-        push the current configs to the remote repository.
+        Push all local commits from the local repository to the remote repository.
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -680,9 +680,9 @@ class Commits(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreateVersionPushResponse:
-        r"""Push a commit from the local repository to the remote repository
+        r"""Push local commits to the remote repository
 
-        push the current configs to the remote repository.
+        Push all local commits from the local repository to the remote repository.
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -766,7 +766,7 @@ class Commits(BaseSDK):
     ) -> models.CreateVersionRevertResponse:
         r"""Revert a commit in the local repository
 
-        revert a commit
+        Revert a commit in the local repository.
 
         :param commit:
         :param message:
@@ -867,7 +867,7 @@ class Commits(BaseSDK):
     ) -> models.CreateVersionRevertResponse:
         r"""Revert a commit in the local repository
 
-        revert a commit
+        Revert a commit in the local repository.
 
         :param commit:
         :param message:
@@ -966,14 +966,14 @@ class Commits(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetVersionShowResponse:
-        r"""Retrieve the diff and log message for a commit
+        r"""Get the diff and log message for a commit
 
-        get the log message and textual diff for given commit
+        Get the diff and log message for a commit. Default is the latest commit (HEAD).
 
-        :param commit: Commit hash (default is HEAD)
-        :param group: Group ID
-        :param filename: Filename
-        :param diff_line_limit: Limit maximum lines in the diff
+        :param commit: The Git commit hash to retrieve the diff and log message for.
+        :param group: The <code>id</code> of the Worker Group or Edge Fleet to get the diff and log message for.
+        :param filename: The relative path of the file to get the diff and log message for.
+        :param diff_line_limit: Number of lines of the diff to return. Default is 1000. Set to <code>0</code> to return the full diff, regardless of the number of lines.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1062,14 +1062,14 @@ class Commits(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetVersionShowResponse:
-        r"""Retrieve the diff and log message for a commit
+        r"""Get the diff and log message for a commit
 
-        get the log message and textual diff for given commit
+        Get the diff and log message for a commit. Default is the latest commit (HEAD).
 
-        :param commit: Commit hash (default is HEAD)
-        :param group: Group ID
-        :param filename: Filename
-        :param diff_line_limit: Limit maximum lines in the diff
+        :param commit: The Git commit hash to retrieve the diff and log message for.
+        :param group: The <code>id</code> of the Worker Group or Edge Fleet to get the diff and log message for.
+        :param filename: The relative path of the file to get the diff and log message for.
+        :param diff_line_limit: Number of lines of the diff to return. Default is 1000. Set to <code>0</code> to return the full diff, regardless of the number of lines.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1157,9 +1157,9 @@ class Commits(BaseSDK):
     ) -> models.CreateVersionUndoResponse:
         r"""Discard uncommitted (staged) changes
 
-        Discards all uncommitted (staged) configuration changes, resetting the working directory to the last committed state.
+        Discard all uncommitted (staged) configuration changes, resetting the working directory to the last committed state. Use only if you are certain that you do not need to preserve your local changes.
 
-        :param group: Group ID
+        :param group: The <code>id</code> of the Worker Group or Edge Fleet to undo the uncommited changes for.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1244,9 +1244,9 @@ class Commits(BaseSDK):
     ) -> models.CreateVersionUndoResponse:
         r"""Discard uncommitted (staged) changes
 
-        Discards all uncommitted (staged) configuration changes, resetting the working directory to the last committed state.
+        Discard all uncommitted (staged) configuration changes, resetting the working directory to the last committed state. Use only if you are certain that you do not need to preserve your local changes.
 
-        :param group: Group ID
+        :param group: The <code>id</code> of the Worker Group or Edge Fleet to undo the uncommited changes for.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds

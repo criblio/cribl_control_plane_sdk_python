@@ -10,14 +10,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class GetInputByIDRequestTypedDict(TypedDict):
     id: str
-    r"""Unique ID to GET"""
+    r"""The <code>id</code> of the Source to get."""
 
 
 class GetInputByIDRequest(BaseModel):
     id: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""Unique ID to GET"""
+    r"""The <code>id</code> of the Source to get."""
 
 
 class GetInputByIDResponseTypedDict(TypedDict):

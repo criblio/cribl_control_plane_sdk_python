@@ -10,7 +10,7 @@
 
 ## create
 
-Add token and optional metadata to an existing HEC Source
+Add an HEC token and optional metadata to the specified Splunk HEC Source.
 
 ### Example Usage
 
@@ -43,7 +43,7 @@ with CriblControlPlane(
 
 | Parameter                                                                               | Type                                                                                    | Required                                                                                | Description                                                                             |
 | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| `id`                                                                                    | *str*                                                                                   | :heavy_check_mark:                                                                      | HEC Source id                                                                           |
+| `id`                                                                                    | *str*                                                                                   | :heavy_check_mark:                                                                      | The <code>id</code> of the Splunk HEC Source.                                           |
 | `token`                                                                                 | *str*                                                                                   | :heavy_check_mark:                                                                      | N/A                                                                                     |
 | `description`                                                                           | *Optional[str]*                                                                         | :heavy_minus_sign:                                                                      | N/A                                                                                     |
 | `enabled`                                                                               | *Optional[bool]*                                                                        | :heavy_minus_sign:                                                                      | N/A                                                                                     |
@@ -63,7 +63,7 @@ with CriblControlPlane(
 
 ## update
 
-Update token metadata on existing HEC Source
+Update the metadata for the specified HEC token for the specified Splunk HEC Source.
 
 ### Example Usage
 
@@ -96,8 +96,8 @@ with CriblControlPlane(
 
 | Parameter                                                                                     | Type                                                                                          | Required                                                                                      | Description                                                                                   |
 | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| `id`                                                                                          | *str*                                                                                         | :heavy_check_mark:                                                                            | HEC Source id                                                                                 |
-| `token`                                                                                       | *str*                                                                                         | :heavy_check_mark:                                                                            | token to update                                                                               |
+| `id`                                                                                          | *str*                                                                                         | :heavy_check_mark:                                                                            | The <code>id</code> of the Splunk HEC Source.                                                 |
+| `token`                                                                                       | *str*                                                                                         | :heavy_check_mark:                                                                            | The <code>id</code> of the HEC token to update.                                               |
 | `description`                                                                                 | *Optional[str]*                                                                               | :heavy_minus_sign:                                                                            | N/A                                                                                           |
 | `enabled`                                                                                     | *Optional[bool]*                                                                              | :heavy_minus_sign:                                                                            | N/A                                                                                           |
 | `metadata`                                                                                    | List[[models.UpdateHecTokenRequestMetadatum](../../models/updatehectokenrequestmetadatum.md)] | :heavy_minus_sign:                                                                            | N/A                                                                                           |

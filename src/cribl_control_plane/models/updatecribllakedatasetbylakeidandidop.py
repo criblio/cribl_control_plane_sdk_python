@@ -11,9 +11,9 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class UpdateCriblLakeDatasetByLakeIDAndIDRequestTypedDict(TypedDict):
     lake_id: str
-    r"""lake id that contains the Datasets"""
+    r"""The <code>id</code> of the Lake that contains the Lake Dataset to update."""
     id_param: str
-    r"""dataset id to update"""
+    r"""The <code>id</code> of the Lake Dataset to update."""
     cribl_lake_dataset: CriblLakeDatasetTypedDict
     r"""CriblLakeDataset object"""
 
@@ -24,14 +24,14 @@ class UpdateCriblLakeDatasetByLakeIDAndIDRequest(BaseModel):
         pydantic.Field(alias="lakeId"),
         FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
     ]
-    r"""lake id that contains the Datasets"""
+    r"""The <code>id</code> of the Lake that contains the Lake Dataset to update."""
 
     id_param: Annotated[
         str,
         pydantic.Field(alias="id"),
         FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
     ]
-    r"""dataset id to update"""
+    r"""The <code>id</code> of the Lake Dataset to update."""
 
     cribl_lake_dataset: Annotated[
         CriblLakeDataset,

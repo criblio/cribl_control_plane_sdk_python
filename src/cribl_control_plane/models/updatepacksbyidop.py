@@ -14,7 +14,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class UpdatePacksByIDRequestTypedDict(TypedDict):
     id: str
-    r"""Pack name"""
+    r"""The <code>id</code> of the Pack to upgrade."""
     source: NotRequired[str]
     r"""body string required Pack source"""
     minor: NotRequired[str]
@@ -27,7 +27,7 @@ class UpdatePacksByIDRequest(BaseModel):
     id: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""Pack name"""
+    r"""The <code>id</code> of the Pack to upgrade."""
 
     source: Annotated[
         Optional[str],

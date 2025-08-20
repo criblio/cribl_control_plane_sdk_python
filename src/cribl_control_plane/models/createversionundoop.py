@@ -9,7 +9,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class CreateVersionUndoRequestTypedDict(TypedDict):
     group: NotRequired[str]
-    r"""Group ID"""
+    r"""The <code>id</code> of the Worker Group or Edge Fleet to undo the uncommited changes for."""
 
 
 class CreateVersionUndoRequest(BaseModel):
@@ -17,7 +17,7 @@ class CreateVersionUndoRequest(BaseModel):
         Optional[str],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Group ID"""
+    r"""The <code>id</code> of the Worker Group or Edge Fleet to undo the uncommited changes for."""
 
 
 class CreateVersionUndoResponseTypedDict(TypedDict):

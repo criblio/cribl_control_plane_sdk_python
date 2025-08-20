@@ -10,9 +10,9 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class GetVersionCountRequestTypedDict(TypedDict):
     group: NotRequired[str]
-    r"""Group ID"""
+    r"""The <code>id</code> of the Worker Group or Edge Fleet to get the count for."""
     id: NotRequired[str]
-    r"""Commit ID"""
+    r"""The Git commit hash to use as the starting point for the count."""
 
 
 class GetVersionCountRequest(BaseModel):
@@ -20,14 +20,14 @@ class GetVersionCountRequest(BaseModel):
         Optional[str],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Group ID"""
+    r"""The <code>id</code> of the Worker Group or Edge Fleet to get the count for."""
 
     id: Annotated[
         Optional[str],
         pydantic.Field(alias="ID"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Commit ID"""
+    r"""The Git commit hash to use as the starting point for the count."""
 
 
 class GetVersionCountResponseTypedDict(TypedDict):

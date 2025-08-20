@@ -26,26 +26,26 @@ class Nodes(BaseSDK):
         self,
         *,
         filter_exp: Optional[str] = None,
-        sort: Optional[str] = None,
         sort_exp: Optional[str] = None,
+        filter_: Optional[str] = None,
+        sort: Optional[str] = None,
         limit: Optional[int] = None,
         offset: Optional[int] = None,
-        filter_: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.ListMasterWorkerEntryResponse:
-        r"""Retrieve detailed metadata for Worker and Edge Nodes
+        r"""Get detailed metadata for Worker and Edge Nodes
 
-        get worker and edge nodes
+        Get detailed metadata for Worker and Edge Nodes.
 
-        :param filter_exp: Filter expression evaluated against nodes
-        :param sort: Sorting object (JSON stringified) expression evaluated against nodes
-        :param sort_exp: Sorting expression evaluated against nodes
-        :param limit: Maximum number of nodes to return
-        :param offset: Pagination offset
-        :param filter_: Filter object (JSON stringified) to select nodes
+        :param filter_exp: Filter expression to evaluate against Nodes for inclusion in the response.
+        :param sort_exp: Sorting expression to evaluate against Nodes to specify the sort order for the response.
+        :param filter_: JSON-stringified filter object to evaluate against Nodes for inclusion in the response.
+        :param sort: JSON-stringified sorting object to evaluate against Nodes to specify the sort order for the response.
+        :param limit: Maximum number of Nodes to return in the response for this request. Use with <code>offset</code> to paginate the response into manageable batches.
+        :param offset: Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -63,11 +63,11 @@ class Nodes(BaseSDK):
 
         request = models.ListMasterWorkerEntryRequest(
             filter_exp=filter_exp,
-            sort=sort,
             sort_exp=sort_exp,
+            filter_=filter_,
+            sort=sort,
             limit=limit,
             offset=offset,
-            filter_=filter_,
         )
 
         req = self._build_request(
@@ -130,26 +130,26 @@ class Nodes(BaseSDK):
         self,
         *,
         filter_exp: Optional[str] = None,
-        sort: Optional[str] = None,
         sort_exp: Optional[str] = None,
+        filter_: Optional[str] = None,
+        sort: Optional[str] = None,
         limit: Optional[int] = None,
         offset: Optional[int] = None,
-        filter_: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.ListMasterWorkerEntryResponse:
-        r"""Retrieve detailed metadata for Worker and Edge Nodes
+        r"""Get detailed metadata for Worker and Edge Nodes
 
-        get worker and edge nodes
+        Get detailed metadata for Worker and Edge Nodes.
 
-        :param filter_exp: Filter expression evaluated against nodes
-        :param sort: Sorting object (JSON stringified) expression evaluated against nodes
-        :param sort_exp: Sorting expression evaluated against nodes
-        :param limit: Maximum number of nodes to return
-        :param offset: Pagination offset
-        :param filter_: Filter object (JSON stringified) to select nodes
+        :param filter_exp: Filter expression to evaluate against Nodes for inclusion in the response.
+        :param sort_exp: Sorting expression to evaluate against Nodes to specify the sort order for the response.
+        :param filter_: JSON-stringified filter object to evaluate against Nodes for inclusion in the response.
+        :param sort: JSON-stringified sorting object to evaluate against Nodes to specify the sort order for the response.
+        :param limit: Maximum number of Nodes to return in the response for this request. Use with <code>offset</code> to paginate the response into manageable batches.
+        :param offset: Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -167,11 +167,11 @@ class Nodes(BaseSDK):
 
         request = models.ListMasterWorkerEntryRequest(
             filter_exp=filter_exp,
-            sort=sort,
             sort_exp=sort_exp,
+            filter_=filter_,
+            sort=sort,
             limit=limit,
             offset=offset,
-            filter_=filter_,
         )
 
         req = self._build_request_async(
@@ -239,11 +239,11 @@ class Nodes(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetMasterWorkerEntryResponse:
-        r"""Retrieve a count of Worker and Edge Nodes
+        r"""Get a count of Worker and Edge Nodes
 
-        get worker and edge nodes count
+        Get a count of all Worker and Edge Nodes.
 
-        :param filter_exp: Filter expression evaluated against nodes
+        :param filter_exp: Filter expression to evaluate against Nodes for inclusion in the response.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -328,11 +328,11 @@ class Nodes(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetMasterWorkerEntryResponse:
-        r"""Retrieve a count of Worker and Edge Nodes
+        r"""Get a count of Worker and Edge Nodes
 
-        get worker and edge nodes count
+        Get a count of all Worker and Edge Nodes.
 
-        :param filter_exp: Filter expression evaluated against nodes
+        :param filter_exp: Filter expression to evaluate against Nodes for inclusion in the response.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds

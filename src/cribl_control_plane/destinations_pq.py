@@ -21,9 +21,9 @@ class DestinationsPq(BaseSDK):
     ) -> models.DeleteOutputPqByIDResponse:
         r"""Clear the persistent queue for a Destination
 
-        Clears destination persistent queue
+        Clear the persistent queue (PQ) for the specified Destination.
 
-        :param id: Destination Id
+        :param id: The <code>id</code> of the Destination to clear the PQ for.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -108,9 +108,9 @@ class DestinationsPq(BaseSDK):
     ) -> models.DeleteOutputPqByIDResponse:
         r"""Clear the persistent queue for a Destination
 
-        Clears destination persistent queue
+        Clear the persistent queue (PQ) for the specified Destination.
 
-        :param id: Destination Id
+        :param id: The <code>id</code> of the Destination to clear the PQ for.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -193,11 +193,11 @@ class DestinationsPq(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetOutputPqByIDResponse:
-        r"""Retrieve information about the latest job to clear the persistent queue for a Destination
+        r"""Get information about the latest job to clear the persistent queue for a Destination
 
-        Retrieves status of latest clear PQ job for a destination
+        Get information about the latest job to clear the persistent queue (PQ) for the specified Destination.
 
-        :param id: Destination Id
+        :param id: The <code>id</code> of the Destination to get PQ job information for.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -280,11 +280,11 @@ class DestinationsPq(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetOutputPqByIDResponse:
-        r"""Retrieve information about the latest job to clear the persistent queue for a Destination
+        r"""Get information about the latest job to clear the persistent queue for a Destination
 
-        Retrieves status of latest clear PQ job for a destination
+        Get information about the latest job to clear the persistent queue (PQ) for the specified Destination.
 
-        :param id: Destination Id
+        :param id: The <code>id</code> of the Destination to get PQ job information for.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds

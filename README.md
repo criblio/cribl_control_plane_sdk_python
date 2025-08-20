@@ -299,18 +299,18 @@ with CriblControlPlane(
 
 * [list](docs/sdks/destinations/README.md#list) - List all Destinations
 * [create](docs/sdks/destinations/README.md#create) - Create a Destination
-* [get](docs/sdks/destinations/README.md#get) - Retrieve a Destination
+* [get](docs/sdks/destinations/README.md#get) - Get a Destination
 * [update](docs/sdks/destinations/README.md#update) - Update a Destination
 * [delete](docs/sdks/destinations/README.md#delete) - Delete a Destination
 
 #### [destinations.pq](docs/sdks/destinationspq/README.md)
 
 * [clear](docs/sdks/destinationspq/README.md#clear) - Clear the persistent queue for a Destination
-* [get](docs/sdks/destinationspq/README.md#get) - Retrieve information about the latest job to clear the persistent queue for a Destination
+* [get](docs/sdks/destinationspq/README.md#get) - Get information about the latest job to clear the persistent queue for a Destination
 
 #### [destinations.samples](docs/sdks/samples/README.md)
 
-* [get](docs/sdks/samples/README.md#get) - Retrieve sample event data for a Destination
+* [get](docs/sdks/samples/README.md#get) - Get sample event data for a Destination
 * [create](docs/sdks/samples/README.md#create) - Send sample event data to a Destination
 
 ### [groups](docs/sdks/groupssdk/README.md)
@@ -340,27 +340,27 @@ with CriblControlPlane(
 
 ### [lake_datasets](docs/sdks/lakedatasets/README.md)
 
-* [create](docs/sdks/lakedatasets/README.md#create) - Create a Lake Dataset in the specified Lake
-* [list](docs/sdks/lakedatasets/README.md#list) - List all Lake Datasets in the specified Lake
-* [delete](docs/sdks/lakedatasets/README.md#delete) - Delete a Lake Dataset in the specified Lake
-* [get](docs/sdks/lakedatasets/README.md#get) - Retrieve a Lake Dataset in the specified Lake
-* [update](docs/sdks/lakedatasets/README.md#update) - Update a Lake Dataset in the specified Lake
+* [create](docs/sdks/lakedatasets/README.md#create) - Create a Lake Dataset
+* [list](docs/sdks/lakedatasets/README.md#list) - List all Lake Datasets
+* [delete](docs/sdks/lakedatasets/README.md#delete) - Delete a Lake Dataset
+* [get](docs/sdks/lakedatasets/README.md#get) - Get a Lake Dataset
+* [update](docs/sdks/lakedatasets/README.md#update) - Update a Lake Dataset
 
 ### [nodes](docs/sdks/nodes/README.md)
 
-* [list](docs/sdks/nodes/README.md#list) - Retrieve detailed metadata for Worker and Edge Nodes
-* [count](docs/sdks/nodes/README.md#count) - Retrieve a count of Worker and Edge Nodes
+* [list](docs/sdks/nodes/README.md#list) - Get detailed metadata for Worker and Edge Nodes
+* [count](docs/sdks/nodes/README.md#count) - Get a count of Worker and Edge Nodes
 
 #### [nodes.summaries](docs/sdks/summaries/README.md)
 
-* [get](docs/sdks/summaries/README.md#get) - Retrieve a summary of the Distributed deployment
+* [get](docs/sdks/summaries/README.md#get) - Get a summary of the Distributed deployment
 
 ### [packs](docs/sdks/packs/README.md)
 
 * [install](docs/sdks/packs/README.md#install) - Install a Pack
 * [list](docs/sdks/packs/README.md#list) - List all Packs
 * [delete](docs/sdks/packs/README.md#delete) - Uninstall a Pack
-* [update](docs/sdks/packs/README.md#update) - Update a Pack
+* [update](docs/sdks/packs/README.md#update) - Upgrade a Pack
 
 ### [pipelines](docs/sdks/pipelines/README.md)
 
@@ -381,7 +381,7 @@ with CriblControlPlane(
 
 * [list](docs/sdks/sources/README.md#list) - List all Sources
 * [create](docs/sdks/sources/README.md#create) - Create a Source
-* [get](docs/sdks/sources/README.md#get) - Retrieve a Source
+* [get](docs/sdks/sources/README.md#get) - Get a Source
 * [update](docs/sdks/sources/README.md#update) - Update a Source
 * [delete](docs/sdks/sources/README.md#delete) - Delete a Source
 
@@ -396,30 +396,30 @@ with CriblControlPlane(
 #### [versions.branches](docs/sdks/branches/README.md)
 
 * [list](docs/sdks/branches/README.md#list) - List all branches in the Git repository used for Cribl configuration
-* [get](docs/sdks/branches/README.md#get) - Retrieve the name of the Git branch that the Cribl configuration is checked out to
+* [get](docs/sdks/branches/README.md#get) - Get the name of the Git branch that the Cribl configuration is checked out to
 
 #### [versions.commits](docs/sdks/commits/README.md)
 
 * [create](docs/sdks/commits/README.md#create) - Create a new commit for pending changes to the Cribl configuration
-* [diff](docs/sdks/commits/README.md#diff) - Retrieve the diff for a commit
+* [diff](docs/sdks/commits/README.md#diff) - Get the diff for a commit
 * [list](docs/sdks/commits/README.md#list) - Get the commit history
-* [push](docs/sdks/commits/README.md#push) - Push a commit from the local repository to the remote repository
+* [push](docs/sdks/commits/README.md#push) - Push local commits to the remote repository
 * [revert](docs/sdks/commits/README.md#revert) - Revert a commit in the local repository
-* [get](docs/sdks/commits/README.md#get) - Retrieve the diff and log message for a commit
+* [get](docs/sdks/commits/README.md#get) - Get the diff and log message for a commit
 * [undo](docs/sdks/commits/README.md#undo) - Discard uncommitted (staged) changes
 
 #### [versions.commits.files](docs/sdks/commitsfiles/README.md)
 
-* [count](docs/sdks/commitsfiles/README.md#count) - Retrieve a count of files that changed since a commit
-* [list](docs/sdks/commitsfiles/README.md#list) - Retrieve the names and statuses of files that changed since a commit
+* [count](docs/sdks/commitsfiles/README.md#count) - Get a count of files that changed since a commit
+* [list](docs/sdks/commitsfiles/README.md#list) - Get the names and statuses of files that changed since a commit
 
 #### [versions.configs](docs/sdks/versionsconfigs/README.md)
 
-* [get](docs/sdks/versionsconfigs/README.md#get) - Retrieve the configuration and status for the Git integration
+* [get](docs/sdks/versionsconfigs/README.md#get) - Get the configuration and status for the Git integration
 
 #### [versions.statuses](docs/sdks/statuses/README.md)
 
-* [get](docs/sdks/statuses/README.md#get) - Retrieve the status of the current working tree
+* [get](docs/sdks/statuses/README.md#get) - Get the status of the current working tree
 
 </details>
 <!-- End Available Resources and Operations [operations] -->

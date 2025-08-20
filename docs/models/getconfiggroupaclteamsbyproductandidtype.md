@@ -1,6 +1,6 @@
 # GetConfigGroupACLTeamsByProductAndIDType
 
-resource type by which to filter access levels
+Filter for limiting the response to ACL entries for the specified RBAC resource type.
 
 
 ## Values

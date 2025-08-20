@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.14.0-alpha.1755671365329-001b451c
+  version: 4.14.0-alpha.1755686704078-105970a4
   contact:
     name: Support
     email: support@cribl.io
@@ -37125,8 +37125,8 @@ paths:
         - lake
       x-speakeasy-group: lakeDatasets
       x-speakeasy-name-override: create
-      summary: Create a Lake Dataset in the specified Lake
-      description: Create a Dataset in the specified Lake
+      summary: Create a Lake Dataset
+      description: Create a new Lake Dataset in the specified Lake.
       responses:
         "200":
           description: a list of CriblLakeDataset objects
@@ -37163,15 +37163,15 @@ paths:
           required: true
           schema:
             type: string
-          description: lake id that contains the Datasets
+          description: The <code>id</code> of the Lake to create the Lake Dataset in.
     get:
       operationId: getCriblLakeDatasetByLakeId
       tags:
         - lake
       x-speakeasy-group: lakeDatasets
       x-speakeasy-name-override: list
-      summary: List all Lake Datasets in the specified Lake
-      description: Get the list of Dataset contained in the specified Lake
+      summary: List all Lake Datasets
+      description: Get a list of all Lake Datasets in the specified Lake.
       responses:
         "200":
           description: a list of CriblLakeDataset objects
@@ -37201,7 +37201,7 @@ paths:
           required: true
           schema:
             type: string
-          description: lake id that contains the Datasets
+          description: The <code>id</code> of the Lake that contains the Lake Datasets to list.
   /products/lake/lakes/{lakeId}/datasets/{id}:
     delete:
       operationId: deleteCriblLakeDatasetByLakeIdAndId
@@ -37209,8 +37209,8 @@ paths:
         - lake
       x-speakeasy-group: lakeDatasets
       x-speakeasy-name-override: delete
-      summary: Delete a Lake Dataset in the specified Lake
-      description: Delete a Dataset in the specified Lake
+      summary: Delete a Lake Dataset
+      description: Delete the specified Lake Dataset in the specified Lake
       responses:
         "200":
           description: a list of CriblLakeDataset objects
@@ -37240,21 +37240,21 @@ paths:
           required: true
           schema:
             type: string
-          description: lake id that contains the Datasets
+          description: The <code>id</code> of the Lake that contains the Lake Dataset to delete.
         - name: id
           in: path
           required: true
           schema:
             type: string
-          description: dataset id to delete
+          description: The <code>id</code> of the Lake Dataset to delete.
     get:
       operationId: getCriblLakeDatasetByLakeIdAndId
       tags:
         - lake
       x-speakeasy-group: lakeDatasets
       x-speakeasy-name-override: get
-      summary: Retrieve a Lake Dataset in the specified Lake
-      description: Get a Dataset in the specified Lake
+      summary: Get a Lake Dataset
+      description: Get the specified Lake Dataset in the specified Lake.
       responses:
         "200":
           description: a list of CriblLakeDataset objects
@@ -37284,21 +37284,21 @@ paths:
           required: true
           schema:
             type: string
-          description: lake id that contains the Datasets
+          description: The <code>id</code> of the Lake that contains the Lake Dataset to get.
         - name: id
           in: path
           required: true
           schema:
             type: string
-          description: dataset id to get
+          description: The <code>id</code> of the Lake Dataset to get.
     patch:
       operationId: updateCriblLakeDatasetByLakeIdAndId
       tags:
         - lake
       x-speakeasy-group: lakeDatasets
       x-speakeasy-name-override: update
-      summary: Update a Lake Dataset in the specified Lake
-      description: Update a Dataset in the specified Lake
+      summary: Update a Lake Dataset
+      description: Update the specified Lake Dataset in the specified Lake.
       responses:
         "200":
           description: a list of CriblLakeDataset objects
@@ -37335,13 +37335,13 @@ paths:
           required: true
           schema:
             type: string
-          description: lake id that contains the Datasets
+          description: The <code>id</code> of the Lake that contains the Lake Dataset to update.
         - name: id
           in: path
           required: true
           schema:
             type: string
-          description: dataset id to update
+          description: The <code>id</code> of the Lake Dataset to update.
   /system/inputs:
     get:
       operationId: listInput
@@ -37350,7 +37350,7 @@ paths:
       tags:
         - sources
       summary: List all Sources
-      description: Get a list of Source objects
+      description: Get a list of all Sources.
       responses:
         "200":
           description: a list of Source objects
@@ -37381,7 +37381,7 @@ paths:
       tags:
         - sources
       summary: Create a Source
-      description: Create Source
+      description: Create a new Source.
       requestBody:
         description: Input object
         required: true
@@ -37424,15 +37424,15 @@ paths:
       x-speakeasy-name-override: get
       tags:
         - sources
-      summary: Retrieve a Source
-      description: Get Source by ID
+      summary: Get a Source
+      description: Get the specified Source.
       parameters:
         - name: id
           in: path
           required: true
           schema:
             type: string
-          description: Unique ID to GET
+          description: The <code>id</code> of the Source to get.
       responses:
         "200":
           description: a list of Source objects
@@ -37463,14 +37463,14 @@ paths:
       tags:
         - sources
       summary: Update a Source
-      description: Update Source
+      description: Update the specified Source.</br></br>Provide a complete representation of the Source that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Source.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Source might not function as expected.
       parameters:
         - name: id
           in: path
           required: true
           schema:
             type: string
-          description: Unique ID to PATCH
+          description: The <code>id</code> of the Source to update.
       requestBody:
         description: Input object
         required: true
@@ -37508,14 +37508,14 @@ paths:
       tags:
         - sources
       summary: Delete a Source
-      description: Delete Source
+      description: Delete the specified Source.
       parameters:
         - name: id
           in: path
           required: true
           schema:
             type: string
-          description: Unique ID to DELETE
+          description: The <code>id</code> of the Source to delete.
       responses:
         "200":
           description: a list of Source objects
@@ -37547,7 +37547,7 @@ paths:
       x-speakeasy-group: sources.hecTokens
       x-speakeasy-name-override: create
       summary: Add an HEC token and optional metadata to a Splunk HEC Source
-      description: Add token and optional metadata to an existing HEC Source
+      description: Add an HEC token and optional metadata to the specified Splunk HEC Source.
       responses:
         "200":
           description: a list of any objects
@@ -37585,7 +37585,7 @@ paths:
           required: true
           schema:
             type: string
-          description: HEC Source id
+          description: The <code>id</code> of the Splunk HEC Source.
   /system/inputs/{id}/hectoken/{token}:
     patch:
       operationId: updateInputHecTokenByIdAndToken
@@ -37594,7 +37594,7 @@ paths:
       x-speakeasy-group: sources.hecTokens
       x-speakeasy-name-override: update
       summary: Update metadata for an HEC token for a Splunk HEC Source
-      description: Update token metadata on existing HEC Source
+      description: Update the metadata for the specified HEC token for the specified Splunk HEC Source.
       responses:
         "200":
           description: a list of any objects
@@ -37632,13 +37632,13 @@ paths:
           required: true
           schema:
             type: string
-          description: HEC Source id
+          description: The <code>id</code> of the Splunk HEC Source.
         - name: token
           in: path
           required: true
           schema:
             type: string
-          description: token to update
+          description: The <code>id</code> of the HEC token to update.
   /system/outputs:
     get:
       operationId: listOutput
@@ -37647,7 +37647,7 @@ paths:
       tags:
         - destinations
       summary: List all Destinations
-      description: Get a list of Destination objects
+      description: Get a list of all Destinations.
       responses:
         "200":
           description: a list of Destination objects
@@ -37678,7 +37678,7 @@ paths:
       tags:
         - destinations
       summary: Create a Destination
-      description: Create Destination
+      description: Create a new Destination.
       requestBody:
         description: Output object
         required: true
@@ -37721,15 +37721,15 @@ paths:
       x-speakeasy-name-override: get
       tags:
         - destinations
-      summary: Retrieve a Destination
-      description: Get Destination by ID
+      summary: Get a Destination
+      description: Get the specified Destination.
       parameters:
         - name: id
           in: path
           required: true
           schema:
             type: string
-          description: Unique ID to GET
+          description: The <code>id</code> of the Destination to get.
       responses:
         "200":
           description: a list of Destination objects
@@ -37760,14 +37760,14 @@ paths:
       tags:
         - destinations
       summary: Update a Destination
-      description: Update Destination
+      description: Update the specified Destination.</br></br>Provide a complete representation of the Destination that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Destination.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Destination might not function as expected.
       parameters:
         - name: id
           in: path
           required: true
           schema:
             type: string
-          description: Unique ID to PATCH
+          description: The <code>id</code> of the Destination to update.
       requestBody:
         description: Output object
         required: true
@@ -37805,14 +37805,14 @@ paths:
       tags:
         - destinations
       summary: Delete a Destination
-      description: Delete Destination
+      description: Delete the specified Destination.
       parameters:
         - name: id
           in: path
           required: true
           schema:
             type: string
-          description: Unique ID to DELETE
+          description: The <code>id</code> of the Destination to delete.
       responses:
         "200":
           description: a list of Destination objects
@@ -37844,7 +37844,7 @@ paths:
       x-speakeasy-group: destinations.pq
       x-speakeasy-name-override: clear
       summary: Clear the persistent queue for a Destination
-      description: Clears destination persistent queue
+      description: Clear the persistent queue (PQ) for the specified Destination.
       responses:
         "200":
           description: a list of any objects
@@ -37875,15 +37875,15 @@ paths:
           required: true
           schema:
             type: string
-          description: Destination Id
+          description: The <code>id</code> of the Destination to clear the PQ for.
     get:
       operationId: getOutputPqById
       tags:
         - destinations
       x-speakeasy-group: destinations.pq
       x-speakeasy-name-override: get
-      summary: Retrieve information about the latest job to clear the persistent queue for a Destination
-      description: Retrieves status of latest clear PQ job for a destination
+      summary: Get information about the latest job to clear the persistent queue for a Destination
+      description: Get information about the latest job to clear the persistent queue (PQ) for the specified Destination.
       responses:
         "200":
           description: a list of any objects
@@ -37914,7 +37914,7 @@ paths:
           required: true
           schema:
             type: string
-          description: Destination Id
+          description: The <code>id</code> of the Destination to get PQ job information for.
   /system/outputs/{id}/samples:
     get:
       operationId: getOutputSamplesById
@@ -37922,8 +37922,8 @@ paths:
         - destinations
       x-speakeasy-group: destinations.samples
       x-speakeasy-name-override: get
-      summary: Retrieve sample event data for a Destination
-      description: Retrieve samples data for the specified destination. Used to get sample data for the test action.
+      summary: Get sample event data for a Destination
+      description: Get sample event data for the specified Destination to validate the configuration or test connectivity.
       responses:
         "200":
           description: a list of OutputSamplesResponse objects
@@ -37953,7 +37953,7 @@ paths:
           required: true
           schema:
             type: string
-          description: Destination Id
+          description: The <code>id</code> of the Destination to get sample event data for.
   /system/outputs/{id}/test:
     post:
       operationId: createOutputTestById
@@ -37962,7 +37962,7 @@ paths:
       x-speakeasy-group: destinations.samples
       x-speakeasy-name-override: create
       summary: Send sample event data to a Destination
-      description: Send sample data to a destination to validate configuration or test connectivity
+      description: Send sample event data to the specified Destination to validate the configuration or test connectivity.
       responses:
         "200":
           description: a list of OutputTestResponse objects
@@ -37999,7 +37999,7 @@ paths:
           required: true
           schema:
             type: string
-          description: Destination Id
+          description: The <code>id</code> of the Destination to send sample event data to.
   /pipelines:
     get:
       operationId: listPipeline
@@ -38392,8 +38392,8 @@ paths:
         - distributed
       x-speakeasy-group: nodes.summaries
       x-speakeasy-name-override: get
-      summary: Retrieve a summary of the Distributed deployment
-      description: Get summary of Distributed deployment
+      summary: Get a summary of the Distributed deployment
+      description: Get a summary of the Distributed deployment. The response includes counts of Worker Groups, Edge Fleets, Pipelines, Routes, Sources, Destinations, and Worker and Edge Nodes, as well as statistics for the Worker and Edge Nodes.
       responses:
         "200":
           description: a list of DistributedSummary objects
@@ -38426,7 +38426,7 @@ paths:
             enum:
               - worker
               - managed-edge
-          description: product filter
+          description: "Filter for limiting the response by Cribl product: Cribl Stream (<code>worker</code>) or Cribl Edge (<code>managed-edge</code>)."
   /health:
     get:
       operationId: getHealthInfo
@@ -38457,7 +38457,7 @@ paths:
       x-speakeasy-group: packs
       x-speakeasy-name-override: install
       summary: Install a Pack
-      description: Install Pack
+      description: Install a Pack.
       responses:
         "200":
           description: a list of PackInstallInfo objects
@@ -38495,7 +38495,7 @@ paths:
       x-speakeasy-group: packs
       x-speakeasy-name-override: list
       summary: List all Packs
-      description: Get info on packs
+      description: Get a list of all Packs.
       responses:
         "200":
           description: a list of PackInfo objects
@@ -38525,7 +38525,7 @@ paths:
           required: false
           schema:
             type: string
-          description: Comma separated list of entities, "outputs", "inputs"
+          description: Comma-separated list of additional properties to include in the response. When set, the response includes a count of the specified properties in the Pack. Available values are <code>inputs</code> and <code>outputs</code>.
   /packs/{id}:
     delete:
       operationId: deletePacksById
@@ -38534,7 +38534,7 @@ paths:
       x-speakeasy-group: packs
       x-speakeasy-name-override: delete
       summary: Uninstall a Pack
-      description: Uninstall Pack from the system
+      description: Uninstall the specified Pack.
       responses:
         "200":
           description: a list of PackInstallInfo objects
@@ -38564,15 +38564,15 @@ paths:
           required: true
           schema:
             type: string
-          description: Pack name
+          description: The <code>id</code> of the Pack to uninstall.
     patch:
       operationId: updatePacksById
       tags:
         - packs
       x-speakeasy-group: packs
       x-speakeasy-name-override: update
-      summary: Update a Pack
-      description: Upgrade Pack
+      summary: Upgrade a Pack
+      description: Upgrade the specified Pack.</br></br>If the Pack includes any user–modified versions of default Cribl Knowledge resources such as lookups, copy the modified files locally for safekeeping before upgrading the Pack. Copy the modified files back to the upgraded Pack after you install it with <code>POST /packs</code> to overwrite the default versions in the Pack.</br></br>After you upgrade the Pack, update any Routes, Pipelines, Sources, and Destinations that use the previous Pack version so that they reference the upgraded Pack.
       responses:
         "200":
           description: a list of PackInfo objects
@@ -38602,7 +38602,7 @@ paths:
           required: true
           schema:
             type: string
-          description: Pack name
+          description: The <code>id</code> of the Pack to upgrade.
         - name: source
           in: query
           required: false
@@ -38629,7 +38629,7 @@ paths:
       x-speakeasy-group: versions.branches
       x-speakeasy-name-override: list
       summary: List all branches in the Git repository used for Cribl configuration
-      description: get the list of branches
+      description: Get a list of all branches in the Git repository used for Cribl configuration.
       responses:
         "200":
           description: a list of any objects
@@ -38662,7 +38662,7 @@ paths:
       x-speakeasy-group: versions.commits
       x-speakeasy-name-override: create
       summary: Create a new commit for pending changes to the Cribl configuration
-      description: create a new commit containing the current configs the given log message describing the changes.
+      description: Create a new commit for pending changes to the Cribl configuration. Any merge conflicts indicated in the response must be resolved using Git.</br></br>To commit only a subset of configuration changes, specify the files to include in the commit in the <code>files</code> array.
       responses:
         "200":
           description: a list of GitCommitSummary objects
@@ -38700,8 +38700,8 @@ paths:
         - versioning
       x-speakeasy-group: versions.commits.files
       x-speakeasy-name-override: count
-      summary: Retrieve a count of files that changed since a commit
-      description: get the count of files of changed
+      summary: Get a count of files that changed since a commit
+      description: Get a count of the files that changed since a commit. Default is the latest commit (HEAD).
       responses:
         "200":
           description: a list of any objects
@@ -38732,13 +38732,13 @@ paths:
           required: false
           schema:
             type: string
-          description: Group ID
+          description: The <code>id</code> of the Worker Group or Edge Fleet to get the count for.
         - name: ID
           in: query
           required: false
           schema:
             type: string
-          description: Commit ID
+          description: The Git commit hash to use as the starting point for the count.
   /version/current-branch:
     get:
       operationId: getVersionCurrentBranch
@@ -38746,8 +38746,8 @@ paths:
         - versioning
       x-speakeasy-group: versions.branches
       x-speakeasy-name-override: get
-      summary: Retrieve the name of the Git branch that the Cribl configuration is checked out to
-      description: returns git branch that the config is checked out to, if any
+      summary: Get the name of the Git branch that the Cribl configuration is checked out to
+      description: Get the name of the Git branch that the Cribl configuration is checked out to. Useful for verifying the active configuration branch.
       responses:
         "200":
           description: CurrentBranchResult object
@@ -38770,8 +38770,8 @@ paths:
         - versioning
       x-speakeasy-group: versions.commits
       x-speakeasy-name-override: diff
-      summary: Retrieve the diff for a commit
-      description: get the textual diff for given commit
+      summary: Get the diff for a commit
+      description: Get the diff for a commit. Default is the latest commit (HEAD).
       responses:
         "200":
           description: a list of any objects
@@ -38802,25 +38802,25 @@ paths:
           required: false
           schema:
             type: string
-          description: Commit hash (default is HEAD)
+          description: The Git commit hash to get the diff for.
         - name: group
           in: query
           required: false
           schema:
             type: string
-          description: Group ID
+          description: The <code>id</code> of the Worker Group or Edge Fleet to get the diff for.
         - name: filename
           in: query
           required: false
           schema:
             type: string
-          description: Filename
+          description: The relative path of the file to get the diff for.
         - name: diffLineLimit
           in: query
           required: false
           schema:
             type: number
-          description: Limit maximum lines in the diff
+          description: Number of lines of the diff to return. Default is 1000. Set to <code>0</code> to return the full diff, regardless of the number of lines.
   /version/files:
     get:
       operationId: getVersionFiles
@@ -38828,8 +38828,8 @@ paths:
         - versioning
       x-speakeasy-group: versions.commits.files
       x-speakeasy-name-override: list
-      summary: Retrieve the names and statuses of files that changed since a commit
-      description: get the files changed
+      summary: Get the names and statuses of files that changed since a commit
+      description: Get the names and statuses of files that changed since a commit. Default is the latest commit (HEAD).
       responses:
         "200":
           description: a list of GitFilesResponse objects
@@ -38859,13 +38859,13 @@ paths:
           required: false
           schema:
             type: string
-          description: Group ID
+          description: The <code>id</code> of the Worker Group or Edge Fleet to get file names and status for.
         - name: ID
           in: query
           required: false
           schema:
             type: string
-          description: Commit ID
+          description: The Git commit hash to use as the starting point for the request.
   /version/info:
     get:
       operationId: getVersionInfo
@@ -38873,8 +38873,8 @@ paths:
         - versioning
       x-speakeasy-group: versions.configs
       x-speakeasy-name-override: get
-      summary: Retrieve the configuration and status for the Git integration
-      description: Get info about versioning availability
+      summary: Get the configuration and status for the Git integration
+      description: Get the configuration and versioning status for the Git integration for the Cribl configuration.
       responses:
         "200":
           description: a list of GitInfo objects
@@ -38950,8 +38950,8 @@ paths:
         - versioning
       x-speakeasy-group: versions.commits
       x-speakeasy-name-override: push
-      summary: Push a commit from the local repository to the remote repository
-      description: push the current configs to the remote repository.
+      summary: Push local commits to the remote repository
+      description: Push all local commits from the local repository to the remote repository.
       responses:
         "200":
           description: a list of any objects
@@ -38984,7 +38984,7 @@ paths:
       x-speakeasy-group: versions.commits
       x-speakeasy-name-override: revert
       summary: Revert a commit in the local repository
-      description: revert a commit
+      description: Revert a commit in the local repository.
       responses:
         "200":
           description: a list of GitRevertResult objects
@@ -39029,8 +39029,8 @@ paths:
         - versioning
       x-speakeasy-group: versions.commits
       x-speakeasy-name-override: get
-      summary: Retrieve the diff and log message for a commit
-      description: get the log message and textual diff for given commit
+      summary: Get the diff and log message for a commit
+      description: Get the diff and log message for a commit. Default is the latest commit (HEAD).
       responses:
         "200":
           description: a list of any objects
@@ -39061,25 +39061,25 @@ paths:
           required: false
           schema:
             type: string
-          description: Commit hash (default is HEAD)
+          description: The Git commit hash to retrieve the diff and log message for.
         - name: group
           in: query
           required: false
           schema:
             type: string
-          description: Group ID
+          description: The <code>id</code> of the Worker Group or Edge Fleet to get the diff and log message for.
         - name: filename
           in: query
           required: false
           schema:
             type: string
-          description: Filename
+          description: The relative path of the file to get the diff and log message for.
         - name: diffLineLimit
           in: query
           required: false
           schema:
             type: number
-          description: Limit maximum lines in the diff
+          description: Number of lines of the diff to return. Default is 1000. Set to <code>0</code> to return the full diff, regardless of the number of lines.
   /version/status:
     get:
       operationId: getVersionStatus
@@ -39087,8 +39087,8 @@ paths:
         - versioning
       x-speakeasy-group: versions.statuses
       x-speakeasy-name-override: get
-      summary: Retrieve the status of the current working tree
-      description: get the the working tree status
+      summary: Get the status of the current working tree
+      description: Get the status of the current working tree of the Git repository used for Cribl configuration. The response includes details about modified, staged, untracked, and conflicted files, as well as branch and remote tracking information.
       responses:
         "200":
           description: a list of GitStatusResult objects
@@ -39118,7 +39118,7 @@ paths:
           required: false
           schema:
             type: string
-          description: Group ID
+          description: The <code>id</code> of the Worker Group or Edge Fleet to get the status for.
   /version/undo:
     post:
       operationId: createVersionUndo
@@ -39127,7 +39127,7 @@ paths:
       x-speakeasy-group: versions.commits
       x-speakeasy-name-override: undo
       summary: Discard uncommitted (staged) changes
-      description: Discards all uncommitted (staged) configuration changes, resetting the working directory to the last committed state.
+      description: Discard all uncommitted (staged) configuration changes, resetting the working directory to the last committed state. Use only if you are certain that you do not need to preserve your local changes.
       responses:
         "200":
           description: a list of object objects
@@ -39157,14 +39157,14 @@ paths:
           required: false
           schema:
             type: string
-          description: Group ID
+          description: The <code>id</code> of the Worker Group or Edge Fleet to undo the uncommited changes for.
   /master/workers:
     get:
       operationId: listMasterWorkerEntry
       tags:
         - workers
-      summary: Retrieve detailed metadata for Worker and Edge Nodes
-      description: get worker and edge nodes
+      summary: Get detailed metadata for Worker and Edge Nodes
+      description: Get detailed metadata for Worker and Edge Nodes.
       responses:
         "200":
           description: a list of MasterWorkerEntry objects
@@ -39196,37 +39196,37 @@ paths:
           required: false
           schema:
             type: string
-          description: Filter expression evaluated against nodes
-        - name: sort
-          in: query
-          required: false
-          schema:
-            type: string
-          description: Sorting object (JSON stringified) expression evaluated against nodes
+          description: Filter expression to evaluate against Nodes for inclusion in the response.
         - name: sortExp
           in: query
           required: false
           schema:
             type: string
-          description: Sorting expression evaluated against nodes
-        - name: limit
-          in: query
-          required: false
-          schema:
-            type: integer
-          description: Maximum number of nodes to return
-        - name: offset
-          in: query
-          required: false
-          schema:
-            type: integer
-          description: Pagination offset
+          description: Sorting expression to evaluate against Nodes to specify the sort order for the response.
         - name: filter
           in: query
           required: false
           schema:
             type: string
-          description: Filter object (JSON stringified) to select nodes
+          description: JSON-stringified filter object to evaluate against Nodes for inclusion in the response.
+        - name: sort
+          in: query
+          required: false
+          schema:
+            type: string
+          description: JSON-stringified sorting object to evaluate against Nodes to specify the sort order for the response.
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Maximum number of Nodes to return in the response for this request. Use with <code>offset</code> to paginate the response into manageable batches.
+        - name: offset
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches.
   /master/summary/workers:
     get:
       operationId: getMasterWorkerEntry
@@ -39234,8 +39234,8 @@ paths:
         - workers
       x-speakeasy-group: nodes
       x-speakeasy-name-override: count
-      summary: Retrieve a count of Worker and Edge Nodes
-      description: get worker and edge nodes count
+      summary: Get a count of Worker and Edge Nodes
+      description: Get a count of all Worker and Edge Nodes.
       responses:
         "200":
           description: a list of number objects
@@ -39265,7 +39265,7 @@ paths:
           required: false
           schema:
             type: string
-          description: Filter expression evaluated against nodes
+          description: Filter expression to evaluate against Nodes for inclusion in the response.
   /products/{product}/groups:
     get:
       operationId: listConfigGroupByProduct
@@ -39682,7 +39682,7 @@ paths:
               - macros
               - notebooks
               - insights
-          description: resource type by which to filter access levels
+          description: Filter for limiting the response to ACL entries for the specified RBAC resource type.
   /products/{product}/groups/{id}/acl:
     get:
       operationId: getConfigGroupAclByProductAndId

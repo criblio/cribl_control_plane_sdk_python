@@ -19,11 +19,11 @@ class Samples(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetOutputSamplesByIDResponse:
-        r"""Retrieve sample event data for a Destination
+        r"""Get sample event data for a Destination
 
-        Retrieve samples data for the specified destination. Used to get sample data for the test action.
+        Get sample event data for the specified Destination to validate the configuration or test connectivity.
 
-        :param id: Destination Id
+        :param id: The <code>id</code> of the Destination to get sample event data for.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -108,11 +108,11 @@ class Samples(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetOutputSamplesByIDResponse:
-        r"""Retrieve sample event data for a Destination
+        r"""Get sample event data for a Destination
 
-        Retrieve samples data for the specified destination. Used to get sample data for the test action.
+        Get sample event data for the specified Destination to validate the configuration or test connectivity.
 
-        :param id: Destination Id
+        :param id: The <code>id</code> of the Destination to get sample event data for.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -200,9 +200,9 @@ class Samples(BaseSDK):
     ) -> models.CreateOutputTestByIDResponse:
         r"""Send sample event data to a Destination
 
-        Send sample data to a destination to validate configuration or test connectivity
+        Send sample event data to the specified Destination to validate the configuration or test connectivity.
 
-        :param id: Destination Id
+        :param id: The <code>id</code> of the Destination to send sample event data to.
         :param events:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -301,9 +301,9 @@ class Samples(BaseSDK):
     ) -> models.CreateOutputTestByIDResponse:
         r"""Send sample event data to a Destination
 
-        Send sample data to a destination to validate configuration or test connectivity
+        Send sample event data to the specified Destination to validate the configuration or test connectivity.
 
-        :param id: Destination Id
+        :param id: The <code>id</code> of the Destination to send sample event data to.
         :param events:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method

@@ -10,7 +10,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class GetSummaryMode(str, Enum):
-    r"""product filter"""
+    r"""Filter for limiting the response by Cribl product: Cribl Stream (<code>worker</code>) or Cribl Edge (<code>managed-edge</code>)."""
 
     WORKER = "worker"
     MANAGED_EDGE = "managed-edge"
@@ -18,7 +18,7 @@ class GetSummaryMode(str, Enum):
 
 class GetSummaryRequestTypedDict(TypedDict):
     mode: NotRequired[GetSummaryMode]
-    r"""product filter"""
+    r"""Filter for limiting the response by Cribl product: Cribl Stream (<code>worker</code>) or Cribl Edge (<code>managed-edge</code>)."""
 
 
 class GetSummaryRequest(BaseModel):
@@ -26,7 +26,7 @@ class GetSummaryRequest(BaseModel):
         Optional[GetSummaryMode],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""product filter"""
+    r"""Filter for limiting the response by Cribl product: Cribl Stream (<code>worker</code>) or Cribl Edge (<code>managed-edge</code>)."""
 
 
 class GetSummaryResponseTypedDict(TypedDict):

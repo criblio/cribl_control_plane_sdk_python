@@ -38,7 +38,7 @@ class Packs(BaseSDK):
     ) -> models.CreatePacksResponse:
         r"""Install a Pack
 
-        Install Pack
+        Install a Pack.
 
         :param id:
         :param source:
@@ -169,7 +169,7 @@ class Packs(BaseSDK):
     ) -> models.CreatePacksResponse:
         r"""Install a Pack
 
-        Install Pack
+        Install a Pack.
 
         :param id:
         :param source:
@@ -285,9 +285,9 @@ class Packs(BaseSDK):
     ) -> models.GetPacksResponse:
         r"""List all Packs
 
-        Get info on packs
+        Get a list of all Packs.
 
-        :param with_: Comma separated list of entities, \"outputs\", \"inputs\"
+        :param with_: Comma-separated list of additional properties to include in the response. When set, the response includes a count of the specified properties in the Pack. Available values are <code>inputs</code> and <code>outputs</code>.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -372,9 +372,9 @@ class Packs(BaseSDK):
     ) -> models.GetPacksResponse:
         r"""List all Packs
 
-        Get info on packs
+        Get a list of all Packs.
 
-        :param with_: Comma separated list of entities, \"outputs\", \"inputs\"
+        :param with_: Comma-separated list of additional properties to include in the response. When set, the response includes a count of the specified properties in the Pack. Available values are <code>inputs</code> and <code>outputs</code>.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -459,9 +459,9 @@ class Packs(BaseSDK):
     ) -> models.DeletePacksByIDResponse:
         r"""Uninstall a Pack
 
-        Uninstall Pack from the system
+        Uninstall the specified Pack.
 
-        :param id: Pack name
+        :param id: The <code>id</code> of the Pack to uninstall.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -546,9 +546,9 @@ class Packs(BaseSDK):
     ) -> models.DeletePacksByIDResponse:
         r"""Uninstall a Pack
 
-        Uninstall Pack from the system
+        Uninstall the specified Pack.
 
-        :param id: Pack name
+        :param id: The <code>id</code> of the Pack to uninstall.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -634,11 +634,11 @@ class Packs(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.UpdatePacksByIDResponse:
-        r"""Update a Pack
+        r"""Upgrade a Pack
 
-        Upgrade Pack
+        Upgrade the specified Pack.</br></br>If the Pack includes any user–modified versions of default Cribl Knowledge resources such as lookups, copy the modified files locally for safekeeping before upgrading the Pack. Copy the modified files back to the upgraded Pack after you install it with <code>POST /packs</code> to overwrite the default versions in the Pack.</br></br>After you upgrade the Pack, update any Routes, Pipelines, Sources, and Destinations that use the previous Pack version so that they reference the upgraded Pack.
 
-        :param id: Pack name
+        :param id: The <code>id</code> of the Pack to upgrade.
         :param source: body string required Pack source
         :param minor: body boolean optional Only upgrade to minor/patch versions
         :param spec: body string optional Specify a branch, tag or a semver spec
@@ -730,11 +730,11 @@ class Packs(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.UpdatePacksByIDResponse:
-        r"""Update a Pack
+        r"""Upgrade a Pack
 
-        Upgrade Pack
+        Upgrade the specified Pack.</br></br>If the Pack includes any user–modified versions of default Cribl Knowledge resources such as lookups, copy the modified files locally for safekeeping before upgrading the Pack. Copy the modified files back to the upgraded Pack after you install it with <code>POST /packs</code> to overwrite the default versions in the Pack.</br></br>After you upgrade the Pack, update any Routes, Pipelines, Sources, and Destinations that use the previous Pack version so that they reference the upgraded Pack.
 
-        :param id: Pack name
+        :param id: The <code>id</code> of the Pack to upgrade.
         :param source: body string required Pack source
         :param minor: body boolean optional Only upgrade to minor/patch versions
         :param spec: body string optional Specify a branch, tag or a semver spec

@@ -34,7 +34,7 @@ class Sources(BaseSDK):
     ) -> models.ListInputResponse:
         r"""List all Sources
 
-        Get a list of Source objects
+        Get a list of all Sources.
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -114,7 +114,7 @@ class Sources(BaseSDK):
     ) -> models.ListInputResponse:
         r"""List all Sources
 
-        Get a list of Source objects
+        Get a list of all Sources.
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -195,7 +195,7 @@ class Sources(BaseSDK):
     ) -> models.CreateInputResponse:
         r"""Create a Source
 
-        Create Source
+        Create a new Source.
 
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
@@ -285,7 +285,7 @@ class Sources(BaseSDK):
     ) -> models.CreateInputResponse:
         r"""Create a Source
 
-        Create Source
+        Create a new Source.
 
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
@@ -373,11 +373,11 @@ class Sources(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetInputByIDResponse:
-        r"""Retrieve a Source
+        r"""Get a Source
 
-        Get Source by ID
+        Get the specified Source.
 
-        :param id: Unique ID to GET
+        :param id: The <code>id</code> of the Source to get.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -460,11 +460,11 @@ class Sources(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetInputByIDResponse:
-        r"""Retrieve a Source
+        r"""Get a Source
 
-        Get Source by ID
+        Get the specified Source.
 
-        :param id: Unique ID to GET
+        :param id: The <code>id</code> of the Source to get.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -550,9 +550,9 @@ class Sources(BaseSDK):
     ) -> models.UpdateInputByIDResponse:
         r"""Update a Source
 
-        Update Source
+        Update the specified Source.</br></br>Provide a complete representation of the Source that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Source.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Source might not function as expected.
 
-        :param id: Unique ID to PATCH
+        :param id: The <code>id</code> of the Source to update.
         :param input: Input object
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -643,9 +643,9 @@ class Sources(BaseSDK):
     ) -> models.UpdateInputByIDResponse:
         r"""Update a Source
 
-        Update Source
+        Update the specified Source.</br></br>Provide a complete representation of the Source that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Source.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Source might not function as expected.
 
-        :param id: Unique ID to PATCH
+        :param id: The <code>id</code> of the Source to update.
         :param input: Input object
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -735,9 +735,9 @@ class Sources(BaseSDK):
     ) -> models.DeleteInputByIDResponse:
         r"""Delete a Source
 
-        Delete Source
+        Delete the specified Source.
 
-        :param id: Unique ID to DELETE
+        :param id: The <code>id</code> of the Source to delete.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -822,9 +822,9 @@ class Sources(BaseSDK):
     ) -> models.DeleteInputByIDResponse:
         r"""Delete a Source
 
-        Delete Source
+        Delete the specified Source.
 
-        :param id: Unique ID to DELETE
+        :param id: The <code>id</code> of the Source to delete.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds

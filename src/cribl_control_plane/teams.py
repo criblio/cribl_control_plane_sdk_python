@@ -27,7 +27,7 @@ class Teams(BaseSDK):
 
         :param product: Name of the Cribl product that contains the Worker Group or Edge Fleet.
         :param id: The <code>id</code> of the Worker Group or Edge Fleet to get the team ACL for.
-        :param type: resource type by which to filter access levels
+        :param type: Filter for limiting the response to ACL entries for the specified RBAC resource type.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -122,7 +122,7 @@ class Teams(BaseSDK):
 
         :param product: Name of the Cribl product that contains the Worker Group or Edge Fleet.
         :param id: The <code>id</code> of the Worker Group or Edge Fleet to get the team ACL for.
-        :param type: resource type by which to filter access levels
+        :param type: Filter for limiting the response to ACL entries for the specified RBAC resource type.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds

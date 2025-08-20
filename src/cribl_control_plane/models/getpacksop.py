@@ -11,7 +11,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class GetPacksRequestTypedDict(TypedDict):
     with_: NotRequired[str]
-    r"""Comma separated list of entities, \"outputs\", \"inputs\" """
+    r"""Comma-separated list of additional properties to include in the response. When set, the response includes a count of the specified properties in the Pack. Available values are <code>inputs</code> and <code>outputs</code>."""
 
 
 class GetPacksRequest(BaseModel):
@@ -20,7 +20,7 @@ class GetPacksRequest(BaseModel):
         pydantic.Field(alias="with"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Comma separated list of entities, \"outputs\", \"inputs\" """
+    r"""Comma-separated list of additional properties to include in the response. When set, the response includes a count of the specified properties in the Pack. Available values are <code>inputs</code> and <code>outputs</code>."""
 
 
 class GetPacksResponseTypedDict(TypedDict):

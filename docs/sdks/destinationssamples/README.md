@@ -1,4 +1,4 @@
-# Samples
+# DestinationsSamples
 (*destinations.samples*)
 
 ## Overview

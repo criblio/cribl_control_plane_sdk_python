@@ -24,6 +24,7 @@ if TYPE_CHECKING:
     from cribl_control_plane.pipelines import Pipelines
     from cribl_control_plane.routes_sdk import RoutesSDK
     from cribl_control_plane.sources import Sources
+    from cribl_control_plane.system_sdk import SystemSDK
     from cribl_control_plane.versions import Versions
 
 
@@ -45,6 +46,7 @@ class CriblControlPlane(BaseSDK):
     r"""Actions related to REST server health"""
     packs: "Packs"
     r"""Actions related to Packs"""
+    system: "SystemSDK"
     versions: "Versions"
     groups: "GroupsSDK"
     r"""Actions related to Groups"""
@@ -58,6 +60,7 @@ class CriblControlPlane(BaseSDK):
         "nodes": ("cribl_control_plane.nodes", "Nodes"),
         "health": ("cribl_control_plane.health", "Health"),
         "packs": ("cribl_control_plane.packs", "Packs"),
+        "system": ("cribl_control_plane.system_sdk", "SystemSDK"),
         "versions": ("cribl_control_plane.versions", "Versions"),
         "groups": ("cribl_control_plane.groups_sdk", "GroupsSDK"),
     }

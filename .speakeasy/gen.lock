@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 58f01e7fae667166f412047d957da237
-  docVersion: 4.14.0-alpha.1755694175565-e2e7bfb9
+  docChecksum: d4e60eaf202d77136dfcb246180859e0
+  docVersion: 4.14.0-alpha.1755708210976-a566b731
   speakeasyVersion: 1.606.0
   generationVersion: 2.686.7
-  releaseVersion: 0.0.33
-  configChecksum: d4a761f6000364629f9177231548dd8e
+  releaseVersion: 0.0.34
+  configChecksum: bcaf7f8c9401399b0decd4c214df9184
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -50,8 +50,6 @@ generatedFiles:
   - docs/models/allow.md
   - docs/models/appmode.md
   - docs/models/audit.md
-  - docs/models/authconfig.md
-  - docs/models/authconfigtype.md
   - docs/models/authenticationprotocol.md
   - docs/models/author.md
   - docs/models/authtoken.md
@@ -66,7 +64,6 @@ generatedFiles:
   - docs/models/columnmapping.md
   - docs/models/comment.md
   - docs/models/commit.md
-  - docs/models/commonservicelimitconfigs.md
   - docs/models/conf.md
   - docs/models/config.md
   - docs/models/configgroup.md
@@ -125,12 +122,10 @@ generatedFiles:
   - docs/models/deployrequestlookups.md
   - docs/models/deployrequestlookupslookup.md
   - docs/models/disksandfilesystems.md
-  - docs/models/distributed.md
   - docs/models/distributedsummary.md
   - docs/models/distributedsummarygroups.md
   - docs/models/distributedsummaryworkers.md
   - docs/models/dns.md
-  - docs/models/edgeheartbeatmetricsmode.md
   - docs/models/elasticversion.md
   - docs/models/endpoint.md
   - docs/models/endpointconfiguration.md
@@ -184,9 +179,6 @@ generatedFiles:
   - docs/models/getsummarymode.md
   - docs/models/getsummaryrequest.md
   - docs/models/getsummaryresponse.md
-  - docs/models/getsystemsettingsauthresponse.md
-  - docs/models/getsystemsettingsconfresponse.md
-  - docs/models/getsystemsettingsgitsettingsresponse.md
   - docs/models/getversionbranchresponse.md
   - docs/models/getversioncountrequest.md
   - docs/models/getversioncountresponse.md
@@ -209,11 +201,9 @@ generatedFiles:
   - docs/models/gitfilesresponse.md
   - docs/models/gitinfo.md
   - docs/models/gitlogresult.md
-  - docs/models/gitopstype.md
   - docs/models/gitrevertparams.md
   - docs/models/gitrevertresult.md
   - docs/models/gitrevertresultfiles.md
-  - docs/models/gitsettings.md
   - docs/models/gitstatusresult.md
   - docs/models/hbcriblinfo.md
   - docs/models/hbleaderinfo.md
@@ -930,11 +920,9 @@ generatedFiles:
   - docs/models/inputzscalerhectlssettingsserverside.md
   - docs/models/inputzscalerhectype.md
   - docs/models/interfaces.md
-  - docs/models/jobsettings.md
   - docs/models/lakedatasetsearchconfig.md
   - docs/models/lakehouseconnectiontype.md
   - docs/models/lastmetrics.md
-  - docs/models/limits.md
   - docs/models/listconfiggroupbyproductproduct.md
   - docs/models/listconfiggroupbyproductrequest.md
   - docs/models/listconfiggroupbyproductresponse.md
@@ -1799,9 +1787,6 @@ generatedFiles:
   - docs/models/querybuildermode.md
   - docs/models/rbacresource.md
   - docs/models/readmode.md
-  - docs/models/rediscachelimits.md
-  - docs/models/redisconnectionlimits.md
-  - docs/models/redislimits.md
   - docs/models/remote.md
   - docs/models/renamed.md
   - docs/models/reportlevel.md
@@ -1815,18 +1800,15 @@ generatedFiles:
   - docs/models/routesgroups.md
   - docs/models/routesroute.md
   - docs/models/sample.md
-  - docs/models/samples.md
   - docs/models/scanmode.md
   - docs/models/scheduletype.md
   - docs/models/schemeclientoauth.md
   - docs/models/scrapeprotocolprotocol.md
-  - docs/models/searchsettings.md
   - docs/models/security.md
   - docs/models/sendeventsas.md
   - docs/models/sendlogsas.md
   - docs/models/serversideencryption.md
   - docs/models/services.md
-  - docs/models/serviceslimits.md
   - docs/models/sharditeratorstart.md
   - docs/models/shardloadbalancing.md
   - docs/models/snmpv3authentication.md
@@ -1834,38 +1816,6 @@ generatedFiles:
   - docs/models/subscription.md
   - docs/models/subscriptionmetadatum.md
   - docs/models/summary.md
-  - docs/models/systemsettings.md
-  - docs/models/systemsettingsapi.md
-  - docs/models/systemsettingsbackups.md
-  - docs/models/systemsettingsconf.md
-  - docs/models/systemsettingsconfapi.md
-  - docs/models/systemsettingsconfbackups.md
-  - docs/models/systemsettingsconfcustomlogo.md
-  - docs/models/systemsettingsconfheaders.md
-  - docs/models/systemsettingsconfpii.md
-  - docs/models/systemsettingsconfproxy.md
-  - docs/models/systemsettingsconfrollback.md
-  - docs/models/systemsettingsconfshutdown.md
-  - docs/models/systemsettingsconfsni.md
-  - docs/models/systemsettingsconfsockets.md
-  - docs/models/systemsettingsconfssl.md
-  - docs/models/systemsettingsconfsystem.md
-  - docs/models/systemsettingsconftls.md
-  - docs/models/systemsettingsconfupgrade.md
-  - docs/models/systemsettingsconfworkers.md
-  - docs/models/systemsettingscustomlogo.md
-  - docs/models/systemsettingsheaders.md
-  - docs/models/systemsettingspii.md
-  - docs/models/systemsettingsproxy.md
-  - docs/models/systemsettingsrollback.md
-  - docs/models/systemsettingsshutdown.md
-  - docs/models/systemsettingssni.md
-  - docs/models/systemsettingssockets.md
-  - docs/models/systemsettingsssl.md
-  - docs/models/systemsettingssystem.md
-  - docs/models/systemsettingstls.md
-  - docs/models/systemsettingsupgrade.md
-  - docs/models/systemsettingsworkers.md
   - docs/models/target.md
   - docs/models/targetprotocol.md
   - docs/models/teamaccesscontrollist.md
@@ -1894,18 +1844,10 @@ generatedFiles:
   - docs/models/updatepipelinebyidresponse.md
   - docs/models/updateroutesbyidrequest.md
   - docs/models/updateroutesbyidresponse.md
-  - docs/models/updatesystemsettingsauthresponse.md
-  - docs/models/updatesystemsettingsconfresponse.md
-  - docs/models/updatesystemsettingsgitsettingsresponse.md
-  - docs/models/upgradegroupsettings.md
-  - docs/models/upgradepackageurls.md
-  - docs/models/upgradesettings.md
   - docs/models/useraccesscontrollist.md
   - docs/models/usersandgroups.md
   - docs/models/utils/retryconfig.md
   - docs/models/v3user.md
-  - docs/models/warmpoolsize.md
-  - docs/models/warmpoolsizeenum.md
   - docs/models/writeaction.md
   - docs/sdks/acl/README.md
   - docs/sdks/authsdk/README.md
@@ -1913,11 +1855,9 @@ generatedFiles:
   - docs/sdks/commits/README.md
   - docs/sdks/commitsfiles/README.md
   - docs/sdks/configsversions/README.md
-  - docs/sdks/cribl/README.md
   - docs/sdks/criblcontrolplane/README.md
   - docs/sdks/destinations/README.md
   - docs/sdks/destinationspq/README.md
-  - docs/sdks/destinationssamples/README.md
   - docs/sdks/groupssdk/README.md
   - docs/sdks/health/README.md
   - docs/sdks/hectokens/README.md
@@ -1926,12 +1866,10 @@ generatedFiles:
   - docs/sdks/packs/README.md
   - docs/sdks/pipelines/README.md
   - docs/sdks/routessdk/README.md
-  - docs/sdks/settingsauth/README.md
-  - docs/sdks/settingsgit/README.md
+  - docs/sdks/samples/README.md
   - docs/sdks/sources/README.md
   - docs/sdks/statuses/README.md
   - docs/sdks/summaries/README.md
-  - docs/sdks/systemsdk/README.md
   - docs/sdks/teams/README.md
   - docs/sdks/tokens/README.md
   - docs/sdks/versions/README.md
@@ -1955,10 +1893,8 @@ generatedFiles:
   - src/cribl_control_plane/commits.py
   - src/cribl_control_plane/commits_files.py
   - src/cribl_control_plane/configs_versions.py
-  - src/cribl_control_plane/cribl.py
   - src/cribl_control_plane/destinations.py
   - src/cribl_control_plane/destinations_pq.py
-  - src/cribl_control_plane/destinations_samples.py
   - src/cribl_control_plane/errors/__init__.py
   - src/cribl_control_plane/errors/apierror.py
   - src/cribl_control_plane/errors/criblcontrolplaneerror.py
@@ -1975,13 +1911,11 @@ generatedFiles:
   - src/cribl_control_plane/models/__init__.py
   - src/cribl_control_plane/models/addhectokenrequest.py
   - src/cribl_control_plane/models/appmode.py
-  - src/cribl_control_plane/models/authconfig.py
   - src/cribl_control_plane/models/authtoken.py
   - src/cribl_control_plane/models/cacheconnection.py
   - src/cribl_control_plane/models/cacheconnectionbackfillstatus.py
   - src/cribl_control_plane/models/cloudprovider.py
   - src/cribl_control_plane/models/commit.py
-  - src/cribl_control_plane/models/commonservicelimitconfigs.py
   - src/cribl_control_plane/models/configgroup.py
   - src/cribl_control_plane/models/configgroupcloud.py
   - src/cribl_control_plane/models/configgrouplookups.py
@@ -2013,7 +1947,6 @@ generatedFiles:
   - src/cribl_control_plane/models/deployrequest.py
   - src/cribl_control_plane/models/deployrequestlookups.py
   - src/cribl_control_plane/models/distributedsummary.py
-  - src/cribl_control_plane/models/edgeheartbeatmetricsmode.py
   - src/cribl_control_plane/models/getconfiggroupaclbyproductandidop.py
   - src/cribl_control_plane/models/getconfiggroupaclteamsbyproductandidop.py
   - src/cribl_control_plane/models/getconfiggroupbyproductandidop.py
@@ -2029,9 +1962,6 @@ generatedFiles:
   - src/cribl_control_plane/models/getpipelinebyidop.py
   - src/cribl_control_plane/models/getroutesbyidop.py
   - src/cribl_control_plane/models/getsummaryop.py
-  - src/cribl_control_plane/models/getsystemsettingsauthop.py
-  - src/cribl_control_plane/models/getsystemsettingsconfop.py
-  - src/cribl_control_plane/models/getsystemsettingsgitsettingsop.py
   - src/cribl_control_plane/models/getversionbranchop.py
   - src/cribl_control_plane/models/getversioncountop.py
   - src/cribl_control_plane/models/getversiondiffop.py
@@ -2046,10 +1976,8 @@ generatedFiles:
   - src/cribl_control_plane/models/gitfilesresponse.py
   - src/cribl_control_plane/models/gitinfo.py
   - src/cribl_control_plane/models/gitlogresult.py
-  - src/cribl_control_plane/models/gitopstype.py
   - src/cribl_control_plane/models/gitrevertparams.py
   - src/cribl_control_plane/models/gitrevertresult.py
-  - src/cribl_control_plane/models/gitsettings.py
   - src/cribl_control_plane/models/gitstatusresult.py
   - src/cribl_control_plane/models/hbcriblinfo.py
   - src/cribl_control_plane/models/hbleaderinfo.py
@@ -2114,10 +2042,8 @@ generatedFiles:
   - src/cribl_control_plane/models/inputwineventlogs.py
   - src/cribl_control_plane/models/inputwiz.py
   - src/cribl_control_plane/models/inputzscalerhec.py
-  - src/cribl_control_plane/models/jobsettings.py
   - src/cribl_control_plane/models/lakedatasetsearchconfig.py
   - src/cribl_control_plane/models/lakehouseconnectiontype.py
-  - src/cribl_control_plane/models/limits.py
   - src/cribl_control_plane/models/listconfiggroupbyproductop.py
   - src/cribl_control_plane/models/listinputop.py
   - src/cribl_control_plane/models/listmasterworkerentryop.py
@@ -2207,20 +2133,13 @@ generatedFiles:
   - src/cribl_control_plane/models/pipeline.py
   - src/cribl_control_plane/models/pipelinefunctionconf.py
   - src/cribl_control_plane/models/rbacresource.py
-  - src/cribl_control_plane/models/rediscachelimits.py
-  - src/cribl_control_plane/models/redisconnectionlimits.py
-  - src/cribl_control_plane/models/redislimits.py
   - src/cribl_control_plane/models/resourcepolicy.py
   - src/cribl_control_plane/models/routecloneconf.py
   - src/cribl_control_plane/models/routeconf.py
   - src/cribl_control_plane/models/routes.py
   - src/cribl_control_plane/models/routesroute.py
   - src/cribl_control_plane/models/schemeclientoauth.py
-  - src/cribl_control_plane/models/searchsettings.py
   - src/cribl_control_plane/models/security.py
-  - src/cribl_control_plane/models/serviceslimits.py
-  - src/cribl_control_plane/models/systemsettings.py
-  - src/cribl_control_plane/models/systemsettingsconf.py
   - src/cribl_control_plane/models/teamaccesscontrollist.py
   - src/cribl_control_plane/models/updateconfiggroupbyproductandidop.py
   - src/cribl_control_plane/models/updateconfiggroupdeploybyproductandidop.py
@@ -2232,27 +2151,18 @@ generatedFiles:
   - src/cribl_control_plane/models/updatepacksbyidop.py
   - src/cribl_control_plane/models/updatepipelinebyidop.py
   - src/cribl_control_plane/models/updateroutesbyidop.py
-  - src/cribl_control_plane/models/updatesystemsettingsauthop.py
-  - src/cribl_control_plane/models/updatesystemsettingsconfop.py
-  - src/cribl_control_plane/models/updatesystemsettingsgitsettingsop.py
-  - src/cribl_control_plane/models/upgradegroupsettings.py
-  - src/cribl_control_plane/models/upgradepackageurls.py
-  - src/cribl_control_plane/models/upgradesettings.py
   - src/cribl_control_plane/models/useraccesscontrollist.py
   - src/cribl_control_plane/nodes.py
   - src/cribl_control_plane/packs.py
   - src/cribl_control_plane/pipelines.py
   - src/cribl_control_plane/py.typed
   - src/cribl_control_plane/routes_sdk.py
+  - src/cribl_control_plane/samples.py
   - src/cribl_control_plane/sdk.py
   - src/cribl_control_plane/sdkconfiguration.py
-  - src/cribl_control_plane/settings.py
-  - src/cribl_control_plane/settings_auth.py
-  - src/cribl_control_plane/settings_git.py
   - src/cribl_control_plane/sources.py
   - src/cribl_control_plane/statuses.py
   - src/cribl_control_plane/summaries.py
-  - src/cribl_control_plane/system_sdk.py
   - src/cribl_control_plane/teams.py
   - src/cribl_control_plane/tokens.py
   - src/cribl_control_plane/types/__init__.py
@@ -3182,9 +3092,9 @@ generatedTests:
   updateGroupsById: "2025-08-04T02:32:44Z"
 releaseNotes: |
   ## SDK Changes Detected:
-  * `cribl_control_plane.system.settings.auth.list()`: **Added**
-  * `cribl_control_plane.system.settings.auth.update()`: **Added**
-  * `cribl_control_plane.system.settings.cribl.list()`: **Added**
-  * `cribl_control_plane.system.settings.cribl.update()`: **Added**
-  * `cribl_control_plane.system.settings.git.list()`: **Added**
-  * `cribl_control_plane.system.settings.git.update()`: **Added**
+  * `cribl_control_plane.system.settings.auth.list()`: **Deleted** **Breaking** :warning:
+  * `cribl_control_plane.system.settings.auth.update()`: **Deleted** **Breaking** :warning:
+  * `cribl_control_plane.system.settings.cribl.list()`: **Deleted** **Breaking** :warning:
+  * `cribl_control_plane.system.settings.cribl.update()`: **Deleted** **Breaking** :warning:
+  * `cribl_control_plane.system.settings.git.list()`: **Deleted** **Breaking** :warning:
+  * `cribl_control_plane.system.settings.git.update()`: **Deleted** **Breaking** :warning:

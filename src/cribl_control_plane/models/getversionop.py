@@ -10,9 +10,9 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class GetVersionRequestTypedDict(TypedDict):
     group: NotRequired[str]
-    r"""Group ID"""
+    r"""The <code>id</code> of the Worker Group or Edge Fleet to get the commit history for."""
     count: NotRequired[float]
-    r"""Maximum number of commits to return"""
+    r"""Maximum number of commits to return in the response for this request."""
 
 
 class GetVersionRequest(BaseModel):
@@ -20,13 +20,13 @@ class GetVersionRequest(BaseModel):
         Optional[str],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Group ID"""
+    r"""The <code>id</code> of the Worker Group or Edge Fleet to get the commit history for."""
 
     count: Annotated[
         Optional[float],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Maximum number of commits to return"""
+    r"""Maximum number of commits to return in the response for this request."""
 
 
 class GetVersionResponseTypedDict(TypedDict):

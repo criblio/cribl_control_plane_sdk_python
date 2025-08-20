@@ -422,12 +422,12 @@ class Commits(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetVersionResponse:
-        r"""Get the commit history
+        r"""List the commit history
 
-        Get the commit history
+        List the commit history.</br></br>Analogous to <code>git log</code> for the Cribl configuration, allowing you to audit and review changes over time.
 
-        :param group: Group ID
-        :param count: Maximum number of commits to return
+        :param group: The <code>id</code> of the Worker Group or Edge Fleet to get the commit history for.
+        :param count: Maximum number of commits to return in the response for this request.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -512,12 +512,12 @@ class Commits(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetVersionResponse:
-        r"""Get the commit history
+        r"""List the commit history
 
-        Get the commit history
+        List the commit history.</br></br>Analogous to <code>git log</code> for the Cribl configuration, allowing you to audit and review changes over time.
 
-        :param group: Group ID
-        :param count: Maximum number of commits to return
+        :param group: The <code>id</code> of the Worker Group or Edge Fleet to get the commit history for.
+        :param count: Maximum number of commits to return in the response for this request.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds

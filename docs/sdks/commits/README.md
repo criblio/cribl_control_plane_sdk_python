@@ -7,7 +7,7 @@
 
 * [create](#create) - Create a new commit for pending changes to the Cribl configuration
 * [diff](#diff) - Get the diff for a commit
-* [list](#list) - Get the commit history
+* [list](#list) - List the commit history
 * [push](#push) - Push local commits to the remote repository
 * [revert](#revert) - Revert a commit in the local repository
 * [get](#get) - Get the diff and log message for a commit
@@ -111,7 +111,7 @@ with CriblControlPlane(
 
 ## list
 
-Get the commit history
+List the commit history.</br></br>Analogous to <code>git log</code> for the Cribl configuration, allowing you to audit and review changes over time.
 
 ### Example Usage
 
@@ -137,11 +137,11 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
-| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `group`                                                             | *Optional[str]*                                                     | :heavy_minus_sign:                                                  | Group ID                                                            |
-| `count`                                                             | *Optional[float]*                                                   | :heavy_minus_sign:                                                  | Maximum number of commits to return                                 |
-| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
+| Parameter                                                                            | Type                                                                                 | Required                                                                             | Description                                                                          |
+| ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
+| `group`                                                                              | *Optional[str]*                                                                      | :heavy_minus_sign:                                                                   | The <code>id</code> of the Worker Group or Edge Fleet to get the commit history for. |
+| `count`                                                                              | *Optional[float]*                                                                    | :heavy_minus_sign:                                                                   | Maximum number of commits to return in the response for this request.                |
+| `retries`                                                                            | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                     | :heavy_minus_sign:                                                                   | Configuration to override the default retry behavior of the client.                  |
 
 ### Response
 

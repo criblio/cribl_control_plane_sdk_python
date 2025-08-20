@@ -6,22 +6,24 @@ from cribl_control_plane._hooks import HookContext
 from cribl_control_plane.types import OptionalNullable, UNSET
 from cribl_control_plane.utils import get_security_from_env
 from cribl_control_plane.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, Mapping, Optional, Union
+from typing import Any, List, Mapping, Optional, Union
 
 
-class Cribl(BaseSDK):
-    def list(
+class Samples(BaseSDK):
+    def get(
         self,
         *,
+        id: str,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetSystemSettingsConfResponse:
-        r"""Get Cribl system settings
+    ) -> models.GetOutputSamplesByIDResponse:
+        r"""Get sample event data for a Destination
 
-        Get Cribl system settings
+        Get sample event data for the specified Destination to validate the configuration or test connectivity.
 
+        :param id: The <code>id</code> of the Destination to get sample event data for.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -36,14 +38,19 @@ class Cribl(BaseSDK):
             base_url = server_url
         else:
             base_url = self._get_url(base_url, url_variables)
+
+        request = models.GetOutputSamplesByIDRequest(
+            id=id,
+        )
+
         req = self._build_request(
             method="GET",
-            path="/system/settings/conf",
+            path="/system/outputs/{id}/samples",
             base_url=base_url,
             url_variables=url_variables,
-            request=None,
+            request=request,
             request_body_required=False,
-            request_has_path_params=False,
+            request_has_path_params=True,
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
@@ -64,7 +71,7 @@ class Cribl(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="getSystemSettingsConf",
+                operation_id="getOutputSamplesById",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
@@ -78,7 +85,7 @@ class Cribl(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(
-                models.GetSystemSettingsConfResponse, http_res
+                models.GetOutputSamplesByIDResponse, http_res
             )
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
@@ -92,18 +99,20 @@ class Cribl(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def list_async(
+    async def get_async(
         self,
         *,
+        id: str,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetSystemSettingsConfResponse:
-        r"""Get Cribl system settings
+    ) -> models.GetOutputSamplesByIDResponse:
+        r"""Get sample event data for a Destination
 
-        Get Cribl system settings
+        Get sample event data for the specified Destination to validate the configuration or test connectivity.
 
+        :param id: The <code>id</code> of the Destination to get sample event data for.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -118,14 +127,19 @@ class Cribl(BaseSDK):
             base_url = server_url
         else:
             base_url = self._get_url(base_url, url_variables)
+
+        request = models.GetOutputSamplesByIDRequest(
+            id=id,
+        )
+
         req = self._build_request_async(
             method="GET",
-            path="/system/settings/conf",
+            path="/system/outputs/{id}/samples",
             base_url=base_url,
             url_variables=url_variables,
-            request=None,
+            request=request,
             request_body_required=False,
-            request_has_path_params=False,
+            request_has_path_params=True,
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
@@ -146,7 +160,7 @@ class Cribl(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="getSystemSettingsConf",
+                operation_id="getOutputSamplesById",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
@@ -160,7 +174,7 @@ class Cribl(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(
-                models.GetSystemSettingsConfResponse, http_res
+                models.GetOutputSamplesByIDResponse, http_res
             )
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
@@ -174,72 +188,22 @@ class Cribl(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def update(
+    def create(
         self,
         *,
-        api: Union[models.SystemSettingsConfAPI, models.SystemSettingsConfAPITypedDict],
-        backups: Union[
-            models.SystemSettingsConfBackups, models.SystemSettingsConfBackupsTypedDict
-        ],
-        custom_logo: Union[
-            models.SystemSettingsConfCustomLogo,
-            models.SystemSettingsConfCustomLogoTypedDict,
-        ],
-        pii: Union[models.SystemSettingsConfPii, models.SystemSettingsConfPiiTypedDict],
-        proxy: Union[
-            models.SystemSettingsConfProxy, models.SystemSettingsConfProxyTypedDict
-        ],
-        rollback: Union[
-            models.SystemSettingsConfRollback,
-            models.SystemSettingsConfRollbackTypedDict,
-        ],
-        shutdown: Union[
-            models.SystemSettingsConfShutdown,
-            models.SystemSettingsConfShutdownTypedDict,
-        ],
-        sni: Union[models.SystemSettingsConfSni, models.SystemSettingsConfSniTypedDict],
-        system: Union[
-            models.SystemSettingsConfSystem, models.SystemSettingsConfSystemTypedDict
-        ],
-        tls: Union[models.SystemSettingsConfTLS, models.SystemSettingsConfTLSTypedDict],
-        upgrade_group_settings: Union[
-            models.UpgradeGroupSettings, models.UpgradeGroupSettingsTypedDict
-        ],
-        upgrade_settings: Union[
-            models.UpgradeSettings, models.UpgradeSettingsTypedDict
-        ],
-        workers: Union[
-            models.SystemSettingsConfWorkers, models.SystemSettingsConfWorkersTypedDict
-        ],
-        sockets: Optional[
-            Union[
-                models.SystemSettingsConfSockets,
-                models.SystemSettingsConfSocketsTypedDict,
-            ]
-        ] = None,
+        id: str,
+        events: Union[List[models.CriblEvent], List[models.CriblEventTypedDict]],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.UpdateSystemSettingsConfResponse:
-        r"""Update Cribl system settings
+    ) -> models.CreateOutputTestByIDResponse:
+        r"""Send sample event data to a Destination
 
-        Update Cribl system settings
+        Send sample event data to the specified Destination to validate the configuration or test connectivity.
 
-        :param api:
-        :param backups:
-        :param custom_logo:
-        :param pii:
-        :param proxy:
-        :param rollback:
-        :param shutdown:
-        :param sni:
-        :param system:
-        :param tls:
-        :param upgrade_group_settings:
-        :param upgrade_settings:
-        :param workers:
-        :param sockets:
+        :param id: The <code>id</code> of the Destination to send sample event data to.
+        :param events:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -255,50 +219,32 @@ class Cribl(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.SystemSettingsConf(
-            api=utils.get_pydantic_model(api, models.SystemSettingsConfAPI),
-            backups=utils.get_pydantic_model(backups, models.SystemSettingsConfBackups),
-            custom_logo=utils.get_pydantic_model(
-                custom_logo, models.SystemSettingsConfCustomLogo
+        request = models.CreateOutputTestByIDRequest(
+            id=id,
+            output_test_request=models.OutputTestRequest(
+                events=utils.get_pydantic_model(events, List[models.CriblEvent]),
             ),
-            pii=utils.get_pydantic_model(pii, models.SystemSettingsConfPii),
-            proxy=utils.get_pydantic_model(proxy, models.SystemSettingsConfProxy),
-            rollback=utils.get_pydantic_model(
-                rollback, models.SystemSettingsConfRollback
-            ),
-            shutdown=utils.get_pydantic_model(
-                shutdown, models.SystemSettingsConfShutdown
-            ),
-            sni=utils.get_pydantic_model(sni, models.SystemSettingsConfSni),
-            sockets=utils.get_pydantic_model(
-                sockets, Optional[models.SystemSettingsConfSockets]
-            ),
-            system=utils.get_pydantic_model(system, models.SystemSettingsConfSystem),
-            tls=utils.get_pydantic_model(tls, models.SystemSettingsConfTLS),
-            upgrade_group_settings=utils.get_pydantic_model(
-                upgrade_group_settings, models.UpgradeGroupSettings
-            ),
-            upgrade_settings=utils.get_pydantic_model(
-                upgrade_settings, models.UpgradeSettings
-            ),
-            workers=utils.get_pydantic_model(workers, models.SystemSettingsConfWorkers),
         )
 
         req = self._build_request(
-            method="PATCH",
-            path="/system/settings/conf",
+            method="POST",
+            path="/system/outputs/{id}/test",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
             request_body_required=True,
-            request_has_path_params=False,
+            request_has_path_params=True,
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, False, "json", models.SystemSettingsConf
+                request.output_test_request,
+                False,
+                False,
+                "json",
+                models.OutputTestRequest,
             ),
             timeout_ms=timeout_ms,
         )
@@ -315,7 +261,7 @@ class Cribl(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="updateSystemSettingsConf",
+                operation_id="createOutputTestById",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
@@ -329,7 +275,7 @@ class Cribl(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(
-                models.UpdateSystemSettingsConfResponse, http_res
+                models.CreateOutputTestByIDResponse, http_res
             )
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
@@ -343,72 +289,22 @@ class Cribl(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def update_async(
+    async def create_async(
         self,
         *,
-        api: Union[models.SystemSettingsConfAPI, models.SystemSettingsConfAPITypedDict],
-        backups: Union[
-            models.SystemSettingsConfBackups, models.SystemSettingsConfBackupsTypedDict
-        ],
-        custom_logo: Union[
-            models.SystemSettingsConfCustomLogo,
-            models.SystemSettingsConfCustomLogoTypedDict,
-        ],
-        pii: Union[models.SystemSettingsConfPii, models.SystemSettingsConfPiiTypedDict],
-        proxy: Union[
-            models.SystemSettingsConfProxy, models.SystemSettingsConfProxyTypedDict
-        ],
-        rollback: Union[
-            models.SystemSettingsConfRollback,
-            models.SystemSettingsConfRollbackTypedDict,
-        ],
-        shutdown: Union[
-            models.SystemSettingsConfShutdown,
-            models.SystemSettingsConfShutdownTypedDict,
-        ],
-        sni: Union[models.SystemSettingsConfSni, models.SystemSettingsConfSniTypedDict],
-        system: Union[
-            models.SystemSettingsConfSystem, models.SystemSettingsConfSystemTypedDict
-        ],
-        tls: Union[models.SystemSettingsConfTLS, models.SystemSettingsConfTLSTypedDict],
-        upgrade_group_settings: Union[
-            models.UpgradeGroupSettings, models.UpgradeGroupSettingsTypedDict
-        ],
-        upgrade_settings: Union[
-            models.UpgradeSettings, models.UpgradeSettingsTypedDict
-        ],
-        workers: Union[
-            models.SystemSettingsConfWorkers, models.SystemSettingsConfWorkersTypedDict
-        ],
-        sockets: Optional[
-            Union[
-                models.SystemSettingsConfSockets,
-                models.SystemSettingsConfSocketsTypedDict,
-            ]
-        ] = None,
+        id: str,
+        events: Union[List[models.CriblEvent], List[models.CriblEventTypedDict]],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.UpdateSystemSettingsConfResponse:
-        r"""Update Cribl system settings
+    ) -> models.CreateOutputTestByIDResponse:
+        r"""Send sample event data to a Destination
 
-        Update Cribl system settings
+        Send sample event data to the specified Destination to validate the configuration or test connectivity.
 
-        :param api:
-        :param backups:
-        :param custom_logo:
-        :param pii:
-        :param proxy:
-        :param rollback:
-        :param shutdown:
-        :param sni:
-        :param system:
-        :param tls:
-        :param upgrade_group_settings:
-        :param upgrade_settings:
-        :param workers:
-        :param sockets:
+        :param id: The <code>id</code> of the Destination to send sample event data to.
+        :param events:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -424,50 +320,32 @@ class Cribl(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.SystemSettingsConf(
-            api=utils.get_pydantic_model(api, models.SystemSettingsConfAPI),
-            backups=utils.get_pydantic_model(backups, models.SystemSettingsConfBackups),
-            custom_logo=utils.get_pydantic_model(
-                custom_logo, models.SystemSettingsConfCustomLogo
+        request = models.CreateOutputTestByIDRequest(
+            id=id,
+            output_test_request=models.OutputTestRequest(
+                events=utils.get_pydantic_model(events, List[models.CriblEvent]),
             ),
-            pii=utils.get_pydantic_model(pii, models.SystemSettingsConfPii),
-            proxy=utils.get_pydantic_model(proxy, models.SystemSettingsConfProxy),
-            rollback=utils.get_pydantic_model(
-                rollback, models.SystemSettingsConfRollback
-            ),
-            shutdown=utils.get_pydantic_model(
-                shutdown, models.SystemSettingsConfShutdown
-            ),
-            sni=utils.get_pydantic_model(sni, models.SystemSettingsConfSni),
-            sockets=utils.get_pydantic_model(
-                sockets, Optional[models.SystemSettingsConfSockets]
-            ),
-            system=utils.get_pydantic_model(system, models.SystemSettingsConfSystem),
-            tls=utils.get_pydantic_model(tls, models.SystemSettingsConfTLS),
-            upgrade_group_settings=utils.get_pydantic_model(
-                upgrade_group_settings, models.UpgradeGroupSettings
-            ),
-            upgrade_settings=utils.get_pydantic_model(
-                upgrade_settings, models.UpgradeSettings
-            ),
-            workers=utils.get_pydantic_model(workers, models.SystemSettingsConfWorkers),
         )
 
         req = self._build_request_async(
-            method="PATCH",
-            path="/system/settings/conf",
+            method="POST",
+            path="/system/outputs/{id}/test",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
             request_body_required=True,
-            request_has_path_params=False,
+            request_has_path_params=True,
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, False, "json", models.SystemSettingsConf
+                request.output_test_request,
+                False,
+                False,
+                "json",
+                models.OutputTestRequest,
             ),
             timeout_ms=timeout_ms,
         )
@@ -484,7 +362,7 @@ class Cribl(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="updateSystemSettingsConf",
+                operation_id="createOutputTestById",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
@@ -498,7 +376,7 @@ class Cribl(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(
-                models.UpdateSystemSettingsConfResponse, http_res
+                models.CreateOutputTestByIDResponse, http_res
             )
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)

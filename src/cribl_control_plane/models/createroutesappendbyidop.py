@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 from .routeconf import RouteConf, RouteConfTypedDict
+from .routes import Routes, RoutesTypedDict
 from cribl_control_plane.types import BaseModel
 from cribl_control_plane.utils import FieldMetadata, PathParamMetadata, RequestMetadata
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -29,17 +30,17 @@ class CreateRoutesAppendByIDRequest(BaseModel):
 
 
 class CreateRoutesAppendByIDResponseTypedDict(TypedDict):
-    r"""a list of any objects"""
+    r"""a list of Routes objects"""
 
     count: NotRequired[int]
     r"""number of items present in the items array"""
-    items: NotRequired[List[Dict[str, Any]]]
+    items: NotRequired[List[RoutesTypedDict]]
 
 
 class CreateRoutesAppendByIDResponse(BaseModel):
-    r"""a list of any objects"""
+    r"""a list of Routes objects"""
 
     count: Optional[int] = None
     r"""number of items present in the items array"""
 
-    items: Optional[List[Dict[str, Any]]] = None
+    items: Optional[List[Routes]] = None

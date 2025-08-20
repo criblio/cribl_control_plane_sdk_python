@@ -402,6 +402,7 @@ with CriblControlPlane(
 
 * [create](docs/sdks/commits/README.md#create) - Create a new commit for pending changes to the Cribl configuration
 * [diff](docs/sdks/commits/README.md#diff) - Retrieve the diff for a commit
+* [list](docs/sdks/commits/README.md#list) - Get the commit history
 * [push](docs/sdks/commits/README.md#push) - Push a commit from the local repository to the remote repository
 * [revert](docs/sdks/commits/README.md#revert) - Revert a commit in the local repository
 * [get](docs/sdks/commits/README.md#get) - Retrieve the diff and log message for a commit
@@ -636,7 +637,7 @@ with CriblControlPlane(
 
 
 **Inherit from [`CriblControlPlaneError`](./src/cribl_control_plane/errors/criblcontrolplaneerror.py)**:
-* [`HealthStatusError`](./src/cribl_control_plane/errors/healthstatuserror.py): Healthy status. Status code `420`. Applicable to 1 of 60 methods.*
+* [`HealthStatusError`](./src/cribl_control_plane/errors/healthstatuserror.py): Healthy status. Status code `420`. Applicable to 1 of 61 methods.*
 * [`ResponseValidationError`](./src/cribl_control_plane/errors/responsevalidationerror.py): Type mismatch between the response data and the expected Pydantic model. Provides access to the Pydantic validation error via the `cause` attribute.
 
 </details>

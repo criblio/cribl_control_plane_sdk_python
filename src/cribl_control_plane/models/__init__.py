@@ -282,6 +282,12 @@ if TYPE_CHECKING:
         GetVersionInfoResponse,
         GetVersionInfoResponseTypedDict,
     )
+    from .getversionop import (
+        GetVersionRequest,
+        GetVersionRequestTypedDict,
+        GetVersionResponse,
+        GetVersionResponseTypedDict,
+    )
     from .getversionshowop import (
         GetVersionShowRequest,
         GetVersionShowRequestTypedDict,
@@ -308,6 +314,7 @@ if TYPE_CHECKING:
     from .gitfile import GitFile, GitFileTypedDict
     from .gitfilesresponse import GitFilesResponse, GitFilesResponseTypedDict
     from .gitinfo import GitInfo, GitInfoTypedDict, Remote, RemoteTypedDict
+    from .gitlogresult import GitLogResult, GitLogResultTypedDict
     from .gitrevertparams import GitRevertParams, GitRevertParamsTypedDict
     from .gitrevertresult import (
         Audit,
@@ -3284,6 +3291,10 @@ __all__ = [
     "GetVersionFilesResponseTypedDict",
     "GetVersionInfoResponse",
     "GetVersionInfoResponseTypedDict",
+    "GetVersionRequest",
+    "GetVersionRequestTypedDict",
+    "GetVersionResponse",
+    "GetVersionResponseTypedDict",
     "GetVersionShowRequest",
     "GetVersionShowRequestTypedDict",
     "GetVersionShowResponse",
@@ -3305,6 +3316,8 @@ __all__ = [
     "GitFilesResponseTypedDict",
     "GitInfo",
     "GitInfoTypedDict",
+    "GitLogResult",
+    "GitLogResultTypedDict",
     "GitRevertParams",
     "GitRevertParamsTypedDict",
     "GitRevertResult",
@@ -5908,6 +5921,10 @@ _dynamic_imports: dict[str, str] = {
     "GetVersionFilesResponseTypedDict": ".getversionfilesop",
     "GetVersionInfoResponse": ".getversioninfoop",
     "GetVersionInfoResponseTypedDict": ".getversioninfoop",
+    "GetVersionRequest": ".getversionop",
+    "GetVersionRequestTypedDict": ".getversionop",
+    "GetVersionResponse": ".getversionop",
+    "GetVersionResponseTypedDict": ".getversionop",
     "GetVersionShowRequest": ".getversionshowop",
     "GetVersionShowRequestTypedDict": ".getversionshowop",
     "GetVersionShowResponse": ".getversionshowop",
@@ -5934,6 +5951,8 @@ _dynamic_imports: dict[str, str] = {
     "GitInfoTypedDict": ".gitinfo",
     "Remote": ".gitinfo",
     "RemoteTypedDict": ".gitinfo",
+    "GitLogResult": ".gitlogresult",
+    "GitLogResultTypedDict": ".gitlogresult",
     "GitRevertParams": ".gitrevertparams",
     "GitRevertParamsTypedDict": ".gitrevertparams",
     "Audit": ".gitrevertresult",

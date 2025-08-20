@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.14.0-alpha.1755543348575-fc1d9ba2
+  version: 4.14.0-alpha.1755671365329-001b451c
   contact:
     name: Support
     email: support@cribl.io
@@ -36447,6 +36447,23 @@ components:
       required:
         - remote
         - versioning
+    GitLogResult:
+      type: object
+      properties:
+        author_email:
+          type: string
+        author_name:
+          type: string
+        body:
+          type: string
+        date:
+          type: string
+        hash:
+          type: string
+        message:
+          type: string
+        refs:
+          type: string
     GitRevertParams:
       type: object
       properties:
@@ -37101,7 +37118,7 @@ tags:
   - name: workers
     description: Actions related to Workers
 paths:
-  "/products/lake/lakes/{lakeId}/datasets":
+  /products/lake/lakes/{lakeId}/datasets:
     post:
       operationId: createCriblLakeDatasetByLakeId
       tags:
@@ -37185,7 +37202,7 @@ paths:
           schema:
             type: string
           description: lake id that contains the Datasets
-  "/products/lake/lakes/{lakeId}/datasets/{id}":
+  /products/lake/lakes/{lakeId}/datasets/{id}:
     delete:
       operationId: deleteCriblLakeDatasetByLakeIdAndId
       tags:
@@ -37400,7 +37417,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  "/system/inputs/{id}":
+  /system/inputs/{id}:
     get:
       operationId: getInputById
       x-speakeasy-group: sources
@@ -37522,7 +37539,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  "/system/inputs/{id}/hectoken":
+  /system/inputs/{id}/hectoken:
     post:
       operationId: createInputHecTokenById
       tags:
@@ -37569,7 +37586,7 @@ paths:
           schema:
             type: string
           description: HEC Source id
-  "/system/inputs/{id}/hectoken/{token}":
+  /system/inputs/{id}/hectoken/{token}:
     patch:
       operationId: updateInputHecTokenByIdAndToken
       tags:
@@ -37697,7 +37714,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  "/system/outputs/{id}":
+  /system/outputs/{id}:
     get:
       operationId: getOutputById
       x-speakeasy-group: destinations
@@ -37819,7 +37836,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  "/system/outputs/{id}/pq":
+  /system/outputs/{id}/pq:
     delete:
       operationId: deleteOutputPqById
       tags:
@@ -37898,7 +37915,7 @@ paths:
           schema:
             type: string
           description: Destination Id
-  "/system/outputs/{id}/samples":
+  /system/outputs/{id}/samples:
     get:
       operationId: getOutputSamplesById
       tags:
@@ -37937,7 +37954,7 @@ paths:
           schema:
             type: string
           description: Destination Id
-  "/system/outputs/{id}/test":
+  /system/outputs/{id}/test:
     post:
       operationId: createOutputTestById
       tags:
@@ -38053,7 +38070,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  "/pipelines/{id}":
+  /pipelines/{id}:
     get:
       operationId: getPipelineById
       x-speakeasy-group: pipelines
@@ -38209,7 +38226,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  "/routes/{id}":
+  /routes/{id}:
     get:
       operationId: getRoutesById
       x-speakeasy-group: routes
@@ -38293,7 +38310,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  "/routes/{id}/append":
+  /routes/{id}/append:
     post:
       operationId: createRoutesAppendById
       tags:
@@ -38304,7 +38321,7 @@ paths:
       description: Appends routes to the end of the routing table
       responses:
         "200":
-          description: a list of any objects
+          description: a list of Routes objects
           content:
             application/json:
               schema:
@@ -38316,8 +38333,7 @@ paths:
                   items:
                     type: array
                     items:
-                      type: object
-                      additionalProperties: true
+                      $ref: "#/components/schemas/Routes"
         "401":
           description: Unauthorized
         "500":
@@ -38510,7 +38526,7 @@ paths:
           schema:
             type: string
           description: Comma separated list of entities, "outputs", "inputs"
-  "/packs/{id}":
+  /packs/{id}:
     delete:
       operationId: deletePacksById
       tags:
@@ -38882,6 +38898,51 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  /version:
+    get:
+      operationId: getVersion
+      tags:
+        - versioning
+      x-speakeasy-group: versions.commits
+      x-speakeasy-name-override: list
+      summary: Get the commit history
+      description: Get the commit history
+      responses:
+        "200":
+          description: a list of GitLogResult objects
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: number of items present in the items array
+                  items:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/GitLogResult"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: group
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Group ID
+        - name: count
+          in: query
+          required: false
+          schema:
+            type: number
+          description: Maximum number of commits to return
   /version/push:
     post:
       operationId: createVersionPush
@@ -39205,7 +39266,7 @@ paths:
           schema:
             type: string
           description: Filter expression evaluated against nodes
-  "/products/{product}/groups":
+  /products/{product}/groups:
     get:
       operationId: listConfigGroupByProduct
       tags:
@@ -39301,7 +39362,7 @@ paths:
               - stream
               - edge
           description: Name of the Cribl product to add the Worker Group or Edge Fleet to.
-  "/products/{product}/groups/{id}":
+  /products/{product}/groups/{id}:
     get:
       operationId: getConfigGroupByProductAndId
       tags:
@@ -39456,7 +39517,7 @@ paths:
                 $ref: "#/components/schemas/Error"
       x-speakeasy-group: groups
       x-speakeasy-name-override: delete
-  "/products/{product}/groups/{id}/configVersion":
+  /products/{product}/groups/{id}/configVersion:
     get:
       operationId: getConfigGroupConfigVersionByProductAndId
       tags:
@@ -39504,7 +39565,7 @@ paths:
           schema:
             type: string
           description: The <code>id</code> of the Worker Group or Edge Fleet to get the configuration version for.
-  "/products/{product}/groups/{id}/deploy":
+  /products/{product}/groups/{id}/deploy:
     patch:
       operationId: updateConfigGroupDeployByProductAndId
       tags:
@@ -39559,7 +39620,7 @@ paths:
           schema:
             type: string
           description: The <code>id</code> of the target Worker Group or Edge Fleet for commit deployment.
-  "/products/{product}/groups/{id}/acl/teams":
+  /products/{product}/groups/{id}/acl/teams:
     get:
       operationId: getConfigGroupAclTeamsByProductAndId
       tags:
@@ -39622,7 +39683,7 @@ paths:
               - notebooks
               - insights
           description: resource type by which to filter access levels
-  "/products/{product}/groups/{id}/acl":
+  /products/{product}/groups/{id}/acl:
     get:
       operationId: getConfigGroupAclByProductAndId
       tags:

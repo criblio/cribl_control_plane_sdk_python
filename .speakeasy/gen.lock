@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: fa2aec240b6e1c35e6bb718a089a1389
-  docVersion: 4.14.0-alpha.1755543348575-fc1d9ba2
+  docChecksum: 451421a1743d65e2eb4fd25855354f2b
+  docVersion: 4.14.0-alpha.1755671365329-001b451c
   speakeasyVersion: 1.605.1
   generationVersion: 2.684.0
-  releaseVersion: 0.0.30
-  configChecksum: b28bf5548b211a17c61c3ab445b9743a
+  releaseVersion: 0.0.31
+  configChecksum: 898c25e5cfcba408bc1f910aee30329c
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -187,6 +187,8 @@ generatedFiles:
   - docs/models/getversionfilesrequest.md
   - docs/models/getversionfilesresponse.md
   - docs/models/getversioninforesponse.md
+  - docs/models/getversionrequest.md
+  - docs/models/getversionresponse.md
   - docs/models/getversionshowrequest.md
   - docs/models/getversionshowresponse.md
   - docs/models/getversionstatusrequest.md
@@ -198,6 +200,7 @@ generatedFiles:
   - docs/models/gitfile.md
   - docs/models/gitfilesresponse.md
   - docs/models/gitinfo.md
+  - docs/models/gitlogresult.md
   - docs/models/gitrevertparams.md
   - docs/models/gitrevertresult.md
   - docs/models/gitrevertresultfiles.md
@@ -1964,6 +1967,7 @@ generatedFiles:
   - src/cribl_control_plane/models/getversiondiffop.py
   - src/cribl_control_plane/models/getversionfilesop.py
   - src/cribl_control_plane/models/getversioninfoop.py
+  - src/cribl_control_plane/models/getversionop.py
   - src/cribl_control_plane/models/getversionshowop.py
   - src/cribl_control_plane/models/getversionstatusop.py
   - src/cribl_control_plane/models/gitcommitparams.py
@@ -1971,6 +1975,7 @@ generatedFiles:
   - src/cribl_control_plane/models/gitfile.py
   - src/cribl_control_plane/models/gitfilesresponse.py
   - src/cribl_control_plane/models/gitinfo.py
+  - src/cribl_control_plane/models/gitlogresult.py
   - src/cribl_control_plane/models/gitrevertparams.py
   - src/cribl_control_plane/models/gitrevertresult.py
   - src/cribl_control_plane/models/gitstatusresult.py
@@ -2397,7 +2402,7 @@ examples:
         application/json: []
       responses:
         "200":
-          application/json: {"count": 359371, "items": [{}]}
+          application/json: {"count": 359371, "items": [{"id": "<id>", "routes": [], "groups": {"key": {"name": "<value>", "description": "fooey across unless stealthily along", "disabled": true}}, "comments": [{"comment": "Boston's most advanced compression wear technology increases muscle oxygenation, stabilizes active muscles"}]}]}
         "500":
           application/json: {"message": "<value>"}
   listPipeline:
@@ -2963,6 +2968,17 @@ examples:
       responses:
         "200":
           application/json: {"count": 729189, "items": [{"perms": [{"gid": "<id>", "id": "<id>", "policy": "<value>", "type": "notebooks"}], "team": "<value>"}]}
+        "500":
+          application/json: {"message": "<value>"}
+  getVersion:
+    speakeasy-default-get-version:
+      parameters:
+        query:
+          group: "<value>"
+          count: 893.58
+      responses:
+        "200":
+          application/json: {"count": 384008, "items": [{"author_email": "<value>", "author_name": "<value>", "body": "<value>", "date": "2024-03-31", "hash": "<value>", "message": "<value>", "refs": "<value>"}]}
         "500":
           application/json: {"message": "<value>"}
 examplesVersion: 1.0.2

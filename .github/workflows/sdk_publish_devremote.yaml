@@ -45,7 +45,7 @@ jobs:
         id: ver
         run: |
           BASE=$(yq '.python.version' .speakeasy/gen.yaml)
-          BASE="${BASE%%-*}"         # strip existing prerelease
+          BASE=$(echo "$BASE" | sed -E 's/^([0-9]+\.[0-9]+\.[0-9]+).*$/\1/')
 
           IFS='.' read -r major minor patch <<< "$BASE"
           patch=$((patch + 1))

@@ -17,7 +17,7 @@ permissions:
         type: string
 jobs:
   test:
-    uses: speakeasy-api/sdk-generation-action/.github/workflows/sdk-test.yaml@f45375353f75b2040519f0a7881db0b02df372b7
+    uses: speakeasy-api/sdk-generation-action/.github/workflows/sdk-test.yaml@57452fc95969792de6734a91400a24aeb409964c
     with:
       target: ${{ github.event.inputs.target || 'cribl-control-plane' }}
     secrets:

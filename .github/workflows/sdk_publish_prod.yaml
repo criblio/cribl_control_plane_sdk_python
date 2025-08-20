@@ -1,0 +1,33 @@
+name: Publish Prod SDK
+permissions:
+  checks: write
+  contents: write
+  pull-requests: write
+  statuses: write
+"on":
+  push:
+    branches:
+      - main
+    paths:
+      - .speakeasy/gen.lock
+  workflow_dispatch: {}
+jobs:
+  check-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ensure workflow is run from main branch
+        run: |
+          if [[ "${GITHUB_REF_NAME}" != "main" ]]; then
+            echo "This workflow can only be run from the main branch."
+            exit 1
+          fi
+
+  publish:
+    needs: check-branch
+    uses: speakeasy-api/sdk-generation-action/.github/workflows/sdk-publish.yaml@57452fc95969792de6734a91400a24aeb409964c
+    with:
+      target: cribl-control-plane
+    secrets:
+      github_access_token: ${{ secrets.GITHUB_TOKEN }}
+      pypi_token: ${{ secrets.PYPI_TOKEN }}
+      speakeasy_api_key: ${{ secrets.SPEAKEASY_API_KEY }}

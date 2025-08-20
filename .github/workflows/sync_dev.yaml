@@ -14,6 +14,11 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Install yq
+        run: |
+          sudo curl -L https://github.com/mikefarah/yq/releases/download/v4.44.3/yq_linux_amd64 -o /usr/local/bin/yq
+          sudo chmod +x /usr/local/bin/yq
+
       - name: Set up Git user
         run: |
           git config user.name "SyncUpBot"
@@ -21,12 +26,16 @@ jobs:
 
       - name: Merge main into dev-local & dev-remote
         run: |
-          # Fetch main and dev branches
           git fetch origin main dev-local dev-remote
 
-          for BR in dev-local dev-remote; do
-            echo "Merging origin/main into $BR"
-            git checkout $BR
-            git merge origin/main -X theirs --no-edit
-            git push origin $BR
-          done
+          git checkout dev-local
+          git merge origin/main -X theirs --no-edit
+          git push origin dev-local
+
+          git checkout dev-remote
+          git reset --hard origin/main
+
+          yq -i --indent 4 '.sources["Cribl API Reference"].inputs[0].location = "https://raw.githubusercontent.com/criblio/cribl-openapi-spec/main/specs/control-plane-prerelease.yml"' .speakeasy/workflow.yaml
+          git commit -am "dev-remote: use local OpenAPI source (./openapi.yml) in workflow.yaml"
+
+          git push origin -f dev-remote

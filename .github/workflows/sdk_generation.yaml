@@ -1,4 +1,4 @@
-name: Generate
+name: Generate Prod SDK
 permissions:
   checks: write
   contents: write
@@ -21,8 +21,19 @@ permissions:
       - labeled
       - unlabeled
 jobs:
+  check-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ensure workflow is run from main branch
+        run: |
+          if [[ "${GITHUB_REF_NAME}" != "main" ]]; then
+            echo "This workflow can only be run from the main branch."
+            exit 1
+          fi
+
   generate:
-    uses: speakeasy-api/sdk-generation-action/.github/workflows/workflow-executor.yaml@f45375353f75b2040519f0a7881db0b02df372b7
+    needs: check-branch
+    uses: speakeasy-api/sdk-generation-action/.github/workflows/workflow-executor.yaml@57452fc95969792de6734a91400a24aeb409964c
     with:
       force: ${{ github.event.inputs.force }}
       mode: pr

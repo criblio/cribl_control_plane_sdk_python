@@ -1,0 +1,44 @@
+name: Publish alpha SDK (local build)
+permissions:
+  checks: write
+  contents: write
+  pull-requests: write
+  statuses: write
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  generate-and-push:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.ver.outputs.version }}
+    steps:
+      - name: Checkout branch from workflow trigger
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - name: Check prerelease version (X.Y.Za<n>)
+        id: ver
+        run: |
+          VERSION=$(yq '.python.version' .speakeasy/gen.yaml)
+          echo "Detected version: $VERSION"
+
+          if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+a[0-9]+$ ]]; then
+            echo "::error::Version is not an alpha prerelease (expected format X.Y.Za<n>)"
+            exit 1
+          fi
+
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+  publish:
+    needs: generate-and-push
+    uses: speakeasy-api/sdk-generation-action/.github/workflows/sdk-publish.yaml@57452fc95969792de6734a91400a24aeb409964c
+    with:
+      target: cribl-control-plane
+    secrets:
+      github_access_token: ${{ secrets.GITHUB_TOKEN }}
+      pypi_token: ${{ secrets.PYPI_TOKEN }}
+      speakeasy_api_key: ${{ secrets.SPEAKEASY_API_KEY }}

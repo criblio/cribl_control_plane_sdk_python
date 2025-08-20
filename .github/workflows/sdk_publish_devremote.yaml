@@ -1,4 +1,4 @@
-name: Publish Prerelease
+name: Publish alpha SDK based on dev-remote branch
 permissions:
   checks: write
   contents: write
@@ -26,7 +26,7 @@ jobs:
       version: ${{ steps.ver.outputs.version }}
     steps:
       - name: Checkout dev-remote
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           ref: dev-remote
           fetch-depth: 0
@@ -41,15 +41,44 @@ jobs:
           curl -fsSL https://raw.githubusercontent.com/speakeasy-api/speakeasy/main/install.sh | sh
           echo "$HOME/.speakeasy/bin" >> "$GITHUB_PATH"
 
-      - name: Compute prerelease version (X.Y.Za)
+      - name: Compute prerelease version (X.Y.Za<n>)
         id: ver
         run: |
           BASE=$(yq '.python.version' .speakeasy/gen.yaml)
-          BASE="${BASE#v}"       # strip leading v
-          BASE="${BASE%%-*}"     # strip existing prerelease
-          FINAL="${BASE}a"       # append 'a' for alpha
-          echo "version=$FINAL" >> "$GITHUB_OUTPUT"
-          echo "Computed prerelease: $FINAL"
+          BASE="${BASE%%-*}"         # strip existing prerelease
+
+          IFS='.' read -r major minor patch <<< "$BASE"
+          patch=$((patch + 1))
+          BASE="${major}.${minor}.${patch}"
+
+          PREFIX="${BASE}a"    # append 'a'
+
+          echo "Base version: ${BASE}"
+          echo "Prefix: ${PREFIX}"
+
+          echo "Fetching remote tags..."
+          # Make sure we have remote tags info
+          git fetch --tags --quiet
+
+          echo "Available remote tags:"
+          git ls-remote --tags origin | tail -n 20
+
+          # Find first unused tag by checking remote tags one-by-one
+          n=1
+          while true; do
+            echo "Checking if tag exists: ${PREFIX}${n}"
+            out=$(git ls-remote --tags origin "${PREFIX}${n}" || true)
+            echo "ls-remote output: $out"
+
+            if [[ -z "$out" ]]; then
+              break
+            fi
+            n=$((n+1))
+          done
+
+          FINAL="${PREFIX}${n}"
+          echo "version=${FINAL}" >> "$GITHUB_OUTPUT"
+          echo "Computed prerelease: ${FINAL}"
 
       - name: Generate SDK
         env:
@@ -75,10 +104,10 @@ jobs:
 
   publish:
     needs: generate-and-push
-    uses: speakeasy-api/sdk-generation-action/.github/workflows/sdk-publish.yaml@f45375353f75b2040519f0a7881db0b02df372b7
+    uses: speakeasy-api/sdk-generation-action/.github/workflows/sdk-publish.yaml@57452fc95969792de6734a91400a24aeb409964c
     with:
       target: cribl-control-plane
     secrets:
       github_access_token: ${{ secrets.GITHUB_TOKEN }}
-      pypi_token:        ${{ secrets.PYPI_TOKEN }}
+      pypi_token: ${{ secrets.PYPI_TOKEN }}
       speakeasy_api_key: ${{ secrets.SPEAKEASY_API_KEY }}

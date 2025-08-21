@@ -4403,11 +4403,6 @@ components:
         description:
           type: string
           title: Description
-      anyOf:
-        - required:
-            - prometheusAPI
-        - required:
-            - lokiAPI
     InputLoki:
       type: object
       required:
@@ -14112,13 +14107,6 @@ components:
           type: boolean
           title: Enable enhanced TLS handshake for proxy protocol
           description: When enabled, parses PROXY protocol headers during the TLS handshake. Disable if compatibility issues arise.
-      anyOf:
-        - required:
-            - host
-            - udpPort
-        - required:
-            - host
-            - tcpPort
     InputFile:
       type: object
       properties:
@@ -17448,6 +17436,67 @@ components:
         - $ref: "#/components/schemas/InputNetflow"
         - $ref: "#/components/schemas/InputSecurityLake"
         - $ref: "#/components/schemas/InputZscalerHec"
+      discriminator:
+        propertyName: type
+        mapping:
+          collection: "#/components/schemas/InputCollection"
+          kafka: "#/components/schemas/InputKafka"
+          msk: "#/components/schemas/InputMsk"
+          http: "#/components/schemas/InputHttp"
+          splunk: "#/components/schemas/InputSplunk"
+          splunk_search: "#/components/schemas/InputSplunkSearch"
+          splunk_hec: "#/components/schemas/InputSplunkHec"
+          azure_blob: "#/components/schemas/InputAzureBlob"
+          elastic: "#/components/schemas/InputElastic"
+          confluent_cloud: "#/components/schemas/InputConfluentCloud"
+          grafana: "#/components/schemas/InputGrafana"
+          loki: "#/components/schemas/InputLoki"
+          prometheus_rw: "#/components/schemas/InputPrometheusRw"
+          prometheus: "#/components/schemas/InputPrometheus"
+          edge_prometheus: "#/components/schemas/InputEdgePrometheus"
+          office365_mgmt: "#/components/schemas/InputOffice365Mgmt"
+          office365_service: "#/components/schemas/InputOffice365Service"
+          office365_msg_trace: "#/components/schemas/InputOffice365MsgTrace"
+          eventhub: "#/components/schemas/InputEventhub"
+          exec: "#/components/schemas/InputExec"
+          firehose: "#/components/schemas/InputFirehose"
+          google_pubsub: "#/components/schemas/InputGooglePubsub"
+          cribl: "#/components/schemas/InputCribl"
+          cribl_tcp: "#/components/schemas/InputCriblTcp"
+          cribl_http: "#/components/schemas/InputCriblHttp"
+          cribl_lake_http: "#/components/schemas/InputCriblLakeHttp"
+          tcpjson: "#/components/schemas/InputTcpjson"
+          system_metrics: "#/components/schemas/InputSystemMetrics"
+          system_state: "#/components/schemas/InputSystemState"
+          kube_metrics: "#/components/schemas/InputKubeMetrics"
+          kube_logs: "#/components/schemas/InputKubeLogs"
+          kube_events: "#/components/schemas/InputKubeEvents"
+          windows_metrics: "#/components/schemas/InputWindowsMetrics"
+          crowdstrike: "#/components/schemas/InputCrowdstrike"
+          datadog_agent: "#/components/schemas/InputDatadogAgent"
+          datagen: "#/components/schemas/InputDatagen"
+          http_raw: "#/components/schemas/InputHttpRaw"
+          kinesis: "#/components/schemas/InputKinesis"
+          criblmetrics: "#/components/schemas/InputCriblmetrics"
+          metrics: "#/components/schemas/InputMetrics"
+          s3: "#/components/schemas/InputS3"
+          s3_inventory: "#/components/schemas/InputS3Inventory"
+          snmp: "#/components/schemas/InputSnmp"
+          open_telemetry: "#/components/schemas/InputOpenTelemetry"
+          model_driven_telemetry: "#/components/schemas/InputModelDrivenTelemetry"
+          sqs: "#/components/schemas/InputSqs"
+          syslog: "#/components/schemas/InputSyslog"
+          file: "#/components/schemas/InputFile"
+          tcp: "#/components/schemas/InputTcp"
+          appscope: "#/components/schemas/InputAppscope"
+          wef: "#/components/schemas/InputWef"
+          win_event_logs: "#/components/schemas/InputWinEventLogs"
+          raw_udp: "#/components/schemas/InputRawUdp"
+          journal_files: "#/components/schemas/InputJournalFiles"
+          wiz: "#/components/schemas/InputWiz"
+          netflow: "#/components/schemas/InputNetflow"
+          security_lake: "#/components/schemas/InputSecurityLake"
+          zscaler_hec: "#/components/schemas/InputZscalerHec"
     AddHecTokenRequest:
       type: object
       properties:
@@ -29630,11 +29679,6 @@ components:
             - always
         pqControls:
           type: object
-      anyOf:
-        - required:
-            - lokiUrl
-        - required:
-            - prometheusUrl
       required:
         - type
     OutputLoki:
@@ -35756,6 +35800,73 @@ components:
         - $ref: "#/components/schemas/OutputDynatraceHttp"
         - $ref: "#/components/schemas/OutputDynatraceOtlp"
         - $ref: "#/components/schemas/OutputSentinelOneAiSiem"
+      discriminator:
+        propertyName: type
+        mapping:
+          default: "#/components/schemas/OutputDefault"
+          webhook: "#/components/schemas/OutputWebhook"
+          sentinel: "#/components/schemas/OutputSentinel"
+          devnull: "#/components/schemas/OutputDevnull"
+          syslog: "#/components/schemas/OutputSyslog"
+          splunk: "#/components/schemas/OutputSplunk"
+          splunk_lb: "#/components/schemas/OutputSplunkLb"
+          splunk_hec: "#/components/schemas/OutputSplunkHec"
+          tcpjson: "#/components/schemas/OutputTcpjson"
+          wavefront: "#/components/schemas/OutputWavefront"
+          signalfx: "#/components/schemas/OutputSignalfx"
+          filesystem: "#/components/schemas/OutputFilesystem"
+          s3: "#/components/schemas/OutputS3"
+          azure_blob: "#/components/schemas/OutputAzureBlob"
+          azure_data_explorer: "#/components/schemas/OutputAzureDataExplorer"
+          azure_logs: "#/components/schemas/OutputAzureLogs"
+          kinesis: "#/components/schemas/OutputKinesis"
+          honeycomb: "#/components/schemas/OutputHoneycomb"
+          azure_eventhub: "#/components/schemas/OutputAzureEventhub"
+          google_chronicle: "#/components/schemas/OutputGoogleChronicle"
+          google_cloud_storage: "#/components/schemas/OutputGoogleCloudStorage"
+          google_cloud_logging: "#/components/schemas/OutputGoogleCloudLogging"
+          google_pubsub: "#/components/schemas/OutputGooglePubsub"
+          exabeam: "#/components/schemas/OutputExabeam"
+          kafka: "#/components/schemas/OutputKafka"
+          confluent_cloud: "#/components/schemas/OutputConfluentCloud"
+          msk: "#/components/schemas/OutputMsk"
+          elastic: "#/components/schemas/OutputElastic"
+          elastic_cloud: "#/components/schemas/OutputElasticCloud"
+          newrelic: "#/components/schemas/OutputNewrelic"
+          newrelic_events: "#/components/schemas/OutputNewrelicEvents"
+          influxdb: "#/components/schemas/OutputInfluxdb"
+          cloudwatch: "#/components/schemas/OutputCloudwatch"
+          minio: "#/components/schemas/OutputMinio"
+          statsd: "#/components/schemas/OutputStatsd"
+          statsd_ext: "#/components/schemas/OutputStatsdExt"
+          graphite: "#/components/schemas/OutputGraphite"
+          router: "#/components/schemas/OutputRouter"
+          sns: "#/components/schemas/OutputSns"
+          sqs: "#/components/schemas/OutputSqs"
+          snmp: "#/components/schemas/OutputSnmp"
+          sumo_logic: "#/components/schemas/OutputSumoLogic"
+          datadog: "#/components/schemas/OutputDatadog"
+          grafana_cloud: "#/components/schemas/OutputGrafanaCloud"
+          loki: "#/components/schemas/OutputLoki"
+          prometheus: "#/components/schemas/OutputPrometheus"
+          ring: "#/components/schemas/OutputRing"
+          open_telemetry: "#/components/schemas/OutputOpenTelemetry"
+          service_now: "#/components/schemas/OutputServiceNow"
+          dataset: "#/components/schemas/OutputDataset"
+          cribl_tcp: "#/components/schemas/OutputCriblTcp"
+          cribl_http: "#/components/schemas/OutputCriblHttp"
+          humio_hec: "#/components/schemas/OutputHumioHec"
+          crowdstrike_next_gen_siem: "#/components/schemas/OutputCrowdstrikeNextGenSiem"
+          dl_s3: "#/components/schemas/OutputDlS3"
+          security_lake: "#/components/schemas/OutputSecurityLake"
+          cribl_lake: "#/components/schemas/OutputCriblLake"
+          disk_spool: "#/components/schemas/OutputDiskSpool"
+          click_house: "#/components/schemas/OutputClickHouse"
+          xsiam: "#/components/schemas/OutputXsiam"
+          netflow: "#/components/schemas/OutputNetflow"
+          dynatrace_http: "#/components/schemas/OutputDynatraceHttp"
+          dynatrace_otlp: "#/components/schemas/OutputDynatraceOtlp"
+          sentinel_one_ai_siem: "#/components/schemas/OutputSentinelOneAiSiem"
     OutputSamplesResponse:
       type: object
       properties:

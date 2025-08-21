@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: dfb5e34bdb9205f7f222f10c8554a537
-  docVersion: 4.14.0-alpha.1755764858399-d5c9979b
+  docChecksum: 7117f9e73ff6b132ec81ba4366ee8712
+  docVersion: 4.14.0-alpha.1755792230606-47c829c2
   speakeasyVersion: 1.606.0
   generationVersion: 2.686.7
-  releaseVersion: 0.0.35
-  configChecksum: 176c1b43f4e9d2b1b8c029b36b77dbc3
+  releaseVersion: 0.0.36
+  configChecksum: 432f2c0561d1a4f613ed5bfa6c6845f3
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -162,6 +162,8 @@ generatedFiles:
   - docs/models/getoutputpqbyidresponse.md
   - docs/models/getoutputsamplesbyidrequest.md
   - docs/models/getoutputsamplesbyidresponse.md
+  - docs/models/getpacksbyidrequest.md
+  - docs/models/getpacksbyidresponse.md
   - docs/models/getpacksrequest.md
   - docs/models/getpacksresponse.md
   - docs/models/getpipelinebyidrequest.md
@@ -897,6 +899,18 @@ generatedFiles:
   - docs/models/inputwizretryrules.md
   - docs/models/inputwizretrytype.md
   - docs/models/inputwiztype.md
+  - docs/models/inputwizwebhook.md
+  - docs/models/inputwizwebhookauthtokensext.md
+  - docs/models/inputwizwebhookauthtokensextmetadatum.md
+  - docs/models/inputwizwebhookcompression.md
+  - docs/models/inputwizwebhookconnection.md
+  - docs/models/inputwizwebhookmaximumtlsversion.md
+  - docs/models/inputwizwebhookmetadatum.md
+  - docs/models/inputwizwebhookminimumtlsversion.md
+  - docs/models/inputwizwebhookmode.md
+  - docs/models/inputwizwebhookpq.md
+  - docs/models/inputwizwebhooktlssettingsserverside.md
+  - docs/models/inputwizwebhooktype.md
   - docs/models/inputzscalerhec.md
   - docs/models/inputzscalerhecauthenticationmethod.md
   - docs/models/inputzscalerhecauthtoken.md
@@ -1948,6 +1962,7 @@ generatedFiles:
   - src/cribl_control_plane/models/getoutputbyidop.py
   - src/cribl_control_plane/models/getoutputpqbyidop.py
   - src/cribl_control_plane/models/getoutputsamplesbyidop.py
+  - src/cribl_control_plane/models/getpacksbyidop.py
   - src/cribl_control_plane/models/getpacksop.py
   - src/cribl_control_plane/models/getpipelinebyidop.py
   - src/cribl_control_plane/models/getroutesbyidop.py
@@ -2031,6 +2046,7 @@ generatedFiles:
   - src/cribl_control_plane/models/inputwindowsmetrics.py
   - src/cribl_control_plane/models/inputwineventlogs.py
   - src/cribl_control_plane/models/inputwiz.py
+  - src/cribl_control_plane/models/inputwizwebhook.py
   - src/cribl_control_plane/models/inputzscalerhec.py
   - src/cribl_control_plane/models/lakedatasetsearchconfig.py
   - src/cribl_control_plane/models/lakehouseconnectiontype.py
@@ -3017,6 +3033,16 @@ examples:
           application/json: {"count": 6619, "items": [{"authType": "<value>", "autoAction": "<value>", "autoActionMessage": "<value>", "autoActionSchedule": "<value>", "branch": "<value>", "commitDeploySingleAction": true, "copilotAutoGitCommitMessages": false, "defaultCommitMessage": "<value>", "gitOps": "none", "password": "qUY4EQ7xkkuLNCo", "remote": "<value>", "sshKey": "<value>", "strictHostKeyChecking": true, "timeout": 7121.45, "user": "Wyman11"}]}
         "500":
           application/json: {"message": "<value>"}
+  getPacksById:
+    speakeasy-default-get-packs-by-id:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"count": 163235, "items": [{"author": "<value>", "description": "round at outside round terribly direct trolley into", "displayName": "Everett_Emmerich", "exports": ["<value 1>", "<value 2>", "<value 3>"], "id": "<id>", "inputs": 6850.5, "isDisabled": false, "minLogStreamVersion": "<value>", "outputs": 2014.93, "settings": {"key": "<value>", "key1": "<value>", "key2": "<value>"}, "source": "<value>", "spec": "<value>", "tags": {"dataType": ["boolean"], "domain": [], "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "technology": ["<value 1>", "<value 2>"]}, "version": "<value>"}]}
+        "500":
+          application/json: {"message": "<value>"}
 examplesVersion: 1.0.2
 generatedTests:
   getHealthInfo: "2025-07-02T19:12:56+02:00"
@@ -3082,17 +3108,4 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: |
-  ## SDK Changes Detected:
-  * `cribl_control_plane.nodes.summaries.get()`:  `request.mode` **Changed**
-  * `cribl_control_plane.versions.commits.revert()`:  `response.items.[].audit` **Changed**
-  * `cribl_control_plane.versions.commits.files.list()`:  `response.items.[].commit_message` **Changed**
-  * `cribl_control_plane.groups.list()`:  `request.product` **Changed**
-  * `cribl_control_plane.groups.create()`:  `request.product` **Changed**
-  * `cribl_control_plane.groups.get()`:  `request.product` **Changed**
-  * `cribl_control_plane.groups.update()`:  `request.product` **Changed**
-  * `cribl_control_plane.groups.delete()`:  `request.product` **Changed**
-  * `cribl_control_plane.groups.deploy()`:  `request.product` **Changed**
-  * `cribl_control_plane.groups.configs.versions.get()`:  `request.product` **Changed**
-  * `cribl_control_plane.groups.acl.get()`:  `request` **Changed**
-  * `cribl_control_plane.groups.acl.teams.get()`:  `request` **Changed**
+releaseNotes: "## SDK Changes Detected:\n* `cribl_control_plane.packs.get()`: **Added**\n* `cribl_control_plane.sources.list()`:  `response.items.[].[input_wiz_webhook]` **Added**\n* `cribl_control_plane.sources.create()`: \n  *  `request.[input_wiz_webhook]` **Added**\n  *  `response.items.[].[input_wiz_webhook]` **Added**\n* `cribl_control_plane.sources.get()`:  `response.items.[].[input_wiz_webhook]` **Added**\n* `cribl_control_plane.sources.update()`: \n  *  `request.input.[input_wiz_webhook]` **Added**\n  *  `response.items.[].[input_wiz_webhook]` **Added**\n* `cribl_control_plane.sources.delete()`:  `response.items.[].[input_wiz_webhook]` **Added**\n* `cribl_control_plane.versions.commits.revert()`:  `request.message` **Changed**\n"

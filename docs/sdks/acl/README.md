@@ -26,7 +26,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.groups.acl.get(product=models.GetConfigGroupACLByProductAndIDProduct.EDGE, id="<id>", type_=models.GetConfigGroupACLByProductAndIDType.MACROS)
+    res = ccp_client.groups.acl.get(product=models.ProductsCore.EDGE, id="<id>", type_=models.RbacResource.MACROS)
 
     # Handle response
     print(res)
@@ -35,12 +35,12 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                                                                   | Type                                                                                                        | Required                                                                                                    | Description                                                                                                 |
-| ----------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| `product`                                                                                                   | [models.GetConfigGroupACLByProductAndIDProduct](../../models/getconfiggroupaclbyproductandidproduct.md)     | :heavy_check_mark:                                                                                          | Name of the Cribl product to get the Worker Groups or Edge Fleets for.                                      |
-| `id`                                                                                                        | *str*                                                                                                       | :heavy_check_mark:                                                                                          | The <code>id</code> of the Worker Group or Edge Fleet to get the ACL for.                                   |
-| `type`                                                                                                      | [Optional[models.GetConfigGroupACLByProductAndIDType]](../../models/getconfiggroupaclbyproductandidtype.md) | :heavy_minus_sign:                                                                                          | Filter for limiting the response to ACL entries for the specified RBAC resource type.                       |
-| `retries`                                                                                                   | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                            | :heavy_minus_sign:                                                                                          | Configuration to override the default retry behavior of the client.                                         |
+| Parameter                                                                             | Type                                                                                  | Required                                                                              | Description                                                                           |
+| ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| `product`                                                                             | [models.ProductsCore](../../models/productscore.md)                                   | :heavy_check_mark:                                                                    | Name of the Cribl product to get the Worker Groups or Edge Fleets for.                |
+| `id`                                                                                  | *str*                                                                                 | :heavy_check_mark:                                                                    | The <code>id</code> of the Worker Group or Edge Fleet to get the ACL for.             |
+| `type`                                                                                | [Optional[models.RbacResource]](../../models/rbacresource.md)                         | :heavy_minus_sign:                                                                    | Filter for limiting the response to ACL entries for the specified RBAC resource type. |
+| `retries`                                                                             | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                      | :heavy_minus_sign:                                                                    | Configuration to override the default retry behavior of the client.                   |
 
 ### Response
 

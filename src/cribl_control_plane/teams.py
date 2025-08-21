@@ -13,9 +13,9 @@ class Teams(BaseSDK):
     def get(
         self,
         *,
-        product: models.GetConfigGroupACLTeamsByProductAndIDProduct,
+        product: models.ProductsCore,
         id: str,
-        type_: Optional[models.GetConfigGroupACLTeamsByProductAndIDType] = None,
+        type_: Optional[models.RbacResource] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -108,9 +108,9 @@ class Teams(BaseSDK):
     async def get_async(
         self,
         *,
-        product: models.GetConfigGroupACLTeamsByProductAndIDProduct,
+        product: models.ProductsCore,
         id: str,
-        type_: Optional[models.GetConfigGroupACLTeamsByProductAndIDType] = None,
+        type_: Optional[models.RbacResource] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,

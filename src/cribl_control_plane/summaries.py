@@ -13,7 +13,7 @@ class Summaries(BaseSDK):
     def get(
         self,
         *,
-        mode: Optional[models.GetSummaryMode] = None,
+        mode: Optional[models.WorkerTypes] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -100,7 +100,7 @@ class Summaries(BaseSDK):
     async def get_async(
         self,
         *,
-        mode: Optional[models.GetSummaryMode] = None,
+        mode: Optional[models.WorkerTypes] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,

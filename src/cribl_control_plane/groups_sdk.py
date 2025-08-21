@@ -30,7 +30,7 @@ class GroupsSDK(BaseSDK):
     def list(
         self,
         *,
-        product: models.ListConfigGroupByProductProduct,
+        product: models.ProductsCore,
         fields: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -122,7 +122,7 @@ class GroupsSDK(BaseSDK):
     async def list_async(
         self,
         *,
-        product: models.ListConfigGroupByProductProduct,
+        product: models.ProductsCore,
         fields: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -214,7 +214,7 @@ class GroupsSDK(BaseSDK):
     def create(
         self,
         *,
-        product: models.CreateConfigGroupByProductProduct,
+        product: models.ProductsCore,
         config_version: str,
         id: str,
         cloud: Optional[
@@ -385,7 +385,7 @@ class GroupsSDK(BaseSDK):
     async def create_async(
         self,
         *,
-        product: models.CreateConfigGroupByProductProduct,
+        product: models.ProductsCore,
         config_version: str,
         id: str,
         cloud: Optional[
@@ -556,7 +556,7 @@ class GroupsSDK(BaseSDK):
     def get(
         self,
         *,
-        product: models.GetConfigGroupByProductAndIDProduct,
+        product: models.ProductsCore,
         id: str,
         fields: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -651,7 +651,7 @@ class GroupsSDK(BaseSDK):
     async def get_async(
         self,
         *,
-        product: models.GetConfigGroupByProductAndIDProduct,
+        product: models.ProductsCore,
         id: str,
         fields: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -746,7 +746,7 @@ class GroupsSDK(BaseSDK):
     def update(
         self,
         *,
-        product: models.UpdateConfigGroupByProductAndIDProduct,
+        product: models.ProductsCore,
         id_param: str,
         config_version: str,
         id: str,
@@ -920,7 +920,7 @@ class GroupsSDK(BaseSDK):
     async def update_async(
         self,
         *,
-        product: models.UpdateConfigGroupByProductAndIDProduct,
+        product: models.ProductsCore,
         id_param: str,
         config_version: str,
         id: str,
@@ -1094,7 +1094,7 @@ class GroupsSDK(BaseSDK):
     def delete(
         self,
         *,
-        product: models.DeleteConfigGroupByProductAndIDProduct,
+        product: models.ProductsCore,
         id: str,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -1186,7 +1186,7 @@ class GroupsSDK(BaseSDK):
     async def delete_async(
         self,
         *,
-        product: models.DeleteConfigGroupByProductAndIDProduct,
+        product: models.ProductsCore,
         id: str,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -1278,7 +1278,7 @@ class GroupsSDK(BaseSDK):
     def deploy(
         self,
         *,
-        product: models.UpdateConfigGroupDeployByProductAndIDProduct,
+        product: models.ProductsCore,
         id: str,
         version: str,
         lookups: Optional[
@@ -1388,7 +1388,7 @@ class GroupsSDK(BaseSDK):
     async def deploy_async(
         self,
         *,
-        product: models.UpdateConfigGroupDeployByProductAndIDProduct,
+        product: models.ProductsCore,
         id: str,
         version: str,
         lookups: Optional[

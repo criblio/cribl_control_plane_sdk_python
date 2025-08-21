@@ -4,19 +4,21 @@ from __future__ import annotations
 from .gitfile import GitFile, GitFileTypedDict
 from cribl_control_plane.types import BaseModel
 import pydantic
-from typing import Any, Dict, List
-from typing_extensions import Annotated, TypedDict
+from typing import Any, Dict, List, Optional
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class GitFilesResponseTypedDict(TypedDict):
-    commit_message: Dict[str, Any]
     count: float
     items: List[GitFileTypedDict]
+    commit_message: NotRequired[Dict[str, Any]]
 
 
 class GitFilesResponse(BaseModel):
-    commit_message: Annotated[Dict[str, Any], pydantic.Field(alias="commitMessage")]
-
     count: float
 
     items: List[GitFile]
+
+    commit_message: Annotated[
+        Optional[Dict[str, Any]], pydantic.Field(alias="commitMessage")
+    ] = None

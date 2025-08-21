@@ -24,17 +24,17 @@ class GitRevertResultFiles(BaseModel):
 
 
 class AuditTypedDict(TypedDict):
-    files: GitRevertResultFilesTypedDict
-    group: str
     id: str
+    files: NotRequired[GitRevertResultFilesTypedDict]
+    group: NotRequired[str]
 
 
 class Audit(BaseModel):
-    files: GitRevertResultFiles
-
-    group: str
-
     id: str
+
+    files: Optional[GitRevertResultFiles] = None
+
+    group: Optional[str] = None
 
 
 class GitRevertResultTypedDict(TypedDict):

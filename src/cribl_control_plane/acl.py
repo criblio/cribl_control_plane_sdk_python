@@ -25,9 +25,9 @@ class ACL(BaseSDK):
     def get(
         self,
         *,
-        product: models.GetConfigGroupACLByProductAndIDProduct,
+        product: models.ProductsCore,
         id: str,
-        type_: Optional[models.GetConfigGroupACLByProductAndIDType] = None,
+        type_: Optional[models.RbacResource] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -120,9 +120,9 @@ class ACL(BaseSDK):
     async def get_async(
         self,
         *,
-        product: models.GetConfigGroupACLByProductAndIDProduct,
+        product: models.ProductsCore,
         id: str,
-        type_: Optional[models.GetConfigGroupACLByProductAndIDType] = None,
+        type_: Optional[models.RbacResource] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,

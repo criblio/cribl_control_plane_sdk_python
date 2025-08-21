@@ -2,26 +2,19 @@
 
 from __future__ import annotations
 from .configgroup import ConfigGroup, ConfigGroupTypedDict
+from .productscore import ProductsCore
 from cribl_control_plane.types import BaseModel
 from cribl_control_plane.utils import (
     FieldMetadata,
     PathParamMetadata,
     QueryParamMetadata,
 )
-from enum import Enum
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class ListConfigGroupByProductProduct(str, Enum):
-    r"""Name of the Cribl product to get the Worker Groups or Edge Fleets for."""
-
-    STREAM = "stream"
-    EDGE = "edge"
-
-
 class ListConfigGroupByProductRequestTypedDict(TypedDict):
-    product: ListConfigGroupByProductProduct
+    product: ProductsCore
     r"""Name of the Cribl product to get the Worker Groups or Edge Fleets for."""
     fields: NotRequired[str]
     r"""Comma-separated list of additional properties to include in the response. Available values are <code>git.commit</code>, <code>git.localChanges</code>, and <code>git.log</code>."""
@@ -29,7 +22,7 @@ class ListConfigGroupByProductRequestTypedDict(TypedDict):
 
 class ListConfigGroupByProductRequest(BaseModel):
     product: Annotated[
-        ListConfigGroupByProductProduct,
+        ProductsCore,
         FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
     ]
     r"""Name of the Cribl product to get the Worker Groups or Edge Fleets for."""

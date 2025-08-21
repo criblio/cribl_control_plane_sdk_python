@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.14.0-alpha.1755708210976-a566b731
+  version: 4.14.0-alpha.1755764858399-d5c9979b
   contact:
     name: Support
     email: support@cribl.io
@@ -221,6 +221,11 @@ components:
           type: string
       required:
         - version
+    ProductsCore:
+      type: string
+      enum:
+        - stream
+        - edge
     CacheConnectionBackfillStatus:
       type: string
       enum:
@@ -36034,6 +36039,11 @@ components:
       properties:
         token:
           type: string
+    WorkerTypes:
+      type: string
+      enum:
+        - worker
+        - managed-edge
     DistributedSummary:
       type: object
       properties:
@@ -36363,7 +36373,6 @@ components:
           items:
             $ref: "#/components/schemas/GitFile"
       required:
-        - commitMessage
         - count
         - items
     GitRevertResult:
@@ -36396,8 +36405,6 @@ components:
             id:
               type: string
           required:
-            - files
-            - group
             - id
         reverted:
           type: boolean
@@ -38422,10 +38429,7 @@ paths:
           in: query
           required: false
           schema:
-            type: string
-            enum:
-              - worker
-              - managed-edge
+            $ref: "#/components/schemas/WorkerTypes"
           description: "Filter for limiting the response by Cribl product: Cribl Stream (<code>worker</code>) or Cribl Edge (<code>managed-edge</code>)."
   /health:
     get:
@@ -39309,10 +39313,7 @@ paths:
           in: path
           required: true
           schema:
-            type: string
-            enum:
-              - stream
-              - edge
+            $ref: "#/components/schemas/ProductsCore"
           description: Name of the Cribl product to get the Worker Groups or Edge Fleets for.
     post:
       operationId: createConfigGroupByProduct
@@ -39357,10 +39358,7 @@ paths:
           in: path
           required: true
           schema:
-            type: string
-            enum:
-              - stream
-              - edge
+            $ref: "#/components/schemas/ProductsCore"
           description: Name of the Cribl product to add the Worker Group or Edge Fleet to.
   /products/{product}/groups/{id}:
     get:
@@ -39375,9 +39373,7 @@ paths:
           required: true
           schema:
             type: string
-            enum:
-              - stream
-              - edge
+            $ref: "#/components/schemas/ProductsCore"
           description: Name of the Cribl product to get the Worker Groups or Edge Fleets for.
         - name: id
           in: path
@@ -39428,9 +39424,7 @@ paths:
           required: true
           schema:
             type: string
-            enum:
-              - stream
-              - edge
+            $ref: "#/components/schemas/ProductsCore"
           description: Name of the Cribl product to get the Worker Groups or Edge Fleets for.
         - name: id
           in: path
@@ -39482,9 +39476,7 @@ paths:
           required: true
           schema:
             type: string
-            enum:
-              - stream
-              - edge
+            $ref: "#/components/schemas/ProductsCore"
           description: Name of the Cribl product to get the Worker Groups or Edge Fleets for.
         - name: id
           in: path
@@ -39554,10 +39546,7 @@ paths:
           in: path
           required: true
           schema:
-            type: string
-            enum:
-              - stream
-              - edge
+            $ref: "#/components/schemas/ProductsCore"
           description: Name of the Cribl product to get the Worker Groups or Edge Fleets for.
         - name: id
           in: path
@@ -39609,10 +39598,7 @@ paths:
           in: path
           required: true
           schema:
-            type: string
-            enum:
-              - stream
-              - edge
+            $ref: "#/components/schemas/ProductsCore"
           description: Name of the Cribl product to get the Worker Groups or Edge Fleets for.
         - name: id
           in: path
@@ -39657,10 +39643,7 @@ paths:
           in: path
           required: true
           schema:
-            type: string
-            enum:
-              - stream
-              - edge
+            $ref: "#/components/schemas/ProductsCore"
           description: Name of the Cribl product that contains the Worker Group or Edge Fleet.
         - name: id
           in: path
@@ -39672,16 +39655,7 @@ paths:
           in: query
           required: false
           schema:
-            type: string
-            enum:
-              - groups
-              - datasets
-              - dataset-providers
-              - projects
-              - dashboards
-              - macros
-              - notebooks
-              - insights
+            $ref: "#/components/schemas/RbacResource"
           description: Filter for limiting the response to ACL entries for the specified RBAC resource type.
   /products/{product}/groups/{id}/acl:
     get:
@@ -39720,10 +39694,7 @@ paths:
           in: path
           required: true
           schema:
-            type: string
-            enum:
-              - stream
-              - edge
+            $ref: "#/components/schemas/ProductsCore"
           description: Name of the Cribl product to get the Worker Groups or Edge Fleets for.
         - name: id
           in: path
@@ -39735,14 +39706,5 @@ paths:
           in: query
           required: false
           schema:
-            type: string
-            enum:
-              - groups
-              - datasets
-              - dataset-providers
-              - projects
-              - dashboards
-              - macros
-              - notebooks
-              - insights
+            $ref: "#/components/schemas/RbacResource"
           description: Filter for limiting the response to ACL entries for the specified RBAC resource type.

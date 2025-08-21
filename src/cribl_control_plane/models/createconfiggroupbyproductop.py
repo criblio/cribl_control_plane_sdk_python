@@ -2,22 +2,15 @@
 
 from __future__ import annotations
 from .configgroup import ConfigGroup, ConfigGroupTypedDict
+from .productscore import ProductsCore
 from cribl_control_plane.types import BaseModel
 from cribl_control_plane.utils import FieldMetadata, PathParamMetadata, RequestMetadata
-from enum import Enum
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class CreateConfigGroupByProductProduct(str, Enum):
-    r"""Name of the Cribl product to add the Worker Group or Edge Fleet to."""
-
-    STREAM = "stream"
-    EDGE = "edge"
-
-
 class CreateConfigGroupByProductRequestTypedDict(TypedDict):
-    product: CreateConfigGroupByProductProduct
+    product: ProductsCore
     r"""Name of the Cribl product to add the Worker Group or Edge Fleet to."""
     config_group: ConfigGroupTypedDict
     r"""ConfigGroup object"""
@@ -25,7 +18,7 @@ class CreateConfigGroupByProductRequestTypedDict(TypedDict):
 
 class CreateConfigGroupByProductRequest(BaseModel):
     product: Annotated[
-        CreateConfigGroupByProductProduct,
+        ProductsCore,
         FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
     ]
     r"""Name of the Cribl product to add the Worker Group or Edge Fleet to."""

@@ -32,7 +32,6 @@ if TYPE_CHECKING:
         ConfigGroupLookupsTypedDict,
     )
     from .createconfiggroupbyproductop import (
-        CreateConfigGroupByProductProduct,
         CreateConfigGroupByProductRequest,
         CreateConfigGroupByProductRequestTypedDict,
         CreateConfigGroupByProductResponse,
@@ -102,7 +101,6 @@ if TYPE_CHECKING:
         DatasetMetadataRunInfoTypedDict,
     )
     from .deleteconfiggroupbyproductandidop import (
-        DeleteConfigGroupByProductAndIDProduct,
         DeleteConfigGroupByProductAndIDRequest,
         DeleteConfigGroupByProductAndIDRequestTypedDict,
         DeleteConfigGroupByProductAndIDResponse,
@@ -160,30 +158,24 @@ if TYPE_CHECKING:
         DistributedSummaryWorkersTypedDict,
     )
     from .getconfiggroupaclbyproductandidop import (
-        GetConfigGroupACLByProductAndIDProduct,
         GetConfigGroupACLByProductAndIDRequest,
         GetConfigGroupACLByProductAndIDRequestTypedDict,
         GetConfigGroupACLByProductAndIDResponse,
         GetConfigGroupACLByProductAndIDResponseTypedDict,
-        GetConfigGroupACLByProductAndIDType,
     )
     from .getconfiggroupaclteamsbyproductandidop import (
-        GetConfigGroupACLTeamsByProductAndIDProduct,
         GetConfigGroupACLTeamsByProductAndIDRequest,
         GetConfigGroupACLTeamsByProductAndIDRequestTypedDict,
         GetConfigGroupACLTeamsByProductAndIDResponse,
         GetConfigGroupACLTeamsByProductAndIDResponseTypedDict,
-        GetConfigGroupACLTeamsByProductAndIDType,
     )
     from .getconfiggroupbyproductandidop import (
-        GetConfigGroupByProductAndIDProduct,
         GetConfigGroupByProductAndIDRequest,
         GetConfigGroupByProductAndIDRequestTypedDict,
         GetConfigGroupByProductAndIDResponse,
         GetConfigGroupByProductAndIDResponseTypedDict,
     )
     from .getconfiggroupconfigversionbyproductandidop import (
-        GetConfigGroupConfigVersionByProductAndIDProduct,
         GetConfigGroupConfigVersionByProductAndIDRequest,
         GetConfigGroupConfigVersionByProductAndIDRequestTypedDict,
         GetConfigGroupConfigVersionByProductAndIDResponse,
@@ -250,7 +242,6 @@ if TYPE_CHECKING:
         GetRoutesByIDResponseTypedDict,
     )
     from .getsummaryop import (
-        GetSummaryMode,
         GetSummaryRequest,
         GetSummaryRequestTypedDict,
         GetSummaryResponse,
@@ -1606,7 +1597,6 @@ if TYPE_CHECKING:
     )
     from .lakehouseconnectiontype import LakehouseConnectionType
     from .listconfiggroupbyproductop import (
-        ListConfigGroupByProductProduct,
         ListConfigGroupByProductRequest,
         ListConfigGroupByProductRequestTypedDict,
         ListConfigGroupByProductResponse,
@@ -2946,6 +2936,7 @@ if TYPE_CHECKING:
         PipelineFunctionConf,
         PipelineFunctionConfTypedDict,
     )
+    from .productscore import ProductsCore
     from .rbacresource import RbacResource
     from .resourcepolicy import ResourcePolicy, ResourcePolicyTypedDict
     from .routecloneconf import RouteCloneConf, RouteCloneConfTypedDict
@@ -2966,14 +2957,12 @@ if TYPE_CHECKING:
         TeamAccessControlListTypedDict,
     )
     from .updateconfiggroupbyproductandidop import (
-        UpdateConfigGroupByProductAndIDProduct,
         UpdateConfigGroupByProductAndIDRequest,
         UpdateConfigGroupByProductAndIDRequestTypedDict,
         UpdateConfigGroupByProductAndIDResponse,
         UpdateConfigGroupByProductAndIDResponseTypedDict,
     )
     from .updateconfiggroupdeploybyproductandidop import (
-        UpdateConfigGroupDeployByProductAndIDProduct,
         UpdateConfigGroupDeployByProductAndIDRequest,
         UpdateConfigGroupDeployByProductAndIDRequestTypedDict,
         UpdateConfigGroupDeployByProductAndIDResponse,
@@ -3031,6 +3020,7 @@ if TYPE_CHECKING:
         UserAccessControlList,
         UserAccessControlListTypedDict,
     )
+    from .workertypes import WorkerTypes
 
 __all__ = [
     "AISIEMEndpointPath",
@@ -3083,7 +3073,6 @@ __all__ = [
     "Container",
     "ContainerMode",
     "ContainerTypedDict",
-    "CreateConfigGroupByProductProduct",
     "CreateConfigGroupByProductRequest",
     "CreateConfigGroupByProductRequestTypedDict",
     "CreateConfigGroupByProductResponse",
@@ -3141,7 +3130,6 @@ __all__ = [
     "DatasetMetadataRunInfo",
     "DatasetMetadataRunInfoTypedDict",
     "DatasetMetadataTypedDict",
-    "DeleteConfigGroupByProductAndIDProduct",
     "DeleteConfigGroupByProductAndIDRequest",
     "DeleteConfigGroupByProductAndIDRequestTypedDict",
     "DeleteConfigGroupByProductAndIDResponse",
@@ -3208,24 +3196,18 @@ __all__ = [
     "FlushPeriodSecTypedDict",
     "FunctionSpecificConfigs",
     "FunctionSpecificConfigsTypedDict",
-    "GetConfigGroupACLByProductAndIDProduct",
     "GetConfigGroupACLByProductAndIDRequest",
     "GetConfigGroupACLByProductAndIDRequestTypedDict",
     "GetConfigGroupACLByProductAndIDResponse",
     "GetConfigGroupACLByProductAndIDResponseTypedDict",
-    "GetConfigGroupACLByProductAndIDType",
-    "GetConfigGroupACLTeamsByProductAndIDProduct",
     "GetConfigGroupACLTeamsByProductAndIDRequest",
     "GetConfigGroupACLTeamsByProductAndIDRequestTypedDict",
     "GetConfigGroupACLTeamsByProductAndIDResponse",
     "GetConfigGroupACLTeamsByProductAndIDResponseTypedDict",
-    "GetConfigGroupACLTeamsByProductAndIDType",
-    "GetConfigGroupByProductAndIDProduct",
     "GetConfigGroupByProductAndIDRequest",
     "GetConfigGroupByProductAndIDRequestTypedDict",
     "GetConfigGroupByProductAndIDResponse",
     "GetConfigGroupByProductAndIDResponseTypedDict",
-    "GetConfigGroupConfigVersionByProductAndIDProduct",
     "GetConfigGroupConfigVersionByProductAndIDRequest",
     "GetConfigGroupConfigVersionByProductAndIDRequestTypedDict",
     "GetConfigGroupConfigVersionByProductAndIDResponse",
@@ -3270,7 +3252,6 @@ __all__ = [
     "GetRoutesByIDRequestTypedDict",
     "GetRoutesByIDResponse",
     "GetRoutesByIDResponseTypedDict",
-    "GetSummaryMode",
     "GetSummaryRequest",
     "GetSummaryRequestTypedDict",
     "GetSummaryResponse",
@@ -4423,7 +4404,6 @@ __all__ = [
     "LakehouseConnectionType",
     "LastMetrics",
     "LastMetricsTypedDict",
-    "ListConfigGroupByProductProduct",
     "ListConfigGroupByProductRequest",
     "ListConfigGroupByProductRequestTypedDict",
     "ListConfigGroupByProductResponse",
@@ -5603,6 +5583,7 @@ __all__ = [
     "PodFilter",
     "PodFilterTypedDict",
     "PrefixOptional",
+    "ProductsCore",
     "PrometheusAuthOauthHeader1",
     "PrometheusAuthOauthHeader1TypedDict",
     "PrometheusAuthOauthHeader2",
@@ -5668,12 +5649,10 @@ __all__ = [
     "TelemetryType",
     "TimestampFormat",
     "TimestampPrecision",
-    "UpdateConfigGroupByProductAndIDProduct",
     "UpdateConfigGroupByProductAndIDRequest",
     "UpdateConfigGroupByProductAndIDRequestTypedDict",
     "UpdateConfigGroupByProductAndIDResponse",
     "UpdateConfigGroupByProductAndIDResponseTypedDict",
-    "UpdateConfigGroupDeployByProductAndIDProduct",
     "UpdateConfigGroupDeployByProductAndIDRequest",
     "UpdateConfigGroupDeployByProductAndIDRequestTypedDict",
     "UpdateConfigGroupDeployByProductAndIDResponse",
@@ -5716,6 +5695,7 @@ __all__ = [
     "UsersAndGroupsTypedDict",
     "V3User",
     "V3UserTypedDict",
+    "WorkerTypes",
     "WriteAction",
 ]
 
@@ -5744,7 +5724,6 @@ _dynamic_imports: dict[str, str] = {
     "ConfigGroupLookupsLookup": ".configgrouplookups",
     "ConfigGroupLookupsLookupTypedDict": ".configgrouplookups",
     "ConfigGroupLookupsTypedDict": ".configgrouplookups",
-    "CreateConfigGroupByProductProduct": ".createconfiggroupbyproductop",
     "CreateConfigGroupByProductRequest": ".createconfiggroupbyproductop",
     "CreateConfigGroupByProductRequestTypedDict": ".createconfiggroupbyproductop",
     "CreateConfigGroupByProductResponse": ".createconfiggroupbyproductop",
@@ -5797,7 +5776,6 @@ _dynamic_imports: dict[str, str] = {
     "ScanMode": ".datasetmetadata",
     "DatasetMetadataRunInfo": ".datasetmetadataruninfo",
     "DatasetMetadataRunInfoTypedDict": ".datasetmetadataruninfo",
-    "DeleteConfigGroupByProductAndIDProduct": ".deleteconfiggroupbyproductandidop",
     "DeleteConfigGroupByProductAndIDRequest": ".deleteconfiggroupbyproductandidop",
     "DeleteConfigGroupByProductAndIDRequestTypedDict": ".deleteconfiggroupbyproductandidop",
     "DeleteConfigGroupByProductAndIDResponse": ".deleteconfiggroupbyproductandidop",
@@ -5838,24 +5816,18 @@ _dynamic_imports: dict[str, str] = {
     "DistributedSummaryTypedDict": ".distributedsummary",
     "DistributedSummaryWorkers": ".distributedsummary",
     "DistributedSummaryWorkersTypedDict": ".distributedsummary",
-    "GetConfigGroupACLByProductAndIDProduct": ".getconfiggroupaclbyproductandidop",
     "GetConfigGroupACLByProductAndIDRequest": ".getconfiggroupaclbyproductandidop",
     "GetConfigGroupACLByProductAndIDRequestTypedDict": ".getconfiggroupaclbyproductandidop",
     "GetConfigGroupACLByProductAndIDResponse": ".getconfiggroupaclbyproductandidop",
     "GetConfigGroupACLByProductAndIDResponseTypedDict": ".getconfiggroupaclbyproductandidop",
-    "GetConfigGroupACLByProductAndIDType": ".getconfiggroupaclbyproductandidop",
-    "GetConfigGroupACLTeamsByProductAndIDProduct": ".getconfiggroupaclteamsbyproductandidop",
     "GetConfigGroupACLTeamsByProductAndIDRequest": ".getconfiggroupaclteamsbyproductandidop",
     "GetConfigGroupACLTeamsByProductAndIDRequestTypedDict": ".getconfiggroupaclteamsbyproductandidop",
     "GetConfigGroupACLTeamsByProductAndIDResponse": ".getconfiggroupaclteamsbyproductandidop",
     "GetConfigGroupACLTeamsByProductAndIDResponseTypedDict": ".getconfiggroupaclteamsbyproductandidop",
-    "GetConfigGroupACLTeamsByProductAndIDType": ".getconfiggroupaclteamsbyproductandidop",
-    "GetConfigGroupByProductAndIDProduct": ".getconfiggroupbyproductandidop",
     "GetConfigGroupByProductAndIDRequest": ".getconfiggroupbyproductandidop",
     "GetConfigGroupByProductAndIDRequestTypedDict": ".getconfiggroupbyproductandidop",
     "GetConfigGroupByProductAndIDResponse": ".getconfiggroupbyproductandidop",
     "GetConfigGroupByProductAndIDResponseTypedDict": ".getconfiggroupbyproductandidop",
-    "GetConfigGroupConfigVersionByProductAndIDProduct": ".getconfiggroupconfigversionbyproductandidop",
     "GetConfigGroupConfigVersionByProductAndIDRequest": ".getconfiggroupconfigversionbyproductandidop",
     "GetConfigGroupConfigVersionByProductAndIDRequestTypedDict": ".getconfiggroupconfigversionbyproductandidop",
     "GetConfigGroupConfigVersionByProductAndIDResponse": ".getconfiggroupconfigversionbyproductandidop",
@@ -5900,7 +5872,6 @@ _dynamic_imports: dict[str, str] = {
     "GetRoutesByIDRequestTypedDict": ".getroutesbyidop",
     "GetRoutesByIDResponse": ".getroutesbyidop",
     "GetRoutesByIDResponseTypedDict": ".getroutesbyidop",
-    "GetSummaryMode": ".getsummaryop",
     "GetSummaryRequest": ".getsummaryop",
     "GetSummaryRequestTypedDict": ".getsummaryop",
     "GetSummaryResponse": ".getsummaryop",
@@ -7128,7 +7099,6 @@ _dynamic_imports: dict[str, str] = {
     "LakeDatasetSearchConfig": ".lakedatasetsearchconfig",
     "LakeDatasetSearchConfigTypedDict": ".lakedatasetsearchconfig",
     "LakehouseConnectionType": ".lakehouseconnectiontype",
-    "ListConfigGroupByProductProduct": ".listconfiggroupbyproductop",
     "ListConfigGroupByProductRequest": ".listconfiggroupbyproductop",
     "ListConfigGroupByProductRequestTypedDict": ".listconfiggroupbyproductop",
     "ListConfigGroupByProductResponse": ".listconfiggroupbyproductop",
@@ -8339,6 +8309,7 @@ _dynamic_imports: dict[str, str] = {
     "FunctionSpecificConfigsTypedDict": ".pipelinefunctionconf",
     "PipelineFunctionConf": ".pipelinefunctionconf",
     "PipelineFunctionConfTypedDict": ".pipelinefunctionconf",
+    "ProductsCore": ".productscore",
     "RbacResource": ".rbacresource",
     "ResourcePolicy": ".resourcepolicy",
     "ResourcePolicyTypedDict": ".resourcepolicy",
@@ -8360,12 +8331,10 @@ _dynamic_imports: dict[str, str] = {
     "SecurityTypedDict": ".security",
     "TeamAccessControlList": ".teamaccesscontrollist",
     "TeamAccessControlListTypedDict": ".teamaccesscontrollist",
-    "UpdateConfigGroupByProductAndIDProduct": ".updateconfiggroupbyproductandidop",
     "UpdateConfigGroupByProductAndIDRequest": ".updateconfiggroupbyproductandidop",
     "UpdateConfigGroupByProductAndIDRequestTypedDict": ".updateconfiggroupbyproductandidop",
     "UpdateConfigGroupByProductAndIDResponse": ".updateconfiggroupbyproductandidop",
     "UpdateConfigGroupByProductAndIDResponseTypedDict": ".updateconfiggroupbyproductandidop",
-    "UpdateConfigGroupDeployByProductAndIDProduct": ".updateconfiggroupdeploybyproductandidop",
     "UpdateConfigGroupDeployByProductAndIDRequest": ".updateconfiggroupdeploybyproductandidop",
     "UpdateConfigGroupDeployByProductAndIDRequestTypedDict": ".updateconfiggroupdeploybyproductandidop",
     "UpdateConfigGroupDeployByProductAndIDResponse": ".updateconfiggroupdeploybyproductandidop",
@@ -8404,6 +8373,7 @@ _dynamic_imports: dict[str, str] = {
     "UpdateRoutesByIDResponseTypedDict": ".updateroutesbyidop",
     "UserAccessControlList": ".useraccesscontrollist",
     "UserAccessControlListTypedDict": ".useraccesscontrollist",
+    "WorkerTypes": ".workertypes",
 }
 
 

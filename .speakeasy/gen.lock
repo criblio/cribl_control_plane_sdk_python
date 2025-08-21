@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: d4e60eaf202d77136dfcb246180859e0
-  docVersion: 4.14.0-alpha.1755708210976-a566b731
+  docChecksum: dfb5e34bdb9205f7f222f10c8554a537
+  docVersion: 4.14.0-alpha.1755764858399-d5c9979b
   speakeasyVersion: 1.606.0
   generationVersion: 2.686.7
-  releaseVersion: 0.0.34
-  configChecksum: bcaf7f8c9401399b0decd4c214df9184
+  releaseVersion: 0.0.35
+  configChecksum: 176c1b43f4e9d2b1b8c029b36b77dbc3
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -73,7 +73,6 @@ generatedFiles:
   - docs/models/configgrouptype.md
   - docs/models/container.md
   - docs/models/containermode.md
-  - docs/models/createconfiggroupbyproductproduct.md
   - docs/models/createconfiggroupbyproductrequest.md
   - docs/models/createconfiggroupbyproductresponse.md
   - docs/models/createcribllakedatasetbylakeidrequest.md
@@ -103,7 +102,6 @@ generatedFiles:
   - docs/models/datasetmetadata.md
   - docs/models/datasetmetadataruninfo.md
   - docs/models/datasetsite.md
-  - docs/models/deleteconfiggroupbyproductandidproduct.md
   - docs/models/deleteconfiggroupbyproductandidrequest.md
   - docs/models/deleteconfiggroupbyproductandidresponse.md
   - docs/models/deletecribllakedatasetbylakeidandidrequest.md
@@ -142,18 +140,12 @@ generatedFiles:
   - docs/models/flushperiodsec.md
   - docs/models/flushperiodsectype.md
   - docs/models/functionspecificconfigs.md
-  - docs/models/getconfiggroupaclbyproductandidproduct.md
   - docs/models/getconfiggroupaclbyproductandidrequest.md
   - docs/models/getconfiggroupaclbyproductandidresponse.md
-  - docs/models/getconfiggroupaclbyproductandidtype.md
-  - docs/models/getconfiggroupaclteamsbyproductandidproduct.md
   - docs/models/getconfiggroupaclteamsbyproductandidrequest.md
   - docs/models/getconfiggroupaclteamsbyproductandidresponse.md
-  - docs/models/getconfiggroupaclteamsbyproductandidtype.md
-  - docs/models/getconfiggroupbyproductandidproduct.md
   - docs/models/getconfiggroupbyproductandidrequest.md
   - docs/models/getconfiggroupbyproductandidresponse.md
-  - docs/models/getconfiggroupconfigversionbyproductandidproduct.md
   - docs/models/getconfiggroupconfigversionbyproductandidrequest.md
   - docs/models/getconfiggroupconfigversionbyproductandidresponse.md
   - docs/models/getcribllakedatasetbylakeidandidrequest.md
@@ -176,7 +168,6 @@ generatedFiles:
   - docs/models/getpipelinebyidresponse.md
   - docs/models/getroutesbyidrequest.md
   - docs/models/getroutesbyidresponse.md
-  - docs/models/getsummarymode.md
   - docs/models/getsummaryrequest.md
   - docs/models/getsummaryresponse.md
   - docs/models/getversionbranchresponse.md
@@ -923,7 +914,6 @@ generatedFiles:
   - docs/models/lakedatasetsearchconfig.md
   - docs/models/lakehouseconnectiontype.md
   - docs/models/lastmetrics.md
-  - docs/models/listconfiggroupbyproductproduct.md
   - docs/models/listconfiggroupbyproductrequest.md
   - docs/models/listconfiggroupbyproductresponse.md
   - docs/models/listeningports.md
@@ -1780,6 +1770,7 @@ generatedFiles:
   - docs/models/pipelinegroups.md
   - docs/models/podfilter.md
   - docs/models/prefixoptional.md
+  - docs/models/productscore.md
   - docs/models/prometheusauthoauthheader1.md
   - docs/models/prometheusauthoauthheader2.md
   - docs/models/prometheusauthoauthparam1.md
@@ -1822,10 +1813,8 @@ generatedFiles:
   - docs/models/telemetrytype.md
   - docs/models/timestampformat.md
   - docs/models/timestampprecision.md
-  - docs/models/updateconfiggroupbyproductandidproduct.md
   - docs/models/updateconfiggroupbyproductandidrequest.md
   - docs/models/updateconfiggroupbyproductandidresponse.md
-  - docs/models/updateconfiggroupdeploybyproductandidproduct.md
   - docs/models/updateconfiggroupdeploybyproductandidrequest.md
   - docs/models/updateconfiggroupdeploybyproductandidresponse.md
   - docs/models/updatecribllakedatasetbylakeidandidrequest.md
@@ -1848,6 +1837,7 @@ generatedFiles:
   - docs/models/usersandgroups.md
   - docs/models/utils/retryconfig.md
   - docs/models/v3user.md
+  - docs/models/workertypes.md
   - docs/models/writeaction.md
   - docs/sdks/acl/README.md
   - docs/sdks/authsdk/README.md
@@ -2132,6 +2122,7 @@ generatedFiles:
   - src/cribl_control_plane/models/packrequestbody.py
   - src/cribl_control_plane/models/pipeline.py
   - src/cribl_control_plane/models/pipelinefunctionconf.py
+  - src/cribl_control_plane/models/productscore.py
   - src/cribl_control_plane/models/rbacresource.py
   - src/cribl_control_plane/models/resourcepolicy.py
   - src/cribl_control_plane/models/routecloneconf.py
@@ -2152,6 +2143,7 @@ generatedFiles:
   - src/cribl_control_plane/models/updatepipelinebyidop.py
   - src/cribl_control_plane/models/updateroutesbyidop.py
   - src/cribl_control_plane/models/useraccesscontrollist.py
+  - src/cribl_control_plane/models/workertypes.py
   - src/cribl_control_plane/nodes.py
   - src/cribl_control_plane/packs.py
   - src/cribl_control_plane/pipelines.py
@@ -3092,9 +3084,15 @@ generatedTests:
   updateGroupsById: "2025-08-04T02:32:44Z"
 releaseNotes: |
   ## SDK Changes Detected:
-  * `cribl_control_plane.system.settings.auth.list()`: **Deleted** **Breaking** :warning:
-  * `cribl_control_plane.system.settings.auth.update()`: **Deleted** **Breaking** :warning:
-  * `cribl_control_plane.system.settings.cribl.list()`: **Deleted** **Breaking** :warning:
-  * `cribl_control_plane.system.settings.cribl.update()`: **Deleted** **Breaking** :warning:
-  * `cribl_control_plane.system.settings.git.list()`: **Deleted** **Breaking** :warning:
-  * `cribl_control_plane.system.settings.git.update()`: **Deleted** **Breaking** :warning:
+  * `cribl_control_plane.nodes.summaries.get()`:  `request.mode` **Changed**
+  * `cribl_control_plane.versions.commits.revert()`:  `response.items.[].audit` **Changed**
+  * `cribl_control_plane.versions.commits.files.list()`:  `response.items.[].commit_message` **Changed**
+  * `cribl_control_plane.groups.list()`:  `request.product` **Changed**
+  * `cribl_control_plane.groups.create()`:  `request.product` **Changed**
+  * `cribl_control_plane.groups.get()`:  `request.product` **Changed**
+  * `cribl_control_plane.groups.update()`:  `request.product` **Changed**
+  * `cribl_control_plane.groups.delete()`:  `request.product` **Changed**
+  * `cribl_control_plane.groups.deploy()`:  `request.product` **Changed**
+  * `cribl_control_plane.groups.configs.versions.get()`:  `request.product` **Changed**
+  * `cribl_control_plane.groups.acl.get()`:  `request` **Changed**
+  * `cribl_control_plane.groups.acl.teams.get()`:  `request` **Changed**

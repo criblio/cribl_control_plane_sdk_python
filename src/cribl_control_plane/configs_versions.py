@@ -13,7 +13,7 @@ class ConfigsVersions(BaseSDK):
     def get(
         self,
         *,
-        product: models.GetConfigGroupConfigVersionByProductAndIDProduct,
+        product: models.ProductsCore,
         id: str,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -105,7 +105,7 @@ class ConfigsVersions(BaseSDK):
     async def get_async(
         self,
         *,
-        product: models.GetConfigGroupConfigVersionByProductAndIDProduct,
+        product: models.ProductsCore,
         id: str,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,

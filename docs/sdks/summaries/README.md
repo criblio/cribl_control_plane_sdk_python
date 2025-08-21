@@ -26,7 +26,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.nodes.summaries.get(mode=models.GetSummaryMode.WORKER)
+    res = ccp_client.nodes.summaries.get(mode=models.WorkerTypes.WORKER)
 
     # Handle response
     print(res)
@@ -37,7 +37,7 @@ with CriblControlPlane(
 
 | Parameter                                                                                                                        | Type                                                                                                                             | Required                                                                                                                         | Description                                                                                                                      |
 | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| `mode`                                                                                                                           | [Optional[models.GetSummaryMode]](../../models/getsummarymode.md)                                                                | :heavy_minus_sign:                                                                                                               | Filter for limiting the response by Cribl product: Cribl Stream (<code>worker</code>) or Cribl Edge (<code>managed-edge</code>). |
+| `mode`                                                                                                                           | [Optional[models.WorkerTypes]](../../models/workertypes.md)                                                                      | :heavy_minus_sign:                                                                                                               | Filter for limiting the response by Cribl product: Cribl Stream (<code>worker</code>) or Cribl Edge (<code>managed-edge</code>). |
 | `retries`                                                                                                                        | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                 | :heavy_minus_sign:                                                                                                               | Configuration to override the default retry behavior of the client.                                                              |
 
 ### Response

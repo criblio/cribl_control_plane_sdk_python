@@ -3,22 +3,15 @@
 from __future__ import annotations
 from .configgroup import ConfigGroup, ConfigGroupTypedDict
 from .deployrequest import DeployRequest, DeployRequestTypedDict
+from .productscore import ProductsCore
 from cribl_control_plane.types import BaseModel
 from cribl_control_plane.utils import FieldMetadata, PathParamMetadata, RequestMetadata
-from enum import Enum
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class UpdateConfigGroupDeployByProductAndIDProduct(str, Enum):
-    r"""Name of the Cribl product to get the Worker Groups or Edge Fleets for."""
-
-    STREAM = "stream"
-    EDGE = "edge"
-
-
 class UpdateConfigGroupDeployByProductAndIDRequestTypedDict(TypedDict):
-    product: UpdateConfigGroupDeployByProductAndIDProduct
+    product: ProductsCore
     r"""Name of the Cribl product to get the Worker Groups or Edge Fleets for."""
     id: str
     r"""The <code>id</code> of the target Worker Group or Edge Fleet for commit deployment."""
@@ -28,7 +21,7 @@ class UpdateConfigGroupDeployByProductAndIDRequestTypedDict(TypedDict):
 
 class UpdateConfigGroupDeployByProductAndIDRequest(BaseModel):
     product: Annotated[
-        UpdateConfigGroupDeployByProductAndIDProduct,
+        ProductsCore,
         FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
     ]
     r"""Name of the Cribl product to get the Worker Groups or Edge Fleets for."""

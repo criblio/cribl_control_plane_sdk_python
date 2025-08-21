@@ -26,7 +26,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.groups.configs.versions.get(product=models.GetConfigGroupConfigVersionByProductAndIDProduct.STREAM, id="<id>")
+    res = ccp_client.groups.configs.versions.get(product=models.ProductsCore.STREAM, id="<id>")
 
     # Handle response
     print(res)
@@ -35,11 +35,11 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                                                                                   | Type                                                                                                                        | Required                                                                                                                    | Description                                                                                                                 |
-| --------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| `product`                                                                                                                   | [models.GetConfigGroupConfigVersionByProductAndIDProduct](../../models/getconfiggroupconfigversionbyproductandidproduct.md) | :heavy_check_mark:                                                                                                          | Name of the Cribl product to get the Worker Groups or Edge Fleets for.                                                      |
-| `id`                                                                                                                        | *str*                                                                                                                       | :heavy_check_mark:                                                                                                          | The <code>id</code> of the Worker Group or Edge Fleet to get the configuration version for.                                 |
-| `retries`                                                                                                                   | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                            | :heavy_minus_sign:                                                                                                          | Configuration to override the default retry behavior of the client.                                                         |
+| Parameter                                                                                   | Type                                                                                        | Required                                                                                    | Description                                                                                 |
+| ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| `product`                                                                                   | [models.ProductsCore](../../models/productscore.md)                                         | :heavy_check_mark:                                                                          | Name of the Cribl product to get the Worker Groups or Edge Fleets for.                      |
+| `id`                                                                                        | *str*                                                                                       | :heavy_check_mark:                                                                          | The <code>id</code> of the Worker Group or Edge Fleet to get the configuration version for. |
+| `retries`                                                                                   | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                            | :heavy_minus_sign:                                                                          | Configuration to override the default retry behavior of the client.                         |
 
 ### Response
 

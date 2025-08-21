@@ -2,22 +2,15 @@
 
 from __future__ import annotations
 from .configgroup import ConfigGroup, ConfigGroupTypedDict
+from .productscore import ProductsCore
 from cribl_control_plane.types import BaseModel
 from cribl_control_plane.utils import FieldMetadata, PathParamMetadata
-from enum import Enum
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class DeleteConfigGroupByProductAndIDProduct(str, Enum):
-    r"""Name of the Cribl product to get the Worker Groups or Edge Fleets for."""
-
-    STREAM = "stream"
-    EDGE = "edge"
-
-
 class DeleteConfigGroupByProductAndIDRequestTypedDict(TypedDict):
-    product: DeleteConfigGroupByProductAndIDProduct
+    product: ProductsCore
     r"""Name of the Cribl product to get the Worker Groups or Edge Fleets for."""
     id: str
     r"""The <code>id</code> of the Worker Group or Edge Fleet to delete."""
@@ -25,7 +18,7 @@ class DeleteConfigGroupByProductAndIDRequestTypedDict(TypedDict):
 
 class DeleteConfigGroupByProductAndIDRequest(BaseModel):
     product: Annotated[
-        DeleteConfigGroupByProductAndIDProduct,
+        ProductsCore,
         FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
     ]
     r"""Name of the Cribl product to get the Worker Groups or Edge Fleets for."""

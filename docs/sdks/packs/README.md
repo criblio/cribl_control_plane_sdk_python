@@ -10,6 +10,7 @@ Actions related to Packs
 * [install](#install) - Install a Pack
 * [list](#list) - List all Packs
 * [delete](#delete) - Uninstall a Pack
+* [get](#get) - Get a Pack
 * [update](#update) - Upgrade a Pack
 
 ## install
@@ -161,6 +162,50 @@ with CriblControlPlane(
 ### Response
 
 **[models.DeletePacksByIDResponse](../../models/deletepacksbyidresponse.md)**
+
+### Errors
+
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Error     | 500              | application/json |
+| errors.APIError  | 4XX, 5XX         | \*/\*            |
+
+## get
+
+Get the specified Pack.
+
+### Example Usage
+
+<!-- UsageSnippet language="python" operationID="getPacksById" method="get" path="/packs/{id}" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    server_url="https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.get(id="<id>")
+
+    # Handle response
+    print(res)
+
+```
+
+### Parameters
+
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Pack to get.                             |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
+
+### Response
+
+**[models.GetPacksByIDResponse](../../models/getpacksbyidresponse.md)**
 
 ### Errors
 

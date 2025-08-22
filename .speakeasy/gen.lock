@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 259c4a4fc361be7c16fd1e00c8ba54cd
-  docVersion: 4.14.0-alpha.1755764858399-d5c9979b
+  docChecksum: ec03f1395debd01eb92b36146de6b2d3
+  docVersion: 4.14.0-alpha.1755863151363-73823764
   speakeasyVersion: 1.606.0
   generationVersion: 2.686.7
-  releaseVersion: 0.0.37a1
-  configChecksum: 55f851d3a057721c6370b3aabfde17b8
+  releaseVersion: 0.0.38a1
+  configChecksum: 99670ff97d3f9ca717f58a99e70e2416
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -50,6 +50,8 @@ generatedFiles:
   - docs/models/allow.md
   - docs/models/appmode.md
   - docs/models/audit.md
+  - docs/models/authconfig.md
+  - docs/models/authconfigtype.md
   - docs/models/authenticationprotocol.md
   - docs/models/author.md
   - docs/models/authtoken.md
@@ -64,6 +66,7 @@ generatedFiles:
   - docs/models/columnmapping.md
   - docs/models/comment.md
   - docs/models/commit.md
+  - docs/models/commonservicelimitconfigs.md
   - docs/models/conf.md
   - docs/models/config.md
   - docs/models/configgroup.md
@@ -120,10 +123,12 @@ generatedFiles:
   - docs/models/deployrequestlookups.md
   - docs/models/deployrequestlookupslookup.md
   - docs/models/disksandfilesystems.md
+  - docs/models/distributed.md
   - docs/models/distributedsummary.md
   - docs/models/distributedsummarygroups.md
   - docs/models/distributedsummaryworkers.md
   - docs/models/dns.md
+  - docs/models/edgeheartbeatmetricsmode.md
   - docs/models/elasticversion.md
   - docs/models/endpoint.md
   - docs/models/endpointconfiguration.md
@@ -162,6 +167,8 @@ generatedFiles:
   - docs/models/getoutputpqbyidresponse.md
   - docs/models/getoutputsamplesbyidrequest.md
   - docs/models/getoutputsamplesbyidresponse.md
+  - docs/models/getpacksbyidrequest.md
+  - docs/models/getpacksbyidresponse.md
   - docs/models/getpacksrequest.md
   - docs/models/getpacksresponse.md
   - docs/models/getpipelinebyidrequest.md
@@ -170,6 +177,9 @@ generatedFiles:
   - docs/models/getroutesbyidresponse.md
   - docs/models/getsummaryrequest.md
   - docs/models/getsummaryresponse.md
+  - docs/models/getsystemsettingsauthresponse.md
+  - docs/models/getsystemsettingsconfresponse.md
+  - docs/models/getsystemsettingsgitsettingsresponse.md
   - docs/models/getversionbranchresponse.md
   - docs/models/getversioncountrequest.md
   - docs/models/getversioncountresponse.md
@@ -192,9 +202,11 @@ generatedFiles:
   - docs/models/gitfilesresponse.md
   - docs/models/gitinfo.md
   - docs/models/gitlogresult.md
+  - docs/models/gitopstype.md
   - docs/models/gitrevertparams.md
   - docs/models/gitrevertresult.md
   - docs/models/gitrevertresultfiles.md
+  - docs/models/gitsettings.md
   - docs/models/gitstatusresult.md
   - docs/models/hbcriblinfo.md
   - docs/models/hbleaderinfo.md
@@ -413,19 +425,34 @@ generatedFiles:
   - docs/models/inputgooglepubsubpq.md
   - docs/models/inputgooglepubsubtype.md
   - docs/models/inputgrafana.md
-  - docs/models/inputgrafanacompression.md
-  - docs/models/inputgrafanaconnection.md
-  - docs/models/inputgrafanalokiauth.md
-  - docs/models/inputgrafanalokiauthauthenticationtype.md
-  - docs/models/inputgrafanamaximumtlsversion.md
-  - docs/models/inputgrafanametadatum.md
-  - docs/models/inputgrafanaminimumtlsversion.md
-  - docs/models/inputgrafanamode.md
-  - docs/models/inputgrafanapq.md
-  - docs/models/inputgrafanaprometheusauth.md
-  - docs/models/inputgrafanaprometheusauthauthenticationtype.md
-  - docs/models/inputgrafanatlssettingsserverside.md
-  - docs/models/inputgrafanatype.md
+  - docs/models/inputgrafanacompression1.md
+  - docs/models/inputgrafanacompression2.md
+  - docs/models/inputgrafanaconnection1.md
+  - docs/models/inputgrafanaconnection2.md
+  - docs/models/inputgrafanagrafana1.md
+  - docs/models/inputgrafanagrafana2.md
+  - docs/models/inputgrafanalokiauth1.md
+  - docs/models/inputgrafanalokiauth2.md
+  - docs/models/inputgrafanalokiauthauthenticationtype1.md
+  - docs/models/inputgrafanalokiauthauthenticationtype2.md
+  - docs/models/inputgrafanamaximumtlsversion1.md
+  - docs/models/inputgrafanamaximumtlsversion2.md
+  - docs/models/inputgrafanametadatum1.md
+  - docs/models/inputgrafanametadatum2.md
+  - docs/models/inputgrafanaminimumtlsversion1.md
+  - docs/models/inputgrafanaminimumtlsversion2.md
+  - docs/models/inputgrafanamode1.md
+  - docs/models/inputgrafanamode2.md
+  - docs/models/inputgrafanapq1.md
+  - docs/models/inputgrafanapq2.md
+  - docs/models/inputgrafanaprometheusauth1.md
+  - docs/models/inputgrafanaprometheusauth2.md
+  - docs/models/inputgrafanaprometheusauthauthenticationtype1.md
+  - docs/models/inputgrafanaprometheusauthauthenticationtype2.md
+  - docs/models/inputgrafanatlssettingsserverside1.md
+  - docs/models/inputgrafanatlssettingsserverside2.md
+  - docs/models/inputgrafanatype1.md
+  - docs/models/inputgrafanatype2.md
   - docs/models/inputhttp.md
   - docs/models/inputhttpauthtokensext.md
   - docs/models/inputhttpauthtokensextmetadatum.md
@@ -751,15 +778,26 @@ generatedFiles:
   - docs/models/inputsqssignatureversion.md
   - docs/models/inputsqstype.md
   - docs/models/inputsyslog.md
-  - docs/models/inputsyslogcompression.md
-  - docs/models/inputsyslogconnection.md
-  - docs/models/inputsyslogmaximumtlsversion.md
-  - docs/models/inputsyslogmetadatum.md
-  - docs/models/inputsyslogminimumtlsversion.md
-  - docs/models/inputsyslogmode.md
-  - docs/models/inputsyslogpq.md
-  - docs/models/inputsyslogtlssettingsserverside.md
-  - docs/models/inputsyslogtype.md
+  - docs/models/inputsyslogcompression1.md
+  - docs/models/inputsyslogcompression2.md
+  - docs/models/inputsyslogconnection1.md
+  - docs/models/inputsyslogconnection2.md
+  - docs/models/inputsyslogmaximumtlsversion1.md
+  - docs/models/inputsyslogmaximumtlsversion2.md
+  - docs/models/inputsyslogmetadatum1.md
+  - docs/models/inputsyslogmetadatum2.md
+  - docs/models/inputsyslogminimumtlsversion1.md
+  - docs/models/inputsyslogminimumtlsversion2.md
+  - docs/models/inputsyslogmode1.md
+  - docs/models/inputsyslogmode2.md
+  - docs/models/inputsyslogpq1.md
+  - docs/models/inputsyslogpq2.md
+  - docs/models/inputsyslogsyslog1.md
+  - docs/models/inputsyslogsyslog2.md
+  - docs/models/inputsyslogtlssettingsserverside1.md
+  - docs/models/inputsyslogtlssettingsserverside2.md
+  - docs/models/inputsyslogtype1.md
+  - docs/models/inputsyslogtype2.md
   - docs/models/inputsystemmetrics.md
   - docs/models/inputsystemmetricscompression.md
   - docs/models/inputsystemmetricsconnection.md
@@ -871,6 +909,18 @@ generatedFiles:
   - docs/models/inputwizretryrules.md
   - docs/models/inputwizretrytype.md
   - docs/models/inputwiztype.md
+  - docs/models/inputwizwebhook.md
+  - docs/models/inputwizwebhookauthtokensext.md
+  - docs/models/inputwizwebhookauthtokensextmetadatum.md
+  - docs/models/inputwizwebhookcompression.md
+  - docs/models/inputwizwebhookconnection.md
+  - docs/models/inputwizwebhookmaximumtlsversion.md
+  - docs/models/inputwizwebhookmetadatum.md
+  - docs/models/inputwizwebhookminimumtlsversion.md
+  - docs/models/inputwizwebhookmode.md
+  - docs/models/inputwizwebhookpq.md
+  - docs/models/inputwizwebhooktlssettingsserverside.md
+  - docs/models/inputwizwebhooktype.md
   - docs/models/inputzscalerhec.md
   - docs/models/inputzscalerhecauthenticationmethod.md
   - docs/models/inputzscalerhecauthtoken.md
@@ -885,9 +935,11 @@ generatedFiles:
   - docs/models/inputzscalerhectlssettingsserverside.md
   - docs/models/inputzscalerhectype.md
   - docs/models/interfaces.md
+  - docs/models/jobsettings.md
   - docs/models/lakedatasetsearchconfig.md
   - docs/models/lakehouseconnectiontype.md
   - docs/models/lastmetrics.md
+  - docs/models/limits.md
   - docs/models/listconfiggroupbyproductrequest.md
   - docs/models/listconfiggroupbyproductresponse.md
   - docs/models/listeningports.md
@@ -901,8 +953,10 @@ generatedFiles:
   - docs/models/logininfo.md
   - docs/models/loglabel.md
   - docs/models/loglocationtype.md
-  - docs/models/lokiauthoauthheader.md
-  - docs/models/lokiauthoauthparam.md
+  - docs/models/lokiauthoauthheader1.md
+  - docs/models/lokiauthoauthheader2.md
+  - docs/models/lokiauthoauthparam1.md
+  - docs/models/lokiauthoauthparam2.md
   - docs/models/lookupversions.md
   - docs/models/mappingtype.md
   - docs/models/masterworkerentry.md
@@ -1242,22 +1296,40 @@ generatedFiles:
   - docs/models/outputgooglepubsubqueuefullbehavior.md
   - docs/models/outputgooglepubsubtypegooglepubsub.md
   - docs/models/outputgrafanacloud.md
-  - docs/models/outputgrafanacloudbackpressurebehavior.md
-  - docs/models/outputgrafanacloudcompression.md
-  - docs/models/outputgrafanacloudextrahttpheader.md
-  - docs/models/outputgrafanacloudfailedrequestloggingmode.md
-  - docs/models/outputgrafanacloudlabel.md
-  - docs/models/outputgrafanacloudlokiauth.md
-  - docs/models/outputgrafanacloudlokiauthauthenticationtype.md
-  - docs/models/outputgrafanacloudmessageformat.md
-  - docs/models/outputgrafanacloudmode.md
-  - docs/models/outputgrafanacloudpqcontrols.md
-  - docs/models/outputgrafanacloudprometheusauth.md
-  - docs/models/outputgrafanacloudprometheusauthauthenticationtype.md
-  - docs/models/outputgrafanacloudqueuefullbehavior.md
-  - docs/models/outputgrafanacloudresponseretrysetting.md
-  - docs/models/outputgrafanacloudtimeoutretrysettings.md
-  - docs/models/outputgrafanacloudtype.md
+  - docs/models/outputgrafanacloudbackpressurebehavior1.md
+  - docs/models/outputgrafanacloudbackpressurebehavior2.md
+  - docs/models/outputgrafanacloudcompression1.md
+  - docs/models/outputgrafanacloudcompression2.md
+  - docs/models/outputgrafanacloudextrahttpheader1.md
+  - docs/models/outputgrafanacloudextrahttpheader2.md
+  - docs/models/outputgrafanacloudfailedrequestloggingmode1.md
+  - docs/models/outputgrafanacloudfailedrequestloggingmode2.md
+  - docs/models/outputgrafanacloudgrafanacloud1.md
+  - docs/models/outputgrafanacloudgrafanacloud2.md
+  - docs/models/outputgrafanacloudlabel1.md
+  - docs/models/outputgrafanacloudlabel2.md
+  - docs/models/outputgrafanacloudlokiauth1.md
+  - docs/models/outputgrafanacloudlokiauth2.md
+  - docs/models/outputgrafanacloudlokiauthauthenticationtype1.md
+  - docs/models/outputgrafanacloudlokiauthauthenticationtype2.md
+  - docs/models/outputgrafanacloudmessageformat1.md
+  - docs/models/outputgrafanacloudmessageformat2.md
+  - docs/models/outputgrafanacloudmode1.md
+  - docs/models/outputgrafanacloudmode2.md
+  - docs/models/outputgrafanacloudpqcontrols1.md
+  - docs/models/outputgrafanacloudpqcontrols2.md
+  - docs/models/outputgrafanacloudprometheusauth1.md
+  - docs/models/outputgrafanacloudprometheusauth2.md
+  - docs/models/outputgrafanacloudprometheusauthauthenticationtype1.md
+  - docs/models/outputgrafanacloudprometheusauthauthenticationtype2.md
+  - docs/models/outputgrafanacloudqueuefullbehavior1.md
+  - docs/models/outputgrafanacloudqueuefullbehavior2.md
+  - docs/models/outputgrafanacloudresponseretrysetting1.md
+  - docs/models/outputgrafanacloudresponseretrysetting2.md
+  - docs/models/outputgrafanacloudtimeoutretrysettings1.md
+  - docs/models/outputgrafanacloudtimeoutretrysettings2.md
+  - docs/models/outputgrafanacloudtype1.md
+  - docs/models/outputgrafanacloudtype2.md
   - docs/models/outputgraphite.md
   - docs/models/outputgraphitebackpressurebehavior.md
   - docs/models/outputgraphitecompression.md
@@ -1725,11 +1797,16 @@ generatedFiles:
   - docs/models/podfilter.md
   - docs/models/prefixoptional.md
   - docs/models/productscore.md
-  - docs/models/prometheusauthoauthheader.md
-  - docs/models/prometheusauthoauthparam.md
+  - docs/models/prometheusauthoauthheader1.md
+  - docs/models/prometheusauthoauthheader2.md
+  - docs/models/prometheusauthoauthparam1.md
+  - docs/models/prometheusauthoauthparam2.md
   - docs/models/querybuildermode.md
   - docs/models/rbacresource.md
   - docs/models/readmode.md
+  - docs/models/rediscachelimits.md
+  - docs/models/redisconnectionlimits.md
+  - docs/models/redislimits.md
   - docs/models/remote.md
   - docs/models/renamed.md
   - docs/models/reportlevel.md
@@ -1743,15 +1820,18 @@ generatedFiles:
   - docs/models/routesgroups.md
   - docs/models/routesroute.md
   - docs/models/sample.md
+  - docs/models/samples.md
   - docs/models/scanmode.md
   - docs/models/scheduletype.md
   - docs/models/schemeclientoauth.md
   - docs/models/scrapeprotocolprotocol.md
+  - docs/models/searchsettings.md
   - docs/models/security.md
   - docs/models/sendeventsas.md
   - docs/models/sendlogsas.md
   - docs/models/serversideencryption.md
   - docs/models/services.md
+  - docs/models/serviceslimits.md
   - docs/models/sharditeratorstart.md
   - docs/models/shardloadbalancing.md
   - docs/models/snmpv3authentication.md
@@ -1759,6 +1839,38 @@ generatedFiles:
   - docs/models/subscription.md
   - docs/models/subscriptionmetadatum.md
   - docs/models/summary.md
+  - docs/models/systemsettings.md
+  - docs/models/systemsettingsapi.md
+  - docs/models/systemsettingsbackups.md
+  - docs/models/systemsettingsconf.md
+  - docs/models/systemsettingsconfapi.md
+  - docs/models/systemsettingsconfbackups.md
+  - docs/models/systemsettingsconfcustomlogo.md
+  - docs/models/systemsettingsconfheaders.md
+  - docs/models/systemsettingsconfpii.md
+  - docs/models/systemsettingsconfproxy.md
+  - docs/models/systemsettingsconfrollback.md
+  - docs/models/systemsettingsconfshutdown.md
+  - docs/models/systemsettingsconfsni.md
+  - docs/models/systemsettingsconfsockets.md
+  - docs/models/systemsettingsconfssl.md
+  - docs/models/systemsettingsconfsystem.md
+  - docs/models/systemsettingsconftls.md
+  - docs/models/systemsettingsconfupgrade.md
+  - docs/models/systemsettingsconfworkers.md
+  - docs/models/systemsettingscustomlogo.md
+  - docs/models/systemsettingsheaders.md
+  - docs/models/systemsettingspii.md
+  - docs/models/systemsettingsproxy.md
+  - docs/models/systemsettingsrollback.md
+  - docs/models/systemsettingsshutdown.md
+  - docs/models/systemsettingssni.md
+  - docs/models/systemsettingssockets.md
+  - docs/models/systemsettingsssl.md
+  - docs/models/systemsettingssystem.md
+  - docs/models/systemsettingstls.md
+  - docs/models/systemsettingsupgrade.md
+  - docs/models/systemsettingsworkers.md
   - docs/models/target.md
   - docs/models/targetprotocol.md
   - docs/models/teamaccesscontrollist.md
@@ -1785,10 +1897,18 @@ generatedFiles:
   - docs/models/updatepipelinebyidresponse.md
   - docs/models/updateroutesbyidrequest.md
   - docs/models/updateroutesbyidresponse.md
+  - docs/models/updatesystemsettingsauthresponse.md
+  - docs/models/updatesystemsettingsconfresponse.md
+  - docs/models/updatesystemsettingsgitsettingsresponse.md
+  - docs/models/upgradegroupsettings.md
+  - docs/models/upgradepackageurls.md
+  - docs/models/upgradesettings.md
   - docs/models/useraccesscontrollist.md
   - docs/models/usersandgroups.md
   - docs/models/utils/retryconfig.md
   - docs/models/v3user.md
+  - docs/models/warmpoolsize.md
+  - docs/models/warmpoolsizeenum.md
   - docs/models/workertypes.md
   - docs/models/writeaction.md
   - docs/sdks/acl/README.md
@@ -1797,9 +1917,11 @@ generatedFiles:
   - docs/sdks/commits/README.md
   - docs/sdks/commitsfiles/README.md
   - docs/sdks/configsversions/README.md
+  - docs/sdks/cribl/README.md
   - docs/sdks/criblcontrolplane/README.md
   - docs/sdks/destinations/README.md
   - docs/sdks/destinationspq/README.md
+  - docs/sdks/destinationssamples/README.md
   - docs/sdks/groupssdk/README.md
   - docs/sdks/health/README.md
   - docs/sdks/hectokens/README.md
@@ -1808,10 +1930,12 @@ generatedFiles:
   - docs/sdks/packs/README.md
   - docs/sdks/pipelines/README.md
   - docs/sdks/routessdk/README.md
-  - docs/sdks/samples/README.md
+  - docs/sdks/settingsauth/README.md
+  - docs/sdks/settingsgit/README.md
   - docs/sdks/sources/README.md
   - docs/sdks/statuses/README.md
   - docs/sdks/summaries/README.md
+  - docs/sdks/systemsdk/README.md
   - docs/sdks/teams/README.md
   - docs/sdks/tokens/README.md
   - docs/sdks/versions/README.md
@@ -1835,8 +1959,10 @@ generatedFiles:
   - src/cribl_control_plane/commits.py
   - src/cribl_control_plane/commits_files.py
   - src/cribl_control_plane/configs_versions.py
+  - src/cribl_control_plane/cribl.py
   - src/cribl_control_plane/destinations.py
   - src/cribl_control_plane/destinations_pq.py
+  - src/cribl_control_plane/destinations_samples.py
   - src/cribl_control_plane/errors/__init__.py
   - src/cribl_control_plane/errors/apierror.py
   - src/cribl_control_plane/errors/criblcontrolplaneerror.py
@@ -1853,11 +1979,13 @@ generatedFiles:
   - src/cribl_control_plane/models/__init__.py
   - src/cribl_control_plane/models/addhectokenrequest.py
   - src/cribl_control_plane/models/appmode.py
+  - src/cribl_control_plane/models/authconfig.py
   - src/cribl_control_plane/models/authtoken.py
   - src/cribl_control_plane/models/cacheconnection.py
   - src/cribl_control_plane/models/cacheconnectionbackfillstatus.py
   - src/cribl_control_plane/models/cloudprovider.py
   - src/cribl_control_plane/models/commit.py
+  - src/cribl_control_plane/models/commonservicelimitconfigs.py
   - src/cribl_control_plane/models/configgroup.py
   - src/cribl_control_plane/models/configgroupcloud.py
   - src/cribl_control_plane/models/configgrouplookups.py
@@ -1889,6 +2017,7 @@ generatedFiles:
   - src/cribl_control_plane/models/deployrequest.py
   - src/cribl_control_plane/models/deployrequestlookups.py
   - src/cribl_control_plane/models/distributedsummary.py
+  - src/cribl_control_plane/models/edgeheartbeatmetricsmode.py
   - src/cribl_control_plane/models/getconfiggroupaclbyproductandidop.py
   - src/cribl_control_plane/models/getconfiggroupaclteamsbyproductandidop.py
   - src/cribl_control_plane/models/getconfiggroupbyproductandidop.py
@@ -1900,10 +2029,14 @@ generatedFiles:
   - src/cribl_control_plane/models/getoutputbyidop.py
   - src/cribl_control_plane/models/getoutputpqbyidop.py
   - src/cribl_control_plane/models/getoutputsamplesbyidop.py
+  - src/cribl_control_plane/models/getpacksbyidop.py
   - src/cribl_control_plane/models/getpacksop.py
   - src/cribl_control_plane/models/getpipelinebyidop.py
   - src/cribl_control_plane/models/getroutesbyidop.py
   - src/cribl_control_plane/models/getsummaryop.py
+  - src/cribl_control_plane/models/getsystemsettingsauthop.py
+  - src/cribl_control_plane/models/getsystemsettingsconfop.py
+  - src/cribl_control_plane/models/getsystemsettingsgitsettingsop.py
   - src/cribl_control_plane/models/getversionbranchop.py
   - src/cribl_control_plane/models/getversioncountop.py
   - src/cribl_control_plane/models/getversiondiffop.py
@@ -1918,8 +2051,10 @@ generatedFiles:
   - src/cribl_control_plane/models/gitfilesresponse.py
   - src/cribl_control_plane/models/gitinfo.py
   - src/cribl_control_plane/models/gitlogresult.py
+  - src/cribl_control_plane/models/gitopstype.py
   - src/cribl_control_plane/models/gitrevertparams.py
   - src/cribl_control_plane/models/gitrevertresult.py
+  - src/cribl_control_plane/models/gitsettings.py
   - src/cribl_control_plane/models/gitstatusresult.py
   - src/cribl_control_plane/models/hbcriblinfo.py
   - src/cribl_control_plane/models/hbleaderinfo.py
@@ -1983,9 +2118,12 @@ generatedFiles:
   - src/cribl_control_plane/models/inputwindowsmetrics.py
   - src/cribl_control_plane/models/inputwineventlogs.py
   - src/cribl_control_plane/models/inputwiz.py
+  - src/cribl_control_plane/models/inputwizwebhook.py
   - src/cribl_control_plane/models/inputzscalerhec.py
+  - src/cribl_control_plane/models/jobsettings.py
   - src/cribl_control_plane/models/lakedatasetsearchconfig.py
   - src/cribl_control_plane/models/lakehouseconnectiontype.py
+  - src/cribl_control_plane/models/limits.py
   - src/cribl_control_plane/models/listconfiggroupbyproductop.py
   - src/cribl_control_plane/models/listinputop.py
   - src/cribl_control_plane/models/listmasterworkerentryop.py
@@ -2076,13 +2214,20 @@ generatedFiles:
   - src/cribl_control_plane/models/pipelinefunctionconf.py
   - src/cribl_control_plane/models/productscore.py
   - src/cribl_control_plane/models/rbacresource.py
+  - src/cribl_control_plane/models/rediscachelimits.py
+  - src/cribl_control_plane/models/redisconnectionlimits.py
+  - src/cribl_control_plane/models/redislimits.py
   - src/cribl_control_plane/models/resourcepolicy.py
   - src/cribl_control_plane/models/routecloneconf.py
   - src/cribl_control_plane/models/routeconf.py
   - src/cribl_control_plane/models/routes.py
   - src/cribl_control_plane/models/routesroute.py
   - src/cribl_control_plane/models/schemeclientoauth.py
+  - src/cribl_control_plane/models/searchsettings.py
   - src/cribl_control_plane/models/security.py
+  - src/cribl_control_plane/models/serviceslimits.py
+  - src/cribl_control_plane/models/systemsettings.py
+  - src/cribl_control_plane/models/systemsettingsconf.py
   - src/cribl_control_plane/models/teamaccesscontrollist.py
   - src/cribl_control_plane/models/updateconfiggroupbyproductandidop.py
   - src/cribl_control_plane/models/updateconfiggroupdeploybyproductandidop.py
@@ -2094,6 +2239,12 @@ generatedFiles:
   - src/cribl_control_plane/models/updatepacksbyidop.py
   - src/cribl_control_plane/models/updatepipelinebyidop.py
   - src/cribl_control_plane/models/updateroutesbyidop.py
+  - src/cribl_control_plane/models/updatesystemsettingsauthop.py
+  - src/cribl_control_plane/models/updatesystemsettingsconfop.py
+  - src/cribl_control_plane/models/updatesystemsettingsgitsettingsop.py
+  - src/cribl_control_plane/models/upgradegroupsettings.py
+  - src/cribl_control_plane/models/upgradepackageurls.py
+  - src/cribl_control_plane/models/upgradesettings.py
   - src/cribl_control_plane/models/useraccesscontrollist.py
   - src/cribl_control_plane/models/workertypes.py
   - src/cribl_control_plane/nodes.py
@@ -2101,12 +2252,15 @@ generatedFiles:
   - src/cribl_control_plane/pipelines.py
   - src/cribl_control_plane/py.typed
   - src/cribl_control_plane/routes_sdk.py
-  - src/cribl_control_plane/samples.py
   - src/cribl_control_plane/sdk.py
   - src/cribl_control_plane/sdkconfiguration.py
+  - src/cribl_control_plane/settings.py
+  - src/cribl_control_plane/settings_auth.py
+  - src/cribl_control_plane/settings_git.py
   - src/cribl_control_plane/sources.py
   - src/cribl_control_plane/statuses.py
   - src/cribl_control_plane/summaries.py
+  - src/cribl_control_plane/system_sdk.py
   - src/cribl_control_plane/teams.py
   - src/cribl_control_plane/tokens.py
   - src/cribl_control_plane/types/__init__.py
@@ -3044,4 +3198,4 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: "## SDK Changes Detected:\n* `cribl_control_plane.sources.create()`: \n  *  `request` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.sources.update()`: \n  *  `request.input` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.create()`: \n  *  `request` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.update()`: \n  *  `request.output` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.versions.commits.revert()`:  `request.message` **Changed** **Breaking** :warning:\n* `cribl_control_plane.packs.get()`: **Deleted** **Breaking** :warning:\n* `cribl_control_plane.sources.list()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.sources.get()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.sources.delete()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.list()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.get()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.delete()`:  `response.items.[]` **Changed**\n"
+releaseNotes: "## SDK Changes Detected:\n* `cribl_control_plane.sources.create()`: \n  *  `request` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.update()`: \n  *  `request.output` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.create()`: \n  *  `request` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.sources.update()`: \n  *  `request.input` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.system.settings.cribl.update()`: **Added**\n* `cribl_control_plane.sources.delete()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.system.settings.git.update()`: **Added**\n* `cribl_control_plane.sources.list()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.packs.get()`: **Added**\n* `cribl_control_plane.sources.get()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.system.settings.cribl.list()`: **Added**\n* `cribl_control_plane.system.settings.git.list()`: **Added**\n* `cribl_control_plane.destinations.list()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.system.settings.auth.update()`: **Added**\n* `cribl_control_plane.destinations.get()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.system.settings.auth.list()`: **Added**\n* `cribl_control_plane.destinations.delete()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.versions.commits.revert()`:  `request.message` **Changed**\n"

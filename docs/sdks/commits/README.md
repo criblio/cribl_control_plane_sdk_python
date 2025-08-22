@@ -216,7 +216,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.versions.commits.revert(commit="<value>", group="<value>", force=False, message="<value>")
+    res = ccp_client.versions.commits.revert(commit="<value>", message="<value>", group="<value>", force=False)
 
     # Handle response
     print(res)
@@ -228,9 +228,9 @@ with CriblControlPlane(
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
 | `commit`                                                            | *str*                                                               | :heavy_check_mark:                                                  | N/A                                                                 |
+| `message`                                                           | *str*                                                               | :heavy_check_mark:                                                  | N/A                                                                 |
 | `group`                                                             | *Optional[str]*                                                     | :heavy_minus_sign:                                                  | Group ID                                                            |
 | `force`                                                             | *Optional[bool]*                                                    | :heavy_minus_sign:                                                  | N/A                                                                 |
-| `message`                                                           | *Optional[str]*                                                     | :heavy_minus_sign:                                                  | N/A                                                                 |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response

@@ -8,13 +8,13 @@ from typing_extensions import NotRequired, TypedDict
 
 class GitRevertParamsTypedDict(TypedDict):
     commit: str
+    message: str
     force: NotRequired[bool]
-    message: NotRequired[str]
 
 
 class GitRevertParams(BaseModel):
     commit: str
 
-    force: Optional[bool] = None
+    message: str
 
-    message: Optional[str] = None
+    force: Optional[bool] = None

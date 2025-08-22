@@ -333,12 +333,6 @@ value: models.InputJournalFiles = /* values here */
 value: models.InputWiz = /* values here */
 ```
 
-### `models.InputWizWebhook`
-
-```python
-value: models.InputWizWebhook = /* values here */
-```
-
 ### `models.InputNetflow`
 
 ```python

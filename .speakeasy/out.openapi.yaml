@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.14.0-alpha.1755764858399-d5c9979b
+  version: 4.14.0-alpha.1755863151363-73823764
   contact:
     name: Support
     email: support@cribl.io
@@ -4403,6 +4403,11 @@ components:
         description:
           type: string
           title: Description
+      anyOf:
+        - required:
+            - prometheusAPI
+        - required:
+            - lokiAPI
     InputLoki:
       type: object
       required:
@@ -14107,6 +14112,13 @@ components:
           type: boolean
           title: Enable enhanced TLS handshake for proxy protocol
           description: When enabled, parses PROXY protocol headers during the TLS handshake. Disable if compatibility issues arise.
+      anyOf:
+        - required:
+            - host
+            - udpPort
+        - required:
+            - host
+            - tcpPort
     InputFile:
       type: object
       properties:
@@ -16529,6 +16541,327 @@ components:
           type: string
           title: Client Secret (text secret)
           description: Select or create a stored text secret
+    InputWizWebhook:
+      type: object
+      required:
+        - type
+        - host
+        - port
+      properties:
+        id:
+          type: string
+          title: Input ID
+          description: Unique ID for this input
+        type:
+          type: string
+          enum:
+            - wiz_webhook
+        disabled:
+          type: boolean
+          title: Disabled
+          default: false
+        pipeline:
+          type: string
+          title: Pipeline
+          description: Pipeline to process data from this Source before sending it through the Routes
+        sendToRoutes:
+          type: boolean
+          default: true
+          description: Select whether to send data to Routes, or directly to Destinations.
+        environment:
+          type: string
+          title: Environment
+          description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
+        pqEnabled:
+          type: boolean
+          default: false
+          title: Enable persistent queue
+          description: Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers).
+        streamtags:
+          type: array
+          title: Tags
+          description: Tags for filtering and grouping in @{product}
+          default: []
+          items:
+            type: string
+        connections:
+          type: array
+          title: Use QuickConnect
+          description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
+          items:
+            type: object
+            required:
+              - output
+            properties:
+              pipeline:
+                title: Pipeline or Pack
+                type: string
+              output:
+                title: Destination
+                type: string
+        pq:
+          type: object
+          properties:
+            mode:
+              type: string
+              title: Mode
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              default: always
+              enum:
+                - smart
+                - always
+            maxBufferSize:
+              type: number
+              title: Buffer size limit
+              description: The maximum number of events to hold in memory before writing the events to disk
+              default: 1000
+              minimum: 42
+            commitFrequency:
+              type: number
+              title: Commit frequency
+              description: The number of events to send downstream before committing that Stream has read them
+              default: 42
+              minimum: 1
+            maxFileSize:
+              type: string
+              title: File size limit
+              description: The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc.
+              pattern: ^\d+\s*(?:\w{2})?$
+              default: 1 MB
+            maxSize:
+              type: string
+              title: Queue size limit
+              description: The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc.
+              pattern: ^\d+\s*(?:\w{2})?$
+              default: 5GB
+            path:
+              type: string
+              default: $CRIBL_HOME/state/queues
+              title: Queue file path
+              description: "The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"
+            compress:
+              type: string
+              default: none
+              enum:
+                - none
+                - gzip
+              title: Compression
+              description: Codec to use to compress the persisted data
+        host:
+          type: string
+          title: Address
+          description: Address to bind on. Defaults to 0.0.0.0 (all addresses).
+          default: 0.0.0.0
+        port:
+          type: number
+          title: Port
+          maximum: 65535
+          description: Port to listen on
+        authTokens:
+          type: array
+          title: Auth tokens
+          description: "Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."
+          items:
+            type: string
+        tls:
+          type: object
+          title: TLS settings (server side)
+          properties:
+            disabled:
+              type: boolean
+              title: Disabled
+              default: true
+            certificateName:
+              type: string
+              title: Certificate
+              description: The name of the predefined certificate
+            privKeyPath:
+              type: string
+              title: Private key path
+              description: Path on server containing the private key to use. PEM format. Can reference $ENV_VARS.
+            passphrase:
+              type: string
+              title: Passphrase
+              description: Passphrase to use to decrypt private key
+            certPath:
+              type: string
+              title: Certificate path
+              description: Path on server containing certificates to use. PEM format. Can reference $ENV_VARS.
+            caPath:
+              type: string
+              title: CA certificate path
+              description: Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS.
+            requestCert:
+              type: boolean
+              title: Authenticate client (mutual auth)
+              description: Require clients to present their certificates. Used to perform client authentication using SSL certs.
+              default: false
+            rejectUnauthorized: {}
+            commonNameRegex: {}
+            minVersion:
+              type: string
+              title: Minimum TLS version
+              enum:
+                - TLSv1
+                - TLSv1.1
+                - TLSv1.2
+                - TLSv1.3
+            maxVersion:
+              type: string
+              title: Maximum TLS version
+              enum:
+                - TLSv1
+                - TLSv1.1
+                - TLSv1.2
+                - TLSv1.3
+        maxActiveReq:
+          type: number
+          title: Active request limit
+          description: "Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."
+          default: 256
+          minimum: 0
+        maxRequestsPerSocket:
+          type: integer
+          title: Requests-per-socket limit
+          description: Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited).
+          default: 0
+          minimum: 0
+        enableProxyHeader:
+          type: boolean
+          title: Show originating IP
+          description: Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction.
+          default: false
+        captureHeaders:
+          type: boolean
+          title: Capture request headers
+          description: Add request headers to events, in the __headers field
+          default: false
+        activityLogSampleRate:
+          type: number
+          title: Activity log sample rate
+          description: How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc.
+          default: 100
+          minimum: 1
+        requestTimeout:
+          type: number
+          title: Request timeout (seconds)
+          description: How long to wait for an incoming request to complete before aborting it. Use 0 to disable.
+          default: 0
+          minimum: 0
+        socketTimeout:
+          type: number
+          title: Socket timeout (seconds)
+          description: How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0.
+          default: 0
+          minimum: 0
+        keepAliveTimeout:
+          type: number
+          title: Keep-alive timeout (seconds)
+          description: After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes).
+          default: 5
+          minimum: 1
+          maximum: 600
+        enableHealthCheck:
+          type: boolean
+          title: Health check endpoint
+          description: Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy
+          default: false
+        ipAllowlistRegex:
+          type: string
+          title: IP allowlist regex
+          description: Messages from matched IP addresses will be processed, unless also matched by the denylist
+          default: /.*/
+        ipDenylistRegex:
+          type: string
+          title: IP denylist regex
+          description: Messages from matched IP addresses will be ignored. This takes precedence over the allowlist.
+          default: /^$/
+        breakerRulesets:
+          type: array
+          title: Event Breaker rulesets
+          description: A list of event-breaking rulesets that will be applied, in order, to the input data stream
+          default:
+            - Cribl - Do Not Break Ruleset
+          items:
+            type: string
+        staleChannelFlushMs:
+          type: number
+          title: Event Breaker buffer timeout (ms)
+          description: How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines
+          default: 10000
+          minimum: 10
+          maximum: 43200000
+        metadata:
+          type: array
+          title: Fields
+          description: Fields to add to events from this input
+          items:
+            type: object
+            required:
+              - name
+              - value
+            properties:
+              name:
+                type: string
+                title: Field Name
+              value:
+                type: string
+                title: Value
+                description: JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
+        allowedPaths:
+          type: array
+          title: Allowed URI paths
+          description: List of URI paths accepted by this input. Wildcards are supported (such as /api/v*/hook). Defaults to allow all.
+          default:
+            - "*"
+          items:
+            type: string
+            minLength: 1
+        allowedMethods:
+          type: array
+          title: Allowed HTTP methods
+          description: List of HTTP methods accepted by this input. Wildcards are supported (such as P*, GET). Defaults to allow all.
+          default:
+            - "*"
+          items:
+            type: string
+            minLength: 1
+        authTokensExt:
+          type: array
+          title: Auth tokens
+          description: "Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."
+          items:
+            type: object
+            required:
+              - token
+            properties:
+              token:
+                type: string
+                title: Token
+                description: "Shared secret to be provided by any client (Authorization: <token>)"
+              description:
+                type: string
+                title: Description
+              metadata:
+                type: array
+                title: Fields
+                description: Fields to add to events referencing this token
+                items:
+                  type: object
+                  required:
+                    - name
+                    - value
+                  properties:
+                    name:
+                      type: string
+                      title: Field Name
+                    value:
+                      type: string
+                      title: Value
+                      description: JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
+        description:
+          type: string
+          title: Description
     InputNetflow:
       type: object
       required:
@@ -17433,70 +17766,10 @@ components:
         - $ref: "#/components/schemas/InputRawUdp"
         - $ref: "#/components/schemas/InputJournalFiles"
         - $ref: "#/components/schemas/InputWiz"
+        - $ref: "#/components/schemas/InputWizWebhook"
         - $ref: "#/components/schemas/InputNetflow"
         - $ref: "#/components/schemas/InputSecurityLake"
         - $ref: "#/components/schemas/InputZscalerHec"
-      discriminator:
-        propertyName: type
-        mapping:
-          collection: "#/components/schemas/InputCollection"
-          kafka: "#/components/schemas/InputKafka"
-          msk: "#/components/schemas/InputMsk"
-          http: "#/components/schemas/InputHttp"
-          splunk: "#/components/schemas/InputSplunk"
-          splunk_search: "#/components/schemas/InputSplunkSearch"
-          splunk_hec: "#/components/schemas/InputSplunkHec"
-          azure_blob: "#/components/schemas/InputAzureBlob"
-          elastic: "#/components/schemas/InputElastic"
-          confluent_cloud: "#/components/schemas/InputConfluentCloud"
-          grafana: "#/components/schemas/InputGrafana"
-          loki: "#/components/schemas/InputLoki"
-          prometheus_rw: "#/components/schemas/InputPrometheusRw"
-          prometheus: "#/components/schemas/InputPrometheus"
-          edge_prometheus: "#/components/schemas/InputEdgePrometheus"
-          office365_mgmt: "#/components/schemas/InputOffice365Mgmt"
-          office365_service: "#/components/schemas/InputOffice365Service"
-          office365_msg_trace: "#/components/schemas/InputOffice365MsgTrace"
-          eventhub: "#/components/schemas/InputEventhub"
-          exec: "#/components/schemas/InputExec"
-          firehose: "#/components/schemas/InputFirehose"
-          google_pubsub: "#/components/schemas/InputGooglePubsub"
-          cribl: "#/components/schemas/InputCribl"
-          cribl_tcp: "#/components/schemas/InputCriblTcp"
-          cribl_http: "#/components/schemas/InputCriblHttp"
-          cribl_lake_http: "#/components/schemas/InputCriblLakeHttp"
-          tcpjson: "#/components/schemas/InputTcpjson"
-          system_metrics: "#/components/schemas/InputSystemMetrics"
-          system_state: "#/components/schemas/InputSystemState"
-          kube_metrics: "#/components/schemas/InputKubeMetrics"
-          kube_logs: "#/components/schemas/InputKubeLogs"
-          kube_events: "#/components/schemas/InputKubeEvents"
-          windows_metrics: "#/components/schemas/InputWindowsMetrics"
-          crowdstrike: "#/components/schemas/InputCrowdstrike"
-          datadog_agent: "#/components/schemas/InputDatadogAgent"
-          datagen: "#/components/schemas/InputDatagen"
-          http_raw: "#/components/schemas/InputHttpRaw"
-          kinesis: "#/components/schemas/InputKinesis"
-          criblmetrics: "#/components/schemas/InputCriblmetrics"
-          metrics: "#/components/schemas/InputMetrics"
-          s3: "#/components/schemas/InputS3"
-          s3_inventory: "#/components/schemas/InputS3Inventory"
-          snmp: "#/components/schemas/InputSnmp"
-          open_telemetry: "#/components/schemas/InputOpenTelemetry"
-          model_driven_telemetry: "#/components/schemas/InputModelDrivenTelemetry"
-          sqs: "#/components/schemas/InputSqs"
-          syslog: "#/components/schemas/InputSyslog"
-          file: "#/components/schemas/InputFile"
-          tcp: "#/components/schemas/InputTcp"
-          appscope: "#/components/schemas/InputAppscope"
-          wef: "#/components/schemas/InputWef"
-          win_event_logs: "#/components/schemas/InputWinEventLogs"
-          raw_udp: "#/components/schemas/InputRawUdp"
-          journal_files: "#/components/schemas/InputJournalFiles"
-          wiz: "#/components/schemas/InputWiz"
-          netflow: "#/components/schemas/InputNetflow"
-          security_lake: "#/components/schemas/InputSecurityLake"
-          zscaler_hec: "#/components/schemas/InputZscalerHec"
     AddHecTokenRequest:
       type: object
       properties:
@@ -29679,6 +29952,11 @@ components:
             - always
         pqControls:
           type: object
+      anyOf:
+        - required:
+            - lokiUrl
+        - required:
+            - prometheusUrl
       required:
         - type
     OutputLoki:
@@ -35800,73 +36078,6 @@ components:
         - $ref: "#/components/schemas/OutputDynatraceHttp"
         - $ref: "#/components/schemas/OutputDynatraceOtlp"
         - $ref: "#/components/schemas/OutputSentinelOneAiSiem"
-      discriminator:
-        propertyName: type
-        mapping:
-          default: "#/components/schemas/OutputDefault"
-          webhook: "#/components/schemas/OutputWebhook"
-          sentinel: "#/components/schemas/OutputSentinel"
-          devnull: "#/components/schemas/OutputDevnull"
-          syslog: "#/components/schemas/OutputSyslog"
-          splunk: "#/components/schemas/OutputSplunk"
-          splunk_lb: "#/components/schemas/OutputSplunkLb"
-          splunk_hec: "#/components/schemas/OutputSplunkHec"
-          tcpjson: "#/components/schemas/OutputTcpjson"
-          wavefront: "#/components/schemas/OutputWavefront"
-          signalfx: "#/components/schemas/OutputSignalfx"
-          filesystem: "#/components/schemas/OutputFilesystem"
-          s3: "#/components/schemas/OutputS3"
-          azure_blob: "#/components/schemas/OutputAzureBlob"
-          azure_data_explorer: "#/components/schemas/OutputAzureDataExplorer"
-          azure_logs: "#/components/schemas/OutputAzureLogs"
-          kinesis: "#/components/schemas/OutputKinesis"
-          honeycomb: "#/components/schemas/OutputHoneycomb"
-          azure_eventhub: "#/components/schemas/OutputAzureEventhub"
-          google_chronicle: "#/components/schemas/OutputGoogleChronicle"
-          google_cloud_storage: "#/components/schemas/OutputGoogleCloudStorage"
-          google_cloud_logging: "#/components/schemas/OutputGoogleCloudLogging"
-          google_pubsub: "#/components/schemas/OutputGooglePubsub"
-          exabeam: "#/components/schemas/OutputExabeam"
-          kafka: "#/components/schemas/OutputKafka"
-          confluent_cloud: "#/components/schemas/OutputConfluentCloud"
-          msk: "#/components/schemas/OutputMsk"
-          elastic: "#/components/schemas/OutputElastic"
-          elastic_cloud: "#/components/schemas/OutputElasticCloud"
-          newrelic: "#/components/schemas/OutputNewrelic"
-          newrelic_events: "#/components/schemas/OutputNewrelicEvents"
-          influxdb: "#/components/schemas/OutputInfluxdb"
-          cloudwatch: "#/components/schemas/OutputCloudwatch"
-          minio: "#/components/schemas/OutputMinio"
-          statsd: "#/components/schemas/OutputStatsd"
-          statsd_ext: "#/components/schemas/OutputStatsdExt"
-          graphite: "#/components/schemas/OutputGraphite"
-          router: "#/components/schemas/OutputRouter"
-          sns: "#/components/schemas/OutputSns"
-          sqs: "#/components/schemas/OutputSqs"
-          snmp: "#/components/schemas/OutputSnmp"
-          sumo_logic: "#/components/schemas/OutputSumoLogic"
-          datadog: "#/components/schemas/OutputDatadog"
-          grafana_cloud: "#/components/schemas/OutputGrafanaCloud"
-          loki: "#/components/schemas/OutputLoki"
-          prometheus: "#/components/schemas/OutputPrometheus"
-          ring: "#/components/schemas/OutputRing"
-          open_telemetry: "#/components/schemas/OutputOpenTelemetry"
-          service_now: "#/components/schemas/OutputServiceNow"
-          dataset: "#/components/schemas/OutputDataset"
-          cribl_tcp: "#/components/schemas/OutputCriblTcp"
-          cribl_http: "#/components/schemas/OutputCriblHttp"
-          humio_hec: "#/components/schemas/OutputHumioHec"
-          crowdstrike_next_gen_siem: "#/components/schemas/OutputCrowdstrikeNextGenSiem"
-          dl_s3: "#/components/schemas/OutputDlS3"
-          security_lake: "#/components/schemas/OutputSecurityLake"
-          cribl_lake: "#/components/schemas/OutputCriblLake"
-          disk_spool: "#/components/schemas/OutputDiskSpool"
-          click_house: "#/components/schemas/OutputClickHouse"
-          xsiam: "#/components/schemas/OutputXsiam"
-          netflow: "#/components/schemas/OutputNetflow"
-          dynatrace_http: "#/components/schemas/OutputDynatraceHttp"
-          dynatrace_otlp: "#/components/schemas/OutputDynatraceOtlp"
-          sentinel_one_ai_siem: "#/components/schemas/OutputSentinelOneAiSiem"
     OutputSamplesResponse:
       type: object
       properties:
@@ -36522,6 +36733,17 @@ components:
       required:
         - audit
         - reverted
+    GitRevertParams:
+      type: object
+      properties:
+        commit:
+          type: string
+        force:
+          type: boolean
+        message:
+          type: string
+      required:
+        - commit
     AppMode:
       type: string
       enum:
@@ -36531,6 +36753,777 @@ components:
         - edge
         - managed-edge
         - outpost
+    AuthConfig:
+      type: object
+      properties:
+        fallback:
+          type: boolean
+        fallbackBadLogin:
+          type: boolean
+        filter_type:
+          type: string
+        host:
+          type: string
+        port:
+          type: number
+        ssl:
+          type: boolean
+        type:
+          type: string
+          enum:
+            - ldap
+            - splunk
+            - local
+            - saml
+            - openid
+            - saas
+      required:
+        - fallback
+        - fallbackBadLogin
+        - host
+        - port
+        - ssl
+        - type
+    UpgradeGroupSettings:
+      type: object
+      properties:
+        isRolling:
+          type: boolean
+        quantity:
+          type: number
+        retryCount:
+          type: number
+        retryDelay:
+          type: number
+    UpgradePackageUrls:
+      type: object
+      properties:
+        packageHashUrl:
+          type: string
+        packageUrl:
+          type: string
+      required:
+        - packageUrl
+    UpgradeSettings:
+      type: object
+      properties:
+        automaticUpgradeCheckPeriod:
+          type: string
+        disableAutomaticUpgrade:
+          type: boolean
+        enableLegacyEdgeUpgrade:
+          type: boolean
+        packageUrls:
+          type: array
+          items:
+            $ref: "#/components/schemas/UpgradePackageUrls"
+        upgradeSource:
+          type: string
+      required:
+        - disableAutomaticUpgrade
+        - enableLegacyEdgeUpgrade
+        - upgradeSource
+    SystemSettingsConf:
+      type: object
+      properties:
+        api:
+          type: object
+          properties:
+            baseUrl:
+              type: string
+            disableApiCache:
+              type: boolean
+            disabled:
+              type: boolean
+            headers:
+              type: object
+            host:
+              type: string
+            idleSessionTTL:
+              type: number
+            listenOnPort:
+              type: boolean
+            loginRateLimit:
+              type: string
+            port:
+              type: number
+            protocol:
+              type: string
+            scripts:
+              type: boolean
+            sensitiveFields:
+              type: array
+              items:
+                type: string
+            ssl:
+              type: object
+              properties:
+                caPath:
+                  type: string
+                certPath:
+                  type: string
+                disabled:
+                  type: boolean
+                passphrase:
+                  type: string
+                privKeyPath:
+                  type: string
+              required:
+                - certPath
+                - disabled
+                - passphrase
+                - privKeyPath
+            ssoRateLimit:
+              type: string
+            workerRemoteAccess:
+              type: boolean
+          required:
+            - disabled
+            - host
+            - port
+            - protocol
+            - ssl
+            - workerRemoteAccess
+        backups:
+          type: object
+          properties:
+            backupPersistence:
+              type: string
+            backupsDirectory:
+              type: string
+          required:
+            - backupPersistence
+            - backupsDirectory
+        customLogo:
+          type: object
+          properties:
+            enabled:
+              type: boolean
+            logoDescription:
+              type: string
+            logoImage:
+              type: string
+          required:
+            - enabled
+            - logoDescription
+            - logoImage
+        pii:
+          type: object
+          properties:
+            enablePiiDetection:
+              type: boolean
+          required:
+            - enablePiiDetection
+        proxy:
+          type: object
+          properties:
+            useEnvVars:
+              type: boolean
+          required:
+            - useEnvVars
+        rollback:
+          type: object
+          properties:
+            rollbackEnabled:
+              type: boolean
+            rollbackRetries:
+              type: number
+            rollbackTimeout:
+              type: number
+          required:
+            - rollbackEnabled
+        shutdown:
+          type: object
+          properties:
+            drainTimeout:
+              type: number
+          required:
+            - drainTimeout
+        sni:
+          type: object
+          properties:
+            disableSNIRouting:
+              type: boolean
+          required:
+            - disableSNIRouting
+        sockets:
+          type: object
+          properties:
+            directory:
+              type: string
+        system:
+          type: object
+          properties:
+            intercom:
+              type: boolean
+            upgrade:
+              enum:
+                - false
+                - api
+          required:
+            - intercom
+            - upgrade
+        tls:
+          type: object
+          properties:
+            defaultCipherList:
+              type: string
+            defaultEcdhCurve:
+              type: string
+            maxVersion:
+              type: string
+            minVersion:
+              type: string
+            rejectUnauthorized:
+              type: boolean
+          required:
+            - defaultCipherList
+            - defaultEcdhCurve
+            - maxVersion
+            - minVersion
+            - rejectUnauthorized
+        upgradeGroupSettings:
+          $ref: "#/components/schemas/UpgradeGroupSettings"
+        upgradeSettings:
+          $ref: "#/components/schemas/UpgradeSettings"
+        workers:
+          type: object
+          properties:
+            count:
+              type: number
+            enableHeapSnapshots:
+              type: boolean
+            loadThrottlePerc:
+              type: number
+            memory:
+              type: number
+            minimum:
+              type: number
+            startupMaxConns:
+              type: number
+            startupThrottleTimeout:
+              type: number
+            v8SingleThread:
+              type: boolean
+          required:
+            - count
+            - memory
+            - minimum
+      required:
+        - api
+        - backups
+        - customLogo
+        - pii
+        - proxy
+        - rollback
+        - shutdown
+        - sni
+        - system
+        - tls
+        - upgradeGroupSettings
+        - upgradeSettings
+        - workers
+    GitOpsType:
+      type: string
+      enum:
+        - none
+        - pull
+        - push
+    GitSettings:
+      type: object
+      properties:
+        authType:
+          type: string
+        autoAction:
+          type: string
+        autoActionMessage:
+          type: string
+        autoActionSchedule:
+          type: string
+        branch:
+          type: string
+        commitDeploySingleAction:
+          type: boolean
+        copilotAutoGitCommitMessages:
+          type: boolean
+        defaultCommitMessage:
+          type: string
+        gitOps:
+          $ref: "#/components/schemas/GitOpsType"
+        password:
+          type: string
+        remote:
+          type: string
+        sshKey:
+          type: string
+        strictHostKeyChecking:
+          type: boolean
+        timeout:
+          type: number
+        user:
+          type: string
+    MaxConcurrentSearchesType:
+      oneOf:
+        - type: number
+    SearchSettings:
+      type: object
+      properties:
+        compressObjectCacheArtifacts:
+          type: boolean
+        fieldSummaryMaxFields:
+          type: number
+        fieldSummaryMaxNestedDepth:
+          type: number
+        maxConcurrentSearches:
+          $ref: "#/components/schemas/MaxConcurrentSearchesType"
+        maxExecutorsPerSearch:
+          type: number
+        maxResultsPerSearch:
+          type: number
+        searchHistoryMaxJobs:
+          type: number
+        searchQueueLength:
+          oneOf:
+            - type: number
+        warmPoolSize:
+          oneOf:
+            - type: number
+            - enum:
+                - auto
+        writeOnlyProviderSecrets:
+          type: boolean
+      required:
+        - compressObjectCacheArtifacts
+        - fieldSummaryMaxFields
+        - fieldSummaryMaxNestedDepth
+        - maxConcurrentSearches
+        - maxExecutorsPerSearch
+        - maxResultsPerSearch
+        - searchHistoryMaxJobs
+        - searchQueueLength
+        - warmPoolSize
+        - writeOnlyProviderSecrets
+    JobSettings:
+      type: object
+      properties:
+        concurrentJobLimit:
+          type: number
+        concurrentScheduledJobLimit:
+          type: number
+        concurrentSystemJobLimit:
+          type: number
+        concurrentSystemTaskLimit:
+          type: number
+        concurrentTaskLimit:
+          type: number
+        disableTasks:
+          type: boolean
+        finishedJobArtifactsLimit:
+          type: number
+        finishedTaskArtifactsLimit:
+          type: number
+        jobArtifactsReaperPeriod:
+          type: string
+        jobTimeout:
+          type: string
+        maxTaskPerc:
+          type: number
+        schedulingPolicy:
+          type: string
+        taskHeartbeatPeriod:
+          type: number
+        taskManifestFlushPeriodMs:
+          type: number
+        taskManifestMaxBufferSize:
+          type: number
+        taskManifestReadBufferSize:
+          type: string
+        taskPollTimeoutMs:
+          type: number
+      required:
+        - concurrentJobLimit
+        - concurrentScheduledJobLimit
+        - concurrentSystemJobLimit
+        - concurrentSystemTaskLimit
+        - concurrentTaskLimit
+        - finishedJobArtifactsLimit
+        - finishedTaskArtifactsLimit
+        - jobArtifactsReaperPeriod
+        - jobTimeout
+        - maxTaskPerc
+        - schedulingPolicy
+        - taskHeartbeatPeriod
+        - taskManifestFlushPeriodMs
+        - taskManifestMaxBufferSize
+        - taskManifestReadBufferSize
+        - taskPollTimeoutMs
+    EdgeHeartbeatMetricsMode:
+      type: string
+      enum:
+        - minimal
+        - basic
+        - all
+        - custom
+    Limits:
+      type: object
+      properties:
+        cpuProfileTTL:
+          type: string
+        disableMetricsAccessorCache:
+          type: boolean
+        edgeMetricsCustomExpression:
+          type: string
+        edgeMetricsMode:
+          $ref: "#/components/schemas/EdgeHeartbeatMetricsMode"
+        edgeNodesCount:
+          type: number
+        enableMetricsPersistence:
+          type: boolean
+        enableWorkerPersistence:
+          type: boolean
+        eventsMetadataSources:
+          type: array
+          items:
+            type: string
+        largeEventsThreshold:
+          type: string
+        lookupMaxSize:
+          type: string
+        lookupMaxTotalSize:
+          type: string
+        maxMetrics:
+          type: number
+        maxPQSize:
+          type: string
+        metricsDirectory:
+          type: string
+        metricsDropList:
+          type: array
+          items:
+            type: string
+        metricsFieldsBlacklist:
+          type: array
+          items:
+            type: string
+        metricsGCPeriod:
+          type: string
+        metricsMaxCardinality:
+          type: number
+        metricsMaxDiskSpace:
+          type: string
+        metricsNeverDropList:
+          type: array
+          items:
+            type: string
+        metricsWorkerIdBlacklist:
+          type: array
+          items:
+            type: string
+        minFreeSpace:
+          type: string
+        samples:
+          type: object
+          properties:
+            maxSize:
+              type: string
+          required:
+            - maxSize
+        workerMaxMetrics:
+          type: number
+      required:
+        - cpuProfileTTL
+        - enableMetricsPersistence
+        - metricsDirectory
+        - metricsFieldsBlacklist
+        - metricsGCPeriod
+        - metricsNeverDropList
+        - metricsWorkerIdBlacklist
+        - minFreeSpace
+        - samples
+    RedisCacheLimits:
+      type: object
+      properties:
+        clientTrackingMechanism:
+          type: string
+        enableServerAssist:
+          type: boolean
+        keyTTLSecs:
+          type: number
+        maxCacheSize:
+          type: number
+        maxNumKeys:
+          type: number
+        servicePeriodSecs:
+          type: number
+    RedisConnectionLimits:
+      type: object
+      properties:
+        disabled:
+          type: boolean
+        maxConnections:
+          type: number
+    RedisLimits:
+      type: object
+      properties:
+        connections:
+          $ref: "#/components/schemas/RedisConnectionLimits"
+      required:
+        - connections
+    CommonServiceLimitConfigs:
+      type: object
+      properties:
+        memoryLimit:
+          type: string
+      required:
+        - memoryLimit
+    ServicesLimits:
+      type: object
+      properties:
+        connections:
+          $ref: "#/components/schemas/CommonServiceLimitConfigs"
+        metrics:
+          $ref: "#/components/schemas/CommonServiceLimitConfigs"
+        notifications:
+          $ref: "#/components/schemas/CommonServiceLimitConfigs"
+      required:
+        - connections
+        - metrics
+        - notifications
+    SystemSettings:
+      type: object
+      properties:
+        api:
+          type: object
+          properties:
+            baseUrl:
+              type: string
+            disableApiCache:
+              type: boolean
+            disabled:
+              type: boolean
+            headers:
+              type: object
+            host:
+              type: string
+            idleSessionTTL:
+              type: number
+            listenOnPort:
+              type: boolean
+            loginRateLimit:
+              type: string
+            port:
+              type: number
+            protocol:
+              type: string
+            scripts:
+              type: boolean
+            sensitiveFields:
+              type: array
+              items:
+                type: string
+            ssl:
+              type: object
+              properties:
+                caPath:
+                  type: string
+                certPath:
+                  type: string
+                disabled:
+                  type: boolean
+                passphrase:
+                  type: string
+                privKeyPath:
+                  type: string
+              required:
+                - certPath
+                - disabled
+                - passphrase
+                - privKeyPath
+            ssoRateLimit:
+              type: string
+            workerRemoteAccess:
+              type: boolean
+          required:
+            - disabled
+            - host
+            - port
+            - protocol
+            - ssl
+            - workerRemoteAccess
+        auth:
+          $ref: "#/components/schemas/AuthConfig"
+        backups:
+          type: object
+          properties:
+            backupPersistence:
+              type: string
+            backupsDirectory:
+              type: string
+          required:
+            - backupPersistence
+            - backupsDirectory
+        customLogo:
+          type: object
+          properties:
+            enabled:
+              type: boolean
+            logoDescription:
+              type: string
+            logoImage:
+              type: string
+          required:
+            - enabled
+            - logoDescription
+            - logoImage
+        distributed:
+          type: object
+          properties:
+            mode:
+              $ref: "#/components/schemas/AppMode"
+          required:
+            - mode
+        fips:
+          type: boolean
+        git:
+          $ref: "#/components/schemas/GitSettings"
+        jobLimits:
+          $ref: "#/components/schemas/JobSettings"
+        limits:
+          $ref: "#/components/schemas/Limits"
+        pii:
+          type: object
+          properties:
+            enablePiiDetection:
+              type: boolean
+          required:
+            - enablePiiDetection
+        proxy:
+          type: object
+          properties:
+            useEnvVars:
+              type: boolean
+          required:
+            - useEnvVars
+        redisCacheLimits:
+          $ref: "#/components/schemas/RedisCacheLimits"
+        redisLimits:
+          $ref: "#/components/schemas/RedisLimits"
+        rollback:
+          type: object
+          properties:
+            rollbackEnabled:
+              type: boolean
+            rollbackRetries:
+              type: number
+            rollbackTimeout:
+              type: number
+          required:
+            - rollbackEnabled
+        searchLimits:
+          $ref: "#/components/schemas/SearchSettings"
+        servicesLimits:
+          $ref: "#/components/schemas/ServicesLimits"
+        shutdown:
+          type: object
+          properties:
+            drainTimeout:
+              type: number
+          required:
+            - drainTimeout
+        sni:
+          type: object
+          properties:
+            disableSNIRouting:
+              type: boolean
+          required:
+            - disableSNIRouting
+        sockets:
+          type: object
+          properties:
+            directory:
+              type: string
+        system:
+          type: object
+          properties:
+            intercom:
+              type: boolean
+            upgrade:
+              enum:
+                - false
+                - api
+          required:
+            - intercom
+            - upgrade
+        tls:
+          type: object
+          properties:
+            defaultCipherList:
+              type: string
+            defaultEcdhCurve:
+              type: string
+            maxVersion:
+              type: string
+            minVersion:
+              type: string
+            rejectUnauthorized:
+              type: boolean
+          required:
+            - defaultCipherList
+            - defaultEcdhCurve
+            - maxVersion
+            - minVersion
+            - rejectUnauthorized
+        upgradeGroupSettings:
+          $ref: "#/components/schemas/UpgradeGroupSettings"
+        upgradeSettings:
+          $ref: "#/components/schemas/UpgradeSettings"
+        workers:
+          type: object
+          properties:
+            count:
+              type: number
+            enableHeapSnapshots:
+              type: boolean
+            loadThrottlePerc:
+              type: number
+            memory:
+              type: number
+            minimum:
+              type: number
+            startupMaxConns:
+              type: number
+            startupThrottleTimeout:
+              type: number
+            v8SingleThread:
+              type: boolean
+          required:
+            - count
+            - memory
+            - minimum
+      required:
+        - api
+        - auth
+        - backups
+        - customLogo
+        - distributed
+        - fips
+        - git
+        - jobLimits
+        - limits
+        - pii
+        - proxy
+        - redisCacheLimits
+        - redisLimits
+        - rollback
+        - searchLimits
+        - servicesLimits
+        - shutdown
+        - sni
+        - system
+        - tls
+        - upgradeGroupSettings
+        - upgradeSettings
+        - workers
     GitCommitParams:
       type: object
       properties:
@@ -36582,18 +37575,6 @@ components:
           type: string
         refs:
           type: string
-    GitRevertParams:
-      type: object
-      properties:
-        commit:
-          type: string
-        force:
-          type: boolean
-        message:
-          type: string
-      required:
-        - commit
-        - message
     GitStatusResult:
       type: object
       properties:
@@ -38680,6 +39661,44 @@ paths:
           schema:
             type: string
           description: The <code>id</code> of the Pack to uninstall.
+    get:
+      operationId: getPacksById
+      tags:
+        - packs
+      x-speakeasy-group: packs
+      x-speakeasy-name-override: get
+      summary: Get a Pack
+      description: Get the specified Pack.
+      responses:
+        "200":
+          description: a list of PackInfo objects
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: number of items present in the items array
+                  items:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/PackInfo"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pack to get.
     patch:
       operationId: updatePacksById
       tags:
@@ -38736,6 +39755,202 @@ paths:
           schema:
             type: string
           description: body string optional Specify a branch, tag or a semver spec
+  /system/settings/auth:
+    get:
+      operationId: getSystemSettingsAuth
+      tags:
+        - system
+      x-speakeasy-group: system.settings.auth
+      x-speakeasy-name-override: list
+      summary: Get authentication settings
+      description: Get authentication settings
+      responses:
+        "200":
+          description: a list of AuthConfig objects
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: number of items present in the items array
+                  items:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/AuthConfig"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    patch:
+      operationId: updateSystemSettingsAuth
+      tags:
+        - system
+      x-speakeasy-group: system.settings.auth
+      x-speakeasy-name-override: update
+      summary: Update authentication settings
+      description: Update authentication settings
+      responses:
+        "200":
+          description: a list of AuthConfig objects
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: number of items present in the items array
+                  items:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/AuthConfig"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /system/settings/conf:
+    get:
+      operationId: getSystemSettingsConf
+      tags:
+        - system
+      x-speakeasy-group: system.settings.cribl
+      x-speakeasy-name-override: list
+      summary: Get Cribl system settings
+      description: Get Cribl system settings
+      responses:
+        "200":
+          description: a list of SystemSettingsConf objects
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: number of items present in the items array
+                  items:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/SystemSettingsConf"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    patch:
+      operationId: updateSystemSettingsConf
+      tags:
+        - system
+      x-speakeasy-group: system.settings.cribl
+      x-speakeasy-name-override: update
+      summary: Update Cribl system settings
+      description: Update Cribl system settings
+      responses:
+        "200":
+          description: a list of SystemSettings objects
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: number of items present in the items array
+                  items:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/SystemSettings"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      requestBody:
+        description: SystemSettingsConf object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SystemSettingsConf"
+  /system/settings/git-settings:
+    get:
+      operationId: getSystemSettingsGitSettings
+      tags:
+        - git
+      x-speakeasy-group: system.settings.git
+      x-speakeasy-name-override: list
+      summary: Get git settings
+      description: Get git settings
+      responses:
+        "200":
+          description: a list of GitSettings objects
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: number of items present in the items array
+                  items:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/GitSettings"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    patch:
+      operationId: updateSystemSettingsGitSettings
+      tags:
+        - git
+      x-speakeasy-group: system.settings.git
+      x-speakeasy-name-override: update
+      summary: Update git settings
+      description: Update git settings
+      responses:
+        "200":
+          description: a list of GitSettings objects
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: number of items present in the items array
+                  items:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/GitSettings"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /version/branch:
     get:
       operationId: getVersionBranch

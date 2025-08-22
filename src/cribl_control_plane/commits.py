@@ -756,9 +756,9 @@ class Commits(BaseSDK):
         self,
         *,
         commit: str,
-        message: str,
         group: Optional[str] = None,
         force: Optional[bool] = None,
+        message: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -769,9 +769,9 @@ class Commits(BaseSDK):
         Revert a commit in the local repository.
 
         :param commit:
-        :param message:
         :param group: Group ID
         :param force:
+        :param message:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -857,9 +857,9 @@ class Commits(BaseSDK):
         self,
         *,
         commit: str,
-        message: str,
         group: Optional[str] = None,
         force: Optional[bool] = None,
+        message: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -870,9 +870,9 @@ class Commits(BaseSDK):
         Revert a commit in the local repository.
 
         :param commit:
-        :param message:
         :param group: Group ID
         :param force:
+        :param message:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds

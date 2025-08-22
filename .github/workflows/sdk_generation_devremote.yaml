@@ -1,4 +1,4 @@
-name: Publish alpha SDK based on dev-remote branch
+name: Generate alpha SDK from dev-remote
 permissions:
   checks: write
   contents: write
@@ -7,6 +7,8 @@ permissions:
 
 on:
   workflow_dispatch: {}
+  pull_request:
+    types: [labeled, unlabeled]
 
 jobs:
   check-branch:
@@ -19,7 +21,7 @@ jobs:
             exit 1
           fi
 
-  generate-and-push:
+  compute-version:
     needs: check-branch
     runs-on: ubuntu-latest
     outputs:
@@ -35,11 +37,6 @@ jobs:
         run: |
           sudo curl -L https://github.com/mikefarah/yq/releases/download/v4.44.3/yq_linux_amd64 -o /usr/local/bin/yq
           sudo chmod +x /usr/local/bin/yq
-
-      - name: Install Speakeasy CLI
-        run: |
-          curl -fsSL https://raw.githubusercontent.com/speakeasy-api/speakeasy/main/install.sh | sh
-          echo "$HOME/.speakeasy/bin" >> "$GITHUB_PATH"
 
       - name: Compute prerelease version (X.Y.Za<n>)
         id: ver
@@ -80,33 +77,13 @@ jobs:
           echo "version=${FINAL}" >> "$GITHUB_OUTPUT"
           echo "Computed prerelease: ${FINAL}"
 
-      - name: Generate SDK
-        env:
-          SPEAKEASY_API_KEY: ${{ secrets.SPEAKEASY_API_KEY }}
-        run: |
-          speakeasy run --set-version "${{ steps.ver.outputs.version }}"
-
-      - name: Commit and push generated changes
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          git config user.name "SyncUpBot"
-          git config user.email "syncupbot@users.noreply.github.com"
-          git config --global --add safe.directory "$GITHUB_WORKSPACE"
-
-          git add -A
-          if git diff --cached --quiet; then
-            echo "No changes to commit."
-          else
-            git commit -m "chore(sdk): generate prerelease ${{ steps.ver.outputs.version }}"
-            git push origin HEAD:dev-remote
-          fi
-
-  publish:
-    needs: generate-and-push
-    uses: speakeasy-api/sdk-generation-action/.github/workflows/sdk-publish.yaml@57452fc95969792de6734a91400a24aeb409964c
+  generate:
+    needs: [check-branch, compute-version]
+    uses: speakeasy-api/sdk-generation-action/.github/workflows/workflow-executor.yaml@57452fc95969792de6734a91400a24aeb409964c
     with:
-      target: cribl-control-plane
+      force: true
+      mode: pr
+      set_version: ${{ needs.compute-version.outputs.version }}
     secrets:
       github_access_token: ${{ secrets.GITHUB_TOKEN }}
       pypi_token: ${{ secrets.PYPI_TOKEN }}

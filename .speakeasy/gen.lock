@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 7117f9e73ff6b132ec81ba4366ee8712
-  docVersion: 4.14.0-alpha.1755792230606-47c829c2
+  docChecksum: 97ea285bac6d9bca4e3263346a46d09d
+  docVersion: 4.14.0-alpha.1756133891055-db064179
   speakeasyVersion: 1.606.0
   generationVersion: 2.686.7
-  releaseVersion: 0.0.36
-  configChecksum: 432f2c0561d1a4f613ed5bfa6c6845f3
+  releaseVersion: 0.0.37
+  configChecksum: a46b00747b81f06a194c15728504ef04
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -1776,8 +1776,11 @@ generatedFiles:
   - docs/models/packinfotags.md
   - docs/models/packinstallinfo.md
   - docs/models/packinstallinfotags.md
-  - docs/models/packrequestbody.md
-  - docs/models/packrequestbodytags.md
+  - docs/models/packrequestbody1.md
+  - docs/models/packrequestbody2.md
+  - docs/models/packrequestbodytags1.md
+  - docs/models/packrequestbodytags2.md
+  - docs/models/packrequestbodyunion.md
   - docs/models/payloadformat.md
   - docs/models/pipeline.md
   - docs/models/pipelinefunctionconf.md
@@ -2135,7 +2138,7 @@ generatedFiles:
   - src/cribl_control_plane/models/outputxsiam.py
   - src/cribl_control_plane/models/packinfo.py
   - src/cribl_control_plane/models/packinstallinfo.py
-  - src/cribl_control_plane/models/packrequestbody.py
+  - src/cribl_control_plane/models/packrequestbody_union.py
   - src/cribl_control_plane/models/pipeline.py
   - src/cribl_control_plane/models/pipelinefunctionconf.py
   - src/cribl_control_plane/models/productscore.py
@@ -2652,7 +2655,7 @@ examples:
   createPacks:
     speakeasy-default-create-packs:
       requestBody:
-        application/json: {"allowCustomFunctions": false, "author": "<value>", "description": "premeditation coincide although", "displayName": "Myah14", "exports": ["<value 1>"], "force": false, "id": "<id>", "inputs": 4076.64, "minLogStreamVersion": "<value>", "outputs": 2759.4, "source": "<value>", "spec": "<value>", "tags": {"dataType": [], "domain": [], "streamtags": ["<value 1>", "<value 2>"], "technology": ["<value 1>"]}, "version": "<value>"}
+        application/json: {"id": "<id>", "spec": "<value>", "version": "<value>", "minLogStreamVersion": "<value>", "displayName": "Myah14", "author": "<value>", "description": "premeditation coincide although", "source": "<value>", "tags": {"dataType": [], "domain": [], "technology": ["<value 1>"], "streamtags": ["<value 1>", "<value 2>"]}, "allowCustomFunctions": false, "force": false}
       responses:
         "200":
           application/json: {"count": 182030, "items": [{"author": "<value>", "description": "card fen soon inquisitively anti oddly winged", "displayName": "Leila.Nikolaus29", "exports": ["<value 1>", "<value 2>", "<value 3>"], "id": "<id>", "inputs": 5672.33, "isDisabled": false, "minLogStreamVersion": "<value>", "outputs": 8346.66, "settings": {"key": "<value>"}, "source": "<value>", "spec": "<value>", "tags": {"dataType": ["decimal"], "domain": ["lawful-flu.net", "royal-litter.org", "submissive-pantyhose.org"], "streamtags": [], "technology": []}, "version": "<value>", "warnings": "<value>"}]}
@@ -3108,4 +3111,6 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: "## SDK Changes Detected:\n* `cribl_control_plane.packs.get()`: **Added**\n* `cribl_control_plane.sources.list()`:  `response.items.[].[input_wiz_webhook]` **Added**\n* `cribl_control_plane.sources.create()`: \n  *  `request.[input_wiz_webhook]` **Added**\n  *  `response.items.[].[input_wiz_webhook]` **Added**\n* `cribl_control_plane.sources.get()`:  `response.items.[].[input_wiz_webhook]` **Added**\n* `cribl_control_plane.sources.update()`: \n  *  `request.input.[input_wiz_webhook]` **Added**\n  *  `response.items.[].[input_wiz_webhook]` **Added**\n* `cribl_control_plane.sources.delete()`:  `response.items.[].[input_wiz_webhook]` **Added**\n* `cribl_control_plane.versions.commits.revert()`:  `request.message` **Changed**\n"
+releaseNotes: |
+  ## SDK Changes Detected:
+  * `cribl_control_plane.packs.install()`:  `request` **Changed** **Breaking** :warning:

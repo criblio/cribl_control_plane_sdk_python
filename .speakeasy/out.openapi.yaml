@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.14.0-alpha.1755792230606-47c829c2
+  version: 4.14.0-alpha.1756133891055-db064179
   contact:
     name: Support
     email: support@cribl.io
@@ -10679,7 +10679,7 @@ components:
         includeSqsMetadata:
           type: boolean
           title: Include notification metadata
-          description: Include metadata from SQS notifications on outgoing events
+          description: Attach SQS notification metadata to a __sqsMetadata field on each event
           default: false
         enableAssumeRole:
           type: boolean
@@ -12336,7 +12336,7 @@ components:
         includeSqsMetadata:
           type: boolean
           title: Include notification metadata
-          description: Include metadata from SQS notifications on outgoing events
+          description: Attach SQS notification metadata to a __sqsMetadata field on each event
           default: false
         enableAssumeRole:
           type: boolean
@@ -12671,7 +12671,7 @@ components:
         includeSqsMetadata:
           type: boolean
           title: Include notification metadata
-          description: Include metadata from SQS notifications on outgoing events
+          description: Attach SQS notification metadata to a __sqsMetadata field on each event
           default: false
         enableAssumeRole:
           type: boolean
@@ -17247,7 +17247,7 @@ components:
         includeSqsMetadata:
           type: boolean
           title: Include notification metadata
-          description: Include metadata from SQS notifications on outgoing events
+          description: Attach SQS notification metadata to a __sqsMetadata field on each event
           default: false
         enableAssumeRole:
           type: boolean
@@ -36501,32 +36501,23 @@ components:
     PackRequestBody:
       type: object
       properties:
-        allowCustomFunctions:
-          type: boolean
+        id:
+          type: string
+        spec:
+          type: string
+        version:
+          type: string
+        minLogStreamVersion:
+          type: string
+        displayName:
+          type: string
         author:
           type: string
         description:
           type: string
-        displayName:
-          type: string
-        exports:
-          type: array
-          items:
-            type: string
-        force:
-          type: boolean
-        id:
-          type: string
-        inputs:
-          type: number
-        minLogStreamVersion:
-          type: string
-        outputs:
-          type: number
         source:
           type: string
-        spec:
-          type: string
+          description: The source of the pack. If not present, an empty pack will be created
         tags:
           type: object
           properties:
@@ -36538,24 +36529,23 @@ components:
               type: array
               items:
                 type: string
-            streamtags:
-              type: array
-              items:
-                type: string
             technology:
               type: array
               items:
                 type: string
-          required:
-            - dataType
-            - domain
-            - streamtags
-            - technology
-        version:
-          type: string
-      required:
-        - id
-        - source
+            streamtags:
+              type: array
+              items:
+                type: string
+        allowCustomFunctions:
+          type: boolean
+        force:
+          type: boolean
+      anyOf:
+        - required:
+            - id
+        - required:
+            - source
     PackInfo:
       type: object
       properties:
@@ -38781,8 +38771,8 @@ paths:
         - packs
       x-speakeasy-group: packs
       x-speakeasy-name-override: install
-      summary: Install a Pack
-      description: Install a Pack.
+      summary: Create or install a Pack
+      description: Create or install a Pack.
       responses:
         "200":
           description: a list of PackInstallInfo objects
@@ -38807,7 +38797,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
       requestBody:
-        description: PackRequestBody object
+        description: packRequestBody object
         required: true
         content:
           application/json:

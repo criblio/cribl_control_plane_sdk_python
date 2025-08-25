@@ -201,7 +201,7 @@ class InputCrowdstrikeTypedDict(TypedDict):
     skip_on_error: NotRequired[bool]
     r"""Skip files that trigger a processing error. Disabled by default, which allows retries after processing errors."""
     include_sqs_metadata: NotRequired[bool]
-    r"""Include metadata from SQS notifications on outgoing events"""
+    r"""Attach SQS notification metadata to a __sqsMetadata field on each event"""
     enable_assume_role: NotRequired[bool]
     r"""Use Assume Role credentials to access Amazon S3"""
     assume_role_arn: NotRequired[str]
@@ -338,7 +338,7 @@ class InputCrowdstrike(BaseModel):
     include_sqs_metadata: Annotated[
         Optional[bool], pydantic.Field(alias="includeSqsMetadata")
     ] = False
-    r"""Include metadata from SQS notifications on outgoing events"""
+    r"""Attach SQS notification metadata to a __sqsMetadata field on each event"""
 
     enable_assume_role: Annotated[
         Optional[bool], pydantic.Field(alias="enableAssumeRole")

@@ -3,10 +3,10 @@
 from .basesdk import BaseSDK
 from cribl_control_plane import errors, models, utils
 from cribl_control_plane._hooks import HookContext
-from cribl_control_plane.types import OptionalNullable, UNSET
+from cribl_control_plane.types import BaseModel, OptionalNullable, UNSET
 from cribl_control_plane.utils import get_security_from_env
 from cribl_control_plane.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, List, Mapping, Optional, Union
+from typing import Any, Mapping, Optional, Union, cast
 
 
 class Packs(BaseSDK):
@@ -15,45 +15,19 @@ class Packs(BaseSDK):
     def install(
         self,
         *,
-        id: str,
-        source: str,
-        allow_custom_functions: Optional[bool] = None,
-        author: Optional[str] = None,
-        description: Optional[str] = None,
-        display_name: Optional[str] = None,
-        exports: Optional[List[str]] = None,
-        force: Optional[bool] = None,
-        inputs: Optional[float] = None,
-        min_log_stream_version: Optional[str] = None,
-        outputs: Optional[float] = None,
-        spec: Optional[str] = None,
-        tags: Optional[
-            Union[models.PackRequestBodyTags, models.PackRequestBodyTagsTypedDict]
-        ] = None,
-        version: Optional[str] = None,
+        request: Union[
+            models.PackRequestBodyUnion, models.PackRequestBodyUnionTypedDict
+        ],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreatePacksResponse:
-        r"""Install a Pack
+        r"""Create or install a Pack
 
-        Install a Pack.
+        Create or install a Pack.
 
-        :param id:
-        :param source:
-        :param allow_custom_functions:
-        :param author:
-        :param description:
-        :param display_name:
-        :param exports:
-        :param force:
-        :param inputs:
-        :param min_log_stream_version:
-        :param outputs:
-        :param spec:
-        :param tags:
-        :param version:
+        :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -69,22 +43,9 @@ class Packs(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.PackRequestBody(
-            allow_custom_functions=allow_custom_functions,
-            author=author,
-            description=description,
-            display_name=display_name,
-            exports=exports,
-            force=force,
-            id=id,
-            inputs=inputs,
-            min_log_stream_version=min_log_stream_version,
-            outputs=outputs,
-            source=source,
-            spec=spec,
-            tags=utils.get_pydantic_model(tags, Optional[models.PackRequestBodyTags]),
-            version=version,
-        )
+        if not isinstance(request, BaseModel):
+            request = utils.unmarshal(request, models.PackRequestBodyUnion)
+        request = cast(models.PackRequestBodyUnion, request)
 
         req = self._build_request(
             method="POST",
@@ -100,7 +61,7 @@ class Packs(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, False, "json", models.PackRequestBody
+                request, False, False, "json", models.PackRequestBodyUnion
             ),
             timeout_ms=timeout_ms,
         )
@@ -146,45 +107,19 @@ class Packs(BaseSDK):
     async def install_async(
         self,
         *,
-        id: str,
-        source: str,
-        allow_custom_functions: Optional[bool] = None,
-        author: Optional[str] = None,
-        description: Optional[str] = None,
-        display_name: Optional[str] = None,
-        exports: Optional[List[str]] = None,
-        force: Optional[bool] = None,
-        inputs: Optional[float] = None,
-        min_log_stream_version: Optional[str] = None,
-        outputs: Optional[float] = None,
-        spec: Optional[str] = None,
-        tags: Optional[
-            Union[models.PackRequestBodyTags, models.PackRequestBodyTagsTypedDict]
-        ] = None,
-        version: Optional[str] = None,
+        request: Union[
+            models.PackRequestBodyUnion, models.PackRequestBodyUnionTypedDict
+        ],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreatePacksResponse:
-        r"""Install a Pack
+        r"""Create or install a Pack
 
-        Install a Pack.
+        Create or install a Pack.
 
-        :param id:
-        :param source:
-        :param allow_custom_functions:
-        :param author:
-        :param description:
-        :param display_name:
-        :param exports:
-        :param force:
-        :param inputs:
-        :param min_log_stream_version:
-        :param outputs:
-        :param spec:
-        :param tags:
-        :param version:
+        :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -200,22 +135,9 @@ class Packs(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.PackRequestBody(
-            allow_custom_functions=allow_custom_functions,
-            author=author,
-            description=description,
-            display_name=display_name,
-            exports=exports,
-            force=force,
-            id=id,
-            inputs=inputs,
-            min_log_stream_version=min_log_stream_version,
-            outputs=outputs,
-            source=source,
-            spec=spec,
-            tags=utils.get_pydantic_model(tags, Optional[models.PackRequestBodyTags]),
-            version=version,
-        )
+        if not isinstance(request, BaseModel):
+            request = utils.unmarshal(request, models.PackRequestBodyUnion)
+        request = cast(models.PackRequestBodyUnion, request)
 
         req = self._build_request_async(
             method="POST",
@@ -231,7 +153,7 @@ class Packs(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, False, "json", models.PackRequestBody
+                request, False, False, "json", models.PackRequestBodyUnion
             ),
             timeout_ms=timeout_ms,
         )

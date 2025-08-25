@@ -7,7 +7,7 @@ Actions related to Packs
 
 ### Available Operations
 
-* [install](#install) - Install a Pack
+* [install](#install) - Create or install a Pack
 * [list](#list) - List all Packs
 * [delete](#delete) - Uninstall a Pack
 * [get](#get) - Get a Pack
@@ -15,7 +15,7 @@ Actions related to Packs
 
 ## install
 
-Install a Pack.
+Create or install a Pack.
 
 ### Example Usage
 
@@ -32,19 +32,29 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.packs.install(id="<id>", source="<value>", allow_custom_functions=False, author="<value>", description="premeditation coincide although", display_name="Myah14", exports=[
-        "<value 1>",
-    ], force=False, inputs=4076.64, min_log_stream_version="<value>", outputs=2759.4, spec="<value>", tags={
-        "data_type": [],
-        "domain": [],
-        "streamtags": [
-            "<value 1>",
-            "<value 2>",
-        ],
-        "technology": [
-            "<value 1>",
-        ],
-    }, version="<value>")
+    res = ccp_client.packs.install(request={
+        "id": "<id>",
+        "spec": "<value>",
+        "version": "<value>",
+        "min_log_stream_version": "<value>",
+        "display_name": "Myah14",
+        "author": "<value>",
+        "description": "premeditation coincide although",
+        "source": "<value>",
+        "tags": {
+            "data_type": [],
+            "domain": [],
+            "technology": [
+                "<value 1>",
+            ],
+            "streamtags": [
+                "<value 1>",
+                "<value 2>",
+            ],
+        },
+        "allow_custom_functions": False,
+        "force": False,
+    })
 
     # Handle response
     print(res)
@@ -53,23 +63,10 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                                   | Type                                                                        | Required                                                                    | Description                                                                 |
-| --------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| `id`                                                                        | *str*                                                                       | :heavy_check_mark:                                                          | N/A                                                                         |
-| `source`                                                                    | *str*                                                                       | :heavy_check_mark:                                                          | N/A                                                                         |
-| `allow_custom_functions`                                                    | *Optional[bool]*                                                            | :heavy_minus_sign:                                                          | N/A                                                                         |
-| `author`                                                                    | *Optional[str]*                                                             | :heavy_minus_sign:                                                          | N/A                                                                         |
-| `description`                                                               | *Optional[str]*                                                             | :heavy_minus_sign:                                                          | N/A                                                                         |
-| `display_name`                                                              | *Optional[str]*                                                             | :heavy_minus_sign:                                                          | N/A                                                                         |
-| `exports`                                                                   | List[*str*]                                                                 | :heavy_minus_sign:                                                          | N/A                                                                         |
-| `force`                                                                     | *Optional[bool]*                                                            | :heavy_minus_sign:                                                          | N/A                                                                         |
-| `inputs`                                                                    | *Optional[float]*                                                           | :heavy_minus_sign:                                                          | N/A                                                                         |
-| `min_log_stream_version`                                                    | *Optional[str]*                                                             | :heavy_minus_sign:                                                          | N/A                                                                         |
-| `outputs`                                                                   | *Optional[float]*                                                           | :heavy_minus_sign:                                                          | N/A                                                                         |
-| `spec`                                                                      | *Optional[str]*                                                             | :heavy_minus_sign:                                                          | N/A                                                                         |
-| `tags`                                                                      | [Optional[models.PackRequestBodyTags]](../../models/packrequestbodytags.md) | :heavy_minus_sign:                                                          | N/A                                                                         |
-| `version`                                                                   | *Optional[str]*                                                             | :heavy_minus_sign:                                                          | N/A                                                                         |
-| `retries`                                                                   | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)            | :heavy_minus_sign:                                                          | Configuration to override the default retry behavior of the client.         |
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `request`                                                           | [models.PackRequestBodyUnion](../../models/packrequestbodyunion.md) | :heavy_check_mark:                                                  | The request object to use for the request.                          |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 

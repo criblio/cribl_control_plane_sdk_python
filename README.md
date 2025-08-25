@@ -357,7 +357,7 @@ with CriblControlPlane(
 
 ### [packs](docs/sdks/packs/README.md)
 
-* [install](docs/sdks/packs/README.md#install) - Install a Pack
+* [install](docs/sdks/packs/README.md#install) - Create or install a Pack
 * [list](docs/sdks/packs/README.md#list) - List all Packs
 * [delete](docs/sdks/packs/README.md#delete) - Uninstall a Pack
 * [get](docs/sdks/packs/README.md#get) - Get a Pack

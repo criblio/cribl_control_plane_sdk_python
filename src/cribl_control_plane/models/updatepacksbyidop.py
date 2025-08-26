@@ -2,12 +2,9 @@
 
 from __future__ import annotations
 from .packinfo import PackInfo, PackInfoTypedDict
+from .packupgraderequest import PackUpgradeRequest, PackUpgradeRequestTypedDict
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import (
-    FieldMetadata,
-    PathParamMetadata,
-    QueryParamMetadata,
-)
+from cribl_control_plane.utils import FieldMetadata, PathParamMetadata, RequestMetadata
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -15,12 +12,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 class UpdatePacksByIDRequestTypedDict(TypedDict):
     id: str
     r"""The <code>id</code> of the Pack to upgrade."""
-    source: NotRequired[str]
-    r"""body string required Pack source"""
-    minor: NotRequired[str]
-    r"""body boolean optional Only upgrade to minor/patch versions"""
-    spec: NotRequired[str]
-    r"""body string optional Specify a branch, tag or a semver spec"""
+    pack_upgrade_request: PackUpgradeRequestTypedDict
+    r"""PackUpgradeRequest object"""
 
 
 class UpdatePacksByIDRequest(BaseModel):
@@ -29,23 +22,11 @@ class UpdatePacksByIDRequest(BaseModel):
     ]
     r"""The <code>id</code> of the Pack to upgrade."""
 
-    source: Annotated[
-        Optional[str],
-        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = None
-    r"""body string required Pack source"""
-
-    minor: Annotated[
-        Optional[str],
-        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = None
-    r"""body boolean optional Only upgrade to minor/patch versions"""
-
-    spec: Annotated[
-        Optional[str],
-        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = None
-    r"""body string optional Specify a branch, tag or a semver spec"""
+    pack_upgrade_request: Annotated[
+        PackUpgradeRequest,
+        FieldMetadata(request=RequestMetadata(media_type="application/json")),
+    ]
+    r"""PackUpgradeRequest object"""
 
 
 class UpdatePacksByIDResponseTypedDict(TypedDict):

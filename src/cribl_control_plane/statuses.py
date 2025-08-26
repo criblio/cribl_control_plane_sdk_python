@@ -13,7 +13,7 @@ class Statuses(BaseSDK):
     def get(
         self,
         *,
-        group: Optional[str] = None,
+        group_id: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -23,7 +23,7 @@ class Statuses(BaseSDK):
 
         Get the status of the current working tree of the Git repository used for Cribl configuration. The response includes details about modified, staged, untracked, and conflicted files, as well as branch and remote tracking information.
 
-        :param group: The <code>id</code> of the Worker Group or Edge Fleet to get the status for.
+        :param group_id: The <code>id</code> of the Worker Group or Edge Fleet to get the status for.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -40,7 +40,7 @@ class Statuses(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.GetVersionStatusRequest(
-            group=group,
+            group_id=group_id,
         )
 
         req = self._build_request(
@@ -100,7 +100,7 @@ class Statuses(BaseSDK):
     async def get_async(
         self,
         *,
-        group: Optional[str] = None,
+        group_id: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -110,7 +110,7 @@ class Statuses(BaseSDK):
 
         Get the status of the current working tree of the Git repository used for Cribl configuration. The response includes details about modified, staged, untracked, and conflicted files, as well as branch and remote tracking information.
 
-        :param group: The <code>id</code> of the Worker Group or Edge Fleet to get the status for.
+        :param group_id: The <code>id</code> of the Worker Group or Edge Fleet to get the status for.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -127,7 +127,7 @@ class Statuses(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.GetVersionStatusRequest(
-            group=group,
+            group_id=group_id,
         )
 
         req = self._build_request_async(

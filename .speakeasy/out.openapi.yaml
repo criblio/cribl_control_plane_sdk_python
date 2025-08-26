@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.14.0-alpha.1756133891055-db064179
+  version: 4.14.0-alpha.1756226637429-1513a21f
   contact:
     name: Support
     email: support@cribl.io
@@ -18701,7 +18701,7 @@ components:
           type: string
           title: Data collection endpoint
           description: "Data collection endpoint (DCE) URL. In the format: `https://<Endpoint-Name>-<Identifier>.<Region>.ingest.monitor.azure.com`"
-          pattern: ^https:\/\/\w+(-\w+)*-\w+\.\w+(-\w)?\.ingest\.monitor\.azure\.com(\/?)$
+          pattern: ^https:\/\/([a-zA-Z0-9-_\.]+)\.ingest\.monitor\.azure\.com(\/?)$
         streamName:
           type: string
           title: Stream name
@@ -24293,17 +24293,11 @@ components:
           default: 256
           minimum: 1
           maximum: 256
-        flushPeriodSec:
+        flushPeriod:
           title: Flush period (sec)
-          description: Maximum time to wait before sending a batch (when batch size limit is not reached).
-          type: object
-          properties:
-            type:
-              type: string
-              enum:
-                - number
-            default:
-              type: number
+          description: Maximum time to wait before sending a batch (when batch size limit is not reached)
+          type: number
+          default: 1
         maxInProgress:
           type: number
           title: Concurrent request limit
@@ -32932,7 +32926,7 @@ components:
           enum:
             - JSON
             - raw
-          default: raw
+          default: JSON
           description: When set to JSON, the event is automatically formatted with required fields before sending. When set to Raw, only the event's `_raw` value is sent.
         authType:
           title: Authentication method
@@ -36487,8 +36481,6 @@ components:
                 type: string
           required:
             - dataType
-            - domain
-            - streamtags
             - technology
         version:
           type: string
@@ -36597,13 +36589,24 @@ components:
                 type: string
           required:
             - dataType
-            - domain
-            - streamtags
             - technology
         version:
           type: string
       required:
         - id
+        - source
+    PackUpgradeRequest:
+      type: object
+      properties:
+        allowCustomFunctions:
+          type: boolean
+        minor:
+          type: string
+        source:
+          type: string
+        spec:
+          type: string
+      required:
         - source
     GitCommitSummary:
       type: object
@@ -38949,6 +38952,13 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+      requestBody:
+        description: PackUpgradeRequest object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PackUpgradeRequest"
       parameters:
         - name: id
           in: path
@@ -38956,24 +38966,6 @@ paths:
           schema:
             type: string
           description: The <code>id</code> of the Pack to upgrade.
-        - name: source
-          in: query
-          required: false
-          schema:
-            type: string
-          description: body string required Pack source
-        - name: minor
-          in: query
-          required: false
-          schema:
-            type: string
-          description: body boolean optional Only upgrade to minor/patch versions
-        - name: spec
-          in: query
-          required: false
-          schema:
-            type: string
-          description: body string optional Specify a branch, tag or a semver spec
   /version/branch:
     get:
       operationId: getVersionBranch
@@ -39046,6 +39038,13 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/GitCommitParams"
+      parameters:
+        - name: groupId
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The <code>id</code> of the Worker Group or Edge Fleet to create a new commit for.
   /version/count:
     get:
       operationId: getVersionCount
@@ -39080,7 +39079,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
       parameters:
-        - name: group
+        - name: groupId
           in: query
           required: false
           schema:
@@ -39156,7 +39155,7 @@ paths:
           schema:
             type: string
           description: The Git commit hash to get the diff for.
-        - name: group
+        - name: groupId
           in: query
           required: false
           schema:
@@ -39207,7 +39206,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
       parameters:
-        - name: group
+        - name: groupId
           in: query
           required: false
           schema:
@@ -39284,7 +39283,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
       parameters:
-        - name: group
+        - name: groupId
           in: query
           required: false
           schema:
@@ -39369,7 +39368,7 @@ paths:
             schema:
               $ref: "#/components/schemas/GitRevertParams"
       parameters:
-        - name: group
+        - name: groupId
           in: query
           required: false
           schema:
@@ -39415,7 +39414,7 @@ paths:
           schema:
             type: string
           description: The Git commit hash to retrieve the diff and log message for.
-        - name: group
+        - name: groupId
           in: query
           required: false
           schema:
@@ -39466,7 +39465,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
       parameters:
-        - name: group
+        - name: groupId
           in: query
           required: false
           schema:
@@ -39505,7 +39504,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
       parameters:
-        - name: group
+        - name: groupId
           in: query
           required: false
           schema:

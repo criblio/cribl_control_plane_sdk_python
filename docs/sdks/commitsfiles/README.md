@@ -27,7 +27,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.versions.commits.files.count(group="<value>", id="<id>")
+    res = ccp_client.versions.commits.files.count(group_id="<id>", id="<id>")
 
     # Handle response
     print(res)
@@ -38,7 +38,7 @@ with CriblControlPlane(
 
 | Parameter                                                                   | Type                                                                        | Required                                                                    | Description                                                                 |
 | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| `group`                                                                     | *Optional[str]*                                                             | :heavy_minus_sign:                                                          | The <code>id</code> of the Worker Group or Edge Fleet to get the count for. |
+| `group_id`                                                                  | *Optional[str]*                                                             | :heavy_minus_sign:                                                          | The <code>id</code> of the Worker Group or Edge Fleet to get the count for. |
 | `id`                                                                        | *Optional[str]*                                                             | :heavy_minus_sign:                                                          | The Git commit hash to use as the starting point for the count.             |
 | `retries`                                                                   | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)            | :heavy_minus_sign:                                                          | Configuration to override the default retry behavior of the client.         |
 
@@ -72,7 +72,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.versions.commits.files.list(group="<value>", id="<id>")
+    res = ccp_client.versions.commits.files.list(group_id="<id>", id="<id>")
 
     # Handle response
     print(res)
@@ -83,7 +83,7 @@ with CriblControlPlane(
 
 | Parameter                                                                               | Type                                                                                    | Required                                                                                | Description                                                                             |
 | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| `group`                                                                                 | *Optional[str]*                                                                         | :heavy_minus_sign:                                                                      | The <code>id</code> of the Worker Group or Edge Fleet to get file names and status for. |
+| `group_id`                                                                              | *Optional[str]*                                                                         | :heavy_minus_sign:                                                                      | The <code>id</code> of the Worker Group or Edge Fleet to get file names and status for. |
 | `id`                                                                                    | *Optional[str]*                                                                         | :heavy_minus_sign:                                                                      | The Git commit hash to use as the starting point for the request.                       |
 | `retries`                                                                               | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                        | :heavy_minus_sign:                                                                      | Configuration to override the default retry behavior of the client.                     |
 

@@ -26,7 +26,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.versions.statuses.get(group="<value>")
+    res = ccp_client.versions.statuses.get(group_id="<id>")
 
     # Handle response
     print(res)
@@ -37,7 +37,7 @@ with CriblControlPlane(
 
 | Parameter                                                                    | Type                                                                         | Required                                                                     | Description                                                                  |
 | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| `group`                                                                      | *Optional[str]*                                                              | :heavy_minus_sign:                                                           | The <code>id</code> of the Worker Group or Edge Fleet to get the status for. |
+| `group_id`                                                                   | *Optional[str]*                                                              | :heavy_minus_sign:                                                           | The <code>id</code> of the Worker Group or Edge Fleet to get the status for. |
 | `retries`                                                                    | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)             | :heavy_minus_sign:                                                           | Configuration to override the default retry behavior of the client.          |
 
 ### Response

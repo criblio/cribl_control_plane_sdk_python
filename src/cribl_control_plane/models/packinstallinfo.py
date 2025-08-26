@@ -9,19 +9,19 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class PackInstallInfoTagsTypedDict(TypedDict):
     data_type: List[str]
-    domain: List[str]
-    streamtags: List[str]
     technology: List[str]
+    domain: NotRequired[List[str]]
+    streamtags: NotRequired[List[str]]
 
 
 class PackInstallInfoTags(BaseModel):
     data_type: Annotated[List[str], pydantic.Field(alias="dataType")]
 
-    domain: List[str]
-
-    streamtags: List[str]
-
     technology: List[str]
+
+    domain: Optional[List[str]] = None
+
+    streamtags: Optional[List[str]] = None
 
 
 class PackInstallInfoTypedDict(TypedDict):

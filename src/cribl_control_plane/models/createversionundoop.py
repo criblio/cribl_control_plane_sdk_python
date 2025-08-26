@@ -3,18 +3,20 @@
 from __future__ import annotations
 from cribl_control_plane.types import BaseModel
 from cribl_control_plane.utils import FieldMetadata, QueryParamMetadata
+import pydantic
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class CreateVersionUndoRequestTypedDict(TypedDict):
-    group: NotRequired[str]
+    group_id: NotRequired[str]
     r"""The <code>id</code> of the Worker Group or Edge Fleet to undo the uncommited changes for."""
 
 
 class CreateVersionUndoRequest(BaseModel):
-    group: Annotated[
+    group_id: Annotated[
         Optional[str],
+        pydantic.Field(alias="groupId"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
     r"""The <code>id</code> of the Worker Group or Edge Fleet to undo the uncommited changes for."""

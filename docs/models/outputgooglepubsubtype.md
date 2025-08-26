@@ -1,4 +1,4 @@
-# OutputGooglePubsubTypeGooglePubsub
+# OutputGooglePubsubType
 
 
 ## Values

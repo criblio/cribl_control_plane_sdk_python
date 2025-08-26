@@ -11,7 +11,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 class GetVersionDiffRequestTypedDict(TypedDict):
     commit: NotRequired[str]
     r"""The Git commit hash to get the diff for."""
-    group: NotRequired[str]
+    group_id: NotRequired[str]
     r"""The <code>id</code> of the Worker Group or Edge Fleet to get the diff for."""
     filename: NotRequired[str]
     r"""The relative path of the file to get the diff for."""
@@ -26,8 +26,9 @@ class GetVersionDiffRequest(BaseModel):
     ] = None
     r"""The Git commit hash to get the diff for."""
 
-    group: Annotated[
+    group_id: Annotated[
         Optional[str],
+        pydantic.Field(alias="groupId"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
     r"""The <code>id</code> of the Worker Group or Edge Fleet to get the diff for."""

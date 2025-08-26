@@ -298,7 +298,7 @@ class OutputCrowdstrikeNextGenSiem(BaseModel):
     format_: Annotated[
         Optional[OutputCrowdstrikeNextGenSiemRequestFormat],
         pydantic.Field(alias="format"),
-    ] = OutputCrowdstrikeNextGenSiemRequestFormat.RAW
+    ] = OutputCrowdstrikeNextGenSiemRequestFormat.JSON
     r"""When set to JSON, the event is automatically formatted with required fields before sending. When set to Raw, only the event's `_raw` value is sent."""
 
     auth_type: Annotated[

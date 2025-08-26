@@ -5,6 +5,7 @@ from .gitrevertparams import GitRevertParams, GitRevertParamsTypedDict
 from .gitrevertresult import GitRevertResult, GitRevertResultTypedDict
 from cribl_control_plane.types import BaseModel
 from cribl_control_plane.utils import FieldMetadata, QueryParamMetadata, RequestMetadata
+import pydantic
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -12,7 +13,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 class CreateVersionRevertRequestTypedDict(TypedDict):
     git_revert_params: GitRevertParamsTypedDict
     r"""GitRevertParams object"""
-    group: NotRequired[str]
+    group_id: NotRequired[str]
     r"""Group ID"""
 
 
@@ -23,8 +24,9 @@ class CreateVersionRevertRequest(BaseModel):
     ]
     r"""GitRevertParams object"""
 
-    group: Annotated[
+    group_id: Annotated[
         Optional[str],
+        pydantic.Field(alias="groupId"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
     r"""Group ID"""

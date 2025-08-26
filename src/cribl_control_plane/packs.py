@@ -722,7 +722,8 @@ class Packs(BaseSDK):
         self,
         *,
         id: str,
-        source: Optional[str] = None,
+        source: str,
+        allow_custom_functions: Optional[bool] = None,
         minor: Optional[str] = None,
         spec: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -735,9 +736,10 @@ class Packs(BaseSDK):
         Upgrade the specified Pack.</br></br>If the Pack includes any user–modified versions of default Cribl Knowledge resources such as lookups, copy the modified files locally for safekeeping before upgrading the Pack. Copy the modified files back to the upgraded Pack after you install it with <code>POST /packs</code> to overwrite the default versions in the Pack.</br></br>After you upgrade the Pack, update any Routes, Pipelines, Sources, and Destinations that use the previous Pack version so that they reference the upgraded Pack.
 
         :param id: The <code>id</code> of the Pack to upgrade.
-        :param source: body string required Pack source
-        :param minor: body boolean optional Only upgrade to minor/patch versions
-        :param spec: body string optional Specify a branch, tag or a semver spec
+        :param source:
+        :param allow_custom_functions:
+        :param minor:
+        :param spec:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -755,9 +757,12 @@ class Packs(BaseSDK):
 
         request = models.UpdatePacksByIDRequest(
             id=id,
-            source=source,
-            minor=minor,
-            spec=spec,
+            pack_upgrade_request=models.PackUpgradeRequest(
+                allow_custom_functions=allow_custom_functions,
+                minor=minor,
+                source=source,
+                spec=spec,
+            ),
         )
 
         req = self._build_request(
@@ -766,13 +771,20 @@ class Packs(BaseSDK):
             base_url=base_url,
             url_variables=url_variables,
             request=request,
-            request_body_required=False,
+            request_body_required=True,
             request_has_path_params=True,
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
             http_headers=http_headers,
             security=self.sdk_configuration.security,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request.pack_upgrade_request,
+                False,
+                False,
+                "json",
+                models.PackUpgradeRequest,
+            ),
             timeout_ms=timeout_ms,
         )
 
@@ -818,7 +830,8 @@ class Packs(BaseSDK):
         self,
         *,
         id: str,
-        source: Optional[str] = None,
+        source: str,
+        allow_custom_functions: Optional[bool] = None,
         minor: Optional[str] = None,
         spec: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -831,9 +844,10 @@ class Packs(BaseSDK):
         Upgrade the specified Pack.</br></br>If the Pack includes any user–modified versions of default Cribl Knowledge resources such as lookups, copy the modified files locally for safekeeping before upgrading the Pack. Copy the modified files back to the upgraded Pack after you install it with <code>POST /packs</code> to overwrite the default versions in the Pack.</br></br>After you upgrade the Pack, update any Routes, Pipelines, Sources, and Destinations that use the previous Pack version so that they reference the upgraded Pack.
 
         :param id: The <code>id</code> of the Pack to upgrade.
-        :param source: body string required Pack source
-        :param minor: body boolean optional Only upgrade to minor/patch versions
-        :param spec: body string optional Specify a branch, tag or a semver spec
+        :param source:
+        :param allow_custom_functions:
+        :param minor:
+        :param spec:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -851,9 +865,12 @@ class Packs(BaseSDK):
 
         request = models.UpdatePacksByIDRequest(
             id=id,
-            source=source,
-            minor=minor,
-            spec=spec,
+            pack_upgrade_request=models.PackUpgradeRequest(
+                allow_custom_functions=allow_custom_functions,
+                minor=minor,
+                source=source,
+                spec=spec,
+            ),
         )
 
         req = self._build_request_async(
@@ -862,13 +879,20 @@ class Packs(BaseSDK):
             base_url=base_url,
             url_variables=url_variables,
             request=request,
-            request_body_required=False,
+            request_body_required=True,
             request_has_path_params=True,
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
             http_headers=http_headers,
             security=self.sdk_configuration.security,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request.pack_upgrade_request,
+                False,
+                False,
+                "json",
+                models.PackUpgradeRequest,
+            ),
             timeout_ms=timeout_ms,
         )
 

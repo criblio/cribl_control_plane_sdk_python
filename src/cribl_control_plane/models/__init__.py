@@ -69,6 +69,8 @@ if TYPE_CHECKING:
         CreateRoutesAppendByIDResponseTypedDict,
     )
     from .createversioncommitop import (
+        CreateVersionCommitRequest,
+        CreateVersionCommitRequestTypedDict,
         CreateVersionCommitResponse,
         CreateVersionCommitResponseTypedDict,
     )
@@ -2167,9 +2169,6 @@ if TYPE_CHECKING:
         OutputGoogleCloudStorageTypedDict,
     )
     from .outputgooglepubsub import (
-        FlushPeriodSec,
-        FlushPeriodSecType,
-        FlushPeriodSecTypedDict,
         OutputGooglePubsub,
         OutputGooglePubsubBackpressureBehavior,
         OutputGooglePubsubCompression,
@@ -2178,7 +2177,7 @@ if TYPE_CHECKING:
         OutputGooglePubsubPqControls,
         OutputGooglePubsubPqControlsTypedDict,
         OutputGooglePubsubQueueFullBehavior,
-        OutputGooglePubsubTypeGooglePubsub,
+        OutputGooglePubsubType,
         OutputGooglePubsubTypedDict,
     )
     from .outputgrafanacloud import (
@@ -2955,6 +2954,7 @@ if TYPE_CHECKING:
         PackRequestBodyUnion,
         PackRequestBodyUnionTypedDict,
     )
+    from .packupgraderequest import PackUpgradeRequest, PackUpgradeRequestTypedDict
     from .pipeline import (
         Conf,
         ConfTypedDict,
@@ -3134,6 +3134,8 @@ __all__ = [
     "CreateRoutesAppendByIDRequestTypedDict",
     "CreateRoutesAppendByIDResponse",
     "CreateRoutesAppendByIDResponseTypedDict",
+    "CreateVersionCommitRequest",
+    "CreateVersionCommitRequestTypedDict",
     "CreateVersionCommitResponse",
     "CreateVersionCommitResponseTypedDict",
     "CreateVersionPushResponse",
@@ -3224,9 +3226,6 @@ __all__ = [
     "FileTypedDict",
     "Firewall",
     "FirewallTypedDict",
-    "FlushPeriodSec",
-    "FlushPeriodSecType",
-    "FlushPeriodSecTypedDict",
     "FunctionSpecificConfigs",
     "FunctionSpecificConfigsTypedDict",
     "GetConfigGroupACLByProductAndIDRequest",
@@ -4949,7 +4948,7 @@ __all__ = [
     "OutputGooglePubsubPqControls",
     "OutputGooglePubsubPqControlsTypedDict",
     "OutputGooglePubsubQueueFullBehavior",
-    "OutputGooglePubsubTypeGooglePubsub",
+    "OutputGooglePubsubType",
     "OutputGooglePubsubTypedDict",
     "OutputGrafanaCloud",
     "OutputGrafanaCloudBackpressureBehavior1",
@@ -5635,6 +5634,8 @@ __all__ = [
     "PackRequestBodyTags2TypedDict",
     "PackRequestBodyUnion",
     "PackRequestBodyUnionTypedDict",
+    "PackUpgradeRequest",
+    "PackUpgradeRequestTypedDict",
     "PayloadFormat",
     "Pipeline",
     "PipelineFunctionConf",
@@ -5814,6 +5815,8 @@ _dynamic_imports: dict[str, str] = {
     "CreateRoutesAppendByIDRequestTypedDict": ".createroutesappendbyidop",
     "CreateRoutesAppendByIDResponse": ".createroutesappendbyidop",
     "CreateRoutesAppendByIDResponseTypedDict": ".createroutesappendbyidop",
+    "CreateVersionCommitRequest": ".createversioncommitop",
+    "CreateVersionCommitRequestTypedDict": ".createversioncommitop",
     "CreateVersionCommitResponse": ".createversioncommitop",
     "CreateVersionCommitResponseTypedDict": ".createversioncommitop",
     "CreateVersionPushResponse": ".createversionpushop",
@@ -7683,9 +7686,6 @@ _dynamic_imports: dict[str, str] = {
     "OutputGoogleCloudStorageStorageClass": ".outputgooglecloudstorage",
     "OutputGoogleCloudStorageType": ".outputgooglecloudstorage",
     "OutputGoogleCloudStorageTypedDict": ".outputgooglecloudstorage",
-    "FlushPeriodSec": ".outputgooglepubsub",
-    "FlushPeriodSecType": ".outputgooglepubsub",
-    "FlushPeriodSecTypedDict": ".outputgooglepubsub",
     "OutputGooglePubsub": ".outputgooglepubsub",
     "OutputGooglePubsubBackpressureBehavior": ".outputgooglepubsub",
     "OutputGooglePubsubCompression": ".outputgooglepubsub",
@@ -7694,7 +7694,7 @@ _dynamic_imports: dict[str, str] = {
     "OutputGooglePubsubPqControls": ".outputgooglepubsub",
     "OutputGooglePubsubPqControlsTypedDict": ".outputgooglepubsub",
     "OutputGooglePubsubQueueFullBehavior": ".outputgooglepubsub",
-    "OutputGooglePubsubTypeGooglePubsub": ".outputgooglepubsub",
+    "OutputGooglePubsubType": ".outputgooglepubsub",
     "OutputGooglePubsubTypedDict": ".outputgooglepubsub",
     "OutputGrafanaCloud": ".outputgrafanacloud",
     "OutputGrafanaCloudBackpressureBehavior1": ".outputgrafanacloud",
@@ -8390,6 +8390,8 @@ _dynamic_imports: dict[str, str] = {
     "PackRequestBodyTags2TypedDict": ".packrequestbody_union",
     "PackRequestBodyUnion": ".packrequestbody_union",
     "PackRequestBodyUnionTypedDict": ".packrequestbody_union",
+    "PackUpgradeRequest": ".packupgraderequest",
+    "PackUpgradeRequestTypedDict": ".packupgraderequest",
     "Conf": ".pipeline",
     "ConfTypedDict": ".pipeline",
     "Pipeline": ".pipeline",

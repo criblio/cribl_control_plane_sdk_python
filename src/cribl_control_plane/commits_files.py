@@ -13,7 +13,7 @@ class CommitsFiles(BaseSDK):
     def count(
         self,
         *,
-        group: Optional[str] = None,
+        group_id: Optional[str] = None,
         id: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -24,7 +24,7 @@ class CommitsFiles(BaseSDK):
 
         Get a count of the files that changed since a commit. Default is the latest commit (HEAD).
 
-        :param group: The <code>id</code> of the Worker Group or Edge Fleet to get the count for.
+        :param group_id: The <code>id</code> of the Worker Group or Edge Fleet to get the count for.
         :param id: The Git commit hash to use as the starting point for the count.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -42,7 +42,7 @@ class CommitsFiles(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.GetVersionCountRequest(
-            group=group,
+            group_id=group_id,
             id=id,
         )
 
@@ -103,7 +103,7 @@ class CommitsFiles(BaseSDK):
     async def count_async(
         self,
         *,
-        group: Optional[str] = None,
+        group_id: Optional[str] = None,
         id: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -114,7 +114,7 @@ class CommitsFiles(BaseSDK):
 
         Get a count of the files that changed since a commit. Default is the latest commit (HEAD).
 
-        :param group: The <code>id</code> of the Worker Group or Edge Fleet to get the count for.
+        :param group_id: The <code>id</code> of the Worker Group or Edge Fleet to get the count for.
         :param id: The Git commit hash to use as the starting point for the count.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -132,7 +132,7 @@ class CommitsFiles(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.GetVersionCountRequest(
-            group=group,
+            group_id=group_id,
             id=id,
         )
 
@@ -193,7 +193,7 @@ class CommitsFiles(BaseSDK):
     def list(
         self,
         *,
-        group: Optional[str] = None,
+        group_id: Optional[str] = None,
         id: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -204,7 +204,7 @@ class CommitsFiles(BaseSDK):
 
         Get the names and statuses of files that changed since a commit. Default is the latest commit (HEAD).
 
-        :param group: The <code>id</code> of the Worker Group or Edge Fleet to get file names and status for.
+        :param group_id: The <code>id</code> of the Worker Group or Edge Fleet to get file names and status for.
         :param id: The Git commit hash to use as the starting point for the request.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -222,7 +222,7 @@ class CommitsFiles(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.GetVersionFilesRequest(
-            group=group,
+            group_id=group_id,
             id=id,
         )
 
@@ -283,7 +283,7 @@ class CommitsFiles(BaseSDK):
     async def list_async(
         self,
         *,
-        group: Optional[str] = None,
+        group_id: Optional[str] = None,
         id: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -294,7 +294,7 @@ class CommitsFiles(BaseSDK):
 
         Get the names and statuses of files that changed since a commit. Default is the latest commit (HEAD).
 
-        :param group: The <code>id</code> of the Worker Group or Edge Fleet to get file names and status for.
+        :param group_id: The <code>id</code> of the Worker Group or Edge Fleet to get file names and status for.
         :param id: The Git commit hash to use as the starting point for the request.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -312,7 +312,7 @@ class CommitsFiles(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.GetVersionFilesRequest(
-            group=group,
+            group_id=group_id,
             id=id,
         )
 

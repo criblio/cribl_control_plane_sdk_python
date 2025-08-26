@@ -8,7 +8,7 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class OutputGooglePubsubTypeGooglePubsub(str, Enum):
+class OutputGooglePubsubType(str, Enum):
     GOOGLE_PUBSUB = "google_pubsub"
 
 
@@ -18,25 +18,6 @@ class OutputGooglePubsubGoogleAuthenticationMethod(str, Enum):
     AUTO = "auto"
     MANUAL = "manual"
     SECRET = "secret"
-
-
-class FlushPeriodSecType(str, Enum):
-    NUMBER = "number"
-
-
-class FlushPeriodSecTypedDict(TypedDict):
-    r"""Maximum time to wait before sending a batch (when batch size limit is not reached)."""
-
-    type: NotRequired[FlushPeriodSecType]
-    default: NotRequired[float]
-
-
-class FlushPeriodSec(BaseModel):
-    r"""Maximum time to wait before sending a batch (when batch size limit is not reached)."""
-
-    type: Optional[FlushPeriodSecType] = None
-
-    default: Optional[float] = None
 
 
 class OutputGooglePubsubBackpressureBehavior(str, Enum):
@@ -78,7 +59,7 @@ class OutputGooglePubsubPqControls(BaseModel):
 
 
 class OutputGooglePubsubTypedDict(TypedDict):
-    type: OutputGooglePubsubTypeGooglePubsub
+    type: OutputGooglePubsubType
     topic_name: str
     r"""ID of the topic to send events to."""
     id: NotRequired[str]
@@ -111,8 +92,8 @@ class OutputGooglePubsubTypedDict(TypedDict):
     r"""Maximum number of queued batches before blocking."""
     max_record_size_kb: NotRequired[float]
     r"""Maximum size (KB) of batches to send."""
-    flush_period_sec: NotRequired[FlushPeriodSecTypedDict]
-    r"""Maximum time to wait before sending a batch (when batch size limit is not reached)."""
+    flush_period: NotRequired[float]
+    r"""Maximum time to wait before sending a batch (when batch size limit is not reached)"""
     max_in_progress: NotRequired[float]
     r"""The maximum number of in-progress API requests before backpressure is applied."""
     on_backpressure: NotRequired[OutputGooglePubsubBackpressureBehavior]
@@ -134,7 +115,7 @@ class OutputGooglePubsubTypedDict(TypedDict):
 
 
 class OutputGooglePubsub(BaseModel):
-    type: OutputGooglePubsubTypeGooglePubsub
+    type: OutputGooglePubsubType
 
     topic_name: Annotated[str, pydantic.Field(alias="topicName")]
     r"""ID of the topic to send events to."""
@@ -199,10 +180,8 @@ class OutputGooglePubsub(BaseModel):
     ] = 256
     r"""Maximum size (KB) of batches to send."""
 
-    flush_period_sec: Annotated[
-        Optional[FlushPeriodSec], pydantic.Field(alias="flushPeriodSec")
-    ] = None
-    r"""Maximum time to wait before sending a batch (when batch size limit is not reached)."""
+    flush_period: Annotated[Optional[float], pydantic.Field(alias="flushPeriod")] = 1
+    r"""Maximum time to wait before sending a batch (when batch size limit is not reached)"""
 
     max_in_progress: Annotated[
         Optional[float], pydantic.Field(alias="maxInProgress")

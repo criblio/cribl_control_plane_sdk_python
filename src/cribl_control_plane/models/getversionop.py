@@ -4,20 +4,22 @@ from __future__ import annotations
 from .gitlogresult import GitLogResult, GitLogResultTypedDict
 from cribl_control_plane.types import BaseModel
 from cribl_control_plane.utils import FieldMetadata, QueryParamMetadata
+import pydantic
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class GetVersionRequestTypedDict(TypedDict):
-    group: NotRequired[str]
+    group_id: NotRequired[str]
     r"""The <code>id</code> of the Worker Group or Edge Fleet to get the commit history for."""
     count: NotRequired[float]
     r"""Maximum number of commits to return in the response for this request."""
 
 
 class GetVersionRequest(BaseModel):
-    group: Annotated[
+    group_id: Annotated[
         Optional[str],
+        pydantic.Field(alias="groupId"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
     r"""The <code>id</code> of the Worker Group or Edge Fleet to get the commit history for."""

@@ -10,15 +10,16 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class GetVersionFilesRequestTypedDict(TypedDict):
-    group: NotRequired[str]
+    group_id: NotRequired[str]
     r"""The <code>id</code> of the Worker Group or Edge Fleet to get file names and status for."""
     id: NotRequired[str]
     r"""The Git commit hash to use as the starting point for the request."""
 
 
 class GetVersionFilesRequest(BaseModel):
-    group: Annotated[
+    group_id: Annotated[
         Optional[str],
+        pydantic.Field(alias="groupId"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
     r"""The <code>id</code> of the Worker Group or Edge Fleet to get file names and status for."""

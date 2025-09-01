@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.14.0-alpha.1756226637429-1513a21f
+  version: 4.14.0-alpha.1756720086962-ed6aba5c
   contact:
     name: Support
     email: support@cribl.io
@@ -151,7 +151,6 @@ components:
         workerRemoteAccess:
           type: boolean
       required:
-        - configVersion
         - id
     RbacResource:
       type: string
@@ -226,6 +225,15 @@ components:
       enum:
         - stream
         - edge
+    AppMode:
+      type: string
+      enum:
+        - single
+        - master
+        - worker
+        - edge
+        - managed-edge
+        - outpost
     CacheConnectionBackfillStatus:
       type: string
       enum:
@@ -8657,7 +8665,6 @@ components:
         authTokensExt:
           type: array
           title: Auth tokens
-          description: "Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."
           items:
             type: object
             required:
@@ -8666,10 +8673,8 @@ components:
               token:
                 type: string
                 title: Token
-                description: "Shared secret to be provided by any client (Authorization: <token>)"
               description:
                 type: string
-                title: Description
               metadata:
                 type: array
                 title: Fields
@@ -8687,6 +8692,9 @@ components:
                       type: string
                       title: Value
                       description: JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
+              enableSplunkHec:
+                type: boolean
+                default: false
         description:
           type: string
           title: Description
@@ -35703,13 +35711,13 @@ components:
             - AU
             - Custom
         endpoint:
-          title: AI SIEM endpoint Path
+          title: AI SIEM endpoint path
           type: string
           default: /services/collector/event
           enum:
             - /services/collector/event
             - /services/collector/raw
-          description: Regional endpoint used to send events to, such as /services/collector/event or /services/collector/raw
+          description: Endpoint to send events to. Use /services/collector/event for structured JSON payloads with standard HEC top-level fields. Use /services/collector/raw for unstructured log lines (plain text).
         concurrency:
           type: number
           title: Request concurrency
@@ -36737,15 +36745,6 @@ components:
           type: string
       required:
         - commit
-    AppMode:
-      type: string
-      enum:
-        - single
-        - master
-        - worker
-        - edge
-        - managed-edge
-        - outpost
     GitCommitParams:
       type: object
       properties:

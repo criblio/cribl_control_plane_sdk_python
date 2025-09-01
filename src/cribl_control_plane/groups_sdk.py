@@ -215,11 +215,11 @@ class GroupsSDK(BaseSDK):
         self,
         *,
         product: models.ProductsCore,
-        config_version: str,
         id: str,
         cloud: Optional[
             Union[models.ConfigGroupCloud, models.ConfigGroupCloudTypedDict]
         ] = None,
+        config_version: Optional[str] = None,
         deploying_worker_count: Optional[float] = None,
         description: Optional[str] = None,
         estimated_ingest_rate: Optional[float] = None,
@@ -254,9 +254,9 @@ class GroupsSDK(BaseSDK):
         Create a new Worker Group or Edge Fleet for the specified Cribl product.
 
         :param product: Name of the Cribl product to add the Worker Group or Edge Fleet to.
-        :param config_version:
         :param id:
         :param cloud:
+        :param config_version:
         :param deploying_worker_count:
         :param description:
         :param estimated_ingest_rate:
@@ -386,11 +386,11 @@ class GroupsSDK(BaseSDK):
         self,
         *,
         product: models.ProductsCore,
-        config_version: str,
         id: str,
         cloud: Optional[
             Union[models.ConfigGroupCloud, models.ConfigGroupCloudTypedDict]
         ] = None,
+        config_version: Optional[str] = None,
         deploying_worker_count: Optional[float] = None,
         description: Optional[str] = None,
         estimated_ingest_rate: Optional[float] = None,
@@ -425,9 +425,9 @@ class GroupsSDK(BaseSDK):
         Create a new Worker Group or Edge Fleet for the specified Cribl product.
 
         :param product: Name of the Cribl product to add the Worker Group or Edge Fleet to.
-        :param config_version:
         :param id:
         :param cloud:
+        :param config_version:
         :param deploying_worker_count:
         :param description:
         :param estimated_ingest_rate:
@@ -748,11 +748,11 @@ class GroupsSDK(BaseSDK):
         *,
         product: models.ProductsCore,
         id_param: str,
-        config_version: str,
         id: str,
         cloud: Optional[
             Union[models.ConfigGroupCloud, models.ConfigGroupCloudTypedDict]
         ] = None,
+        config_version: Optional[str] = None,
         deploying_worker_count: Optional[float] = None,
         description: Optional[str] = None,
         estimated_ingest_rate: Optional[float] = None,
@@ -788,9 +788,9 @@ class GroupsSDK(BaseSDK):
 
         :param product: Name of the Cribl product to get the Worker Groups or Edge Fleets for.
         :param id_param: The <code>id</code> of the Worker Group or Edge Fleet to update.
-        :param config_version:
         :param id:
         :param cloud:
+        :param config_version:
         :param deploying_worker_count:
         :param description:
         :param estimated_ingest_rate:
@@ -922,11 +922,11 @@ class GroupsSDK(BaseSDK):
         *,
         product: models.ProductsCore,
         id_param: str,
-        config_version: str,
         id: str,
         cloud: Optional[
             Union[models.ConfigGroupCloud, models.ConfigGroupCloudTypedDict]
         ] = None,
+        config_version: Optional[str] = None,
         deploying_worker_count: Optional[float] = None,
         description: Optional[str] = None,
         estimated_ingest_rate: Optional[float] = None,
@@ -962,9 +962,9 @@ class GroupsSDK(BaseSDK):
 
         :param product: Name of the Cribl product to get the Worker Groups or Edge Fleets for.
         :param id_param: The <code>id</code> of the Worker Group or Edge Fleet to update.
-        :param config_version:
         :param id:
         :param cloud:
+        :param config_version:
         :param deploying_worker_count:
         :param description:
         :param estimated_ingest_rate:

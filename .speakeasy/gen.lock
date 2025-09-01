@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 21bd3436284a73dc5ee3d97059956387
-  docVersion: 4.14.0-alpha.1756226637429-1513a21f
+  docChecksum: 36d4fddcaf99747ad0ef92a847f4e919
+  docVersion: 4.14.0-alpha.1756720086962-ed6aba5c
   speakeasyVersion: 1.606.0
   generationVersion: 2.686.7
-  releaseVersion: 0.0.38
-  configChecksum: 193f17c924aeb9a569f4e21d46ee7fe0
+  releaseVersion: 0.0.39
+  configChecksum: c1e89aba8fb0fc728d2a4f6610631ec2
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -3125,4 +3125,4 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: "## SDK Changes Detected:\n* `cribl_control_plane.versions.commits.list()`:  `request` **Changed** **Breaking** :warning:\n* `cribl_control_plane.versions.commits.files.count()`:  `request` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.get()`:  `response.items.[].[output_google_pubsub]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.packs.update()`: \n  *  `request` **Changed** **Breaking** :warning:\n  *  `response.items.[].tags` **Changed**\n* `cribl_control_plane.destinations.delete()`:  `response.items.[].[output_google_pubsub]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.versions.statuses.get()`:  `request` **Changed** **Breaking** :warning:\n* `cribl_control_plane.versions.commits.files.list()`:  `request` **Changed** **Breaking** :warning:\n* `cribl_control_plane.versions.commits.get()`:  `request` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.create()`: \n  *  `request.[output_google_pubsub]` **Changed** **Breaking** :warning:\n  *  `response.items.[].[output_google_pubsub]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.versions.commits.undo()`:  `request` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.update()`: \n  *  `request.output.[output_google_pubsub]` **Changed** **Breaking** :warning:\n  *  `response.items.[].[output_google_pubsub]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.versions.commits.diff()`:  `request` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.list()`:  `response.items.[].[output_google_pubsub]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.versions.commits.revert()`:  `request` **Changed** **Breaking** :warning:\n* `cribl_control_plane.packs.install()`:  `response.items.[].tags` **Changed**\n* `cribl_control_plane.versions.commits.create()`:  `request.group_id` **Added**\n* `cribl_control_plane.packs.delete()`:  `response.items.[].tags` **Changed**\n* `cribl_control_plane.packs.list()`:  `response.items.[].tags` **Changed**\n* `cribl_control_plane.packs.get()`:  `response.items.[].tags` **Changed**\n"
+releaseNotes: "## SDK Changes Detected:\n* `cribl_control_plane.sources.list()`:  `response.items.[].[input_cribl_lake_http].auth_tokens_ext.[].enable_splunk_hec` **Added**\n* `cribl_control_plane.sources.create()`: \n  *  `request.[input_cribl_lake_http].auth_tokens_ext.[].enable_splunk_hec` **Added**\n  *  `response.items.[].[input_cribl_lake_http].auth_tokens_ext.[].enable_splunk_hec` **Added**\n* `cribl_control_plane.sources.get()`:  `response.items.[].[input_cribl_lake_http].auth_tokens_ext.[].enable_splunk_hec` **Added**\n* `cribl_control_plane.sources.update()`: \n  *  `request.input.[input_cribl_lake_http].auth_tokens_ext.[].enable_splunk_hec` **Added**\n  *  `response.items.[].[input_cribl_lake_http].auth_tokens_ext.[].enable_splunk_hec` **Added**\n* `cribl_control_plane.sources.delete()`:  `response.items.[].[input_cribl_lake_http].auth_tokens_ext.[].enable_splunk_hec` **Added**\n* `cribl_control_plane.groups.list()`:  `response.items.[].config_version` **Changed**\n* `cribl_control_plane.groups.create()`: \n  *  `request.config_version` **Changed**\n  *  `response.items.[].config_version` **Changed**\n* `cribl_control_plane.groups.get()`:  `response.items.[].config_version` **Changed**\n* `cribl_control_plane.groups.update()`: \n  *  `request.config_version` **Changed**\n  *  `response.items.[].config_version` **Changed**\n* `cribl_control_plane.groups.delete()`:  `response.items.[].config_version` **Changed**\n* `cribl_control_plane.groups.deploy()`:  `response.items.[].config_version` **Changed**\n"

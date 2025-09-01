@@ -32,9 +32,9 @@ class ConfigGroupType(str, Enum):
 
 
 class ConfigGroupTypedDict(TypedDict):
-    config_version: str
     id: str
     cloud: NotRequired[ConfigGroupCloudTypedDict]
+    config_version: NotRequired[str]
     deploying_worker_count: NotRequired[float]
     description: NotRequired[str]
     estimated_ingest_rate: NotRequired[float]
@@ -57,11 +57,13 @@ class ConfigGroupTypedDict(TypedDict):
 
 
 class ConfigGroup(BaseModel):
-    config_version: Annotated[str, pydantic.Field(alias="configVersion")]
-
     id: str
 
     cloud: Optional[ConfigGroupCloud] = None
+
+    config_version: Annotated[Optional[str], pydantic.Field(alias="configVersion")] = (
+        None
+    )
 
     deploying_worker_count: Annotated[
         Optional[float], pydantic.Field(alias="deployingWorkerCount")

@@ -78,10 +78,10 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.groups.create(product=models.ProductsCore.EDGE, config_version="<value>", id="<id>", cloud={
+    res = ccp_client.groups.create(product=models.ProductsCore.EDGE, id="<id>", cloud={
         "provider": models.CloudProvider.AWS,
         "region": "<value>",
-    }, deploying_worker_count=393.49, description="ack before fondly scent because gee without where exactly", estimated_ingest_rate=346.37, git={
+    }, config_version="<value>", deploying_worker_count=393.49, description="ack before fondly scent because gee without where exactly", estimated_ingest_rate=346.37, git={
         "commit": "<value>",
         "local_changes": 5255.51,
         "log": [
@@ -115,9 +115,9 @@ with CriblControlPlane(
 | Parameter                                                             | Type                                                                  | Required                                                              | Description                                                           |
 | --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- |
 | `product`                                                             | [models.ProductsCore](../../models/productscore.md)                   | :heavy_check_mark:                                                    | Name of the Cribl product to add the Worker Group or Edge Fleet to.   |
-| `config_version`                                                      | *str*                                                                 | :heavy_check_mark:                                                    | N/A                                                                   |
 | `id`                                                                  | *str*                                                                 | :heavy_check_mark:                                                    | N/A                                                                   |
 | `cloud`                                                               | [Optional[models.ConfigGroupCloud]](../../models/configgroupcloud.md) | :heavy_minus_sign:                                                    | N/A                                                                   |
+| `config_version`                                                      | *Optional[str]*                                                       | :heavy_minus_sign:                                                    | N/A                                                                   |
 | `deploying_worker_count`                                              | *Optional[float]*                                                     | :heavy_minus_sign:                                                    | N/A                                                                   |
 | `description`                                                         | *Optional[str]*                                                       | :heavy_minus_sign:                                                    | N/A                                                                   |
 | `estimated_ingest_rate`                                               | *Optional[float]*                                                     | :heavy_minus_sign:                                                    | N/A                                                                   |
@@ -215,10 +215,10 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.groups.update(product=models.ProductsCore.STREAM, id_param="<value>", config_version="<value>", id="<id>", cloud={
+    res = ccp_client.groups.update(product=models.ProductsCore.STREAM, id_param="<value>", id="<id>", cloud={
         "provider": models.CloudProvider.AWS,
         "region": "<value>",
-    }, deploying_worker_count=7451.49, description="verbally feminize harmful prance really", estimated_ingest_rate=6748.35, git={
+    }, config_version="<value>", deploying_worker_count=7451.49, description="verbally feminize harmful prance really", estimated_ingest_rate=6748.35, git={
         "commit": "<value>",
         "local_changes": 4475.22,
         "log": [
@@ -258,9 +258,9 @@ with CriblControlPlane(
 | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- |
 | `product`                                                              | [models.ProductsCore](../../models/productscore.md)                    | :heavy_check_mark:                                                     | Name of the Cribl product to get the Worker Groups or Edge Fleets for. |
 | `id_param`                                                             | *str*                                                                  | :heavy_check_mark:                                                     | The <code>id</code> of the Worker Group or Edge Fleet to update.       |
-| `config_version`                                                       | *str*                                                                  | :heavy_check_mark:                                                     | N/A                                                                    |
 | `id`                                                                   | *str*                                                                  | :heavy_check_mark:                                                     | N/A                                                                    |
 | `cloud`                                                                | [Optional[models.ConfigGroupCloud]](../../models/configgroupcloud.md)  | :heavy_minus_sign:                                                     | N/A                                                                    |
+| `config_version`                                                       | *Optional[str]*                                                        | :heavy_minus_sign:                                                     | N/A                                                                    |
 | `deploying_worker_count`                                               | *Optional[float]*                                                      | :heavy_minus_sign:                                                     | N/A                                                                    |
 | `description`                                                          | *Optional[str]*                                                        | :heavy_minus_sign:                                                     | N/A                                                                    |
 | `estimated_ingest_rate`                                                | *Optional[float]*                                                      | :heavy_minus_sign:                                                     | N/A                                                                    |

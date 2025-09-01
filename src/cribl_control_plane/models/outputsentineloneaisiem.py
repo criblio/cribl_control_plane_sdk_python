@@ -25,7 +25,7 @@ class OutputSentinelOneAiSiemRegion(str, Enum):
 
 
 class AISIEMEndpointPath(str, Enum):
-    r"""Regional endpoint used to send events to, such as /services/collector/event or /services/collector/raw"""
+    r"""Endpoint to send events to. Use /services/collector/event for structured JSON payloads with standard HEC top-level fields. Use /services/collector/raw for unstructured log lines (plain text)."""
 
     ROOT_SERVICES_COLLECTOR_EVENT = "/services/collector/event"
     ROOT_SERVICES_COLLECTOR_RAW = "/services/collector/raw"
@@ -164,7 +164,7 @@ class OutputSentinelOneAiSiemTypedDict(TypedDict):
     region: NotRequired[OutputSentinelOneAiSiemRegion]
     r"""The SentinelOne region to send events to. In most cases you can find the region by either looking at your SentinelOne URL or knowing what geographic region your SentinelOne instance is contained in."""
     endpoint: NotRequired[AISIEMEndpointPath]
-    r"""Regional endpoint used to send events to, such as /services/collector/event or /services/collector/raw"""
+    r"""Endpoint to send events to. Use /services/collector/event for structured JSON payloads with standard HEC top-level fields. Use /services/collector/raw for unstructured log lines (plain text)."""
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
     max_payload_size_kb: NotRequired[float]
@@ -281,7 +281,7 @@ class OutputSentinelOneAiSiem(BaseModel):
     endpoint: Optional[AISIEMEndpointPath] = (
         AISIEMEndpointPath.ROOT_SERVICES_COLLECTOR_EVENT
     )
-    r"""Regional endpoint used to send events to, such as /services/collector/event or /services/collector/raw"""
+    r"""Endpoint to send events to. Use /services/collector/event for structured JSON payloads with standard HEC top-level fields. Use /services/collector/raw for unstructured log lines (plain text)."""
 
     concurrency: Optional[float] = 5
     r"""Maximum number of ongoing requests before blocking"""

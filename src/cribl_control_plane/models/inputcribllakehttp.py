@@ -189,20 +189,23 @@ class InputCriblLakeHTTPAuthTokensExtMetadatum(BaseModel):
 
 class InputCriblLakeHTTPAuthTokensExtTypedDict(TypedDict):
     token: str
-    r"""Shared secret to be provided by any client (Authorization: <token>)"""
     description: NotRequired[str]
     metadata: NotRequired[List[InputCriblLakeHTTPAuthTokensExtMetadatumTypedDict]]
     r"""Fields to add to events referencing this token"""
+    enable_splunk_hec: NotRequired[bool]
 
 
 class InputCriblLakeHTTPAuthTokensExt(BaseModel):
     token: str
-    r"""Shared secret to be provided by any client (Authorization: <token>)"""
 
     description: Optional[str] = None
 
     metadata: Optional[List[InputCriblLakeHTTPAuthTokensExtMetadatum]] = None
     r"""Fields to add to events referencing this token"""
+
+    enable_splunk_hec: Annotated[
+        Optional[bool], pydantic.Field(alias="enableSplunkHec")
+    ] = False
 
 
 class InputCriblLakeHTTPTypedDict(TypedDict):
@@ -262,7 +265,6 @@ class InputCriblLakeHTTPTypedDict(TypedDict):
     metadata: NotRequired[List[InputCriblLakeHTTPMetadatumTypedDict]]
     r"""Fields to add to events from this input"""
     auth_tokens_ext: NotRequired[List[InputCriblLakeHTTPAuthTokensExtTypedDict]]
-    r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     description: NotRequired[str]
 
 
@@ -388,6 +390,5 @@ class InputCriblLakeHTTP(BaseModel):
         Optional[List[InputCriblLakeHTTPAuthTokensExt]],
         pydantic.Field(alias="authTokensExt"),
     ] = None
-    r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
     description: Optional[str] = None

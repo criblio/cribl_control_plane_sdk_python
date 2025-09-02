@@ -83,7 +83,7 @@ class DestinationsPq(BaseSDK):
         )
 
         response_data: Any = None
-        if utils.match_response(http_res, "200", "application/json"):
+        if utils.match_response(http_res, "201", "application/json"):
             return unmarshal_json_response(models.DeleteOutputPqByIDResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
@@ -170,7 +170,7 @@ class DestinationsPq(BaseSDK):
         )
 
         response_data: Any = None
-        if utils.match_response(http_res, "200", "application/json"):
+        if utils.match_response(http_res, "201", "application/json"):
             return unmarshal_json_response(models.DeleteOutputPqByIDResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)

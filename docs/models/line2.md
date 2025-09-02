@@ -1,0 +1,9 @@
+# Line2
+
+
+## Fields
+
+| Field              | Type               | Required           | Description        |
+| ------------------ | ------------------ | ------------------ | ------------------ |
+| `content`          | *str*              | :heavy_check_mark: | N/A                |
+| `new_number`       | *float*            | :heavy_check_mark: | N/A                |

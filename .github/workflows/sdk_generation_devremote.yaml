@@ -41,41 +41,52 @@ jobs:
       - name: Compute prerelease version (X.Y.Za<n>)
         id: ver
         run: |
-          BASE=$(yq '.python.version' .speakeasy/gen.yaml)
-          BASE=$(echo "$BASE" | sed -E 's/^([0-9]+\.[0-9]+\.[0-9]+).*$/\1/')
+          set -euo pipefail
 
-          IFS='.' read -r major minor patch <<< "$BASE"
-          patch=$((patch + 1))
-          BASE="${major}.${minor}.${patch}"
+          BASE_GEN=$(yq -r '.python.version' .speakeasy/gen.yaml)
+          BASE_STRIPPED=$(printf '%s' "${BASE_GEN}" | sed -E 's/^([0-9]+\.[0-9]+\.[0-9]+).*/\1/')   # e.g. 1.2.3 from 1.2.3a5
 
-          PREFIX="${BASE}a"    # append 'a'
+          echo "Version from gen.yaml: ${BASE_GEN}"
+          echo "Stripped base:         ${BASE_STRIPPED}"
 
-          echo "Base version: ${BASE}"
-          echo "Prefix: ${PREFIX}"
+          # Fetch tags (add --refs to avoid peeled ^{} entries)
+          git fetch --tags --quiet || true
 
-          echo "Fetching remote tags..."
-          # Make sure we have remote tags info
-          git fetch --tags --quiet
+          # DEBUG: show last tags
+          echo "Last tags on origin:"
+          git ls-remote --tags --refs origin | awk '{print $2}' | sed 's|refs/tags/||' | tail -n 50 || true
 
-          echo "Available remote tags:"
-          git ls-remote --tags origin | tail -n 20
+          # If there are a<n> tags for BASE_STRIPPED (with or without leading 'v'), keep that base; otherwise bump patch
+          if git ls-remote --tags --refs origin | awk '{print $2}' | sed 's|refs/tags/||' \
+              | grep -qE "^(v)?${BASE_STRIPPED}a[0-9]+$"; then
+            BASE="${BASE_STRIPPED}"
+            echo "Found existing a tags for ${BASE}. Will increment a."
+          else
+            IFS='.' read -r major minor patch <<< "${BASE_STRIPPED}"
+            patch=$((patch + 1))
+            BASE="${major}.${minor}.${patch}"
+            echo "No a tags for ${BASE_STRIPPED}. Bumping patch to ${BASE} and starting a1"
+          fi
 
-          # Find first unused tag by checking remote tags one-by-one
+          PREFIX="${BASE}a"
+
+          # Helper to check tag existence with/without 'v' (use --refs; no sed with \^\{\})
+          tag_exists() {
+            git ls-remote --tags --refs origin | awk '{print $2}' | sed 's|refs/tags/||' \
+              | grep -qx -e "${1}" -e "v${1}"
+          }
+
+          # Find next available alpha number (with logging)
           n=1
-          while true; do
-            echo "Checking if tag exists: ${PREFIX}${n}"
-            out=$(git ls-remote --tags origin "${PREFIX}${n}" || true)
-            echo "ls-remote output: $out"
-
-            if [[ -z "$out" ]]; then
-              break
-            fi
+          while tag_exists "${PREFIX}${n}"; do
+            echo "Tag already exists: ${PREFIX}${n} (or v${PREFIX}${n}), trying next..."
             n=$((n+1))
           done
 
+          echo "First free alpha tag: ${PREFIX}${n}"
           FINAL="${PREFIX}${n}"
-          echo "version=${FINAL}" >> "$GITHUB_OUTPUT"
           echo "Computed prerelease: ${FINAL}"
+          echo "version=${FINAL}" >> "$GITHUB_OUTPUT"
 
   generate:
     needs: [check-branch, compute-version]

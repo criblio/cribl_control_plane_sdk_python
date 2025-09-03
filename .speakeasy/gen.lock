@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 36d4fddcaf99747ad0ef92a847f4e919
-  docVersion: 4.14.0-alpha.1756720086962-ed6aba5c
+  docChecksum: 5b5ea4012581fc985ed8d540fde99e33
+  docVersion: 4.14.0-alpha.1756891948720-05375a0f
   speakeasyVersion: 1.606.0
   generationVersion: 2.686.7
-  releaseVersion: 0.0.39
-  configChecksum: c1e89aba8fb0fc728d2a4f6610631ec2
+  releaseVersion: 0.0.40
+  configChecksum: f6ab42ea4f8256f72a8d5b4f9d7eb302
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -56,11 +56,17 @@ generatedFiles:
   - docs/models/authtype.md
   - docs/models/awsauthenticationmethod.md
   - docs/models/blobaccesstier.md
+  - docs/models/block.md
+  - docs/models/branchinfo.md
   - docs/models/cacheconnection.md
   - docs/models/cacheconnectionbackfillstatus.md
+  - docs/models/capturesettings.md
   - docs/models/certoptions.md
+  - docs/models/checksumbefore.md
   - docs/models/cloudprovider.md
+  - docs/models/collector.md
   - docs/models/collectors.md
+  - docs/models/collectorspecificsettings.md
   - docs/models/columnmapping.md
   - docs/models/comment.md
   - docs/models/commit.md
@@ -120,6 +126,7 @@ generatedFiles:
   - docs/models/deployrequest.md
   - docs/models/deployrequestlookups.md
   - docs/models/deployrequestlookupslookup.md
+  - docs/models/difffiles.md
   - docs/models/disksandfilesystems.md
   - docs/models/distributedsummary.md
   - docs/models/distributedsummarygroups.md
@@ -132,6 +139,8 @@ generatedFiles:
   - docs/models/endpointparam.md
   - docs/models/endpointtype.md
   - docs/models/eventformat.md
+  - docs/models/executor.md
+  - docs/models/executorspecificsettings.md
   - docs/models/extenttag.md
   - docs/models/extralogtype.md
   - docs/models/facility.md
@@ -189,6 +198,8 @@ generatedFiles:
   - docs/models/gitcommitparams.md
   - docs/models/gitcommitsummary.md
   - docs/models/gitcommitsummaryfiles.md
+  - docs/models/gitcountresult.md
+  - docs/models/gitdiffresult.md
   - docs/models/gitfile.md
   - docs/models/gitfilesresponse.md
   - docs/models/gitinfo.md
@@ -924,9 +935,15 @@ generatedFiles:
   - docs/models/inputzscalerhectlssettingsserverside.md
   - docs/models/inputzscalerhectype.md
   - docs/models/interfaces.md
+  - docs/models/jobinfo.md
+  - docs/models/jobstatus.md
   - docs/models/lakedatasetsearchconfig.md
   - docs/models/lakehouseconnectiontype.md
   - docs/models/lastmetrics.md
+  - docs/models/line1.md
+  - docs/models/line2.md
+  - docs/models/line3.md
+  - docs/models/lineunion.md
   - docs/models/listconfiggroupbyproductrequest.md
   - docs/models/listconfiggroupbyproductresponse.md
   - docs/models/listeningports.md
@@ -965,6 +982,7 @@ generatedFiles:
   - docs/models/nodeskippedupgradestatus.md
   - docs/models/nodeupgradestate.md
   - docs/models/nodeupgradestatus.md
+  - docs/models/oldmode.md
   - docs/models/os.md
   - docs/models/output.md
   - docs/models/outputazureblob.md
@@ -1807,6 +1825,38 @@ generatedFiles:
   - docs/models/routes.md
   - docs/models/routesgroups.md
   - docs/models/routesroute.md
+  - docs/models/runnablejob.md
+  - docs/models/runnablejobcollection.md
+  - docs/models/runnablejobcollectioninput.md
+  - docs/models/runnablejobcollectionjobtype.md
+  - docs/models/runnablejobcollectionloglevel.md
+  - docs/models/runnablejobcollectionmetadatum.md
+  - docs/models/runnablejobcollectionmode.md
+  - docs/models/runnablejobcollectionpreprocess.md
+  - docs/models/runnablejobcollectionrun.md
+  - docs/models/runnablejobcollectionrunsettings.md
+  - docs/models/runnablejobcollectionruntype.md
+  - docs/models/runnablejobcollectionschedule.md
+  - docs/models/runnablejobcollectionscheduleloglevel.md
+  - docs/models/runnablejobcollectionscheduletimewarning.md
+  - docs/models/runnablejobcollectiontimewarning.md
+  - docs/models/runnablejobcollectiontype.md
+  - docs/models/runnablejobexecutor.md
+  - docs/models/runnablejobexecutorjobtype.md
+  - docs/models/runnablejobexecutorloglevel.md
+  - docs/models/runnablejobexecutorrun.md
+  - docs/models/runnablejobexecutorrunsettings.md
+  - docs/models/runnablejobexecutorschedule.md
+  - docs/models/runnablejobexecutorscheduleloglevel.md
+  - docs/models/runnablejobexecutortimewarning.md
+  - docs/models/runnablejobexecutortype.md
+  - docs/models/runnablejobscheduledsearch.md
+  - docs/models/runnablejobscheduledsearchjobtype.md
+  - docs/models/runnablejobscheduledsearchloglevel.md
+  - docs/models/runnablejobscheduledsearchrunsettings.md
+  - docs/models/runnablejobscheduledsearchschedule.md
+  - docs/models/runnablejobscheduledsearchtimewarning.md
+  - docs/models/runnablejobscheduledsearchtype.md
   - docs/models/sample.md
   - docs/models/scanmode.md
   - docs/models/scheduletype.md
@@ -1828,6 +1878,7 @@ generatedFiles:
   - docs/models/targetprotocol.md
   - docs/models/teamaccesscontrollist.md
   - docs/models/telemetrytype.md
+  - docs/models/timerange.md
   - docs/models/timestampformat.md
   - docs/models/timestampprecision.md
   - docs/models/updateconfiggroupbyproductandidrequest.md
@@ -1854,6 +1905,7 @@ generatedFiles:
   - docs/models/usersandgroups.md
   - docs/models/utils/retryconfig.md
   - docs/models/v3user.md
+  - docs/models/wheretocapture.md
   - docs/models/workertypes.md
   - docs/models/writeaction.md
   - docs/sdks/acl/README.md
@@ -1919,6 +1971,7 @@ generatedFiles:
   - src/cribl_control_plane/models/addhectokenrequest.py
   - src/cribl_control_plane/models/appmode.py
   - src/cribl_control_plane/models/authtoken.py
+  - src/cribl_control_plane/models/branchinfo.py
   - src/cribl_control_plane/models/cacheconnection.py
   - src/cribl_control_plane/models/cacheconnectionbackfillstatus.py
   - src/cribl_control_plane/models/cloudprovider.py
@@ -1953,6 +2006,7 @@ generatedFiles:
   - src/cribl_control_plane/models/deletepipelinebyidop.py
   - src/cribl_control_plane/models/deployrequest.py
   - src/cribl_control_plane/models/deployrequestlookups.py
+  - src/cribl_control_plane/models/difffiles.py
   - src/cribl_control_plane/models/distributedsummary.py
   - src/cribl_control_plane/models/getconfiggroupaclbyproductandidop.py
   - src/cribl_control_plane/models/getconfiggroupaclteamsbyproductandidop.py
@@ -1980,6 +2034,8 @@ generatedFiles:
   - src/cribl_control_plane/models/getversionstatusop.py
   - src/cribl_control_plane/models/gitcommitparams.py
   - src/cribl_control_plane/models/gitcommitsummary.py
+  - src/cribl_control_plane/models/gitcountresult.py
+  - src/cribl_control_plane/models/gitdiffresult.py
   - src/cribl_control_plane/models/gitfile.py
   - src/cribl_control_plane/models/gitfilesresponse.py
   - src/cribl_control_plane/models/gitinfo.py
@@ -2051,6 +2107,8 @@ generatedFiles:
   - src/cribl_control_plane/models/inputwiz.py
   - src/cribl_control_plane/models/inputwizwebhook.py
   - src/cribl_control_plane/models/inputzscalerhec.py
+  - src/cribl_control_plane/models/jobinfo.py
+  - src/cribl_control_plane/models/jobstatus.py
   - src/cribl_control_plane/models/lakedatasetsearchconfig.py
   - src/cribl_control_plane/models/lakehouseconnectiontype.py
   - src/cribl_control_plane/models/listconfiggroupbyproductop.py
@@ -2149,6 +2207,10 @@ generatedFiles:
   - src/cribl_control_plane/models/routeconf.py
   - src/cribl_control_plane/models/routes.py
   - src/cribl_control_plane/models/routesroute.py
+  - src/cribl_control_plane/models/runnablejob.py
+  - src/cribl_control_plane/models/runnablejobcollection.py
+  - src/cribl_control_plane/models/runnablejobexecutor.py
+  - src/cribl_control_plane/models/runnablejobscheduledsearch.py
   - src/cribl_control_plane/models/schemeclientoauth.py
   - src/cribl_control_plane/models/security.py
   - src/cribl_control_plane/models/teamaccesscontrollist.py
@@ -2344,6 +2406,8 @@ examples:
           application/json: {"count": 37997, "items": [{"key": "<value>"}, {"key": "<value>", "key1": "<value>"}]}
         "500":
           application/json: {"message": "<value>"}
+        "201":
+          application/json: {"count": 37997, "items": ["<value 1>", "<value 2>"]}
   getOutputPqById:
     speakeasy-default-get-output-pq-by-id:
       parameters:
@@ -2351,7 +2415,7 @@ examples:
           id: "<id>"
       responses:
         "200":
-          application/json: {"count": 375693, "items": [{"key": "<value>", "key1": "<value>", "key2": "<value>"}, {}, {"key": "<value>"}]}
+          application/json: {"count": 375693, "items": [{"args": {"id": "<id>", "description": "custom invite intensely lamp round clamp recommendation about unit enlightened", "type": "executor", "ttl": "4h", "ignoreGroupJobsLimit": false, "removeFields": ["<value 1>", "<value 2>"], "resumeOnBoot": false, "environment": "<value>", "schedule": {"enabled": true, "cronSchedule": "*/5 * * * *", "maxConcurrentRuns": 1, "skippable": true, "resumeMissed": "<value>", "run": {"type": "collection", "rescheduleDroppedTasks": true, "maxTaskReschedule": 1, "logLevel": "info", "jobTimeout": "0", "mode": "list", "timeRangeType": "relative", "earliest": 9266.9, "latest": 7210.98, "timestampTimezone": "<value>", "timeWarning": {}, "expression": "true", "minTaskSize": "1MB", "maxTaskSize": "10MB"}}, "streamtags": ["<value 1>", "<value 2>"], "executor": {"type": "<value>", "storeTaskResults": true, "conf": {}}, "run": {"rescheduleDroppedTasks": true, "maxTaskReschedule": 1, "logLevel": "info", "jobTimeout": "0"}}, "id": "<id>", "keep": true, "status": {"reason": {"key": "<value>", "key1": "<value>"}, "state": {"key": "Mississippi", "key1": "Mississippi"}}}, {"args": {"id": "<id>", "description": "custom invite intensely lamp round clamp recommendation about unit enlightened", "type": "executor", "ttl": "4h", "ignoreGroupJobsLimit": false, "removeFields": ["<value 1>", "<value 2>"], "resumeOnBoot": false, "environment": "<value>", "schedule": {"enabled": true, "cronSchedule": "*/5 * * * *", "maxConcurrentRuns": 1, "skippable": true, "resumeMissed": "<value>", "run": {"type": "collection", "rescheduleDroppedTasks": true, "maxTaskReschedule": 1, "logLevel": "info", "jobTimeout": "0", "mode": "list", "timeRangeType": "relative", "earliest": 9266.9, "latest": 7210.98, "timestampTimezone": "<value>", "timeWarning": {}, "expression": "true", "minTaskSize": "1MB", "maxTaskSize": "10MB"}}, "streamtags": ["<value 1>", "<value 2>"], "executor": {"type": "<value>", "storeTaskResults": true, "conf": {}}, "run": {"rescheduleDroppedTasks": true, "maxTaskReschedule": 1, "logLevel": "info", "jobTimeout": "0"}}, "id": "<id>", "keep": false, "status": {"reason": {"key": "<value>", "key1": "<value>"}, "state": {"key": "Mississippi", "key1": "Mississippi"}}}, {"args": {"id": "<id>", "description": "decode unnaturally duh because quiet primary", "type": "executor", "ttl": "4h", "ignoreGroupJobsLimit": false, "removeFields": ["<value 1>", "<value 2>", "<value 3>"], "resumeOnBoot": false, "environment": "<value>", "schedule": {"enabled": true, "cronSchedule": "*/5 * * * *", "maxConcurrentRuns": 1, "skippable": true, "resumeMissed": "<value>", "run": {"type": "collection", "rescheduleDroppedTasks": true, "maxTaskReschedule": 1, "logLevel": "info", "jobTimeout": "0", "mode": "list", "timeRangeType": "relative", "earliest": 959.28, "latest": 7372.4, "timestampTimezone": "<value>", "timeWarning": {}, "expression": "true", "minTaskSize": "1MB", "maxTaskSize": "10MB"}}, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "workerAffinity": false, "collector": {"type": "<value>", "conf": {}, "destructive": false, "encoding": "<value>"}, "input": {"type": "collection", "breakerRulesets": ["<value 1>", "<value 2>"], "staleChannelFlushMs": 10000, "sendToRoutes": true, "preprocess": {"disabled": true, "command": "<value>", "args": ["<value 1>", "<value 2>", "<value 3>"]}, "throttleRatePerSec": "0", "metadata": [{"name": "<value>", "value": "<value>"}], "pipeline": "<value>", "output": "<value>"}, "run": {"rescheduleDroppedTasks": true, "maxTaskReschedule": 1, "logLevel": "info", "jobTimeout": "0", "mode": "list", "timeRangeType": "relative", "earliest": 5769.57, "latest": 5859.59, "timestampTimezone": "UTC", "timeWarning": {}, "expression": "true", "minTaskSize": "1MB", "maxTaskSize": "10MB", "discoverToRoutes": false, "capture": {"duration": 60, "maxEvents": 100, "level": 0}}}, "id": "<id>", "keep": false, "status": {"reason": {"key": "<value>", "key1": "<value>"}, "state": {"key": "Mississippi", "key1": "Mississippi"}}}]}
         "500":
           application/json: {"message": "<value>"}
   getOutputSamplesById:
@@ -2469,7 +2533,7 @@ examples:
     speakeasy-default-get-version-branch:
       responses:
         "200":
-          application/json: {"count": 752953, "items": [{"key": "<value>", "key1": "<value>"}]}
+          application/json: {"count": 752953, "items": [{"id": "<id>"}]}
         "500":
           application/json: {"message": "<value>"}
   createVersionCommit:
@@ -2493,7 +2557,7 @@ examples:
           groupId: "<id>"
       responses:
         "200":
-          application/json: {"count": 856007, "items": [{"key": "<value>"}]}
+          application/json: {"count": 856007, "items": [{"count": 8560.07}]}
         "500":
           application/json: {"message": "<value>"}
   getVersionCurrentBranch:
@@ -2514,7 +2578,7 @@ examples:
           groupId: "<id>"
       responses:
         "200":
-          application/json: {"count": 236125, "items": [{"key": "<value>"}, {"key": "<value>", "key1": "<value>"}, {}]}
+          application/json: {"count": 236125, "items": [{"diffJson": [{"addedLines": 2361.25, "blocks": [{"header": "<value>", "lines": [], "newStartLine": 6726.7, "oldStartLine": 645.87, "oldStartLine2": 5821.43}], "changedPercentage": 9419.83, "checksumAfter": "<value>", "checksumBefore": "<value>", "deletedFileMode": "<value>", "deletedLines": 6123.7, "isBinary": false, "isCombined": false, "isCopy": true, "isDeleted": true, "isGitDiff": false, "isNew": true, "isRename": true, "isTooBig": true, "language": "<value>", "mode": "<value>", "newFileMode": "<value>", "newMode": "<value>", "newName": "<value>", "oldMode": "<value>", "oldName": "<value>", "unchangedPercentage": 4730.65}]}, {"diffJson": []}, {"diffJson": []}]}
         "500":
           application/json: {"message": "<value>"}
   getVersionFiles:
@@ -2669,7 +2733,7 @@ examples:
         application/json: {"id": "<id>", "spec": "<value>", "version": "<value>", "minLogStreamVersion": "<value>", "displayName": "Myah14", "author": "<value>", "description": "premeditation coincide although", "source": "<value>", "tags": {"dataType": [], "domain": [], "technology": ["<value 1>"], "streamtags": ["<value 1>", "<value 2>"]}, "allowCustomFunctions": false, "force": false}
       responses:
         "200":
-          application/json: {"count": 182030, "items": [{"author": "<value>", "description": "card fen soon inquisitively anti oddly winged", "displayName": "Leila.Nikolaus29", "exports": ["<value 1>", "<value 2>", "<value 3>"], "id": "<id>", "inputs": 5672.33, "isDisabled": false, "minLogStreamVersion": "<value>", "outputs": 8346.66, "settings": {"key": "<value>"}, "source": "<value>", "spec": "<value>", "tags": {"dataType": ["decimal"], "domain": ["lawful-flu.net", "royal-litter.org", "submissive-pantyhose.org"], "streamtags": [], "technology": []}, "version": "<value>", "warnings": "<value>"}]}
+          application/json: {"count": 182030, "items": [{"author": "<value>", "description": "card fen soon inquisitively anti oddly winged", "displayName": "Leila.Nikolaus29", "exports": ["<value 1>", "<value 2>", "<value 3>"], "id": "<id>", "inputs": 5672.33, "isDisabled": false, "minLogStreamVersion": "<value>", "outputs": 8346.66, "settings": {"key": "<value>"}, "source": "<value>", "spec": "<value>", "tags": {"dataType": ["decimal"], "domain": ["lawful-flu.net", "royal-litter.org", "submissive-pantyhose.org"], "streamtags": [], "technology": []}, "version": "<value>", "warnings": ["<value>"]}]}
         "500":
           application/json: {"message": "<value>"}
   getPacks:
@@ -2817,7 +2881,7 @@ examples:
           id: "<id>"
       responses:
         "200":
-          application/json: {"count": 248535, "items": [{"author": "<value>", "description": "pace forsaken why mom fooey", "displayName": "Joelle.Murray", "exports": ["<value 1>"], "id": "<id>", "inputs": 1143.81, "isDisabled": true, "minLogStreamVersion": "<value>", "outputs": 7704.62, "settings": {"key": "<value>", "key1": "<value>"}, "source": "<value>", "spec": "<value>", "tags": {"dataType": [], "domain": ["soggy-coliseum.com", "nice-footrest.biz", "well-to-do-massage.org"], "streamtags": ["<value 1>"], "technology": ["<value 1>"]}, "version": "<value>", "warnings": "<value>"}]}
+          application/json: {"count": 248535, "items": [{"author": "<value>", "description": "pace forsaken why mom fooey", "displayName": "Joelle.Murray", "exports": ["<value 1>"], "id": "<id>", "inputs": 1143.81, "isDisabled": true, "minLogStreamVersion": "<value>", "outputs": 7704.62, "settings": {"key": "<value>", "key1": "<value>"}, "source": "<value>", "spec": "<value>", "tags": {"dataType": [], "domain": ["soggy-coliseum.com", "nice-footrest.biz", "well-to-do-massage.org"], "streamtags": ["<value 1>"], "technology": ["<value 1>"]}, "version": "<value>", "warnings": ["<value>"]}]}
         "500":
           application/json: {"message": "<value>"}
   updatePacksById:
@@ -3125,4 +3189,12 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: "## SDK Changes Detected:\n* `cribl_control_plane.sources.list()`:  `response.items.[].[input_cribl_lake_http].auth_tokens_ext.[].enable_splunk_hec` **Added**\n* `cribl_control_plane.sources.create()`: \n  *  `request.[input_cribl_lake_http].auth_tokens_ext.[].enable_splunk_hec` **Added**\n  *  `response.items.[].[input_cribl_lake_http].auth_tokens_ext.[].enable_splunk_hec` **Added**\n* `cribl_control_plane.sources.get()`:  `response.items.[].[input_cribl_lake_http].auth_tokens_ext.[].enable_splunk_hec` **Added**\n* `cribl_control_plane.sources.update()`: \n  *  `request.input.[input_cribl_lake_http].auth_tokens_ext.[].enable_splunk_hec` **Added**\n  *  `response.items.[].[input_cribl_lake_http].auth_tokens_ext.[].enable_splunk_hec` **Added**\n* `cribl_control_plane.sources.delete()`:  `response.items.[].[input_cribl_lake_http].auth_tokens_ext.[].enable_splunk_hec` **Added**\n* `cribl_control_plane.groups.list()`:  `response.items.[].config_version` **Changed**\n* `cribl_control_plane.groups.create()`: \n  *  `request.config_version` **Changed**\n  *  `response.items.[].config_version` **Changed**\n* `cribl_control_plane.groups.get()`:  `response.items.[].config_version` **Changed**\n* `cribl_control_plane.groups.update()`: \n  *  `request.config_version` **Changed**\n  *  `response.items.[].config_version` **Changed**\n* `cribl_control_plane.groups.delete()`:  `response.items.[].config_version` **Changed**\n* `cribl_control_plane.groups.deploy()`:  `response.items.[].config_version` **Changed**\n"
+releaseNotes: |
+  ## SDK Changes Detected:
+  * `cribl_control_plane.destinations.pq.clear()`:  `response` **Changed** **Breaking** :warning:
+  * `cribl_control_plane.destinations.pq.get()`:  `response.items.[]` **Changed** **Breaking** :warning:
+  * `cribl_control_plane.packs.install()`:  `response.items.[].warnings` **Changed** **Breaking** :warning:
+  * `cribl_control_plane.packs.delete()`:  `response.items.[].warnings` **Changed** **Breaking** :warning:
+  * `cribl_control_plane.versions.branches.list()`:  `response.items.[]` **Changed** **Breaking** :warning:
+  * `cribl_control_plane.versions.commits.diff()`:  `response.items.[]` **Changed** **Breaking** :warning:
+  * `cribl_control_plane.versions.commits.files.count()`:  `response.items.[]` **Changed** **Breaking** :warning:

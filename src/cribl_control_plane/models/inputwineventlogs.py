@@ -181,7 +181,7 @@ class InputWinEventLogs(BaseModel):
     pq: Optional[InputWinEventLogsPq] = None
 
     read_mode: Annotated[Optional[ReadMode], pydantic.Field(alias="readMode")] = (
-        ReadMode.OLDEST
+        ReadMode.NEWEST
     )
     r"""Read all stored and future event logs, or only future events"""
 

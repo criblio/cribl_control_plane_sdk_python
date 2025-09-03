@@ -27,7 +27,7 @@ class PackInstallInfoTags(BaseModel):
 class PackInstallInfoTypedDict(TypedDict):
     id: str
     source: str
-    warnings: Any
+    warnings: List[str]
     author: NotRequired[str]
     description: NotRequired[str]
     display_name: NotRequired[str]
@@ -47,7 +47,7 @@ class PackInstallInfo(BaseModel):
 
     source: str
 
-    warnings: Any
+    warnings: List[str]
 
     author: Optional[str] = None
 

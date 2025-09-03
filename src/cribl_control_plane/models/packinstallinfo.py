@@ -27,7 +27,6 @@ class PackInstallInfoTags(BaseModel):
 class PackInstallInfoTypedDict(TypedDict):
     id: str
     source: str
-    warnings: List[str]
     author: NotRequired[str]
     description: NotRequired[str]
     display_name: NotRequired[str]
@@ -40,14 +39,13 @@ class PackInstallInfoTypedDict(TypedDict):
     spec: NotRequired[str]
     tags: NotRequired[PackInstallInfoTagsTypedDict]
     version: NotRequired[str]
+    warnings: NotRequired[List[str]]
 
 
 class PackInstallInfo(BaseModel):
     id: str
 
     source: str
-
-    warnings: List[str]
 
     author: Optional[str] = None
 
@@ -74,3 +72,5 @@ class PackInstallInfo(BaseModel):
     tags: Optional[PackInstallInfoTags] = None
 
     version: Optional[str] = None
+
+    warnings: Optional[List[str]] = None

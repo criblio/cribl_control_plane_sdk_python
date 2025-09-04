@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.14.0-alpha.1756909436543-ef8097da
+  version: 4.14.0-alpha.1757000684650-0bcbd7ed
   contact:
     name: Support
     email: support@cribl.io
@@ -23443,7 +23443,7 @@ components:
         customerId:
           type: string
           title: Customer ID
-          description: Unique identifier (UUID) corresponding to a particular SecOps instance. Provided by your SecOps representative.
+          description: A unique identifier (UUID) for your Google SecOps instance. This is provided by your Google representative and is required for API V2 authentication.
         namespace:
           type: string
           title: Namespace
@@ -39326,7 +39326,7 @@ paths:
       tags:
         - pipelines
       summary: List all Pipelines
-      description: List all Pipelines
+      description: Get a list of all Pipelines.
       responses:
         "200":
           description: a list of Pipeline objects
@@ -39357,7 +39357,7 @@ paths:
       tags:
         - pipelines
       summary: Create a Pipeline
-      description: Create a Pipeline
+      description: Create a new Pipeline.
       requestBody:
         description: Pipeline object
         required: true
@@ -39395,15 +39395,15 @@ paths:
       x-speakeasy-name-override: get
       tags:
         - pipelines
-      summary: Retrieve a Pipeline
-      description: Retrieve a Pipeline
+      summary: Get a Pipeline
+      description: Get the specified Pipeline.
       parameters:
         - name: id
           in: path
           required: true
           schema:
             type: string
-          description: Unique ID to GET
+          description: The <code>id</code> of the Pipeline to get.
       responses:
         "200":
           description: a list of Pipeline objects
@@ -39434,16 +39434,16 @@ paths:
       tags:
         - pipelines
       summary: Update a Pipeline
-      description: Update a Pipeline
+      description: Update the specified Pipeline.</br></br>Provide a complete representation of the Pipeline that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Pipeline.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Pipeline might not function as expected.
       parameters:
         - name: id
           in: path
           required: true
           schema:
             type: string
-          description: Unique ID to PATCH
+          description: The <code>id</code> of the Pipeline to update.
       requestBody:
-        description: Pipeline object to be updated
+        description: Pipeline object
         required: true
         content:
           application/json:
@@ -39451,7 +39451,7 @@ paths:
               $ref: "#/components/schemas/Pipeline"
       responses:
         "200":
-          description: a list of any objects
+          description: a list of Pipeline objects
           content:
             application/json:
               schema:
@@ -39464,8 +39464,6 @@ paths:
                     type: array
                     items:
                       $ref: "#/components/schemas/Pipeline"
-                      type: object
-                      additionalProperties: true
         "401":
           description: Unauthorized
         "500":
@@ -39481,14 +39479,14 @@ paths:
       tags:
         - pipelines
       summary: Delete a Pipeline
-      description: Delete a Pipeline
+      description: Delete the specified Pipeline.
       parameters:
         - name: id
           in: path
           required: true
           schema:
             type: string
-          description: Unique ID to DELETE
+          description: The <code>id</code> of the Pipeline to delete.
       responses:
         "200":
           description: a list of Pipeline objects
@@ -39519,8 +39517,8 @@ paths:
       x-speakeasy-name-override: list
       tags:
         - routes
-      summary: Get a list of Routes objects
-      description: Get a list of Routes objects
+      summary: List all Routes
+      description: Get a list of all Routes.
       responses:
         "200":
           description: a list of Routes objects
@@ -39551,15 +39549,15 @@ paths:
       x-speakeasy-name-override: get
       tags:
         - routes
-      summary: Get Routes by ID
-      description: Get Routes by ID
+      summary: Get a Routing table
+      description: Get the specified Routing table.
       parameters:
         - name: id
           in: path
           required: true
           schema:
             type: string
-          description: Unique ID to GET
+          description: The <code>id</code> of the Routing table to get. The supported value is <code>default</code>.
       responses:
         "200":
           description: a list of Routes objects
@@ -39589,15 +39587,15 @@ paths:
       x-speakeasy-name-override: update
       tags:
         - routes
-      summary: Update Routes
-      description: Update Routes
+      summary: Update a Route
+      description: Update a Route in the specified Routing table.</br></br>Provide a complete representation of the Routing table, including the Route that you want to update, in the request body. This endpoint does not support partial updates. Cribl removes any omitted Routes and fields when updating.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the Routing table might not function as expected.
       parameters:
         - name: id
           in: path
           required: true
           schema:
             type: string
-          description: Unique ID to PATCH
+          description: The <code>id</code> of the Routing table that contains the Route to update. The supported value is <code>default</code>.
       requestBody:
         description: Routes object
         required: true
@@ -39635,8 +39633,8 @@ paths:
         - routes
       x-speakeasy-group: routes
       x-speakeasy-name-override: append
-      summary: Append Routes to the end of the Routing table
-      description: Appends routes to the end of the routing table
+      summary: Append a Route to the end of the Routing table
+      description: Append a Route to the end of the specified Routing table.</br></br>Provide a complete representation of the Routing table, including the Route that you want to append, in the request body. Cribl removes any omitted Routes and fields in the Routing table when appending the Route.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the Routing table might not function as expected.
       responses:
         "200":
           description: a list of Routes objects
@@ -39673,7 +39671,7 @@ paths:
           required: true
           schema:
             type: string
-          description: the route table to be appended to - currently default is the only supported value
+          description: The <code>id</code> of the Routing table to append the Route to. The supported value is <code>default</code>.
   /auth/login:
     post:
       operationId: login
@@ -40367,7 +40365,7 @@ paths:
           required: false
           schema:
             type: string
-          description: Group ID
+          description: The <code>id</code> of the Worker Group or Edge Fleet to revert the commit for. Required in Distributed deployments. Omit in Single-instance deployments.
   /version/show:
     get:
       operationId: getVersionShow

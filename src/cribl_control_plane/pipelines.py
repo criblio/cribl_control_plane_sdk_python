@@ -22,7 +22,7 @@ class Pipelines(BaseSDK):
     ) -> models.ListPipelineResponse:
         r"""List all Pipelines
 
-        List all Pipelines
+        Get a list of all Pipelines.
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -102,7 +102,7 @@ class Pipelines(BaseSDK):
     ) -> models.ListPipelineResponse:
         r"""List all Pipelines
 
-        List all Pipelines
+        Get a list of all Pipelines.
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -184,7 +184,7 @@ class Pipelines(BaseSDK):
     ) -> models.CreatePipelineResponse:
         r"""Create a Pipeline
 
-        Create a Pipeline
+        Create a new Pipeline.
 
         :param id:
         :param conf:
@@ -277,7 +277,7 @@ class Pipelines(BaseSDK):
     ) -> models.CreatePipelineResponse:
         r"""Create a Pipeline
 
-        Create a Pipeline
+        Create a new Pipeline.
 
         :param id:
         :param conf:
@@ -367,11 +367,11 @@ class Pipelines(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetPipelineByIDResponse:
-        r"""Retrieve a Pipeline
+        r"""Get a Pipeline
 
-        Retrieve a Pipeline
+        Get the specified Pipeline.
 
-        :param id: Unique ID to GET
+        :param id: The <code>id</code> of the Pipeline to get.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -454,11 +454,11 @@ class Pipelines(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetPipelineByIDResponse:
-        r"""Retrieve a Pipeline
+        r"""Get a Pipeline
 
-        Retrieve a Pipeline
+        Get the specified Pipeline.
 
-        :param id: Unique ID to GET
+        :param id: The <code>id</code> of the Pipeline to get.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -545,9 +545,9 @@ class Pipelines(BaseSDK):
     ) -> models.UpdatePipelineByIDResponse:
         r"""Update a Pipeline
 
-        Update a Pipeline
+        Update the specified Pipeline.</br></br>Provide a complete representation of the Pipeline that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Pipeline.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Pipeline might not function as expected.
 
-        :param id_param: Unique ID to PATCH
+        :param id_param: The <code>id</code> of the Pipeline to update.
         :param id:
         :param conf:
         :param retries: Override the default retry configuration for this method
@@ -643,9 +643,9 @@ class Pipelines(BaseSDK):
     ) -> models.UpdatePipelineByIDResponse:
         r"""Update a Pipeline
 
-        Update a Pipeline
+        Update the specified Pipeline.</br></br>Provide a complete representation of the Pipeline that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Pipeline.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Pipeline might not function as expected.
 
-        :param id_param: Unique ID to PATCH
+        :param id_param: The <code>id</code> of the Pipeline to update.
         :param id:
         :param conf:
         :param retries: Override the default retry configuration for this method
@@ -739,9 +739,9 @@ class Pipelines(BaseSDK):
     ) -> models.DeletePipelineByIDResponse:
         r"""Delete a Pipeline
 
-        Delete a Pipeline
+        Delete the specified Pipeline.
 
-        :param id: Unique ID to DELETE
+        :param id: The <code>id</code> of the Pipeline to delete.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -826,9 +826,9 @@ class Pipelines(BaseSDK):
     ) -> models.DeletePipelineByIDResponse:
         r"""Delete a Pipeline
 
-        Delete a Pipeline
+        Delete the specified Pipeline.
 
-        :param id: Unique ID to DELETE
+        :param id: The <code>id</code> of the Pipeline to delete.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds

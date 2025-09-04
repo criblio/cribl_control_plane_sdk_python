@@ -14,7 +14,7 @@ class CreateVersionRevertRequestTypedDict(TypedDict):
     git_revert_params: GitRevertParamsTypedDict
     r"""GitRevertParams object"""
     group_id: NotRequired[str]
-    r"""Group ID"""
+    r"""The <code>id</code> of the Worker Group or Edge Fleet to revert the commit for. Required in Distributed deployments. Omit in Single-instance deployments."""
 
 
 class CreateVersionRevertRequest(BaseModel):
@@ -29,7 +29,7 @@ class CreateVersionRevertRequest(BaseModel):
         pydantic.Field(alias="groupId"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Group ID"""
+    r"""The <code>id</code> of the Worker Group or Edge Fleet to revert the commit for. Required in Distributed deployments. Omit in Single-instance deployments."""
 
 
 class CreateVersionRevertResponseTypedDict(TypedDict):

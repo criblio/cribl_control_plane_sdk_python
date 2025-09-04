@@ -10,14 +10,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class DeletePipelineByIDRequestTypedDict(TypedDict):
     id: str
-    r"""Unique ID to DELETE"""
+    r"""The <code>id</code> of the Pipeline to delete."""
 
 
 class DeletePipelineByIDRequest(BaseModel):
     id: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""Unique ID to DELETE"""
+    r"""The <code>id</code> of the Pipeline to delete."""
 
 
 class DeletePipelineByIDResponseTypedDict(TypedDict):

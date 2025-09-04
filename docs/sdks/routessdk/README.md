@@ -7,14 +7,14 @@ Actions related to Routes
 
 ### Available Operations
 
-* [list](#list) - Get a list of Routes objects
-* [get](#get) - Get Routes by ID
-* [update](#update) - Update Routes
-* [append](#append) - Append Routes to the end of the Routing table
+* [list](#list) - List all Routes
+* [get](#get) - Get a Routing table
+* [update](#update) - Update a Route
+* [append](#append) - Append a Route to the end of the Routing table
 
 ## list
 
-Get a list of Routes objects
+Get a list of all Routes.
 
 ### Example Usage
 
@@ -57,7 +57,7 @@ with CriblControlPlane(
 
 ## get
 
-Get Routes by ID
+Get the specified Routing table.
 
 ### Example Usage
 
@@ -83,10 +83,10 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
-| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | Unique ID to GET                                                    |
-| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
+| Parameter                                                                                     | Type                                                                                          | Required                                                                                      | Description                                                                                   |
+| --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `id`                                                                                          | *str*                                                                                         | :heavy_check_mark:                                                                            | The <code>id</code> of the Routing table to get. The supported value is <code>default</code>. |
+| `retries`                                                                                     | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                              | :heavy_minus_sign:                                                                            | Configuration to override the default retry behavior of the client.                           |
 
 ### Response
 
@@ -101,7 +101,7 @@ with CriblControlPlane(
 
 ## update
 
-Update Routes
+Update a Route in the specified Routing table.</br></br>Provide a complete representation of the Routing table, including the Route that you want to update, in the request body. This endpoint does not support partial updates. Cribl removes any omitted Routes and fields when updating.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the Routing table might not function as expected.
 
 ### Example Usage
 
@@ -137,14 +137,14 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
-| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `id_param`                                                          | *str*                                                               | :heavy_check_mark:                                                  | Unique ID to PATCH                                                  |
-| `routes`                                                            | List[[models.RoutesRoute](../../models/routesroute.md)]             | :heavy_check_mark:                                                  | Pipeline routing rules                                              |
-| `id`                                                                | *Optional[str]*                                                     | :heavy_minus_sign:                                                  | Routes ID                                                           |
-| `groups`                                                            | Dict[str, [models.RoutesGroups](../../models/routesgroups.md)]      | :heavy_minus_sign:                                                  | N/A                                                                 |
-| `comments`                                                          | List[[models.Comment](../../models/comment.md)]                     | :heavy_minus_sign:                                                  | Comments                                                            |
-| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
+| Parameter                                                                                                                | Type                                                                                                                     | Required                                                                                                                 | Description                                                                                                              |
+| ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ |
+| `id_param`                                                                                                               | *str*                                                                                                                    | :heavy_check_mark:                                                                                                       | The <code>id</code> of the Routing table that contains the Route to update. The supported value is <code>default</code>. |
+| `routes`                                                                                                                 | List[[models.RoutesRoute](../../models/routesroute.md)]                                                                  | :heavy_check_mark:                                                                                                       | Pipeline routing rules                                                                                                   |
+| `id`                                                                                                                     | *Optional[str]*                                                                                                          | :heavy_minus_sign:                                                                                                       | Routes ID                                                                                                                |
+| `groups`                                                                                                                 | Dict[str, [models.RoutesGroups](../../models/routesgroups.md)]                                                           | :heavy_minus_sign:                                                                                                       | N/A                                                                                                                      |
+| `comments`                                                                                                               | List[[models.Comment](../../models/comment.md)]                                                                          | :heavy_minus_sign:                                                                                                       | Comments                                                                                                                 |
+| `retries`                                                                                                                | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                         | :heavy_minus_sign:                                                                                                       | Configuration to override the default retry behavior of the client.                                                      |
 
 ### Response
 
@@ -159,7 +159,7 @@ with CriblControlPlane(
 
 ## append
 
-Appends routes to the end of the routing table
+Append a Route to the end of the specified Routing table.</br></br>Provide a complete representation of the Routing table, including the Route that you want to append, in the request body. Cribl removes any omitted Routes and fields in the Routing table when appending the Route.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the Routing table might not function as expected.
 
 ### Example Usage
 
@@ -185,11 +185,11 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                                         | Type                                                                              | Required                                                                          | Description                                                                       |
-| --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
-| `id`                                                                              | *str*                                                                             | :heavy_check_mark:                                                                | the route table to be appended to - currently default is the only supported value |
-| `request_body`                                                                    | List[[models.RouteConf](../../models/routeconf.md)]                               | :heavy_check_mark:                                                                | RouteDefinitions object                                                           |
-| `retries`                                                                         | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                  | :heavy_minus_sign:                                                                | Configuration to override the default retry behavior of the client.               |
+| Parameter                                                                                                     | Type                                                                                                          | Required                                                                                                      | Description                                                                                                   |
+| ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `id`                                                                                                          | *str*                                                                                                         | :heavy_check_mark:                                                                                            | The <code>id</code> of the Routing table to append the Route to. The supported value is <code>default</code>. |
+| `request_body`                                                                                                | List[[models.RouteConf](../../models/routeconf.md)]                                                           | :heavy_check_mark:                                                                                            | RouteDefinitions object                                                                                       |
+| `retries`                                                                                                     | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                              | :heavy_minus_sign:                                                                                            | Configuration to override the default retry behavior of the client.                                           |
 
 ### Response
 

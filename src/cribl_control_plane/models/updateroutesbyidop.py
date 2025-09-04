@@ -11,7 +11,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class UpdateRoutesByIDRequestTypedDict(TypedDict):
     id_param: str
-    r"""Unique ID to PATCH"""
+    r"""The <code>id</code> of the Routing table that contains the Route to update. The supported value is <code>default</code>."""
     routes: RoutesTypedDict
     r"""Routes object"""
 
@@ -22,7 +22,7 @@ class UpdateRoutesByIDRequest(BaseModel):
         pydantic.Field(alias="id"),
         FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
     ]
-    r"""Unique ID to PATCH"""
+    r"""The <code>id</code> of the Routing table that contains the Route to update. The supported value is <code>default</code>."""
 
     routes: Annotated[
         Routes, FieldMetadata(request=RequestMetadata(media_type="application/json"))

@@ -10,14 +10,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class GetPipelineByIDRequestTypedDict(TypedDict):
     id: str
-    r"""Unique ID to GET"""
+    r"""The <code>id</code> of the Pipeline to get."""
 
 
 class GetPipelineByIDRequest(BaseModel):
     id: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""Unique ID to GET"""
+    r"""The <code>id</code> of the Pipeline to get."""
 
 
 class GetPipelineByIDResponseTypedDict(TypedDict):

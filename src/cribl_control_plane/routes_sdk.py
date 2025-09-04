@@ -20,9 +20,9 @@ class RoutesSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.ListRoutesResponse:
-        r"""Get a list of Routes objects
+        r"""List all Routes
 
-        Get a list of Routes objects
+        Get a list of all Routes.
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -100,9 +100,9 @@ class RoutesSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.ListRoutesResponse:
-        r"""Get a list of Routes objects
+        r"""List all Routes
 
-        Get a list of Routes objects
+        Get a list of all Routes.
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -181,11 +181,11 @@ class RoutesSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetRoutesByIDResponse:
-        r"""Get Routes by ID
+        r"""Get a Routing table
 
-        Get Routes by ID
+        Get the specified Routing table.
 
-        :param id: Unique ID to GET
+        :param id: The <code>id</code> of the Routing table to get. The supported value is <code>default</code>.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -268,11 +268,11 @@ class RoutesSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetRoutesByIDResponse:
-        r"""Get Routes by ID
+        r"""Get a Routing table
 
-        Get Routes by ID
+        Get the specified Routing table.
 
-        :param id: Unique ID to GET
+        :param id: The <code>id</code> of the Routing table to get. The supported value is <code>default</code>.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -365,11 +365,11 @@ class RoutesSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.UpdateRoutesByIDResponse:
-        r"""Update Routes
+        r"""Update a Route
 
-        Update Routes
+        Update a Route in the specified Routing table.</br></br>Provide a complete representation of the Routing table, including the Route that you want to update, in the request body. This endpoint does not support partial updates. Cribl removes any omitted Routes and fields when updating.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the Routing table might not function as expected.
 
-        :param id_param: Unique ID to PATCH
+        :param id_param: The <code>id</code> of the Routing table that contains the Route to update. The supported value is <code>default</code>.
         :param routes: Pipeline routing rules
         :param id: Routes ID
         :param groups:
@@ -479,11 +479,11 @@ class RoutesSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.UpdateRoutesByIDResponse:
-        r"""Update Routes
+        r"""Update a Route
 
-        Update Routes
+        Update a Route in the specified Routing table.</br></br>Provide a complete representation of the Routing table, including the Route that you want to update, in the request body. This endpoint does not support partial updates. Cribl removes any omitted Routes and fields when updating.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the Routing table might not function as expected.
 
-        :param id_param: Unique ID to PATCH
+        :param id_param: The <code>id</code> of the Routing table that contains the Route to update. The supported value is <code>default</code>.
         :param routes: Pipeline routing rules
         :param id: Routes ID
         :param groups:
@@ -584,11 +584,11 @@ class RoutesSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreateRoutesAppendByIDResponse:
-        r"""Append Routes to the end of the Routing table
+        r"""Append a Route to the end of the Routing table
 
-        Appends routes to the end of the routing table
+        Append a Route to the end of the specified Routing table.</br></br>Provide a complete representation of the Routing table, including the Route that you want to append, in the request body. Cribl removes any omitted Routes and fields in the Routing table when appending the Route.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the Routing table might not function as expected.
 
-        :param id: the route table to be appended to - currently default is the only supported value
+        :param id: The <code>id</code> of the Routing table to append the Route to. The supported value is <code>default</code>.
         :param request_body: RouteDefinitions object
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -679,11 +679,11 @@ class RoutesSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreateRoutesAppendByIDResponse:
-        r"""Append Routes to the end of the Routing table
+        r"""Append a Route to the end of the Routing table
 
-        Appends routes to the end of the routing table
+        Append a Route to the end of the specified Routing table.</br></br>Provide a complete representation of the Routing table, including the Route that you want to append, in the request body. Cribl removes any omitted Routes and fields in the Routing table when appending the Route.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the Routing table might not function as expected.
 
-        :param id: the route table to be appended to - currently default is the only supported value
+        :param id: The <code>id</code> of the Routing table to append the Route to. The supported value is <code>default</code>.
         :param request_body: RouteDefinitions object
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method

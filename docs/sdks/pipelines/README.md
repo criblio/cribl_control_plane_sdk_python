@@ -9,13 +9,13 @@ Actions related to Pipelines
 
 * [list](#list) - List all Pipelines
 * [create](#create) - Create a Pipeline
-* [get](#get) - Retrieve a Pipeline
+* [get](#get) - Get a Pipeline
 * [update](#update) - Update a Pipeline
 * [delete](#delete) - Delete a Pipeline
 
 ## list
 
-List all Pipelines
+Get a list of all Pipelines.
 
 ### Example Usage
 
@@ -58,7 +58,7 @@ with CriblControlPlane(
 
 ## create
 
-Create a Pipeline
+Create a new Pipeline.
 
 ### Example Usage
 
@@ -126,7 +126,7 @@ with CriblControlPlane(
 
 ## get
 
-Retrieve a Pipeline
+Get the specified Pipeline.
 
 ### Example Usage
 
@@ -154,7 +154,7 @@ with CriblControlPlane(
 
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | Unique ID to GET                                                    |
+| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Pipeline to get.                         |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
@@ -170,7 +170,7 @@ with CriblControlPlane(
 
 ## update
 
-Update a Pipeline
+Update the specified Pipeline.</br></br>Provide a complete representation of the Pipeline that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Pipeline.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Pipeline might not function as expected.
 
 ### Example Usage
 
@@ -221,7 +221,7 @@ with CriblControlPlane(
 
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `id_param`                                                          | *str*                                                               | :heavy_check_mark:                                                  | Unique ID to PATCH                                                  |
+| `id_param`                                                          | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Pipeline to update.                      |
 | `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | N/A                                                                 |
 | `conf`                                                              | [models.Conf](../../models/conf.md)                                 | :heavy_check_mark:                                                  | N/A                                                                 |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
@@ -239,7 +239,7 @@ with CriblControlPlane(
 
 ## delete
 
-Delete a Pipeline
+Delete the specified Pipeline.
 
 ### Example Usage
 
@@ -267,7 +267,7 @@ with CriblControlPlane(
 
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | Unique ID to DELETE                                                 |
+| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Pipeline to delete.                      |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response

@@ -227,7 +227,7 @@ class OutputGoogleChronicleTypedDict(TypedDict):
     log_text_field: NotRequired[str]
     r"""Name of the event field that contains the log text to send. If not specified, Stream sends a JSON representation of the whole event."""
     customer_id: NotRequired[str]
-    r"""Unique identifier (UUID) corresponding to a particular SecOps instance. Provided by your SecOps representative."""
+    r"""A unique identifier (UUID) for your Google SecOps instance. This is provided by your Google representative and is required for API V2 authentication."""
     namespace: NotRequired[str]
     r"""User-configured environment namespace to identify the data domain the logs originated from. Use namespace as a tag to identify the appropriate data domain for indexing and enrichment functionality. Can be overwritten by event field __namespace."""
     custom_labels: NotRequired[List[CustomLabelTypedDict]]
@@ -388,7 +388,7 @@ class OutputGoogleChronicle(BaseModel):
     r"""Name of the event field that contains the log text to send. If not specified, Stream sends a JSON representation of the whole event."""
 
     customer_id: Annotated[Optional[str], pydantic.Field(alias="customerId")] = None
-    r"""Unique identifier (UUID) corresponding to a particular SecOps instance. Provided by your SecOps representative."""
+    r"""A unique identifier (UUID) for your Google SecOps instance. This is provided by your Google representative and is required for API V2 authentication."""
 
     namespace: Optional[str] = None
     r"""User-configured environment namespace to identify the data domain the logs originated from. Use namespace as a tag to identify the appropriate data domain for indexing and enrichment functionality. Can be overwritten by event field __namespace."""

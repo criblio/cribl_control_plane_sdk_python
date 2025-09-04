@@ -11,9 +11,9 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class UpdatePipelineByIDRequestTypedDict(TypedDict):
     id_param: str
-    r"""Unique ID to PATCH"""
+    r"""The <code>id</code> of the Pipeline to update."""
     pipeline: PipelineTypedDict
-    r"""Pipeline object to be updated"""
+    r"""Pipeline object"""
 
 
 class UpdatePipelineByIDRequest(BaseModel):
@@ -22,16 +22,16 @@ class UpdatePipelineByIDRequest(BaseModel):
         pydantic.Field(alias="id"),
         FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
     ]
-    r"""Unique ID to PATCH"""
+    r"""The <code>id</code> of the Pipeline to update."""
 
     pipeline: Annotated[
         Pipeline, FieldMetadata(request=RequestMetadata(media_type="application/json"))
     ]
-    r"""Pipeline object to be updated"""
+    r"""Pipeline object"""
 
 
 class UpdatePipelineByIDResponseTypedDict(TypedDict):
-    r"""a list of any objects"""
+    r"""a list of Pipeline objects"""
 
     count: NotRequired[int]
     r"""number of items present in the items array"""
@@ -39,7 +39,7 @@ class UpdatePipelineByIDResponseTypedDict(TypedDict):
 
 
 class UpdatePipelineByIDResponse(BaseModel):
-    r"""a list of any objects"""
+    r"""a list of Pipeline objects"""
 
     count: Optional[int] = None
     r"""number of items present in the items array"""

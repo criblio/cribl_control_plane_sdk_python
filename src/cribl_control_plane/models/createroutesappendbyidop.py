@@ -11,7 +11,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class CreateRoutesAppendByIDRequestTypedDict(TypedDict):
     id: str
-    r"""the route table to be appended to - currently default is the only supported value"""
+    r"""The <code>id</code> of the Routing table to append the Route to. The supported value is <code>default</code>."""
     request_body: List[RouteConfTypedDict]
     r"""RouteDefinitions object"""
 
@@ -20,7 +20,7 @@ class CreateRoutesAppendByIDRequest(BaseModel):
     id: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""the route table to be appended to - currently default is the only supported value"""
+    r"""The <code>id</code> of the Routing table to append the Route to. The supported value is <code>default</code>."""
 
     request_body: Annotated[
         List[RouteConf],

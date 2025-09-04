@@ -367,16 +367,16 @@ with CriblControlPlane(
 
 * [list](docs/sdks/pipelines/README.md#list) - List all Pipelines
 * [create](docs/sdks/pipelines/README.md#create) - Create a Pipeline
-* [get](docs/sdks/pipelines/README.md#get) - Retrieve a Pipeline
+* [get](docs/sdks/pipelines/README.md#get) - Get a Pipeline
 * [update](docs/sdks/pipelines/README.md#update) - Update a Pipeline
 * [delete](docs/sdks/pipelines/README.md#delete) - Delete a Pipeline
 
 ### [routes](docs/sdks/routessdk/README.md)
 
-* [list](docs/sdks/routessdk/README.md#list) - Get a list of Routes objects
-* [get](docs/sdks/routessdk/README.md#get) - Get Routes by ID
-* [update](docs/sdks/routessdk/README.md#update) - Update Routes
-* [append](docs/sdks/routessdk/README.md#append) - Append Routes to the end of the Routing table
+* [list](docs/sdks/routessdk/README.md#list) - List all Routes
+* [get](docs/sdks/routessdk/README.md#get) - Get a Routing table
+* [update](docs/sdks/routessdk/README.md#update) - Update a Route
+* [append](docs/sdks/routessdk/README.md#append) - Append a Route to the end of the Routing table
 
 ### [sources](docs/sdks/sources/README.md)
 

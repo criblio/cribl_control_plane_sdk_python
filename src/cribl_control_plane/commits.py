@@ -779,7 +779,7 @@ class Commits(BaseSDK):
         Revert a commit in the local repository.
 
         :param commit:
-        :param group_id: Group ID
+        :param group_id: The <code>id</code> of the Worker Group or Edge Fleet to revert the commit for. Required in Distributed deployments. Omit in Single-instance deployments.
         :param force:
         :param message:
         :param retries: Override the default retry configuration for this method
@@ -880,7 +880,7 @@ class Commits(BaseSDK):
         Revert a commit in the local repository.
 
         :param commit:
-        :param group_id: Group ID
+        :param group_id: The <code>id</code> of the Worker Group or Edge Fleet to revert the commit for. Required in Distributed deployments. Omit in Single-instance deployments.
         :param force:
         :param message:
         :param retries: Override the default retry configuration for this method

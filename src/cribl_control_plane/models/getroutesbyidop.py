@@ -10,14 +10,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class GetRoutesByIDRequestTypedDict(TypedDict):
     id: str
-    r"""Unique ID to GET"""
+    r"""The <code>id</code> of the Routing table to get. The supported value is <code>default</code>."""
 
 
 class GetRoutesByIDRequest(BaseModel):
     id: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""Unique ID to GET"""
+    r"""The <code>id</code> of the Routing table to get. The supported value is <code>default</code>."""
 
 
 class GetRoutesByIDResponseTypedDict(TypedDict):

@@ -37,6 +37,14 @@ class InputSyslogCompression2(str, Enum):
     GZIP = "gzip"
 
 
+class InputSyslogPqControls2TypedDict(TypedDict):
+    pass
+
+
+class InputSyslogPqControls2(BaseModel):
+    pass
+
+
 class InputSyslogPq2TypedDict(TypedDict):
     mode: NotRequired[InputSyslogMode2]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
@@ -52,6 +60,7 @@ class InputSyslogPq2TypedDict(TypedDict):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
     compress: NotRequired[InputSyslogCompression2]
     r"""Codec to use to compress the persisted data"""
+    pq_controls: NotRequired[InputSyslogPqControls2TypedDict]
 
 
 class InputSyslogPq2(BaseModel):
@@ -81,6 +90,10 @@ class InputSyslogPq2(BaseModel):
 
     compress: Optional[InputSyslogCompression2] = InputSyslogCompression2.NONE
     r"""Codec to use to compress the persisted data"""
+
+    pq_controls: Annotated[
+        Optional[InputSyslogPqControls2], pydantic.Field(alias="pqControls")
+    ] = None
 
 
 class InputSyslogMinimumTLSVersion2(str, Enum):
@@ -395,6 +408,14 @@ class InputSyslogCompression1(str, Enum):
     GZIP = "gzip"
 
 
+class InputSyslogPqControls1TypedDict(TypedDict):
+    pass
+
+
+class InputSyslogPqControls1(BaseModel):
+    pass
+
+
 class InputSyslogPq1TypedDict(TypedDict):
     mode: NotRequired[InputSyslogMode1]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
@@ -410,6 +431,7 @@ class InputSyslogPq1TypedDict(TypedDict):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
     compress: NotRequired[InputSyslogCompression1]
     r"""Codec to use to compress the persisted data"""
+    pq_controls: NotRequired[InputSyslogPqControls1TypedDict]
 
 
 class InputSyslogPq1(BaseModel):
@@ -439,6 +461,10 @@ class InputSyslogPq1(BaseModel):
 
     compress: Optional[InputSyslogCompression1] = InputSyslogCompression1.NONE
     r"""Codec to use to compress the persisted data"""
+
+    pq_controls: Annotated[
+        Optional[InputSyslogPqControls1], pydantic.Field(alias="pqControls")
+    ] = None
 
 
 class InputSyslogMinimumTLSVersion1(str, Enum):

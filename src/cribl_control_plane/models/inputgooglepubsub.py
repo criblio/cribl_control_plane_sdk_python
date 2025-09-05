@@ -37,6 +37,14 @@ class InputGooglePubsubCompression(str, Enum):
     GZIP = "gzip"
 
 
+class InputGooglePubsubPqControlsTypedDict(TypedDict):
+    pass
+
+
+class InputGooglePubsubPqControls(BaseModel):
+    pass
+
+
 class InputGooglePubsubPqTypedDict(TypedDict):
     mode: NotRequired[InputGooglePubsubMode]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
@@ -52,6 +60,7 @@ class InputGooglePubsubPqTypedDict(TypedDict):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
     compress: NotRequired[InputGooglePubsubCompression]
     r"""Codec to use to compress the persisted data"""
+    pq_controls: NotRequired[InputGooglePubsubPqControlsTypedDict]
 
 
 class InputGooglePubsubPq(BaseModel):
@@ -81,6 +90,10 @@ class InputGooglePubsubPq(BaseModel):
 
     compress: Optional[InputGooglePubsubCompression] = InputGooglePubsubCompression.NONE
     r"""Codec to use to compress the persisted data"""
+
+    pq_controls: Annotated[
+        Optional[InputGooglePubsubPqControls], pydantic.Field(alias="pqControls")
+    ] = None
 
 
 class InputGooglePubsubGoogleAuthenticationMethod(str, Enum):

@@ -37,6 +37,14 @@ class InputGrafanaCompression2(str, Enum):
     GZIP = "gzip"
 
 
+class InputGrafanaPqControls2TypedDict(TypedDict):
+    pass
+
+
+class InputGrafanaPqControls2(BaseModel):
+    pass
+
+
 class InputGrafanaPq2TypedDict(TypedDict):
     mode: NotRequired[InputGrafanaMode2]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
@@ -52,6 +60,7 @@ class InputGrafanaPq2TypedDict(TypedDict):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
     compress: NotRequired[InputGrafanaCompression2]
     r"""Codec to use to compress the persisted data"""
+    pq_controls: NotRequired[InputGrafanaPqControls2TypedDict]
 
 
 class InputGrafanaPq2(BaseModel):
@@ -81,6 +90,10 @@ class InputGrafanaPq2(BaseModel):
 
     compress: Optional[InputGrafanaCompression2] = InputGrafanaCompression2.NONE
     r"""Codec to use to compress the persisted data"""
+
+    pq_controls: Annotated[
+        Optional[InputGrafanaPqControls2], pydantic.Field(alias="pqControls")
+    ] = None
 
 
 class InputGrafanaMinimumTLSVersion2(str, Enum):
@@ -477,8 +490,6 @@ class InputGrafanaGrafana2TypedDict(TypedDict):
     r"""Absolute path on which to listen for Grafana Agent's Remote Write requests. Defaults to /api/prom/push, which will expand as: 'http://<your‑upstream‑URL>:<your‑port>/api/prom/push'. Either this field or 'Logs API endpoint' must be configured."""
     loki_api: NotRequired[str]
     r"""Absolute path on which to listen for Loki logs requests. Defaults to /loki/api/v1/push, which will (in this example) expand as: 'http://<your‑upstream‑URL>:<your‑port>/loki/api/v1/push'. Either this field or 'Remote Write API endpoint' must be configured."""
-    extract_structured_metadata: NotRequired[bool]
-    r"""Extract structured metadata from the Loki 3.5.3+ format and place it in the __structuredMetadata field. When disabled, uses legacy Loki parsing for backward compatibility."""
     prometheus_auth: NotRequired[InputGrafanaPrometheusAuth2TypedDict]
     loki_auth: NotRequired[InputGrafanaLokiAuth2TypedDict]
     metadata: NotRequired[List[InputGrafanaMetadatum2TypedDict]]
@@ -589,11 +600,6 @@ class InputGrafanaGrafana2(BaseModel):
     )
     r"""Absolute path on which to listen for Loki logs requests. Defaults to /loki/api/v1/push, which will (in this example) expand as: 'http://<your‑upstream‑URL>:<your‑port>/loki/api/v1/push'. Either this field or 'Remote Write API endpoint' must be configured."""
 
-    extract_structured_metadata: Annotated[
-        Optional[bool], pydantic.Field(alias="extractStructuredMetadata")
-    ] = False
-    r"""Extract structured metadata from the Loki 3.5.3+ format and place it in the __structuredMetadata field. When disabled, uses legacy Loki parsing for backward compatibility."""
-
     prometheus_auth: Annotated[
         Optional[InputGrafanaPrometheusAuth2], pydantic.Field(alias="prometheusAuth")
     ] = None
@@ -637,6 +643,14 @@ class InputGrafanaCompression1(str, Enum):
     GZIP = "gzip"
 
 
+class InputGrafanaPqControls1TypedDict(TypedDict):
+    pass
+
+
+class InputGrafanaPqControls1(BaseModel):
+    pass
+
+
 class InputGrafanaPq1TypedDict(TypedDict):
     mode: NotRequired[InputGrafanaMode1]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
@@ -652,6 +666,7 @@ class InputGrafanaPq1TypedDict(TypedDict):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
     compress: NotRequired[InputGrafanaCompression1]
     r"""Codec to use to compress the persisted data"""
+    pq_controls: NotRequired[InputGrafanaPqControls1TypedDict]
 
 
 class InputGrafanaPq1(BaseModel):
@@ -681,6 +696,10 @@ class InputGrafanaPq1(BaseModel):
 
     compress: Optional[InputGrafanaCompression1] = InputGrafanaCompression1.NONE
     r"""Codec to use to compress the persisted data"""
+
+    pq_controls: Annotated[
+        Optional[InputGrafanaPqControls1], pydantic.Field(alias="pqControls")
+    ] = None
 
 
 class InputGrafanaMinimumTLSVersion1(str, Enum):
@@ -1077,8 +1096,6 @@ class InputGrafanaGrafana1TypedDict(TypedDict):
     r"""Absolute path on which to listen for Grafana Agent's Remote Write requests. Defaults to /api/prom/push, which will expand as: 'http://<your‑upstream‑URL>:<your‑port>/api/prom/push'. Either this field or 'Logs API endpoint' must be configured."""
     loki_api: NotRequired[str]
     r"""Absolute path on which to listen for Loki logs requests. Defaults to /loki/api/v1/push, which will (in this example) expand as: 'http://<your‑upstream‑URL>:<your‑port>/loki/api/v1/push'. Either this field or 'Remote Write API endpoint' must be configured."""
-    extract_structured_metadata: NotRequired[bool]
-    r"""Extract structured metadata from the Loki 3.5.3+ format and place it in the __structuredMetadata field. When disabled, uses legacy Loki parsing for backward compatibility."""
     prometheus_auth: NotRequired[InputGrafanaPrometheusAuth1TypedDict]
     loki_auth: NotRequired[InputGrafanaLokiAuth1TypedDict]
     metadata: NotRequired[List[InputGrafanaMetadatum1TypedDict]]
@@ -1188,11 +1205,6 @@ class InputGrafanaGrafana1(BaseModel):
         "/loki/api/v1/push"
     )
     r"""Absolute path on which to listen for Loki logs requests. Defaults to /loki/api/v1/push, which will (in this example) expand as: 'http://<your‑upstream‑URL>:<your‑port>/loki/api/v1/push'. Either this field or 'Remote Write API endpoint' must be configured."""
-
-    extract_structured_metadata: Annotated[
-        Optional[bool], pydantic.Field(alias="extractStructuredMetadata")
-    ] = False
-    r"""Extract structured metadata from the Loki 3.5.3+ format and place it in the __structuredMetadata field. When disabled, uses legacy Loki parsing for backward compatibility."""
 
     prometheus_auth: Annotated[
         Optional[InputGrafanaPrometheusAuth1], pydantic.Field(alias="prometheusAuth")

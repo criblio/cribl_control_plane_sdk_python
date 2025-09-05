@@ -37,6 +37,14 @@ class InputZscalerHecCompression(str, Enum):
     GZIP = "gzip"
 
 
+class InputZscalerHecPqControlsTypedDict(TypedDict):
+    pass
+
+
+class InputZscalerHecPqControls(BaseModel):
+    pass
+
+
 class InputZscalerHecPqTypedDict(TypedDict):
     mode: NotRequired[InputZscalerHecMode]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
@@ -52,6 +60,7 @@ class InputZscalerHecPqTypedDict(TypedDict):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
     compress: NotRequired[InputZscalerHecCompression]
     r"""Codec to use to compress the persisted data"""
+    pq_controls: NotRequired[InputZscalerHecPqControlsTypedDict]
 
 
 class InputZscalerHecPq(BaseModel):
@@ -81,6 +90,10 @@ class InputZscalerHecPq(BaseModel):
 
     compress: Optional[InputZscalerHecCompression] = InputZscalerHecCompression.NONE
     r"""Codec to use to compress the persisted data"""
+
+    pq_controls: Annotated[
+        Optional[InputZscalerHecPqControls], pydantic.Field(alias="pqControls")
+    ] = None
 
 
 class InputZscalerHecAuthenticationMethod(str, Enum):

@@ -37,6 +37,14 @@ class InputSecurityLakeCompression(str, Enum):
     GZIP = "gzip"
 
 
+class InputSecurityLakePqControlsTypedDict(TypedDict):
+    pass
+
+
+class InputSecurityLakePqControls(BaseModel):
+    pass
+
+
 class InputSecurityLakePqTypedDict(TypedDict):
     mode: NotRequired[InputSecurityLakeMode]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
@@ -52,6 +60,7 @@ class InputSecurityLakePqTypedDict(TypedDict):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
     compress: NotRequired[InputSecurityLakeCompression]
     r"""Codec to use to compress the persisted data"""
+    pq_controls: NotRequired[InputSecurityLakePqControlsTypedDict]
 
 
 class InputSecurityLakePq(BaseModel):
@@ -81,6 +90,10 @@ class InputSecurityLakePq(BaseModel):
 
     compress: Optional[InputSecurityLakeCompression] = InputSecurityLakeCompression.NONE
     r"""Codec to use to compress the persisted data"""
+
+    pq_controls: Annotated[
+        Optional[InputSecurityLakePqControls], pydantic.Field(alias="pqControls")
+    ] = None
 
 
 class InputSecurityLakeAuthenticationMethod(str, Enum):

@@ -37,6 +37,14 @@ class InputCriblHTTPCompression(str, Enum):
     GZIP = "gzip"
 
 
+class InputCriblHTTPPqControlsTypedDict(TypedDict):
+    pass
+
+
+class InputCriblHTTPPqControls(BaseModel):
+    pass
+
+
 class InputCriblHTTPPqTypedDict(TypedDict):
     mode: NotRequired[InputCriblHTTPMode]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
@@ -52,6 +60,7 @@ class InputCriblHTTPPqTypedDict(TypedDict):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
     compress: NotRequired[InputCriblHTTPCompression]
     r"""Codec to use to compress the persisted data"""
+    pq_controls: NotRequired[InputCriblHTTPPqControlsTypedDict]
 
 
 class InputCriblHTTPPq(BaseModel):
@@ -81,6 +90,10 @@ class InputCriblHTTPPq(BaseModel):
 
     compress: Optional[InputCriblHTTPCompression] = InputCriblHTTPCompression.NONE
     r"""Codec to use to compress the persisted data"""
+
+    pq_controls: Annotated[
+        Optional[InputCriblHTTPPqControls], pydantic.Field(alias="pqControls")
+    ] = None
 
 
 class InputCriblHTTPMinimumTLSVersion(str, Enum):

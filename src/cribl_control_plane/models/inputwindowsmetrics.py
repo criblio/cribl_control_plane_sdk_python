@@ -37,6 +37,14 @@ class InputWindowsMetricsCompression(str, Enum):
     GZIP = "gzip"
 
 
+class InputWindowsMetricsPqControlsTypedDict(TypedDict):
+    pass
+
+
+class InputWindowsMetricsPqControls(BaseModel):
+    pass
+
+
 class InputWindowsMetricsPqTypedDict(TypedDict):
     mode: NotRequired[InputWindowsMetricsPqMode]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
@@ -52,6 +60,7 @@ class InputWindowsMetricsPqTypedDict(TypedDict):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
     compress: NotRequired[InputWindowsMetricsCompression]
     r"""Codec to use to compress the persisted data"""
+    pq_controls: NotRequired[InputWindowsMetricsPqControlsTypedDict]
 
 
 class InputWindowsMetricsPq(BaseModel):
@@ -83,6 +92,10 @@ class InputWindowsMetricsPq(BaseModel):
         InputWindowsMetricsCompression.NONE
     )
     r"""Codec to use to compress the persisted data"""
+
+    pq_controls: Annotated[
+        Optional[InputWindowsMetricsPqControls], pydantic.Field(alias="pqControls")
+    ] = None
 
 
 class InputWindowsMetricsHostMode(str, Enum):

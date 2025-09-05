@@ -37,6 +37,14 @@ class InputSplunkPqCompression(str, Enum):
     GZIP = "gzip"
 
 
+class InputSplunkPqControlsTypedDict(TypedDict):
+    pass
+
+
+class InputSplunkPqControls(BaseModel):
+    pass
+
+
 class InputSplunkPqTypedDict(TypedDict):
     mode: NotRequired[InputSplunkMode]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
@@ -52,6 +60,7 @@ class InputSplunkPqTypedDict(TypedDict):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
     compress: NotRequired[InputSplunkPqCompression]
     r"""Codec to use to compress the persisted data"""
+    pq_controls: NotRequired[InputSplunkPqControlsTypedDict]
 
 
 class InputSplunkPq(BaseModel):
@@ -81,6 +90,10 @@ class InputSplunkPq(BaseModel):
 
     compress: Optional[InputSplunkPqCompression] = InputSplunkPqCompression.NONE
     r"""Codec to use to compress the persisted data"""
+
+    pq_controls: Annotated[
+        Optional[InputSplunkPqControls], pydantic.Field(alias="pqControls")
+    ] = None
 
 
 class InputSplunkMinimumTLSVersion(str, Enum):

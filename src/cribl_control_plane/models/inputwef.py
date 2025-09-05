@@ -37,6 +37,14 @@ class InputWefCompression(str, Enum):
     GZIP = "gzip"
 
 
+class InputWefPqControlsTypedDict(TypedDict):
+    pass
+
+
+class InputWefPqControls(BaseModel):
+    pass
+
+
 class InputWefPqTypedDict(TypedDict):
     mode: NotRequired[InputWefMode]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
@@ -52,6 +60,7 @@ class InputWefPqTypedDict(TypedDict):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
     compress: NotRequired[InputWefCompression]
     r"""Codec to use to compress the persisted data"""
+    pq_controls: NotRequired[InputWefPqControlsTypedDict]
 
 
 class InputWefPq(BaseModel):
@@ -81,6 +90,10 @@ class InputWefPq(BaseModel):
 
     compress: Optional[InputWefCompression] = InputWefCompression.NONE
     r"""Codec to use to compress the persisted data"""
+
+    pq_controls: Annotated[
+        Optional[InputWefPqControls], pydantic.Field(alias="pqControls")
+    ] = None
 
 
 class InputWefAuthenticationMethod(str, Enum):

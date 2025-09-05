@@ -37,6 +37,14 @@ class InputCriblmetricsCompression(str, Enum):
     GZIP = "gzip"
 
 
+class InputCriblmetricsPqControlsTypedDict(TypedDict):
+    pass
+
+
+class InputCriblmetricsPqControls(BaseModel):
+    pass
+
+
 class InputCriblmetricsPqTypedDict(TypedDict):
     mode: NotRequired[InputCriblmetricsMode]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
@@ -52,6 +60,7 @@ class InputCriblmetricsPqTypedDict(TypedDict):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
     compress: NotRequired[InputCriblmetricsCompression]
     r"""Codec to use to compress the persisted data"""
+    pq_controls: NotRequired[InputCriblmetricsPqControlsTypedDict]
 
 
 class InputCriblmetricsPq(BaseModel):
@@ -81,6 +90,10 @@ class InputCriblmetricsPq(BaseModel):
 
     compress: Optional[InputCriblmetricsCompression] = InputCriblmetricsCompression.NONE
     r"""Codec to use to compress the persisted data"""
+
+    pq_controls: Annotated[
+        Optional[InputCriblmetricsPqControls], pydantic.Field(alias="pqControls")
+    ] = None
 
 
 class InputCriblmetricsMetadatumTypedDict(TypedDict):

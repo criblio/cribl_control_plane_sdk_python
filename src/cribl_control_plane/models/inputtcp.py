@@ -37,6 +37,14 @@ class InputTCPCompression(str, Enum):
     GZIP = "gzip"
 
 
+class InputTCPPqControlsTypedDict(TypedDict):
+    pass
+
+
+class InputTCPPqControls(BaseModel):
+    pass
+
+
 class InputTCPPqTypedDict(TypedDict):
     mode: NotRequired[InputTCPMode]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
@@ -52,6 +60,7 @@ class InputTCPPqTypedDict(TypedDict):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
     compress: NotRequired[InputTCPCompression]
     r"""Codec to use to compress the persisted data"""
+    pq_controls: NotRequired[InputTCPPqControlsTypedDict]
 
 
 class InputTCPPq(BaseModel):
@@ -81,6 +90,10 @@ class InputTCPPq(BaseModel):
 
     compress: Optional[InputTCPCompression] = InputTCPCompression.NONE
     r"""Codec to use to compress the persisted data"""
+
+    pq_controls: Annotated[
+        Optional[InputTCPPqControls], pydantic.Field(alias="pqControls")
+    ] = None
 
 
 class InputTCPMinimumTLSVersion(str, Enum):

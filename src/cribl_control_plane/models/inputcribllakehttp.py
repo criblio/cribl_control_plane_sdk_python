@@ -37,6 +37,14 @@ class InputCriblLakeHTTPCompression(str, Enum):
     GZIP = "gzip"
 
 
+class InputCriblLakeHTTPPqControlsTypedDict(TypedDict):
+    pass
+
+
+class InputCriblLakeHTTPPqControls(BaseModel):
+    pass
+
+
 class InputCriblLakeHTTPPqTypedDict(TypedDict):
     mode: NotRequired[InputCriblLakeHTTPMode]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
@@ -52,6 +60,7 @@ class InputCriblLakeHTTPPqTypedDict(TypedDict):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
     compress: NotRequired[InputCriblLakeHTTPCompression]
     r"""Codec to use to compress the persisted data"""
+    pq_controls: NotRequired[InputCriblLakeHTTPPqControlsTypedDict]
 
 
 class InputCriblLakeHTTPPq(BaseModel):
@@ -83,6 +92,10 @@ class InputCriblLakeHTTPPq(BaseModel):
         InputCriblLakeHTTPCompression.NONE
     )
     r"""Codec to use to compress the persisted data"""
+
+    pq_controls: Annotated[
+        Optional[InputCriblLakeHTTPPqControls], pydantic.Field(alias="pqControls")
+    ] = None
 
 
 class InputCriblLakeHTTPMinimumTLSVersion(str, Enum):
@@ -187,12 +200,29 @@ class InputCriblLakeHTTPAuthTokensExtMetadatum(BaseModel):
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
+class SplunkHecMetadataTypedDict(TypedDict):
+    enabled: NotRequired[bool]
+
+
+class SplunkHecMetadata(BaseModel):
+    enabled: Optional[bool] = None
+
+
+class ElasticsearchMetadataTypedDict(TypedDict):
+    enabled: NotRequired[bool]
+
+
+class ElasticsearchMetadata(BaseModel):
+    enabled: Optional[bool] = None
+
+
 class InputCriblLakeHTTPAuthTokensExtTypedDict(TypedDict):
     token: str
     description: NotRequired[str]
     metadata: NotRequired[List[InputCriblLakeHTTPAuthTokensExtMetadatumTypedDict]]
     r"""Fields to add to events referencing this token"""
-    enable_splunk_hec: NotRequired[bool]
+    splunk_hec_metadata: NotRequired[SplunkHecMetadataTypedDict]
+    elasticsearch_metadata: NotRequired[ElasticsearchMetadataTypedDict]
 
 
 class InputCriblLakeHTTPAuthTokensExt(BaseModel):
@@ -203,9 +233,13 @@ class InputCriblLakeHTTPAuthTokensExt(BaseModel):
     metadata: Optional[List[InputCriblLakeHTTPAuthTokensExtMetadatum]] = None
     r"""Fields to add to events referencing this token"""
 
-    enable_splunk_hec: Annotated[
-        Optional[bool], pydantic.Field(alias="enableSplunkHec")
-    ] = False
+    splunk_hec_metadata: Annotated[
+        Optional[SplunkHecMetadata], pydantic.Field(alias="splunkHecMetadata")
+    ] = None
+
+    elasticsearch_metadata: Annotated[
+        Optional[ElasticsearchMetadata], pydantic.Field(alias="elasticsearchMetadata")
+    ] = None
 
 
 class InputCriblLakeHTTPTypedDict(TypedDict):

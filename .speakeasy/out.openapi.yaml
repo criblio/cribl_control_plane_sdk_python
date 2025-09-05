@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.14.0-alpha.1757000684650-0bcbd7ed
+  version: 4.14.0-alpha.1757087755104-f460003f
   contact:
     name: Support
     email: support@cribl.io
@@ -454,6 +454,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         breakerRulesets:
           type: array
           title: Event Breaker rulesets
@@ -621,6 +623,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         brokers:
           type: array
           title: Bootstrap servers
@@ -1085,6 +1089,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         brokers:
           type: array
           title: Bootstrap servers
@@ -1594,6 +1600,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         host:
           type: string
           title: Address
@@ -1904,6 +1912,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         host:
           type: string
           title: Address
@@ -2189,6 +2199,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         searchHead:
           title: Search head
           type: string
@@ -2617,6 +2629,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         host:
           type: string
           title: Address
@@ -2977,6 +2991,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         queueName:
           type: string
           title: Queue
@@ -3223,6 +3239,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         host:
           type: string
           title: Address
@@ -3593,6 +3611,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         brokers:
           type: array
           title: Bootstrap servers
@@ -4055,6 +4075,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         host:
           type: string
           title: Address
@@ -4190,11 +4212,6 @@ components:
           description: "Absolute path on which to listen for Loki logs requests. Defaults to /loki/api/v1/push, which will (in this example) expand as: 'http://<your‑upstream‑URL>:<your‑port>/loki/api/v1/push'. Either this field or 'Remote Write API endpoint' must be configured."
           default: /loki/api/v1/push
           pattern: ^/
-        extractStructuredMetadata:
-          type: boolean
-          title: Enable structured metadata
-          description: Extract structured metadata from the Loki 3.5.3+ format and place it in the __structuredMetadata field. When disabled, uses legacy Loki parsing for backward compatibility.
-          default: false
         prometheusAuth:
           type: object
           properties:
@@ -4523,6 +4540,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         host:
           type: string
           title: Address
@@ -4652,11 +4671,6 @@ components:
           description: "Absolute path on which to listen for Loki logs requests. Defaults to /loki/api/v1/push, which will (in this example) expand as: 'http://<your‑upstream‑URL>:<your‑port>/loki/api/v1/push'."
           default: /loki/api/v1/push
           pattern: ^/
-        extractStructuredMetadata:
-          type: boolean
-          title: Enable structured metadata
-          description: Extract structured metadata from the Loki 3.5.3+ format and place it in the __structuredMetadata field. When disabled, uses legacy Loki parsing for backward compatibility.
-          default: false
         authType:
           type: string
           title: Authentication type
@@ -4879,6 +4893,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         host:
           type: string
           title: Address
@@ -5229,6 +5245,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         dimensionList:
           type: array
           title: Extra Dimensions
@@ -5575,6 +5593,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         dimensionList:
           type: array
           title: Extra Dimensions
@@ -5990,6 +6010,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         planType:
           type: string
           title: Subscription plan
@@ -6317,6 +6339,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         planType:
           type: string
           title: Subscription plan
@@ -6618,6 +6642,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         url:
           title: Report URL
           type: string
@@ -6965,6 +6991,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         brokers:
           type: array
           title: Brokers
@@ -7274,6 +7302,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         command:
           type: string
           title: Command
@@ -7442,6 +7472,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         host:
           type: string
           title: Address
@@ -7697,6 +7729,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         topicName:
           type: string
           title: Topic ID
@@ -7888,6 +7922,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         filter:
           type: string
         metadata:
@@ -8018,6 +8054,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         host:
           type: string
           title: Address
@@ -8239,6 +8277,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         host:
           type: string
           title: Address
@@ -8494,6 +8534,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         host:
           type: string
           title: Address
@@ -8692,9 +8734,16 @@ components:
                       type: string
                       title: Value
                       description: JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
-              enableSplunkHec:
-                type: boolean
-                default: false
+              splunkHecMetadata:
+                type: object
+                properties:
+                  enabled:
+                    type: boolean
+              elasticsearchMetadata:
+                type: object
+                properties:
+                  enabled:
+                    type: boolean
         description:
           type: string
           title: Description
@@ -8804,6 +8853,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         host:
           type: string
           title: Address
@@ -9043,6 +9094,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         interval:
           type: number
           default: 10
@@ -9440,6 +9493,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         interval:
           type: number
           default: 300
@@ -9714,6 +9769,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         interval:
           type: number
           default: 15
@@ -9902,6 +9959,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         interval:
           type: number
           default: 15
@@ -10109,6 +10168,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         rules:
           type: array
           title: Filter Rules
@@ -10251,6 +10312,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         interval:
           type: number
           default: 10
@@ -10587,6 +10650,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         queueName:
           type: string
           title: Queue
@@ -10908,6 +10973,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         host:
           type: string
           title: Address
@@ -11176,6 +11243,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         samples:
           title: Datagens
           type: array
@@ -11321,6 +11390,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         host:
           type: string
           title: Address
@@ -11640,6 +11711,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         streamName:
           type: string
           title: Stream name
@@ -11894,6 +11967,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         prefix:
           type: string
           title: Metric name prefix
@@ -12031,6 +12106,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         host:
           type: string
           title: Address
@@ -12244,6 +12321,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         queueName:
           type: string
           title: Queue
@@ -12579,6 +12658,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         queueName:
           type: string
           title: Queue
@@ -12926,6 +13007,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         host:
           type: string
           title: Address
@@ -13136,6 +13219,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         host:
           type: string
           title: Address
@@ -13505,6 +13590,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         host:
           type: string
           title: Address
@@ -13701,6 +13788,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         queueName:
           type: string
           title: Queue
@@ -13942,6 +14031,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         host:
           type: string
           title: Address
@@ -14228,6 +14319,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         mode:
           type: string
           enum:
@@ -14445,6 +14538,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         host:
           type: string
           title: Address
@@ -14709,6 +14804,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         ipWhitelistRegex:
           type: string
           title: IP allowlist regex
@@ -15041,6 +15138,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         host:
           type: string
           title: Address
@@ -15427,6 +15526,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         logNames:
           type: array
           title: Event logs
@@ -15604,6 +15705,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         host:
           type: string
           title: Address
@@ -15766,6 +15869,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         path:
           type: string
           title: Search path
@@ -15941,6 +16046,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         endpoint:
           type: string
           title: GraphQL endpoint
@@ -16655,6 +16762,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         host:
           type: string
           title: Address
@@ -16976,6 +17085,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         host:
           type: string
           title: Address
@@ -17155,6 +17266,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         queueName:
           type: string
           title: Queue
@@ -17491,6 +17604,8 @@ components:
                 - gzip
               title: Compression
               description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
         host:
           type: string
           title: Address
@@ -29816,11 +29931,6 @@ components:
           default: []
           items:
             type: string
-        sendStructuredMetadata:
-          type: boolean
-          title: Send structured metadata
-          description: Add structured metadata fields from __structuredMetadata to each log. Key-value pairs must be strings.
-          default: false
         responseRetrySettings:
           type: array
           title: Settings for failed HTTP requests
@@ -30195,11 +30305,6 @@ components:
           type: boolean
           title: Enable dynamic headers
           description: Add per-event HTTP headers from the __headers field to outgoing requests. Events with different headers are batched and sent separately.
-          default: false
-        sendStructuredMetadata:
-          type: boolean
-          title: Send structured metadata
-          description: Add structured metadata fields from __structuredMetadata to each log. Key-value pairs must be strings.
           default: false
         onBackpressure:
           type: string

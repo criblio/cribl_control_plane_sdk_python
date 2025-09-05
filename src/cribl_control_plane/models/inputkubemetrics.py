@@ -37,6 +37,14 @@ class InputKubeMetricsCompression(str, Enum):
     GZIP = "gzip"
 
 
+class InputKubeMetricsPqControlsTypedDict(TypedDict):
+    pass
+
+
+class InputKubeMetricsPqControls(BaseModel):
+    pass
+
+
 class InputKubeMetricsPqTypedDict(TypedDict):
     mode: NotRequired[InputKubeMetricsMode]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
@@ -52,6 +60,7 @@ class InputKubeMetricsPqTypedDict(TypedDict):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
     compress: NotRequired[InputKubeMetricsCompression]
     r"""Codec to use to compress the persisted data"""
+    pq_controls: NotRequired[InputKubeMetricsPqControlsTypedDict]
 
 
 class InputKubeMetricsPq(BaseModel):
@@ -81,6 +90,10 @@ class InputKubeMetricsPq(BaseModel):
 
     compress: Optional[InputKubeMetricsCompression] = InputKubeMetricsCompression.NONE
     r"""Codec to use to compress the persisted data"""
+
+    pq_controls: Annotated[
+        Optional[InputKubeMetricsPqControls], pydantic.Field(alias="pqControls")
+    ] = None
 
 
 class InputKubeMetricsRuleTypedDict(TypedDict):

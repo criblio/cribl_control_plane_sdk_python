@@ -37,6 +37,14 @@ class InputCrowdstrikeCompression(str, Enum):
     GZIP = "gzip"
 
 
+class InputCrowdstrikePqControlsTypedDict(TypedDict):
+    pass
+
+
+class InputCrowdstrikePqControls(BaseModel):
+    pass
+
+
 class InputCrowdstrikePqTypedDict(TypedDict):
     mode: NotRequired[InputCrowdstrikeMode]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
@@ -52,6 +60,7 @@ class InputCrowdstrikePqTypedDict(TypedDict):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
     compress: NotRequired[InputCrowdstrikeCompression]
     r"""Codec to use to compress the persisted data"""
+    pq_controls: NotRequired[InputCrowdstrikePqControlsTypedDict]
 
 
 class InputCrowdstrikePq(BaseModel):
@@ -81,6 +90,10 @@ class InputCrowdstrikePq(BaseModel):
 
     compress: Optional[InputCrowdstrikeCompression] = InputCrowdstrikeCompression.NONE
     r"""Codec to use to compress the persisted data"""
+
+    pq_controls: Annotated[
+        Optional[InputCrowdstrikePqControls], pydantic.Field(alias="pqControls")
+    ] = None
 
 
 class InputCrowdstrikeAuthenticationMethod(str, Enum):

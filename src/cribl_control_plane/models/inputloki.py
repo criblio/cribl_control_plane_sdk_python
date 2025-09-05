@@ -37,6 +37,14 @@ class InputLokiCompression(str, Enum):
     GZIP = "gzip"
 
 
+class InputLokiPqControlsTypedDict(TypedDict):
+    pass
+
+
+class InputLokiPqControls(BaseModel):
+    pass
+
+
 class InputLokiPqTypedDict(TypedDict):
     mode: NotRequired[InputLokiMode]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
@@ -52,6 +60,7 @@ class InputLokiPqTypedDict(TypedDict):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
     compress: NotRequired[InputLokiCompression]
     r"""Codec to use to compress the persisted data"""
+    pq_controls: NotRequired[InputLokiPqControlsTypedDict]
 
 
 class InputLokiPq(BaseModel):
@@ -81,6 +90,10 @@ class InputLokiPq(BaseModel):
 
     compress: Optional[InputLokiCompression] = InputLokiCompression.NONE
     r"""Codec to use to compress the persisted data"""
+
+    pq_controls: Annotated[
+        Optional[InputLokiPqControls], pydantic.Field(alias="pqControls")
+    ] = None
 
 
 class InputLokiMinimumTLSVersion(str, Enum):
@@ -258,8 +271,6 @@ class InputLokiTypedDict(TypedDict):
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
     loki_api: NotRequired[str]
     r"""Absolute path on which to listen for Loki logs requests. Defaults to /loki/api/v1/push, which will (in this example) expand as: 'http://<your‑upstream‑URL>:<your‑port>/loki/api/v1/push'."""
-    extract_structured_metadata: NotRequired[bool]
-    r"""Extract structured metadata from the Loki 3.5.3+ format and place it in the __structuredMetadata field. When disabled, uses legacy Loki parsing for backward compatibility."""
     auth_type: NotRequired[InputLokiAuthenticationType]
     r"""Loki logs authentication type"""
     metadata: NotRequired[List[InputLokiMetadatumTypedDict]]
@@ -388,11 +399,6 @@ class InputLoki(BaseModel):
         "/loki/api/v1/push"
     )
     r"""Absolute path on which to listen for Loki logs requests. Defaults to /loki/api/v1/push, which will (in this example) expand as: 'http://<your‑upstream‑URL>:<your‑port>/loki/api/v1/push'."""
-
-    extract_structured_metadata: Annotated[
-        Optional[bool], pydantic.Field(alias="extractStructuredMetadata")
-    ] = False
-    r"""Extract structured metadata from the Loki 3.5.3+ format and place it in the __structuredMetadata field. When disabled, uses legacy Loki parsing for backward compatibility."""
 
     auth_type: Annotated[
         Optional[InputLokiAuthenticationType], pydantic.Field(alias="authType")

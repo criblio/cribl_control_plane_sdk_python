@@ -102,6 +102,7 @@ with CriblControlPlane(
             "max_size": "5GB",
             "path": "$CRIBL_HOME/state/queues",
             "compress": models.InputTCPCompression.NONE,
+            "pq_controls": {},
         },
         "host": "0.0.0.0",
         "port": 301.76,
@@ -260,6 +261,7 @@ with CriblControlPlane(
             "max_size": "5GB",
             "path": "$CRIBL_HOME/state/queues",
             "compress": models.InputKubeEventsCompression.NONE,
+            "pq_controls": {},
         },
         "rules": [
             {

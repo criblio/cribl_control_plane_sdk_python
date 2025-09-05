@@ -37,6 +37,14 @@ class InputSnmpCompression(str, Enum):
     GZIP = "gzip"
 
 
+class InputSnmpPqControlsTypedDict(TypedDict):
+    pass
+
+
+class InputSnmpPqControls(BaseModel):
+    pass
+
+
 class InputSnmpPqTypedDict(TypedDict):
     mode: NotRequired[InputSnmpMode]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
@@ -52,6 +60,7 @@ class InputSnmpPqTypedDict(TypedDict):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
     compress: NotRequired[InputSnmpCompression]
     r"""Codec to use to compress the persisted data"""
+    pq_controls: NotRequired[InputSnmpPqControlsTypedDict]
 
 
 class InputSnmpPq(BaseModel):
@@ -81,6 +90,10 @@ class InputSnmpPq(BaseModel):
 
     compress: Optional[InputSnmpCompression] = InputSnmpCompression.NONE
     r"""Codec to use to compress the persisted data"""
+
+    pq_controls: Annotated[
+        Optional[InputSnmpPqControls], pydantic.Field(alias="pqControls")
+    ] = None
 
 
 class AuthenticationProtocol(str, Enum):

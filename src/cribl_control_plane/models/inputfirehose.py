@@ -37,6 +37,14 @@ class InputFirehoseCompression(str, Enum):
     GZIP = "gzip"
 
 
+class InputFirehosePqControlsTypedDict(TypedDict):
+    pass
+
+
+class InputFirehosePqControls(BaseModel):
+    pass
+
+
 class InputFirehosePqTypedDict(TypedDict):
     mode: NotRequired[InputFirehoseMode]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
@@ -52,6 +60,7 @@ class InputFirehosePqTypedDict(TypedDict):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
     compress: NotRequired[InputFirehoseCompression]
     r"""Codec to use to compress the persisted data"""
+    pq_controls: NotRequired[InputFirehosePqControlsTypedDict]
 
 
 class InputFirehosePq(BaseModel):
@@ -81,6 +90,10 @@ class InputFirehosePq(BaseModel):
 
     compress: Optional[InputFirehoseCompression] = InputFirehoseCompression.NONE
     r"""Codec to use to compress the persisted data"""
+
+    pq_controls: Annotated[
+        Optional[InputFirehosePqControls], pydantic.Field(alias="pqControls")
+    ] = None
 
 
 class InputFirehoseMinimumTLSVersion(str, Enum):

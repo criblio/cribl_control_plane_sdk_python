@@ -37,6 +37,14 @@ class InputRawUDPCompression(str, Enum):
     GZIP = "gzip"
 
 
+class InputRawUDPPqControlsTypedDict(TypedDict):
+    pass
+
+
+class InputRawUDPPqControls(BaseModel):
+    pass
+
+
 class InputRawUDPPqTypedDict(TypedDict):
     mode: NotRequired[InputRawUDPMode]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
@@ -52,6 +60,7 @@ class InputRawUDPPqTypedDict(TypedDict):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
     compress: NotRequired[InputRawUDPCompression]
     r"""Codec to use to compress the persisted data"""
+    pq_controls: NotRequired[InputRawUDPPqControlsTypedDict]
 
 
 class InputRawUDPPq(BaseModel):
@@ -81,6 +90,10 @@ class InputRawUDPPq(BaseModel):
 
     compress: Optional[InputRawUDPCompression] = InputRawUDPCompression.NONE
     r"""Codec to use to compress the persisted data"""
+
+    pq_controls: Annotated[
+        Optional[InputRawUDPPqControls], pydantic.Field(alias="pqControls")
+    ] = None
 
 
 class InputRawUDPMetadatumTypedDict(TypedDict):

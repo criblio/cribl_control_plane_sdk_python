@@ -37,6 +37,14 @@ class InputNetflowCompression(str, Enum):
     GZIP = "gzip"
 
 
+class InputNetflowPqControlsTypedDict(TypedDict):
+    pass
+
+
+class InputNetflowPqControls(BaseModel):
+    pass
+
+
 class InputNetflowPqTypedDict(TypedDict):
     mode: NotRequired[InputNetflowMode]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
@@ -52,6 +60,7 @@ class InputNetflowPqTypedDict(TypedDict):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
     compress: NotRequired[InputNetflowCompression]
     r"""Codec to use to compress the persisted data"""
+    pq_controls: NotRequired[InputNetflowPqControlsTypedDict]
 
 
 class InputNetflowPq(BaseModel):
@@ -81,6 +90,10 @@ class InputNetflowPq(BaseModel):
 
     compress: Optional[InputNetflowCompression] = InputNetflowCompression.NONE
     r"""Codec to use to compress the persisted data"""
+
+    pq_controls: Annotated[
+        Optional[InputNetflowPqControls], pydantic.Field(alias="pqControls")
+    ] = None
 
 
 class InputNetflowMetadatumTypedDict(TypedDict):

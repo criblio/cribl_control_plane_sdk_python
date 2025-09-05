@@ -37,6 +37,14 @@ class InputS3Compression(str, Enum):
     GZIP = "gzip"
 
 
+class InputS3PqControlsTypedDict(TypedDict):
+    pass
+
+
+class InputS3PqControls(BaseModel):
+    pass
+
+
 class InputS3PqTypedDict(TypedDict):
     mode: NotRequired[InputS3Mode]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
@@ -52,6 +60,7 @@ class InputS3PqTypedDict(TypedDict):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
     compress: NotRequired[InputS3Compression]
     r"""Codec to use to compress the persisted data"""
+    pq_controls: NotRequired[InputS3PqControlsTypedDict]
 
 
 class InputS3Pq(BaseModel):
@@ -81,6 +90,10 @@ class InputS3Pq(BaseModel):
 
     compress: Optional[InputS3Compression] = InputS3Compression.NONE
     r"""Codec to use to compress the persisted data"""
+
+    pq_controls: Annotated[
+        Optional[InputS3PqControls], pydantic.Field(alias="pqControls")
+    ] = None
 
 
 class InputS3AuthenticationMethod(str, Enum):

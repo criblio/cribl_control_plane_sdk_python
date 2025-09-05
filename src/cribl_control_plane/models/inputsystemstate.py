@@ -37,6 +37,14 @@ class InputSystemStateCompression(str, Enum):
     GZIP = "gzip"
 
 
+class InputSystemStatePqControlsTypedDict(TypedDict):
+    pass
+
+
+class InputSystemStatePqControls(BaseModel):
+    pass
+
+
 class InputSystemStatePqTypedDict(TypedDict):
     mode: NotRequired[InputSystemStateMode]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
@@ -52,6 +60,7 @@ class InputSystemStatePqTypedDict(TypedDict):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
     compress: NotRequired[InputSystemStateCompression]
     r"""Codec to use to compress the persisted data"""
+    pq_controls: NotRequired[InputSystemStatePqControlsTypedDict]
 
 
 class InputSystemStatePq(BaseModel):
@@ -81,6 +90,10 @@ class InputSystemStatePq(BaseModel):
 
     compress: Optional[InputSystemStateCompression] = InputSystemStateCompression.NONE
     r"""Codec to use to compress the persisted data"""
+
+    pq_controls: Annotated[
+        Optional[InputSystemStatePqControls], pydantic.Field(alias="pqControls")
+    ] = None
 
 
 class InputSystemStateMetadatumTypedDict(TypedDict):

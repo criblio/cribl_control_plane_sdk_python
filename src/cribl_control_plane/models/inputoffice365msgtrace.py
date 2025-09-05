@@ -37,6 +37,14 @@ class InputOffice365MsgTraceCompression(str, Enum):
     GZIP = "gzip"
 
 
+class InputOffice365MsgTracePqControlsTypedDict(TypedDict):
+    pass
+
+
+class InputOffice365MsgTracePqControls(BaseModel):
+    pass
+
+
 class InputOffice365MsgTracePqTypedDict(TypedDict):
     mode: NotRequired[InputOffice365MsgTraceMode]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
@@ -52,6 +60,7 @@ class InputOffice365MsgTracePqTypedDict(TypedDict):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
     compress: NotRequired[InputOffice365MsgTraceCompression]
     r"""Codec to use to compress the persisted data"""
+    pq_controls: NotRequired[InputOffice365MsgTracePqControlsTypedDict]
 
 
 class InputOffice365MsgTracePq(BaseModel):
@@ -83,6 +92,10 @@ class InputOffice365MsgTracePq(BaseModel):
         InputOffice365MsgTraceCompression.NONE
     )
     r"""Codec to use to compress the persisted data"""
+
+    pq_controls: Annotated[
+        Optional[InputOffice365MsgTracePqControls], pydantic.Field(alias="pqControls")
+    ] = None
 
 
 class InputOffice365MsgTraceAuthenticationMethod(str, Enum):

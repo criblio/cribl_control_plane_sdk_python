@@ -37,6 +37,14 @@ class InputFileCompression(str, Enum):
     GZIP = "gzip"
 
 
+class InputFilePqControlsTypedDict(TypedDict):
+    pass
+
+
+class InputFilePqControls(BaseModel):
+    pass
+
+
 class InputFilePqTypedDict(TypedDict):
     mode: NotRequired[InputFilePqMode]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
@@ -52,6 +60,7 @@ class InputFilePqTypedDict(TypedDict):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
     compress: NotRequired[InputFileCompression]
     r"""Codec to use to compress the persisted data"""
+    pq_controls: NotRequired[InputFilePqControlsTypedDict]
 
 
 class InputFilePq(BaseModel):
@@ -81,6 +90,10 @@ class InputFilePq(BaseModel):
 
     compress: Optional[InputFileCompression] = InputFileCompression.NONE
     r"""Codec to use to compress the persisted data"""
+
+    pq_controls: Annotated[
+        Optional[InputFilePqControls], pydantic.Field(alias="pqControls")
+    ] = None
 
 
 class InputFileMode(str, Enum):

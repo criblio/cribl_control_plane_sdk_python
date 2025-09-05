@@ -37,6 +37,14 @@ class InputSplunkHecCompression(str, Enum):
     GZIP = "gzip"
 
 
+class InputSplunkHecPqControlsTypedDict(TypedDict):
+    pass
+
+
+class InputSplunkHecPqControls(BaseModel):
+    pass
+
+
 class InputSplunkHecPqTypedDict(TypedDict):
     mode: NotRequired[InputSplunkHecMode]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
@@ -52,6 +60,7 @@ class InputSplunkHecPqTypedDict(TypedDict):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
     compress: NotRequired[InputSplunkHecCompression]
     r"""Codec to use to compress the persisted data"""
+    pq_controls: NotRequired[InputSplunkHecPqControlsTypedDict]
 
 
 class InputSplunkHecPq(BaseModel):
@@ -81,6 +90,10 @@ class InputSplunkHecPq(BaseModel):
 
     compress: Optional[InputSplunkHecCompression] = InputSplunkHecCompression.NONE
     r"""Codec to use to compress the persisted data"""
+
+    pq_controls: Annotated[
+        Optional[InputSplunkHecPqControls], pydantic.Field(alias="pqControls")
+    ] = None
 
 
 class InputSplunkHecAuthenticationMethod(str, Enum):

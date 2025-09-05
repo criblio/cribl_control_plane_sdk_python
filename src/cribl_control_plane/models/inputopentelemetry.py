@@ -37,6 +37,14 @@ class InputOpenTelemetryCompression(str, Enum):
     GZIP = "gzip"
 
 
+class InputOpenTelemetryPqControlsTypedDict(TypedDict):
+    pass
+
+
+class InputOpenTelemetryPqControls(BaseModel):
+    pass
+
+
 class InputOpenTelemetryPqTypedDict(TypedDict):
     mode: NotRequired[InputOpenTelemetryMode]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
@@ -52,6 +60,7 @@ class InputOpenTelemetryPqTypedDict(TypedDict):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
     compress: NotRequired[InputOpenTelemetryCompression]
     r"""Codec to use to compress the persisted data"""
+    pq_controls: NotRequired[InputOpenTelemetryPqControlsTypedDict]
 
 
 class InputOpenTelemetryPq(BaseModel):
@@ -83,6 +92,10 @@ class InputOpenTelemetryPq(BaseModel):
         InputOpenTelemetryCompression.NONE
     )
     r"""Codec to use to compress the persisted data"""
+
+    pq_controls: Annotated[
+        Optional[InputOpenTelemetryPqControls], pydantic.Field(alias="pqControls")
+    ] = None
 
 
 class InputOpenTelemetryMinimumTLSVersion(str, Enum):

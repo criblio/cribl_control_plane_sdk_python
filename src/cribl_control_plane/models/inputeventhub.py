@@ -37,6 +37,14 @@ class InputEventhubCompression(str, Enum):
     GZIP = "gzip"
 
 
+class InputEventhubPqControlsTypedDict(TypedDict):
+    pass
+
+
+class InputEventhubPqControls(BaseModel):
+    pass
+
+
 class InputEventhubPqTypedDict(TypedDict):
     mode: NotRequired[InputEventhubMode]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
@@ -52,6 +60,7 @@ class InputEventhubPqTypedDict(TypedDict):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
     compress: NotRequired[InputEventhubCompression]
     r"""Codec to use to compress the persisted data"""
+    pq_controls: NotRequired[InputEventhubPqControlsTypedDict]
 
 
 class InputEventhubPq(BaseModel):
@@ -81,6 +90,10 @@ class InputEventhubPq(BaseModel):
 
     compress: Optional[InputEventhubCompression] = InputEventhubCompression.NONE
     r"""Codec to use to compress the persisted data"""
+
+    pq_controls: Annotated[
+        Optional[InputEventhubPqControls], pydantic.Field(alias="pqControls")
+    ] = None
 
 
 class InputEventhubSASLMechanism(str, Enum):

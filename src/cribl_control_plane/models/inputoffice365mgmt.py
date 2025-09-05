@@ -37,6 +37,14 @@ class InputOffice365MgmtCompression(str, Enum):
     GZIP = "gzip"
 
 
+class InputOffice365MgmtPqControlsTypedDict(TypedDict):
+    pass
+
+
+class InputOffice365MgmtPqControls(BaseModel):
+    pass
+
+
 class InputOffice365MgmtPqTypedDict(TypedDict):
     mode: NotRequired[InputOffice365MgmtMode]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
@@ -52,6 +60,7 @@ class InputOffice365MgmtPqTypedDict(TypedDict):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
     compress: NotRequired[InputOffice365MgmtCompression]
     r"""Codec to use to compress the persisted data"""
+    pq_controls: NotRequired[InputOffice365MgmtPqControlsTypedDict]
 
 
 class InputOffice365MgmtPq(BaseModel):
@@ -83,6 +92,10 @@ class InputOffice365MgmtPq(BaseModel):
         InputOffice365MgmtCompression.NONE
     )
     r"""Codec to use to compress the persisted data"""
+
+    pq_controls: Annotated[
+        Optional[InputOffice365MgmtPqControls], pydantic.Field(alias="pqControls")
+    ] = None
 
 
 class InputOffice365MgmtSubscriptionPlan(str, Enum):

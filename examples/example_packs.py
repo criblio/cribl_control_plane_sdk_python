@@ -2,25 +2,27 @@
 Cribl Packs Integration Example
 
 This example demonstrates how to install and configure a Cribl Pack using the 
-Control Plane SDK. It installs the Palo Alto Networks pack from GitHub and 
-creates a complete data pipeline within the pack:
+Control Plane SDK. It installs the Palo Alto Networks Pack from GitHub and 
+creates a complete data pipeline within the Pack.
 
-1. Installs the Palo Alto Networks pack from a remote URL
-2. Creates a TCP JSON source to receive data on port 9020
-3. Creates an Amazon S3 destination for data storage
-4. Creates a pipeline that filters events to keep only the "name" field
-5. Creates a route connecting the source to the pipeline and destination
+1. Install the Palo Alto Networks Pack from a remote URL.
+2. Create a TCP JSON Source to receive data on port 9020.
+3. Create an Amazon S3 Destination for data storage.
+4. Create a Pipeline that filters events and keeps only data in the "name" 
+field.
+5. Create a Route that connects the Source to the Pipeline and Destination.
 
-Data flow: TCP JSON Source → Route → Pipeline → S3 Destination
+Data flow: TCP JSON Source → Route → Pipeline → Amazon S3 Destination
 
-Note: This example creates resources within the pack but does not commit
-or deploy the configuration to a worker group.
+NOTE: This example creates resources within the Pack but does not commit
+or deploy the configuration to a Worker Group.
 
 Prerequisites: 
-- Configure your .env file with appropriate credentials
-- Create a worker group with the configured WORKER_GROUP_ID
-- Update AWS S3 configuration values (AWS_API_KEY, AWS_SECRET_KEY, AWS_BUCKET_NAME, AWS_REGION)
-"""
+- An .env file that is configured with your credentials.
+- A Worker Group whose ID matches the configured WORKER_GROUP_ID value.
+- Your AWS S3 values for AWS_API_KEY, AWS_SECRET_KEY, AWS_BUCKET_NAME, and 
+AWS_REGION.
+ """
 
 import asyncio
 from cribl_control_plane.models import (
@@ -47,12 +49,11 @@ PACK_URL = "https://github.com/criblpacks/cribl-palo-alto-networks/releases/down
 PACK_ID = "cribl-palo-alto-networks"
 
 
-# TCP JSON source configuration
+# TCP JSON Source configuration
 AUTH_TOKEN = "4a4b3663-7a57-7369-7632-795553573668"
 PORT = 9020
 
-# Amazon S3 destination configuration
-# [ UPDATE THESE VALUES ]
+# Amazon S3 Destination configuration: Replace the placeholder values
 AWS_API_KEY = "your-aws-api-key"  # Replace with your AWS Access Key ID
 AWS_SECRET_KEY = "your-aws-secret-key"  # Replace with your AWS Secret Access Key
 AWS_BUCKET_NAME = "your-aws-bucket-name"  # Replace with your S3 bucket name
@@ -61,7 +62,7 @@ AWS_REGION = "us-east-2"  # Replace with your S3 bucket region
 group_url = f"{base_url}/m/{WORKER_GROUP_ID}"
 pack_url = f"{group_url}/p/{PACK_ID}"
 
-# TCP JSON source configuration
+# TCP JSON Source configuration
 tcp_json_source = InputTcpjson(
     id="my-tcp-json",
     type=InputTcpjsonType.TCPJSON,
@@ -70,7 +71,7 @@ tcp_json_source = InputTcpjson(
     auth_token=AUTH_TOKEN
 )
 
-# Amazon S3 destination configuration
+# Amazon S3 Destination configuration
 s3_destination = OutputS3(
     id="my-s3-destination",
     type=OutputS3Type.S3,
@@ -83,7 +84,7 @@ s3_destination = OutputS3(
     empty_dir_cleanup_sec=300
 )
 
-# Pipeline configuration: filters events to keep only the "name" field
+# Pipeline configuration: filter events and keep only data in the "name" field
 pipeline = Pipeline(
     id="my-pipeline",
     conf=Conf(
@@ -102,7 +103,7 @@ pipeline = Pipeline(
     )
 )
 
-# Route configuration: routes data from the source to the pipeline and destination
+# Route configuration: route data from the Source to the Pipeline and Destination
 route = RoutesRoute(
     final=False,
     id="my-route",
@@ -110,14 +111,14 @@ route = RoutesRoute(
     pipeline=pipeline.id,
     output=s3_destination.id,
     filter_="__inputId=='tcpjson:my-tcp-json'",
-    description="This is my new route"
+    description="This is my new Route"
 )
 
 
 async def main():
     cribl = await create_cribl_client()
 
-    # Install pack from URL
+    # Install Pack from URL
     cribl.packs.install(
         request={
             "source": PACK_URL,
@@ -125,40 +126,40 @@ async def main():
         },
         server_url=group_url
     )
-    print(f"✅ Installed pack \"{PACK_ID}\" from: {PACK_URL}")
+    print(f"✅ Installed Pack \"{PACK_ID}\" from: {PACK_URL}")
 
-    # Create TCP JSON source in pack
+    # Create TCP JSON Source in Pack
     cribl.sources.create(
         request=tcp_json_source,
         server_url=pack_url
     )
-    print(f"✅ Created tcp json source: {tcp_json_source.id} in pack: \"{PACK_ID}\"")
+    print(f"✅ Created TCP JSON Source: {tcp_json_source.id} in Pack: \"{PACK_ID}\"")
 
-    # Create s3 destination in pack
+    # Create Amazon S3 Destination in Pack
     cribl.destinations.create(
         request=s3_destination,
         server_url=pack_url
     )
-    print(f"✅ Created s3 destination: {s3_destination.id} in pack: \"{PACK_ID}\"")
+    print(f"✅ Created Amazon S3 Destination: {s3_destination.id} in Pack: \"{PACK_ID}\"")
 
-    # Create pipeline in pack
+    # Create Pipeline in Pack
     cribl.pipelines.create(
         id=pipeline.id,
         conf=pipeline.conf,
         server_url=pack_url
     )
-    print(f"✅ Created pipeline: {pipeline.id} in pack: \"{PACK_ID}\"")
+    print(f"✅ Created Pipeline: {pipeline.id} in Pack: \"{PACK_ID}\"")
 
-    # Add route to routing table in pack
+    # Add Route to Routing table in Pack
     routes_list_response = cribl.routes.list(
         server_url=pack_url
     )
     if not routes_list_response.items or len(routes_list_response.items) == 0:
-        raise Exception("No routes found")
+        raise Exception("No Routes found")
     
     routes = routes_list_response.items[0]
     if not routes or not routes.id:
-        raise Exception("No routes found")
+        raise Exception("No Routes found")
     
     routes.routes = [route] + (routes.routes or [])
     cribl.routes.update(
@@ -167,8 +168,8 @@ async def main():
         routes=routes.routes,
         server_url=pack_url
     )
-    print(f"✅ Route inserted: {route.id} in pack: {PACK_ID}")
-    print("ℹ️ This example does not commit / deploy the configuration to the worker group.")
+    print(f"✅ Added Route: {route.id} in Pack: {PACK_ID}")
+    print("ℹ️ This example does not commit or deploy the configuration to the Worker Group.")
 
 
 if __name__ == "__main__":

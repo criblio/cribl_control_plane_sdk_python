@@ -1,6 +1,6 @@
 # cribl-control-plane Examples
 
-This directory contains example scripts demonstrating how to use the cribl-control-plane Python SDK.
+This directory contains example scripts that demonstrate how to use the cribl_control_plane SDK.
 
 ## Prerequisites
 
@@ -25,11 +25,11 @@ This directory contains example scripts demonstrating how to use the cribl-contr
    cp env_template .env
    ```
 
-4. Edit `.env` and add your actual credentials (API keys, tokens, etc.)
+4. Open `.env`, replace the placeholder values with your credentials, and save.
 
-## Running the Examples
+## Run the Examples
 
-To run an example file from the examples directory:
+To run an example file from the `examples` directory:
 
 ```bash
 python example_onprem_auth.py
@@ -38,7 +38,7 @@ python example_onprem_auth.py
 ## Configuration
 
 Each example can be configured by either:
-1. Using a `.env` file (recommended for examples that support both cloud and on-premises)
+1. Using a `.env` file (recommended for examples that support both cloud and on-prem)
 2. Editing the configuration variables directly in the example files (for simple examples)
 
 ### Environment Variables
@@ -50,8 +50,8 @@ For cloud deployments:
 - `CLIENT_SECRET` - Your OAuth2 client secret
 - `WORKSPACE_NAME` - Your workspace name
 
-For on-premises deployments:
+For on-prem deployments:
 - `DEPLOYMENT_ENV=onprem`
-- `ONPREM_SERVER_URL` - Your on-premises server URL
+- `ONPREM_SERVER_URL` - Your on-prem server URL
 - `ONPREM_USERNAME` - Your username
 - `ONPREM_PASSWORD` - Your password

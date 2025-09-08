@@ -1,24 +1,28 @@
 """
 Cribl Stream Configuration Example
 
-This example demonstrates how to programmatically create and configure a complete
-data pipeline in Cribl Stream using the Control Plane SDK. It creates:
+This example demonstrates how to programmatically create and configure a 
+complete data pipeline in Cribl Stream using the Control Plane SDK.
 
-1. A worker group to manage the configuration
-2. A TCP JSON source to receive data on port 9020
-3. A filesystem destination to output processed data
-4. A pipeline that filters events to keep only the "name" field
-5. A route that connects the source to the pipeline and destination
-6. Deploys the configuration to the worker group to make it active
+This example creates:
 
-Data flow: TCP JSON Source → Route → Pipeline → File Destination
+1. A Worker Group to manage the configuration.
+2. A TCP JSON source to receive data on port 9020.
+3. A Filesystem Destination to store processed data.
+4. A Pipeline that filters events and keeps only data in the "name" 
+field.
+5. A Route that connects the Source to the Pipeline and Destination.
 
-The example includes proper error handling, checks for existing resources,
-and automatically deploys the configuration to make it active.
+This example also deploys the configuration to the Worker Group to make it 
+active.
+
+Data flow: TCP JSON Source → Route → Pipeline → Filesystem Destination
+
+The example includes error handling and checks for existing resources.
 
 Prerequisites:
-- Configure your .env file
-- Requires Enterprise License on the server
+- An .env file that is configured with your credentials.
+- An Enterprise License on the server.
 """
 
 import asyncio
@@ -48,6 +52,7 @@ my_worker_group = ConfigGroup(
     on_prem=True
 )
 
+# TCP JSON Source configuration
 tcp_json_source = InputTcpjson(
     id="my-tcp-json",
     type=InputTcpjsonType.TCPJSON,
@@ -56,13 +61,14 @@ tcp_json_source = InputTcpjson(
     auth_token=AUTH_TOKEN
 )
 
+# Filesystem Destination configuration
 file_system_destination = OutputFilesystem(
     id="my-fs-destination",
     type=OutputFilesystemType.FILESYSTEM,
     dest_path="/tmp/my-output"
 )
 
-# Pipeline configuration: filters events to keep only the "name" field
+# Pipeline configuration: filter events and keep only data in the "name" field
 pipeline = Pipeline(
     id="my-pipeline",
     conf=Conf(
@@ -81,6 +87,7 @@ pipeline = Pipeline(
     )
 )
 
+# Route configuration: route data from the Source to the Pipeline and Destination
 route = RoutesRoute(
     final=False,
     id="my-route",
@@ -88,7 +95,7 @@ route = RoutesRoute(
     pipeline=pipeline.id,
     output=file_system_destination.id,
     filter_="__inputId=='tcpjson:my-tcp-json'",
-    description="This is my new route"
+    description="This is my new Route"
 )
 
 group_url = f"{base_url}/m/{my_worker_group.id}"
@@ -98,7 +105,7 @@ async def main():
     # Initialize Cribl client
     cribl = await create_cribl_client()
 
-    # Verify worker group doesn't already exist
+    # Verify that Worker Group doesn't already exist
     worker_group_response = cribl.groups.get(
         id=my_worker_group.id,
         product="stream"
@@ -107,7 +114,7 @@ async def main():
         print(f"⚠️ Worker Group already exists: {my_worker_group.id}. Try different group id.")
         return
 
-    # Create worker group
+    # Create Worker Group
     cribl.groups.create(
         product="stream",
         id=my_worker_group.id,
@@ -116,21 +123,21 @@ async def main():
     )
     print(f"✅ Worker Group created: {my_worker_group.id}")
 
-    # Create TCP JSON source
+    # Create TCP JSON Source
     cribl.sources.create(
         request=tcp_json_source,
         server_url=group_url
     )
     print(f"✅ Tcp Json Source created: {tcp_json_source.id}")
 
-    # Create file destination
+    # Create Filesystem Destination
     cribl.destinations.create(
         request=file_system_destination,
         server_url=group_url
     )
-    print(f"✅ File Destination created: {file_system_destination.id}")
+    print(f"✅ Filesystem Destination created: {file_system_destination.id}")
 
-    # Create pipeline
+    # Create Pipeline
     cribl.pipelines.create(
         id=pipeline.id,
         conf=pipeline.conf,
@@ -138,16 +145,16 @@ async def main():
     )
     print(f"✅ Pipeline created: {pipeline.id}")
 
-    # Add route to routing table
+    # Add Route to Routing table
     routes_list_response = cribl.routes.list(
         server_url=group_url
     )
     if not routes_list_response.items or len(routes_list_response.items) == 0:
-        raise Exception("No routes found")
+        raise Exception("No Routes found")
     
     routes = routes_list_response.items[0]
     if not routes or not routes.id:
-        raise Exception("No routes found")
+        raise Exception("No Routes found")
     
     routes.routes = [route] + (routes.routes or [])
     cribl.routes.update(
@@ -156,7 +163,7 @@ async def main():
         routes=routes.routes,
         server_url=group_url
     )
-    print(f"✅ Route inserted: {route.id}")
+    print(f"✅ Route added: {route.id}")
 
     # Deploy configuration changes
     response = cribl.groups.configs.versions.get(

@@ -336,6 +336,8 @@ class OutputAzureDataExplorerTypedDict(TypedDict):
     pq_mode: NotRequired[OutputAzureDataExplorerMode]
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_controls: NotRequired[OutputAzureDataExplorerPqControlsTypedDict]
+    empty_dir_cleanup_sec: NotRequired[float]
+    r"""How frequently, in seconds, to clean up empty directories"""
 
 
 class OutputAzureDataExplorer(BaseModel):
@@ -611,3 +613,8 @@ class OutputAzureDataExplorer(BaseModel):
     pq_controls: Annotated[
         Optional[OutputAzureDataExplorerPqControls], pydantic.Field(alias="pqControls")
     ] = None
+
+    empty_dir_cleanup_sec: Annotated[
+        Optional[float], pydantic.Field(alias="emptyDirCleanupSec")
+    ] = 300
+    r"""How frequently, in seconds, to clean up empty directories"""

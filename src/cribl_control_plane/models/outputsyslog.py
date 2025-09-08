@@ -186,6 +186,43 @@ class OutputSyslogPqControls(BaseModel):
     pass
 
 
+class OutputSyslogTLS(str, Enum):
+    r"""Whether to inherit TLS configs from group setting or disable TLS"""
+
+    INHERIT = "inherit"
+    OFF = "off"
+
+
+class OutputSyslogHostTypedDict(TypedDict):
+    host: str
+    r"""The hostname of the receiver"""
+    port: NotRequired[float]
+    r"""The port to connect to on the provided host"""
+    tls: NotRequired[OutputSyslogTLS]
+    r"""Whether to inherit TLS configs from group setting or disable TLS"""
+    servername: NotRequired[str]
+    r"""Servername to use if establishing a TLS connection. If not specified, defaults to connection host (if not an IP); otherwise, uses the global TLS settings."""
+    weight: NotRequired[float]
+    r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
+
+
+class OutputSyslogHost(BaseModel):
+    host: str
+    r"""The hostname of the receiver"""
+
+    port: Optional[float] = 9997
+    r"""The port to connect to on the provided host"""
+
+    tls: Optional[OutputSyslogTLS] = OutputSyslogTLS.INHERIT
+    r"""Whether to inherit TLS configs from group setting or disable TLS"""
+
+    servername: Optional[str] = None
+    r"""Servername to use if establishing a TLS connection. If not specified, defaults to connection host (if not an IP); otherwise, uses the global TLS settings."""
+
+    weight: Optional[float] = 1
+    r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
+
+
 class OutputSyslogTypedDict(TypedDict):
     type: OutputSyslogType
     id: NotRequired[str]
@@ -247,6 +284,16 @@ class OutputSyslogTypedDict(TypedDict):
     pq_mode: NotRequired[OutputSyslogMode]
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_controls: NotRequired[OutputSyslogPqControlsTypedDict]
+    dns_resolve_period_sec: NotRequired[float]
+    r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
+    load_balance_stats_period_sec: NotRequired[float]
+    r"""How far back in time to keep traffic stats for load balancing purposes"""
+    max_concurrent_senders: NotRequired[float]
+    r"""Maximum number of concurrent connections (per Worker Process). A random set of IPs will be picked on every DNS resolution period. Use 0 for unlimited."""
+    exclude_self: NotRequired[bool]
+    r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
+    hosts: NotRequired[List[OutputSyslogHostTypedDict]]
+    r"""Set of hosts to load-balance data to."""
 
 
 class OutputSyslog(BaseModel):
@@ -379,3 +426,24 @@ class OutputSyslog(BaseModel):
     pq_controls: Annotated[
         Optional[OutputSyslogPqControls], pydantic.Field(alias="pqControls")
     ] = None
+
+    dns_resolve_period_sec: Annotated[
+        Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
+    ] = 600
+    r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
+
+    load_balance_stats_period_sec: Annotated[
+        Optional[float], pydantic.Field(alias="loadBalanceStatsPeriodSec")
+    ] = 300
+    r"""How far back in time to keep traffic stats for load balancing purposes"""
+
+    max_concurrent_senders: Annotated[
+        Optional[float], pydantic.Field(alias="maxConcurrentSenders")
+    ] = 0
+    r"""Maximum number of concurrent connections (per Worker Process). A random set of IPs will be picked on every DNS resolution period. Use 0 for unlimited."""
+
+    exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = False
+    r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
+
+    hosts: Optional[List[OutputSyslogHost]] = None
+    r"""Set of hosts to load-balance data to."""

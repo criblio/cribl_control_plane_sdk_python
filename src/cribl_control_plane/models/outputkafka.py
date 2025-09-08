@@ -215,6 +215,8 @@ class OutputKafkaAuthenticationTypedDict(TypedDict):
 
     disabled: NotRequired[bool]
     mechanism: NotRequired[OutputKafkaSASLMechanism]
+    oauth_enabled: NotRequired[bool]
+    r"""Enable OAuth authentication"""
 
 
 class OutputKafkaAuthentication(BaseModel):
@@ -223,6 +225,11 @@ class OutputKafkaAuthentication(BaseModel):
     disabled: Optional[bool] = True
 
     mechanism: Optional[OutputKafkaSASLMechanism] = OutputKafkaSASLMechanism.PLAIN
+
+    oauth_enabled: Annotated[Optional[bool], pydantic.Field(alias="oauthEnabled")] = (
+        False
+    )
+    r"""Enable OAuth authentication"""
 
 
 class OutputKafkaMinimumTLSVersion(str, Enum):

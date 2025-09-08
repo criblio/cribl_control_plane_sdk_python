@@ -294,6 +294,8 @@ class OutputConfluentCloudAuthenticationTypedDict(TypedDict):
 
     disabled: NotRequired[bool]
     mechanism: NotRequired[OutputConfluentCloudSASLMechanism]
+    oauth_enabled: NotRequired[bool]
+    r"""Enable OAuth authentication"""
 
 
 class OutputConfluentCloudAuthentication(BaseModel):
@@ -304,6 +306,11 @@ class OutputConfluentCloudAuthentication(BaseModel):
     mechanism: Optional[OutputConfluentCloudSASLMechanism] = (
         OutputConfluentCloudSASLMechanism.PLAIN
     )
+
+    oauth_enabled: Annotated[Optional[bool], pydantic.Field(alias="oauthEnabled")] = (
+        False
+    )
+    r"""Enable OAuth authentication"""
 
 
 class OutputConfluentCloudBackpressureBehavior(str, Enum):

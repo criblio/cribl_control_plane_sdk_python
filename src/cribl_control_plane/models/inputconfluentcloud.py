@@ -341,6 +341,8 @@ class InputConfluentCloudAuthenticationTypedDict(TypedDict):
 
     disabled: NotRequired[bool]
     mechanism: NotRequired[InputConfluentCloudSASLMechanism]
+    oauth_enabled: NotRequired[bool]
+    r"""Enable OAuth authentication"""
 
 
 class InputConfluentCloudAuthentication(BaseModel):
@@ -351,6 +353,11 @@ class InputConfluentCloudAuthentication(BaseModel):
     mechanism: Optional[InputConfluentCloudSASLMechanism] = (
         InputConfluentCloudSASLMechanism.PLAIN
     )
+
+    oauth_enabled: Annotated[Optional[bool], pydantic.Field(alias="oauthEnabled")] = (
+        False
+    )
+    r"""Enable OAuth authentication"""
 
 
 class InputConfluentCloudMetadatumTypedDict(TypedDict):

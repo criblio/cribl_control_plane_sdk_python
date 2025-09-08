@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 5b089dd95e9aa5956eda42479ef9b11e
-  docVersion: 4.14.0-alpha.1757087755104-f460003f
+  docChecksum: 84ba9339d11a81c4e17b314100c51b73
+  docVersion: 4.14.0-alpha.1757353540432-d6130d30
   speakeasyVersion: 1.606.0
   generationVersion: 2.686.7
-  releaseVersion: 0.0.43
-  configChecksum: 50657216d9bf77248a56a75f0b3b4236
+  releaseVersion: 0.0.44a1
+  configChecksum: 48ea5557e362ebe707c8f43e94700480
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -1780,6 +1780,7 @@ generatedFiles:
   - docs/models/outputsyslog.md
   - docs/models/outputsyslogbackpressurebehavior.md
   - docs/models/outputsyslogcompression.md
+  - docs/models/outputsysloghost.md
   - docs/models/outputsyslogmaximumtlsversion.md
   - docs/models/outputsyslogmessageformat.md
   - docs/models/outputsyslogminimumtlsversion.md
@@ -1788,6 +1789,7 @@ generatedFiles:
   - docs/models/outputsyslogprotocol.md
   - docs/models/outputsyslogqueuefullbehavior.md
   - docs/models/outputsyslogseverity.md
+  - docs/models/outputsyslogtls.md
   - docs/models/outputsyslogtlssettingsclientside.md
   - docs/models/outputsyslogtype.md
   - docs/models/outputtcpjson.md
@@ -3252,4 +3254,4 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: "## SDK Changes Detected:\n* `cribl_control_plane.sources.list()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.create()`: \n  *  `request` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.get()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.update()`: \n  *  `request.input` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.delete()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.list()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.create()`: \n  *  `request` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.get()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.update()`: \n  *  `request.output` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.delete()`:  `response.items.[]` **Changed** **Breaking** :warning:\n"
+releaseNotes: "## SDK Changes Detected:\n* `cribl_control_plane.sources.list()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.sources.create()`: \n  *  `request` **Changed**\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.sources.get()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.sources.update()`: \n  *  `request.input` **Changed**\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.sources.delete()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.list()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.create()`: \n  *  `request` **Changed**\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.get()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.update()`: \n  *  `request.output` **Changed**\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.delete()`:  `response.items.[]` **Changed**\n"

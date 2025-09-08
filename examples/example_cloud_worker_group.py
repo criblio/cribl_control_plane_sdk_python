@@ -21,7 +21,7 @@ file configuration to run.
 """
 
 import asyncio
-from cribl_control_plane.models import ConfigGroup, ConfigGroupCloud
+from cribl_control_plane.models import ConfigGroup, ConfigGroupCloud, CloudProvider
 from auth import AuthCloud, CloudConfiguration
 
 
@@ -36,7 +36,7 @@ group = ConfigGroup(
     on_prem=False,
     worker_remote_access=True,
     cloud=ConfigGroupCloud(
-        provider="aws",
+        provider=CloudProvider.AWS,
         region="us-east-1"
     ),
     provisioned=False,

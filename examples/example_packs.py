@@ -25,11 +25,17 @@ Prerequisites:
 import asyncio
 from cribl_control_plane.models import (
     InputTcpjson,
+    InputTcpjsonType,
+    InputTcpjsonAuthenticationMethod,
     OutputS3,
+    OutputS3Type,
+    OutputS3Compression,
+    OutputS3CompressionLevel,
     Pipeline,
     RoutesRoute,
     Conf,
-    PipelineFunctionConf
+    PipelineFunctionConf,
+    FunctionSpecificConfigs
 )
 from auth import base_url, create_cribl_client
 
@@ -58,22 +64,22 @@ pack_url = f"{group_url}/p/{PACK_ID}"
 # TCP JSON source configuration
 tcp_json_source = InputTcpjson(
     id="my-tcp-json",
-    type="tcpjson",
+    type=InputTcpjsonType.TCPJSON,
     port=PORT,
-    auth_type="manual",
+    auth_type=InputTcpjsonAuthenticationMethod.MANUAL,
     auth_token=AUTH_TOKEN
 )
 
 # Amazon S3 destination configuration
 s3_destination = OutputS3(
     id="my-s3-destination",
-    type="s3",
+    type=OutputS3Type.S3,
     bucket=AWS_BUCKET_NAME,
     region=AWS_REGION,
     aws_secret_key=AWS_SECRET_KEY,
     aws_api_key=AWS_API_KEY,
-    compress="gzip",
-    compression_level="best_speed",
+    compress=OutputS3Compression.GZIP,
+    compression_level=OutputS3CompressionLevel.BEST_SPEED,
     empty_dir_cleanup_sec=300
 )
 
@@ -84,11 +90,11 @@ pipeline = Pipeline(
         async_func_timeout=1000,
         functions=[
             PipelineFunctionConf(
-                filter="true",
-                conf={
+                filter_="true",
+                conf=FunctionSpecificConfigs.model_validate({  # type: ignore
                     "remove": ["*"],
                     "keep": ["name"]
-                },
+                }),
                 id="eval",
                 final=True
             )

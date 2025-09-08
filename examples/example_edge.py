@@ -26,11 +26,16 @@ import asyncio
 from cribl_control_plane.models import (
     ConfigGroup,
     InputSyslogSyslog2,
+    InputSyslogType2,
     OutputS3,
+    OutputS3Type,
+    OutputS3Compression,
+    OutputS3CompressionLevel,
     Pipeline,
     RoutesRoute,
     Conf,
     PipelineFunctionConf,
+    FunctionSpecificConfigs,
     InputSyslogTLSSettingsServerSide2
 )
 from auth import base_url, create_cribl_client
@@ -58,20 +63,20 @@ my_fleet = ConfigGroup(
 
 syslog_source = InputSyslogSyslog2(
     id="my-syslog-source",
-    type="syslog",
+    type=InputSyslogType2.SYSLOG,
     tcp_port=SYSLOG_PORT,
     tls=InputSyslogTLSSettingsServerSide2(disabled=True)
 )
 
 s3_destination = OutputS3(
     id="my-s3-destination",
-    type="s3",
+    type=OutputS3Type.S3,
     bucket=AWS_BUCKET_NAME,
     region=AWS_REGION,
     aws_secret_key=AWS_SECRET_KEY,
     aws_api_key=AWS_API_KEY,
-    compress="gzip",
-    compression_level="best_speed",
+    compress=OutputS3Compression.GZIP,
+    compression_level=OutputS3CompressionLevel.BEST_SPEED,
     empty_dir_cleanup_sec=300
 )
 
@@ -82,11 +87,11 @@ pipeline = Pipeline(
         async_func_timeout=1000,
         functions=[
             PipelineFunctionConf(
-                filter="true",
-                conf={
+                filter_="true",
+                conf=FunctionSpecificConfigs.model_validate({  # type: ignore
                     "remove": ["*"],
                     "keep": ["eventSource", "eventID"]
-                },
+                }),
                 id="eval",
                 final=True
             )

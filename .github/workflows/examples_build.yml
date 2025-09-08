@@ -1,0 +1,31 @@
+name: Examples Build
+
+on:
+  pull_request:
+
+jobs:
+  type-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+      
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        
+    - uses: snok/install-poetry@v1
+      with:
+        virtualenvs-create: true
+        virtualenvs-in-project: true
+        
+    - uses: actions/cache@v3
+      with:
+        path: .venv
+        key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+        
+    - name: Install dependencies
+      run: poetry install
+      
+    - name: Type check examples directory
+      run: poetry run mypy examples/ --config-file examples/mypy.ini

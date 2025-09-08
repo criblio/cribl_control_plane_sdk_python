@@ -105,16 +105,16 @@ load_dotenv(env_path, override=False)  # System env vars take precedence
 
 is_onprem = os.getenv("DEPLOYMENT_ENV") == "onprem"
 
-if is_onprem:
-    configuration = get_configuration_onprem()
-else:
-    configuration = get_configuration_cloud()
+# Load configuration and determine base URL based on deployment type
+onprem_config: Optional[OnpremConfiguration] = None
+cloud_config: Optional[CloudConfiguration] = None
 
-base_url = (
-    f"{configuration.server_url}/api/v1" 
-    if is_onprem 
-    else f"https://{configuration.workspace_name}-{configuration.org_id}.{DOMAIN}/api/v1"
-)
+if is_onprem:
+    onprem_config = get_configuration_onprem()
+    base_url = f"{onprem_config.server_url}/api/v1"
+else:
+    cloud_config = get_configuration_cloud()
+    base_url = f"https://{cloud_config.workspace_name}-{cloud_config.org_id}.{DOMAIN}/api/v1"
 
 
 async def create_cribl_client() -> CriblControlPlane:
@@ -125,10 +125,14 @@ async def create_cribl_client() -> CriblControlPlane:
     Returns:
         CriblControlPlane: Authenticated SDK client instance
     """
-    if is_onprem:
-        cribl_auth = AuthOnprem(configuration)
+    cribl_auth: Union[AuthOnprem, AuthCloud]
+    
+    if is_onprem and onprem_config:
+        cribl_auth = AuthOnprem(onprem_config)
+    elif cloud_config:
+        cribl_auth = AuthCloud(cloud_config)
     else:
-        cribl_auth = AuthCloud(configuration)
+        raise RuntimeError("No valid configuration found")
 
     return await cribl_auth.get_client()
 

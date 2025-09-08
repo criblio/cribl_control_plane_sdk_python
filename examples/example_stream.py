@@ -25,11 +25,15 @@ import asyncio
 from cribl_control_plane.models import (
     ConfigGroup,
     InputTcpjson,
+    InputTcpjsonType,
+    InputTcpjsonAuthenticationMethod,
     OutputFilesystem,
+    OutputFilesystemType,
     Pipeline,
     RoutesRoute,
     Conf,
-    PipelineFunctionConf
+    PipelineFunctionConf,
+    FunctionSpecificConfigs
 )
 from auth import base_url, create_cribl_client
 
@@ -46,15 +50,15 @@ my_worker_group = ConfigGroup(
 
 tcp_json_source = InputTcpjson(
     id="my-tcp-json",
-    type="tcpjson",
+    type=InputTcpjsonType.TCPJSON,
     port=PORT,
-    auth_type="manual",
+    auth_type=InputTcpjsonAuthenticationMethod.MANUAL,
     auth_token=AUTH_TOKEN
 )
 
 file_system_destination = OutputFilesystem(
     id="my-fs-destination",
-    type="filesystem",
+    type=OutputFilesystemType.FILESYSTEM,
     dest_path="/tmp/my-output"
 )
 
@@ -65,11 +69,11 @@ pipeline = Pipeline(
         async_func_timeout=1000,
         functions=[
             PipelineFunctionConf(
-                filter="true",
-                conf={
+                filter_="true",
+                conf=FunctionSpecificConfigs.model_validate({  # type: ignore
                     "remove": ["*"],
                     "keep": ["name"]
-                },
+                }),
                 id="eval",
                 final=True
             )

@@ -1,0 +1,3 @@
+cribl-control-plane>=0.0.43
+python-dotenv>=1.0.0
+asyncio

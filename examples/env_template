@@ -1,0 +1,17 @@
+# Cribl Control Plane SDK Examples Configuration Template
+# Copy this file to .env and fill in your actual values
+# DO NOT commit the .env file to version control
+
+# Deployment Environment (cloud or onprem)
+DEPLOYMENT_ENV=cloud
+
+# Cloud Configuration (required if DEPLOYMENT_ENV=cloud)
+ORG_ID=your-org-id
+CLIENT_ID=your-client-id
+CLIENT_SECRET=your-client-secret
+WORKSPACE_NAME=your-workspace-name
+
+# On-Premises Configuration (required if DEPLOYMENT_ENV=onprem)
+ONPREM_SERVER_URL=http://localhost:9000
+ONPREM_USERNAME=admin
+ONPREM_PASSWORD=admin

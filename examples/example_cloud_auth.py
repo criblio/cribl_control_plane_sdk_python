@@ -1,9 +1,6 @@
 """
 Cribl.Cloud Authentication Example
 
-This example demonstrates how to authenticate with Cribl Cloud using OAuth2
-client credentials flow. It shows the authentication process:
-
 This example demonstrates the Cribl.Cloud authentication process using OAuth2 credentials.
 
 1. Create an SDK client with OAuth2 client credentials.

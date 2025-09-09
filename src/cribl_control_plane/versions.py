@@ -6,6 +6,7 @@ from cribl_control_plane.branches import Branches
 from cribl_control_plane.commits import Commits
 from cribl_control_plane.statuses import Statuses
 from cribl_control_plane.versions_configs import VersionsConfigs
+from typing import Optional
 
 
 class Versions(BaseSDK):
@@ -14,13 +15,17 @@ class Versions(BaseSDK):
     configs: VersionsConfigs
     statuses: Statuses
 
-    def __init__(self, sdk_config: SDKConfiguration) -> None:
-        BaseSDK.__init__(self, sdk_config)
+    def __init__(
+        self, sdk_config: SDKConfiguration, parent_ref: Optional[object] = None
+    ) -> None:
+        BaseSDK.__init__(self, sdk_config, parent_ref=parent_ref)
         self.sdk_configuration = sdk_config
         self._init_sdks()
 
     def _init_sdks(self):
-        self.branches = Branches(self.sdk_configuration)
-        self.commits = Commits(self.sdk_configuration)
-        self.configs = VersionsConfigs(self.sdk_configuration)
-        self.statuses = Statuses(self.sdk_configuration)
+        self.branches = Branches(self.sdk_configuration, parent_ref=self.parent_ref)
+        self.commits = Commits(self.sdk_configuration, parent_ref=self.parent_ref)
+        self.configs = VersionsConfigs(
+            self.sdk_configuration, parent_ref=self.parent_ref
+        )
+        self.statuses = Statuses(self.sdk_configuration, parent_ref=self.parent_ref)

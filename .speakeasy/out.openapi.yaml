@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.14.0-alpha.1757087755104-f460003f
+  version: 4.14.0-alpha.1757401089572-3ca67bed
   contact:
     name: Support
     email: support@cribl.io
@@ -841,6 +841,11 @@ components:
                 - scram-sha-512
                 - kerberos
               title: SASL mechanism
+            oauthEnabled:
+              type: boolean
+              title: Enable OAuth
+              description: Enable OAuth authentication
+              default: false
         tls:
           type: object
           title: TLS settings (client side)
@@ -3884,6 +3889,11 @@ components:
                 - scram-sha-512
                 - kerberos
               title: SASL mechanism
+            oauthEnabled:
+              type: boolean
+              title: Enable OAuth
+              description: Enable OAuth authentication
+              default: false
         sessionTimeout:
           type: number
           title: Session timeout (ms)
@@ -19134,6 +19144,69 @@ components:
             - always
         pqControls:
           type: object
+        dnsResolvePeriodSec:
+          type: number
+          default: 600
+          minimum: 0
+          maximum: 86400
+          title: DNS resolution period (seconds)
+          description: The interval in which to re-resolve any hostnames and pick up destinations from A records
+        loadBalanceStatsPeriodSec:
+          type: number
+          default: 300
+          minimum: 10
+          title: Load balance stats period (seconds)
+          description: How far back in time to keep traffic stats for load balancing purposes
+        maxConcurrentSenders:
+          type: number
+          default: 0
+          minimum: 0
+          title: Connection limit
+          description: Maximum number of concurrent connections (per Worker Process). A random set of IPs will be picked on every DNS resolution period. Use 0 for unlimited.
+        excludeSelf:
+          type: boolean
+          default: false
+          title: Exclude current host IPs
+          description: Exclude all IPs of the current host from the list of any resolved hostnames
+        hosts:
+          type: array
+          title: Destinations
+          description: Set of hosts to load-balance data to.
+          minItems: 1
+          items:
+            type: object
+            required:
+              - host
+              - port
+            properties:
+              host:
+                type: string
+                title: Address
+                description: The hostname of the receiver
+              port:
+                type: number
+                title: Port
+                maximum: 65535
+                description: The port to connect to on the provided host
+                default: 9997
+              tls:
+                type: string
+                title: TLS
+                description: Whether to inherit TLS configs from group setting or disable TLS
+                enum:
+                  - inherit
+                  - off
+                default: inherit
+              servername:
+                type: string
+                title: TLS Servername
+                description: Servername to use if establishing a TLS connection. If not specified, defaults to connection host (if not an IP); otherwise, uses the global TLS settings.
+              weight:
+                type: number
+                title: Load Weight
+                description: Assign a weight (>0) to each endpoint to indicate its traffic-handling capability
+                minimum: 0
+                default: 1
       required:
         - type
     OutputSplunk:
@@ -22312,6 +22385,13 @@ components:
             - always
         pqControls:
           type: object
+        emptyDirCleanupSec:
+          type: number
+          title: Staging cleanup period
+          description: How frequently, in seconds, to clean up empty directories
+          default: 300
+          minimum: 10
+          maximum: 86400
     OutputAzureLogs:
       type: object
       required:
@@ -24983,6 +25063,11 @@ components:
                 - scram-sha-512
                 - kerberos
               title: SASL mechanism
+            oauthEnabled:
+              type: boolean
+              title: Enable OAuth
+              description: Enable OAuth authentication
+              default: false
         tls:
           type: object
           title: TLS settings (client side)
@@ -25446,6 +25531,11 @@ components:
                 - scram-sha-512
                 - kerberos
               title: SASL mechanism
+            oauthEnabled:
+              type: boolean
+              title: Enable OAuth
+              description: Enable OAuth authentication
+              default: false
         onBackpressure:
           type: string
           title: Backpressure behavior

@@ -188,7 +188,7 @@ class ClientCredentialsHook(SDKInitHook, BeforeRequestHook, AfterErrorHook):
 
         response_data = response.json()
 
-        if response_data.get("token_type") != "Bearer":
+        if response_data.get("token_type", "").lower() != "bearer":
             raise Exception("Unexpected token type from token endpoint")
 
         expires_at = None

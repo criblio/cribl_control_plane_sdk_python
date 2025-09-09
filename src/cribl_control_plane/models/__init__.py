@@ -3,6 +3,7 @@
 from typing import TYPE_CHECKING
 from importlib import import_module
 import builtins
+import sys
 
 if TYPE_CHECKING:
     from .addhectokenrequest import (
@@ -2971,6 +2972,8 @@ if TYPE_CHECKING:
         OutputSyslog,
         OutputSyslogBackpressureBehavior,
         OutputSyslogCompression,
+        OutputSyslogHost,
+        OutputSyslogHostTypedDict,
         OutputSyslogMaximumTLSVersion,
         OutputSyslogMessageFormat,
         OutputSyslogMinimumTLSVersion,
@@ -2980,6 +2983,7 @@ if TYPE_CHECKING:
         OutputSyslogProtocol,
         OutputSyslogQueueFullBehavior,
         OutputSyslogSeverity,
+        OutputSyslogTLS,
         OutputSyslogTLSSettingsClientSide,
         OutputSyslogTLSSettingsClientSideTypedDict,
         OutputSyslogType,
@@ -5892,6 +5896,8 @@ __all__ = [
     "OutputSyslog",
     "OutputSyslogBackpressureBehavior",
     "OutputSyslogCompression",
+    "OutputSyslogHost",
+    "OutputSyslogHostTypedDict",
     "OutputSyslogMaximumTLSVersion",
     "OutputSyslogMessageFormat",
     "OutputSyslogMinimumTLSVersion",
@@ -5901,6 +5907,7 @@ __all__ = [
     "OutputSyslogProtocol",
     "OutputSyslogQueueFullBehavior",
     "OutputSyslogSeverity",
+    "OutputSyslogTLS",
     "OutputSyslogTLSSettingsClientSide",
     "OutputSyslogTLSSettingsClientSideTypedDict",
     "OutputSyslogType",
@@ -8855,6 +8862,8 @@ _dynamic_imports: dict[str, str] = {
     "OutputSyslog": ".outputsyslog",
     "OutputSyslogBackpressureBehavior": ".outputsyslog",
     "OutputSyslogCompression": ".outputsyslog",
+    "OutputSyslogHost": ".outputsyslog",
+    "OutputSyslogHostTypedDict": ".outputsyslog",
     "OutputSyslogMaximumTLSVersion": ".outputsyslog",
     "OutputSyslogMessageFormat": ".outputsyslog",
     "OutputSyslogMinimumTLSVersion": ".outputsyslog",
@@ -8864,6 +8873,7 @@ _dynamic_imports: dict[str, str] = {
     "OutputSyslogProtocol": ".outputsyslog",
     "OutputSyslogQueueFullBehavior": ".outputsyslog",
     "OutputSyslogSeverity": ".outputsyslog",
+    "OutputSyslogTLS": ".outputsyslog",
     "OutputSyslogTLSSettingsClientSide": ".outputsyslog",
     "OutputSyslogTLSSettingsClientSideTypedDict": ".outputsyslog",
     "OutputSyslogType": ".outputsyslog",
@@ -9117,6 +9127,18 @@ _dynamic_imports: dict[str, str] = {
 }
 
 
+def dynamic_import(modname, retries=3):
+    for attempt in range(retries):
+        try:
+            return import_module(modname, __package__)
+        except KeyError:
+            # Clear any half-initialized module and retry
+            sys.modules.pop(modname, None)
+            if attempt == retries - 1:
+                break
+    raise KeyError(f"Failed to import module '{modname}' after {retries} attempts")
+
+
 def __getattr__(attr_name: str) -> object:
     module_name = _dynamic_imports.get(attr_name)
     if module_name is None:
@@ -9125,7 +9147,7 @@ def __getattr__(attr_name: str) -> object:
         )
 
     try:
-        module = import_module(module_name, __package__)
+        module = dynamic_import(module_name)
         result = getattr(module, attr_name)
         return result
     except ImportError as e:

@@ -30,7 +30,7 @@
 import asyncio
 from cribl_control_plane.models import (
     ConfigGroup,
-    InputSyslogSyslog2,
+    InputSyslog2,
     InputSyslogType2,
     OutputS3,
     OutputS3Type,
@@ -67,7 +67,7 @@ my_fleet = ConfigGroup(
 )
 
 # Syslog Source configuration
-syslog_source = InputSyslogSyslog2(
+syslog_source = InputSyslog2(
     id="my-syslog-source",
     type=InputSyslogType2.SYSLOG,
     tcp_port=SYSLOG_PORT,

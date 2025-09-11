@@ -1,4 +1,4 @@
-# InputSyslogSyslog2
+# InputSyslog2
 
 
 ## Fields

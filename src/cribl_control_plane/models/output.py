@@ -40,7 +40,10 @@ from .outputgooglecloudstorage import (
     OutputGoogleCloudStorageTypedDict,
 )
 from .outputgooglepubsub import OutputGooglePubsub, OutputGooglePubsubTypedDict
-from .outputgrafanacloud import OutputGrafanaCloud, OutputGrafanaCloudTypedDict
+from .outputgrafanacloud_union import (
+    OutputGrafanaCloudUnion,
+    OutputGrafanaCloudUnionTypedDict,
+)
 from .outputgraphite import OutputGraphite, OutputGraphiteTypedDict
 from .outputhoneycomb import OutputHoneycomb, OutputHoneycombTypedDict
 from .outputhumiohec import OutputHumioHec, OutputHumioHecTypedDict
@@ -150,7 +153,7 @@ OutputTypedDict = TypeAliasType(
         OutputWebhookTypedDict,
         OutputAzureDataExplorerTypedDict,
         OutputGoogleCloudLoggingTypedDict,
-        OutputGrafanaCloudTypedDict,
+        OutputGrafanaCloudUnionTypedDict,
     ],
 )
 
@@ -221,6 +224,6 @@ Output = TypeAliasType(
         OutputWebhook,
         OutputAzureDataExplorer,
         OutputGoogleCloudLogging,
-        OutputGrafanaCloud,
+        OutputGrafanaCloudUnion,
     ],
 )

@@ -1,4 +1,4 @@
-# RunnableJobCollectionType
+# InputType
 
 
 ## Values

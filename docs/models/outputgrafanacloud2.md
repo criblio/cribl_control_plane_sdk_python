@@ -1,4 +1,4 @@
-# OutputGrafanaCloudGrafanaCloud2
+# OutputGrafanaCloud2
 
 
 ## Fields

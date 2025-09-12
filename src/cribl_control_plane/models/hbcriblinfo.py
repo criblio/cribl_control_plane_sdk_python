@@ -42,6 +42,7 @@ class HBCriblInfoTypedDict(TypedDict):
     start_time: float
     tags: List[str]
     deployment_id: NotRequired[str]
+    disable_sni_routing: NotRequired[bool]
     edge_nodes: NotRequired[float]
     install_type: NotRequired[str]
     lookup_versions: NotRequired[LookupVersionsTypedDict]
@@ -64,6 +65,10 @@ class HBCriblInfo(BaseModel):
     tags: List[str]
 
     deployment_id: Annotated[Optional[str], pydantic.Field(alias="deploymentId")] = None
+
+    disable_sni_routing: Annotated[
+        Optional[bool], pydantic.Field(alias="disableSNIRouting")
+    ] = None
 
     edge_nodes: Annotated[Optional[float], pydantic.Field(alias="edgeNodes")] = None
 

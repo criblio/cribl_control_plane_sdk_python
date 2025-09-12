@@ -152,7 +152,7 @@ class OutputCriblHTTPTimeoutRetrySettingsTypedDict(TypedDict):
 
 class OutputCriblHTTPTimeoutRetrySettings(BaseModel):
     timeout_retry: Annotated[Optional[bool], pydantic.Field(alias="timeoutRetry")] = (
-        False
+        True
     )
 
     initial_backoff: Annotated[
@@ -397,7 +397,7 @@ class OutputCriblHTTP(BaseModel):
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
-    ] = False
+    ] = True
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[

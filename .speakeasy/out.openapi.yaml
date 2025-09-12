@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.14.0-alpha.1757401089572-3ca67bed
+  version: 4.14.0-alpha.1757673007102-5d0e07e7
   contact:
     name: Support
     email: support@cribl.io
@@ -20021,7 +20021,7 @@ components:
           type: boolean
           title: Honor Retry-After header
           description: Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored.
-          default: false
+          default: true
         onBackpressure:
           type: string
           title: Backpressure behavior
@@ -20621,7 +20621,7 @@ components:
           type: boolean
           title: Honor Retry-After header
           description: Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored.
-          default: false
+          default: true
         onBackpressure:
           type: string
           title: Backpressure behavior
@@ -20888,7 +20888,7 @@ components:
           type: boolean
           title: Honor Retry-After header
           description: Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored.
-          default: false
+          default: true
         onBackpressure:
           type: string
           title: Backpressure behavior
@@ -22284,7 +22284,7 @@ components:
           type: boolean
           title: Honor Retry-After header
           description: Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored.
-          default: false
+          default: true
         compress:
           type: string
           title: Compression
@@ -22594,7 +22594,7 @@ components:
           type: boolean
           title: Honor Retry-After header
           description: Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored.
-          default: false
+          default: true
         onBackpressure:
           type: string
           title: Backpressure behavior
@@ -23066,7 +23066,7 @@ components:
           type: boolean
           title: Honor Retry-After header
           description: Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored.
-          default: false
+          default: true
         onBackpressure:
           type: string
           title: Backpressure behavior
@@ -26250,7 +26250,7 @@ components:
           type: boolean
           title: Honor Retry-After header
           description: Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored.
-          default: false
+          default: true
         extraParams:
           type: array
           title: Extra parameters
@@ -26661,7 +26661,7 @@ components:
           type: boolean
           title: Honor Retry-After header
           description: Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored.
-          default: false
+          default: true
         onBackpressure:
           type: string
           title: Backpressure behavior
@@ -27232,7 +27232,7 @@ components:
           type: boolean
           title: Honor Retry-After header
           description: Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored.
-          default: false
+          default: true
         onBackpressure:
           type: string
           title: Backpressure behavior
@@ -27533,7 +27533,7 @@ components:
           type: boolean
           title: Honor Retry-After header
           description: Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored.
-          default: false
+          default: true
         onBackpressure:
           type: string
           title: Backpressure behavior
@@ -30092,7 +30092,7 @@ components:
           type: boolean
           title: Honor Retry-After header
           description: Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored.
-          default: false
+          default: true
         onBackpressure:
           type: string
           title: Backpressure behavior
@@ -30682,7 +30682,7 @@ components:
           type: boolean
           title: Honor Retry-After header
           description: Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored.
-          default: false
+          default: true
         onBackpressure:
           type: string
           title: Backpressure behavior
@@ -31288,7 +31288,7 @@ components:
           type: boolean
           title: Honor Retry-After header
           description: Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored.
-          default: false
+          default: true
         tls:
           type: object
           title: TLS settings (client side)
@@ -31667,7 +31667,7 @@ components:
           type: boolean
           title: Honor Retry-After header
           description: Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored.
-          default: false
+          default: true
         tls:
           type: object
           title: TLS settings (client side)
@@ -32546,7 +32546,39 @@ components:
           type: array
           title: Settings for failed HTTP requests
           description: Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)
-          default: []
+          default:
+            - httpStatus: 401
+              initialBackoff: 30000
+              backoffRate: 2
+              maxBackoff: 180000
+            - httpStatus: 408
+              initialBackoff: 30000
+              backoffRate: 2
+              maxBackoff: 180000
+            - httpStatus: 429
+              initialBackoff: 30000
+              backoffRate: 2
+              maxBackoff: 180000
+            - httpStatus: 500
+              initialBackoff: 30000
+              backoffRate: 2
+              maxBackoff: 180000
+            - httpStatus: 502
+              initialBackoff: 30000
+              backoffRate: 2
+              maxBackoff: 180000
+            - httpStatus: 503
+              initialBackoff: 30000
+              backoffRate: 2
+              maxBackoff: 180000
+            - httpStatus: 504
+              initialBackoff: 30000
+              backoffRate: 2
+              maxBackoff: 180000
+            - httpStatus: 509
+              initialBackoff: 30000
+              backoffRate: 2
+              maxBackoff: 180000
           items:
             type: object
             required:
@@ -32587,7 +32619,7 @@ components:
             timeoutRetry:
               type: boolean
               title: Retry timed-out HTTP requests
-              default: false
+              default: true
             initialBackoff:
               type: number
               title: Pre-backoff interval (ms)
@@ -32613,7 +32645,7 @@ components:
           type: boolean
           title: Honor Retry-After header
           description: Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored.
-          default: false
+          default: true
         onBackpressure:
           type: string
           title: Backpressure behavior
@@ -32932,7 +32964,7 @@ components:
           type: boolean
           title: Honor Retry-After header
           description: Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored.
-          default: false
+          default: true
         onBackpressure:
           type: string
           title: Backpressure behavior
@@ -33210,7 +33242,7 @@ components:
           type: boolean
           title: Honor Retry-After header
           description: Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored.
-          default: false
+          default: true
         onBackpressure:
           type: string
           title: Backpressure behavior
@@ -34633,7 +34665,7 @@ components:
           type: boolean
           title: Honor Retry-After header
           description: Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored.
-          default: false
+          default: true
         dumpFormatErrorsToDisk:
           type: boolean
           title: Log last schema mismatch
@@ -35008,7 +35040,7 @@ components:
           type: boolean
           title: Honor Retry-After header
           description: Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored.
-          default: false
+          default: true
         throttleRateReqPerSec:
           type: integer
           title: Throttle request rate limit
@@ -35405,7 +35437,7 @@ components:
           type: boolean
           title: Honor Retry-After header
           description: Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored.
-          default: false
+          default: true
         onBackpressure:
           type: string
           title: Backpressure behavior
@@ -35809,7 +35841,7 @@ components:
           type: boolean
           title: Honor Retry-After header
           description: Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored.
-          default: false
+          default: true
         pqMaxFileSize:
           type: string
           title: File size limit
@@ -36068,7 +36100,7 @@ components:
           type: boolean
           title: Honor Retry-After header
           description: Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored.
-          default: false
+          default: true
         onBackpressure:
           type: string
           title: Backpressure behavior
@@ -38097,6 +38129,8 @@ components:
               type: string
         deploymentId:
           type: string
+        disableSNIRouting:
+          type: boolean
         distMode:
           $ref: "#/components/schemas/AppMode"
         edgeNodes:
@@ -38528,6 +38562,8 @@ tags:
     description: Actions related to REST server health
   - name: hmac-functions
     description: Actions related to HMAC functions
+  - name: insights
+    description: Actions related to Insights
   - name: iometrics
     description: Actions related to source/destination metrics
   - name: jobs

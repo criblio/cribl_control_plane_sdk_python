@@ -3,7 +3,7 @@ speakeasyVersion: 1.613.0
 sources:
     Cribl API Reference:
         inputs:
-            - location: https://raw.githubusercontent.com/criblio/cribl-openapi-spec/main/specs/control-plane.yml
+            - location: https://raw.githubusercontent.com/criblio/cribl-openapi-spec/main/specs/control-plane-prerelease.yml
         output: .speakeasy/out.openapi.yaml
         registry:
             location: registry.speakeasyapi.dev/cribl/cribl/cribl-api-reference

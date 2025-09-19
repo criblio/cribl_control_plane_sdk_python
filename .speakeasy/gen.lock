@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 1212b32a477327a41f38b48ca964301c
-  docVersion: 4.14.0-alpha.1757673007102-5d0e07e7
+  docChecksum: 0c45762d1c7f05ccca71a32eff80a6a6
+  docVersion: 4.14.0-837595d5
   speakeasyVersion: 1.613.0
   generationVersion: 2.696.0
-  releaseVersion: 0.0.45
-  configChecksum: 70d5ec891a51505044182a014bb1f607
+  releaseVersion: 0.0.46
+  configChecksum: 7e27deac3a4ef5dfc06389d58da9fed5
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -3254,6 +3254,3 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: |
-  ## Python SDK Changes Detected:
-  * `cribl_control_plane.nodes.list()`:  `response.items.[].info.cribl.disable_sni_routing` **Added**

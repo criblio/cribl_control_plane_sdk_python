@@ -4,6 +4,7 @@ from __future__ import annotations
 from cribl_control_plane.errors import CriblControlPlaneError
 from cribl_control_plane.models import healthstatus as models_healthstatus
 from cribl_control_plane.types import BaseModel
+from dataclasses import dataclass, field
 import httpx
 import pydantic
 from typing import Optional
@@ -18,8 +19,9 @@ class HealthStatusErrorData(BaseModel):
     role: Optional[models_healthstatus.Role] = None
 
 
+@dataclass(frozen=True)
 class HealthStatusError(CriblControlPlaneError):
-    data: HealthStatusErrorData
+    data: HealthStatusErrorData = field(hash=False)
 
     def __init__(
         self,
@@ -29,4 +31,4 @@ class HealthStatusError(CriblControlPlaneError):
     ):
         message = body or raw_response.text
         super().__init__(message, raw_response, body)
-        self.data = data
+        object.__setattr__(self, "data", data)

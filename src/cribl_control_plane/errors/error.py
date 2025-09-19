@@ -3,6 +3,7 @@
 from __future__ import annotations
 from cribl_control_plane.errors import CriblControlPlaneError
 from cribl_control_plane.types import BaseModel
+from dataclasses import dataclass, field
 import httpx
 from typing import Optional
 
@@ -12,8 +13,9 @@ class ErrorData(BaseModel):
     r"""Error message"""
 
 
+@dataclass(frozen=True)
 class Error(CriblControlPlaneError):
-    data: ErrorData
+    data: ErrorData = field(hash=False)
 
     def __init__(
         self, data: ErrorData, raw_response: httpx.Response, body: Optional[str] = None
@@ -21,4 +23,4 @@ class Error(CriblControlPlaneError):
         fallback = body or raw_response.text
         message = str(data.message) or fallback
         super().__init__(message, raw_response, body)
-        self.data = data
+        object.__setattr__(self, "data", data)

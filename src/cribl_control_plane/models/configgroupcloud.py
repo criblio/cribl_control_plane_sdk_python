@@ -3,8 +3,10 @@
 from __future__ import annotations
 from .cloudprovider import CloudProvider
 from cribl_control_plane.types import BaseModel, Nullable, UNSET_SENTINEL
+from cribl_control_plane.utils import validate_open_enum
 from pydantic import model_serializer
-from typing_extensions import TypedDict
+from pydantic.functional_validators import PlainValidator
+from typing_extensions import Annotated, TypedDict
 
 
 class ConfigGroupCloudTypedDict(TypedDict):
@@ -13,7 +15,9 @@ class ConfigGroupCloudTypedDict(TypedDict):
 
 
 class ConfigGroupCloud(BaseModel):
-    provider: Nullable[CloudProvider]
+    provider: Annotated[
+        Nullable[CloudProvider], PlainValidator(validate_open_enum(False))
+    ]
 
     region: str
 

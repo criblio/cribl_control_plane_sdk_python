@@ -4,7 +4,9 @@ from __future__ import annotations
 from .cacheconnectionbackfillstatus import CacheConnectionBackfillStatus
 from .lakehouseconnectiontype import LakehouseConnectionType
 from cribl_control_plane.types import BaseModel
+from cribl_control_plane.utils import validate_open_enum
 import pydantic
+from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -31,11 +33,17 @@ class CacheConnection(BaseModel):
     ] = None
 
     backfill_status: Annotated[
-        Optional[CacheConnectionBackfillStatus], pydantic.Field(alias="backfillStatus")
+        Annotated[
+            Optional[CacheConnectionBackfillStatus],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="backfillStatus"),
     ] = None
 
     lakehouse_connection_type: Annotated[
-        Optional[LakehouseConnectionType],
+        Annotated[
+            Optional[LakehouseConnectionType], PlainValidator(validate_open_enum(False))
+        ],
         pydantic.Field(alias="lakehouseConnectionType"),
     ] = None
 

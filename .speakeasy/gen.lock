@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 0c45762d1c7f05ccca71a32eff80a6a6
-  docVersion: 4.14.0-837595d5
+  docChecksum: 02cbb6c109aca4dc74c777169a40f4d9
+  docVersion: 4.15.0-alpha.1758566860656-1c3a24b3
   speakeasyVersion: 1.621.0
   generationVersion: 2.707.0
-  releaseVersion: 0.0.47
-  configChecksum: e955ff70a03cebd48eb4d0521fc7dad1
+  releaseVersion: 0.0.48a1
+  configChecksum: 9a4c4076b7f570cd1e454b1f1f9bc1c0
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -30,6 +30,7 @@ features:
     nameOverrides: 3.0.1
     nullables: 1.0.1
     oauth2ClientCredentials: 1.3.0
+    openEnums: 1.0.1
     responseFormat: 1.0.1
     retries: 3.0.2
     sdkHooks: 1.1.0
@@ -48,7 +49,6 @@ generatedFiles:
   - docs/models/additionalproperty.md
   - docs/models/aisiemendpointpath.md
   - docs/models/allow.md
-  - docs/models/appmode.md
   - docs/models/audit.md
   - docs/models/authenticationprotocol.md
   - docs/models/author.md
@@ -128,6 +128,7 @@ generatedFiles:
   - docs/models/deployrequestlookupslookup.md
   - docs/models/difffiles.md
   - docs/models/disksandfilesystems.md
+  - docs/models/distmode.md
   - docs/models/distributedsummary.md
   - docs/models/distributedsummarygroups.md
   - docs/models/distributedsummaryworkers.md
@@ -912,6 +913,7 @@ generatedFiles:
   - docs/models/inputtcppreprocess.md
   - docs/models/inputtcptlssettingsserverside.md
   - docs/models/inputtcptype.md
+  - docs/models/inputtype.md
   - docs/models/inputwef.md
   - docs/models/inputwefauthenticationmethod.md
   - docs/models/inputwefcompression.md
@@ -1884,7 +1886,6 @@ generatedFiles:
   - docs/models/resourcepolicy.md
   - docs/models/resourcetypelabel.md
   - docs/models/role.md
-  - docs/models/routecloneconf.md
   - docs/models/routeconf.md
   - docs/models/routes.md
   - docs/models/routesgroups.md
@@ -1904,7 +1905,6 @@ generatedFiles:
   - docs/models/runnablejobcollectionscheduleloglevel.md
   - docs/models/runnablejobcollectionscheduletimewarning.md
   - docs/models/runnablejobcollectiontimewarning.md
-  - docs/models/runnablejobcollectiontype.md
   - docs/models/runnablejobexecutor.md
   - docs/models/runnablejobexecutorjobtype.md
   - docs/models/runnablejobexecutorloglevel.md
@@ -2034,7 +2034,6 @@ generatedFiles:
   - src/cribl_control_plane/lakedatasets.py
   - src/cribl_control_plane/models/__init__.py
   - src/cribl_control_plane/models/addhectokenrequest.py
-  - src/cribl_control_plane/models/appmode.py
   - src/cribl_control_plane/models/authtoken.py
   - src/cribl_control_plane/models/branchinfo.py
   - src/cribl_control_plane/models/cacheconnection.py
@@ -2268,7 +2267,6 @@ generatedFiles:
   - src/cribl_control_plane/models/productscore.py
   - src/cribl_control_plane/models/rbacresource.py
   - src/cribl_control_plane/models/resourcepolicy.py
-  - src/cribl_control_plane/models/routecloneconf.py
   - src/cribl_control_plane/models/routeconf.py
   - src/cribl_control_plane/models/routes.py
   - src/cribl_control_plane/models/routesroute.py
@@ -2999,7 +2997,7 @@ examples:
           filter: "<value>"
       responses:
         "200":
-          application/json: {"count": 522765, "items": [{"deployable": true, "disconnected": true, "firstMsgTime": 5145.29, "group": "<value>", "id": "<id>", "info": {"architecture": "<value>", "aws": {"enabled": true, "region": "<value>", "tags": {}, "type": "<value>", "zone": "<value>"}, "conn_ip": "<value>", "cpus": 587.99, "cribl": {"config": {"featuresRev": "<value>", "hbPeriodSeconds": 7254.06, "logStreamEnv": "<value>", "policyRev": "<value>", "version": "<value>"}, "deploymentId": "<id>", "disableSNIRouting": false, "distMode": "worker", "edgeNodes": 5669.89, "group": "<value>", "guid": "<id>", "installType": "<value>", "lookupVersions": {}, "master": {"host": "clear-cut-armoire.com", "port": 8378.36, "servername": "<value>", "tls": true}, "pid": 5481.66, "startTime": 2054.83, "tags": ["<value 1>"], "version": "<value>"}, "freeDiskSpace": 5289.31, "hostOs": {"addresses": ["<value 1>", "<value 2>", "<value 3>"], "enabled": false, "id": "<id>", "version": "<value>"}, "hostname": "huge-mathematics.org", "isSaasWorker": true, "kube": {"enabled": true, "namespace": "<value>", "node": "<value>", "owner": {"kind": "<value>", "name": "<value>"}, "pod": "<value>", "source": "<value>"}, "localTime": 396.28, "metadata": {"aws": {"enabled": true, "region": "<value>", "tags": {}, "type": "<value>", "zone": "<value>"}, "hostOs": {"addresses": [], "enabled": true, "id": "<id>", "version": "<value>"}, "kube": {"enabled": true, "namespace": "<value>", "node": "<value>", "owner": {"kind": "<value>", "name": "<value>"}, "pod": "<value>", "source": "<value>"}, "os": {"addresses": [], "enabled": true, "id": "<id>", "version": "<value>"}}, "node": "<value>", "os": {"addresses": ["<value 1>"], "enabled": true, "id": "<id>", "version": "<value>"}, "platform": "<value>", "release": "<value>", "totalDiskSpace": 3554.6, "totalmem": 2822.63}, "lastMetrics": {}, "lastMsgTime": 1368.76, "metadata": {"aws": {"enabled": true, "region": "<value>", "tags": {}, "type": "<value>", "zone": "<value>"}, "hostOs": {"addresses": [], "enabled": true, "id": "<id>", "version": "<value>"}, "kube": {"enabled": true, "namespace": "<value>", "node": "<value>", "owner": {"kind": "<value>", "name": "<value>"}, "pod": "<value>", "source": "<value>"}, "os": {"addresses": [], "enabled": true, "id": "<id>", "version": "<value>"}}, "nodeUpgradeStatus": {"active": 0, "failed": 1, "skipped": 3, "state": 2, "timestamp": 962.97}, "status": "<value>", "type": "resp", "workerProcesses": 571.25, "workers": {"count": 4154.46}}]}
+          application/json: {"count": 522765, "items": [{"deployable": true, "disconnected": true, "firstMsgTime": 5145.29, "group": "<value>", "id": "<id>", "info": {"architecture": "<value>", "aws": {"enabled": true, "instanceId": "<id>", "region": "<value>", "tags": {}, "type": "<value>", "zone": "<value>"}, "conn_ip": "<value>", "cpus": 587.99, "cribl": {"config": {"featuresRev": "<value>", "hbPeriodSeconds": 7254.06, "logStreamEnv": "<value>", "policyRev": "<value>", "version": "<value>"}, "deploymentId": "<id>", "disableSNIRouting": false, "distMode": "worker", "edgeNodes": 5669.89, "group": "<value>", "guid": "<id>", "installType": "<value>", "lookupVersions": {}, "master": {"host": "clear-cut-armoire.com", "port": 8378.36, "servername": "<value>", "tls": true}, "pid": 5481.66, "startTime": 2054.83, "tags": ["<value 1>"], "version": "<value>"}, "freeDiskSpace": 5289.31, "hostOs": {"addresses": ["<value 1>", "<value 2>", "<value 3>"], "enabled": false, "id": "<id>", "version": "<value>"}, "hostname": "huge-mathematics.org", "isSaasWorker": true, "kube": {"enabled": true, "namespace": "<value>", "node": "<value>", "owner": {"kind": "<value>", "name": "<value>"}, "pod": "<value>", "source": "<value>"}, "localTime": 396.28, "metadata": {"aws": {"enabled": true, "instanceId": "<id>", "region": "<value>", "tags": {}, "type": "<value>", "zone": "<value>"}, "hostOs": {"addresses": [], "enabled": true, "id": "<id>", "version": "<value>"}, "kube": {"enabled": true, "namespace": "<value>", "node": "<value>", "owner": {"kind": "<value>", "name": "<value>"}, "pod": "<value>", "source": "<value>"}, "os": {"addresses": [], "enabled": true, "id": "<id>", "version": "<value>"}}, "node": "<value>", "os": {"addresses": ["<value 1>"], "enabled": true, "id": "<id>", "version": "<value>"}, "platform": "<value>", "release": "<value>", "totalDiskSpace": 3554.6, "totalmem": 2822.63}, "lastMetrics": {}, "lastMsgTime": 1368.76, "metadata": {"aws": {"enabled": true, "instanceId": "<id>", "region": "<value>", "tags": {}, "type": "<value>", "zone": "<value>"}, "hostOs": {"addresses": [], "enabled": true, "id": "<id>", "version": "<value>"}, "kube": {"enabled": true, "namespace": "<value>", "node": "<value>", "owner": {"kind": "<value>", "name": "<value>"}, "pod": "<value>", "source": "<value>"}, "os": {"addresses": [], "enabled": true, "id": "<id>", "version": "<value>"}}, "nodeUpgradeStatus": {"active": 0, "failed": 1, "skipped": 3, "state": 2, "timestamp": 962.97}, "status": "<value>", "type": "resp", "workerProcesses": 571.25, "workers": {"count": 4154.46}}]}
         "500":
           application/json: {"message": "<value>"}
   getMasterWorkerEntry:
@@ -3254,3 +3252,4 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
+releaseNotes: "## Python SDK Changes Detected:\n* `cribl_control_plane.destinations.create()`: \n  *  `request` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.update()`: \n  *  `request.output` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.routes.append()`: \n  *  `request_body.[].clones.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.list()`:  `response.items.[].[input_model_driven_telemetry].tls.passphrase` **Added**\n* `cribl_control_plane.sources.create()`: \n  *  `request.[input_model_driven_telemetry].tls.passphrase` **Added**\n  *  `response.items.[].[input_model_driven_telemetry].tls.passphrase` **Added**\n* `cribl_control_plane.sources.get()`:  `response.items.[].[input_model_driven_telemetry].tls.passphrase` **Added**\n* `cribl_control_plane.sources.update()`: \n  *  `request.input.[input_model_driven_telemetry].tls.passphrase` **Added**\n  *  `response.items.[].[input_model_driven_telemetry].tls.passphrase` **Added**\n* `cribl_control_plane.sources.delete()`:  `response.items.[].[input_model_driven_telemetry].tls.passphrase` **Added**\n* `cribl_control_plane.destinations.list()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.get()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.delete()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.nodes.list()`:  `response.items.[].info` **Changed**\n"

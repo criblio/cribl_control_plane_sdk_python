@@ -208,6 +208,10 @@ class AuthCloud(ICriblAuth):
         self.client: Optional[CriblControlPlane] = None
         self.attempts = 0
 
+    def get_search_group_url(self) -> str:
+        """Get the server URL for the default search group"""
+        return f"{self.base_url}/m/default_search"
+
     async def get_client(self) -> CriblControlPlane:
         if self.client:
             return self.client

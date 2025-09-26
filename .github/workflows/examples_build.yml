@@ -1,4 +1,4 @@
-name: Examples Build
+name: Build Examples on PR
 
 on:
   pull_request:

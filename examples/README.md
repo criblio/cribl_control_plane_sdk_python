@@ -9,31 +9,26 @@ This directory contains example scripts that demonstrate how to use the cribl_co
 
 ## Setup
 
-1. Create a virtual environment (recommended):
+1. **Set up virtual environment:**
    ```bash
    python3 -m venv examples-env
-   source examples-env/bin/activate  # On Windows: examples-env\Scripts\activate
-   ```
-
-2. Install the required dependencies:
-   ```bash
+   source examples-env/bin/activate
    pip install -r requirements.txt
    ```
 
-3. Copy `env_template` to `.env`:
+2. **Configure credentials in `.env`:**
    ```bash
-   cp env_template .env
+   CLIENT_ID="your-client-id"
+   CLIENT_SECRET="your-client-secret"
+   WORKSPACE_NAME="your-workspace-name"
+   ORG_ID="your-org-id"
    ```
 
-4. Open `.env`, replace the placeholder values with your credentials, and save.
+3. **Run an example:**
+   ```bash
+   python example_worker_group_replication.py
+   ```
 
-## Run the Examples
-
-To run an example file from the `examples` directory:
-
-```bash
-python example_onprem_auth.py
-```
 
 ## Configuration
 

@@ -1,13 +1,16 @@
-name: Publish prod SDK
+name: Publish SDK (main/dev/stage)
 permissions:
   checks: write
   contents: write
   pull-requests: write
   statuses: write
-"on":
+
+on:
   push:
     branches:
       - main
+      - dev
+      - stage
     paths:
       - .speakeasy/gen.lock
   workflow_dispatch: {}
@@ -15,12 +18,23 @@ permissions:
 jobs:
   check-branch:
     runs-on: ubuntu-latest
+    outputs:
+      branch: ${{ steps.branch-info.outputs.branch }}
+      is-production: ${{ steps.branch-info.outputs.is-production }}
     steps:
-      - name: Ensure workflow is run from main branch
+      - name: Get branch information
+        id: branch-info
         run: |
-          if [[ "${GITHUB_REF_NAME}" != "main" ]]; then
-            echo "This workflow can only be run from the main branch."
-            exit 1
+          echo "Current branch: ${GITHUB_REF_NAME}"
+          echo "branch=${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
+          
+          # Determine if this is a production release
+          if [[ "${GITHUB_REF_NAME}" == "main" ]]; then
+            echo "is-production=true" >> "$GITHUB_OUTPUT"
+            echo "✅ Production release from main branch"
+          else
+            echo "is-production=false" >> "$GITHUB_OUTPUT"
+            echo "✅ Prerelease from ${GITHUB_REF_NAME} branch"
           fi
 
   publish:

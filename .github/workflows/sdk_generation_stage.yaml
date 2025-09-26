@@ -1,0 +1,105 @@
+name: Generate Stage SDK
+permissions:
+  checks: write
+  contents: write
+  pull-requests: write
+  statuses: write
+
+on:
+  workflow_dispatch: # Manual trigger only
+
+jobs:
+  check-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ensure workflow is run from stage branch
+        run: |
+          if [[ "${GITHUB_REF_NAME}" != "stage" ]]; then
+            echo "This workflow can only be run from the stage branch."
+            echo "Current branch: ${GITHUB_REF_NAME}"
+            exit 1
+          fi
+          echo "Running from stage branch: ${GITHUB_REF_NAME}"
+
+  compute-version:
+    needs: check-branch
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.ver.outputs.version }}
+    steps:
+      - name: Checkout stage branch
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: stage
+          fetch-depth: 0
+
+      - name: Install required tools
+        run: |
+          # Install jq for JSON parsing (yq not needed for this workflow)
+          sudo apt-get update
+          sudo apt-get install -y jq
+
+      - name: Compute alpha version from latest GitHub release (Python format)
+        id: ver
+        run: |
+          set -euo pipefail
+
+          # Get latest stable release from GitHub
+          echo "Fetching latest stable release from GitHub repository: ${{ github.repository }}"
+          
+          RELEASE_RESPONSE=$(curl -s https://api.github.com/repos/${{ github.repository }}/releases/latest)
+          LATEST_RELEASE=$(echo "$RELEASE_RESPONSE" | jq -r '.tag_name')
+          
+          echo "GitHub API response for latest release: $LATEST_RELEASE"
+          
+          if [[ "$LATEST_RELEASE" == "null" || -z "$LATEST_RELEASE" ]]; then
+            echo "⚠️  No stable releases found on GitHub, using default version 0.0.0"
+            BASE_OFFICIAL="0.0.0"
+          else
+            # Remove 'v' prefix if present (e.g., v0.0.3 -> 0.0.3)
+            BASE_OFFICIAL="${LATEST_RELEASE#v}"
+            echo "✅ Latest stable release from GitHub: ${BASE_OFFICIAL}"
+          fi
+
+          # Parse version components
+          IFS='.' read -r major minor _ <<< "${BASE_OFFICIAL}"
+          
+          # Bump minor version and reset patch to 0 (0.0.3 -> 0.1.0)
+          minor=$((minor + 1))
+          NEW_BASE="${major}.${minor}.0"
+          echo "Bumped to new minor base: ${NEW_BASE}"
+
+          # Fetch tags to check existing alphas
+          git fetch --tags --quiet || true
+
+          # Find next available alpha number for this base (Python format: X.Y.Za<n>)
+          PREFIX="${NEW_BASE}a"
+          
+          # Helper to check tag existence with/without 'v'
+          tag_exists() {
+            git ls-remote --tags --refs origin | awk '{print $2}' | sed 's|refs/tags/||' \
+              | grep -qx -e "${1}" -e "v${1}"
+          }
+
+          # Find next available alpha number
+          n=1
+          while tag_exists "${PREFIX}${n}"; do
+            echo "Tag already exists: ${PREFIX}${n}, trying next..."
+            n=$((n+1))
+          done
+
+          FINAL="${PREFIX}${n}"
+          echo "Computed stage alpha version (Python format): ${FINAL}"
+          echo "version=${FINAL}" >> "$GITHUB_OUTPUT"
+
+  generate:
+    needs: compute-version
+    uses: speakeasy-api/sdk-generation-action/.github/workflows/workflow-executor.yaml@57452fc95969792de6734a91400a24aeb409964c
+    with:
+      force: true
+      mode: pr
+      set_version: ${{ needs.compute-version.outputs.version }}
+    secrets:
+      github_access_token: ${{ secrets.GITHUB_TOKEN }}
+      pypi_token: ${{ secrets.PYPI_TOKEN }}
+      speakeasy_api_key: ${{ secrets.SPEAKEASY_API_KEY }}

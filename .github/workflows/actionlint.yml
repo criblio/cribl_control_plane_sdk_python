@@ -1,0 +1,34 @@
+name: Lint GitHub Actions
+
+on:
+  push:
+    paths:
+      - '.github/workflows/**'
+  pull_request:
+    paths:
+      - '.github/workflows/**'
+
+jobs:
+  actionlint:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        
+      - name: Run actionlint
+        uses: rhysd/actionlint@03d0035246f3e81f36aed592ffb4bebf33a03106
+        with:
+          fail-on-error: true
+          
+      - name: Summary
+        if: failure()
+        run: |
+          {
+            echo "## GitHub Actions Linting Failed"
+            echo ""
+            echo "One or more workflow files have syntax issues."
+            echo "Please check the logs above for details."
+          } >> "$GITHUB_STEP_SUMMARY"

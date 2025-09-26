@@ -1,4 +1,4 @@
-name: Generate alpha SDK from dev-remote
+name: Generate RC SDK from dev-remote
 permissions:
   checks: write
   contents: write
@@ -38,13 +38,14 @@ jobs:
           sudo curl -L https://github.com/mikefarah/yq/releases/download/v4.44.3/yq_linux_amd64 -o /usr/local/bin/yq
           sudo chmod +x /usr/local/bin/yq
 
-      - name: Compute prerelease version (X.Y.Za<n>)
+      - name: Compute prerelease version (X.Y.Zrc<n>)
         id: ver
         run: |
           set -euo pipefail
 
           BASE_GEN=$(yq -r '.python.version' .speakeasy/gen.yaml)
-          BASE_STRIPPED=$(printf '%s' "${BASE_GEN}" | sed -E 's/^([0-9]+\.[0-9]+\.[0-9]+).*/\1/')   # e.g. 1.2.3 from 1.2.3a5
+          # Strip any existing prerelease suffix (e.g. 1.2.3rc5 -> 1.2.3 or 1.2.3a1 -> 1.2.3)
+          BASE_STRIPPED=$(printf '%s' "${BASE_GEN}" | sed -E 's/^([0-9]+\.[0-9]+\.[0-9]+).*/\1/')
 
           echo "Version from gen.yaml: ${BASE_GEN}"
           echo "Stripped base:         ${BASE_STRIPPED}"
@@ -56,19 +57,19 @@ jobs:
           echo "Last tags on origin:"
           git ls-remote --tags --refs origin | awk '{print $2}' | sed 's|refs/tags/||' | tail -n 50 || true
 
-          # If there are a<n> tags for BASE_STRIPPED (with or without leading 'v'), keep that base; otherwise bump patch
+          # If there are rc tags for BASE_STRIPPED (with or without leading 'v'), keep that base; otherwise bump patch
           if git ls-remote --tags --refs origin | awk '{print $2}' | sed 's|refs/tags/||' \
-              | grep -qE "^(v)?${BASE_STRIPPED}a[0-9]+$"; then
+              | grep -qE "^(v)?${BASE_STRIPPED}rc[0-9]+$"; then
             BASE="${BASE_STRIPPED}"
-            echo "Found existing a tags for ${BASE}. Will increment a."
+            echo "Found existing rc tags for ${BASE}. Will increment rc."
           else
             IFS='.' read -r major minor patch <<< "${BASE_STRIPPED}"
             patch=$((patch + 1))
             BASE="${major}.${minor}.${patch}"
-            echo "No a tags for ${BASE_STRIPPED}. Bumping patch to ${BASE} and starting a1"
+            echo "No rc tags for ${BASE_STRIPPED}. Bumping patch to ${BASE} and starting rc1."
           fi
 
-          PREFIX="${BASE}a"
+          PREFIX="${BASE}rc"
 
           # Helper to check tag existence with/without 'v' (use --refs; no sed with \^\{\})
           tag_exists() {
@@ -76,16 +77,16 @@ jobs:
               | grep -qx -e "${1}" -e "v${1}"
           }
 
-          # Find next available alpha number (with logging)
+          # Find next available rc number (with logging)
           n=1
           while tag_exists "${PREFIX}${n}"; do
             echo "Tag already exists: ${PREFIX}${n} (or v${PREFIX}${n}), trying next..."
             n=$((n+1))
           done
 
-          echo "First free alpha tag: ${PREFIX}${n}"
+          echo "First free rc tag: ${PREFIX}${n}"
           FINAL="${PREFIX}${n}"
-          echo "Computed prerelease: ${FINAL}"
+          echo "Computed prerelease (Python format): ${FINAL}"
           echo "version=${FINAL}" >> "$GITHUB_OUTPUT"
 
   generate:

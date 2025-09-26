@@ -1,4 +1,4 @@
-name: Publish alpha SDK
+name: Publish Prerelease SDK (alpha/beta/rc)
 permissions:
   checks: write
   contents: write
@@ -20,18 +20,27 @@ jobs:
           ref: ${{ github.ref_name }}
           fetch-depth: 0
 
-      - name: Check prerelease version (X.Y.Za<n>)
+      - name: Check prerelease version (X.Y.Z{a|b|rc}<n>)
         id: ver
         run: |
           VERSION=$(yq '.python.version' .speakeasy/gen.yaml)
           echo "Detected version: $VERSION"
 
-          if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+a[0-9]+$ ]]; then
-            echo "::error::Version is not an alpha prerelease (expected format X.Y.Za<n>)"
+          # Check if version is alpha, beta, or rc prerelease (Python format)
+          if [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+a[0-9]+$ ]]; then
+            echo "✅ Alpha prerelease version detected: $VERSION"
+          elif [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+b[0-9]+$ ]]; then
+            echo "✅ Beta prerelease version detected: $VERSION"
+          elif [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+rc[0-9]+$ ]]; then
+            echo "✅ Release candidate version detected: $VERSION"
+          else
+            echo "::error::Version is not a valid prerelease (expected format X.Y.Z{a|b|rc}<n>)"
+            echo "::error::Detected version: $VERSION"
+            echo "::error::Examples: 1.2.0a1, 1.2.0b1, 1.2.0rc1"
             exit 1
           fi
 
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
   publish:
     needs: generate-and-push

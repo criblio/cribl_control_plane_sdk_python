@@ -1,0 +1,142 @@
+name: Update Speakeasy
+
+on:
+  workflow_dispatch:
+    inputs:
+      commit_message:
+        description: 'Custom commit message (optional)'
+        required: false
+        default: 'chore: update Speakeasy version to latest'
+
+jobs:
+  update-speakeasy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+
+      - name: Get latest Speakeasy version
+        id: speakeasy-version
+        run: |
+          # Fetch the latest release from Speakeasy GitHub repository
+          latest_version=$(curl -s https://api.github.com/repos/speakeasy-api/speakeasy/releases/latest | jq -r '.tag_name')
+          
+          # Remove 'v' prefix if present (e.g., v1.621.0 -> 1.621.0)
+          cleaned_version="${latest_version#v}"
+          
+          echo "Latest Speakeasy version: $cleaned_version"
+          echo "version=$cleaned_version" >> "$GITHUB_OUTPUT"
+          echo "tag_name=$latest_version" >> "$GITHUB_OUTPUT"
+
+      - name: Get current Speakeasy version
+        id: current-version
+        run: |
+          current_version=$(grep "speakeasyVersion:" .speakeasy/workflow.yaml | sed 's/speakeasyVersion: //')
+          echo "Current version: $current_version"
+          echo "version=$current_version" >> "$GITHUB_OUTPUT"
+
+      - name: Check if update is needed
+        id: check-update
+        run: |
+          if [ "${{ steps.current-version.outputs.version }}" = "${{ steps.speakeasy-version.outputs.version }}" ]; then
+            echo "Speakeasy version is already up to date (${{ steps.current-version.outputs.version }})"
+            echo "needs_update=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Update needed: ${{ steps.current-version.outputs.version }} -> ${{ steps.speakeasy-version.outputs.version }}"
+            echo "needs_update=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Update workflow.yaml
+        if: steps.check-update.outputs.needs_update == 'true'
+        run: |
+          # Update the speakeasyVersion in workflow.yaml
+          sed -i "s/speakeasyVersion: .*/speakeasyVersion: ${{ steps.speakeasy-version.outputs.version }}/" .speakeasy/workflow.yaml
+          
+          echo "Updated .speakeasy/workflow.yaml:"
+          echo "Before: speakeasyVersion: ${{ steps.current-version.outputs.version }}"
+          echo "After:  speakeasyVersion: ${{ steps.speakeasy-version.outputs.version }}"
+
+      - name: Verify changes
+        if: steps.check-update.outputs.needs_update == 'true'
+        run: |
+          echo "Changes made to .speakeasy/workflow.yaml:"
+          git diff --no-index /dev/null .speakeasy/workflow.yaml || true
+          
+          # Check that the change was applied correctly
+          updated_version=$(grep "speakeasyVersion:" .speakeasy/workflow.yaml | sed 's/speakeasyVersion: //')
+          if [ "$updated_version" = "${{ steps.speakeasy-version.outputs.version }}" ]; then
+            echo "Version successfully updated to $updated_version"
+          else
+            echo "Version update failed. Expected: ${{ steps.speakeasy-version.outputs.version }}, Got: $updated_version"
+            exit 1
+          fi
+
+      - name: Create pull request with changes
+        if: steps.check-update.outputs.needs_update == 'true'
+        run: |
+          # Configure git
+          git config user.name "SyncUpBot"
+          git config user.email "syncupbot@users.noreply.github.com"
+          
+          # Create a new branch for the update
+          branch_name="update-speakeasy-version-${{ steps.speakeasy-version.outputs.version }}"
+          git checkout -b "$branch_name"
+          
+          # Add changes
+          git add .speakeasy/workflow.yaml
+          
+          # Use custom commit message if provided, otherwise use default
+          commit_message="${{ github.event.inputs.commit_message }}"
+          if [ -z "$commit_message" ]; then
+            commit_message="chore: update Speakeasy version from ${{ steps.current-version.outputs.version }} to ${{ steps.speakeasy-version.outputs.version }}"
+          fi
+          
+          # Commit changes
+          git commit -m "$commit_message"
+          
+          # Push the new branch
+          git push origin "$branch_name"
+          
+          # Create pull request using GitHub CLI
+          gh pr create \
+            --title "Update Speakeasy version to ${{ steps.speakeasy-version.outputs.version }}" \
+            --body "Updates Speakeasy version from ${{ steps.current-version.outputs.version }} to ${{ steps.speakeasy-version.outputs.version }}." \
+            --head "$branch_name" \
+            --base main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create summary
+        run: |
+          if [ "${{ steps.check-update.outputs.needs_update }}" = "true" ]; then
+            {
+              echo "## Speakeasy Version Update Summary"
+              echo ""
+              echo "### Pull Request Created"
+              echo "- **Previous Version:** ${{ steps.current-version.outputs.version }}"
+              echo "- **New Version:** ${{ steps.speakeasy-version.outputs.version }}"
+              echo "- **Release Tag:** ${{ steps.speakeasy-version.outputs.tag_name }}"
+              echo "- **File Updated:** \`.speakeasy/workflow.yaml\`"
+              echo "- **Branch:** \`update-speakeasy-version-${{ steps.speakeasy-version.outputs.version }}\`"
+              echo ""
+              echo "A pull request has been created with the version update. Please review and merge it to apply the changes."
+              echo ""
+              echo "[View latest Speakeasy release](https://github.com/speakeasy-api/speakeasy/releases/tag/${{ steps.speakeasy-version.outputs.tag_name }})"
+            } >> "$GITHUB_STEP_SUMMARY"
+          else
+            {
+              echo "## Speakeasy Version Update Summary"
+              echo ""
+              echo "### No Update Needed"
+              echo "- **Current Version:** ${{ steps.current-version.outputs.version }}"
+              echo "- **Latest Available:** ${{ steps.speakeasy-version.outputs.version }}"
+              echo ""
+              echo "Your Speakeasy version is already up to date!"
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi

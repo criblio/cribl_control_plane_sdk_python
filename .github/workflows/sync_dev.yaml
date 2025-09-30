@@ -1,4 +1,4 @@
-name: Sync Main into Dev Branches
+name: Sync Main into dev-local nad openapi-prerelease branches
 
 on:
   push:
@@ -24,21 +24,21 @@ jobs:
           git config user.name "SyncUpBot"
           git config user.email "syncupbot@users.noreply.github.com"
 
-      - name: Merge main into dev-local & dev-remote
+      - name: Merge main into dev-local & openapi-prerelease
         run: |
-          git fetch origin main dev-local dev-remote
+          git fetch origin main dev-local openapi-prerelease
 
           git checkout dev-local
           git merge origin/main -X theirs --no-edit
           git push origin dev-local
 
-          git checkout dev-remote
+          git checkout openapi-prerelease
           git reset --hard origin/main
 
           yq -i --indent 4 '.sources["Cribl API Reference"].inputs[0].location = "https://raw.githubusercontent.com/criblio/cribl-openapi-spec/main/specs/control-plane-prerelease.yml"' .speakeasy/workflow.yaml
-          git commit -am "dev-remote: use local OpenAPI source (./openapi.yml) in workflow.yaml"
+          git commit -am "openapi-prerelease: use local OpenAPI source (./openapi.yml) in workflow.yaml"
 
-          git push origin -f dev-remote
+          git push origin -f openapi-prerelease
 
   sync-speakeasy-version:
     runs-on: ubuntu-latest

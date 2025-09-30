@@ -37,7 +37,8 @@ from cribl_control_plane.models import (
     RoutesRoute,
     Conf,
     PipelineFunctionConf,
-    FunctionSpecificConfigs
+    FunctionSpecificConfigs,
+    ProductsCore
 )
 from auth import base_url, create_cribl_client
 
@@ -108,7 +109,7 @@ async def main():
     # Verify that Worker Group doesn't already exist
     worker_group_response = cribl.groups.get(
         id=my_worker_group.id,
-        product="stream"
+        product=ProductsCore.STREAM
     )
     if worker_group_response.items and len(worker_group_response.items) > 0:
         print(f"⚠️ Worker Group already exists: {my_worker_group.id}. Try different group id.")
@@ -116,7 +117,7 @@ async def main():
 
     # Create Worker Group
     cribl.groups.create(
-        product="stream",
+        product=ProductsCore.STREAM,
         id=my_worker_group.id,
         description=my_worker_group.description,
         on_prem=my_worker_group.on_prem
@@ -173,12 +174,15 @@ async def main():
         files=["."]
     )
     
+    if not commit_response.items or len(commit_response.items) == 0:
+        raise Exception("Failed to commit configuration changes")
+    
     version = commit_response.items[0].commit
     print(f"✅ Committed configuration changes to the group: {my_worker_group.id}, commit ID: {version}")
 
     # Deploy configuration changes
     cribl.groups.deploy(
-        product="stream",
+        product=ProductsCore.STREAM,
         id=my_worker_group.id,
         version=version
     )

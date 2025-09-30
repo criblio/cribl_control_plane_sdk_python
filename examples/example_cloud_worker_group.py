@@ -28,7 +28,7 @@ NOTE: This example is for Cribl.Cloud deployments only. It does not require
 
 
 import asyncio
-from cribl_control_plane.models import ConfigGroup, ConfigGroupCloud, CloudProvider
+from cribl_control_plane.models import ConfigGroup, ConfigGroupCloud, CloudProvider, ProductsCore
 from auth import AuthCloud, CloudConfiguration
 
 
@@ -67,7 +67,7 @@ async def main():
     # Verify that Worker Group doesn't already exist
     worker_group_response = cribl.groups.get(
         id=group.id,
-        product="stream"
+        product=ProductsCore.STREAM
     )
     if worker_group_response.items and len(worker_group_response.items) > 0:
         print(f"⚠️ Worker Group already exists: {group.id}. Try a different group ID.")
@@ -75,7 +75,7 @@ async def main():
 
     # Create the worker group
     cribl.groups.create(
-        product="stream",
+        product=ProductsCore.STREAM,
         id=group.id,
         on_prem=group.on_prem,
         worker_remote_access=group.worker_remote_access,
@@ -92,7 +92,7 @@ async def main():
     group.estimated_ingest_rate = 4096  # Equivalent to 48 MB/s maximum estimated ingest rate with 21 Worker Processes
     group.provisioned = True
     cribl.groups.update(
-        product="stream",
+        product=ProductsCore.STREAM,
         id=group.id,
         id_param=group.id,
         on_prem=group.on_prem,

@@ -1,4 +1,4 @@
-name: Generate RC SDK from dev-remote
+name: Generate RC SDK (Prerelease)
 permissions:
   checks: write
   contents: write
@@ -14,10 +14,10 @@ jobs:
   check-branch:
     runs-on: ubuntu-latest
     steps:
-      - name: Ensure workflow is run from dev-remote branch
+      - name: Ensure workflow is run from openapi-prerelease branch
         run: |
-          if [[ "${GITHUB_REF_NAME}" != "dev-remote" ]]; then
-            echo "This workflow can only be run from the dev-remote branch."
+          if [[ "${GITHUB_REF_NAME}" != "openapi-prerelease" ]]; then
+            echo "This workflow can only be run from the openapi-prerelease branch."
             exit 1
           fi
 
@@ -27,10 +27,10 @@ jobs:
     outputs:
       version: ${{ steps.ver.outputs.version }}
     steps:
-      - name: Checkout dev-remote
+      - name: Checkout openapi-prerelease
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
-          ref: dev-remote
+          ref: openapi-prerelease
           fetch-depth: 0
 
       - name: Install yq
@@ -91,7 +91,7 @@ jobs:
 
   generate:
     needs: [check-branch, compute-version]
-    uses: speakeasy-api/sdk-generation-action/.github/workflows/workflow-executor.yaml@57452fc95969792de6734a91400a24aeb409964c
+    uses: speakeasy-api/sdk-generation-action/.github/workflows/workflow-executor.yaml@1f1527d823ac3dc23f8aba805d1350024ad783fd
     with:
       force: true
       mode: pr

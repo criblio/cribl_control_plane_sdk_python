@@ -165,16 +165,18 @@ async def main():
     )
     print(f"✅ Route added: {route.id}")
 
-    # Deploy configuration changes
-    response = cribl.groups.configs.versions.get(
-        id=my_worker_group.id,
-        product="stream"
+    # Commit configuration changes
+    commit_response = cribl.versions.commits.create(
+        group_id=my_worker_group.id,
+        message="Commit for Stream example",
+        effective=True,
+        files=["."]
     )
-    if not response.items:
-        raise Exception("No version found")
     
-    version = response.items[0]
+    version = commit_response.items[0].commit
+    print(f"✅ Committed configuration changes to the group: {my_worker_group.id}, commit ID: {version}")
 
+    # Deploy configuration changes
     cribl.groups.deploy(
         product="stream",
         id=my_worker_group.id,

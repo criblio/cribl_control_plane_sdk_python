@@ -186,16 +186,18 @@ async def main():
     )
     print(f"✅ Route added: {route.id}")
 
-    # Deploy configuration changes
-    response = cribl.groups.configs.versions.get(
-        id=my_fleet.id,
-        product="edge"
+    # Commit configuration changes
+    commit_response = cribl.versions.commits.create(
+        group_id=my_fleet.id,
+        message="Commit for Edge example",
+        effective=True,
+        files=["."]
     )
-    if not response.items:
-        raise Exception("No version found")
     
-    version = response.items[0]
+    version = commit_response.items[0].commit
+    print(f"✅ Committed configuration changes to the fleet: {my_fleet.id}, commit ID: {version}")
 
+    # Deploy configuration changes
     cribl.groups.deploy(
         product="edge",
         id=my_fleet.id,

@@ -4,6 +4,7 @@ permissions:
   contents: write
   pull-requests: write
   statuses: write
+  actions: write
 "on":
   workflow_dispatch:
     inputs:
@@ -33,7 +34,7 @@ jobs:
 
   generate:
     needs: check-branch
-    uses: speakeasy-api/sdk-generation-action/.github/workflows/workflow-executor.yaml@57452fc95969792de6734a91400a24aeb409964c
+    uses: speakeasy-api/sdk-generation-action/.github/workflows/workflow-executor.yaml@1f1527d823ac3dc23f8aba805d1350024ad783fd
     with:
       force: ${{ github.event.inputs.force }}
       mode: pr
@@ -42,3 +43,38 @@ jobs:
       github_access_token: ${{ secrets.GITHUB_TOKEN }}
       pypi_token: ${{ secrets.PYPI_TOKEN }}
       speakeasy_api_key: ${{ secrets.SPEAKEASY_API_KEY }}
+
+  dispatch-dev-stage:
+    needs: generate
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Dispatch dev and stage SDK generation workflows
+        run: |
+          echo "Dispatching SDK generation for dev and stage branches"
+          
+          echo "Dispatching sdk_generation_dev.yaml on dev branch"
+          gh workflow run "sdk_generation_dev.yaml" \
+            --ref "dev" \
+            --repo "$GITHUB_REPOSITORY"
+          echo "Dispatched sdk_generation_dev.yaml"
+          
+          echo "Dispatching sdk_generation_stage.yaml on stage branch"
+          gh workflow run "sdk_generation_stage.yaml" \
+            --ref "stage" \
+            --repo "$GITHUB_REPOSITORY"
+          echo "Dispatched sdk_generation_stage.yaml"
+          
+          echo "Dev and stage dispatch completed!"
+
+      - name: Summary
+        run: |
+          {
+            echo "## 🚀 Automated SDK Generation Dispatch (Cron)"
+            echo ""
+            echo "After completing scheduled production SDK generation, triggered:"
+            echo "- **sdk_generation_dev** on **dev** branch"
+            echo "- **sdk_generation_stage** on **stage** branch"
+          } >> "$GITHUB_STEP_SUMMARY"

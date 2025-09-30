@@ -1,4 +1,4 @@
-name: Sync Main into Dev Branches
+name: Sync Main into dev-local nad openapi-prerelease branches
 
 on:
   push:

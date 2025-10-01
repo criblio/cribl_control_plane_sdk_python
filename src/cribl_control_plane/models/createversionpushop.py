@@ -2,22 +2,22 @@
 
 from __future__ import annotations
 from cribl_control_plane.types import BaseModel
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
 from typing_extensions import NotRequired, TypedDict
 
 
 class CreateVersionPushResponseTypedDict(TypedDict):
-    r"""a list of any objects"""
+    r"""a list of string objects"""
 
     count: NotRequired[int]
     r"""number of items present in the items array"""
-    items: NotRequired[List[Dict[str, Any]]]
+    items: NotRequired[List[str]]
 
 
 class CreateVersionPushResponse(BaseModel):
-    r"""a list of any objects"""
+    r"""a list of string objects"""
 
     count: Optional[int] = None
     r"""number of items present in the items array"""
 
-    items: Optional[List[Dict[str, Any]]] = None
+    items: Optional[List[str]] = None

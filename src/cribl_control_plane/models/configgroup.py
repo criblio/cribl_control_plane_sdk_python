@@ -4,9 +4,12 @@ from __future__ import annotations
 from .commit import Commit, CommitTypedDict
 from .configgroupcloud import ConfigGroupCloud, ConfigGroupCloudTypedDict
 from .configgrouplookups import ConfigGroupLookups, ConfigGroupLookupsTypedDict
+from cribl_control_plane import utils
 from cribl_control_plane.types import BaseModel
+from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
+from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -27,7 +30,7 @@ class Git(BaseModel):
     log: Optional[List[Commit]] = None
 
 
-class ConfigGroupType(str, Enum):
+class ConfigGroupType(str, Enum, metaclass=utils.OpenEnumMeta):
     LAKE_ACCESS = "lake_access"
 
 
@@ -105,7 +108,9 @@ class ConfigGroup(BaseModel):
 
     tags: Optional[str] = None
 
-    type: Optional[ConfigGroupType] = None
+    type: Annotated[
+        Optional[ConfigGroupType], PlainValidator(validate_open_enum(False))
+    ] = None
 
     upgrade_version: Annotated[
         Optional[str], pydantic.Field(alias="upgradeVersion")

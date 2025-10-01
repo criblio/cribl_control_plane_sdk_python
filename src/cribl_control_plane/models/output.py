@@ -18,6 +18,7 @@ from .outputcrowdstrikenextgensiem import (
     OutputCrowdstrikeNextGenSiem,
     OutputCrowdstrikeNextGenSiemTypedDict,
 )
+from .outputdatabricks import OutputDatabricks, OutputDatabricksTypedDict
 from .outputdatadog import OutputDatadog, OutputDatadogTypedDict
 from .outputdataset import OutputDataset, OutputDatasetTypedDict
 from .outputdefault import OutputDefault, OutputDefaultTypedDict
@@ -137,6 +138,7 @@ OutputTypedDict = TypeAliasType(
         OutputPrometheusTypedDict,
         OutputMskTypedDict,
         OutputSentinelOneAiSiemTypedDict,
+        OutputDatabricksTypedDict,
         OutputSentinelTypedDict,
         OutputInfluxdbTypedDict,
         OutputGoogleCloudStorageTypedDict,
@@ -208,6 +210,7 @@ Output = TypeAliasType(
         OutputPrometheus,
         OutputMsk,
         OutputSentinelOneAiSiem,
+        OutputDatabricks,
         OutputSentinel,
         OutputInfluxdb,
         OutputGoogleCloudStorage,

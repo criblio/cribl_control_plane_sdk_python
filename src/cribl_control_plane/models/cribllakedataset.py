@@ -6,14 +6,17 @@ from .lakedatasetsearchconfig import (
     LakeDatasetSearchConfig,
     LakeDatasetSearchConfigTypedDict,
 )
+from cribl_control_plane import utils
 from cribl_control_plane.types import BaseModel
+from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
+from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class CriblLakeDatasetFormat(str, Enum):
+class CriblLakeDatasetFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     JSON = "json"
     DDSS = "ddss"
     PARQUET = "parquet"
@@ -54,7 +57,10 @@ class CriblLakeDataset(BaseModel):
     description: Optional[str] = None
 
     format_: Annotated[
-        Optional[CriblLakeDatasetFormat], pydantic.Field(alias="format")
+        Annotated[
+            Optional[CriblLakeDatasetFormat], PlainValidator(validate_open_enum(False))
+        ],
+        pydantic.Field(alias="format"),
     ] = None
 
     http_da_used: Annotated[Optional[bool], pydantic.Field(alias="httpDAUsed")] = None

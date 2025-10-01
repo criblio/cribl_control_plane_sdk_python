@@ -19,6 +19,7 @@ class NodeProvidedInfoTags(BaseModel):
 
 class NodeProvidedInfoAwsTypedDict(TypedDict):
     enabled: bool
+    instance_id: str
     region: str
     type: str
     zone: str
@@ -27,6 +28,8 @@ class NodeProvidedInfoAwsTypedDict(TypedDict):
 
 class NodeProvidedInfoAws(BaseModel):
     enabled: bool
+
+    instance_id: Annotated[str, pydantic.Field(alias="instanceId")]
 
     region: str
 

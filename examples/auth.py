@@ -12,10 +12,10 @@ Used by: Example files that that can run on cloud or on-premises
 import asyncio
 import os
 from pathlib import Path
-from typing import Optional, Dict, Any, Union
+from typing import Optional, Union
 from dataclasses import dataclass
 
-from dotenv import load_dotenv
+from dotenv import load_dotenv  # pylint: disable=import-error
 from cribl_control_plane import CriblControlPlane
 from cribl_control_plane.models import Security, SchemeClientOauth
 
@@ -188,9 +188,9 @@ class AuthOnprem(ICriblAuth):
                 return await self.get_client()
 
             if status_code == 401:
-                raise Exception(f"Failed to authenticate with on-premises server: {error}")
+                raise Exception(f"Failed to authenticate with on-premises server: {error}") from error
 
-            raise Exception(f"Failed to authenticate with on-premises server: {error}")
+            raise Exception(f"Failed to authenticate with on-premises server: {error}") from error
 
 
 class AuthCloud(ICriblAuth):
@@ -241,6 +241,6 @@ class AuthCloud(ICriblAuth):
                 return await self.get_client()
 
             if status_code == 401:
-                raise Exception(f"Failed to authenticate with cloud server: {error}")
+                raise Exception(f"Failed to authenticate with cloud server: {error}") from error
 
-            raise Exception(f"Failed to authenticate with cloud server: {error}; attempts: {self.attempts}")
+            raise Exception(f"Failed to authenticate with cloud server: {error}; attempts: {self.attempts}") from error

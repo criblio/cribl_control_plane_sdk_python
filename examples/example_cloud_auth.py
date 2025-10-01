@@ -58,10 +58,10 @@ if __name__ == "__main__":
     try:
         asyncio.run(main())
     except Exception as error:
-        status_code = getattr(error, 'status_code', None)
-        if status_code == 401:
+        HTTP_STATUS = getattr(error, 'status_code', None)
+        if HTTP_STATUS == 401:
             print("⚠️ Authentication failed! Check your CLIENT_ID and CLIENT_SECRET.")
-        elif status_code == 429:
+        elif HTTP_STATUS == 429:
             print("⚠️ Uh oh, you've reached the rate limit! Try again in a few seconds.")
         else:
             print(f"❌ Something went wrong: {error}")

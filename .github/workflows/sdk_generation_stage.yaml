@@ -6,7 +6,12 @@ permissions:
   statuses: write
 
 on:
-  workflow_dispatch: # Manual trigger only
+  workflow_dispatch:
+    inputs:
+      force:
+        description: Force generation of SDKs
+        type: boolean
+        default: false
 
 jobs:
   check-branch:
@@ -96,7 +101,7 @@ jobs:
     needs: compute-version
     uses: speakeasy-api/sdk-generation-action/.github/workflows/workflow-executor.yaml@1f1527d823ac3dc23f8aba805d1350024ad783fd
     with:
-      force: true
+      force: ${{ github.event.inputs.force }}
       mode: pr
       set_version: ${{ needs.compute-version.outputs.version }}
     secrets:

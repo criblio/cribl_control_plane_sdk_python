@@ -23,6 +23,7 @@ Prerequisites:
 """
 
 import asyncio
+import sys
 from typing import Optional
 from cribl_control_plane import CriblControlPlane
 from cribl_control_plane.models import ConfigGroup, ProductsCore
@@ -46,12 +47,12 @@ async def main() -> None:
             replicate_worker_group(cribl_client, first_worker_group.id)
         else:
             print('No Worker Group found. Create at least one Worker Group before trying again.')
-            exit(1)
+            sys.exit(1)
 
     except Exception as error:
-        message = str(error)
-        print(f'Error: {message}')
-        exit(1)
+        error_message = str(error)
+        print(f'Error: {error_message}')
+        sys.exit(1)
 
 
 def replicate_worker_group(client: CriblControlPlane, source_id: str) -> Optional[ConfigGroup]:
@@ -115,12 +116,11 @@ def replicate_worker_group(client: CriblControlPlane, source_id: str) -> Optiona
             created = result.items[0]
             print(f"✅ Worker Group replicated: {created.id}")
             return created
-        else:
-            raise Exception('Failed to create replica Worker Group')
+        raise Exception('Failed to create replica Worker Group')
 
     except Exception as error:
-        message = str(error)
-        print(f"Failed to replicate Worker Group: {message}")
+        error_msg = str(error)
+        print(f"Failed to replicate Worker Group: {error_msg}")
         raise error
 
 
@@ -128,5 +128,4 @@ if __name__ == "__main__":
     try:
         asyncio.run(main())
     except Exception as error:
-        message = str(error)
-        print(f'Something went wrong: {message}')
+        print(f'Something went wrong: {error}')

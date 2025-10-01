@@ -41,7 +41,8 @@ from cribl_control_plane.models import (
     Conf,
     PipelineFunctionConf,
     FunctionSpecificConfigs,
-    InputSyslogTLSSettingsServerSide2
+    InputSyslogTLSSettingsServerSide2,
+    ProductsCore
 )
 from auth import base_url, create_cribl_client
 
@@ -127,7 +128,7 @@ async def main():
     # Verify that Fleet doesn't already exist
     fleet_response = cribl.groups.get(
         id=my_fleet.id,
-        product="edge"
+        product=ProductsCore.EDGE
     )
     if fleet_response.items and len(fleet_response.items) > 0:
         print(f"⚠️ Fleet already exists: {my_fleet.id}. Try a different Fleet ID.")
@@ -135,7 +136,7 @@ async def main():
 
     # Create Fleet
     cribl.groups.create(
-        product="edge",
+        product=ProductsCore.EDGE,
         id=my_fleet.id,
         on_prem=my_fleet.on_prem,
         worker_remote_access=my_fleet.worker_remote_access,
@@ -186,18 +187,23 @@ async def main():
     )
     print(f"✅ Route added: {route.id}")
 
-    # Deploy configuration changes
-    response = cribl.groups.configs.versions.get(
-        id=my_fleet.id,
-        product="edge"
+    # Commit configuration changes
+    commit_response = cribl.versions.commits.create(
+        group_id=my_fleet.id,
+        message="Commit for Edge example",
+        effective=True,
+        files=["."]
     )
-    if not response.items:
-        raise Exception("No version found")
     
-    version = response.items[0]
+    if not commit_response.items or len(commit_response.items) == 0:
+        raise Exception("Failed to commit configuration changes")
+    
+    version = commit_response.items[0].commit
+    print(f"✅ Committed configuration changes to the fleet: {my_fleet.id}, commit ID: {version}")
 
+    # Deploy configuration changes
     cribl.groups.deploy(
-        product="edge",
+        product=ProductsCore.EDGE,
         id=my_fleet.id,
         version=version
     )

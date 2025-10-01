@@ -9,9 +9,9 @@
 value: str = /* values here */
 ```
 
-### `bool`
+### `models.RemoteEnum`
 
 ```python
-value: bool = /* values here */
+value: models.RemoteEnum = /* values here */
 ```
 

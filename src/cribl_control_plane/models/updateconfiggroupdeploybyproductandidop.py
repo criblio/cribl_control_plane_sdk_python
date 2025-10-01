@@ -5,7 +5,13 @@ from .configgroup import ConfigGroup, ConfigGroupTypedDict
 from .deployrequest import DeployRequest, DeployRequestTypedDict
 from .productscore import ProductsCore
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import FieldMetadata, PathParamMetadata, RequestMetadata
+from cribl_control_plane.utils import (
+    FieldMetadata,
+    PathParamMetadata,
+    RequestMetadata,
+    validate_open_enum,
+)
+from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -21,7 +27,7 @@ class UpdateConfigGroupDeployByProductAndIDRequestTypedDict(TypedDict):
 
 class UpdateConfigGroupDeployByProductAndIDRequest(BaseModel):
     product: Annotated[
-        ProductsCore,
+        Annotated[ProductsCore, PlainValidator(validate_open_enum(False))],
         FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
     ]
     r"""Name of the Cribl product to get the Worker Groups or Edge Fleets for."""

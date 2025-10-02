@@ -14,6 +14,18 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
+class EstimatedIngestRate(int, Enum, metaclass=utils.OpenEnumMeta):
+    ONE_THOUSAND_AND_TWENTY_FOUR = 1024
+    FOUR_THOUSAND_AND_NINETY_SIX = 4096
+    TEN_THOUSAND_TWO_HUNDRED_AND_FORTY = 10240
+    TWO_THOUSAND_AND_FORTY_EIGHT = 2048
+    THREE_THOUSAND_AND_SEVENTY_TWO = 3072
+    FIVE_THOUSAND_ONE_HUNDRED_AND_TWENTY = 5120
+    SEVEN_THOUSAND_ONE_HUNDRED_AND_SIXTY_EIGHT = 7168
+    THIRTEEN_THOUSAND_THREE_HUNDRED_AND_TWELVE = 13312
+    FIFTEEN_THOUSAND_THREE_HUNDRED_AND_SIXTY = 15360
+
+
 class GitTypedDict(TypedDict):
     commit: NotRequired[str]
     local_changes: NotRequired[float]
@@ -40,7 +52,7 @@ class ConfigGroupTypedDict(TypedDict):
     config_version: NotRequired[str]
     deploying_worker_count: NotRequired[float]
     description: NotRequired[str]
-    estimated_ingest_rate: NotRequired[float]
+    estimated_ingest_rate: NotRequired[EstimatedIngestRate]
     git: NotRequired[GitTypedDict]
     incompatible_worker_count: NotRequired[float]
     inherits: NotRequired[str]
@@ -75,7 +87,10 @@ class ConfigGroup(BaseModel):
     description: Optional[str] = None
 
     estimated_ingest_rate: Annotated[
-        Optional[float], pydantic.Field(alias="estimatedIngestRate")
+        Annotated[
+            Optional[EstimatedIngestRate], PlainValidator(validate_open_enum(True))
+        ],
+        pydantic.Field(alias="estimatedIngestRate"),
     ] = None
 
     git: Optional[Git] = None

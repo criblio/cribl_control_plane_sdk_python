@@ -44,49 +44,12 @@ class OutputDatabricksAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMe
     SECRET = "secret"
 
 
-class OutputDatabricksCompression(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Data compression format to apply to HTTP content before it is delivered"""
-
-    NONE = "none"
-    GZIP = "gzip"
-
-
-class OutputDatabricksCompressionLevel(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Compression level to apply before moving files to final destination"""
-
-    BEST_SPEED = "best_speed"
-    NORMAL = "normal"
-    BEST_COMPRESSION = "best_compression"
-
-
-class OutputDatabricksParquetVersion(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Determines which data types are supported and how they are represented"""
-
-    PARQUET_1_0 = "PARQUET_1_0"
-    PARQUET_2_4 = "PARQUET_2_4"
-    PARQUET_2_6 = "PARQUET_2_6"
-
-
-class OutputDatabricksDataPageVersion(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it."""
-
-    DATA_PAGE_V1 = "DATA_PAGE_V1"
-    DATA_PAGE_V2 = "DATA_PAGE_V2"
-
-
-class OutputDatabricksKeyValueMetadatumTypedDict(TypedDict):
-    value: str
-    key: NotRequired[str]
-
-
-class OutputDatabricksKeyValueMetadatum(BaseModel):
-    value: str
-
-    key: Optional[str] = ""
-
-
 class OutputDatabricksTypedDict(TypedDict):
     type: OutputDatabricksType
+    login_url: str
+    r"""URL for Unity Catalog OAuth token endpoint (example: 'https://your-workspace.cloud.databricks.com/oauth/token')"""
+    client_id: str
+    r"""JavaScript expression to compute the OAuth client ID for Unity Catalog authentication. Can be a constant."""
     id: NotRequired[str]
     r"""Unique ID for this output"""
     pipeline: NotRequired[str]
@@ -133,14 +96,6 @@ class OutputDatabricksTypedDict(TypedDict):
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
     unity_auth_method: NotRequired[OutputDatabricksAuthenticationMethod]
     r"""Unity Catalog authentication method. Choose Manual to enter credentials directly, or Secret to use a stored secret."""
-    login_url: NotRequired[str]
-    r"""URL for Unity Catalog OAuth token endpoint (example: 'https://your-workspace.cloud.databricks.com/oauth/token')"""
-    client_id: NotRequired[str]
-    r"""JavaScript expression to compute the OAuth client ID for Unity Catalog authentication. Can be a constant."""
-    client_secret: NotRequired[str]
-    r"""JavaScript expression to compute the OAuth client secret for Unity Catalog authentication. Can be a constant."""
-    client_text_secret: NotRequired[str]
-    r"""Select or create a stored secret that references your Client ID and Client Secret"""
     scope: NotRequired[str]
     r"""OAuth scope for Unity Catalog authentication"""
     token_timeout_secs: NotRequired[float]
@@ -154,40 +109,20 @@ class OutputDatabricksTypedDict(TypedDict):
     over_write_files: NotRequired[bool]
     r"""Uploaded files should be overwritten if they already exist. If disabled, upload will fail if a file already exists."""
     description: NotRequired[str]
-    compress: NotRequired[OutputDatabricksCompression]
-    r"""Data compression format to apply to HTTP content before it is delivered"""
-    compression_level: NotRequired[OutputDatabricksCompressionLevel]
-    r"""Compression level to apply before moving files to final destination"""
-    automatic_schema: NotRequired[bool]
-    r"""Automatically calculate the schema based on the events of each Parquet file generated"""
-    parquet_version: NotRequired[OutputDatabricksParquetVersion]
-    r"""Determines which data types are supported and how they are represented"""
-    parquet_data_page_version: NotRequired[OutputDatabricksDataPageVersion]
-    r"""Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it."""
-    parquet_row_group_length: NotRequired[float]
-    r"""The number of rows that every group will contain. The final group can contain a smaller number of rows."""
-    parquet_page_size: NotRequired[str]
-    r"""Target memory size for page segments, such as 1MB or 128MB. Generally, lower values improve reading speed, while higher values improve compression."""
-    should_log_invalid_rows: NotRequired[bool]
-    r"""Log up to 3 rows that @{product} skips due to data mismatch"""
-    key_value_metadata: NotRequired[List[OutputDatabricksKeyValueMetadatumTypedDict]]
-    r"""The metadata of files the Destination writes will include the properties you add here as key-value pairs. Useful for tagging. Examples: \"key\":\"OCSF Event Class\", \"value\":\"9001\" """
-    enable_statistics: NotRequired[bool]
-    r"""Statistics profile an entire file in terms of minimum/maximum values within data, numbers of nulls, etc. You can use Parquet tools to view statistics."""
-    enable_write_page_index: NotRequired[bool]
-    r"""One page index contains statistics for one data page. Parquet readers use statistics to enable page skipping."""
-    enable_page_checksum: NotRequired[bool]
-    r"""Parquet tools can use the checksum of a Parquet page to verify data integrity"""
-    empty_dir_cleanup_sec: NotRequired[float]
-    r"""How frequently, in seconds, to clean up empty directories"""
-    deadletter_path: NotRequired[str]
-    r"""Storage location for files that fail to reach their final destination after maximum retries are exceeded"""
-    max_retry_num: NotRequired[float]
-    r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
+    client_secret: NotRequired[str]
+    r"""JavaScript expression to compute the OAuth client secret for Unity Catalog authentication. Can be a constant."""
+    client_text_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
 
 
 class OutputDatabricks(BaseModel):
     type: OutputDatabricksType
+
+    login_url: Annotated[str, pydantic.Field(alias="loginUrl")]
+    r"""URL for Unity Catalog OAuth token endpoint (example: 'https://your-workspace.cloud.databricks.com/oauth/token')"""
+
+    client_id: Annotated[str, pydantic.Field(alias="clientId")]
+    r"""JavaScript expression to compute the OAuth client ID for Unity Catalog authentication. Can be a constant."""
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
@@ -308,20 +243,6 @@ class OutputDatabricks(BaseModel):
     ] = OutputDatabricksAuthenticationMethod.MANUAL
     r"""Unity Catalog authentication method. Choose Manual to enter credentials directly, or Secret to use a stored secret."""
 
-    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
-    r"""URL for Unity Catalog OAuth token endpoint (example: 'https://your-workspace.cloud.databricks.com/oauth/token')"""
-
-    client_id: Annotated[Optional[str], pydantic.Field(alias="clientId")] = None
-    r"""JavaScript expression to compute the OAuth client ID for Unity Catalog authentication. Can be a constant."""
-
-    client_secret: Annotated[Optional[str], pydantic.Field(alias="clientSecret")] = None
-    r"""JavaScript expression to compute the OAuth client secret for Unity Catalog authentication. Can be a constant."""
-
-    client_text_secret: Annotated[
-        Optional[str], pydantic.Field(alias="clientTextSecret")
-    ] = None
-    r"""Select or create a stored secret that references your Client ID and Client Secret"""
-
     scope: Optional[str] = "all-apis"
     r"""OAuth scope for Unity Catalog authentication"""
 
@@ -352,88 +273,10 @@ class OutputDatabricks(BaseModel):
 
     description: Optional[str] = None
 
-    compress: Annotated[
-        Optional[OutputDatabricksCompression], PlainValidator(validate_open_enum(False))
-    ] = OutputDatabricksCompression.GZIP
-    r"""Data compression format to apply to HTTP content before it is delivered"""
+    client_secret: Annotated[Optional[str], pydantic.Field(alias="clientSecret")] = None
+    r"""JavaScript expression to compute the OAuth client secret for Unity Catalog authentication. Can be a constant."""
 
-    compression_level: Annotated[
-        Annotated[
-            Optional[OutputDatabricksCompressionLevel],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="compressionLevel"),
-    ] = OutputDatabricksCompressionLevel.BEST_SPEED
-    r"""Compression level to apply before moving files to final destination"""
-
-    automatic_schema: Annotated[
-        Optional[bool], pydantic.Field(alias="automaticSchema")
-    ] = False
-    r"""Automatically calculate the schema based on the events of each Parquet file generated"""
-
-    parquet_version: Annotated[
-        Annotated[
-            Optional[OutputDatabricksParquetVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="parquetVersion"),
-    ] = OutputDatabricksParquetVersion.PARQUET_2_6
-    r"""Determines which data types are supported and how they are represented"""
-
-    parquet_data_page_version: Annotated[
-        Annotated[
-            Optional[OutputDatabricksDataPageVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="parquetDataPageVersion"),
-    ] = OutputDatabricksDataPageVersion.DATA_PAGE_V2
-    r"""Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it."""
-
-    parquet_row_group_length: Annotated[
-        Optional[float], pydantic.Field(alias="parquetRowGroupLength")
-    ] = 10000
-    r"""The number of rows that every group will contain. The final group can contain a smaller number of rows."""
-
-    parquet_page_size: Annotated[
-        Optional[str], pydantic.Field(alias="parquetPageSize")
-    ] = "1MB"
-    r"""Target memory size for page segments, such as 1MB or 128MB. Generally, lower values improve reading speed, while higher values improve compression."""
-
-    should_log_invalid_rows: Annotated[
-        Optional[bool], pydantic.Field(alias="shouldLogInvalidRows")
+    client_text_secret: Annotated[
+        Optional[str], pydantic.Field(alias="clientTextSecret")
     ] = None
-    r"""Log up to 3 rows that @{product} skips due to data mismatch"""
-
-    key_value_metadata: Annotated[
-        Optional[List[OutputDatabricksKeyValueMetadatum]],
-        pydantic.Field(alias="keyValueMetadata"),
-    ] = None
-    r"""The metadata of files the Destination writes will include the properties you add here as key-value pairs. Useful for tagging. Examples: \"key\":\"OCSF Event Class\", \"value\":\"9001\" """
-
-    enable_statistics: Annotated[
-        Optional[bool], pydantic.Field(alias="enableStatistics")
-    ] = True
-    r"""Statistics profile an entire file in terms of minimum/maximum values within data, numbers of nulls, etc. You can use Parquet tools to view statistics."""
-
-    enable_write_page_index: Annotated[
-        Optional[bool], pydantic.Field(alias="enableWritePageIndex")
-    ] = True
-    r"""One page index contains statistics for one data page. Parquet readers use statistics to enable page skipping."""
-
-    enable_page_checksum: Annotated[
-        Optional[bool], pydantic.Field(alias="enablePageChecksum")
-    ] = False
-    r"""Parquet tools can use the checksum of a Parquet page to verify data integrity"""
-
-    empty_dir_cleanup_sec: Annotated[
-        Optional[float], pydantic.Field(alias="emptyDirCleanupSec")
-    ] = 300
-    r"""How frequently, in seconds, to clean up empty directories"""
-
-    deadletter_path: Annotated[
-        Optional[str], pydantic.Field(alias="deadletterPath")
-    ] = "$CRIBL_HOME/state/outputs/dead-letter"
-    r"""Storage location for files that fail to reach their final destination after maximum retries are exceeded"""
-
-    max_retry_num: Annotated[Optional[float], pydantic.Field(alias="maxRetryNum")] = 20
-    r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
+    r"""Select or create a stored text secret"""

@@ -4,9 +4,12 @@ from __future__ import annotations
 from .heartbeatmetadata import HeartbeatMetadata, HeartbeatMetadataTypedDict
 from .nodeprovidedinfo import NodeProvidedInfo, NodeProvidedInfoTypedDict
 from .nodeupgradestatus import NodeUpgradeStatus, NodeUpgradeStatusTypedDict
+from cribl_control_plane import utils
 from cribl_control_plane.types import BaseModel
+from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
+from pydantic.functional_validators import PlainValidator
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -19,7 +22,7 @@ class LastMetrics(BaseModel):
     pass
 
 
-class MasterWorkerEntryType(str, Enum):
+class MasterWorkerEntryType(str, Enum, metaclass=utils.OpenEnumMeta):
     INFO = "info"
     REQ = "req"
     RESP = "resp"
@@ -79,6 +82,8 @@ class MasterWorkerEntry(BaseModel):
 
     status: Optional[str] = None
 
-    type: Optional[MasterWorkerEntryType] = None
+    type: Annotated[
+        Optional[MasterWorkerEntryType], PlainValidator(validate_open_enum(False))
+    ] = None
 
     workers: Optional[MasterWorkerEntryWorkers] = None

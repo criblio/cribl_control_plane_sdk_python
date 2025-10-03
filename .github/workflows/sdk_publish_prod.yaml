@@ -1,4 +1,4 @@
-name: Publish SDK (main/dev/stage)
+name: Publish SDK (main/dev/stage/openapi-prerelease)
 permissions:
   checks: write
   contents: write
@@ -11,6 +11,7 @@ on:
       - main
       - dev
       - stage
+      - openapi-prerelease
     paths:
       - .speakeasy/gen.lock
   workflow_dispatch: {}

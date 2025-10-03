@@ -115,9 +115,9 @@ class OutputGoogleCloudLoggingTypedDict(TypedDict):
     type: OutputGoogleCloudLoggingType
     log_location_type: LogLocationType
     log_name_expression: str
-    r"""JavaScript expression to compute the value of the log name."""
+    r"""JavaScript expression to compute the value of the log name. If Validate and correct log name is enabled, invalid characters (characters other than alphanumerics, forward-slashes, underscores, hyphens, and periods) will be replaced with an underscore."""
     log_location_expression: str
-    r"""JavaScript expression to compute the value of the folder ID with which log entries should be associated."""
+    r"""JavaScript expression to compute the value of the folder ID with which log entries should be associated. If Validate and correct log name is enabled, invalid characters (characters other than alphanumerics, forward-slashes, underscores, hyphens, and periods) will be replaced with an underscore."""
     id: NotRequired[str]
     r"""Unique ID for this output"""
     pipeline: NotRequired[str]
@@ -128,6 +128,7 @@ class OutputGoogleCloudLoggingTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    sanitize_log_names: NotRequired[bool]
     payload_format: NotRequired[PayloadFormat]
     r"""Format to use when sending payload. Defaults to Text."""
     log_labels: NotRequired[List[LogLabelTypedDict]]
@@ -247,12 +248,12 @@ class OutputGoogleCloudLogging(BaseModel):
     ]
 
     log_name_expression: Annotated[str, pydantic.Field(alias="logNameExpression")]
-    r"""JavaScript expression to compute the value of the log name."""
+    r"""JavaScript expression to compute the value of the log name. If Validate and correct log name is enabled, invalid characters (characters other than alphanumerics, forward-slashes, underscores, hyphens, and periods) will be replaced with an underscore."""
 
     log_location_expression: Annotated[
         str, pydantic.Field(alias="logLocationExpression")
     ]
-    r"""JavaScript expression to compute the value of the folder ID with which log entries should be associated."""
+    r"""JavaScript expression to compute the value of the folder ID with which log entries should be associated. If Validate and correct log name is enabled, invalid characters (characters other than alphanumerics, forward-slashes, underscores, hyphens, and periods) will be replaced with an underscore."""
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
@@ -270,6 +271,10 @@ class OutputGoogleCloudLogging(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    sanitize_log_names: Annotated[
+        Optional[bool], pydantic.Field(alias="sanitizeLogNames")
+    ] = False
 
     payload_format: Annotated[
         Annotated[Optional[PayloadFormat], PlainValidator(validate_open_enum(False))],

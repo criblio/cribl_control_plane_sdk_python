@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.14.1-alpha.1758626754698-b3680673
+  version: 4.14.1-alpha.1759348021885-ce0ae185
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -8896,10 +8896,12 @@ components:
                 properties:
                   enabled:
                     type: boolean
+                    title: Splunk HEC
               elasticsearchMetadata:
                 type: object
                 properties:
                   enabled:
+                    title: Elasticsearch
                     type: boolean
         description:
           type: string
@@ -24561,7 +24563,11 @@ components:
         logNameExpression:
           type: string
           title: Log name expression
-          description: JavaScript expression to compute the value of the log name.
+          description: JavaScript expression to compute the value of the log name. If Validate and correct log name is enabled, invalid characters (characters other than alphanumerics, forward-slashes, underscores, hyphens, and periods) will be replaced with an underscore.
+        sanitizeLogNames:
+          type: boolean
+          title: Validate and correct log name
+          default: false
         payloadFormat:
           type: string
           title: Payload format
@@ -24811,7 +24817,7 @@ components:
           title: Description
         logLocationExpression:
           title: Folder ID expression
-          description: JavaScript expression to compute the value of the folder ID with which log entries should be associated.
+          description: JavaScript expression to compute the value of the folder ID with which log entries should be associated. If Validate and correct log name is enabled, invalid characters (characters other than alphanumerics, forward-slashes, underscores, hyphens, and periods) will be replaced with an underscore.
           type: string
         payloadExpression:
           title: Payload object expression
@@ -38784,7 +38790,9 @@ components:
         remote:
           oneOf:
             - type: string
-            - type: boolean
+            - enum:
+                - false
+              x-speakeasy-unknown-values: allow
         versioning:
           type: boolean
       required:
@@ -38941,6 +38949,8 @@ components:
           $ref: "#/components/schemas/HBLeaderInfo"
         pid:
           type: number
+        socksEnabled:
+          type: boolean
         startTime:
           type: number
         tags:

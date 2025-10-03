@@ -336,7 +336,7 @@ if TYPE_CHECKING:
     from .gitdiffresult import GitDiffResult, GitDiffResultTypedDict
     from .gitfile import GitFile, GitFileTypedDict
     from .gitfilesresponse import GitFilesResponse, GitFilesResponseTypedDict
-    from .gitinfo import GitInfo, GitInfoTypedDict, Remote, RemoteTypedDict
+    from .gitinfo import GitInfo, GitInfoTypedDict, Remote, RemoteEnum, RemoteTypedDict
     from .gitlogresult import GitLogResult, GitLogResultTypedDict
     from .gitrevertparams import GitRevertParams, GitRevertParamsTypedDict
     from .gitrevertresult import (
@@ -6053,6 +6053,7 @@ __all__ = [
     "RbacResource",
     "ReadMode",
     "Remote",
+    "RemoteEnum",
     "RemoteTypedDict",
     "Renamed",
     "RenamedTypedDict",
@@ -6464,6 +6465,7 @@ _dynamic_imports: dict[str, str] = {
     "GitInfo": ".gitinfo",
     "GitInfoTypedDict": ".gitinfo",
     "Remote": ".gitinfo",
+    "RemoteEnum": ".gitinfo",
     "RemoteTypedDict": ".gitinfo",
     "GitLogResult": ".gitlogresult",
     "GitLogResultTypedDict": ".gitlogresult",

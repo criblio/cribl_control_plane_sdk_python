@@ -50,6 +50,7 @@ class HBCriblInfoTypedDict(TypedDict):
     lookup_versions: NotRequired[LookupVersionsTypedDict]
     master: NotRequired[HBLeaderInfoTypedDict]
     pid: NotRequired[float]
+    socks_enabled: NotRequired[bool]
     version: NotRequired[str]
 
 
@@ -86,5 +87,9 @@ class HBCriblInfo(BaseModel):
     master: Optional[HBLeaderInfo] = None
 
     pid: Optional[float] = None
+
+    socks_enabled: Annotated[Optional[bool], pydantic.Field(alias="socksEnabled")] = (
+        None
+    )
 
     version: Optional[str] = None

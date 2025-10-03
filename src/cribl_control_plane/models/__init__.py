@@ -12,7 +12,6 @@ if TYPE_CHECKING:
         AddHecTokenRequestMetadatumTypedDict,
         AddHecTokenRequestTypedDict,
     )
-    from .appmode import AppMode
     from .authtoken import AuthToken, AuthTokenTypedDict
     from .branchinfo import BranchInfo, BranchInfoTypedDict
     from .cacheconnection import CacheConnection, CacheConnectionTypedDict
@@ -23,6 +22,7 @@ if TYPE_CHECKING:
         ConfigGroup,
         ConfigGroupType,
         ConfigGroupTypedDict,
+        EstimatedIngestRate,
         Git,
         GitTypedDict,
     )
@@ -179,6 +179,7 @@ if TYPE_CHECKING:
         DistributedSummaryWorkers,
         DistributedSummaryWorkersTypedDict,
     )
+    from .error import Error, ErrorTypedDict
     from .getconfiggroupaclbyproductandidop import (
         GetConfigGroupACLByProductAndIDRequest,
         GetConfigGroupACLByProductAndIDRequestTypedDict,
@@ -215,6 +216,7 @@ if TYPE_CHECKING:
         GetCriblLakeDatasetByLakeIDResponse,
         GetCriblLakeDatasetByLakeIDResponseTypedDict,
     )
+    from .gethealthinfoop import GetHealthInfoResponse, GetHealthInfoResponseTypedDict
     from .getinputbyidop import (
         GetInputByIDRequest,
         GetInputByIDRequestTypedDict,
@@ -334,7 +336,7 @@ if TYPE_CHECKING:
     from .gitdiffresult import GitDiffResult, GitDiffResultTypedDict
     from .gitfile import GitFile, GitFileTypedDict
     from .gitfilesresponse import GitFilesResponse, GitFilesResponseTypedDict
-    from .gitinfo import GitInfo, GitInfoTypedDict, Remote, RemoteTypedDict
+    from .gitinfo import GitInfo, GitInfoTypedDict, Remote, RemoteEnum, RemoteTypedDict
     from .gitlogresult import GitLogResult, GitLogResultTypedDict
     from .gitrevertparams import GitRevertParams, GitRevertParamsTypedDict
     from .gitrevertresult import (
@@ -345,6 +347,7 @@ if TYPE_CHECKING:
         GitRevertResultFilesTypedDict,
         GitRevertResultTypedDict,
     )
+    from .gitshowresult import GitShowResult, GitShowResultTypedDict
     from .gitstatusresult import (
         File,
         FileTypedDict,
@@ -353,7 +356,13 @@ if TYPE_CHECKING:
         Renamed,
         RenamedTypedDict,
     )
-    from .hbcriblinfo import Config, ConfigTypedDict, HBCriblInfo, HBCriblInfoTypedDict
+    from .hbcriblinfo import (
+        Config,
+        ConfigTypedDict,
+        DistMode,
+        HBCriblInfo,
+        HBCriblInfoTypedDict,
+    )
     from .hbleaderinfo import HBLeaderInfo, HBLeaderInfoTypedDict
     from .healthstatus import HealthStatus, HealthStatusTypedDict, Role, Status
     from .heartbeatmetadata import (
@@ -460,7 +469,6 @@ if TYPE_CHECKING:
         InputConfluentCloudPqControlsTypedDict,
         InputConfluentCloudPqTypedDict,
         InputConfluentCloudSASLMechanism,
-        InputConfluentCloudSchemaType,
         InputConfluentCloudTLSSettingsClientSide,
         InputConfluentCloudTLSSettingsClientSideTypedDict,
         InputConfluentCloudType,
@@ -919,7 +927,6 @@ if TYPE_CHECKING:
         InputKafkaPqControlsTypedDict,
         InputKafkaPqTypedDict,
         InputKafkaSASLMechanism,
-        InputKafkaSchemaType,
         InputKafkaTLSSettingsClientSide,
         InputKafkaTLSSettingsClientSideTypedDict,
         InputKafkaType,
@@ -1087,7 +1094,6 @@ if TYPE_CHECKING:
         InputMskPqControls,
         InputMskPqControlsTypedDict,
         InputMskPqTypedDict,
-        InputMskSchemaType,
         InputMskSignatureVersion,
         InputMskTLSSettingsClientSide,
         InputMskTLSSettingsClientSideTypedDict,
@@ -1982,7 +1988,6 @@ if TYPE_CHECKING:
         OutputConfluentCloudQueueFullBehavior,
         OutputConfluentCloudRecordDataFormat,
         OutputConfluentCloudSASLMechanism,
-        OutputConfluentCloudSchemaType,
         OutputConfluentCloudTLSSettingsClientSide,
         OutputConfluentCloudTLSSettingsClientSideTypedDict,
         OutputConfluentCloudType,
@@ -2064,6 +2069,15 @@ if TYPE_CHECKING:
         OutputCrowdstrikeNextGenSiemTimeoutRetrySettingsTypedDict,
         OutputCrowdstrikeNextGenSiemType,
         OutputCrowdstrikeNextGenSiemTypedDict,
+    )
+    from .outputdatabricks import (
+        OutputDatabricks,
+        OutputDatabricksAuthenticationMethod,
+        OutputDatabricksBackpressureBehavior,
+        OutputDatabricksDataFormat,
+        OutputDatabricksDiskSpaceProtection,
+        OutputDatabricksType,
+        OutputDatabricksTypedDict,
     )
     from .outputdatadog import (
         DatadogSite,
@@ -2483,7 +2497,6 @@ if TYPE_CHECKING:
         OutputKafkaQueueFullBehavior,
         OutputKafkaRecordDataFormat,
         OutputKafkaSASLMechanism,
-        OutputKafkaSchemaType,
         OutputKafkaTLSSettingsClientSide,
         OutputKafkaTLSSettingsClientSideTypedDict,
         OutputKafkaType,
@@ -2566,7 +2579,6 @@ if TYPE_CHECKING:
         OutputMskPqControlsTypedDict,
         OutputMskQueueFullBehavior,
         OutputMskRecordDataFormat,
-        OutputMskSchemaType,
         OutputMskSignatureVersion,
         OutputMskTLSSettingsClientSide,
         OutputMskTLSSettingsClientSideTypedDict,
@@ -3125,7 +3137,6 @@ if TYPE_CHECKING:
     from .productscore import ProductsCore
     from .rbacresource import RbacResource
     from .resourcepolicy import ResourcePolicy, ResourcePolicyTypedDict
-    from .routecloneconf import RouteCloneConf, RouteCloneConfTypedDict
     from .routeconf import RouteConf, RouteConfTypedDict
     from .routes import (
         Comment,
@@ -3144,6 +3155,7 @@ if TYPE_CHECKING:
         CollectorSpecificSettings,
         CollectorSpecificSettingsTypedDict,
         CollectorTypedDict,
+        InputType,
         RunnableJobCollection,
         RunnableJobCollectionInput,
         RunnableJobCollectionInputTypedDict,
@@ -3166,7 +3178,6 @@ if TYPE_CHECKING:
         RunnableJobCollectionScheduleTypedDict,
         RunnableJobCollectionTimeWarning,
         RunnableJobCollectionTimeWarningTypedDict,
-        RunnableJobCollectionType,
         RunnableJobCollectionTypedDict,
         TimeRange,
         WhereToCapture,
@@ -3286,7 +3297,6 @@ __all__ = [
     "AdditionalPropertyTypedDict",
     "Allow",
     "AllowTypedDict",
-    "AppMode",
     "Audit",
     "AuditTypedDict",
     "AuthToken",
@@ -3436,6 +3446,7 @@ __all__ = [
     "DiffFilesTypedDict",
     "DisksAndFileSystems",
     "DisksAndFileSystemsTypedDict",
+    "DistMode",
     "DistributedSummary",
     "DistributedSummaryGroups",
     "DistributedSummaryGroupsTypedDict",
@@ -3452,6 +3463,9 @@ __all__ = [
     "EndpointParam",
     "EndpointParamTypedDict",
     "EndpointType",
+    "Error",
+    "ErrorTypedDict",
+    "EstimatedIngestRate",
     "EventFormat",
     "Executor",
     "ExecutorSpecificSettings",
@@ -3493,6 +3507,8 @@ __all__ = [
     "GetCriblLakeDatasetByLakeIDRequestTypedDict",
     "GetCriblLakeDatasetByLakeIDResponse",
     "GetCriblLakeDatasetByLakeIDResponseTypedDict",
+    "GetHealthInfoResponse",
+    "GetHealthInfoResponseTypedDict",
     "GetInputByIDRequest",
     "GetInputByIDRequestTypedDict",
     "GetInputByIDResponse",
@@ -3586,6 +3602,8 @@ __all__ = [
     "GitRevertResultFiles",
     "GitRevertResultFilesTypedDict",
     "GitRevertResultTypedDict",
+    "GitShowResult",
+    "GitShowResultTypedDict",
     "GitStatusResult",
     "GitStatusResultTypedDict",
     "GitTypedDict",
@@ -3699,7 +3717,6 @@ __all__ = [
     "InputConfluentCloudPqControlsTypedDict",
     "InputConfluentCloudPqTypedDict",
     "InputConfluentCloudSASLMechanism",
-    "InputConfluentCloudSchemaType",
     "InputConfluentCloudTLSSettingsClientSide",
     "InputConfluentCloudTLSSettingsClientSideTypedDict",
     "InputConfluentCloudType",
@@ -4089,7 +4106,6 @@ __all__ = [
     "InputKafkaPqControlsTypedDict",
     "InputKafkaPqTypedDict",
     "InputKafkaSASLMechanism",
-    "InputKafkaSchemaType",
     "InputKafkaTLSSettingsClientSide",
     "InputKafkaTLSSettingsClientSideTypedDict",
     "InputKafkaType",
@@ -4239,7 +4255,6 @@ __all__ = [
     "InputMskPqControls",
     "InputMskPqControlsTypedDict",
     "InputMskPqTypedDict",
-    "InputMskSchemaType",
     "InputMskSignatureVersion",
     "InputMskTLSSettingsClientSide",
     "InputMskTLSSettingsClientSideTypedDict",
@@ -4686,6 +4701,7 @@ __all__ = [
     "InputTcpjsonTLSSettingsServerSideTypedDict",
     "InputTcpjsonType",
     "InputTcpjsonTypedDict",
+    "InputType",
     "InputTypedDict",
     "InputWef",
     "InputWefAuthenticationMethod",
@@ -5036,7 +5052,6 @@ __all__ = [
     "OutputConfluentCloudQueueFullBehavior",
     "OutputConfluentCloudRecordDataFormat",
     "OutputConfluentCloudSASLMechanism",
-    "OutputConfluentCloudSchemaType",
     "OutputConfluentCloudTLSSettingsClientSide",
     "OutputConfluentCloudTLSSettingsClientSideTypedDict",
     "OutputConfluentCloudType",
@@ -5109,6 +5124,13 @@ __all__ = [
     "OutputCrowdstrikeNextGenSiemTimeoutRetrySettingsTypedDict",
     "OutputCrowdstrikeNextGenSiemType",
     "OutputCrowdstrikeNextGenSiemTypedDict",
+    "OutputDatabricks",
+    "OutputDatabricksAuthenticationMethod",
+    "OutputDatabricksBackpressureBehavior",
+    "OutputDatabricksDataFormat",
+    "OutputDatabricksDiskSpaceProtection",
+    "OutputDatabricksType",
+    "OutputDatabricksTypedDict",
     "OutputDatadog",
     "OutputDatadogAuthenticationMethod",
     "OutputDatadogBackpressureBehavior",
@@ -5472,7 +5494,6 @@ __all__ = [
     "OutputKafkaQueueFullBehavior",
     "OutputKafkaRecordDataFormat",
     "OutputKafkaSASLMechanism",
-    "OutputKafkaSchemaType",
     "OutputKafkaTLSSettingsClientSide",
     "OutputKafkaTLSSettingsClientSideTypedDict",
     "OutputKafkaType",
@@ -5547,7 +5568,6 @@ __all__ = [
     "OutputMskPqControlsTypedDict",
     "OutputMskQueueFullBehavior",
     "OutputMskRecordDataFormat",
-    "OutputMskSchemaType",
     "OutputMskSignatureVersion",
     "OutputMskTLSSettingsClientSide",
     "OutputMskTLSSettingsClientSideTypedDict",
@@ -6043,6 +6063,7 @@ __all__ = [
     "RbacResource",
     "ReadMode",
     "Remote",
+    "RemoteEnum",
     "RemoteTypedDict",
     "Renamed",
     "RenamedTypedDict",
@@ -6053,8 +6074,6 @@ __all__ = [
     "ResourceTypeLabel",
     "ResourceTypeLabelTypedDict",
     "Role",
-    "RouteCloneConf",
-    "RouteCloneConfTypedDict",
     "RouteConf",
     "RouteConfTypedDict",
     "Routes",
@@ -6086,7 +6105,6 @@ __all__ = [
     "RunnableJobCollectionScheduleTypedDict",
     "RunnableJobCollectionTimeWarning",
     "RunnableJobCollectionTimeWarningTypedDict",
-    "RunnableJobCollectionType",
     "RunnableJobCollectionTypedDict",
     "RunnableJobExecutor",
     "RunnableJobExecutorJobType",
@@ -6206,7 +6224,6 @@ _dynamic_imports: dict[str, str] = {
     "AddHecTokenRequestMetadatum": ".addhectokenrequest",
     "AddHecTokenRequestMetadatumTypedDict": ".addhectokenrequest",
     "AddHecTokenRequestTypedDict": ".addhectokenrequest",
-    "AppMode": ".appmode",
     "AuthToken": ".authtoken",
     "AuthTokenTypedDict": ".authtoken",
     "BranchInfo": ".branchinfo",
@@ -6220,6 +6237,7 @@ _dynamic_imports: dict[str, str] = {
     "ConfigGroup": ".configgroup",
     "ConfigGroupType": ".configgroup",
     "ConfigGroupTypedDict": ".configgroup",
+    "EstimatedIngestRate": ".configgroup",
     "Git": ".configgroup",
     "GitTypedDict": ".configgroup",
     "ConfigGroupCloud": ".configgroupcloud",
@@ -6338,6 +6356,8 @@ _dynamic_imports: dict[str, str] = {
     "DistributedSummaryTypedDict": ".distributedsummary",
     "DistributedSummaryWorkers": ".distributedsummary",
     "DistributedSummaryWorkersTypedDict": ".distributedsummary",
+    "Error": ".error",
+    "ErrorTypedDict": ".error",
     "GetConfigGroupACLByProductAndIDRequest": ".getconfiggroupaclbyproductandidop",
     "GetConfigGroupACLByProductAndIDRequestTypedDict": ".getconfiggroupaclbyproductandidop",
     "GetConfigGroupACLByProductAndIDResponse": ".getconfiggroupaclbyproductandidop",
@@ -6362,6 +6382,8 @@ _dynamic_imports: dict[str, str] = {
     "GetCriblLakeDatasetByLakeIDRequestTypedDict": ".getcribllakedatasetbylakeidop",
     "GetCriblLakeDatasetByLakeIDResponse": ".getcribllakedatasetbylakeidop",
     "GetCriblLakeDatasetByLakeIDResponseTypedDict": ".getcribllakedatasetbylakeidop",
+    "GetHealthInfoResponse": ".gethealthinfoop",
+    "GetHealthInfoResponseTypedDict": ".gethealthinfoop",
     "GetInputByIDRequest": ".getinputbyidop",
     "GetInputByIDRequestTypedDict": ".getinputbyidop",
     "GetInputByIDResponse": ".getinputbyidop",
@@ -6451,6 +6473,7 @@ _dynamic_imports: dict[str, str] = {
     "GitInfo": ".gitinfo",
     "GitInfoTypedDict": ".gitinfo",
     "Remote": ".gitinfo",
+    "RemoteEnum": ".gitinfo",
     "RemoteTypedDict": ".gitinfo",
     "GitLogResult": ".gitlogresult",
     "GitLogResultTypedDict": ".gitlogresult",
@@ -6462,6 +6485,8 @@ _dynamic_imports: dict[str, str] = {
     "GitRevertResultFiles": ".gitrevertresult",
     "GitRevertResultFilesTypedDict": ".gitrevertresult",
     "GitRevertResultTypedDict": ".gitrevertresult",
+    "GitShowResult": ".gitshowresult",
+    "GitShowResultTypedDict": ".gitshowresult",
     "File": ".gitstatusresult",
     "FileTypedDict": ".gitstatusresult",
     "GitStatusResult": ".gitstatusresult",
@@ -6470,6 +6495,7 @@ _dynamic_imports: dict[str, str] = {
     "RenamedTypedDict": ".gitstatusresult",
     "Config": ".hbcriblinfo",
     "ConfigTypedDict": ".hbcriblinfo",
+    "DistMode": ".hbcriblinfo",
     "HBCriblInfo": ".hbcriblinfo",
     "HBCriblInfoTypedDict": ".hbcriblinfo",
     "HBLeaderInfo": ".hbleaderinfo",
@@ -6574,7 +6600,6 @@ _dynamic_imports: dict[str, str] = {
     "InputConfluentCloudPqControlsTypedDict": ".inputconfluentcloud",
     "InputConfluentCloudPqTypedDict": ".inputconfluentcloud",
     "InputConfluentCloudSASLMechanism": ".inputconfluentcloud",
-    "InputConfluentCloudSchemaType": ".inputconfluentcloud",
     "InputConfluentCloudTLSSettingsClientSide": ".inputconfluentcloud",
     "InputConfluentCloudTLSSettingsClientSideTypedDict": ".inputconfluentcloud",
     "InputConfluentCloudType": ".inputconfluentcloud",
@@ -6993,7 +7018,6 @@ _dynamic_imports: dict[str, str] = {
     "InputKafkaPqControlsTypedDict": ".inputkafka",
     "InputKafkaPqTypedDict": ".inputkafka",
     "InputKafkaSASLMechanism": ".inputkafka",
-    "InputKafkaSchemaType": ".inputkafka",
     "InputKafkaTLSSettingsClientSide": ".inputkafka",
     "InputKafkaTLSSettingsClientSideTypedDict": ".inputkafka",
     "InputKafkaType": ".inputkafka",
@@ -7145,7 +7169,6 @@ _dynamic_imports: dict[str, str] = {
     "InputMskPqControls": ".inputmsk",
     "InputMskPqControlsTypedDict": ".inputmsk",
     "InputMskPqTypedDict": ".inputmsk",
-    "InputMskSchemaType": ".inputmsk",
     "InputMskSignatureVersion": ".inputmsk",
     "InputMskTLSSettingsClientSide": ".inputmsk",
     "InputMskTLSSettingsClientSideTypedDict": ".inputmsk",
@@ -7972,7 +7995,6 @@ _dynamic_imports: dict[str, str] = {
     "OutputConfluentCloudQueueFullBehavior": ".outputconfluentcloud",
     "OutputConfluentCloudRecordDataFormat": ".outputconfluentcloud",
     "OutputConfluentCloudSASLMechanism": ".outputconfluentcloud",
-    "OutputConfluentCloudSchemaType": ".outputconfluentcloud",
     "OutputConfluentCloudTLSSettingsClientSide": ".outputconfluentcloud",
     "OutputConfluentCloudTLSSettingsClientSideTypedDict": ".outputconfluentcloud",
     "OutputConfluentCloudType": ".outputconfluentcloud",
@@ -8046,6 +8068,13 @@ _dynamic_imports: dict[str, str] = {
     "OutputCrowdstrikeNextGenSiemTimeoutRetrySettingsTypedDict": ".outputcrowdstrikenextgensiem",
     "OutputCrowdstrikeNextGenSiemType": ".outputcrowdstrikenextgensiem",
     "OutputCrowdstrikeNextGenSiemTypedDict": ".outputcrowdstrikenextgensiem",
+    "OutputDatabricks": ".outputdatabricks",
+    "OutputDatabricksAuthenticationMethod": ".outputdatabricks",
+    "OutputDatabricksBackpressureBehavior": ".outputdatabricks",
+    "OutputDatabricksDataFormat": ".outputdatabricks",
+    "OutputDatabricksDiskSpaceProtection": ".outputdatabricks",
+    "OutputDatabricksType": ".outputdatabricks",
+    "OutputDatabricksTypedDict": ".outputdatabricks",
     "DatadogSite": ".outputdatadog",
     "OutputDatadog": ".outputdatadog",
     "OutputDatadogAuthenticationMethod": ".outputdatadog",
@@ -8429,7 +8458,6 @@ _dynamic_imports: dict[str, str] = {
     "OutputKafkaQueueFullBehavior": ".outputkafka",
     "OutputKafkaRecordDataFormat": ".outputkafka",
     "OutputKafkaSASLMechanism": ".outputkafka",
-    "OutputKafkaSchemaType": ".outputkafka",
     "OutputKafkaTLSSettingsClientSide": ".outputkafka",
     "OutputKafkaTLSSettingsClientSideTypedDict": ".outputkafka",
     "OutputKafkaType": ".outputkafka",
@@ -8504,7 +8532,6 @@ _dynamic_imports: dict[str, str] = {
     "OutputMskPqControlsTypedDict": ".outputmsk",
     "OutputMskQueueFullBehavior": ".outputmsk",
     "OutputMskRecordDataFormat": ".outputmsk",
-    "OutputMskSchemaType": ".outputmsk",
     "OutputMskSignatureVersion": ".outputmsk",
     "OutputMskTLSSettingsClientSide": ".outputmsk",
     "OutputMskTLSSettingsClientSideTypedDict": ".outputmsk",
@@ -9000,8 +9027,6 @@ _dynamic_imports: dict[str, str] = {
     "RbacResource": ".rbacresource",
     "ResourcePolicy": ".resourcepolicy",
     "ResourcePolicyTypedDict": ".resourcepolicy",
-    "RouteCloneConf": ".routecloneconf",
-    "RouteCloneConfTypedDict": ".routecloneconf",
     "RouteConf": ".routeconf",
     "RouteConfTypedDict": ".routeconf",
     "Comment": ".routes",
@@ -9020,6 +9045,7 @@ _dynamic_imports: dict[str, str] = {
     "CollectorSpecificSettings": ".runnablejobcollection",
     "CollectorSpecificSettingsTypedDict": ".runnablejobcollection",
     "CollectorTypedDict": ".runnablejobcollection",
+    "InputType": ".runnablejobcollection",
     "RunnableJobCollection": ".runnablejobcollection",
     "RunnableJobCollectionInput": ".runnablejobcollection",
     "RunnableJobCollectionInputTypedDict": ".runnablejobcollection",
@@ -9042,7 +9068,6 @@ _dynamic_imports: dict[str, str] = {
     "RunnableJobCollectionScheduleTypedDict": ".runnablejobcollection",
     "RunnableJobCollectionTimeWarning": ".runnablejobcollection",
     "RunnableJobCollectionTimeWarningTypedDict": ".runnablejobcollection",
-    "RunnableJobCollectionType": ".runnablejobcollection",
     "RunnableJobCollectionTypedDict": ".runnablejobcollection",
     "TimeRange": ".runnablejobcollection",
     "WhereToCapture": ".runnablejobcollection",

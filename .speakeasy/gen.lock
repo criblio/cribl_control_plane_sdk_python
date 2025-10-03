@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 0c45762d1c7f05ccca71a32eff80a6a6
-  docVersion: 4.14.0-837595d5
+  docChecksum: fb112791f75ec5ff9387b2a8b2569c6b
+  docVersion: 4.15.0-alpha.1759484970204-f93a1e61
   speakeasyVersion: 1.634.1
   generationVersion: 2.721.0
-  releaseVersion: 0.0.50
-  configChecksum: f51b215c751a2c98a7e08e0020ecc546
+  releaseVersion: 0.0.50rc2
+  configChecksum: 49e61637586fc3143da36e4a325e49cd
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -30,6 +30,7 @@ features:
     nameOverrides: 3.0.1
     nullables: 1.0.1
     oauth2ClientCredentials: 1.3.0
+    openEnums: 1.0.1
     responseFormat: 1.0.1
     retries: 3.0.2
     sdkHooks: 1.1.0
@@ -48,7 +49,6 @@ generatedFiles:
   - docs/models/additionalproperty.md
   - docs/models/aisiemendpointpath.md
   - docs/models/allow.md
-  - docs/models/appmode.md
   - docs/models/audit.md
   - docs/models/authenticationprotocol.md
   - docs/models/author.md
@@ -128,6 +128,7 @@ generatedFiles:
   - docs/models/deployrequestlookupslookup.md
   - docs/models/difffiles.md
   - docs/models/disksandfilesystems.md
+  - docs/models/distmode.md
   - docs/models/distributedsummary.md
   - docs/models/distributedsummarygroups.md
   - docs/models/distributedsummaryworkers.md
@@ -139,6 +140,8 @@ generatedFiles:
   - docs/models/endpointheader.md
   - docs/models/endpointparam.md
   - docs/models/endpointtype.md
+  - docs/models/error.md
+  - docs/models/estimatedingestrate.md
   - docs/models/eventformat.md
   - docs/models/executor.md
   - docs/models/executorspecificsettings.md
@@ -161,6 +164,7 @@ generatedFiles:
   - docs/models/getcribllakedatasetbylakeidandidresponse.md
   - docs/models/getcribllakedatasetbylakeidrequest.md
   - docs/models/getcribllakedatasetbylakeidresponse.md
+  - docs/models/gethealthinforesponse.md
   - docs/models/getinputbyidrequest.md
   - docs/models/getinputbyidresponse.md
   - docs/models/getmasterworkerentryrequest.md
@@ -208,6 +212,7 @@ generatedFiles:
   - docs/models/gitrevertparams.md
   - docs/models/gitrevertresult.md
   - docs/models/gitrevertresultfiles.md
+  - docs/models/gitshowresult.md
   - docs/models/gitstatusresult.md
   - docs/models/hbcriblinfo.md
   - docs/models/hbleaderinfo.md
@@ -277,7 +282,6 @@ generatedFiles:
   - docs/models/inputconfluentcloudpq.md
   - docs/models/inputconfluentcloudpqcontrols.md
   - docs/models/inputconfluentcloudsaslmechanism.md
-  - docs/models/inputconfluentcloudschematype.md
   - docs/models/inputconfluentcloudtlssettingsclientside.md
   - docs/models/inputconfluentcloudtype.md
   - docs/models/inputcribl.md
@@ -526,7 +530,6 @@ generatedFiles:
   - docs/models/inputkafkapq.md
   - docs/models/inputkafkapqcontrols.md
   - docs/models/inputkafkasaslmechanism.md
-  - docs/models/inputkafkaschematype.md
   - docs/models/inputkafkatlssettingsclientside.md
   - docs/models/inputkafkatype.md
   - docs/models/inputkinesis.md
@@ -622,7 +625,6 @@ generatedFiles:
   - docs/models/inputmskmode.md
   - docs/models/inputmskpq.md
   - docs/models/inputmskpqcontrols.md
-  - docs/models/inputmskschematype.md
   - docs/models/inputmsksignatureversion.md
   - docs/models/inputmsktlssettingsclientside.md
   - docs/models/inputmsktype.md
@@ -912,6 +914,7 @@ generatedFiles:
   - docs/models/inputtcppreprocess.md
   - docs/models/inputtcptlssettingsserverside.md
   - docs/models/inputtcptype.md
+  - docs/models/inputtype.md
   - docs/models/inputwef.md
   - docs/models/inputwefauthenticationmethod.md
   - docs/models/inputwefcompression.md
@@ -1141,7 +1144,6 @@ generatedFiles:
   - docs/models/outputconfluentcloudqueuefullbehavior.md
   - docs/models/outputconfluentcloudrecorddataformat.md
   - docs/models/outputconfluentcloudsaslmechanism.md
-  - docs/models/outputconfluentcloudschematype.md
   - docs/models/outputconfluentcloudtlssettingsclientside.md
   - docs/models/outputconfluentcloudtype.md
   - docs/models/outputcriblhttp.md
@@ -1195,6 +1197,12 @@ generatedFiles:
   - docs/models/outputcrowdstrikenextgensiemresponseretrysetting.md
   - docs/models/outputcrowdstrikenextgensiemtimeoutretrysettings.md
   - docs/models/outputcrowdstrikenextgensiemtype.md
+  - docs/models/outputdatabricks.md
+  - docs/models/outputdatabricksauthenticationmethod.md
+  - docs/models/outputdatabricksbackpressurebehavior.md
+  - docs/models/outputdatabricksdataformat.md
+  - docs/models/outputdatabricksdiskspaceprotection.md
+  - docs/models/outputdatabrickstype.md
   - docs/models/outputdatadog.md
   - docs/models/outputdatadogauthenticationmethod.md
   - docs/models/outputdatadogbackpressurebehavior.md
@@ -1462,7 +1470,6 @@ generatedFiles:
   - docs/models/outputkafkaqueuefullbehavior.md
   - docs/models/outputkafkarecorddataformat.md
   - docs/models/outputkafkasaslmechanism.md
-  - docs/models/outputkafkaschematype.md
   - docs/models/outputkafkatlssettingsclientside.md
   - docs/models/outputkafkatype.md
   - docs/models/outputkinesis.md
@@ -1521,7 +1528,6 @@ generatedFiles:
   - docs/models/outputmskpqcontrols.md
   - docs/models/outputmskqueuefullbehavior.md
   - docs/models/outputmskrecorddataformat.md
-  - docs/models/outputmskschematype.md
   - docs/models/outputmsksignatureversion.md
   - docs/models/outputmsktlssettingsclientside.md
   - docs/models/outputmsktype.md
@@ -1878,13 +1884,13 @@ generatedFiles:
   - docs/models/rbacresource.md
   - docs/models/readmode.md
   - docs/models/remote.md
+  - docs/models/remoteenum.md
   - docs/models/renamed.md
   - docs/models/reportlevel.md
   - docs/models/reportmethod.md
   - docs/models/resourcepolicy.md
   - docs/models/resourcetypelabel.md
   - docs/models/role.md
-  - docs/models/routecloneconf.md
   - docs/models/routeconf.md
   - docs/models/routes.md
   - docs/models/routesgroups.md
@@ -1904,7 +1910,6 @@ generatedFiles:
   - docs/models/runnablejobcollectionscheduleloglevel.md
   - docs/models/runnablejobcollectionscheduletimewarning.md
   - docs/models/runnablejobcollectiontimewarning.md
-  - docs/models/runnablejobcollectiontype.md
   - docs/models/runnablejobexecutor.md
   - docs/models/runnablejobexecutorjobtype.md
   - docs/models/runnablejobexecutorloglevel.md
@@ -2034,7 +2039,6 @@ generatedFiles:
   - src/cribl_control_plane/lakedatasets.py
   - src/cribl_control_plane/models/__init__.py
   - src/cribl_control_plane/models/addhectokenrequest.py
-  - src/cribl_control_plane/models/appmode.py
   - src/cribl_control_plane/models/authtoken.py
   - src/cribl_control_plane/models/branchinfo.py
   - src/cribl_control_plane/models/cacheconnection.py
@@ -2073,12 +2077,14 @@ generatedFiles:
   - src/cribl_control_plane/models/deployrequestlookups.py
   - src/cribl_control_plane/models/difffiles.py
   - src/cribl_control_plane/models/distributedsummary.py
+  - src/cribl_control_plane/models/error.py
   - src/cribl_control_plane/models/getconfiggroupaclbyproductandidop.py
   - src/cribl_control_plane/models/getconfiggroupaclteamsbyproductandidop.py
   - src/cribl_control_plane/models/getconfiggroupbyproductandidop.py
   - src/cribl_control_plane/models/getconfiggroupconfigversionbyproductandidop.py
   - src/cribl_control_plane/models/getcribllakedatasetbylakeidandidop.py
   - src/cribl_control_plane/models/getcribllakedatasetbylakeidop.py
+  - src/cribl_control_plane/models/gethealthinfoop.py
   - src/cribl_control_plane/models/getinputbyidop.py
   - src/cribl_control_plane/models/getmasterworkerentryop.py
   - src/cribl_control_plane/models/getoutputbyidop.py
@@ -2107,6 +2113,7 @@ generatedFiles:
   - src/cribl_control_plane/models/gitlogresult.py
   - src/cribl_control_plane/models/gitrevertparams.py
   - src/cribl_control_plane/models/gitrevertresult.py
+  - src/cribl_control_plane/models/gitshowresult.py
   - src/cribl_control_plane/models/gitstatusresult.py
   - src/cribl_control_plane/models/hbcriblinfo.py
   - src/cribl_control_plane/models/hbleaderinfo.py
@@ -2203,6 +2210,7 @@ generatedFiles:
   - src/cribl_control_plane/models/outputcribllake.py
   - src/cribl_control_plane/models/outputcribltcp.py
   - src/cribl_control_plane/models/outputcrowdstrikenextgensiem.py
+  - src/cribl_control_plane/models/outputdatabricks.py
   - src/cribl_control_plane/models/outputdatadog.py
   - src/cribl_control_plane/models/outputdataset.py
   - src/cribl_control_plane/models/outputdefault.py
@@ -2268,7 +2276,6 @@ generatedFiles:
   - src/cribl_control_plane/models/productscore.py
   - src/cribl_control_plane/models/rbacresource.py
   - src/cribl_control_plane/models/resourcepolicy.py
-  - src/cribl_control_plane/models/routecloneconf.py
   - src/cribl_control_plane/models/routeconf.py
   - src/cribl_control_plane/models/routes.py
   - src/cribl_control_plane/models/routesroute.py
@@ -2333,6 +2340,8 @@ examples:
           application/json: {"role": "standby", "status": "standby", "startTime": 8399.98}
         "420":
           application/json: {"role": "standby", "status": "healthy", "startTime": 893.91}
+        default:
+          application/json: {"message": "<value>"}
   login:
     speakeasy-default-login:
       requestBody:
@@ -2397,7 +2406,7 @@ examples:
         application/json: {"description": "bah ick stingy", "enabled": false, "metadata": [{"name": "<value>", "value": "<value>"}], "token": "<value>"}
       responses:
         "200":
-          application/json: {"count": 827610, "items": [{}, {"key": "<value>", "key1": "<value>", "key2": "<value>"}]}
+          application/json: {"count": 827610, "items": [{"id": "<id>", "type": "splunk_hec", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "always", "maxBufferSize": 1000, "commitFrequency": 42, "maxFileSize": "1 MB", "maxSize": "5GB", "path": "$CRIBL_HOME/state/queues", "compress": "none", "pqControls": {}}, "host": "0.0.0.0", "port": 8836.4, "authTokens": [{"authType": "manual", "tokenSecret": "<value>", "token": "<value>", "enabled": true, "description": "awful functional sure-footed at", "allowedIndexesAtToken": ["<value 1>", "<value 2>", "<value 3>"], "metadata": [{"name": "<value>", "value": "<value>"}]}], "tls": {"disabled": true, "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "requestCert": false, "rejectUnauthorized": "<value>", "commonNameRegex": "<value>", "minVersion": "TLSv1", "maxVersion": "TLSv1.1"}, "maxActiveReq": 256, "maxRequestsPerSocket": 0, "enableProxyHeader": false, "captureHeaders": false, "activityLogSampleRate": 100, "requestTimeout": 0, "socketTimeout": 0, "keepAliveTimeout": 5, "enableHealthCheck": "<value>", "ipAllowlistRegex": "/.*/", "ipDenylistRegex": "/^$/", "splunkHecAPI": "/services/collector", "metadata": [{"name": "<value>", "value": "<value>"}], "allowedIndexes": ["<value 1>", "<value 2>", "<value 3>"], "splunkHecAcks": false, "breakerRulesets": ["<value 1>", "<value 2>", "<value 3>"], "staleChannelFlushMs": 10000, "useFwdTimezone": true, "dropControlFields": true, "extractMetrics": false, "accessControlAllowOrigin": ["<value 1>"], "accessControlAllowHeaders": ["<value 1>"], "emitTokenMetrics": false, "description": "boohoo uh-huh buzzing"}, {"id": "<id>", "type": "splunk_hec", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "always", "maxBufferSize": 1000, "commitFrequency": 42, "maxFileSize": "1 MB", "maxSize": "5GB", "path": "$CRIBL_HOME/state/queues", "compress": "none", "pqControls": {}}, "host": "0.0.0.0", "port": 8957.05, "authTokens": [{"authType": "manual", "tokenSecret": "<value>", "token": "<value>", "enabled": true, "description": "awful functional sure-footed at", "allowedIndexesAtToken": ["<value 1>", "<value 2>", "<value 3>"], "metadata": [{"name": "<value>", "value": "<value>"}]}], "tls": {"disabled": true, "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "requestCert": false, "rejectUnauthorized": "<value>", "commonNameRegex": "<value>", "minVersion": "TLSv1", "maxVersion": "TLSv1.1"}, "maxActiveReq": 256, "maxRequestsPerSocket": 0, "enableProxyHeader": false, "captureHeaders": false, "activityLogSampleRate": 100, "requestTimeout": 0, "socketTimeout": 0, "keepAliveTimeout": 5, "enableHealthCheck": "<value>", "ipAllowlistRegex": "/.*/", "ipDenylistRegex": "/^$/", "splunkHecAPI": "/services/collector", "metadata": [{"name": "<value>", "value": "<value>"}], "allowedIndexes": ["<value 1>", "<value 2>", "<value 3>"], "splunkHecAcks": false, "breakerRulesets": ["<value 1>"], "staleChannelFlushMs": 10000, "useFwdTimezone": true, "dropControlFields": true, "extractMetrics": false, "accessControlAllowOrigin": ["<value 1>", "<value 2>"], "accessControlAllowHeaders": ["<value 1>", "<value 2>", "<value 3>"], "emitTokenMetrics": false, "description": "beyond and whopping brief zowie icy meanwhile"}]}
         "500":
           application/json: {"message": "<value>"}
   updateInputHecTokenByIdAndToken:
@@ -2410,7 +2419,7 @@ examples:
         application/json: {"description": "by bleakly fortunately phew barring", "enabled": false, "metadata": [{"name": "<value>", "value": "<value>"}]}
       responses:
         "200":
-          application/json: {"count": 116091, "items": [{"key": "<value>", "key1": "<value>", "key2": "<value>"}]}
+          application/json: {"count": 116091, "items": [{"id": "<id>", "type": "splunk_hec", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "always", "maxBufferSize": 1000, "commitFrequency": 42, "maxFileSize": "1 MB", "maxSize": "5GB", "path": "$CRIBL_HOME/state/queues", "compress": "none", "pqControls": {}}, "host": "0.0.0.0", "port": 9953.77, "authTokens": [{"authType": "manual", "tokenSecret": "<value>", "token": "<value>", "enabled": true, "description": "bowler reproachfully blossom junior whoa yuck", "allowedIndexesAtToken": ["<value 1>", "<value 2>", "<value 3>"], "metadata": [{"name": "<value>", "value": "<value>"}]}], "tls": {"disabled": true, "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "requestCert": false, "rejectUnauthorized": "<value>", "commonNameRegex": "<value>", "minVersion": "TLSv1.2", "maxVersion": "TLSv1.2"}, "maxActiveReq": 256, "maxRequestsPerSocket": 0, "enableProxyHeader": false, "captureHeaders": false, "activityLogSampleRate": 100, "requestTimeout": 0, "socketTimeout": 0, "keepAliveTimeout": 5, "enableHealthCheck": "<value>", "ipAllowlistRegex": "/.*/", "ipDenylistRegex": "/^$/", "splunkHecAPI": "/services/collector", "metadata": [{"name": "<value>", "value": "<value>"}], "allowedIndexes": ["<value 1>", "<value 2>"], "splunkHecAcks": false, "breakerRulesets": ["<value 1>", "<value 2>", "<value 3>"], "staleChannelFlushMs": 10000, "useFwdTimezone": true, "dropControlFields": true, "extractMetrics": false, "accessControlAllowOrigin": ["<value 1>"], "accessControlAllowHeaders": ["<value 1>", "<value 2>"], "emitTokenMetrics": false, "description": "sermon circulate grouper doing"}]}
         "500":
           application/json: {"message": "<value>"}
   listOutput:
@@ -2662,14 +2671,14 @@ examples:
     speakeasy-default-get-version-info:
       responses:
         "200":
-          application/json: {"count": 716855, "items": [{"remote": true, "versioning": false}]}
+          application/json: {"count": 716855, "items": [{"remote": "false", "versioning": false}]}
         "500":
           application/json: {"message": "<value>"}
   createVersionPush:
     speakeasy-default-create-version-push:
       responses:
         "200":
-          application/json: {"count": 108085, "items": [{"key": "<value>"}, {}]}
+          application/json: {"count": 108085, "items": ["{\"key\":\"<value>\"}", "{}"]}
         "500":
           application/json: {"message": "<value>"}
   createVersionRevert:
@@ -2696,7 +2705,7 @@ examples:
           groupId: "<id>"
       responses:
         "200":
-          application/json: {"count": 969040, "items": [{"key": "<value>", "key1": "<value>", "key2": "<value>"}, {}]}
+          application/json: {"count": 969040, "items": [{"commitMessage": "<value>", "diffJson": [{"addedLines": 9690.4, "blocks": [{"header": "<value>", "lines": [{"content": "<value>", "oldNumber": 3887.81}], "newStartLine": 76.45, "oldStartLine": 9379.01, "oldStartLine2": 5511.01}], "changedPercentage": 2205.67, "checksumAfter": "<value>", "checksumBefore": "<value>", "deletedFileMode": "<value>", "deletedLines": 7460.36, "isBinary": true, "isCombined": true, "isCopy": false, "isDeleted": false, "isGitDiff": false, "isNew": true, "isRename": false, "isTooBig": false, "language": "<value>", "mode": "<value>", "newFileMode": "<value>", "newMode": "<value>", "newName": "<value>", "oldMode": ["<value 1>", "<value 2>"], "oldName": "<value>", "unchangedPercentage": 3722.48}]}, {"commitMessage": "<value>", "diffJson": [{"addedLines": 9690.4, "blocks": [{"header": "<value>", "lines": [{"content": "<value>", "oldNumber": 3887.81}], "newStartLine": 76.45, "oldStartLine": 9379.01, "oldStartLine2": 5511.01}], "changedPercentage": 2205.67, "checksumAfter": "<value>", "checksumBefore": "<value>", "deletedFileMode": "<value>", "deletedLines": 7460.36, "isBinary": true, "isCombined": true, "isCopy": false, "isDeleted": false, "isGitDiff": false, "isNew": true, "isRename": false, "isTooBig": false, "language": "<value>", "mode": "<value>", "newFileMode": "<value>", "newMode": "<value>", "newName": "<value>", "oldMode": ["<value 1>", "<value 2>"], "oldName": "<value>", "unchangedPercentage": 3722.48}]}]}
         "500":
           application/json: {"message": "<value>"}
   getVersionStatus:
@@ -2999,7 +3008,7 @@ examples:
           filter: "<value>"
       responses:
         "200":
-          application/json: {"count": 522765, "items": [{"deployable": true, "disconnected": true, "firstMsgTime": 5145.29, "group": "<value>", "id": "<id>", "info": {"architecture": "<value>", "aws": {"enabled": true, "region": "<value>", "tags": {}, "type": "<value>", "zone": "<value>"}, "conn_ip": "<value>", "cpus": 587.99, "cribl": {"config": {"featuresRev": "<value>", "hbPeriodSeconds": 7254.06, "logStreamEnv": "<value>", "policyRev": "<value>", "version": "<value>"}, "deploymentId": "<id>", "disableSNIRouting": false, "distMode": "worker", "edgeNodes": 5669.89, "group": "<value>", "guid": "<id>", "installType": "<value>", "lookupVersions": {}, "master": {"host": "clear-cut-armoire.com", "port": 8378.36, "servername": "<value>", "tls": true}, "pid": 5481.66, "startTime": 2054.83, "tags": ["<value 1>"], "version": "<value>"}, "freeDiskSpace": 5289.31, "hostOs": {"addresses": ["<value 1>", "<value 2>", "<value 3>"], "enabled": false, "id": "<id>", "version": "<value>"}, "hostname": "huge-mathematics.org", "isSaasWorker": true, "kube": {"enabled": true, "namespace": "<value>", "node": "<value>", "owner": {"kind": "<value>", "name": "<value>"}, "pod": "<value>", "source": "<value>"}, "localTime": 396.28, "metadata": {"aws": {"enabled": true, "region": "<value>", "tags": {}, "type": "<value>", "zone": "<value>"}, "hostOs": {"addresses": [], "enabled": true, "id": "<id>", "version": "<value>"}, "kube": {"enabled": true, "namespace": "<value>", "node": "<value>", "owner": {"kind": "<value>", "name": "<value>"}, "pod": "<value>", "source": "<value>"}, "os": {"addresses": [], "enabled": true, "id": "<id>", "version": "<value>"}}, "node": "<value>", "os": {"addresses": ["<value 1>"], "enabled": true, "id": "<id>", "version": "<value>"}, "platform": "<value>", "release": "<value>", "totalDiskSpace": 3554.6, "totalmem": 2822.63}, "lastMetrics": {}, "lastMsgTime": 1368.76, "metadata": {"aws": {"enabled": true, "region": "<value>", "tags": {}, "type": "<value>", "zone": "<value>"}, "hostOs": {"addresses": [], "enabled": true, "id": "<id>", "version": "<value>"}, "kube": {"enabled": true, "namespace": "<value>", "node": "<value>", "owner": {"kind": "<value>", "name": "<value>"}, "pod": "<value>", "source": "<value>"}, "os": {"addresses": [], "enabled": true, "id": "<id>", "version": "<value>"}}, "nodeUpgradeStatus": {"active": 0, "failed": 1, "skipped": 3, "state": 2, "timestamp": 962.97}, "status": "<value>", "type": "resp", "workerProcesses": 571.25, "workers": {"count": 4154.46}}]}
+          application/json: {"count": 522765, "items": [{"deployable": true, "disconnected": true, "firstMsgTime": 5145.29, "group": "<value>", "id": "<id>", "info": {"architecture": "<value>", "aws": {"enabled": true, "instanceId": "<id>", "region": "<value>", "tags": {}, "type": "<value>", "zone": "<value>"}, "conn_ip": "<value>", "cpus": 587.99, "cribl": {"config": {"featuresRev": "<value>", "hbPeriodSeconds": 7254.06, "logStreamEnv": "<value>", "policyRev": "<value>", "version": "<value>"}, "deploymentId": "<id>", "disableSNIRouting": false, "distMode": "worker", "edgeNodes": 5669.89, "group": "<value>", "guid": "<id>", "installType": "<value>", "lookupVersions": {}, "master": {"host": "clear-cut-armoire.com", "port": 8378.36, "servername": "<value>", "tls": true}, "pid": 5481.66, "socksEnabled": false, "startTime": 2054.83, "tags": ["<value 1>"], "version": "<value>"}, "freeDiskSpace": 5289.31, "hostOs": {"addresses": ["<value 1>", "<value 2>", "<value 3>"], "enabled": false, "id": "<id>", "version": "<value>"}, "hostname": "huge-mathematics.org", "isSaasWorker": true, "kube": {"enabled": true, "namespace": "<value>", "node": "<value>", "owner": {"kind": "<value>", "name": "<value>"}, "pod": "<value>", "source": "<value>"}, "localTime": 396.28, "metadata": {"aws": {"enabled": true, "instanceId": "<id>", "region": "<value>", "tags": {}, "type": "<value>", "zone": "<value>"}, "hostOs": {"addresses": [], "enabled": true, "id": "<id>", "version": "<value>"}, "kube": {"enabled": true, "namespace": "<value>", "node": "<value>", "owner": {"kind": "<value>", "name": "<value>"}, "pod": "<value>", "source": "<value>"}, "os": {"addresses": [], "enabled": true, "id": "<id>", "version": "<value>"}}, "node": "<value>", "os": {"addresses": ["<value 1>"], "enabled": true, "id": "<id>", "version": "<value>"}, "platform": "<value>", "release": "<value>", "totalDiskSpace": 3554.6, "totalmem": 2822.63}, "lastMetrics": {}, "lastMsgTime": 1368.76, "metadata": {"aws": {"enabled": true, "instanceId": "<id>", "region": "<value>", "tags": {}, "type": "<value>", "zone": "<value>"}, "hostOs": {"addresses": [], "enabled": true, "id": "<id>", "version": "<value>"}, "kube": {"enabled": true, "namespace": "<value>", "node": "<value>", "owner": {"kind": "<value>", "name": "<value>"}, "pod": "<value>", "source": "<value>"}, "os": {"addresses": [], "enabled": true, "id": "<id>", "version": "<value>"}}, "nodeUpgradeStatus": {"active": 0, "failed": 1, "skipped": 3, "state": 2, "timestamp": 962.97}, "status": "<value>", "type": "resp", "workerProcesses": 571.25, "workers": {"count": 4154.46}}]}
         "500":
           application/json: {"message": "<value>"}
   getMasterWorkerEntry:
@@ -3021,7 +3030,7 @@ examples:
           fields: "<value>"
       responses:
         "200":
-          application/json: {"count": 790422, "items": [{"cloud": {"provider": "aws", "region": "<value>"}, "configVersion": "<value>", "deployingWorkerCount": 7819.54, "description": "finally exaggerate coolly grade", "estimatedIngestRate": 5993.3, "git": {"commit": "<value>", "localChanges": 7873.79, "log": [{"author_email": "<value>", "author_name": "<value>", "date": "2024-04-08", "hash": "<value>", "message": "<value>", "short": "<value>"}]}, "id": "<id>", "incompatibleWorkerCount": 2891.32, "inherits": "<value>", "isFleet": false, "isSearch": true, "lookupDeployments": [{"context": "<value>", "lookups": [{"deployedVersion": "<value>", "file": "<value>", "version": "<value>"}]}], "maxWorkerAge": "<value>", "name": "<value>", "onPrem": false, "provisioned": false, "streamtags": ["<value 1>", "<value 2>"], "tags": "<value>", "type": "lake_access", "upgradeVersion": "<value>", "workerCount": 2257.24, "workerRemoteAccess": false}]}
+          application/json: {"count": 790422, "items": [{"cloud": {"provider": "aws", "region": "<value>"}, "configVersion": "<value>", "deployingWorkerCount": 7819.54, "description": "finally exaggerate coolly grade", "estimatedIngestRate": 7168, "git": {"commit": "<value>", "localChanges": 7873.79, "log": [{"author_email": "<value>", "author_name": "<value>", "date": "2024-04-08", "hash": "<value>", "message": "<value>", "short": "<value>"}]}, "id": "<id>", "incompatibleWorkerCount": 2891.32, "inherits": "<value>", "isFleet": false, "isSearch": true, "lookupDeployments": [{"context": "<value>", "lookups": [{"deployedVersion": "<value>", "file": "<value>", "version": "<value>"}]}], "maxWorkerAge": "<value>", "name": "<value>", "onPrem": false, "provisioned": false, "streamtags": ["<value 1>", "<value 2>"], "tags": "<value>", "type": "lake_access", "upgradeVersion": "<value>", "workerCount": 2257.24, "workerRemoteAccess": false}]}
         "500":
           application/json: {"message": "<value>"}
   createConfigGroupByProduct:
@@ -3030,10 +3039,10 @@ examples:
         path:
           product: "edge"
       requestBody:
-        application/json: {"cloud": {"provider": "aws", "region": "<value>"}, "configVersion": "<value>", "deployingWorkerCount": 393.49, "description": "ack before fondly scent because gee without where exactly", "estimatedIngestRate": 346.37, "git": {"commit": "<value>", "localChanges": 5255.51, "log": [{"author_email": "<value>", "author_name": "<value>", "date": "2024-06-13", "hash": "<value>", "message": "<value>", "short": "<value>"}]}, "id": "<id>", "incompatibleWorkerCount": 5613.31, "inherits": "<value>", "isFleet": true, "isSearch": false, "lookupDeployments": [{"context": "<value>", "lookups": []}], "maxWorkerAge": "<value>", "name": "<value>", "onPrem": false, "provisioned": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "tags": "<value>", "type": "lake_access", "upgradeVersion": "<value>", "workerCount": 3050.1, "workerRemoteAccess": false}
+        application/json: {"cloud": {"provider": "aws", "region": "<value>"}, "configVersion": "<value>", "deployingWorkerCount": 393.49, "description": "ack before fondly scent because gee without where exactly", "estimatedIngestRate": 5120, "git": {"commit": "<value>", "localChanges": 5255.51, "log": [{"author_email": "<value>", "author_name": "<value>", "date": "2024-06-13", "hash": "<value>", "message": "<value>", "short": "<value>"}]}, "id": "<id>", "incompatibleWorkerCount": 5613.31, "inherits": "<value>", "isFleet": true, "isSearch": false, "lookupDeployments": [{"context": "<value>", "lookups": []}], "maxWorkerAge": "<value>", "name": "<value>", "onPrem": false, "provisioned": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "tags": "<value>", "type": "lake_access", "upgradeVersion": "<value>", "workerCount": 3050.1, "workerRemoteAccess": false}
       responses:
         "200":
-          application/json: {"count": 59152, "items": [{"cloud": {"provider": "aws", "region": "<value>"}, "configVersion": "<value>", "deployingWorkerCount": 5269.24, "description": "sedately anti watery", "estimatedIngestRate": 7643.22, "git": {"commit": "<value>", "localChanges": 5255.51, "log": [{"author_email": "<value>", "author_name": "<value>", "date": "2024-06-13", "hash": "<value>", "message": "<value>", "short": "<value>"}]}, "id": "<id>", "incompatibleWorkerCount": 5029.74, "inherits": "<value>", "isFleet": true, "isSearch": false, "lookupDeployments": [{"context": "<value>", "lookups": []}], "maxWorkerAge": "<value>", "name": "<value>", "onPrem": false, "provisioned": true, "streamtags": ["<value 1>", "<value 2>"], "tags": "<value>", "type": "lake_access", "upgradeVersion": "<value>", "workerCount": 8633.62, "workerRemoteAccess": true}]}
+          application/json: {"count": 59152, "items": [{"cloud": {"provider": "aws", "region": "<value>"}, "configVersion": "<value>", "deployingWorkerCount": 5269.24, "description": "sedately anti watery", "estimatedIngestRate": 1024, "git": {"commit": "<value>", "localChanges": 5255.51, "log": [{"author_email": "<value>", "author_name": "<value>", "date": "2024-06-13", "hash": "<value>", "message": "<value>", "short": "<value>"}]}, "id": "<id>", "incompatibleWorkerCount": 5029.74, "inherits": "<value>", "isFleet": true, "isSearch": false, "lookupDeployments": [{"context": "<value>", "lookups": []}], "maxWorkerAge": "<value>", "name": "<value>", "onPrem": false, "provisioned": true, "streamtags": ["<value 1>", "<value 2>"], "tags": "<value>", "type": "lake_access", "upgradeVersion": "<value>", "workerCount": 8633.62, "workerRemoteAccess": true}]}
         "500":
           application/json: {"message": "<value>"}
   getConfigGroupByProductAndId:
@@ -3046,7 +3055,7 @@ examples:
           fields: "<value>"
       responses:
         "200":
-          application/json: {"count": 847568, "items": [{"cloud": {"provider": "aws", "region": "<value>"}, "configVersion": "<value>", "deployingWorkerCount": 9897.69, "description": "inure hope kissingly why", "estimatedIngestRate": 3832.46, "git": {"commit": "<value>", "localChanges": 3058.15, "log": [{"author_email": "<value>", "author_name": "<value>", "date": "2024-02-16", "hash": "<value>", "message": "<value>", "short": "<value>"}]}, "id": "<id>", "incompatibleWorkerCount": 9309.45, "inherits": "<value>", "isFleet": false, "isSearch": true, "lookupDeployments": [{"context": "<value>", "lookups": []}], "maxWorkerAge": "<value>", "name": "<value>", "onPrem": false, "provisioned": true, "streamtags": ["<value 1>"], "tags": "<value>", "type": "lake_access", "upgradeVersion": "<value>", "workerCount": 7512.21, "workerRemoteAccess": true}]}
+          application/json: {"count": 847568, "items": [{"cloud": {"provider": "aws", "region": "<value>"}, "configVersion": "<value>", "deployingWorkerCount": 9897.69, "description": "inure hope kissingly why", "estimatedIngestRate": 13312, "git": {"commit": "<value>", "localChanges": 3058.15, "log": [{"author_email": "<value>", "author_name": "<value>", "date": "2024-02-16", "hash": "<value>", "message": "<value>", "short": "<value>"}]}, "id": "<id>", "incompatibleWorkerCount": 9309.45, "inherits": "<value>", "isFleet": false, "isSearch": true, "lookupDeployments": [{"context": "<value>", "lookups": []}], "maxWorkerAge": "<value>", "name": "<value>", "onPrem": false, "provisioned": true, "streamtags": ["<value 1>"], "tags": "<value>", "type": "lake_access", "upgradeVersion": "<value>", "workerCount": 7512.21, "workerRemoteAccess": true}]}
         "500":
           application/json: {"message": "<value>"}
   updateConfigGroupByProductAndId:
@@ -3056,10 +3065,10 @@ examples:
           product: "stream"
           id: "<value>"
       requestBody:
-        application/json: {"cloud": {"provider": "aws", "region": "<value>"}, "configVersion": "<value>", "deployingWorkerCount": 7451.49, "description": "verbally feminize harmful prance really", "estimatedIngestRate": 6748.35, "git": {"commit": "<value>", "localChanges": 4475.22, "log": [{"author_email": "<value>", "author_name": "<value>", "date": "2024-01-27", "hash": "<value>", "message": "<value>", "short": "<value>"}]}, "id": "<id>", "incompatibleWorkerCount": 2043.29, "inherits": "<value>", "isFleet": false, "isSearch": false, "lookupDeployments": [{"context": "<value>", "lookups": [{"deployedVersion": "<value>", "file": "<value>", "version": "<value>"}]}], "maxWorkerAge": "<value>", "name": "<value>", "onPrem": false, "provisioned": true, "streamtags": ["<value 1>", "<value 2>"], "tags": "<value>", "type": "lake_access", "upgradeVersion": "<value>", "workerCount": 1557.82, "workerRemoteAccess": false}
+        application/json: {"cloud": {"provider": "aws", "region": "<value>"}, "configVersion": "<value>", "deployingWorkerCount": 7451.49, "description": "verbally feminize harmful prance really", "estimatedIngestRate": 13312, "git": {"commit": "<value>", "localChanges": 4475.22, "log": [{"author_email": "<value>", "author_name": "<value>", "date": "2024-01-27", "hash": "<value>", "message": "<value>", "short": "<value>"}]}, "id": "<id>", "incompatibleWorkerCount": 2043.29, "inherits": "<value>", "isFleet": false, "isSearch": false, "lookupDeployments": [{"context": "<value>", "lookups": [{"deployedVersion": "<value>", "file": "<value>", "version": "<value>"}]}], "maxWorkerAge": "<value>", "name": "<value>", "onPrem": false, "provisioned": true, "streamtags": ["<value 1>", "<value 2>"], "tags": "<value>", "type": "lake_access", "upgradeVersion": "<value>", "workerCount": 1557.82, "workerRemoteAccess": false}
       responses:
         "200":
-          application/json: {"count": 231540, "items": [{"cloud": {"provider": "aws", "region": "<value>"}, "configVersion": "<value>", "deployingWorkerCount": 6457.67, "description": "who lace supposing gosh rout since horn provided bah categorise", "estimatedIngestRate": 3702.49, "git": {"commit": "<value>", "localChanges": 4475.22, "log": [{"author_email": "<value>", "author_name": "<value>", "date": "2024-01-27", "hash": "<value>", "message": "<value>", "short": "<value>"}]}, "id": "<id>", "incompatibleWorkerCount": 1689.16, "inherits": "<value>", "isFleet": false, "isSearch": false, "lookupDeployments": [{"context": "<value>", "lookups": [{"deployedVersion": "<value>", "file": "<value>", "version": "<value>"}]}], "maxWorkerAge": "<value>", "name": "<value>", "onPrem": false, "provisioned": false, "streamtags": ["<value 1>", "<value 2>"], "tags": "<value>", "type": "lake_access", "upgradeVersion": "<value>", "workerCount": 6988.23, "workerRemoteAccess": false}]}
+          application/json: {"count": 231540, "items": [{"cloud": {"provider": "aws", "region": "<value>"}, "configVersion": "<value>", "deployingWorkerCount": 6457.67, "description": "who lace supposing gosh rout since horn provided bah categorise", "estimatedIngestRate": 1024, "git": {"commit": "<value>", "localChanges": 4475.22, "log": [{"author_email": "<value>", "author_name": "<value>", "date": "2024-01-27", "hash": "<value>", "message": "<value>", "short": "<value>"}]}, "id": "<id>", "incompatibleWorkerCount": 1689.16, "inherits": "<value>", "isFleet": false, "isSearch": false, "lookupDeployments": [{"context": "<value>", "lookups": [{"deployedVersion": "<value>", "file": "<value>", "version": "<value>"}]}], "maxWorkerAge": "<value>", "name": "<value>", "onPrem": false, "provisioned": false, "streamtags": ["<value 1>", "<value 2>"], "tags": "<value>", "type": "lake_access", "upgradeVersion": "<value>", "workerCount": 6988.23, "workerRemoteAccess": false}]}
         "500":
           application/json: {"message": "<value>"}
   deleteConfigGroupByProductAndId:
@@ -3070,7 +3079,7 @@ examples:
           id: "<id>"
       responses:
         "200":
-          application/json: {"count": 581023, "items": [{"cloud": {"provider": "azure", "region": "<value>"}, "configVersion": "<value>", "deployingWorkerCount": 8537.63, "description": "after jealous revitalise noxious whenever intervention over now upwardly sailor", "estimatedIngestRate": 9667.42, "git": {"commit": "<value>", "localChanges": 3514.19, "log": [{"author_email": "<value>", "author_name": "<value>", "date": "2024-09-16", "hash": "<value>", "message": "<value>", "short": "<value>"}]}, "id": "<id>", "incompatibleWorkerCount": 409.64, "inherits": "<value>", "isFleet": false, "isSearch": true, "lookupDeployments": [{"context": "<value>", "lookups": [{"deployedVersion": "<value>", "file": "<value>", "version": "<value>"}]}], "maxWorkerAge": "<value>", "name": "<value>", "onPrem": false, "provisioned": false, "streamtags": ["<value 1>", "<value 2>"], "tags": "<value>", "type": "lake_access", "upgradeVersion": "<value>", "workerCount": 298.57, "workerRemoteAccess": false}]}
+          application/json: {"count": 581023, "items": [{"cloud": {"provider": "azure", "region": "<value>"}, "configVersion": "<value>", "deployingWorkerCount": 8537.63, "description": "after jealous revitalise noxious whenever intervention over now upwardly sailor", "estimatedIngestRate": 15360, "git": {"commit": "<value>", "localChanges": 3514.19, "log": [{"author_email": "<value>", "author_name": "<value>", "date": "2024-09-16", "hash": "<value>", "message": "<value>", "short": "<value>"}]}, "id": "<id>", "incompatibleWorkerCount": 409.64, "inherits": "<value>", "isFleet": false, "isSearch": true, "lookupDeployments": [{"context": "<value>", "lookups": [{"deployedVersion": "<value>", "file": "<value>", "version": "<value>"}]}], "maxWorkerAge": "<value>", "name": "<value>", "onPrem": false, "provisioned": false, "streamtags": ["<value 1>", "<value 2>"], "tags": "<value>", "type": "lake_access", "upgradeVersion": "<value>", "workerCount": 298.57, "workerRemoteAccess": false}]}
         "500":
           application/json: {"message": "<value>"}
   updateConfigGroupDeployByProductAndId:
@@ -3083,7 +3092,7 @@ examples:
         application/json: {"lookups": [{"context": "<value>", "lookups": []}], "version": "<value>"}
       responses:
         "200":
-          application/json: {"count": 274503, "items": [{"cloud": {"provider": "azure", "region": "<value>"}, "configVersion": "<value>", "deployingWorkerCount": 3445.97, "description": "while ad tune", "estimatedIngestRate": 6207.5, "git": {"commit": "<value>", "localChanges": 8464.16, "log": [{"author_email": "<value>", "author_name": "<value>", "date": "2024-07-23", "hash": "<value>", "message": "<value>", "short": "<value>"}]}, "id": "<id>", "incompatibleWorkerCount": 4511.88, "inherits": "<value>", "isFleet": true, "isSearch": false, "lookupDeployments": [{"context": "<value>", "lookups": [{"deployedVersion": "<value>", "file": "<value>", "version": "<value>"}]}], "maxWorkerAge": "<value>", "name": "<value>", "onPrem": false, "provisioned": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "tags": "<value>", "type": "lake_access", "upgradeVersion": "<value>", "workerCount": 7143.25, "workerRemoteAccess": false}]}
+          application/json: {"count": 274503, "items": [{"cloud": {"provider": "azure", "region": "<value>"}, "configVersion": "<value>", "deployingWorkerCount": 3445.97, "description": "while ad tune", "estimatedIngestRate": 1024, "git": {"commit": "<value>", "localChanges": 8464.16, "log": [{"author_email": "<value>", "author_name": "<value>", "date": "2024-07-23", "hash": "<value>", "message": "<value>", "short": "<value>"}]}, "id": "<id>", "incompatibleWorkerCount": 4511.88, "inherits": "<value>", "isFleet": true, "isSearch": false, "lookupDeployments": [{"context": "<value>", "lookups": [{"deployedVersion": "<value>", "file": "<value>", "version": "<value>"}]}], "maxWorkerAge": "<value>", "name": "<value>", "onPrem": false, "provisioned": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "tags": "<value>", "type": "lake_access", "upgradeVersion": "<value>", "workerCount": 7143.25, "workerRemoteAccess": false}]}
         "500":
           application/json: {"message": "<value>"}
   getConfigGroupConfigVersionByProductAndId:
@@ -3254,3 +3263,4 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
+releaseNotes: "## Python SDK Changes Detected:\n* `cribl_control_plane.routes.append()`: \n  *  `request_body.[].clones.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.groups.update()`: \n  *  `request.estimated_ingest_rate` **Changed** **Breaking** :warning:\n  *  `response.items.[].estimated_ingest_rate` **Changed** **Breaking** :warning:\n* `cribl_control_plane.groups.deploy()`:  `response.items.[].estimated_ingest_rate` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.update()`: \n  *  `request.input` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.groups.delete()`:  `response.items.[].estimated_ingest_rate` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.hec_tokens.create()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.update()`: \n  *  `request.output` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.groups.list()`:  `response.items.[].estimated_ingest_rate` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.create()`: \n  *  `request` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.groups.get()`:  `response.items.[].estimated_ingest_rate` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.create()`: \n  *  `request` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.sources.hec_tokens.update()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.versions.commits.get()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.groups.create()`: \n  *  `request.estimated_ingest_rate` **Changed** **Breaking** :warning:\n  *  `response.items.[].estimated_ingest_rate` **Changed** **Breaking** :warning:\n* `cribl_control_plane.health.get()`:  `response.status[default]` **Added** **Breaking** :warning:\n* `cribl_control_plane.versions.commits.push()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.delete()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.versions.configs.get()`:  `response.items.[].remote` **Changed**\n* `cribl_control_plane.sources.list()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.nodes.list()`:  `response.items.[].info` **Changed**\n* `cribl_control_plane.destinations.get()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.list()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.sources.delete()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.sources.get()`:  `response.items.[]` **Changed**\n"

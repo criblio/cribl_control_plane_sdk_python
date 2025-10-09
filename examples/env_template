@@ -8,7 +8,8 @@
 
 # Cribl.Cloud configuration environment variables
 # Use only when running example against a Cribl.Cloud instance
-# To get your CLIENT_ID and CLIENT_SECRET values, follow the steps at https://docs.cribl.io/api/#criblcloud
+# To get your CLIENT_ID and CLIENT_SECRET values, follow the steps at 
+# https://docs.cribl.io/cribl-as-code/authentication/#cloud-auth
 CLIENT_ID=your-client-id
 CLIENT_SECRET=your-client-secret
 WORKSPACE_NAME=your-workspace-name

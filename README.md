@@ -1,9 +1,18 @@
 # cribl_control_plane_sdk_python
-<!-- Start Summary [summary] -->
-## Summary
 
-Cribl API Reference: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-<!-- End Summary [summary] -->
+The Cribl Python SDK for the control plane provides operational control over Cribl resources and helps streamline the process of integrating with Cribl.
+
+In addition to the usage examples in this repository, the Cribl documentation includes [code examples for common use cases](https://docs.cribl.io/cribl-as-code/code-examples).
+
+Complementary API reference documentation is available at https://docs.cribl.io/cribl-as-code/api-reference. Product documentation is available at https://docs.cribl.io.
+
+> [!IMPORTANT]
+> **Preview Feature**
+> The Cribl SDKs are Preview features that are still being developed. We do not recommend using them in a production environment, because the features might not be fully tested or optimized for performance, and related documentation could be incomplete.
+>
+> Please continue to submit feedback through normal Cribl support channels, but assistance might be limited while the features remain in Preview.
+
+<!-- No Summary [summary] -->
 
 <!-- Start Table of Contents [toc] -->
 ## Table of Contents

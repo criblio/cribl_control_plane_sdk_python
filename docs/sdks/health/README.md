@@ -39,7 +39,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.HealthStatus](../../models/healthstatus.md)**
+**[models.GetHealthInfoResponse](../../models/gethealthinforesponse.md)**
 
 ### Errors
 

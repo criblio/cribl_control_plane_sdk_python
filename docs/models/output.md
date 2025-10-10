@@ -387,3 +387,9 @@ value: models.OutputDynatraceOtlp = /* values here */
 value: models.OutputSentinelOneAiSiem = /* values here */
 ```
 
+### `models.OutputDatabricks`
+
+```python
+value: models.OutputDatabricks = /* values here */
+```
+

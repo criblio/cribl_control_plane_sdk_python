@@ -17,6 +17,7 @@ class HeartbeatMetadataTags(BaseModel):
 
 class HeartbeatMetadataAwsTypedDict(TypedDict):
     enabled: bool
+    instance_id: str
     region: str
     type: str
     zone: str
@@ -25,6 +26,8 @@ class HeartbeatMetadataAwsTypedDict(TypedDict):
 
 class HeartbeatMetadataAws(BaseModel):
     enabled: bool
+
+    instance_id: Annotated[str, pydantic.Field(alias="instanceId")]
 
     region: str
 

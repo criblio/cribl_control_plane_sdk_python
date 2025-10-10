@@ -28,6 +28,7 @@ class PackInstallInfoTypedDict(TypedDict):
     id: str
     source: str
     author: NotRequired[str]
+    dependencies: NotRequired[Dict[str, str]]
     description: NotRequired[str]
     display_name: NotRequired[str]
     exports: NotRequired[List[str]]
@@ -48,6 +49,8 @@ class PackInstallInfo(BaseModel):
     source: str
 
     author: Optional[str] = None
+
+    dependencies: Optional[Dict[str, str]] = None
 
     description: Optional[str] = None
 

@@ -8,4 +8,4 @@ a list of object objects
 | Field                                      | Type                                       | Required                                   | Description                                |
 | ------------------------------------------ | ------------------------------------------ | ------------------------------------------ | ------------------------------------------ |
 | `count`                                    | *Optional[int]*                            | :heavy_minus_sign:                         | number of items present in the items array |
-| `items`                                    | List[*str*]                                | :heavy_minus_sign:                         | N/A                                        |
+| `items`                                    | List[Dict[str, *Any*]]                     | :heavy_minus_sign:                         | N/A                                        |

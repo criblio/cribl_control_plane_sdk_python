@@ -9,7 +9,9 @@ from typing_extensions import Annotated, TypedDict
 class DistributedSummaryGroupsTypedDict(TypedDict):
     count: float
     destinations: float
+    packs: float
     pipelines: float
+    quick_connects: float
     routes: float
     sources: float
 
@@ -19,7 +21,11 @@ class DistributedSummaryGroups(BaseModel):
 
     destinations: float
 
+    packs: float
+
     pipelines: float
+
+    quick_connects: Annotated[float, pydantic.Field(alias="quickConnects")]
 
     routes: float
 

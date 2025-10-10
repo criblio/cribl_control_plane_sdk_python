@@ -6,8 +6,10 @@ from .nodefailedupgradestatus import NodeFailedUpgradeStatus
 from .nodeskippedupgradestatus import NodeSkippedUpgradeStatus
 from .nodeupgradestate import NodeUpgradeState
 from cribl_control_plane.types import BaseModel
+from cribl_control_plane.utils import validate_open_enum
+from pydantic.functional_validators import PlainValidator
 from typing import Optional
-from typing_extensions import NotRequired, TypedDict
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class NodeUpgradeStatusTypedDict(TypedDict):
@@ -19,12 +21,18 @@ class NodeUpgradeStatusTypedDict(TypedDict):
 
 
 class NodeUpgradeStatus(BaseModel):
-    state: NodeUpgradeState
+    state: Annotated[NodeUpgradeState, PlainValidator(validate_open_enum(True))]
 
     timestamp: float
 
-    active: Optional[NodeActiveUpgradeStatus] = None
+    active: Annotated[
+        Optional[NodeActiveUpgradeStatus], PlainValidator(validate_open_enum(True))
+    ] = None
 
-    failed: Optional[NodeFailedUpgradeStatus] = None
+    failed: Annotated[
+        Optional[NodeFailedUpgradeStatus], PlainValidator(validate_open_enum(True))
+    ] = None
 
-    skipped: Optional[NodeSkippedUpgradeStatus] = None
+    skipped: Annotated[
+        Optional[NodeSkippedUpgradeStatus], PlainValidator(validate_open_enum(True))
+    ] = None

@@ -3,10 +3,10 @@ id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
   docChecksum: 0c45762d1c7f05ccca71a32eff80a6a6
   docVersion: 4.14.0-837595d5
-  speakeasyVersion: 1.634.1
-  generationVersion: 2.721.0
-  releaseVersion: 0.0.51
-  configChecksum: 50291c0d52094db7cd1aa564cf6ed614
+  speakeasyVersion: 1.636.3
+  generationVersion: 2.723.11
+  releaseVersion: 0.0.52
+  configChecksum: 18fc78e1be8fdaec1e632768f1928569
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -25,11 +25,11 @@ features:
     globalSecurity: 3.0.4
     globalSecurityCallbacks: 1.0.0
     globalServerURLs: 3.1.1
-    groups: 3.0.0
+    groups: 3.0.1
     methodArguments: 1.0.2
     nameOverrides: 3.0.1
     nullables: 1.0.1
-    oauth2ClientCredentials: 1.3.0
+    oauth2ClientCredentials: 2.1.0
     responseFormat: 1.0.1
     retries: 3.0.2
     sdkHooks: 1.1.0
@@ -1974,12 +1974,10 @@ generatedFiles:
   - docs/models/workertypes.md
   - docs/models/writeaction.md
   - docs/sdks/acl/README.md
-  - docs/sdks/authsdk/README.md
   - docs/sdks/branches/README.md
   - docs/sdks/commits/README.md
   - docs/sdks/commitsfiles/README.md
   - docs/sdks/configsversions/README.md
-  - docs/sdks/criblcontrolplane/README.md
   - docs/sdks/destinations/README.md
   - docs/sdks/destinationspq/README.md
   - docs/sdks/groupssdk/README.md
@@ -1996,7 +1994,6 @@ generatedFiles:
   - docs/sdks/summaries/README.md
   - docs/sdks/teams/README.md
   - docs/sdks/tokens/README.md
-  - docs/sdks/versions/README.md
   - docs/sdks/versionsconfigs/README.md
   - poetry.toml
   - py.typed

@@ -297,13 +297,9 @@ with CriblControlPlane(
 <details open>
 <summary>Available methods</summary>
 
-### [auth](docs/sdks/authsdk/README.md)
-
-
 #### [auth.tokens](docs/sdks/tokens/README.md)
 
 * [get](docs/sdks/tokens/README.md#get) - Log in and fetch an authentication token
-
 
 ### [destinations](docs/sdks/destinations/README.md)
 
@@ -400,9 +396,6 @@ with CriblControlPlane(
 
 * [create](docs/sdks/hectokens/README.md#create) - Add an HEC token and optional metadata to a Splunk HEC Source
 * [update](docs/sdks/hectokens/README.md#update) - Update metadata for an HEC token for a Splunk HEC Source
-
-### [versions](docs/sdks/versions/README.md)
-
 
 #### [versions.branches](docs/sdks/branches/README.md)
 

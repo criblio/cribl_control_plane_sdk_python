@@ -19,7 +19,7 @@ class HealthStatusErrorData(BaseModel):
     role: Optional[models_healthstatus.Role] = None
 
 
-@dataclass(frozen=True)
+@dataclass(unsafe_hash=True)
 class HealthStatusError(CriblControlPlaneError):
     data: HealthStatusErrorData = field(hash=False)
 

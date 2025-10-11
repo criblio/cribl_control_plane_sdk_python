@@ -29,14 +29,18 @@ class InputEventhubConnection(BaseModel):
 class InputEventhubMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
+    # Smart
     SMART = "smart"
+    # Always On
     ALWAYS = "always"
 
 
 class InputEventhubCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
+    # None
     NONE = "none"
+    # Gzip
     GZIP = "gzip"
 
 
@@ -104,7 +108,9 @@ class InputEventhubPq(BaseModel):
 
 
 class InputEventhubSASLMechanism(str, Enum, metaclass=utils.OpenEnumMeta):
+    # PLAIN
     PLAIN = "plain"
+    # OAUTHBEARER
     OAUTHBEARER = "oauthbearer"
 
 

@@ -1,6 +1,0 @@
-# AuthSDK
-(*auth*)
-
-## Overview
-
-### Available Operations

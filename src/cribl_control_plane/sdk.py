@@ -35,7 +35,6 @@ class CriblControlPlane(BaseSDK):
     sources: "Sources"
     r"""Actions related to Sources"""
     destinations: "Destinations"
-    r"""Actions related to Destinations"""
     pipelines: "Pipelines"
     r"""Actions related to Pipelines"""
     routes: "RoutesSDK"

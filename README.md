@@ -288,21 +288,9 @@ with CriblControlPlane(
 <details open>
 <summary>Available methods</summary>
 
-### [auth](docs/sdks/authsdk/README.md)
-
-
 #### [auth.tokens](docs/sdks/tokens/README.md)
 
 * [get](docs/sdks/tokens/README.md#get) - Log in and fetch an authentication token
-
-
-### [destinations](docs/sdks/destinations/README.md)
-
-* [list](docs/sdks/destinations/README.md#list) - List all Destinations
-* [create](docs/sdks/destinations/README.md#create) - Create a Destination
-* [get](docs/sdks/destinations/README.md#get) - Get a Destination
-* [update](docs/sdks/destinations/README.md#update) - Update a Destination
-* [delete](docs/sdks/destinations/README.md#delete) - Delete a Destination
 
 #### [destinations.pq](docs/sdks/destinationspq/README.md)
 
@@ -391,9 +379,6 @@ with CriblControlPlane(
 
 * [create](docs/sdks/hectokens/README.md#create) - Add an HEC token and optional metadata to a Splunk HEC Source
 * [update](docs/sdks/hectokens/README.md#update) - Update metadata for an HEC token for a Splunk HEC Source
-
-### [versions](docs/sdks/versions/README.md)
-
 
 #### [versions.branches](docs/sdks/branches/README.md)
 
@@ -639,7 +624,7 @@ with CriblControlPlane(
 
 
 **Inherit from [`CriblControlPlaneError`](./src/cribl_control_plane/errors/criblcontrolplaneerror.py)**:
-* [`HealthStatusError`](./src/cribl_control_plane/errors/healthstatuserror.py): Healthy status. Status code `420`. Applicable to 1 of 62 methods.*
+* [`HealthStatusError`](./src/cribl_control_plane/errors/healthstatuserror.py): Healthy status. Status code `420`. Applicable to 1 of 57 methods.*
 * [`ResponseValidationError`](./src/cribl_control_plane/errors/responsevalidationerror.py): Type mismatch between the response data and the expected Pydantic model. Provides access to the Pydantic validation error via the `cause` attribute.
 
 </details>

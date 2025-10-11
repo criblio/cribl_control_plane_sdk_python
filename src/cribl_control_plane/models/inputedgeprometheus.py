@@ -29,14 +29,18 @@ class InputEdgePrometheusConnection(BaseModel):
 class InputEdgePrometheusMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
+    # Smart
     SMART = "smart"
+    # Always On
     ALWAYS = "always"
 
 
 class InputEdgePrometheusPqCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
+    # None
     NONE = "none"
+    # Gzip
     GZIP = "gzip"
 
 
@@ -107,10 +111,15 @@ class InputEdgePrometheusPq(BaseModel):
 class InputEdgePrometheusDiscoveryType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
 
+    # Static
     STATIC = "static"
+    # DNS
     DNS = "dns"
+    # AWS EC2
     EC2 = "ec2"
+    # Kubernetes Node
     K8S_NODE = "k8s-node"
+    # Kubernetes Pods
     K8S_PODS = "k8s-pods"
 
 
@@ -248,8 +257,11 @@ class InputEdgePrometheusAwsAuthenticationMethodAuthenticationMethod(
 ):
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
+    # Auto
     AUTO = "auto"
+    # Manual
     MANUAL = "manual"
+    # Secret Key pair
     SECRET = "secret"
 
 

@@ -29,14 +29,18 @@ class InputWinEventLogsConnection(BaseModel):
 class InputWinEventLogsMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
+    # Smart
     SMART = "smart"
+    # Always On
     ALWAYS = "always"
 
 
 class InputWinEventLogsCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
+    # None
     NONE = "none"
+    # Gzip
     GZIP = "gzip"
 
 
@@ -107,14 +111,18 @@ class InputWinEventLogsPq(BaseModel):
 class ReadMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Read all stored and future event logs, or only future events"""
 
+    # Entire log
     OLDEST = "oldest"
+    # From last entry
     NEWEST = "newest"
 
 
 class EventFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Format of individual events"""
 
+    # JSON
     JSON = "json"
+    # XML
     XML = "xml"
 
 

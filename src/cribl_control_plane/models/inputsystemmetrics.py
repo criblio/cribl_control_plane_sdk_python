@@ -29,14 +29,18 @@ class InputSystemMetricsConnection(BaseModel):
 class InputSystemMetricsPqMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
+    # Smart
     SMART = "smart"
+    # Always On
     ALWAYS = "always"
 
 
 class InputSystemMetricsCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
+    # None
     NONE = "none"
+    # Gzip
     GZIP = "gzip"
 
 
@@ -107,18 +111,26 @@ class InputSystemMetricsPq(BaseModel):
 class InputSystemMetricsHostMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select level of detail for host metrics"""
 
+    # Basic
     BASIC = "basic"
+    # All
     ALL = "all"
+    # Custom
     CUSTOM = "custom"
+    # Disabled
     DISABLED = "disabled"
 
 
 class InputSystemMetricsSystemMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of detail for system metrics"""
 
+    # Basic
     BASIC = "basic"
+    # All
     ALL = "all"
+    # Custom
     CUSTOM = "custom"
+    # Disabled
     DISABLED = "disabled"
 
 
@@ -143,9 +155,13 @@ class InputSystemMetricsSystem(BaseModel):
 class InputSystemMetricsCPUMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of detail for CPU metrics"""
 
+    # Basic
     BASIC = "basic"
+    # All
     ALL = "all"
+    # Custom
     CUSTOM = "custom"
+    # Disabled
     DISABLED = "disabled"
 
 
@@ -179,9 +195,13 @@ class InputSystemMetricsCPU(BaseModel):
 class InputSystemMetricsMemoryMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of detail for memory metrics"""
 
+    # Basic
     BASIC = "basic"
+    # All
     ALL = "all"
+    # Custom
     CUSTOM = "custom"
+    # Disabled
     DISABLED = "disabled"
 
 
@@ -206,9 +226,13 @@ class InputSystemMetricsMemory(BaseModel):
 class InputSystemMetricsNetworkMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of detail for network metrics"""
 
+    # Basic
     BASIC = "basic"
+    # All
     ALL = "all"
+    # Custom
     CUSTOM = "custom"
+    # Disabled
     DISABLED = "disabled"
 
 
@@ -245,9 +269,13 @@ class InputSystemMetricsNetwork(BaseModel):
 class InputSystemMetricsDiskMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of detail for disk metrics"""
 
+    # Basic
     BASIC = "basic"
+    # All
     ALL = "all"
+    # Custom
     CUSTOM = "custom"
+    # Disabled
     DISABLED = "disabled"
 
 
@@ -352,9 +380,13 @@ class InputSystemMetricsProcess(BaseModel):
 class ContainerMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of detail for container metrics"""
 
+    # Basic
     BASIC = "basic"
+    # All
     ALL = "all"
+    # Custom
     CUSTOM = "custom"
+    # Disabled
     DISABLED = "disabled"
 
 

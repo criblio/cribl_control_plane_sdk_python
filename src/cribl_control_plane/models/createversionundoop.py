@@ -4,7 +4,7 @@ from __future__ import annotations
 from cribl_control_plane.types import BaseModel
 from cribl_control_plane.utils import FieldMetadata, QueryParamMetadata
 import pydantic
-from typing import List, Optional
+from typing import Any, Dict, List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -27,7 +27,7 @@ class CreateVersionUndoResponseTypedDict(TypedDict):
 
     count: NotRequired[int]
     r"""number of items present in the items array"""
-    items: NotRequired[List[str]]
+    items: NotRequired[List[Dict[str, Any]]]
 
 
 class CreateVersionUndoResponse(BaseModel):
@@ -36,4 +36,4 @@ class CreateVersionUndoResponse(BaseModel):
     count: Optional[int] = None
     r"""number of items present in the items array"""
 
-    items: Optional[List[str]] = None
+    items: Optional[List[Dict[str, Any]]] = None

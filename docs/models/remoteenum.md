@@ -1,8 +1,8 @@
-# OutputXsiamType
+# RemoteEnum
 
 
 ## Values
 
 | Name    | Value   |
 | ------- | ------- |
-| `XSIAM` | xsiam   |
+| `FALSE` | false   |

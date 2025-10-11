@@ -29,14 +29,18 @@ class InputSplunkConnection(BaseModel):
 class InputSplunkMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
+    # Smart
     SMART = "smart"
+    # Always On
     ALWAYS = "always"
 
 
 class InputSplunkPqCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
+    # None
     NONE = "none"
+    # Gzip
     GZIP = "gzip"
 
 
@@ -214,15 +218,20 @@ class InputSplunkAuthToken(BaseModel):
 class InputSplunkMaxS2SVersion(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The highest S2S protocol version to advertise during handshake"""
 
+    # v3
     V3 = "v3"
+    # v4
     V4 = "v4"
 
 
 class InputSplunkCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Controls whether to support reading compressed data from a forwarder. Select 'Automatic' to match the forwarder's configuration, or 'Disabled' to reject compressed connections."""
 
+    # Disabled
     DISABLED = "disabled"
+    # Automatic
     AUTO = "auto"
+    # Always
     ALWAYS = "always"
 
 

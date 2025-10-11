@@ -25,7 +25,7 @@ class HealthStatusErrorData(BaseModel):
     ] = None
 
 
-@dataclass(frozen=True)
+@dataclass(unsafe_hash=True)
 class HealthStatusError(CriblControlPlaneError):
     data: HealthStatusErrorData = field(hash=False)
 

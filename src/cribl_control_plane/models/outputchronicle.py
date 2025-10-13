@@ -11,25 +11,16 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class OutputGoogleChronicleType(str, Enum):
-    GOOGLE_CHRONICLE = "google_chronicle"
+class OutputChronicleType(str, Enum):
+    CHRONICLE = "chronicle"
 
 
-class OutputGoogleChronicleAPIVersion(str, Enum, metaclass=utils.OpenEnumMeta):
-    V1 = "v1"
-    V2 = "v2"
-
-
-class OutputGoogleChronicleAuthenticationMethod(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
-    MANUAL = "manual"
-    SECRET = "secret"
+class OutputChronicleAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
     SERVICE_ACCOUNT = "serviceAccount"
     SERVICE_ACCOUNT_SECRET = "serviceAccountSecret"
 
 
-class OutputGoogleChronicleResponseRetrySettingTypedDict(TypedDict):
+class OutputChronicleResponseRetrySettingTypedDict(TypedDict):
     http_status: float
     r"""The HTTP response status code that will trigger retries"""
     initial_backoff: NotRequired[float]
@@ -40,7 +31,7 @@ class OutputGoogleChronicleResponseRetrySettingTypedDict(TypedDict):
     r"""The maximum backoff interval, in milliseconds, Cribl Stream should apply. Default (and minimum) is 10,000 ms (10 seconds); maximum is 180,000 ms (180 seconds)."""
 
 
-class OutputGoogleChronicleResponseRetrySetting(BaseModel):
+class OutputChronicleResponseRetrySetting(BaseModel):
     http_status: Annotated[float, pydantic.Field(alias="httpStatus")]
     r"""The HTTP response status code that will trigger retries"""
 
@@ -56,7 +47,7 @@ class OutputGoogleChronicleResponseRetrySetting(BaseModel):
     r"""The maximum backoff interval, in milliseconds, Cribl Stream should apply. Default (and minimum) is 10,000 ms (10 seconds); maximum is 180,000 ms (180 seconds)."""
 
 
-class OutputGoogleChronicleTimeoutRetrySettingsTypedDict(TypedDict):
+class OutputChronicleTimeoutRetrySettingsTypedDict(TypedDict):
     timeout_retry: NotRequired[bool]
     initial_backoff: NotRequired[float]
     r"""How long, in milliseconds, Cribl Stream should wait before initiating backoff. Maximum interval is 600,000 ms (10 minutes)."""
@@ -66,7 +57,7 @@ class OutputGoogleChronicleTimeoutRetrySettingsTypedDict(TypedDict):
     r"""The maximum backoff interval, in milliseconds, Cribl Stream should apply. Default (and minimum) is 10,000 ms (10 seconds); maximum is 180,000 ms (180 seconds)."""
 
 
-class OutputGoogleChronicleTimeoutRetrySettings(BaseModel):
+class OutputChronicleTimeoutRetrySettings(BaseModel):
     timeout_retry: Annotated[Optional[bool], pydantic.Field(alias="timeoutRetry")] = (
         False
     )
@@ -83,25 +74,18 @@ class OutputGoogleChronicleTimeoutRetrySettings(BaseModel):
     r"""The maximum backoff interval, in milliseconds, Cribl Stream should apply. Default (and minimum) is 10,000 ms (10 seconds); maximum is 180,000 ms (180 seconds)."""
 
 
-class SendEventsAs(str, Enum, metaclass=utils.OpenEnumMeta):
-    UNSTRUCTURED = "unstructured"
-    UDM = "udm"
-
-
-class OutputGoogleChronicleExtraHTTPHeaderTypedDict(TypedDict):
+class OutputChronicleExtraHTTPHeaderTypedDict(TypedDict):
     value: str
     name: NotRequired[str]
 
 
-class OutputGoogleChronicleExtraHTTPHeader(BaseModel):
+class OutputChronicleExtraHTTPHeader(BaseModel):
     value: str
 
     name: Optional[str] = None
 
 
-class OutputGoogleChronicleFailedRequestLoggingMode(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class OutputChronicleFailedRequestLoggingMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
     PAYLOAD = "payload"
@@ -109,9 +93,7 @@ class OutputGoogleChronicleFailedRequestLoggingMode(
     NONE = "none"
 
 
-class OutputGoogleChronicleBackpressureBehavior(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class OutputChronicleBackpressureBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     BLOCK = "block"
@@ -119,43 +101,32 @@ class OutputGoogleChronicleBackpressureBehavior(
     QUEUE = "queue"
 
 
-class ExtraLogTypeTypedDict(TypedDict):
-    log_type: str
-    description: NotRequired[str]
-
-
-class ExtraLogType(BaseModel):
-    log_type: Annotated[str, pydantic.Field(alias="logType")]
-
-    description: Optional[str] = None
-
-
-class OutputGoogleChronicleCustomLabelTypedDict(TypedDict):
+class OutputChronicleCustomLabelTypedDict(TypedDict):
     key: str
     value: str
 
 
-class OutputGoogleChronicleCustomLabel(BaseModel):
+class OutputChronicleCustomLabel(BaseModel):
     key: str
 
     value: str
 
 
-class OutputGoogleChronicleCompression(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputChronicleCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
     NONE = "none"
     GZIP = "gzip"
 
 
-class OutputGoogleChronicleQueueFullBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputChronicleQueueFullBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     BLOCK = "block"
     DROP = "drop"
 
 
-class OutputGoogleChronicleMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputChronicleMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     ERROR = "error"
@@ -163,16 +134,24 @@ class OutputGoogleChronicleMode(str, Enum, metaclass=utils.OpenEnumMeta):
     ALWAYS = "always"
 
 
-class OutputGoogleChroniclePqControlsTypedDict(TypedDict):
+class OutputChroniclePqControlsTypedDict(TypedDict):
     pass
 
 
-class OutputGoogleChroniclePqControls(BaseModel):
+class OutputChroniclePqControls(BaseModel):
     pass
 
 
-class OutputGoogleChronicleTypedDict(TypedDict):
-    type: OutputGoogleChronicleType
+class OutputChronicleTypedDict(TypedDict):
+    type: OutputChronicleType
+    region: str
+    r"""Regional endpoint to send events to"""
+    log_type: str
+    r"""Default log type value to send to SecOps. Can be overwritten by event field __logType."""
+    gcp_project_id: str
+    r"""The Google Cloud Platform (GCP) project ID to send events to"""
+    gcp_instance: str
+    r"""The Google Cloud Platform (GCP) instance to send events to. This is the Chronicle customer uuid."""
     id: NotRequired[str]
     r"""Unique ID for this output"""
     pipeline: NotRequired[str]
@@ -183,20 +162,15 @@ class OutputGoogleChronicleTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    api_version: NotRequired[OutputGoogleChronicleAPIVersion]
-    authentication_method: NotRequired[OutputGoogleChronicleAuthenticationMethod]
+    api_version: NotRequired[str]
+    authentication_method: NotRequired[OutputChronicleAuthenticationMethod]
     response_retry_settings: NotRequired[
-        List[OutputGoogleChronicleResponseRetrySettingTypedDict]
+        List[OutputChronicleResponseRetrySettingTypedDict]
     ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
-    timeout_retry_settings: NotRequired[
-        OutputGoogleChronicleTimeoutRetrySettingsTypedDict
-    ]
+    timeout_retry_settings: NotRequired[OutputChronicleTimeoutRetrySettingsTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
-    log_format_type: NotRequired[SendEventsAs]
-    region: NotRequired[str]
-    r"""Regional endpoint to send events to"""
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
     max_payload_size_kb: NotRequired[float]
@@ -214,37 +188,26 @@ class OutputGoogleChronicleTypedDict(TypedDict):
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
-    extra_http_headers: NotRequired[List[OutputGoogleChronicleExtraHTTPHeaderTypedDict]]
+    extra_http_headers: NotRequired[List[OutputChronicleExtraHTTPHeaderTypedDict]]
     r"""Headers to add to all events"""
-    failed_request_logging_mode: NotRequired[
-        OutputGoogleChronicleFailedRequestLoggingMode
-    ]
+    failed_request_logging_mode: NotRequired[OutputChronicleFailedRequestLoggingMode]
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text"""
     use_round_robin_dns: NotRequired[bool]
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned."""
-    on_backpressure: NotRequired[OutputGoogleChronicleBackpressureBehavior]
+    on_backpressure: NotRequired[OutputChronicleBackpressureBehavior]
     r"""How to handle events when all receivers are exerting backpressure"""
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
-    description: NotRequired[str]
-    extra_log_types: NotRequired[List[ExtraLogTypeTypedDict]]
-    r"""Custom log types. If the value \"Custom\" is selected in the setting \"Default log type\" above, the first custom log type in this table will be automatically selected as default log type."""
-    log_type: NotRequired[str]
-    r"""Default log type value to send to SecOps. Can be overwritten by event field __logType."""
+    ingestion_method: NotRequired[str]
+    namespace: NotRequired[str]
+    r"""User-configured environment namespace to identify the data domain the logs originated from. This namespace is used as a tag to identify the appropriate data domain for indexing and enrichment functionality. Can be overwritten by event field __namespace."""
     log_text_field: NotRequired[str]
     r"""Name of the event field that contains the log text to send. If not specified, Stream sends a JSON representation of the whole event."""
-    customer_id: NotRequired[str]
-    r"""A unique identifier (UUID) for your Google SecOps instance. This is provided by your Google representative and is required for API V2 authentication."""
-    namespace: NotRequired[str]
-    r"""User-configured environment namespace to identify the data domain the logs originated from. Use namespace as a tag to identify the appropriate data domain for indexing and enrichment functionality. Can be overwritten by event field __namespace."""
-    custom_labels: NotRequired[List[OutputGoogleChronicleCustomLabelTypedDict]]
-    r"""Custom labels to be added to every batch"""
-    api_key: NotRequired[str]
-    r"""Organization's API key in Google SecOps"""
-    api_key_secret: NotRequired[str]
-    r"""Select or create a stored text secret"""
+    custom_labels: NotRequired[List[OutputChronicleCustomLabelTypedDict]]
+    r"""Custom labels to be added to every event"""
+    description: NotRequired[str]
     service_account_credentials: NotRequired[str]
     r"""Contents of service account credentials (JSON keys) file downloaded from Google Cloud. To upload a file, click the upload button at this field's upper right."""
     service_account_credentials_secret: NotRequired[str]
@@ -255,17 +218,29 @@ class OutputGoogleChronicleTypedDict(TypedDict):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     pq_path: NotRequired[str]
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
-    pq_compress: NotRequired[OutputGoogleChronicleCompression]
+    pq_compress: NotRequired[OutputChronicleCompression]
     r"""Codec to use to compress the persisted data"""
-    pq_on_backpressure: NotRequired[OutputGoogleChronicleQueueFullBehavior]
+    pq_on_backpressure: NotRequired[OutputChronicleQueueFullBehavior]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-    pq_mode: NotRequired[OutputGoogleChronicleMode]
+    pq_mode: NotRequired[OutputChronicleMode]
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
-    pq_controls: NotRequired[OutputGoogleChroniclePqControlsTypedDict]
+    pq_controls: NotRequired[OutputChroniclePqControlsTypedDict]
 
 
-class OutputGoogleChronicle(BaseModel):
-    type: OutputGoogleChronicleType
+class OutputChronicle(BaseModel):
+    type: OutputChronicleType
+
+    region: str
+    r"""Regional endpoint to send events to"""
+
+    log_type: Annotated[str, pydantic.Field(alias="logType")]
+    r"""Default log type value to send to SecOps. Can be overwritten by event field __logType."""
+
+    gcp_project_id: Annotated[str, pydantic.Field(alias="gcpProjectId")]
+    r"""The Google Cloud Platform (GCP) project ID to send events to"""
+
+    gcp_instance: Annotated[str, pydantic.Field(alias="gcpInstance")]
+    r"""The Google Cloud Platform (GCP) instance to send events to. This is the Chronicle customer uuid."""
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
@@ -284,45 +259,33 @@ class OutputGoogleChronicle(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    api_version: Annotated[
-        Annotated[
-            Optional[OutputGoogleChronicleAPIVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="apiVersion"),
-    ] = OutputGoogleChronicleAPIVersion.V1
+    api_version: Annotated[Optional[str], pydantic.Field(alias="apiVersion")] = (
+        "v1alpha"
+    )
 
     authentication_method: Annotated[
         Annotated[
-            Optional[OutputGoogleChronicleAuthenticationMethod],
+            Optional[OutputChronicleAuthenticationMethod],
             PlainValidator(validate_open_enum(False)),
         ],
         pydantic.Field(alias="authenticationMethod"),
-    ] = OutputGoogleChronicleAuthenticationMethod.SERVICE_ACCOUNT
+    ] = OutputChronicleAuthenticationMethod.SERVICE_ACCOUNT
 
     response_retry_settings: Annotated[
-        Optional[List[OutputGoogleChronicleResponseRetrySetting]],
+        Optional[List[OutputChronicleResponseRetrySetting]],
         pydantic.Field(alias="responseRetrySettings"),
     ] = None
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
 
     timeout_retry_settings: Annotated[
-        Optional[OutputGoogleChronicleTimeoutRetrySettings],
+        Optional[OutputChronicleTimeoutRetrySettings],
         pydantic.Field(alias="timeoutRetrySettings"),
     ] = None
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
-    ] = False
+    ] = True
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
-
-    log_format_type: Annotated[
-        Annotated[Optional[SendEventsAs], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="logFormatType"),
-    ] = SendEventsAs.UNSTRUCTURED
-
-    region: Optional[str] = None
-    r"""Regional endpoint to send events to"""
 
     concurrency: Optional[float] = 5
     r"""Maximum number of ongoing requests before blocking"""
@@ -357,18 +320,18 @@ class OutputGoogleChronicle(BaseModel):
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
-        Optional[List[OutputGoogleChronicleExtraHTTPHeader]],
+        Optional[List[OutputChronicleExtraHTTPHeader]],
         pydantic.Field(alias="extraHttpHeaders"),
     ] = None
     r"""Headers to add to all events"""
 
     failed_request_logging_mode: Annotated[
         Annotated[
-            Optional[OutputGoogleChronicleFailedRequestLoggingMode],
+            Optional[OutputChronicleFailedRequestLoggingMode],
             PlainValidator(validate_open_enum(False)),
         ],
         pydantic.Field(alias="failedRequestLoggingMode"),
-    ] = OutputGoogleChronicleFailedRequestLoggingMode.NONE
+    ] = OutputChronicleFailedRequestLoggingMode.NONE
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
     safe_headers: Annotated[
@@ -383,11 +346,11 @@ class OutputGoogleChronicle(BaseModel):
 
     on_backpressure: Annotated[
         Annotated[
-            Optional[OutputGoogleChronicleBackpressureBehavior],
+            Optional[OutputChronicleBackpressureBehavior],
             PlainValidator(validate_open_enum(False)),
         ],
         pydantic.Field(alias="onBackpressure"),
-    ] = OutputGoogleChronicleBackpressureBehavior.BLOCK
+    ] = OutputChronicleBackpressureBehavior.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
     total_memory_limit_kb: Annotated[
@@ -395,40 +358,24 @@ class OutputGoogleChronicle(BaseModel):
     ] = None
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
 
-    description: Optional[str] = None
+    ingestion_method: Annotated[
+        Optional[str], pydantic.Field(alias="ingestionMethod")
+    ] = "ImportLogs"
 
-    extra_log_types: Annotated[
-        Optional[List[ExtraLogType]], pydantic.Field(alias="extraLogTypes")
-    ] = None
-    r"""Custom log types. If the value \"Custom\" is selected in the setting \"Default log type\" above, the first custom log type in this table will be automatically selected as default log type."""
-
-    log_type: Annotated[Optional[str], pydantic.Field(alias="logType")] = None
-    r"""Default log type value to send to SecOps. Can be overwritten by event field __logType."""
+    namespace: Optional[str] = None
+    r"""User-configured environment namespace to identify the data domain the logs originated from. This namespace is used as a tag to identify the appropriate data domain for indexing and enrichment functionality. Can be overwritten by event field __namespace."""
 
     log_text_field: Annotated[Optional[str], pydantic.Field(alias="logTextField")] = (
         None
     )
     r"""Name of the event field that contains the log text to send. If not specified, Stream sends a JSON representation of the whole event."""
 
-    customer_id: Annotated[Optional[str], pydantic.Field(alias="customerId")] = None
-    r"""A unique identifier (UUID) for your Google SecOps instance. This is provided by your Google representative and is required for API V2 authentication."""
-
-    namespace: Optional[str] = None
-    r"""User-configured environment namespace to identify the data domain the logs originated from. Use namespace as a tag to identify the appropriate data domain for indexing and enrichment functionality. Can be overwritten by event field __namespace."""
-
     custom_labels: Annotated[
-        Optional[List[OutputGoogleChronicleCustomLabel]],
-        pydantic.Field(alias="customLabels"),
+        Optional[List[OutputChronicleCustomLabel]], pydantic.Field(alias="customLabels")
     ] = None
-    r"""Custom labels to be added to every batch"""
+    r"""Custom labels to be added to every event"""
 
-    api_key: Annotated[Optional[str], pydantic.Field(alias="apiKey")] = None
-    r"""Organization's API key in Google SecOps"""
-
-    api_key_secret: Annotated[Optional[str], pydantic.Field(alias="apiKeySecret")] = (
-        None
-    )
-    r"""Select or create a stored text secret"""
+    description: Optional[str] = None
 
     service_account_credentials: Annotated[
         Optional[str], pydantic.Field(alias="serviceAccountCredentials")
@@ -455,31 +402,30 @@ class OutputGoogleChronicle(BaseModel):
 
     pq_compress: Annotated[
         Annotated[
-            Optional[OutputGoogleChronicleCompression],
+            Optional[OutputChronicleCompression],
             PlainValidator(validate_open_enum(False)),
         ],
         pydantic.Field(alias="pqCompress"),
-    ] = OutputGoogleChronicleCompression.NONE
+    ] = OutputChronicleCompression.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Annotated[
-            Optional[OutputGoogleChronicleQueueFullBehavior],
+            Optional[OutputChronicleQueueFullBehavior],
             PlainValidator(validate_open_enum(False)),
         ],
         pydantic.Field(alias="pqOnBackpressure"),
-    ] = OutputGoogleChronicleQueueFullBehavior.BLOCK
+    ] = OutputChronicleQueueFullBehavior.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_mode: Annotated[
         Annotated[
-            Optional[OutputGoogleChronicleMode],
-            PlainValidator(validate_open_enum(False)),
+            Optional[OutputChronicleMode], PlainValidator(validate_open_enum(False))
         ],
         pydantic.Field(alias="pqMode"),
-    ] = OutputGoogleChronicleMode.ERROR
+    ] = OutputChronicleMode.ERROR
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_controls: Annotated[
-        Optional[OutputGoogleChroniclePqControls], pydantic.Field(alias="pqControls")
+        Optional[OutputChroniclePqControls], pydantic.Field(alias="pqControls")
     ] = None

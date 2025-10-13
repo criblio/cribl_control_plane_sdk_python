@@ -21,6 +21,7 @@ class Credentials:
     client_id: str
     client_secret: str
     token_url: str
+    scopes: Optional[List[str]]
     additional_properties: Dict[str, str]
 
     def __init__(
@@ -28,25 +29,27 @@ class Credentials:
         client_id: str,
         client_secret: str,
         token_url: str,
+        scopes: Optional[List[str]],
         additional_properties: Optional[Dict[str, str]] = None,
     ):
         self.client_id = client_id
         self.client_secret = client_secret
         self.token_url = token_url
+        self.scopes = scopes
         self.additional_properties = additional_properties or {}
 
 
 class Session:
     credentials: Credentials
     token: str
-    scopes: Optional[List[str]] = None
+    scopes: List[str]
     expires_at: Optional[int] = None
 
     def __init__(
         self,
         credentials: Credentials,
         token: str,
-        scopes: Optional[List[str]] = None,
+        scopes: List[str],
         expires_at: Optional[int] = None,
     ):
         self.credentials = credentials
@@ -57,7 +60,7 @@ class Session:
 
 class ClientCredentialsHook(SDKInitHook, BeforeRequestHook, AfterErrorHook):
     client: HttpClient
-    sessions: Dict[str, Session] = {}
+    sessions: Dict[str, Dict[str, Session]] = {}
 
     def sdk_init(self, config: SDKConfiguration) -> SDKConfiguration:
         if config.client is None:
@@ -69,8 +72,7 @@ class ClientCredentialsHook(SDKInitHook, BeforeRequestHook, AfterErrorHook):
     def before_request(
         self, hook_ctx: BeforeRequestContext, request: httpx.Request
     ) -> httpx.Request:
-        if hook_ctx.oauth2_scopes is None:
-            # OAuth2 not in use
+        if self.is_hook_disabled(hook_ctx):
             return request
 
         credentials = self.get_credentials(hook_ctx)
@@ -81,22 +83,24 @@ class ClientCredentialsHook(SDKInitHook, BeforeRequestHook, AfterErrorHook):
             credentials.client_id, credentials.client_secret
         )
 
-        if (
-            session_key not in self.sessions
-            or not self.has_required_scopes(
-                self.sessions[session_key].scopes, hook_ctx.oauth2_scopes
-            )
-            or self.has_token_expired(self.sessions[session_key].expires_at)
-        ):
-            sess = self.do_token_request(
+        scopes = self.get_required_scopes(credentials, hook_ctx)
+        session = self.get_existing_session(session_key, scopes)
+
+        if session is None:
+            # Create new session
+            session = self.do_token_request(
                 hook_ctx,
                 credentials,
-                self.get_scopes(hook_ctx.oauth2_scopes, self.sessions.get(session_key)),
+                scopes,
             )
 
-            self.sessions[session_key] = sess
+            if session_key not in self.sessions:
+                self.sessions[session_key] = {}
 
-        request.headers["Authorization"] = f"Bearer {self.sessions[session_key].token}"
+            scope_key = self.get_scope_key(scopes)
+            self.sessions[session_key][scope_key] = session
+
+        request.headers["Authorization"] = f"Bearer {session.token}"
 
         return request
 
@@ -106,8 +110,7 @@ class ClientCredentialsHook(SDKInitHook, BeforeRequestHook, AfterErrorHook):
         response: Optional[httpx.Response],
         error: Optional[Exception],
     ) -> Union[Tuple[Optional[httpx.Response], Optional[Exception]], Exception]:
-        if hook_ctx.oauth2_scopes is None:
-            # OAuth2 not in use
+        if self.is_hook_disabled(hook_ctx):
             return (response, error)
 
         # We don't want to refresh the token if the error is not related to the token
@@ -122,11 +125,14 @@ class ClientCredentialsHook(SDKInitHook, BeforeRequestHook, AfterErrorHook):
             session_key = self.get_session_key(
                 credentials.client_id, credentials.client_secret
             )
-
-            if session_key in self.sessions:
-                del self.sessions[session_key]
+            scopes = self.get_required_scopes(credentials, hook_ctx)
+            scope_key = self.get_scope_key(scopes)
+            self.remove_session(session_key, scope_key)
 
         return (response, error)
+
+    def is_hook_disabled(self, hook_ctx: HookContext) -> bool:
+        return hook_ctx.oauth2_scopes is None
 
     def get_credentials(self, hook_ctx: HookContext) -> Optional[Credentials]:
         source = hook_ctx.security_source
@@ -145,21 +151,19 @@ class ClientCredentialsHook(SDKInitHook, BeforeRequestHook, AfterErrorHook):
         # Extract additional properties from security object
         additional_properties = {}
         for key, value in dict(security.client_oauth).items():
-            if key not in ["client_id", "client_secret", "token_url"]:
+            if key not in ["client_id", "client_secret", "token_url", "scopes"]:
                 additional_properties[key] = value
 
         return Credentials(
             client_id=security.client_oauth.client_id,
             client_secret=security.client_oauth.client_secret,
             token_url=security.client_oauth.token_url,
+            scopes=None,
             additional_properties=additional_properties,
         )
 
     def do_token_request(
-        self,
-        hook_ctx: HookContext,
-        credentials: Credentials,
-        scopes: Optional[List[str]],
+        self, hook_ctx: HookContext, credentials: Credentials, scopes: List[str]
     ) -> Session:
         payload = {
             "grant_type": "client_credentials",
@@ -167,7 +171,7 @@ class ClientCredentialsHook(SDKInitHook, BeforeRequestHook, AfterErrorHook):
             "client_secret": credentials.client_secret,
         }
 
-        if scopes is not None and len(scopes) > 0:
+        if len(scopes) > 0:
             payload["scope"] = " ".join(scopes)
 
         # Add additional properties to payload
@@ -203,24 +207,70 @@ class ClientCredentialsHook(SDKInitHook, BeforeRequestHook, AfterErrorHook):
         )
 
     def get_session_key(self, client_id: str, client_secret: str) -> str:
+        """Generate a consistent session key for the given client ID and secret."""
         return hashlib.md5(f"{client_id}:{client_secret}".encode()).hexdigest()
 
-    def has_required_scopes(
-        self, scopes: Optional[List[str]], required_scopes: List[str]
-    ) -> bool:
-        if scopes is None:
-            return False
+    def get_required_scopes(
+        self, credentials: Credentials, hook_ctx: HookContext
+    ) -> List[str]:
+        """Return the list of scopes that need to be requested."""
+        if credentials.scopes is not None:
+            return credentials.scopes
+        return hook_ctx.oauth2_scopes or []
 
+    def get_scope_key(self, scopes: List[str]) -> str:
+        """Generate a consistent scope key for the given scopes."""
+        if not scopes:
+            return ""
+
+        sorted_scopes = sorted(scopes)
+        return "&".join(sorted_scopes)
+
+    def remove_session(self, client_key: str, scope_key: str) -> None:
+        """Remove a session and clean up empty client session maps."""
+        if client_key in self.sessions and scope_key in self.sessions[client_key]:
+            del self.sessions[client_key][scope_key]
+
+            # Clean up empty client sessions
+            if not self.sessions[client_key]:
+                del self.sessions[client_key]
+
+    def get_existing_session(
+        self, client_key: str, required_scopes: List[str]
+    ) -> Optional[Session]:
+        """Find the best session for the required scopes."""
+        if client_key not in self.sessions:
+            return None
+
+        client_sessions = self.sessions[client_key]
+        scope_key = self.get_scope_key(required_scopes)
+
+        if scope_key in client_sessions:
+            exact_match = client_sessions[scope_key]
+            if self.has_token_expired(exact_match.expires_at):
+                self.remove_session(client_key, scope_key)
+            else:
+                return exact_match
+
+        # If no exact match was found, look for a superset match
+        for key, session in client_sessions.items():
+            if self.has_token_expired(session.expires_at):
+                self.remove_session(client_key, key)
+            elif self.has_required_scopes(session.scopes, required_scopes):
+                return session
+
+        return None
+
+    def has_required_scopes(
+        self, scopes: List[str], required_scopes: List[str]
+    ) -> bool:
+        """Check if all required scopes are present in the given scopes."""
         return all(scope in scopes for scope in required_scopes)
 
-    def get_scopes(
-        self, required_scopes: List[str], sess: Optional[Session]
-    ) -> List[str]:
-        scopes = required_scopes.copy()
-        if sess is not None and sess.scopes is not None:
-            scopes.extend(sess.scopes)
-            scopes = list(set(scopes))
-        return scopes
-
     def has_token_expired(self, expires_at: Optional[int]) -> bool:
-        return expires_at is None or time.time() + 60 >= expires_at
+        """
+        Check if the token has expired.
+        If no expires_in field was returned by the authorization server, the token is considered to never expire.
+        A 60-second buffer is applied to refresh tokens before they actually expire.
+        """
+        return expires_at is not None and time.time() + 60 >= expires_at

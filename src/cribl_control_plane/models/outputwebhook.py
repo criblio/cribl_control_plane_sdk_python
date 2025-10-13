@@ -26,9 +26,13 @@ class OutputWebhookMethod(str, Enum, metaclass=utils.OpenEnumMeta):
 class OutputWebhookFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to format events before sending out"""
 
+    # NDJSON (Newline Delimited JSON)
     NDJSON = "ndjson"
+    # JSON Array
     JSON_ARRAY = "json_array"
+    # Custom
     CUSTOM = "custom"
+    # Advanced
     ADVANCED = "advanced"
 
 
@@ -46,8 +50,11 @@ class OutputWebhookExtraHTTPHeader(BaseModel):
 class OutputWebhookFailedRequestLoggingMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
+    # Payload
     PAYLOAD = "payload"
+    # Payload + Headers
     PAYLOAD_AND_HEADERS = "payloadAndHeaders"
+    # None
     NONE = "none"
 
 
@@ -108,19 +115,28 @@ class OutputWebhookTimeoutRetrySettings(BaseModel):
 class OutputWebhookBackpressureBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when all receivers are exerting backpressure"""
 
+    # Block
     BLOCK = "block"
+    # Drop
     DROP = "drop"
+    # Persistent Queue
     QUEUE = "queue"
 
 
 class OutputWebhookAuthenticationType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Authentication method to use for the HTTP request"""
 
+    # None
     NONE = "none"
+    # Basic
     BASIC = "basic"
+    # Basic (credentials secret)
     CREDENTIALS_SECRET = "credentialsSecret"
+    # Token
     TOKEN = "token"
+    # Token (text secret)
     TEXT_SECRET = "textSecret"
+    # OAuth
     OAUTH = "oauth"
 
 
@@ -199,22 +215,29 @@ class OutputWebhookTLSSettingsClientSide(BaseModel):
 class OutputWebhookCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
+    # None
     NONE = "none"
+    # Gzip
     GZIP = "gzip"
 
 
 class OutputWebhookQueueFullBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
+    # Block
     BLOCK = "block"
+    # Drop new data
     DROP = "drop"
 
 
 class OutputWebhookMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
+    # Error
     ERROR = "error"
+    # Backpressure
     BACKPRESSURE = "backpressure"
+    # Always On
     ALWAYS = "always"
 
 

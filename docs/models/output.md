@@ -387,6 +387,12 @@ value: models.OutputDynatraceOtlp = /* values here */
 value: models.OutputSentinelOneAiSiem = /* values here */
 ```
 
+### `models.OutputChronicle`
+
+```python
+value: models.OutputChronicle = /* values here */
+```
+
 ### `models.OutputDatabricks`
 
 ```python

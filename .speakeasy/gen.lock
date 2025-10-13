@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 3e4881b4057fbb6524188ccdc34a991b
-  docVersion: 4.14.1-alpha.1759348021885-ce0ae185
-  speakeasyVersion: 1.634.1
-  generationVersion: 2.721.0
-  releaseVersion: 0.1.0a2
-  configChecksum: 1e80a29688927e71a1dd35d88a77a471
+  docChecksum: 3164fed83164519108036c787db77406
+  docVersion: 4.14.1-alpha.1760352614113-66cf8b7e
+  speakeasyVersion: 1.636.3
+  generationVersion: 2.723.11
+  releaseVersion: 0.2.0a1
+  configChecksum: 6dd0c2eb0588118365a5cbe3cb3fb7f0
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -25,11 +25,11 @@ features:
     globalSecurity: 3.0.4
     globalSecurityCallbacks: 1.0.0
     globalServerURLs: 3.1.1
-    groups: 3.0.0
+    groups: 3.0.1
     methodArguments: 1.0.2
     nameOverrides: 3.0.1
     nullables: 1.0.1
-    oauth2ClientCredentials: 1.3.0
+    oauth2ClientCredentials: 2.1.0
     openEnums: 1.0.1
     responseFormat: 1.0.1
     retries: 3.0.2
@@ -104,8 +104,9 @@ generatedFiles:
   - docs/models/criblevent.md
   - docs/models/cribllakedataset.md
   - docs/models/cribllakedatasetformat.md
+  - docs/models/cribllakedatasetupdate.md
+  - docs/models/cribllakedatasetupdateformat.md
   - docs/models/currentbranchresult.md
-  - docs/models/customlabel.md
   - docs/models/datadogsite.md
   - docs/models/datasetmetadata.md
   - docs/models/datasetmetadataruninfo.md
@@ -1102,6 +1103,19 @@ generatedFiles:
   - docs/models/outputazurelogsresponseretrysetting.md
   - docs/models/outputazurelogstimeoutretrysettings.md
   - docs/models/outputazurelogstype.md
+  - docs/models/outputchronicle.md
+  - docs/models/outputchronicleauthenticationmethod.md
+  - docs/models/outputchroniclebackpressurebehavior.md
+  - docs/models/outputchroniclecompression.md
+  - docs/models/outputchroniclecustomlabel.md
+  - docs/models/outputchronicleextrahttpheader.md
+  - docs/models/outputchroniclefailedrequestloggingmode.md
+  - docs/models/outputchroniclemode.md
+  - docs/models/outputchroniclepqcontrols.md
+  - docs/models/outputchroniclequeuefullbehavior.md
+  - docs/models/outputchronicleresponseretrysetting.md
+  - docs/models/outputchronicletimeoutretrysettings.md
+  - docs/models/outputchronicletype.md
   - docs/models/outputclickhouse.md
   - docs/models/outputclickhouseauthenticationtype.md
   - docs/models/outputclickhousebackpressurebehavior.md
@@ -1329,6 +1343,7 @@ generatedFiles:
   - docs/models/outputgooglechronicleauthenticationmethod.md
   - docs/models/outputgooglechroniclebackpressurebehavior.md
   - docs/models/outputgooglechroniclecompression.md
+  - docs/models/outputgooglechroniclecustomlabel.md
   - docs/models/outputgooglechronicleextrahttpheader.md
   - docs/models/outputgooglechroniclefailedrequestloggingmode.md
   - docs/models/outputgooglechroniclemode.md
@@ -1979,12 +1994,10 @@ generatedFiles:
   - docs/models/workertypes.md
   - docs/models/writeaction.md
   - docs/sdks/acl/README.md
-  - docs/sdks/authsdk/README.md
   - docs/sdks/branches/README.md
   - docs/sdks/commits/README.md
   - docs/sdks/commitsfiles/README.md
   - docs/sdks/configsversions/README.md
-  - docs/sdks/criblcontrolplane/README.md
   - docs/sdks/destinations/README.md
   - docs/sdks/destinationspq/README.md
   - docs/sdks/groupssdk/README.md
@@ -2001,7 +2014,6 @@ generatedFiles:
   - docs/sdks/summaries/README.md
   - docs/sdks/teams/README.md
   - docs/sdks/tokens/README.md
-  - docs/sdks/versions/README.md
   - docs/sdks/versionsconfigs/README.md
   - poetry.toml
   - py.typed
@@ -2064,6 +2076,7 @@ generatedFiles:
   - src/cribl_control_plane/models/createversionundoop.py
   - src/cribl_control_plane/models/criblevent.py
   - src/cribl_control_plane/models/cribllakedataset.py
+  - src/cribl_control_plane/models/cribllakedatasetupdate.py
   - src/cribl_control_plane/models/currentbranchresult.py
   - src/cribl_control_plane/models/datasetmetadata.py
   - src/cribl_control_plane/models/datasetmetadataruninfo.py
@@ -2204,6 +2217,7 @@ generatedFiles:
   - src/cribl_control_plane/models/outputazuredataexplorer.py
   - src/cribl_control_plane/models/outputazureeventhub.py
   - src/cribl_control_plane/models/outputazurelogs.py
+  - src/cribl_control_plane/models/outputchronicle.py
   - src/cribl_control_plane/models/outputclickhouse.py
   - src/cribl_control_plane/models/outputcloudwatch.py
   - src/cribl_control_plane/models/outputconfluentcloud.py
@@ -3264,4 +3278,4 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: "## Python SDK Changes Detected:\n* `cribl_control_plane.destinations.list()`:  `response.items.[].[output_google_cloud_logging].sanitize_log_names` **Added**\n* `cribl_control_plane.destinations.create()`: \n  *  `request.[output_google_cloud_logging].sanitize_log_names` **Added**\n  *  `response.items.[].[output_google_cloud_logging].sanitize_log_names` **Added**\n* `cribl_control_plane.destinations.get()`:  `response.items.[].[output_google_cloud_logging].sanitize_log_names` **Added**\n* `cribl_control_plane.destinations.update()`: \n  *  `request.output.[output_google_cloud_logging].sanitize_log_names` **Added**\n  *  `response.items.[].[output_google_cloud_logging].sanitize_log_names` **Added**\n* `cribl_control_plane.destinations.delete()`:  `response.items.[].[output_google_cloud_logging].sanitize_log_names` **Added**\n* `cribl_control_plane.nodes.list()`:  `response.items.[].info.cribl.socks_enabled` **Added**\n* `cribl_control_plane.versions.configs.get()`:  `response.items.[].remote` **Changed**\n"
+releaseNotes: "## Python SDK Changes Detected:\n* `cribl_control_plane.sources.create()`: \n  *  `request.[input_sqs].queue_type` **Changed** **Breaking** :warning:\n  *  `response.items.[].[input_sqs].queue_type` **Changed**\n* `cribl_control_plane.sources.update()`: \n  *  `request.input.[input_sqs].queue_type` **Changed** **Breaking** :warning:\n  *  `response.items.[].[input_sqs].queue_type` **Changed**\n* `cribl_control_plane.destinations.create()`: \n  *  `request` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.update()`: \n  *  `request.output` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.lake_datasets.update()`:  `request.id` **Changed**\n* `cribl_control_plane.sources.list()`:  `response.items.[].[input_sqs].queue_type` **Changed**\n* `cribl_control_plane.sources.get()`:  `response.items.[].[input_sqs].queue_type` **Changed**\n* `cribl_control_plane.sources.delete()`:  `response.items.[].[input_sqs].queue_type` **Changed**\n* `cribl_control_plane.destinations.list()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.get()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.delete()`:  `response.items.[]` **Changed**\n"

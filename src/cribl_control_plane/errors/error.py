@@ -13,7 +13,7 @@ class ErrorData(BaseModel):
     r"""Error message"""
 
 
-@dataclass(frozen=True)
+@dataclass(unsafe_hash=True)
 class Error(CriblControlPlaneError):
     data: ErrorData = field(hash=False)
 

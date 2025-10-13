@@ -849,7 +849,6 @@ class LakeDatasets(BaseSDK):
         *,
         lake_id: str,
         id_param: str,
-        id: str,
         accelerated_fields: Optional[List[str]] = None,
         bucket_name: Optional[str] = None,
         cache_connection: Optional[
@@ -857,8 +856,9 @@ class LakeDatasets(BaseSDK):
         ] = None,
         deletion_started_at: Optional[float] = None,
         description: Optional[str] = None,
-        format_: Optional[models.CriblLakeDatasetFormat] = None,
+        format_: Optional[models.CriblLakeDatasetUpdateFormat] = None,
         http_da_used: Optional[bool] = None,
+        id: Optional[str] = None,
         retention_period_in_days: Optional[float] = None,
         search_config: Optional[
             Union[
@@ -878,7 +878,6 @@ class LakeDatasets(BaseSDK):
 
         :param lake_id: The <code>id</code> of the Lake that contains the Lake Dataset to update.
         :param id_param: The <code>id</code> of the Lake Dataset to update.
-        :param id:
         :param accelerated_fields:
         :param bucket_name:
         :param cache_connection:
@@ -886,6 +885,7 @@ class LakeDatasets(BaseSDK):
         :param description:
         :param format_:
         :param http_da_used:
+        :param id:
         :param retention_period_in_days:
         :param search_config:
         :param storage_location_id:
@@ -908,7 +908,7 @@ class LakeDatasets(BaseSDK):
         request = models.UpdateCriblLakeDatasetByLakeIDAndIDRequest(
             lake_id=lake_id,
             id_param=id_param,
-            cribl_lake_dataset=models.CriblLakeDataset(
+            cribl_lake_dataset_update=models.CriblLakeDatasetUpdate(
                 accelerated_fields=accelerated_fields,
                 bucket_name=bucket_name,
                 cache_connection=utils.get_pydantic_model(
@@ -942,11 +942,11 @@ class LakeDatasets(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.cribl_lake_dataset,
+                request.cribl_lake_dataset_update,
                 False,
                 False,
                 "json",
-                models.CriblLakeDataset,
+                models.CriblLakeDatasetUpdate,
             ),
             timeout_ms=timeout_ms,
         )
@@ -996,7 +996,6 @@ class LakeDatasets(BaseSDK):
         *,
         lake_id: str,
         id_param: str,
-        id: str,
         accelerated_fields: Optional[List[str]] = None,
         bucket_name: Optional[str] = None,
         cache_connection: Optional[
@@ -1004,8 +1003,9 @@ class LakeDatasets(BaseSDK):
         ] = None,
         deletion_started_at: Optional[float] = None,
         description: Optional[str] = None,
-        format_: Optional[models.CriblLakeDatasetFormat] = None,
+        format_: Optional[models.CriblLakeDatasetUpdateFormat] = None,
         http_da_used: Optional[bool] = None,
+        id: Optional[str] = None,
         retention_period_in_days: Optional[float] = None,
         search_config: Optional[
             Union[
@@ -1025,7 +1025,6 @@ class LakeDatasets(BaseSDK):
 
         :param lake_id: The <code>id</code> of the Lake that contains the Lake Dataset to update.
         :param id_param: The <code>id</code> of the Lake Dataset to update.
-        :param id:
         :param accelerated_fields:
         :param bucket_name:
         :param cache_connection:
@@ -1033,6 +1032,7 @@ class LakeDatasets(BaseSDK):
         :param description:
         :param format_:
         :param http_da_used:
+        :param id:
         :param retention_period_in_days:
         :param search_config:
         :param storage_location_id:
@@ -1055,7 +1055,7 @@ class LakeDatasets(BaseSDK):
         request = models.UpdateCriblLakeDatasetByLakeIDAndIDRequest(
             lake_id=lake_id,
             id_param=id_param,
-            cribl_lake_dataset=models.CriblLakeDataset(
+            cribl_lake_dataset_update=models.CriblLakeDatasetUpdate(
                 accelerated_fields=accelerated_fields,
                 bucket_name=bucket_name,
                 cache_connection=utils.get_pydantic_model(
@@ -1089,11 +1089,11 @@ class LakeDatasets(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.cribl_lake_dataset,
+                request.cribl_lake_dataset_update,
                 False,
                 False,
                 "json",
-                models.CriblLakeDataset,
+                models.CriblLakeDatasetUpdate,
             ),
             timeout_ms=timeout_ms,
         )

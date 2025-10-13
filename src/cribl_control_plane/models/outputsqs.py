@@ -79,6 +79,8 @@ class OutputSqsTypedDict(TypedDict):
     type: OutputSqsType
     queue_name: str
     r"""The name, URL, or ARN of the SQS queue to send events to. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
+    queue_type: OutputSqsQueueType
+    r"""The queue type used (or created). Defaults to Standard."""
     id: NotRequired[str]
     r"""Unique ID for this output"""
     pipeline: NotRequired[str]
@@ -89,8 +91,6 @@ class OutputSqsTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    queue_type: NotRequired[OutputSqsQueueType]
-    r"""The queue type used (or created). Defaults to Standard."""
     aws_account_id: NotRequired[str]
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
     message_group_id: NotRequired[str]
@@ -153,6 +153,12 @@ class OutputSqs(BaseModel):
     queue_name: Annotated[str, pydantic.Field(alias="queueName")]
     r"""The name, URL, or ARN of the SQS queue to send events to. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
 
+    queue_type: Annotated[
+        Annotated[OutputSqsQueueType, PlainValidator(validate_open_enum(False))],
+        pydantic.Field(alias="queueType"),
+    ]
+    r"""The queue type used (or created). Defaults to Standard."""
+
     id: Optional[str] = None
     r"""Unique ID for this output"""
 
@@ -169,14 +175,6 @@ class OutputSqs(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
-
-    queue_type: Annotated[
-        Annotated[
-            Optional[OutputSqsQueueType], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="queueType"),
-    ] = OutputSqsQueueType.STANDARD
-    r"""The queue type used (or created). Defaults to Standard."""
 
     aws_account_id: Annotated[Optional[str], pydantic.Field(alias="awsAccountId")] = (
         None

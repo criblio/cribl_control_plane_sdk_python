@@ -142,6 +142,8 @@ class InputSqsTypedDict(TypedDict):
     type: InputSqsType
     queue_name: str
     r"""The name, URL, or ARN of the SQS queue to read events from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can only be evaluated at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
+    queue_type: InputSqsQueueType
+    r"""The queue type used (or created)"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -158,8 +160,6 @@ class InputSqsTypedDict(TypedDict):
     connections: NotRequired[List[InputSqsConnectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[InputSqsPqTypedDict]
-    queue_type: NotRequired[InputSqsQueueType]
-    r"""The queue type used (or created)"""
     aws_account_id: NotRequired[str]
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
     create_queue: NotRequired[bool]
@@ -207,6 +207,12 @@ class InputSqs(BaseModel):
     queue_name: Annotated[str, pydantic.Field(alias="queueName")]
     r"""The name, URL, or ARN of the SQS queue to read events from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can only be evaluated at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
 
+    queue_type: Annotated[
+        Annotated[InputSqsQueueType, PlainValidator(validate_open_enum(False))],
+        pydantic.Field(alias="queueType"),
+    ]
+    r"""The queue type used (or created)"""
+
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
@@ -233,14 +239,6 @@ class InputSqs(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[InputSqsPq] = None
-
-    queue_type: Annotated[
-        Annotated[
-            Optional[InputSqsQueueType], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="queueType"),
-    ] = InputSqsQueueType.STANDARD
-    r"""The queue type used (or created)"""
 
     aws_account_id: Annotated[Optional[str], pydantic.Field(alias="awsAccountId")] = (
         None

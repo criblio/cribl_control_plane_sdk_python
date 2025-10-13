@@ -8,6 +8,7 @@ from .outputazuredataexplorer import (
 )
 from .outputazureeventhub import OutputAzureEventhub, OutputAzureEventhubTypedDict
 from .outputazurelogs import OutputAzureLogs, OutputAzureLogsTypedDict
+from .outputchronicle import OutputChronicle, OutputChronicleTypedDict
 from .outputclickhouse import OutputClickHouse, OutputClickHouseTypedDict
 from .outputcloudwatch import OutputCloudwatch, OutputCloudwatchTypedDict
 from .outputconfluentcloud import OutputConfluentCloud, OutputConfluentCloudTypedDict
@@ -129,6 +130,7 @@ OutputTypedDict = TypeAliasType(
         OutputSplunkHecTypedDict,
         OutputDynatraceHTTPTypedDict,
         OutputServiceNowTypedDict,
+        OutputChronicleTypedDict,
         OutputDynatraceOtlpTypedDict,
         OutputElasticTypedDict,
         OutputGoogleChronicleTypedDict,
@@ -200,6 +202,7 @@ Output = TypeAliasType(
         OutputSplunkHec,
         OutputDynatraceHTTP,
         OutputServiceNow,
+        OutputChronicle,
         OutputDynatraceOtlp,
         OutputElastic,
         OutputGoogleChronicle,

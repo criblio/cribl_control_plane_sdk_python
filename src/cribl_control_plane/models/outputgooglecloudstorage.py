@@ -25,36 +25,52 @@ class OutputGoogleCloudStorageSignatureVersion(str, Enum, metaclass=utils.OpenEn
 class OutputGoogleCloudStorageAuthenticationMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    # auto
     AUTO = "auto"
+    # manual
     MANUAL = "manual"
+    # Secret Key pair
     SECRET = "secret"
 
 
 class OutputGoogleCloudStorageObjectACL(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Object ACL to assign to uploaded objects"""
 
+    # private
     PRIVATE = "private"
+    # bucket-owner-read
     BUCKET_OWNER_READ = "bucket-owner-read"
+    # bucket-owner-full-control
     BUCKET_OWNER_FULL_CONTROL = "bucket-owner-full-control"
+    # project-private
     PROJECT_PRIVATE = "project-private"
+    # authenticated-read
     AUTHENTICATED_READ = "authenticated-read"
+    # public-read
     PUBLIC_READ = "public-read"
 
 
 class OutputGoogleCloudStorageStorageClass(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Storage class to select for uploaded objects"""
 
+    # Standard Storage
     STANDARD = "STANDARD"
+    # Nearline Storage
     NEARLINE = "NEARLINE"
+    # Coldline Storage
     COLDLINE = "COLDLINE"
+    # Archive Storage
     ARCHIVE = "ARCHIVE"
 
 
 class OutputGoogleCloudStorageDataFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Format of the output data"""
 
+    # JSON
     JSON = "json"
+    # Raw
     RAW = "raw"
+    # Parquet
     PARQUET = "parquet"
 
 
@@ -63,7 +79,9 @@ class OutputGoogleCloudStorageBackpressureBehavior(
 ):
     r"""How to handle events when all receivers are exerting backpressure"""
 
+    # Block
     BLOCK = "block"
+    # Drop
     DROP = "drop"
 
 
@@ -72,7 +90,9 @@ class OutputGoogleCloudStorageDiskSpaceProtection(
 ):
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
 
+    # Block
     BLOCK = "block"
+    # Drop
     DROP = "drop"
 
 
@@ -86,23 +106,31 @@ class OutputGoogleCloudStorageCompression(str, Enum, metaclass=utils.OpenEnumMet
 class OutputGoogleCloudStorageCompressionLevel(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Compression level to apply before moving files to final destination"""
 
+    # Best Speed
     BEST_SPEED = "best_speed"
+    # Normal
     NORMAL = "normal"
+    # Best Compression
     BEST_COMPRESSION = "best_compression"
 
 
 class OutputGoogleCloudStorageParquetVersion(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Determines which data types are supported and how they are represented"""
 
+    # 1.0
     PARQUET_1_0 = "PARQUET_1_0"
+    # 2.4
     PARQUET_2_4 = "PARQUET_2_4"
+    # 2.6
     PARQUET_2_6 = "PARQUET_2_6"
 
 
 class OutputGoogleCloudStorageDataPageVersion(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it."""
 
+    # V1
     DATA_PAGE_V1 = "DATA_PAGE_V1"
+    # V2
     DATA_PAGE_V2 = "DATA_PAGE_V2"
 
 

@@ -18,22 +18,29 @@ class OutputFilesystemType(str, Enum):
 class OutputFilesystemDataFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Format of the output data"""
 
+    # JSON
     JSON = "json"
+    # Raw
     RAW = "raw"
+    # Parquet
     PARQUET = "parquet"
 
 
 class OutputFilesystemBackpressureBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when all receivers are exerting backpressure"""
 
+    # Block
     BLOCK = "block"
+    # Drop
     DROP = "drop"
 
 
 class OutputFilesystemDiskSpaceProtection(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
 
+    # Block
     BLOCK = "block"
+    # Drop
     DROP = "drop"
 
 
@@ -47,23 +54,31 @@ class OutputFilesystemCompression(str, Enum, metaclass=utils.OpenEnumMeta):
 class OutputFilesystemCompressionLevel(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Compression level to apply before moving files to final destination"""
 
+    # Best Speed
     BEST_SPEED = "best_speed"
+    # Normal
     NORMAL = "normal"
+    # Best Compression
     BEST_COMPRESSION = "best_compression"
 
 
 class OutputFilesystemParquetVersion(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Determines which data types are supported and how they are represented"""
 
+    # 1.0
     PARQUET_1_0 = "PARQUET_1_0"
+    # 2.4
     PARQUET_2_4 = "PARQUET_2_4"
+    # 2.6
     PARQUET_2_6 = "PARQUET_2_6"
 
 
 class OutputFilesystemDataPageVersion(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it."""
 
+    # V1
     DATA_PAGE_V1 = "DATA_PAGE_V1"
+    # V2
     DATA_PAGE_V2 = "DATA_PAGE_V2"
 
 

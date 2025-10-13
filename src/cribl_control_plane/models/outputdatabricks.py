@@ -18,29 +18,38 @@ class OutputDatabricksType(str, Enum):
 class OutputDatabricksDataFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Format of the output data"""
 
+    # JSON
     JSON = "json"
+    # Raw
     RAW = "raw"
+    # Parquet
     PARQUET = "parquet"
 
 
 class OutputDatabricksBackpressureBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when all receivers are exerting backpressure"""
 
+    # Block
     BLOCK = "block"
+    # Drop
     DROP = "drop"
 
 
 class OutputDatabricksDiskSpaceProtection(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
 
+    # Block
     BLOCK = "block"
+    # Drop
     DROP = "drop"
 
 
 class OutputDatabricksAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Unity Catalog authentication method. Choose Manual to enter credentials directly, or Secret to use a stored secret."""
 
+    # Manual
     MANUAL = "manual"
+    # Secret Key pair
     SECRET = "secret"
 
 

@@ -18,8 +18,11 @@ class OutputSecurityLakeType(str, Enum):
 class OutputSecurityLakeAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
+    # Auto
     AUTO = "auto"
+    # Manual
     MANUAL = "manual"
+    # Secret Key pair
     SECRET = "secret"
 
 
@@ -33,61 +36,87 @@ class OutputSecurityLakeSignatureVersion(str, Enum, metaclass=utils.OpenEnumMeta
 class OutputSecurityLakeObjectACL(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Object ACL to assign to uploaded objects"""
 
+    # Private
     PRIVATE = "private"
+    # Public Read Only
     PUBLIC_READ = "public-read"
+    # Public Read/Write
     PUBLIC_READ_WRITE = "public-read-write"
+    # Authenticated Read Only
     AUTHENTICATED_READ = "authenticated-read"
+    # AWS EC2 AMI Read Only
     AWS_EXEC_READ = "aws-exec-read"
+    # Bucket Owner Read Only
     BUCKET_OWNER_READ = "bucket-owner-read"
+    # Bucket Owner Full Control
     BUCKET_OWNER_FULL_CONTROL = "bucket-owner-full-control"
 
 
 class OutputSecurityLakeStorageClass(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Storage class to select for uploaded objects"""
 
+    # Standard
     STANDARD = "STANDARD"
+    # Reduced Redundancy Storage
     REDUCED_REDUNDANCY = "REDUCED_REDUNDANCY"
+    # Standard, Infrequent Access
     STANDARD_IA = "STANDARD_IA"
+    # One Zone, Infrequent Access
     ONEZONE_IA = "ONEZONE_IA"
+    # Intelligent Tiering
     INTELLIGENT_TIERING = "INTELLIGENT_TIERING"
+    # Glacier Flexible Retrieval
     GLACIER = "GLACIER"
+    # Glacier Instant Retrieval
     GLACIER_IR = "GLACIER_IR"
+    # Glacier Deep Archive
     DEEP_ARCHIVE = "DEEP_ARCHIVE"
 
 
 class OutputSecurityLakeServerSideEncryptionForUploadedObjects(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    # Amazon S3 Managed Key
     AES256 = "AES256"
+    # AWS KMS Managed Key
     AWS_KMS = "aws:kms"
 
 
 class OutputSecurityLakeBackpressureBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when all receivers are exerting backpressure"""
 
+    # Block
     BLOCK = "block"
+    # Drop
     DROP = "drop"
 
 
 class OutputSecurityLakeDiskSpaceProtection(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
 
+    # Block
     BLOCK = "block"
+    # Drop
     DROP = "drop"
 
 
 class OutputSecurityLakeParquetVersion(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Determines which data types are supported and how they are represented"""
 
+    # 1.0
     PARQUET_1_0 = "PARQUET_1_0"
+    # 2.4
     PARQUET_2_4 = "PARQUET_2_4"
+    # 2.6
     PARQUET_2_6 = "PARQUET_2_6"
 
 
 class OutputSecurityLakeDataPageVersion(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it."""
 
+    # V1
     DATA_PAGE_V1 = "DATA_PAGE_V1"
+    # V2
     DATA_PAGE_V2 = "DATA_PAGE_V2"
 
 

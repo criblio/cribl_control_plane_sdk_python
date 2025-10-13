@@ -29,14 +29,18 @@ class InputOpenTelemetryConnection(BaseModel):
 class InputOpenTelemetryMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
+    # Smart
     SMART = "smart"
+    # Always On
     ALWAYS = "always"
 
 
 class InputOpenTelemetryCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
+    # None
     NONE = "none"
+    # Gzip
     GZIP = "gzip"
 
 
@@ -189,14 +193,18 @@ class InputOpenTelemetryTLSSettingsServerSide(BaseModel):
 class InputOpenTelemetryProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select whether to leverage gRPC or HTTP for OpenTelemetry"""
 
+    # gRPC
     GRPC = "grpc"
+    # HTTP
     HTTP = "http"
 
 
 class InputOpenTelemetryOTLPVersion(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The version of OTLP Protobuf definitions to use when interpreting received data"""
 
+    # 0.10.0
     ZERO_DOT_10_DOT_0 = "0.10.0"
+    # 1.3.1
     ONE_DOT_3_DOT_1 = "1.3.1"
 
 

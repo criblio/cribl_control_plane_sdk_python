@@ -39,8 +39,11 @@ class OutputDynatraceHTTPFailedRequestLoggingMode(
 ):
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
+    # Payload
     PAYLOAD = "payload"
+    # Payload + Headers
     PAYLOAD_AND_HEADERS = "payloadAndHeaders"
+    # None
     NONE = "none"
 
 
@@ -101,53 +104,72 @@ class OutputDynatraceHTTPTimeoutRetrySettings(BaseModel):
 class OutputDynatraceHTTPBackpressureBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when all receivers are exerting backpressure"""
 
+    # Block
     BLOCK = "block"
+    # Drop
     DROP = "drop"
+    # Persistent Queue
     QUEUE = "queue"
 
 
 class OutputDynatraceHTTPAuthenticationType(str, Enum, metaclass=utils.OpenEnumMeta):
+    # Auth token
     TOKEN = "token"
+    # Token (text secret)
     TEXT_SECRET = "textSecret"
 
 
 class OutputDynatraceHTTPFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to format events before sending. Defaults to JSON. Plaintext is not currently supported."""
 
+    # JSON
     JSON_ARRAY = "json_array"
+    # Plaintext
     PLAINTEXT = "plaintext"
 
 
 class Endpoint(str, Enum, metaclass=utils.OpenEnumMeta):
+    # Cloud
     CLOUD = "cloud"
+    # ActiveGate
     ACTIVE_GATE = "activeGate"
+    # Manual
     MANUAL = "manual"
 
 
 class TelemetryType(str, Enum, metaclass=utils.OpenEnumMeta):
+    # Logs
     LOGS = "logs"
+    # Metrics
     METRICS = "metrics"
 
 
 class OutputDynatraceHTTPCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
+    # None
     NONE = "none"
+    # Gzip
     GZIP = "gzip"
 
 
 class OutputDynatraceHTTPQueueFullBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
+    # Block
     BLOCK = "block"
+    # Drop new data
     DROP = "drop"
 
 
 class OutputDynatraceHTTPMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
+    # Error
     ERROR = "error"
+    # Backpressure
     BACKPRESSURE = "backpressure"
+    # Always On
     ALWAYS = "always"
 
 

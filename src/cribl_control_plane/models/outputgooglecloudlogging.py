@@ -16,16 +16,22 @@ class OutputGoogleCloudLoggingType(str, Enum):
 
 
 class LogLocationType(str, Enum, metaclass=utils.OpenEnumMeta):
+    # Project
     PROJECT = "project"
+    # Organization
     ORGANIZATION = "organization"
+    # Billing Account
     BILLING_ACCOUNT = "billingAccount"
+    # Folder
     FOLDER = "folder"
 
 
 class PayloadFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Format to use when sending payload. Defaults to Text."""
 
+    # Text
     TEXT = "text"
+    # JSON
     JSON = "json"
 
 
@@ -64,8 +70,11 @@ class OutputGoogleCloudLoggingGoogleAuthenticationMethod(
 ):
     r"""Choose Auto to use Google Application Default Credentials (ADC), Manual to enter Google service account credentials directly, or Secret to select or create a stored secret that references Google service account credentials."""
 
+    # Auto
     AUTO = "auto"
+    # Manual
     MANUAL = "manual"
+    # Secret
     SECRET = "secret"
 
 
@@ -74,15 +83,20 @@ class OutputGoogleCloudLoggingBackpressureBehavior(
 ):
     r"""How to handle events when all receivers are exerting backpressure"""
 
+    # Block
     BLOCK = "block"
+    # Drop
     DROP = "drop"
+    # Persistent Queue
     QUEUE = "queue"
 
 
 class OutputGoogleCloudLoggingCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
+    # None
     NONE = "none"
+    # Gzip
     GZIP = "gzip"
 
 
@@ -91,15 +105,20 @@ class OutputGoogleCloudLoggingQueueFullBehavior(
 ):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
+    # Block
     BLOCK = "block"
+    # Drop new data
     DROP = "drop"
 
 
 class OutputGoogleCloudLoggingMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
+    # Error
     ERROR = "error"
+    # Backpressure
     BACKPRESSURE = "backpressure"
+    # Always On
     ALWAYS = "always"
 
 
@@ -115,9 +134,9 @@ class OutputGoogleCloudLoggingTypedDict(TypedDict):
     type: OutputGoogleCloudLoggingType
     log_location_type: LogLocationType
     log_name_expression: str
-    r"""JavaScript expression to compute the value of the log name."""
+    r"""JavaScript expression to compute the value of the log name. If Validate and correct log name is enabled, invalid characters (characters other than alphanumerics, forward-slashes, underscores, hyphens, and periods) will be replaced with an underscore."""
     log_location_expression: str
-    r"""JavaScript expression to compute the value of the folder ID with which log entries should be associated."""
+    r"""JavaScript expression to compute the value of the folder ID with which log entries should be associated. If Validate and correct log name is enabled, invalid characters (characters other than alphanumerics, forward-slashes, underscores, hyphens, and periods) will be replaced with an underscore."""
     id: NotRequired[str]
     r"""Unique ID for this output"""
     pipeline: NotRequired[str]
@@ -128,6 +147,7 @@ class OutputGoogleCloudLoggingTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    sanitize_log_names: NotRequired[bool]
     payload_format: NotRequired[PayloadFormat]
     r"""Format to use when sending payload. Defaults to Text."""
     log_labels: NotRequired[List[LogLabelTypedDict]]
@@ -247,12 +267,12 @@ class OutputGoogleCloudLogging(BaseModel):
     ]
 
     log_name_expression: Annotated[str, pydantic.Field(alias="logNameExpression")]
-    r"""JavaScript expression to compute the value of the log name."""
+    r"""JavaScript expression to compute the value of the log name. If Validate and correct log name is enabled, invalid characters (characters other than alphanumerics, forward-slashes, underscores, hyphens, and periods) will be replaced with an underscore."""
 
     log_location_expression: Annotated[
         str, pydantic.Field(alias="logLocationExpression")
     ]
-    r"""JavaScript expression to compute the value of the folder ID with which log entries should be associated."""
+    r"""JavaScript expression to compute the value of the folder ID with which log entries should be associated. If Validate and correct log name is enabled, invalid characters (characters other than alphanumerics, forward-slashes, underscores, hyphens, and periods) will be replaced with an underscore."""
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
@@ -270,6 +290,10 @@ class OutputGoogleCloudLogging(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    sanitize_log_names: Annotated[
+        Optional[bool], pydantic.Field(alias="sanitizeLogNames")
+    ] = False
 
     payload_format: Annotated[
         Annotated[Optional[PayloadFormat], PlainValidator(validate_open_enum(False))],

@@ -16,16 +16,22 @@ class OutputGoogleChronicleType(str, Enum):
 
 
 class OutputGoogleChronicleAPIVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+    # V1
     V1 = "v1"
+    # V2
     V2 = "v2"
 
 
 class OutputGoogleChronicleAuthenticationMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    # API key
     MANUAL = "manual"
+    # API key secret
     SECRET = "secret"
+    # Service account credentials
     SERVICE_ACCOUNT = "serviceAccount"
+    # Service account credentials secret
     SERVICE_ACCOUNT_SECRET = "serviceAccountSecret"
 
 
@@ -84,7 +90,9 @@ class OutputGoogleChronicleTimeoutRetrySettings(BaseModel):
 
 
 class SendEventsAs(str, Enum, metaclass=utils.OpenEnumMeta):
+    # Unstructured
     UNSTRUCTURED = "unstructured"
+    # UDM
     UDM = "udm"
 
 
@@ -104,8 +112,11 @@ class OutputGoogleChronicleFailedRequestLoggingMode(
 ):
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
+    # Payload
     PAYLOAD = "payload"
+    # Payload + Headers
     PAYLOAD_AND_HEADERS = "payloadAndHeaders"
+    # None
     NONE = "none"
 
 
@@ -114,8 +125,11 @@ class OutputGoogleChronicleBackpressureBehavior(
 ):
     r"""How to handle events when all receivers are exerting backpressure"""
 
+    # Block
     BLOCK = "block"
+    # Drop
     DROP = "drop"
+    # Persistent Queue
     QUEUE = "queue"
 
 
@@ -130,12 +144,12 @@ class ExtraLogType(BaseModel):
     description: Optional[str] = None
 
 
-class CustomLabelTypedDict(TypedDict):
+class OutputGoogleChronicleCustomLabelTypedDict(TypedDict):
     key: str
     value: str
 
 
-class CustomLabel(BaseModel):
+class OutputGoogleChronicleCustomLabel(BaseModel):
     key: str
 
     value: str
@@ -144,22 +158,29 @@ class CustomLabel(BaseModel):
 class OutputGoogleChronicleCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
+    # None
     NONE = "none"
+    # Gzip
     GZIP = "gzip"
 
 
 class OutputGoogleChronicleQueueFullBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
+    # Block
     BLOCK = "block"
+    # Drop new data
     DROP = "drop"
 
 
 class OutputGoogleChronicleMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
+    # Error
     ERROR = "error"
+    # Backpressure
     BACKPRESSURE = "backpressure"
+    # Always On
     ALWAYS = "always"
 
 
@@ -239,7 +260,7 @@ class OutputGoogleChronicleTypedDict(TypedDict):
     r"""A unique identifier (UUID) for your Google SecOps instance. This is provided by your Google representative and is required for API V2 authentication."""
     namespace: NotRequired[str]
     r"""User-configured environment namespace to identify the data domain the logs originated from. Use namespace as a tag to identify the appropriate data domain for indexing and enrichment functionality. Can be overwritten by event field __namespace."""
-    custom_labels: NotRequired[List[CustomLabelTypedDict]]
+    custom_labels: NotRequired[List[OutputGoogleChronicleCustomLabelTypedDict]]
     r"""Custom labels to be added to every batch"""
     api_key: NotRequired[str]
     r"""Organization's API key in Google SecOps"""
@@ -417,7 +438,8 @@ class OutputGoogleChronicle(BaseModel):
     r"""User-configured environment namespace to identify the data domain the logs originated from. Use namespace as a tag to identify the appropriate data domain for indexing and enrichment functionality. Can be overwritten by event field __namespace."""
 
     custom_labels: Annotated[
-        Optional[List[CustomLabel]], pydantic.Field(alias="customLabels")
+        Optional[List[OutputGoogleChronicleCustomLabel]],
+        pydantic.Field(alias="customLabels"),
     ] = None
     r"""Custom labels to be added to every batch"""
 

@@ -16,7 +16,9 @@ class OutputAzureDataExplorerType(str, Enum):
 
 
 class IngestionMode(str, Enum, metaclass=utils.OpenEnumMeta):
+    # Batching
     BATCHING = "batching"
+    # Streaming
     STREAMING = "streaming"
 
 
@@ -33,8 +35,11 @@ class OutputAzureDataExplorerAuthenticationMethod(
 ):
     r"""The type of OAuth 2.0 client credentials grant flow to use"""
 
+    # Client secret
     CLIENT_SECRET = "clientSecret"
+    # Client secret (text secret)
     CLIENT_TEXT_SECRET = "clientTextSecret"
+    # Certificate
     CERTIFICATE = "certificate"
 
 
@@ -55,16 +60,22 @@ class OutputAzureDataExplorerBackpressureBehavior(
 ):
     r"""How to handle events when all receivers are exerting backpressure"""
 
+    # Block
     BLOCK = "block"
+    # Drop
     DROP = "drop"
+    # Persistent Queue
     QUEUE = "queue"
 
 
 class OutputAzureDataExplorerDataFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Format of the output data"""
 
+    # JSON
     JSON = "json"
+    # Raw
     RAW = "raw"
+    # Parquet
     PARQUET = "parquet"
 
 
@@ -73,12 +84,16 @@ class OutputAzureDataExplorerDiskSpaceProtection(
 ):
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
 
+    # Block
     BLOCK = "block"
+    # Drop
     DROP = "drop"
 
 
 class PrefixOptional(str, Enum, metaclass=utils.OpenEnumMeta):
+    # drop-by
     DROP_BY = "dropBy"
+    # ingest-by
     INGEST_BY = "ingestBy"
 
 
@@ -106,16 +121,22 @@ class IngestIfNotExist(BaseModel):
 class ReportLevel(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Level of ingestion status reporting. Defaults to FailuresOnly."""
 
+    # FailuresOnly
     FAILURES_ONLY = "failuresOnly"
+    # DoNotReport
     DO_NOT_REPORT = "doNotReport"
+    # FailuresAndSuccesses
     FAILURES_AND_SUCCESSES = "failuresAndSuccesses"
 
 
 class ReportMethod(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Target of the ingestion status reporting. Defaults to Queue."""
 
+    # Queue
     QUEUE = "queue"
+    # Table
     TABLE = "table"
+    # QueueAndTable
     QUEUE_AND_TABLE = "queueAndTable"
 
 
@@ -198,22 +219,29 @@ class OutputAzureDataExplorerPqCompressCompression(
 ):
     r"""Codec to use to compress the persisted data"""
 
+    # None
     NONE = "none"
+    # Gzip
     GZIP = "gzip"
 
 
 class OutputAzureDataExplorerQueueFullBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
+    # Block
     BLOCK = "block"
+    # Drop new data
     DROP = "drop"
 
 
 class OutputAzureDataExplorerMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
+    # Error
     ERROR = "error"
+    # Backpressure
     BACKPRESSURE = "backpressure"
+    # Always On
     ALWAYS = "always"
 
 

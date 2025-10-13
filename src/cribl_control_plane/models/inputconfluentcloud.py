@@ -29,14 +29,18 @@ class InputConfluentCloudConnection(BaseModel):
 class InputConfluentCloudMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
+    # Smart
     SMART = "smart"
+    # Always On
     ALWAYS = "always"
 
 
 class InputConfluentCloudCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
+    # None
     NONE = "none"
+    # Gzip
     GZIP = "gzip"
 
 
@@ -338,9 +342,13 @@ class InputConfluentCloudKafkaSchemaRegistryAuthentication(BaseModel):
 
 
 class InputConfluentCloudSASLMechanism(str, Enum, metaclass=utils.OpenEnumMeta):
+    # PLAIN
     PLAIN = "plain"
+    # SCRAM-SHA-256
     SCRAM_SHA_256 = "scram-sha-256"
+    # SCRAM-SHA-512
     SCRAM_SHA_512 = "scram-sha-512"
+    # GSSAPI/Kerberos
     KERBEROS = "kerberos"
 
 

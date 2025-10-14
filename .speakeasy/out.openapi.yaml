@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.15.0-alpha.1760137873808-498c0e83
+  version: 4.15.0-alpha.1760439571529-8891ea6f
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -358,6 +358,40 @@ components:
           type: string
       required:
         - id
+    CriblLakeDatasetUpdate:
+      type: object
+      properties:
+        acceleratedFields:
+          type: array
+          items:
+            type: string
+        bucketName:
+          type: string
+        cacheConnection:
+          $ref: "#/components/schemas/CacheConnection"
+        deletionStartedAt:
+          type: number
+        description:
+          type: string
+        format:
+          type: string
+          enum:
+            - json
+            - ddss
+            - parquet
+          x-speakeasy-unknown-values: allow
+        httpDAUsed:
+          type: boolean
+        id:
+          type: string
+        retentionPeriodInDays:
+          type: number
+        searchConfig:
+          $ref: "#/components/schemas/LakeDatasetSearchConfig"
+        storageLocationId:
+          type: string
+        viewName:
+          type: string
     PipelineFunctionConf:
       type: object
       required:
@@ -39280,7 +39314,7 @@ components:
           description: Maximum size, in KB, of the request body
           default: 1024
           minimum: 1
-          maximum: 1024
+          maximum: 4096
         maxPayloadEvents:
           type: number
           title: Events-per-request limit
@@ -42395,12 +42429,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
       requestBody:
-        description: CriblLakeDataset object
+        description: CriblLakeDatasetUpdate object
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CriblLakeDataset"
+              $ref: "#/components/schemas/CriblLakeDatasetUpdate"
       parameters:
         - name: lakeId
           in: path

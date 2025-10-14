@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.15.0-alpha.1760439369062-366c2353
+  version: 4.15.0-alpha.1760451417353-c4fefd9b
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -41090,7 +41090,6 @@ components:
                 type: string
           required:
             - dataType
-            - technology
         version:
           type: string
         warnings:
@@ -41201,7 +41200,6 @@ components:
                 type: string
           required:
             - dataType
-            - technology
         version:
           type: string
       required:
@@ -43643,7 +43641,7 @@ paths:
       x-speakeasy-group: packs
       x-speakeasy-name-override: upload
       summary: Upload a Pack file
-      description: Upload a Pack file for import. Returns a source identifier that must be used in the subsequent import POST request to complete the pack installation.
+      description: Upload a Pack file. Returns a source identifier that can be used to install the pack via the install a Pack endpoint.
       responses:
         "200":
           description: Pack file uploaded successfully

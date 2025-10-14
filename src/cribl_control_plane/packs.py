@@ -383,7 +383,7 @@ class Packs(BaseSDK):
     ) -> models.UploadPackResponse:
         r"""Upload a Pack file
 
-        Upload a Pack file for import. Returns a source identifier that must be used in the subsequent import POST request to complete the pack installation.
+        Upload a Pack file. Returns a source identifier that can be used to install the pack via the install a Pack endpoint.
 
         :param filename: Filename of the pack file to upload
         :param request_body: Binary file content
@@ -480,7 +480,7 @@ class Packs(BaseSDK):
     ) -> models.UploadPackResponse:
         r"""Upload a Pack file
 
-        Upload a Pack file for import. Returns a source identifier that must be used in the subsequent import POST request to complete the pack installation.
+        Upload a Pack file. Returns a source identifier that can be used to install the pack via the install a Pack endpoint.
 
         :param filename: Filename of the pack file to upload
         :param request_body: Binary file content

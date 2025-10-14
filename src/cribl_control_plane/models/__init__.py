@@ -98,6 +98,11 @@ if TYPE_CHECKING:
         CriblLakeDatasetFormat,
         CriblLakeDatasetTypedDict,
     )
+    from .cribllakedatasetupdate import (
+        CriblLakeDatasetUpdate,
+        CriblLakeDatasetUpdateFormat,
+        CriblLakeDatasetUpdateTypedDict,
+    )
     from .currentbranchresult import CurrentBranchResult, CurrentBranchResultTypedDict
     from .datasetmetadata import DatasetMetadata, DatasetMetadataTypedDict, ScanMode
     from .datasetmetadataruninfo import (
@@ -3417,6 +3422,9 @@ __all__ = [
     "CriblLakeDataset",
     "CriblLakeDatasetFormat",
     "CriblLakeDatasetTypedDict",
+    "CriblLakeDatasetUpdate",
+    "CriblLakeDatasetUpdateFormat",
+    "CriblLakeDatasetUpdateTypedDict",
     "CurrentBranchResult",
     "CurrentBranchResultTypedDict",
     "DNS",
@@ -6333,6 +6341,9 @@ _dynamic_imports: dict[str, str] = {
     "CriblLakeDataset": ".cribllakedataset",
     "CriblLakeDatasetFormat": ".cribllakedataset",
     "CriblLakeDatasetTypedDict": ".cribllakedataset",
+    "CriblLakeDatasetUpdate": ".cribllakedatasetupdate",
+    "CriblLakeDatasetUpdateFormat": ".cribllakedatasetupdate",
+    "CriblLakeDatasetUpdateTypedDict": ".cribllakedatasetupdate",
     "CurrentBranchResult": ".currentbranchresult",
     "CurrentBranchResultTypedDict": ".currentbranchresult",
     "DatasetMetadata": ".datasetmetadata",

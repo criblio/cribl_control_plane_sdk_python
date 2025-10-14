@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: a3ddd76d19682d8ef44871a3afb238c9
-  docVersion: 4.15.0-alpha.1760137873808-498c0e83
+  docChecksum: 2752f659b3044a4b69db70deeeceff93
+  docVersion: 4.15.0-alpha.1760439571529-8891ea6f
   speakeasyVersion: 1.636.3
   generationVersion: 2.723.11
-  releaseVersion: 0.2.0b1
-  configChecksum: dc0a2d03ede9cd366fe878a9ee0421b8
+  releaseVersion: 0.2.0b2
+  configChecksum: 240d33c16a84fd3078397cd10b0f6f3f
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -103,6 +103,8 @@ generatedFiles:
   - docs/models/criblevent.md
   - docs/models/cribllakedataset.md
   - docs/models/cribllakedatasetformat.md
+  - docs/models/cribllakedatasetupdate.md
+  - docs/models/cribllakedatasetupdateformat.md
   - docs/models/currentbranchresult.md
   - docs/models/datadogsite.md
   - docs/models/datasetmetadata.md
@@ -2073,6 +2075,7 @@ generatedFiles:
   - src/cribl_control_plane/models/createversionundoop.py
   - src/cribl_control_plane/models/criblevent.py
   - src/cribl_control_plane/models/cribllakedataset.py
+  - src/cribl_control_plane/models/cribllakedatasetupdate.py
   - src/cribl_control_plane/models/currentbranchresult.py
   - src/cribl_control_plane/models/datasetmetadata.py
   - src/cribl_control_plane/models/datasetmetadataruninfo.py
@@ -3274,4 +3277,6 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: "## Python SDK Changes Detected:\n* `cribl_control_plane.destinations.create()`: \n  *  `request` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.sources.create()`: \n  *  `request` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.versions.commits.undo()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.update()`: \n  *  `request.input` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.update()`: \n  *  `request.output` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.pq.get()`:  `response.items.[].stats` **Added**\n* `cribl_control_plane.nodes.summaries.get()`:  `response.items.[].groups` **Changed**\n* `cribl_control_plane.destinations.get()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.sources.delete()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.delete()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.sources.list()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.nodes.list()`:  `response.items.[].info.env` **Added**\n* `cribl_control_plane.destinations.list()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.packs.install()`:  `response.items.[].dependencies` **Added**\n* `cribl_control_plane.packs.list()`:  `response.items.[].dependencies` **Added**\n* `cribl_control_plane.packs.delete()`:  `response.items.[].dependencies` **Added**\n* `cribl_control_plane.packs.get()`:  `response.items.[].dependencies` **Added**\n* `cribl_control_plane.packs.update()`:  `response.items.[].dependencies` **Added**\n* `cribl_control_plane.sources.get()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.versions.configs.get()`:  `response.items.[].remote` **Changed**\n"
+releaseNotes: |
+  ## Python SDK Changes Detected:
+  * `cribl_control_plane.lake_datasets.update()`:  `request.id` **Changed**

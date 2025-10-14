@@ -2,6 +2,10 @@
 
 from __future__ import annotations
 from .cribllakedataset import CriblLakeDataset, CriblLakeDatasetTypedDict
+from .cribllakedatasetupdate import (
+    CriblLakeDatasetUpdate,
+    CriblLakeDatasetUpdateTypedDict,
+)
 from cribl_control_plane.types import BaseModel
 from cribl_control_plane.utils import FieldMetadata, PathParamMetadata, RequestMetadata
 import pydantic
@@ -14,8 +18,8 @@ class UpdateCriblLakeDatasetByLakeIDAndIDRequestTypedDict(TypedDict):
     r"""The <code>id</code> of the Lake that contains the Lake Dataset to update."""
     id_param: str
     r"""The <code>id</code> of the Lake Dataset to update."""
-    cribl_lake_dataset: CriblLakeDatasetTypedDict
-    r"""CriblLakeDataset object"""
+    cribl_lake_dataset_update: CriblLakeDatasetUpdateTypedDict
+    r"""CriblLakeDatasetUpdate object"""
 
 
 class UpdateCriblLakeDatasetByLakeIDAndIDRequest(BaseModel):
@@ -33,11 +37,11 @@ class UpdateCriblLakeDatasetByLakeIDAndIDRequest(BaseModel):
     ]
     r"""The <code>id</code> of the Lake Dataset to update."""
 
-    cribl_lake_dataset: Annotated[
-        CriblLakeDataset,
+    cribl_lake_dataset_update: Annotated[
+        CriblLakeDatasetUpdate,
         FieldMetadata(request=RequestMetadata(media_type="application/json")),
     ]
-    r"""CriblLakeDataset object"""
+    r"""CriblLakeDatasetUpdate object"""
 
 
 class UpdateCriblLakeDatasetByLakeIDAndIDResponseTypedDict(TypedDict):

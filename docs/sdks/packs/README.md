@@ -9,6 +9,7 @@ Actions related to Packs
 
 * [install](#install) - Create or install a Pack
 * [list](#list) - List all Packs
+* [upload](#upload) - Upload a Pack file
 * [delete](#delete) - Uninstall a Pack
 * [get](#get) - Get a Pack
 * [update](#update) - Upgrade a Pack
@@ -115,6 +116,51 @@ with CriblControlPlane(
 ### Response
 
 **[models.GetPacksResponse](../../models/getpacksresponse.md)**
+
+### Errors
+
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Error     | 500              | application/json |
+| errors.APIError  | 4XX, 5XX         | \*/\*            |
+
+## upload
+
+Upload a Pack file for import. Returns a source identifier that must be used in the subsequent import POST request to complete the pack installation.
+
+### Example Usage
+
+<!-- UsageSnippet language="python" operationID="updatePacks" method="put" path="/packs" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    server_url="https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.upload(filename="example.file", request_body=open("example.file", "rb"))
+
+    # Handle response
+    print(res)
+
+```
+
+### Parameters
+
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `filename`                                                          | *str*                                                               | :heavy_check_mark:                                                  | Filename of the pack file to upload                                 |
+| `request_body`                                                      | *Union[bytes, IO[bytes], io.BufferedReader]*                        | :heavy_check_mark:                                                  | Binary file content                                                 |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
+
+### Response
+
+**[models.UploadPackResponse](../../models/uploadpackresponse.md)**
 
 ### Errors
 

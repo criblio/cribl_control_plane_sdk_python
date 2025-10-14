@@ -1,9 +1,8 @@
-# CustomLabel
+# Error
 
 
 ## Fields
 
 | Field              | Type               | Required           | Description        |
 | ------------------ | ------------------ | ------------------ | ------------------ |
-| `key`              | *str*              | :heavy_check_mark: | N/A                |
-| `value`            | *str*              | :heavy_check_mark: | N/A                |
+| `message`          | *Optional[str]*    | :heavy_minus_sign: | Error message      |

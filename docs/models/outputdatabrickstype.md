@@ -1,8 +1,8 @@
-# RunnableJobCollectionType
+# OutputDatabricksType
 
 
 ## Values
 
 | Name         | Value        |
 | ------------ | ------------ |
-| `COLLECTION` | collection   |
+| `DATABRICKS` | databricks   |

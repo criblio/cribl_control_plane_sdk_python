@@ -10,7 +10,7 @@ from typing_extensions import Annotated, TypedDict
 
 class UpdatePacksRequestTypedDict(TypedDict):
     filename: str
-    r"""Filename of the pack file to upload"""
+    r"""Filename of the Pack file to upload."""
     request_body: Union[bytes, IO[bytes], io.BufferedReader]
     r"""Binary file content"""
 
@@ -19,7 +19,7 @@ class UpdatePacksRequest(BaseModel):
     filename: Annotated[
         str, FieldMetadata(query=QueryParamMetadata(style="form", explode=True))
     ]
-    r"""Filename of the pack file to upload"""
+    r"""Filename of the Pack file to upload."""
 
     request_body: Annotated[
         Union[bytes, IO[bytes], io.BufferedReader], FieldMetadata(request=True)

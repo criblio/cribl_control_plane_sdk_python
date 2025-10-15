@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 1e2d30b7a85391bc454b66c06ad9c4a4
-  docVersion: 4.15.0-alpha.1760464789107-7d63bffb
+  docChecksum: 5f3077102b7259444cd6761475164017
+  docVersion: 4.15.0-alpha.1760543593986-a05c0ad4
   speakeasyVersion: 1.636.3
   generationVersion: 2.723.11
-  releaseVersion: 0.1.1rc3
-  configChecksum: 54a1fe68ddbb4bc19c22517ceae169af
+  releaseVersion: 0.1.1rc4
+  configChecksum: 456071eb8cc19abff1af7b02ac828afd
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -3284,10 +3284,3 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: |
-  ## Python SDK Changes Detected:
-  * `cribl_control_plane.packs.install()`:  `response.items.[].tags.data_type` **Changed**
-  * `cribl_control_plane.packs.list()`:  `response.items.[].tags.data_type` **Changed**
-  * `cribl_control_plane.packs.delete()`:  `response.items.[].tags.data_type` **Changed**
-  * `cribl_control_plane.packs.get()`:  `response.items.[].tags.data_type` **Changed**
-  * `cribl_control_plane.packs.update()`:  `response.items.[].tags.data_type` **Changed**

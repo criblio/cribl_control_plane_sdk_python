@@ -43483,12 +43483,6 @@ paths:
           description: Access denied
         "429":
           description: Rate limit exceeded
-          headers:
-            Retry-After:
-              description: Number of seconds to wait before retrying the request
-              schema:
-                type: integer
-                example: 60
   /master/summary:
     get:
       operationId: getSummary

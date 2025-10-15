@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.15.0-alpha.1760439571529-8891ea6f
+  version: 4.15.0-alpha.1760486888592-e1e43793
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -41090,7 +41090,6 @@ components:
                 type: string
           required:
             - dataType
-            - technology
         version:
           type: string
         warnings:
@@ -41201,7 +41200,6 @@ components:
                 type: string
           required:
             - dataType
-            - technology
         version:
           type: string
       required:
@@ -43485,6 +43483,12 @@ paths:
           description: Access denied
         "429":
           description: Rate limit exceeded
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying the request
+              schema:
+                type: integer
+                example: 60
   /master/summary:
     get:
       operationId: getSummary

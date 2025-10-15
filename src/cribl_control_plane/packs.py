@@ -24,9 +24,9 @@ class Packs(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreatePacksResponse:
-        r"""Create or install a Pack
+        r"""Install a Pack
 
-        Create or install a Pack.
+        Install a Pack.<br><br>To install an uploaded Pack, provide the <code>source</code> value from the <code>PUT /packs</code> response as the <code>source</code> parameter in the request body.<br><br>To install a Pack by importing from a URL, provide the direct URL location of the <code>.crbl</code> file for the Pack as the <code>source</code> parameter in the request body.<br><br>To install a Pack by importing from a Git repository, provide <code>git+<repo-url></code> as the <code>source</code> parameter in the request body.<br><br>If you do not include the <code>source</code> parameter in the request body, an empty Pack is created.
 
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
@@ -116,9 +116,9 @@ class Packs(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreatePacksResponse:
-        r"""Create or install a Pack
+        r"""Install a Pack
 
-        Create or install a Pack.
+        Install a Pack.<br><br>To install an uploaded Pack, provide the <code>source</code> value from the <code>PUT /packs</code> response as the <code>source</code> parameter in the request body.<br><br>To install a Pack by importing from a URL, provide the direct URL location of the <code>.crbl</code> file for the Pack as the <code>source</code> parameter in the request body.<br><br>To install a Pack by importing from a Git repository, provide <code>git+<repo-url></code> as the <code>source</code> parameter in the request body.<br><br>If you do not include the <code>source</code> parameter in the request body, an empty Pack is created.
 
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
@@ -383,9 +383,9 @@ class Packs(BaseSDK):
     ) -> models.UploadPackResponse:
         r"""Upload a Pack file
 
-        Upload a Pack file. Returns a source identifier that can be used to install the pack via the install a Pack endpoint.
+        Upload a Pack file. Returns the <code>source</code> ID needed to install the Pack with <code>POST /packs</source>, which you must call separately.
 
-        :param filename: Filename of the pack file to upload
+        :param filename: Filename of the Pack file to upload.
         :param request_body: Binary file content
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -480,9 +480,9 @@ class Packs(BaseSDK):
     ) -> models.UploadPackResponse:
         r"""Upload a Pack file
 
-        Upload a Pack file. Returns a source identifier that can be used to install the pack via the install a Pack endpoint.
+        Upload a Pack file. Returns the <code>source</code> ID needed to install the Pack with <code>POST /packs</source>, which you must call separately.
 
-        :param filename: Filename of the pack file to upload
+        :param filename: Filename of the Pack file to upload.
         :param request_body: Binary file content
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -928,7 +928,7 @@ class Packs(BaseSDK):
     ) -> models.UpdatePacksByIDResponse:
         r"""Upgrade a Pack
 
-        Upgrade the specified Pack.</br></br>If the Pack includes any user–modified versions of default Cribl Knowledge resources such as lookups, copy the modified files locally for safekeeping before upgrading the Pack. Copy the modified files back to the upgraded Pack after you install it with <code>POST /packs</code> to overwrite the default versions in the Pack.</br></br>After you upgrade the Pack, update any Routes, Pipelines, Sources, and Destinations that use the previous Pack version so that they reference the upgraded Pack.
+        Upgrade the specified Pack.</br></br>If the Pack includes any user–modified versions of default Cribl Knowledge resources such as lookups, copy the modified files locally for safekeeping before upgrading the Pack.Copy the modified files back to the upgraded Pack after you install it with <code>POST /packs</code> to overwrite the default versions in the Pack.</br></br>After you upgrade the Pack, update any Routes, Pipelines, Sources, and Destinations that use the previous Pack version so that they reference the upgraded Pack.
 
         :param id: The <code>id</code> of the Pack to upgrade.
         :param source:
@@ -1036,7 +1036,7 @@ class Packs(BaseSDK):
     ) -> models.UpdatePacksByIDResponse:
         r"""Upgrade a Pack
 
-        Upgrade the specified Pack.</br></br>If the Pack includes any user–modified versions of default Cribl Knowledge resources such as lookups, copy the modified files locally for safekeeping before upgrading the Pack. Copy the modified files back to the upgraded Pack after you install it with <code>POST /packs</code> to overwrite the default versions in the Pack.</br></br>After you upgrade the Pack, update any Routes, Pipelines, Sources, and Destinations that use the previous Pack version so that they reference the upgraded Pack.
+        Upgrade the specified Pack.</br></br>If the Pack includes any user–modified versions of default Cribl Knowledge resources such as lookups, copy the modified files locally for safekeeping before upgrading the Pack.Copy the modified files back to the upgraded Pack after you install it with <code>POST /packs</code> to overwrite the default versions in the Pack.</br></br>After you upgrade the Pack, update any Routes, Pipelines, Sources, and Destinations that use the previous Pack version so that they reference the upgraded Pack.
 
         :param id: The <code>id</code> of the Pack to upgrade.
         :param source:

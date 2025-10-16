@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.15.0-alpha.1760607052180-31a53a17
+  version: 4.15.0-alpha.1760636051511-e9367475
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -40945,7 +40945,6 @@ components:
       type: object
       required:
         - token
-        - forcePasswordChange
       properties:
         token:
           type: string
@@ -42041,38 +42040,6 @@ components:
       required:
         - perms
         - team
-  examples:
-    PackInstallExamplesPackDispensary:
-      summary: Install from the Packs Dispensary
-      value:
-        source: https://packs.cribl.io/dl/cribl-duo-rest-io/latest/cribl-duo-rest-io-latest.crbl
-        force: true
-        allowCustomFunctions: true
-    PackInstallExamplesEmptyPack:
-      summary: Create a new empty pack
-      value:
-        version: 0.0.1
-        tags:
-          streamtags: []
-        exports: []
-        displayName: testPackFoo
-        id: testPackFoo
-    PackInstallExamplesUploadedFile:
-      summary: Install from an uploaded file
-      value:
-        source: cribl-search-missing-logs-1.0.1.Do7DH5I.crbl
-        id: cribl-search-missing-logs-
-        allowCustomFunctions: false
-    PackInstallExamplesURL:
-      summary: Install from a URL
-      value:
-        source: https://github.com/criblpacks/cribl-palo-alto-networks/releases/download/1.1.4/cribl-palo-alto-networks-a3e5a19d-1.1.4.crbl
-        allowCustomFunctions: false
-    PackInstallExamplesGitRepository:
-      summary: Install from a Git repository
-      value:
-        source: git+https://github.com/criblio/cribl_ocsf_postprocessing
-        allowCustomFunctions: false
 security:
   - bearerAuth: []
   - clientOauth: []
@@ -43521,12 +43488,6 @@ paths:
           description: Access denied
         "429":
           description: Rate limit exceeded
-          headers:
-            Retry-After:
-              description: Number of seconds to wait before retrying the request
-              schema:
-                type: integer
-                example: 60
   /master/summary:
     get:
       operationId: getSummary
@@ -43633,17 +43594,6 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/PackRequestBody"
-            examples:
-              PackInstallExamplesPackDispensary:
-                $ref: "#/components/examples/PackInstallExamplesPackDispensary"
-              PackInstallExamplesEmptyPack:
-                $ref: "#/components/examples/PackInstallExamplesEmptyPack"
-              PackInstallExamplesUploadedFile:
-                $ref: "#/components/examples/PackInstallExamplesUploadedFile"
-              PackInstallExamplesURL:
-                $ref: "#/components/examples/PackInstallExamplesURL"
-              PackInstallExamplesGitRepository:
-                $ref: "#/components/examples/PackInstallExamplesGitRepository"
     get:
       operationId: getPacks
       tags:
@@ -43689,7 +43639,7 @@ paths:
       x-speakeasy-group: packs
       x-speakeasy-name-override: upload
       summary: Upload a Pack file
-      description: Upload a Pack file. Returns the <code>source</code> ID needed to install the Pack with <code>POST /packs source</code>, which you must call separately.
+      description: Upload a Pack file. Returns the <code>source</code> ID needed to install the Pack with <code>POST /packs</source>, which you must call separately.
       responses:
         "200":
           description: Pack file uploaded successfully

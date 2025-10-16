@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 3ce8e7e8d6960ec2415b14c009e61a4d
-  docVersion: 4.15.0-alpha.1760607052180-31a53a17
+  docChecksum: 43a7f22a60efdf139b617415b96b28d2
+  docVersion: 4.15.0-alpha.1760636051511-e9367475
   speakeasyVersion: 1.636.3
   generationVersion: 2.723.11
-  releaseVersion: 0.1.1rc6
-  configChecksum: 80d03e0ceb51cb6bc253b71f0e0c49f6
+  releaseVersion: 0.1.1rc7
+  configChecksum: 405bc24951985601da8c4907f0b7c274
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -1022,7 +1022,6 @@ generatedFiles:
   - docs/models/listroutesresponse.md
   - docs/models/loggedinusers.md
   - docs/models/logininfo.md
-  - docs/models/loginresponse.md
   - docs/models/loglabel.md
   - docs/models/loglocationtype.md
   - docs/models/lokiauthoauthheader1.md
@@ -2207,7 +2206,6 @@ generatedFiles:
   - src/cribl_control_plane/models/listpipelineop.py
   - src/cribl_control_plane/models/listroutesop.py
   - src/cribl_control_plane/models/logininfo.py
-  - src/cribl_control_plane/models/loginop.py
   - src/cribl_control_plane/models/lookupversions.py
   - src/cribl_control_plane/models/masterworkerentry.py
   - src/cribl_control_plane/models/nodeactiveupgradestatus.py
@@ -3328,4 +3326,4 @@ generatedTests:
   updateGroupsById: "2025-08-04T02:32:44Z"
 releaseNotes: |
   ## Python SDK Changes Detected:
-  * `cribl_control_plane.auth.tokens.get()`:  `response.force_password_change` **Added**
+  * `cribl_control_plane.auth.tokens.get()`:  `response.force_password_change` **Changed**

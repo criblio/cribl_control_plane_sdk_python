@@ -38,30 +38,23 @@ with CriblControlPlane(
         "spec": "<value>",
         "version": "<value>",
         "min_log_stream_version": "<value>",
-        "display_name": "June30",
+        "display_name": "Myah14",
         "author": "<value>",
-        "description": "and banish crossly abacus",
-        "source": "https://packs.cribl.io/dl/cribl-duo-rest-io/latest/cribl-duo-rest-io-latest.crbl",
+        "description": "premeditation coincide although",
+        "source": "<value>",
         "tags": {
-            "data_type": [
-                "double",
-                "boolean",
-            ],
-            "domain": [
-                "delectable-transom.com",
-                "radiant-sightseeing.info",
-            ],
+            "data_type": [],
+            "domain": [],
             "technology": [
                 "<value 1>",
             ],
             "streamtags": [
                 "<value 1>",
                 "<value 2>",
-                "<value 3>",
             ],
         },
-        "allow_custom_functions": True,
-        "force": True,
+        "allow_custom_functions": False,
+        "force": False,
     })
 
     # Handle response
@@ -133,7 +126,7 @@ with CriblControlPlane(
 
 ## upload
 
-Upload a Pack file. Returns the <code>source</code> ID needed to install the Pack with <code>POST /packs source</code>, which you must call separately.
+Upload a Pack file. Returns the <code>source</code> ID needed to install the Pack with <code>POST /packs</source>, which you must call separately.
 
 ### Example Usage
 

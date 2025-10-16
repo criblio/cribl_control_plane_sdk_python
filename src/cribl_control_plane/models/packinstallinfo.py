@@ -8,14 +8,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PackInstallInfoTagsTypedDict(TypedDict):
-    data_type: List[str]
+    data_type: NotRequired[List[str]]
     domain: NotRequired[List[str]]
     streamtags: NotRequired[List[str]]
     technology: NotRequired[List[str]]
 
 
 class PackInstallInfoTags(BaseModel):
-    data_type: Annotated[List[str], pydantic.Field(alias="dataType")]
+    data_type: Annotated[Optional[List[str]], pydantic.Field(alias="dataType")] = None
 
     domain: Optional[List[str]] = None
 

@@ -3295,6 +3295,7 @@ if TYPE_CHECKING:
         UpdatePacksByIDResponse,
         UpdatePacksByIDResponseTypedDict,
     )
+    from .updatepacksop import UpdatePacksRequest, UpdatePacksRequestTypedDict
     from .updatepipelinebyidop import (
         UpdatePipelineByIDRequest,
         UpdatePipelineByIDRequestTypedDict,
@@ -3307,6 +3308,7 @@ if TYPE_CHECKING:
         UpdateRoutesByIDResponse,
         UpdateRoutesByIDResponseTypedDict,
     )
+    from .uploadpackresponse import UploadPackResponse, UploadPackResponseTypedDict
     from .useraccesscontrollist import (
         UserAccessControlList,
         UserAccessControlListTypedDict,
@@ -6248,6 +6250,8 @@ __all__ = [
     "UpdatePacksByIDRequestTypedDict",
     "UpdatePacksByIDResponse",
     "UpdatePacksByIDResponseTypedDict",
+    "UpdatePacksRequest",
+    "UpdatePacksRequestTypedDict",
     "UpdatePipelineByIDRequest",
     "UpdatePipelineByIDRequestTypedDict",
     "UpdatePipelineByIDResponse",
@@ -6256,6 +6260,8 @@ __all__ = [
     "UpdateRoutesByIDRequestTypedDict",
     "UpdateRoutesByIDResponse",
     "UpdateRoutesByIDResponseTypedDict",
+    "UploadPackResponse",
+    "UploadPackResponseTypedDict",
     "UserAccessControlList",
     "UserAccessControlListTypedDict",
     "UsersAndGroups",
@@ -9208,6 +9214,8 @@ _dynamic_imports: dict[str, str] = {
     "UpdatePacksByIDRequestTypedDict": ".updatepacksbyidop",
     "UpdatePacksByIDResponse": ".updatepacksbyidop",
     "UpdatePacksByIDResponseTypedDict": ".updatepacksbyidop",
+    "UpdatePacksRequest": ".updatepacksop",
+    "UpdatePacksRequestTypedDict": ".updatepacksop",
     "UpdatePipelineByIDRequest": ".updatepipelinebyidop",
     "UpdatePipelineByIDRequestTypedDict": ".updatepipelinebyidop",
     "UpdatePipelineByIDResponse": ".updatepipelinebyidop",
@@ -9216,6 +9224,8 @@ _dynamic_imports: dict[str, str] = {
     "UpdateRoutesByIDRequestTypedDict": ".updateroutesbyidop",
     "UpdateRoutesByIDResponse": ".updateroutesbyidop",
     "UpdateRoutesByIDResponseTypedDict": ".updateroutesbyidop",
+    "UploadPackResponse": ".uploadpackresponse",
+    "UploadPackResponseTypedDict": ".uploadpackresponse",
     "UserAccessControlList": ".useraccesscontrollist",
     "UserAccessControlListTypedDict": ".useraccesscontrollist",
     "WorkerTypes": ".workertypes",

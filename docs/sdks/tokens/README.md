@@ -39,7 +39,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.LoginResponse](../../models/loginresponse.md)**
+**[models.AuthToken](../../models/authtoken.md)**
 
 ### Errors
 

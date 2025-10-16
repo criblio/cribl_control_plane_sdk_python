@@ -3,15 +3,18 @@
 from __future__ import annotations
 from cribl_control_plane.types import BaseModel
 import pydantic
-from typing_extensions import Annotated, TypedDict
+from typing import Optional
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class AuthTokenTypedDict(TypedDict):
     token: str
-    force_password_change: bool
+    force_password_change: NotRequired[bool]
 
 
 class AuthToken(BaseModel):
     token: str
 
-    force_password_change: Annotated[bool, pydantic.Field(alias="forcePasswordChange")]
+    force_password_change: Annotated[
+        Optional[bool], pydantic.Field(alias="forcePasswordChange")
+    ] = None

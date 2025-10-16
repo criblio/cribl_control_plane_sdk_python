@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.15.0-alpha.1760486888592-e1e43793
+  version: 4.15.0-alpha.1760569726872-c3466a59
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -41088,8 +41088,6 @@ components:
               type: array
               items:
                 type: string
-          required:
-            - dataType
         version:
           type: string
         warnings:
@@ -41198,8 +41196,6 @@ components:
               type: array
               items:
                 type: string
-          required:
-            - dataType
         version:
           type: string
       required:
@@ -41215,6 +41211,13 @@ components:
         source:
           type: string
         spec:
+          type: string
+      required:
+        - source
+    UploadPackResponse:
+      type: object
+      properties:
+        source:
           type: string
       required:
         - source
@@ -43557,8 +43560,8 @@ paths:
         - packs
       x-speakeasy-group: packs
       x-speakeasy-name-override: install
-      summary: Create or install a Pack
-      description: Create or install a Pack.
+      summary: Install a Pack
+      description: Install a Pack.<br><br>To install an uploaded Pack, provide the <code>source</code> value from the <code>PUT /packs</code> response as the <code>source</code> parameter in the request body.<br><br>To install a Pack by importing from a URL, provide the direct URL location of the <code>.crbl</code> file for the Pack as the <code>source</code> parameter in the request body.<br><br>To install a Pack by importing from a Git repository, provide <code>git+<repo-url></code> as the <code>source</code> parameter in the request body.<br><br>If you do not include the <code>source</code> parameter in the request body, an empty Pack is created.
       responses:
         "200":
           description: a list of PackInstallInfo objects
@@ -43627,6 +43630,44 @@ paths:
           schema:
             type: string
           description: Comma-separated list of additional properties to include in the response. When set, the response includes a count of the specified properties in the Pack. Available values are <code>inputs</code> and <code>outputs</code>.
+    put:
+      operationId: updatePacks
+      tags:
+        - packs
+      x-speakeasy-group: packs
+      x-speakeasy-name-override: upload
+      summary: Upload a Pack file
+      description: Upload a Pack file. Returns the <code>source</code> ID needed to install the Pack with <code>POST /packs</source>, which you must call separately.
+      responses:
+        "200":
+          description: Pack file uploaded successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UploadPackResponse"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      requestBody:
+        description: Binary file content
+        required: true
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      parameters:
+        - name: filename
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Filename of the Pack file to upload.
   /packs/{id}:
     delete:
       operationId: deletePacksById
@@ -43711,7 +43752,7 @@ paths:
       x-speakeasy-group: packs
       x-speakeasy-name-override: update
       summary: Upgrade a Pack
-      description: Upgrade the specified Pack.</br></br>If the Pack includes any user–modified versions of default Cribl Knowledge resources such as lookups, copy the modified files locally for safekeeping before upgrading the Pack. Copy the modified files back to the upgraded Pack after you install it with <code>POST /packs</code> to overwrite the default versions in the Pack.</br></br>After you upgrade the Pack, update any Routes, Pipelines, Sources, and Destinations that use the previous Pack version so that they reference the upgraded Pack.
+      description: Upgrade the specified Pack.</br></br>If the Pack includes any user–modified versions of default Cribl Knowledge resources such as lookups, copy the modified files locally for safekeeping before upgrading the Pack.Copy the modified files back to the upgraded Pack after you install it with <code>POST /packs</code> to overwrite the default versions in the Pack.</br></br>After you upgrade the Pack, update any Routes, Pipelines, Sources, and Destinations that use the previous Pack version so that they reference the upgraded Pack.
       responses:
         "200":
           description: a list of PackInfo objects

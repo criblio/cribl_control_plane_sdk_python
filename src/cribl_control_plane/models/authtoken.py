@@ -2,12 +2,16 @@
 
 from __future__ import annotations
 from cribl_control_plane.types import BaseModel
-from typing_extensions import TypedDict
+import pydantic
+from typing_extensions import Annotated, TypedDict
 
 
 class AuthTokenTypedDict(TypedDict):
     token: str
+    force_password_change: bool
 
 
 class AuthToken(BaseModel):
     token: str
+
+    force_password_change: Annotated[bool, pydantic.Field(alias="forcePasswordChange")]

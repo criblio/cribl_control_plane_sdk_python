@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 5f3077102b7259444cd6761475164017
-  docVersion: 4.15.0-alpha.1760543593986-a05c0ad4
+  docChecksum: f0436d64c919795f51be04910839f5de
+  docVersion: 4.15.0-alpha.1760607052180-31a53a17
   speakeasyVersion: 1.636.3
   generationVersion: 2.723.11
-  releaseVersion: 0.1.1rc4
-  configChecksum: 456071eb8cc19abff1af7b02ac828afd
+  releaseVersion: 0.1.1rc5
+  configChecksum: d891ce86d0ccddf6f08435d8df2cf3bc
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -2827,6 +2827,46 @@ examples:
       responses:
         "200":
           application/json: {"count": 182030, "items": [{"author": "<value>", "dependencies": {"key": "<value>", "key1": "<value>"}, "description": "card fen soon inquisitively anti oddly winged", "displayName": "Leila.Nikolaus29", "exports": ["<value 1>", "<value 2>", "<value 3>"], "id": "<id>", "inputs": 5672.33, "isDisabled": false, "minLogStreamVersion": "<value>", "outputs": 8346.66, "settings": {"key": "<value>"}, "source": "<value>", "spec": "<value>", "tags": {"dataType": ["decimal"], "domain": ["lawful-flu.net", "royal-litter.org", "submissive-pantyhose.org"], "streamtags": [], "technology": []}, "version": "<value>", "warnings": ["<value>"]}]}
+        "500":
+          application/json: {"message": "<value>"}
+    PackInstallExamplesPackDispensary:
+      requestBody:
+        application/json: {"id": "<id>", "spec": "<value>", "version": "<value>", "minLogStreamVersion": "<value>", "displayName": "June30", "author": "<value>", "description": "and banish crossly abacus", "source": "https://packs.cribl.io/dl/cribl-duo-rest-io/latest/cribl-duo-rest-io-latest.crbl", "tags": {"dataType": ["double", "boolean"], "domain": ["delectable-transom.com", "radiant-sightseeing.info"], "technology": ["<value 1>"], "streamtags": ["<value 1>", "<value 2>", "<value 3>"]}, "allowCustomFunctions": true, "force": true}
+      responses:
+        "200":
+          application/json: {"count": 286347, "items": [{"author": "<value>", "dependencies": {"key": "<value>", "key1": "<value>"}, "description": "ring creative drain", "displayName": "Rodolfo_Cummings44", "exports": ["<value 1>", "<value 2>", "<value 3>"], "id": "<id>", "inputs": 1011.25, "isDisabled": true, "minLogStreamVersion": "<value>", "outputs": 5410.28, "settings": {"key": "<value>", "key1": "<value>"}, "source": "<value>", "spec": "<value>", "tags": {"dataType": ["tinyint"], "domain": ["known-newsstand.org", "personal-alb.name", "disloyal-equal.com"], "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "technology": ["<value 1>", "<value 2>"]}, "version": "<value>", "warnings": ["<value 1>", "<value 2>", "<value 3>"]}]}
+        "500":
+          application/json: {"message": "<value>"}
+    PackInstallExamplesEmptyPack:
+      requestBody:
+        application/json: {"id": "<id>", "spec": "<value>", "version": "<value>", "minLogStreamVersion": "<value>", "displayName": "Amely_Gusikowski", "author": "<value>", "description": "crowded that truly sideboard ample yahoo gracious enraged", "source": "<value>", "tags": {"dataType": ["double", "boolean"], "domain": ["delectable-transom.com", "radiant-sightseeing.info"], "technology": ["<value 1>"], "streamtags": ["<value 1>", "<value 2>", "<value 3>"]}, "allowCustomFunctions": false, "force": true}
+      responses:
+        "200":
+          application/json: {"count": 286347, "items": [{"author": "<value>", "dependencies": {"key": "<value>", "key1": "<value>"}, "description": "ring creative drain", "displayName": "Rodolfo_Cummings44", "exports": ["<value 1>", "<value 2>", "<value 3>"], "id": "<id>", "inputs": 1011.25, "isDisabled": true, "minLogStreamVersion": "<value>", "outputs": 5410.28, "settings": {"key": "<value>", "key1": "<value>"}, "source": "<value>", "spec": "<value>", "tags": {"dataType": ["tinyint"], "domain": ["known-newsstand.org", "personal-alb.name", "disloyal-equal.com"], "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "technology": ["<value 1>", "<value 2>"]}, "version": "<value>", "warnings": ["<value 1>", "<value 2>", "<value 3>"]}]}
+        "500":
+          application/json: {"message": "<value>"}
+    PackInstallExamplesUploadedFile:
+      requestBody:
+        application/json: {"id": "cribl-search-missing-logs-", "spec": "<value>", "version": "<value>", "minLogStreamVersion": "<value>", "displayName": "Onie_Miller", "author": "<value>", "description": "than eek before fledgling absent astride depart till", "source": "cribl-search-missing-logs-1.0.1.Do7DH5I.crbl", "tags": {"dataType": ["point", "smallint"], "domain": ["kosher-barracks.biz", "mushy-prohibition.org", "wordy-peony.com"], "technology": ["<value 1>", "<value 2>", "<value 3>"], "streamtags": ["<value 1>", "<value 2>"]}, "allowCustomFunctions": false, "force": true}
+      responses:
+        "200":
+          application/json: {"count": 286347, "items": [{"author": "<value>", "dependencies": {"key": "<value>", "key1": "<value>"}, "description": "ring creative drain", "displayName": "Rodolfo_Cummings44", "exports": ["<value 1>", "<value 2>", "<value 3>"], "id": "<id>", "inputs": 1011.25, "isDisabled": true, "minLogStreamVersion": "<value>", "outputs": 5410.28, "settings": {"key": "<value>", "key1": "<value>"}, "source": "<value>", "spec": "<value>", "tags": {"dataType": ["tinyint"], "domain": ["known-newsstand.org", "personal-alb.name", "disloyal-equal.com"], "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "technology": ["<value 1>", "<value 2>"]}, "version": "<value>", "warnings": ["<value 1>", "<value 2>", "<value 3>"]}]}
+        "500":
+          application/json: {"message": "<value>"}
+    PackInstallExamplesURL:
+      requestBody:
+        application/json: {"id": "<id>", "spec": "<value>", "version": "<value>", "minLogStreamVersion": "<value>", "displayName": "Lavon.Russel", "author": "<value>", "description": "ferociously haunting meh into instantly", "source": "https://github.com/criblpacks/cribl-palo-alto-networks/releases/download/1.1.4/cribl-palo-alto-networks-a3e5a19d-1.1.4.crbl", "tags": {"dataType": ["double", "boolean"], "domain": ["delectable-transom.com", "radiant-sightseeing.info"], "technology": ["<value 1>"], "streamtags": ["<value 1>", "<value 2>", "<value 3>"]}, "allowCustomFunctions": false, "force": false}
+      responses:
+        "200":
+          application/json: {"count": 286347, "items": [{"author": "<value>", "dependencies": {"key": "<value>", "key1": "<value>"}, "description": "ring creative drain", "displayName": "Rodolfo_Cummings44", "exports": ["<value 1>", "<value 2>", "<value 3>"], "id": "<id>", "inputs": 1011.25, "isDisabled": true, "minLogStreamVersion": "<value>", "outputs": 5410.28, "settings": {"key": "<value>", "key1": "<value>"}, "source": "<value>", "spec": "<value>", "tags": {"dataType": ["tinyint"], "domain": ["known-newsstand.org", "personal-alb.name", "disloyal-equal.com"], "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "technology": ["<value 1>", "<value 2>"]}, "version": "<value>", "warnings": ["<value 1>", "<value 2>", "<value 3>"]}]}
+        "500":
+          application/json: {"message": "<value>"}
+    PackInstallExamplesGitRepository:
+      requestBody:
+        application/json: {"id": "<id>", "spec": "<value>", "version": "<value>", "minLogStreamVersion": "<value>", "displayName": "Jennyfer.Bogan", "author": "<value>", "description": "ack that sparkling if blah bourgeoisie or phooey", "source": "git+https://github.com/criblio/cribl_ocsf_postprocessing", "tags": {"dataType": ["double", "boolean"], "domain": ["delectable-transom.com", "radiant-sightseeing.info"], "technology": ["<value 1>"], "streamtags": ["<value 1>", "<value 2>", "<value 3>"]}, "allowCustomFunctions": false, "force": true}
+      responses:
+        "200":
+          application/json: {"count": 286347, "items": [{"author": "<value>", "dependencies": {"key": "<value>", "key1": "<value>"}, "description": "ring creative drain", "displayName": "Rodolfo_Cummings44", "exports": ["<value 1>", "<value 2>", "<value 3>"], "id": "<id>", "inputs": 1011.25, "isDisabled": true, "minLogStreamVersion": "<value>", "outputs": 5410.28, "settings": {"key": "<value>", "key1": "<value>"}, "source": "<value>", "spec": "<value>", "tags": {"dataType": ["tinyint"], "domain": ["known-newsstand.org", "personal-alb.name", "disloyal-equal.com"], "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "technology": ["<value 1>", "<value 2>"]}, "version": "<value>", "warnings": ["<value 1>", "<value 2>", "<value 3>"]}]}
         "500":
           application/json: {"message": "<value>"}
   getPacks:

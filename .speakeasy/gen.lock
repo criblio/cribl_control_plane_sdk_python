@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: a36d607d60e776a4c9cc735310b933ee
-  docVersion: 4.15.0-alpha.1760569726872-c3466a59
+  docChecksum: 059a018b0f15f27cb7b208a2ca9338b0
+  docVersion: 4.15.0-alpha.1760742316222-ce9b582f
   speakeasyVersion: 1.636.3
   generationVersion: 2.723.11
-  releaseVersion: 0.2.0b5
-  configChecksum: 4059da1d9fbd0779c7d1230c34ad4916
+  releaseVersion: 0.2.0b6
+  configChecksum: b9d366b4a360b3cee4952093a70b0238
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -2367,7 +2367,7 @@ examples:
         application/json: {"username": "Nikko.Connelly", "password": "Ljp4BunfMR9hNyM"}
       responses:
         "200":
-          application/json: {"token": "<value>"}
+          application/json: {"token": "<value>", "forcePasswordChange": false}
   listInput:
     speakeasy-default-list-input:
       responses:
@@ -3286,9 +3286,4 @@ generatedTests:
   updateGroupsById: "2025-08-04T02:32:44Z"
 releaseNotes: |
   ## Python SDK Changes Detected:
-  * `cribl_control_plane.packs.upload()`: **Added**
-  * `cribl_control_plane.packs.install()`:  `response.items.[].tags.data_type` **Changed**
-  * `cribl_control_plane.packs.list()`:  `response.items.[].tags.data_type` **Changed**
-  * `cribl_control_plane.packs.delete()`:  `response.items.[].tags.data_type` **Changed**
-  * `cribl_control_plane.packs.get()`:  `response.items.[].tags.data_type` **Changed**
-  * `cribl_control_plane.packs.update()`:  `response.items.[].tags.data_type` **Changed**
+  * `cribl_control_plane.auth.tokens.get()`:  `response.force_password_change` **Added**

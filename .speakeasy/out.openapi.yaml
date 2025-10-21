@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.15.0-alpha.1760742316222-ce9b582f
+  version: 4.15.0-alpha.1761042093526-c9108b5e
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -102,16 +102,38 @@ components:
           type: string
         estimatedIngestRate:
           type: integer
+          description: Maximum expected volume of data ingested by the @{group}. (This setting is available only on @{group}s consisting of Cribl-managed Cribl.Cloud @{node}s.)
           enum:
             - 1024
-            - 4096
-            - 10240
             - 2048
             - 3072
+            - 4096
             - 5120
             - 7168
+            - 10240
             - 13312
             - 15360
+          x-speakeasy-enum-descriptions:
+            - 12 MB/sec
+            - 24 MB/sec
+            - 36 MB/sec
+            - 48 MB/sec
+            - 60 MB/sec
+            - 84 MB/sec
+            - 120 MB/sec
+            - 156 MB/sec
+            - 180 MB/sec
+          x-speakeasy-enums:
+            - Rate12MBPerSec
+            - Rate24MBPerSec
+            - Rate36MBPerSec
+            - Rate48MBPerSec
+            - Rate60MBPerSec
+            - Rate84MBPerSec
+            - Rate120MBPerSec
+            - Rate156MBPerSec
+            - Rate180MBPerSec
+          x-speakeasy-name-override: estimatedIngest
           x-speakeasy-unknown-values: allow
         git:
           type: object
@@ -42040,6 +42062,42 @@ components:
       required:
         - perms
         - team
+  examples:
+    PackInstallExamplesPackDispensary:
+      summary: Install from the Pack Dispensary
+      value:
+        source: https://packs.cribl.io/dl/cribl-duo-rest-io/latest/cribl-duo-rest-io-latest.crbl
+        force: true
+        allowCustomFunctions: true
+    PackInstallExamplesEmptyPack:
+      summary: Create new empty Pack
+      value:
+        version: 0.0.1
+        tags:
+          streamtags: []
+        exports: []
+        displayName: testPackFoo
+        id: testPackFoo
+    PackInstallExamplesUploadedFile:
+      summary: Install Pack from file upload
+      value:
+        source: cribl-search-missing-logs-1.0.1.Do7DH5I.crbl
+        id: cribl-search-missing-logs-
+        allowCustomFunctions: false
+    PackInstallExamplesURL:
+      summary: Install Pack from URL
+      value:
+        source: https://github.com/criblpacks/cribl-palo-alto-networks/releases/download/1.1.4/cribl-palo-alto-networks-a3e5a19d-1.1.4.crbl
+        allowCustomFunctions: false
+    PackInstallExamplesGitRepository:
+      summary: Install Pack from Git repository
+      value:
+        source: git+https://github.com/criblio/cribl_ocsf_postprocessing
+        allowCustomFunctions: false
+    PackUpgradeExamplesUpgradeFromURL:
+      summary: Upgrade Pack from URL
+      value:
+        source: https://github.com/criblpacks/cribl-palo-alto-networks/releases/download/1.1.4/cribl-palo-alto-networks-a3e5a19d-1.1.4.crbl
 security:
   - bearerAuth: []
   - clientOauth: []
@@ -43594,6 +43652,17 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/PackRequestBody"
+            examples:
+              PackInstallExamplesPackDispensary:
+                $ref: "#/components/examples/PackInstallExamplesPackDispensary"
+              PackInstallExamplesEmptyPack:
+                $ref: "#/components/examples/PackInstallExamplesEmptyPack"
+              PackInstallExamplesUploadedFile:
+                $ref: "#/components/examples/PackInstallExamplesUploadedFile"
+              PackInstallExamplesURL:
+                $ref: "#/components/examples/PackInstallExamplesURL"
+              PackInstallExamplesGitRepository:
+                $ref: "#/components/examples/PackInstallExamplesGitRepository"
     get:
       operationId: getPacks
       tags:
@@ -43639,7 +43708,7 @@ paths:
       x-speakeasy-group: packs
       x-speakeasy-name-override: upload
       summary: Upload a Pack file
-      description: Upload a Pack file. Returns the <code>source</code> ID needed to install the Pack with <code>POST /packs</source>, which you must call separately.
+      description: Upload a Pack file. Returns the <code>source</code> ID needed to install the Pack with <code>POST /packs source</code>, which you must call separately.
       responses:
         "200":
           description: Pack file uploaded successfully
@@ -43785,6 +43854,9 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/PackUpgradeRequest"
+            examples:
+              PackUpgradeExamplesUpgradeFromURL:
+                $ref: "#/components/examples/PackUpgradeExamplesUpgradeFromURL"
       parameters:
         - name: id
           in: path

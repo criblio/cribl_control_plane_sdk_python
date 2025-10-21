@@ -38,23 +38,30 @@ with CriblControlPlane(
         "spec": "<value>",
         "version": "<value>",
         "min_log_stream_version": "<value>",
-        "display_name": "Myah14",
+        "display_name": "June30",
         "author": "<value>",
-        "description": "premeditation coincide although",
-        "source": "<value>",
+        "description": "and banish crossly abacus",
+        "source": "https://packs.cribl.io/dl/cribl-duo-rest-io/latest/cribl-duo-rest-io-latest.crbl",
         "tags": {
-            "data_type": [],
-            "domain": [],
+            "data_type": [
+                "double",
+                "boolean",
+            ],
+            "domain": [
+                "delectable-transom.com",
+                "radiant-sightseeing.info",
+            ],
             "technology": [
                 "<value 1>",
             ],
             "streamtags": [
                 "<value 1>",
                 "<value 2>",
+                "<value 3>",
             ],
         },
-        "allow_custom_functions": False,
-        "force": False,
+        "allow_custom_functions": True,
+        "force": True,
     })
 
     # Handle response
@@ -126,7 +133,7 @@ with CriblControlPlane(
 
 ## upload
 
-Upload a Pack file. Returns the <code>source</code> ID needed to install the Pack with <code>POST /packs</source>, which you must call separately.
+Upload a Pack file. Returns the <code>source</code> ID needed to install the Pack with <code>POST /packs source</code>, which you must call separately.
 
 ### Example Usage
 
@@ -276,7 +283,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.packs.update(id="<id>", source="<value>", allow_custom_functions=True, minor="<value>", spec="<value>")
+    res = ccp_client.packs.update(id="<id>", source="https://github.com/criblpacks/cribl-palo-alto-networks/releases/download/1.1.4/cribl-palo-alto-networks-a3e5a19d-1.1.4.crbl", allow_custom_functions=True, minor="<value>", spec="<value>")
 
     # Handle response
     print(res)

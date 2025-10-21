@@ -103,7 +103,7 @@ def replicate_worker_group(client: CriblControlPlane, source_id: str) -> Optiona
             provisioned=source.provisioned,
             is_fleet=source.is_fleet,
             is_search=source.is_search,
-            estimated_ingest_rate=source.estimated_ingest_rate,
+            estimated_ingest=source.estimated_ingest,
             inherits=source.inherits,
             max_worker_age=source.max_worker_age,
             streamtags=source.streamtags,

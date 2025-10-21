@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 059a018b0f15f27cb7b208a2ca9338b0
-  docVersion: 4.15.0-alpha.1760742316222-ce9b582f
+  docChecksum: b0f99a1dfc700a2b32b34eeeeef487c4
+  docVersion: 4.15.0-alpha.1761042093526-c9108b5e
   speakeasyVersion: 1.636.3
   generationVersion: 2.723.11
-  releaseVersion: 0.2.0b6
-  configChecksum: b9d366b4a360b3cee4952093a70b0238
+  releaseVersion: 0.2.0b7
+  configChecksum: 4181232af67247af2a4f33b0b9b60525
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -19,6 +19,7 @@ features:
     defaultEnabledRetries: 0.2.0
     devContainers: 3.0.0
     enumUnions: 0.1.0
+    enums: 3.2.0
     envVarSecurityUsage: 0.3.2
     flatRequests: 1.0.1
     flattening: 3.1.1
@@ -143,7 +144,7 @@ generatedFiles:
   - docs/models/endpointparam.md
   - docs/models/endpointtype.md
   - docs/models/error.md
-  - docs/models/estimatedingestrate.md
+  - docs/models/estimatedingest.md
   - docs/models/eventformat.md
   - docs/models/executor.md
   - docs/models/executorspecificsettings.md
@@ -2829,6 +2830,46 @@ examples:
           application/json: {"count": 182030, "items": [{"author": "<value>", "dependencies": {"key": "<value>", "key1": "<value>"}, "description": "card fen soon inquisitively anti oddly winged", "displayName": "Leila.Nikolaus29", "exports": ["<value 1>", "<value 2>", "<value 3>"], "id": "<id>", "inputs": 5672.33, "isDisabled": false, "minLogStreamVersion": "<value>", "outputs": 8346.66, "settings": {"key": "<value>"}, "source": "<value>", "spec": "<value>", "tags": {"dataType": ["decimal"], "domain": ["lawful-flu.net", "royal-litter.org", "submissive-pantyhose.org"], "streamtags": [], "technology": []}, "version": "<value>", "warnings": ["<value>"]}]}
         "500":
           application/json: {"message": "<value>"}
+    PackInstallExamplesPackDispensary:
+      requestBody:
+        application/json: {"id": "<id>", "spec": "<value>", "version": "<value>", "minLogStreamVersion": "<value>", "displayName": "June30", "author": "<value>", "description": "and banish crossly abacus", "source": "https://packs.cribl.io/dl/cribl-duo-rest-io/latest/cribl-duo-rest-io-latest.crbl", "tags": {"dataType": ["double", "boolean"], "domain": ["delectable-transom.com", "radiant-sightseeing.info"], "technology": ["<value 1>"], "streamtags": ["<value 1>", "<value 2>", "<value 3>"]}, "allowCustomFunctions": true, "force": true}
+      responses:
+        "200":
+          application/json: {"count": 286347, "items": [{"author": "<value>", "dependencies": {"key": "<value>", "key1": "<value>"}, "description": "ring creative drain", "displayName": "Rodolfo_Cummings44", "exports": ["<value 1>", "<value 2>", "<value 3>"], "id": "<id>", "inputs": 1011.25, "isDisabled": true, "minLogStreamVersion": "<value>", "outputs": 5410.28, "settings": {"key": "<value>", "key1": "<value>"}, "source": "<value>", "spec": "<value>", "tags": {"dataType": ["tinyint"], "domain": ["known-newsstand.org", "personal-alb.name", "disloyal-equal.com"], "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "technology": ["<value 1>", "<value 2>"]}, "version": "<value>", "warnings": ["<value 1>", "<value 2>", "<value 3>"]}]}
+        "500":
+          application/json: {"message": "<value>"}
+    PackInstallExamplesEmptyPack:
+      requestBody:
+        application/json: {"id": "<id>", "spec": "<value>", "version": "<value>", "minLogStreamVersion": "<value>", "displayName": "Amely_Gusikowski", "author": "<value>", "description": "crowded that truly sideboard ample yahoo gracious enraged", "source": "<value>", "tags": {"dataType": ["double", "boolean"], "domain": ["delectable-transom.com", "radiant-sightseeing.info"], "technology": ["<value 1>"], "streamtags": ["<value 1>", "<value 2>", "<value 3>"]}, "allowCustomFunctions": false, "force": true}
+      responses:
+        "200":
+          application/json: {"count": 286347, "items": [{"author": "<value>", "dependencies": {"key": "<value>", "key1": "<value>"}, "description": "ring creative drain", "displayName": "Rodolfo_Cummings44", "exports": ["<value 1>", "<value 2>", "<value 3>"], "id": "<id>", "inputs": 1011.25, "isDisabled": true, "minLogStreamVersion": "<value>", "outputs": 5410.28, "settings": {"key": "<value>", "key1": "<value>"}, "source": "<value>", "spec": "<value>", "tags": {"dataType": ["tinyint"], "domain": ["known-newsstand.org", "personal-alb.name", "disloyal-equal.com"], "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "technology": ["<value 1>", "<value 2>"]}, "version": "<value>", "warnings": ["<value 1>", "<value 2>", "<value 3>"]}]}
+        "500":
+          application/json: {"message": "<value>"}
+    PackInstallExamplesUploadedFile:
+      requestBody:
+        application/json: {"id": "cribl-search-missing-logs-", "spec": "<value>", "version": "<value>", "minLogStreamVersion": "<value>", "displayName": "Onie_Miller", "author": "<value>", "description": "than eek before fledgling absent astride depart till", "source": "cribl-search-missing-logs-1.0.1.Do7DH5I.crbl", "tags": {"dataType": ["point", "smallint"], "domain": ["kosher-barracks.biz", "mushy-prohibition.org", "wordy-peony.com"], "technology": ["<value 1>", "<value 2>", "<value 3>"], "streamtags": ["<value 1>", "<value 2>"]}, "allowCustomFunctions": false, "force": true}
+      responses:
+        "200":
+          application/json: {"count": 286347, "items": [{"author": "<value>", "dependencies": {"key": "<value>", "key1": "<value>"}, "description": "ring creative drain", "displayName": "Rodolfo_Cummings44", "exports": ["<value 1>", "<value 2>", "<value 3>"], "id": "<id>", "inputs": 1011.25, "isDisabled": true, "minLogStreamVersion": "<value>", "outputs": 5410.28, "settings": {"key": "<value>", "key1": "<value>"}, "source": "<value>", "spec": "<value>", "tags": {"dataType": ["tinyint"], "domain": ["known-newsstand.org", "personal-alb.name", "disloyal-equal.com"], "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "technology": ["<value 1>", "<value 2>"]}, "version": "<value>", "warnings": ["<value 1>", "<value 2>", "<value 3>"]}]}
+        "500":
+          application/json: {"message": "<value>"}
+    PackInstallExamplesURL:
+      requestBody:
+        application/json: {"id": "<id>", "spec": "<value>", "version": "<value>", "minLogStreamVersion": "<value>", "displayName": "Lavon.Russel", "author": "<value>", "description": "ferociously haunting meh into instantly", "source": "https://github.com/criblpacks/cribl-palo-alto-networks/releases/download/1.1.4/cribl-palo-alto-networks-a3e5a19d-1.1.4.crbl", "tags": {"dataType": ["double", "boolean"], "domain": ["delectable-transom.com", "radiant-sightseeing.info"], "technology": ["<value 1>"], "streamtags": ["<value 1>", "<value 2>", "<value 3>"]}, "allowCustomFunctions": false, "force": false}
+      responses:
+        "200":
+          application/json: {"count": 286347, "items": [{"author": "<value>", "dependencies": {"key": "<value>", "key1": "<value>"}, "description": "ring creative drain", "displayName": "Rodolfo_Cummings44", "exports": ["<value 1>", "<value 2>", "<value 3>"], "id": "<id>", "inputs": 1011.25, "isDisabled": true, "minLogStreamVersion": "<value>", "outputs": 5410.28, "settings": {"key": "<value>", "key1": "<value>"}, "source": "<value>", "spec": "<value>", "tags": {"dataType": ["tinyint"], "domain": ["known-newsstand.org", "personal-alb.name", "disloyal-equal.com"], "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "technology": ["<value 1>", "<value 2>"]}, "version": "<value>", "warnings": ["<value 1>", "<value 2>", "<value 3>"]}]}
+        "500":
+          application/json: {"message": "<value>"}
+    PackInstallExamplesGitRepository:
+      requestBody:
+        application/json: {"id": "<id>", "spec": "<value>", "version": "<value>", "minLogStreamVersion": "<value>", "displayName": "Jennyfer.Bogan", "author": "<value>", "description": "ack that sparkling if blah bourgeoisie or phooey", "source": "git+https://github.com/criblio/cribl_ocsf_postprocessing", "tags": {"dataType": ["double", "boolean"], "domain": ["delectable-transom.com", "radiant-sightseeing.info"], "technology": ["<value 1>"], "streamtags": ["<value 1>", "<value 2>", "<value 3>"]}, "allowCustomFunctions": false, "force": true}
+      responses:
+        "200":
+          application/json: {"count": 286347, "items": [{"author": "<value>", "dependencies": {"key": "<value>", "key1": "<value>"}, "description": "ring creative drain", "displayName": "Rodolfo_Cummings44", "exports": ["<value 1>", "<value 2>", "<value 3>"], "id": "<id>", "inputs": 1011.25, "isDisabled": true, "minLogStreamVersion": "<value>", "outputs": 5410.28, "settings": {"key": "<value>", "key1": "<value>"}, "source": "<value>", "spec": "<value>", "tags": {"dataType": ["tinyint"], "domain": ["known-newsstand.org", "personal-alb.name", "disloyal-equal.com"], "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "technology": ["<value 1>", "<value 2>"]}, "version": "<value>", "warnings": ["<value 1>", "<value 2>", "<value 3>"]}]}
+        "500":
+          application/json: {"message": "<value>"}
   getPacks:
     speakeasy-default-get-packs:
       parameters:
@@ -2993,6 +3034,17 @@ examples:
       responses:
         "200":
           application/json: {"count": 338042, "items": [{"author": "<value>", "dependencies": {"key": "<value>", "key1": "<value>"}, "description": "squirm mentor amid reluctantly case valiantly clonk satirise", "displayName": "Osbaldo_Murphy", "exports": ["<value 1>", "<value 2>"], "id": "<id>", "inputs": 4495.78, "isDisabled": true, "minLogStreamVersion": "<value>", "outputs": 4165.86, "settings": {"key": "<value>", "key1": "<value>", "key2": "<value>"}, "source": "<value>", "spec": "<value>", "tags": {"dataType": ["float"], "domain": ["able-strait.info", "whimsical-marimba.info", "chilly-instance.com"], "streamtags": ["<value 1>", "<value 2>"], "technology": ["<value 1>"]}, "version": "<value>"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    PackUpgradeExamplesUpgradeFromURL:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"allowCustomFunctions": true, "minor": "<value>", "source": "https://github.com/criblpacks/cribl-palo-alto-networks/releases/download/1.1.4/cribl-palo-alto-networks-a3e5a19d-1.1.4.crbl", "spec": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 645237, "items": [{"author": "<value>", "dependencies": {"key": "<value>", "key1": "<value>", "key2": "<value>"}, "description": "gosh but pretend fooey whose along", "displayName": "Angelita_Cummerata", "exports": ["<value 1>"], "id": "<id>", "inputs": 8287.99, "isDisabled": true, "minLogStreamVersion": "<value>", "outputs": 5016.43, "settings": {"key": "<value>"}, "source": "<value>", "spec": "<value>", "tags": {"dataType": ["smallint", "binary", "real"], "domain": ["terrible-nudge.name", "knotty-collaboration.info"], "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "technology": ["<value 1>", "<value 2>"]}, "version": "<value>"}]}
         "500":
           application/json: {"message": "<value>"}
   deleteGroupsById:
@@ -3284,6 +3336,4 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: |
-  ## Python SDK Changes Detected:
-  * `cribl_control_plane.auth.tokens.get()`:  `response.force_password_change` **Added**
+releaseNotes: "## Python SDK Changes Detected:\n* `cribl_control_plane.groups.list()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.groups.create()`: \n  *  `request` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.groups.get()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.groups.update()`: \n  *  `request` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.groups.delete()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.groups.deploy()`:  `response.items.[]` **Changed** **Breaking** :warning:\n"

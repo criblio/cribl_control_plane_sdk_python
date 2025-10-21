@@ -28,7 +28,7 @@ NOTE: This example is for Cribl.Cloud deployments only. It does not require
 
 
 import asyncio
-from cribl_control_plane.models import ConfigGroup, ConfigGroupCloud, CloudProvider, ProductsCore, EstimatedIngestRate
+from cribl_control_plane.models import ConfigGroup, ConfigGroupCloud, CloudProvider, ProductsCore, EstimatedIngest
 from auth import AuthCloud, CloudConfiguration
 
 
@@ -49,7 +49,7 @@ group = ConfigGroup(
     provisioned=False,
     is_fleet=False,
     is_search=False,
-    estimated_ingest_rate=EstimatedIngestRate.TWO_THOUSAND_AND_FORTY_EIGHT,  # Equivalent to 24 MB/s maximum estimated ingest rate with 9 Worker Processes
+    estimated_ingest=EstimatedIngest.RATE24_MB_PER_SEC,  # Equivalent to 24 MB/s maximum estimated ingest rate with 9 Worker Processes
     id=WORKER_GROUP_ID,
     name="my-aws-worker-group"
 )
@@ -83,13 +83,13 @@ async def main():
         provisioned=group.provisioned,
         is_fleet=group.is_fleet,
         is_search=group.is_search,
-        estimated_ingest_rate=group.estimated_ingest_rate,
+        estimated_ingest=group.estimated_ingest,
         name=group.name
     )
     print(f"✅ Worker Group created: {group.id}")
 
     # Scale and provision the Worker Group
-    group.estimated_ingest_rate = EstimatedIngestRate.FOUR_THOUSAND_AND_NINETY_SIX  # Equivalent to 48 MB/s maximum estimated ingest rate with 21 Worker Processes
+    group.estimated_ingest = EstimatedIngest.RATE48_MB_PER_SEC  # Equivalent to 48 MB/s maximum estimated ingest rate with 21 Worker Processes
     group.provisioned = True
     cribl.groups.update(
         product=ProductsCore.STREAM,
@@ -101,7 +101,7 @@ async def main():
         provisioned=group.provisioned,
         is_fleet=group.is_fleet,
         is_search=group.is_search,
-        estimated_ingest_rate=group.estimated_ingest_rate,
+        estimated_ingest=group.estimated_ingest,
         name=group.name
     )
     print(f"✅ Worker Group scaled and provisioned: {group.id}")

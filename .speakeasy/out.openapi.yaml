@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.15.0-alpha.1761042093526-c9108b5e
+  version: 4.15.0-alpha.1761174335818-8b3b1a8b
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -133,7 +133,6 @@ components:
             - Rate120MBPerSec
             - Rate156MBPerSec
             - Rate180MBPerSec
-          x-speakeasy-name-override: estimatedIngest
           x-speakeasy-unknown-values: allow
         git:
           type: object
@@ -43725,13 +43724,13 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
       requestBody:
-        description: Binary file content
         required: true
         content:
           application/octet-stream:
             schema:
               type: string
               format: binary
+              description: Pack file upload
       parameters:
         - name: filename
           in: query

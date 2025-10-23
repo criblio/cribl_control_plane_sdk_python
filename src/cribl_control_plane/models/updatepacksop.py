@@ -12,7 +12,6 @@ class UpdatePacksRequestTypedDict(TypedDict):
     filename: str
     r"""Filename of the Pack file to upload."""
     request_body: Union[bytes, IO[bytes], io.BufferedReader]
-    r"""Binary file content"""
 
 
 class UpdatePacksRequest(BaseModel):
@@ -24,4 +23,3 @@ class UpdatePacksRequest(BaseModel):
     request_body: Annotated[
         Union[bytes, IO[bytes], io.BufferedReader], FieldMetadata(request=True)
     ]
-    r"""Binary file content"""

@@ -224,7 +224,7 @@ class GroupsSDK(BaseSDK):
         config_version: Optional[str] = None,
         deploying_worker_count: Optional[float] = None,
         description: Optional[str] = None,
-        estimated_ingest: Optional[models.EstimatedIngest] = None,
+        estimated_ingest_rate: Optional[models.EstimatedIngestRate] = None,
         git: Optional[Union[models.Git, models.GitTypedDict]] = None,
         incompatible_worker_count: Optional[float] = None,
         inherits: Optional[str] = None,
@@ -261,7 +261,7 @@ class GroupsSDK(BaseSDK):
         :param config_version:
         :param deploying_worker_count:
         :param description:
-        :param estimated_ingest: Maximum expected volume of data ingested by the @{group}. (This setting is available only on @{group}s consisting of Cribl-managed Cribl.Cloud @{node}s.)
+        :param estimated_ingest_rate: Maximum expected volume of data ingested by the @{group}. (This setting is available only on @{group}s consisting of Cribl-managed Cribl.Cloud @{node}s.)
         :param git:
         :param incompatible_worker_count:
         :param inherits:
@@ -302,7 +302,7 @@ class GroupsSDK(BaseSDK):
                 config_version=config_version,
                 deploying_worker_count=deploying_worker_count,
                 description=description,
-                estimated_ingest=estimated_ingest,
+                estimated_ingest_rate=estimated_ingest_rate,
                 git=utils.get_pydantic_model(git, Optional[models.Git]),
                 id=id,
                 incompatible_worker_count=incompatible_worker_count,
@@ -395,7 +395,7 @@ class GroupsSDK(BaseSDK):
         config_version: Optional[str] = None,
         deploying_worker_count: Optional[float] = None,
         description: Optional[str] = None,
-        estimated_ingest: Optional[models.EstimatedIngest] = None,
+        estimated_ingest_rate: Optional[models.EstimatedIngestRate] = None,
         git: Optional[Union[models.Git, models.GitTypedDict]] = None,
         incompatible_worker_count: Optional[float] = None,
         inherits: Optional[str] = None,
@@ -432,7 +432,7 @@ class GroupsSDK(BaseSDK):
         :param config_version:
         :param deploying_worker_count:
         :param description:
-        :param estimated_ingest: Maximum expected volume of data ingested by the @{group}. (This setting is available only on @{group}s consisting of Cribl-managed Cribl.Cloud @{node}s.)
+        :param estimated_ingest_rate: Maximum expected volume of data ingested by the @{group}. (This setting is available only on @{group}s consisting of Cribl-managed Cribl.Cloud @{node}s.)
         :param git:
         :param incompatible_worker_count:
         :param inherits:
@@ -473,7 +473,7 @@ class GroupsSDK(BaseSDK):
                 config_version=config_version,
                 deploying_worker_count=deploying_worker_count,
                 description=description,
-                estimated_ingest=estimated_ingest,
+                estimated_ingest_rate=estimated_ingest_rate,
                 git=utils.get_pydantic_model(git, Optional[models.Git]),
                 id=id,
                 incompatible_worker_count=incompatible_worker_count,
@@ -757,7 +757,7 @@ class GroupsSDK(BaseSDK):
         config_version: Optional[str] = None,
         deploying_worker_count: Optional[float] = None,
         description: Optional[str] = None,
-        estimated_ingest: Optional[models.EstimatedIngest] = None,
+        estimated_ingest_rate: Optional[models.EstimatedIngestRate] = None,
         git: Optional[Union[models.Git, models.GitTypedDict]] = None,
         incompatible_worker_count: Optional[float] = None,
         inherits: Optional[str] = None,
@@ -795,7 +795,7 @@ class GroupsSDK(BaseSDK):
         :param config_version:
         :param deploying_worker_count:
         :param description:
-        :param estimated_ingest: Maximum expected volume of data ingested by the @{group}. (This setting is available only on @{group}s consisting of Cribl-managed Cribl.Cloud @{node}s.)
+        :param estimated_ingest_rate: Maximum expected volume of data ingested by the @{group}. (This setting is available only on @{group}s consisting of Cribl-managed Cribl.Cloud @{node}s.)
         :param git:
         :param incompatible_worker_count:
         :param inherits:
@@ -837,7 +837,7 @@ class GroupsSDK(BaseSDK):
                 config_version=config_version,
                 deploying_worker_count=deploying_worker_count,
                 description=description,
-                estimated_ingest=estimated_ingest,
+                estimated_ingest_rate=estimated_ingest_rate,
                 git=utils.get_pydantic_model(git, Optional[models.Git]),
                 id=id,
                 incompatible_worker_count=incompatible_worker_count,
@@ -931,7 +931,7 @@ class GroupsSDK(BaseSDK):
         config_version: Optional[str] = None,
         deploying_worker_count: Optional[float] = None,
         description: Optional[str] = None,
-        estimated_ingest: Optional[models.EstimatedIngest] = None,
+        estimated_ingest_rate: Optional[models.EstimatedIngestRate] = None,
         git: Optional[Union[models.Git, models.GitTypedDict]] = None,
         incompatible_worker_count: Optional[float] = None,
         inherits: Optional[str] = None,
@@ -969,7 +969,7 @@ class GroupsSDK(BaseSDK):
         :param config_version:
         :param deploying_worker_count:
         :param description:
-        :param estimated_ingest: Maximum expected volume of data ingested by the @{group}. (This setting is available only on @{group}s consisting of Cribl-managed Cribl.Cloud @{node}s.)
+        :param estimated_ingest_rate: Maximum expected volume of data ingested by the @{group}. (This setting is available only on @{group}s consisting of Cribl-managed Cribl.Cloud @{node}s.)
         :param git:
         :param incompatible_worker_count:
         :param inherits:
@@ -1011,7 +1011,7 @@ class GroupsSDK(BaseSDK):
                 config_version=config_version,
                 deploying_worker_count=deploying_worker_count,
                 description=description,
-                estimated_ingest=estimated_ingest,
+                estimated_ingest_rate=estimated_ingest_rate,
                 git=utils.get_pydantic_model(git, Optional[models.Git]),
                 id=id,
                 incompatible_worker_count=incompatible_worker_count,

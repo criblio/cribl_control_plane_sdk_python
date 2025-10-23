@@ -14,7 +14,7 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class EstimatedIngest(int, Enum, metaclass=utils.OpenEnumMeta):
+class EstimatedIngestRate(int, Enum, metaclass=utils.OpenEnumMeta):
     r"""Maximum expected volume of data ingested by the @{group}. (This setting is available only on @{group}s consisting of Cribl-managed Cribl.Cloud @{node}s.)"""
 
     # 12 MB/sec
@@ -63,7 +63,7 @@ class ConfigGroupTypedDict(TypedDict):
     config_version: NotRequired[str]
     deploying_worker_count: NotRequired[float]
     description: NotRequired[str]
-    estimated_ingest: NotRequired[EstimatedIngest]
+    estimated_ingest_rate: NotRequired[EstimatedIngestRate]
     r"""Maximum expected volume of data ingested by the @{group}. (This setting is available only on @{group}s consisting of Cribl-managed Cribl.Cloud @{node}s.)"""
     git: NotRequired[GitTypedDict]
     incompatible_worker_count: NotRequired[float]
@@ -98,8 +98,10 @@ class ConfigGroup(BaseModel):
 
     description: Optional[str] = None
 
-    estimated_ingest: Annotated[
-        Annotated[Optional[EstimatedIngest], PlainValidator(validate_open_enum(True))],
+    estimated_ingest_rate: Annotated[
+        Annotated[
+            Optional[EstimatedIngestRate], PlainValidator(validate_open_enum(True))
+        ],
         pydantic.Field(alias="estimatedIngestRate"),
     ] = None
     r"""Maximum expected volume of data ingested by the @{group}. (This setting is available only on @{group}s consisting of Cribl-managed Cribl.Cloud @{node}s.)"""

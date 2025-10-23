@@ -1,4 +1,4 @@
-# EstimatedIngest
+# EstimatedIngestRate
 
 Maximum expected volume of data ingested by the @{group}. (This setting is available only on @{group}s consisting of Cribl-managed Cribl.Cloud @{node}s.)
 

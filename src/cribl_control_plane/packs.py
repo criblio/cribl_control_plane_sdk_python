@@ -386,7 +386,7 @@ class Packs(BaseSDK):
         Upload a Pack file. Returns the <code>source</code> ID needed to install the Pack with <code>POST /packs source</code>, which you must call separately.
 
         :param filename: Filename of the Pack file to upload.
-        :param request_body: Binary file content
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -483,7 +483,7 @@ class Packs(BaseSDK):
         Upload a Pack file. Returns the <code>source</code> ID needed to install the Pack with <code>POST /packs source</code>, which you must call separately.
 
         :param filename: Filename of the Pack file to upload.
-        :param request_body: Binary file content
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds

@@ -5,7 +5,9 @@ from .appmode import AppMode
 from .hbleaderinfo import HBLeaderInfo, HBLeaderInfoTypedDict
 from .lookupversions import LookupVersions, LookupVersionsTypedDict
 from cribl_control_plane.types import BaseModel
+from cribl_control_plane.utils import validate_open_enum
 import pydantic
+from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -48,13 +50,17 @@ class HBCriblInfoTypedDict(TypedDict):
     lookup_versions: NotRequired[LookupVersionsTypedDict]
     master: NotRequired[HBLeaderInfoTypedDict]
     pid: NotRequired[float]
+    socks_enabled: NotRequired[bool]
     version: NotRequired[str]
 
 
 class HBCriblInfo(BaseModel):
     config: Config
 
-    dist_mode: Annotated[AppMode, pydantic.Field(alias="distMode")]
+    dist_mode: Annotated[
+        Annotated[AppMode, PlainValidator(validate_open_enum(False))],
+        pydantic.Field(alias="distMode"),
+    ]
 
     group: str
 
@@ -81,5 +87,9 @@ class HBCriblInfo(BaseModel):
     master: Optional[HBLeaderInfo] = None
 
     pid: Optional[float] = None
+
+    socks_enabled: Annotated[Optional[bool], pydantic.Field(alias="socksEnabled")] = (
+        None
+    )
 
     version: Optional[str] = None

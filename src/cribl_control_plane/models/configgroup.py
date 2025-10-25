@@ -14,6 +14,29 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
+class EstimatedIngestRate(int, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Maximum expected volume of data ingested by the @{group}. (This setting is available only on @{group}s consisting of Cribl-managed Cribl.Cloud @{node}s.)"""
+
+    # 12 MB/sec
+    RATE12_MB_PER_SEC = 1024
+    # 24 MB/sec
+    RATE24_MB_PER_SEC = 2048
+    # 36 MB/sec
+    RATE36_MB_PER_SEC = 3072
+    # 48 MB/sec
+    RATE48_MB_PER_SEC = 4096
+    # 60 MB/sec
+    RATE60_MB_PER_SEC = 5120
+    # 84 MB/sec
+    RATE84_MB_PER_SEC = 7168
+    # 120 MB/sec
+    RATE120_MB_PER_SEC = 10240
+    # 156 MB/sec
+    RATE156_MB_PER_SEC = 13312
+    # 180 MB/sec
+    RATE180_MB_PER_SEC = 15360
+
+
 class GitTypedDict(TypedDict):
     commit: NotRequired[str]
     local_changes: NotRequired[float]
@@ -40,7 +63,8 @@ class ConfigGroupTypedDict(TypedDict):
     config_version: NotRequired[str]
     deploying_worker_count: NotRequired[float]
     description: NotRequired[str]
-    estimated_ingest_rate: NotRequired[float]
+    estimated_ingest_rate: NotRequired[EstimatedIngestRate]
+    r"""Maximum expected volume of data ingested by the @{group}. (This setting is available only on @{group}s consisting of Cribl-managed Cribl.Cloud @{node}s.)"""
     git: NotRequired[GitTypedDict]
     incompatible_worker_count: NotRequired[float]
     inherits: NotRequired[str]
@@ -75,8 +99,12 @@ class ConfigGroup(BaseModel):
     description: Optional[str] = None
 
     estimated_ingest_rate: Annotated[
-        Optional[float], pydantic.Field(alias="estimatedIngestRate")
+        Annotated[
+            Optional[EstimatedIngestRate], PlainValidator(validate_open_enum(True))
+        ],
+        pydantic.Field(alias="estimatedIngestRate"),
     ] = None
+    r"""Maximum expected volume of data ingested by the @{group}. (This setting is available only on @{group}s consisting of Cribl-managed Cribl.Cloud @{node}s.)"""
 
     git: Optional[Git] = None
 

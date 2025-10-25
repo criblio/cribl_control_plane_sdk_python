@@ -25,46 +25,67 @@ class OutputCriblLakeSignatureVersion(str, Enum, metaclass=utils.OpenEnumMeta):
 class OutputCriblLakeObjectACL(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Object ACL to assign to uploaded objects"""
 
+    # Private
     PRIVATE = "private"
+    # Public Read Only
     PUBLIC_READ = "public-read"
+    # Public Read/Write
     PUBLIC_READ_WRITE = "public-read-write"
+    # Authenticated Read Only
     AUTHENTICATED_READ = "authenticated-read"
+    # AWS EC2 AMI Read Only
     AWS_EXEC_READ = "aws-exec-read"
+    # Bucket Owner Read Only
     BUCKET_OWNER_READ = "bucket-owner-read"
+    # Bucket Owner Full Control
     BUCKET_OWNER_FULL_CONTROL = "bucket-owner-full-control"
 
 
 class OutputCriblLakeStorageClass(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Storage class to select for uploaded objects"""
 
+    # Standard
     STANDARD = "STANDARD"
+    # Reduced Redundancy Storage
     REDUCED_REDUNDANCY = "REDUCED_REDUNDANCY"
+    # Standard, Infrequent Access
     STANDARD_IA = "STANDARD_IA"
+    # One Zone, Infrequent Access
     ONEZONE_IA = "ONEZONE_IA"
+    # Intelligent Tiering
     INTELLIGENT_TIERING = "INTELLIGENT_TIERING"
+    # Glacier Flexible Retrieval
     GLACIER = "GLACIER"
+    # Glacier Instant Retrieval
     GLACIER_IR = "GLACIER_IR"
+    # Glacier Deep Archive
     DEEP_ARCHIVE = "DEEP_ARCHIVE"
 
 
 class OutputCriblLakeServerSideEncryptionForUploadedObjects(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    # Amazon S3 Managed Key
     AES256 = "AES256"
+    # AWS KMS Managed Key
     AWS_KMS = "aws:kms"
 
 
 class OutputCriblLakeBackpressureBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when all receivers are exerting backpressure"""
 
+    # Block
     BLOCK = "block"
+    # Drop
     DROP = "drop"
 
 
 class OutputCriblLakeDiskSpaceProtection(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
 
+    # Block
     BLOCK = "block"
+    # Drop
     DROP = "drop"
 
 

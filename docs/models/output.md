@@ -393,3 +393,9 @@ value: models.OutputSentinelOneAiSiem = /* values here */
 value: models.OutputChronicle = /* values here */
 ```
 
+### `models.OutputDatabricks`
+
+```python
+value: models.OutputDatabricks = /* values here */
+```
+

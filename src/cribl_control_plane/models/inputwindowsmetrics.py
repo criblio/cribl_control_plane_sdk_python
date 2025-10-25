@@ -29,14 +29,18 @@ class InputWindowsMetricsConnection(BaseModel):
 class InputWindowsMetricsPqMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
+    # Smart
     SMART = "smart"
+    # Always On
     ALWAYS = "always"
 
 
 class InputWindowsMetricsCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
+    # None
     NONE = "none"
+    # Gzip
     GZIP = "gzip"
 
 
@@ -107,18 +111,26 @@ class InputWindowsMetricsPq(BaseModel):
 class InputWindowsMetricsHostMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select level of detail for host metrics"""
 
+    # Basic
     BASIC = "basic"
+    # All
     ALL = "all"
+    # Custom
     CUSTOM = "custom"
+    # Disabled
     DISABLED = "disabled"
 
 
 class InputWindowsMetricsSystemMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of details for system metrics"""
 
+    # Basic
     BASIC = "basic"
+    # All
     ALL = "all"
+    # Custom
     CUSTOM = "custom"
+    # Disabled
     DISABLED = "disabled"
 
 
@@ -143,9 +155,13 @@ class InputWindowsMetricsSystem(BaseModel):
 class InputWindowsMetricsCPUMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of details for CPU metrics"""
 
+    # Basic
     BASIC = "basic"
+    # All
     ALL = "all"
+    # Custom
     CUSTOM = "custom"
+    # Disabled
     DISABLED = "disabled"
 
 
@@ -179,9 +195,13 @@ class InputWindowsMetricsCPU(BaseModel):
 class InputWindowsMetricsMemoryMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of details for memory metrics"""
 
+    # Basic
     BASIC = "basic"
+    # All
     ALL = "all"
+    # Custom
     CUSTOM = "custom"
+    # Disabled
     DISABLED = "disabled"
 
 
@@ -206,9 +226,13 @@ class InputWindowsMetricsMemory(BaseModel):
 class InputWindowsMetricsNetworkMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of details for network metrics"""
 
+    # Basic
     BASIC = "basic"
+    # All
     ALL = "all"
+    # Custom
     CUSTOM = "custom"
+    # Disabled
     DISABLED = "disabled"
 
 
@@ -245,9 +269,13 @@ class InputWindowsMetricsNetwork(BaseModel):
 class InputWindowsMetricsDiskMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of details for disk metrics"""
 
+    # Basic
     BASIC = "basic"
+    # All
     ALL = "all"
+    # Custom
     CUSTOM = "custom"
+    # Disabled
     DISABLED = "disabled"
 
 

@@ -25,34 +25,48 @@ class OutputExabeamSignatureVersion(str, Enum, metaclass=utils.OpenEnumMeta):
 class OutputExabeamObjectACL(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Object ACL to assign to uploaded objects"""
 
+    # private
     PRIVATE = "private"
+    # bucket-owner-read
     BUCKET_OWNER_READ = "bucket-owner-read"
+    # bucket-owner-full-control
     BUCKET_OWNER_FULL_CONTROL = "bucket-owner-full-control"
+    # project-private
     PROJECT_PRIVATE = "project-private"
+    # authenticated-read
     AUTHENTICATED_READ = "authenticated-read"
+    # public-read
     PUBLIC_READ = "public-read"
 
 
 class OutputExabeamStorageClass(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Storage class to select for uploaded objects"""
 
+    # Standard Storage
     STANDARD = "STANDARD"
+    # Nearline Storage
     NEARLINE = "NEARLINE"
+    # Coldline Storage
     COLDLINE = "COLDLINE"
+    # Archive Storage
     ARCHIVE = "ARCHIVE"
 
 
 class OutputExabeamBackpressureBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when all receivers are exerting backpressure"""
 
+    # Block
     BLOCK = "block"
+    # Drop
     DROP = "drop"
 
 
 class OutputExabeamDiskSpaceProtection(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
 
+    # Block
     BLOCK = "block"
+    # Drop
     DROP = "drop"
 
 

@@ -18,20 +18,25 @@ class OutputDynatraceOtlpType(str, Enum):
 class OutputDynatraceOtlpProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select a transport option for Dynatrace"""
 
+    # HTTP
     HTTP = "http"
 
 
 class OutputDynatraceOTLPOTLPVersion(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
 
+    # 1.3.1
     ONE_DOT_3_DOT_1 = "1.3.1"
 
 
 class OutputDynatraceOtlpCompressCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
 
+    # None
     NONE = "none"
+    # Deflate
     DEFLATE = "deflate"
+    # Gzip
     GZIP = "gzip"
 
 
@@ -40,7 +45,9 @@ class OutputDynatraceOtlpHTTPCompressCompression(
 ):
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
 
+    # None
     NONE = "none"
+    # Gzip
     GZIP = "gzip"
 
 
@@ -60,23 +67,31 @@ class OutputDynatraceOtlpFailedRequestLoggingMode(
 ):
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
+    # Payload
     PAYLOAD = "payload"
+    # Payload + Headers
     PAYLOAD_AND_HEADERS = "payloadAndHeaders"
+    # None
     NONE = "none"
 
 
 class EndpointType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the type of Dynatrace endpoint configured"""
 
+    # SaaS
     SAAS = "saas"
+    # ActiveGate
     AG = "ag"
 
 
 class OutputDynatraceOtlpBackpressureBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when all receivers are exerting backpressure"""
 
+    # Block
     BLOCK = "block"
+    # Drop
     DROP = "drop"
+    # Persistent Queue
     QUEUE = "queue"
 
 
@@ -148,22 +163,29 @@ class OutputDynatraceOtlpTimeoutRetrySettings(BaseModel):
 class OutputDynatraceOtlpPqCompressCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
+    # None
     NONE = "none"
+    # Gzip
     GZIP = "gzip"
 
 
 class OutputDynatraceOtlpQueueFullBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
+    # Block
     BLOCK = "block"
+    # Drop new data
     DROP = "drop"
 
 
 class OutputDynatraceOtlpMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
+    # Error
     ERROR = "error"
+    # Backpressure
     BACKPRESSURE = "backpressure"
+    # Always On
     ALWAYS = "always"
 
 

@@ -3,9 +3,10 @@
 from __future__ import annotations
 from .hbcriblinfo import HBCriblInfo, HBCriblInfoTypedDict
 from .heartbeatmetadata import HeartbeatMetadata, HeartbeatMetadataTypedDict
+from .outpostnodeinfo import OutpostNodeInfo, OutpostNodeInfoTypedDict
 from cribl_control_plane.types import BaseModel
 import pydantic
-from typing import List, Optional, Union
+from typing import Dict, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
@@ -19,6 +20,7 @@ class NodeProvidedInfoTags(BaseModel):
 
 class NodeProvidedInfoAwsTypedDict(TypedDict):
     enabled: bool
+    instance_id: str
     region: str
     type: str
     zone: str
@@ -27,6 +29,8 @@ class NodeProvidedInfoAwsTypedDict(TypedDict):
 
 class NodeProvidedInfoAws(BaseModel):
     enabled: bool
+
+    instance_id: Annotated[str, pydantic.Field(alias="instanceId")]
 
     region: str
 
@@ -125,6 +129,7 @@ class NodeProvidedInfoTypedDict(TypedDict):
     architecture: str
     cpus: float
     cribl: HBCriblInfoTypedDict
+    env: Dict[str, str]
     free_disk_space: float
     hostname: str
     node: str
@@ -140,6 +145,7 @@ class NodeProvidedInfoTypedDict(TypedDict):
     local_time: NotRequired[float]
     metadata: NotRequired[HeartbeatMetadataTypedDict]
     os: NotRequired[OsTypedDict]
+    outpost: NotRequired[OutpostNodeInfoTypedDict]
 
 
 class NodeProvidedInfo(BaseModel):
@@ -148,6 +154,8 @@ class NodeProvidedInfo(BaseModel):
     cpus: float
 
     cribl: HBCriblInfo
+
+    env: Dict[str, str]
 
     free_disk_space: Annotated[float, pydantic.Field(alias="freeDiskSpace")]
 
@@ -182,3 +190,5 @@ class NodeProvidedInfo(BaseModel):
     metadata: Optional[HeartbeatMetadata] = None
 
     os: Optional[Os] = None
+
+    outpost: Optional[OutpostNodeInfo] = None

@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.15.0-alpha.1761174335818-8b3b1a8b
+  version: 4.15.0-alpha.1761347346026-24da0953
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -39539,13 +39539,12 @@ components:
       type: object
       required:
         - type
-        - unityAuthMethod
-        - loginUrl
+        - workspaceId
         - scope
-        - tokenTimeoutSecs
         - clientId
-        - defaultCatalog
-        - defaultSchema
+        - clientSecret
+        - catalog
+        - schema
         - eventsVolumeName
       properties:
         id:
@@ -39697,42 +39696,27 @@ components:
             - Drop
           x-speakeasy-unknown-values: allow
           default: block
-        unityAuthMethod:
+        workspaceId:
           type: string
-          title: Authentication method
-          description: Unity Catalog authentication method. Choose Manual to enter credentials directly, or Secret to use a stored secret.
-          default: manual
-          enum:
-            - manual
-            - secret
-          x-speakeasy-enum-descriptions:
-            - Manual
-            - Secret Key pair
-          x-speakeasy-unknown-values: allow
-        loginUrl:
-          type: string
-          title: OAuth Login URL
-          description: "URL for Unity Catalog OAuth token endpoint (example: 'https://your-workspace.cloud.databricks.com/oauth/token')"
+          title: Workspace ID
+          description: Databricks workspace ID
         scope:
           type: string
           title: OAuth scope
           description: OAuth scope for Unity Catalog authentication
           default: all-apis
-        tokenTimeoutSecs:
-          type: number
-          title: Token timeout (seconds)
-          description: How often the OAuth token should be refreshed
-          minimum: 1
-          maximum: 300000
-          default: 3600
-        defaultCatalog:
+        clientId:
           type: string
-          title: Default catalog
+          title: Client ID
+          description: OAuth client ID for Unity Catalog authentication
+        catalog:
+          type: string
+          title: Catalog
           description: Name of the catalog to use for the output
           default: main
-        defaultSchema:
+        schema:
           type: string
-          title: Default schema
+          title: Schema
           description: Name of the catalog schema to use for the output
           default: external
         eventsVolumeName:
@@ -39740,26 +39724,134 @@ components:
           title: Events volume name
           description: Name of the events volume in Databricks
           default: events
-        clientId:
+        clientSecret:
           type: string
-          title: Client ID
-          description: JavaScript expression to compute the OAuth client ID for Unity Catalog authentication. Can be a constant.
-        overWriteFiles:
-          type: boolean
-          title: Overwrite files
-          description: Uploaded files should be overwritten if they already exist. If disabled, upload will fail if a file already exists.
-          default: false
+          title: Client Secret
+          description: OAuth client secret for Unity Catalog authentication
         description:
           type: string
           title: Description
-        clientSecret:
+        compress:
           type: string
-          title: Client secret
-          description: JavaScript expression to compute the OAuth client secret for Unity Catalog authentication. Can be a constant.
-        clientTextSecret:
+          title: Compression
+          description: Data compression format to apply to HTTP content before it is delivered
+          enum:
+            - none
+            - gzip
+          default: gzip
+          x-speakeasy-unknown-values: allow
+        compressionLevel:
           type: string
-          title: Client secret (text secret)
-          description: Select or create a stored text secret
+          title: Compression level
+          description: Compression level to apply before moving files to final destination
+          enum:
+            - best_speed
+            - normal
+            - best_compression
+          x-speakeasy-enum-descriptions:
+            - Best Speed
+            - Normal
+            - Best Compression
+          x-speakeasy-unknown-values: allow
+          default: best_speed
+        automaticSchema:
+          type: boolean
+          title: Automatic schema
+          default: false
+          description: Automatically calculate the schema based on the events of each Parquet file generated
+        parquetVersion:
+          type: string
+          title: Parquet version
+          enum:
+            - PARQUET_1_0
+            - PARQUET_2_4
+            - PARQUET_2_6
+          x-speakeasy-enum-descriptions:
+            - "1.0"
+            - "2.4"
+            - "2.6"
+          x-speakeasy-unknown-values: allow
+          default: PARQUET_2_6
+          description: Determines which data types are supported and how they are represented
+        parquetDataPageVersion:
+          type: string
+          title: Data page version
+          enum:
+            - DATA_PAGE_V1
+            - DATA_PAGE_V2
+          x-speakeasy-enum-descriptions:
+            - V1
+            - V2
+          x-speakeasy-unknown-values: allow
+          default: DATA_PAGE_V2
+          description: Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it.
+        parquetRowGroupLength:
+          type: number
+          title: Group row limit
+          description: The number of rows that every group will contain. The final group can contain a smaller number of rows.
+          default: 10000
+          minimum: 1
+          maximum: 67108864
+        parquetPageSize:
+          type: string
+          title: Page size
+          description: Target memory size for page segments, such as 1MB or 128MB. Generally, lower values improve reading speed, while higher values improve compression.
+          pattern: ^\d+\s*(?:[kK][bB]|[mM][bB]|[gG][bB]|[tT][bB])?$
+          default: 1MB
+        shouldLogInvalidRows:
+          type: boolean
+          title: Log invalid rows
+          description: Log up to 3 rows that @{product} skips due to data mismatch
+        keyValueMetadata:
+          type: array
+          title: Metadata (optional)
+          description: 'The metadata of files the Destination writes will include the properties you add here as key-value pairs. Useful for tagging. Examples: "key":"OCSF Event Class", "value":"9001"'
+          items:
+            type: object
+            required:
+              - key
+              - value
+            properties:
+              key:
+                type: string
+                title: Key
+                default: ""
+              value:
+                type: string
+                title: Value
+        enableStatistics:
+          type: boolean
+          title: Write statistics
+          default: true
+          description: Statistics profile an entire file in terms of minimum/maximum values within data, numbers of nulls, etc. You can use Parquet tools to view statistics.
+        enableWritePageIndex:
+          type: boolean
+          title: Write page indexes
+          default: true
+          description: One page index contains statistics for one data page. Parquet readers use statistics to enable page skipping.
+        enablePageChecksum:
+          type: boolean
+          title: Write page checksum
+          default: false
+          description: Parquet tools can use the checksum of a Parquet page to verify data integrity
+        emptyDirCleanupSec:
+          type: number
+          title: Staging cleanup period
+          description: How frequently, in seconds, to clean up empty directories
+          default: 300
+          minimum: 10
+          maximum: 86400
+        deadletterPath:
+          type: string
+          title: Dead-letter location
+          description: Storage location for files that fail to reach their final destination after maximum retries are exceeded
+          default: $CRIBL_HOME/state/outputs/dead-letter
+        maxRetryNum:
+          type: number
+          title: Retry limit
+          description: The maximum number of times a file will attempt to move to its final destination before being dead-lettered
+          default: 20
+          minimum: 1
     Output:
       oneOf:
         - $ref: "#/components/schemas/OutputDefault"
@@ -41814,6 +41906,16 @@ components:
             - enabled
             - id
             - version
+    OutpostNodeInfo:
+      type: object
+      properties:
+        guid:
+          type: string
+        host:
+          type: string
+      required:
+        - guid
+        - host
     NodeProvidedInfo:
       type: object
       properties:
@@ -41936,6 +42038,8 @@ components:
                     type: string
               required:
                 - addresses
+        outpost:
+          $ref: "#/components/schemas/OutpostNodeInfo"
         platform:
           type: string
         release:

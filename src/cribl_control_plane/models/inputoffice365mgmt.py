@@ -29,14 +29,18 @@ class InputOffice365MgmtConnection(BaseModel):
 class InputOffice365MgmtMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
+    # Smart
     SMART = "smart"
+    # Always On
     ALWAYS = "always"
 
 
 class InputOffice365MgmtCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
+    # None
     NONE = "none"
+    # Gzip
     GZIP = "gzip"
 
 
@@ -107,9 +111,13 @@ class InputOffice365MgmtPq(BaseModel):
 class InputOffice365MgmtSubscriptionPlan(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
 
+    # Office 365 Enterprise
     ENTERPRISE_GCC = "enterprise_gcc"
+    # Office 365 GCC
     GCC = "gcc"
+    # Office 365 GCC High
     GCC_HIGH = "gcc_high"
+    # Office 365 DoD
     DOD = "dod"
 
 
@@ -170,8 +178,11 @@ class InputOffice365MgmtContentConfig(BaseModel):
 class InputOffice365MgmtRetryType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The algorithm to use when performing HTTP retries"""
 
+    # Disabled
     NONE = "none"
+    # Backoff
     BACKOFF = "backoff"
+    # Static
     STATIC = "static"
 
 

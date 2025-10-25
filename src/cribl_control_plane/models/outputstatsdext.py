@@ -18,37 +18,49 @@ class OutputStatsdExtType(str, Enum):
 class OutputStatsdExtDestinationProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Protocol to use when communicating with the destination."""
 
+    # UDP
     UDP = "udp"
+    # TCP
     TCP = "tcp"
 
 
 class OutputStatsdExtBackpressureBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when all receivers are exerting backpressure"""
 
+    # Block
     BLOCK = "block"
+    # Drop
     DROP = "drop"
+    # Persistent Queue
     QUEUE = "queue"
 
 
 class OutputStatsdExtCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
+    # None
     NONE = "none"
+    # Gzip
     GZIP = "gzip"
 
 
 class OutputStatsdExtQueueFullBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
+    # Block
     BLOCK = "block"
+    # Drop new data
     DROP = "drop"
 
 
 class OutputStatsdExtMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
+    # Error
     ERROR = "error"
+    # Backpressure
     BACKPRESSURE = "backpressure"
+    # Always On
     ALWAYS = "always"
 
 

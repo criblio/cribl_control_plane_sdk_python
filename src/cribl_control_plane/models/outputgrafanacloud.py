@@ -18,7 +18,9 @@ class OutputGrafanaCloudType2(str, Enum):
 class OutputGrafanaCloudMessageFormat2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Format to use when sending logs to Loki (Protobuf or JSON)"""
 
+    # Protobuf
     PROTOBUF = "protobuf"
+    # JSON
     JSON = "json"
 
 
@@ -36,10 +38,15 @@ class OutputGrafanaCloudLabel2(BaseModel):
 class OutputGrafanaCloudPrometheusAuthAuthenticationType2(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    # None
     NONE = "none"
+    # Auth token
     TOKEN = "token"
+    # Auth token (text secret)
     TEXT_SECRET = "textSecret"
+    # Basic
     BASIC = "basic"
+    # Basic (credentials secret)
     CREDENTIALS_SECRET = "credentialsSecret"
 
 
@@ -87,10 +94,15 @@ class OutputGrafanaCloudPrometheusAuth2(BaseModel):
 class OutputGrafanaCloudLokiAuthAuthenticationType2(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    # None
     NONE = "none"
+    # Auth token
     TOKEN = "token"
+    # Auth token (text secret)
     TEXT_SECRET = "textSecret"
+    # Basic
     BASIC = "basic"
+    # Basic (credentials secret)
     CREDENTIALS_SECRET = "credentialsSecret"
 
 
@@ -151,8 +163,11 @@ class OutputGrafanaCloudFailedRequestLoggingMode2(
 ):
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
+    # Payload
     PAYLOAD = "payload"
+    # Payload + Headers
     PAYLOAD_AND_HEADERS = "payloadAndHeaders"
+    # None
     NONE = "none"
 
 
@@ -213,30 +228,40 @@ class OutputGrafanaCloudTimeoutRetrySettings2(BaseModel):
 class OutputGrafanaCloudBackpressureBehavior2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when all receivers are exerting backpressure"""
 
+    # Block
     BLOCK = "block"
+    # Drop
     DROP = "drop"
+    # Persistent Queue
     QUEUE = "queue"
 
 
 class OutputGrafanaCloudCompression2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
+    # None
     NONE = "none"
+    # Gzip
     GZIP = "gzip"
 
 
 class OutputGrafanaCloudQueueFullBehavior2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
+    # Block
     BLOCK = "block"
+    # Drop new data
     DROP = "drop"
 
 
 class OutputGrafanaCloudMode2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
+    # Error
     ERROR = "error"
+    # Backpressure
     BACKPRESSURE = "backpressure"
+    # Always On
     ALWAYS = "always"
 
 
@@ -518,7 +543,9 @@ class OutputGrafanaCloudType1(str, Enum):
 class OutputGrafanaCloudMessageFormat1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Format to use when sending logs to Loki (Protobuf or JSON)"""
 
+    # Protobuf
     PROTOBUF = "protobuf"
+    # JSON
     JSON = "json"
 
 
@@ -536,10 +563,15 @@ class OutputGrafanaCloudLabel1(BaseModel):
 class OutputGrafanaCloudPrometheusAuthAuthenticationType1(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    # None
     NONE = "none"
+    # Auth token
     TOKEN = "token"
+    # Auth token (text secret)
     TEXT_SECRET = "textSecret"
+    # Basic
     BASIC = "basic"
+    # Basic (credentials secret)
     CREDENTIALS_SECRET = "credentialsSecret"
 
 
@@ -587,10 +619,15 @@ class OutputGrafanaCloudPrometheusAuth1(BaseModel):
 class OutputGrafanaCloudLokiAuthAuthenticationType1(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    # None
     NONE = "none"
+    # Auth token
     TOKEN = "token"
+    # Auth token (text secret)
     TEXT_SECRET = "textSecret"
+    # Basic
     BASIC = "basic"
+    # Basic (credentials secret)
     CREDENTIALS_SECRET = "credentialsSecret"
 
 
@@ -651,8 +688,11 @@ class OutputGrafanaCloudFailedRequestLoggingMode1(
 ):
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
+    # Payload
     PAYLOAD = "payload"
+    # Payload + Headers
     PAYLOAD_AND_HEADERS = "payloadAndHeaders"
+    # None
     NONE = "none"
 
 
@@ -713,30 +753,40 @@ class OutputGrafanaCloudTimeoutRetrySettings1(BaseModel):
 class OutputGrafanaCloudBackpressureBehavior1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when all receivers are exerting backpressure"""
 
+    # Block
     BLOCK = "block"
+    # Drop
     DROP = "drop"
+    # Persistent Queue
     QUEUE = "queue"
 
 
 class OutputGrafanaCloudCompression1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
+    # None
     NONE = "none"
+    # Gzip
     GZIP = "gzip"
 
 
 class OutputGrafanaCloudQueueFullBehavior1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
+    # Block
     BLOCK = "block"
+    # Drop new data
     DROP = "drop"
 
 
 class OutputGrafanaCloudMode1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
+    # Error
     ERROR = "error"
+    # Backpressure
     BACKPRESSURE = "backpressure"
+    # Always On
     ALWAYS = "always"
 
 

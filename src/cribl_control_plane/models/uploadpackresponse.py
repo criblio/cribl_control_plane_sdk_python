@@ -5,9 +5,9 @@ from cribl_control_plane.types import BaseModel
 from typing_extensions import TypedDict
 
 
-class RouteCloneConfTypedDict(TypedDict):
-    pass
+class UploadPackResponseTypedDict(TypedDict):
+    source: str
 
 
-class RouteCloneConf(BaseModel):
-    pass
+class UploadPackResponse(BaseModel):
+    source: str

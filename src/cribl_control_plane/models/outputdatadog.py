@@ -18,32 +18,49 @@ class OutputDatadogType(str, Enum):
 class SendLogsAs(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The content type to use when sending logs"""
 
+    # text/plain
     TEXT = "text"
+    # application/json
     JSON = "json"
 
 
 class OutputDatadogSeverity(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Default value for message severity. When you send logs as JSON objects, the event's '__severity' field (if set) will override this value."""
 
+    # emergency
     EMERGENCY = "emergency"
+    # alert
     ALERT = "alert"
+    # critical
     CRITICAL = "critical"
+    # error
     ERROR = "error"
+    # warning
     WARNING = "warning"
+    # notice
     NOTICE = "notice"
+    # info
     INFO = "info"
+    # debug
     DEBUG = "debug"
 
 
 class DatadogSite(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Datadog site to which events should be sent"""
 
+    # US
     US = "us"
+    # US3
     US3 = "us3"
+    # US5
     US5 = "us5"
+    # Europe
     EU = "eu"
+    # US1-FED
     FED1 = "fed1"
+    # AP1
     AP1 = "ap1"
+    # Custom
     CUSTOM = "custom"
 
 
@@ -61,8 +78,11 @@ class OutputDatadogExtraHTTPHeader(BaseModel):
 class OutputDatadogFailedRequestLoggingMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
+    # Payload
     PAYLOAD = "payload"
+    # Payload + Headers
     PAYLOAD_AND_HEADERS = "payloadAndHeaders"
+    # None
     NONE = "none"
 
 
@@ -123,8 +143,11 @@ class OutputDatadogTimeoutRetrySettings(BaseModel):
 class OutputDatadogBackpressureBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when all receivers are exerting backpressure"""
 
+    # Block
     BLOCK = "block"
+    # Drop
     DROP = "drop"
+    # Persistent Queue
     QUEUE = "queue"
 
 
@@ -138,22 +161,29 @@ class OutputDatadogAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta)
 class OutputDatadogCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
+    # None
     NONE = "none"
+    # Gzip
     GZIP = "gzip"
 
 
 class OutputDatadogQueueFullBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
+    # Block
     BLOCK = "block"
+    # Drop new data
     DROP = "drop"
 
 
 class OutputDatadogMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
+    # Error
     ERROR = "error"
+    # Backpressure
     BACKPRESSURE = "backpressure"
+    # Always On
     ALWAYS = "always"
 
 

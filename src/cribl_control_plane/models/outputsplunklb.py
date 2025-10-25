@@ -18,7 +18,9 @@ class OutputSplunkLbType(str, Enum):
 class OutputSplunkLbNestedFieldSerialization(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to serialize nested fields into index-time fields"""
 
+    # JSON
     JSON = "json"
+    # None
     NONE = "none"
 
 
@@ -115,8 +117,11 @@ class OutputSplunkLbMaxS2SVersion(str, Enum, metaclass=utils.OpenEnumMeta):
 class OutputSplunkLbBackpressureBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when all receivers are exerting backpressure"""
 
+    # Block
     BLOCK = "block"
+    # Drop
     DROP = "drop"
+    # Persistent Queue
     QUEUE = "queue"
 
 
@@ -130,8 +135,11 @@ class OutputSplunkLbAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta
 class OutputSplunkLbCompressCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Controls whether the sender should send compressed data to the server. Select 'Disabled' to reject compressed connections or 'Always' to ignore server's configuration and send compressed data."""
 
+    # Disabled
     DISABLED = "disabled"
+    # Automatic
     AUTO = "auto"
+    # Always
     ALWAYS = "always"
 
 
@@ -272,22 +280,29 @@ class OutputSplunkLbHost(BaseModel):
 class OutputSplunkLbPqCompressCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
+    # None
     NONE = "none"
+    # Gzip
     GZIP = "gzip"
 
 
 class OutputSplunkLbQueueFullBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
+    # Block
     BLOCK = "block"
+    # Drop new data
     DROP = "drop"
 
 
 class OutputSplunkLbMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
+    # Error
     ERROR = "error"
+    # Backpressure
     BACKPRESSURE = "backpressure"
+    # Always On
     ALWAYS = "always"
 
 

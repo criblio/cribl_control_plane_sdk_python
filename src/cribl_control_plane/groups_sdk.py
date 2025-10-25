@@ -6,6 +6,7 @@ from cribl_control_plane import errors, models, utils
 from cribl_control_plane._hooks import HookContext
 from cribl_control_plane.acl import ACL
 from cribl_control_plane.groups_configs import GroupsConfigs
+from cribl_control_plane.mappings import Mappings
 from cribl_control_plane.types import OptionalNullable, UNSET
 from cribl_control_plane.utils import get_security_from_env
 from cribl_control_plane.utils.unmarshal_json_response import unmarshal_json_response
@@ -15,6 +16,7 @@ from typing import Any, List, Mapping, Optional, Union
 class GroupsSDK(BaseSDK):
     r"""Actions related to Groups"""
 
+    mappings: Mappings
     configs: GroupsConfigs
     acl: ACL
 
@@ -26,6 +28,7 @@ class GroupsSDK(BaseSDK):
         self._init_sdks()
 
     def _init_sdks(self):
+        self.mappings = Mappings(self.sdk_configuration, parent_ref=self.parent_ref)
         self.configs = GroupsConfigs(self.sdk_configuration, parent_ref=self.parent_ref)
         self.acl = ACL(self.sdk_configuration, parent_ref=self.parent_ref)
 
@@ -224,7 +227,7 @@ class GroupsSDK(BaseSDK):
         config_version: Optional[str] = None,
         deploying_worker_count: Optional[float] = None,
         description: Optional[str] = None,
-        estimated_ingest_rate: Optional[float] = None,
+        estimated_ingest_rate: Optional[models.EstimatedIngestRate] = None,
         git: Optional[Union[models.Git, models.GitTypedDict]] = None,
         incompatible_worker_count: Optional[float] = None,
         inherits: Optional[str] = None,
@@ -261,7 +264,7 @@ class GroupsSDK(BaseSDK):
         :param config_version:
         :param deploying_worker_count:
         :param description:
-        :param estimated_ingest_rate:
+        :param estimated_ingest_rate: Maximum expected volume of data ingested by the @{group}. (This setting is available only on @{group}s consisting of Cribl-managed Cribl.Cloud @{node}s.)
         :param git:
         :param incompatible_worker_count:
         :param inherits:
@@ -395,7 +398,7 @@ class GroupsSDK(BaseSDK):
         config_version: Optional[str] = None,
         deploying_worker_count: Optional[float] = None,
         description: Optional[str] = None,
-        estimated_ingest_rate: Optional[float] = None,
+        estimated_ingest_rate: Optional[models.EstimatedIngestRate] = None,
         git: Optional[Union[models.Git, models.GitTypedDict]] = None,
         incompatible_worker_count: Optional[float] = None,
         inherits: Optional[str] = None,
@@ -432,7 +435,7 @@ class GroupsSDK(BaseSDK):
         :param config_version:
         :param deploying_worker_count:
         :param description:
-        :param estimated_ingest_rate:
+        :param estimated_ingest_rate: Maximum expected volume of data ingested by the @{group}. (This setting is available only on @{group}s consisting of Cribl-managed Cribl.Cloud @{node}s.)
         :param git:
         :param incompatible_worker_count:
         :param inherits:
@@ -757,7 +760,7 @@ class GroupsSDK(BaseSDK):
         config_version: Optional[str] = None,
         deploying_worker_count: Optional[float] = None,
         description: Optional[str] = None,
-        estimated_ingest_rate: Optional[float] = None,
+        estimated_ingest_rate: Optional[models.EstimatedIngestRate] = None,
         git: Optional[Union[models.Git, models.GitTypedDict]] = None,
         incompatible_worker_count: Optional[float] = None,
         inherits: Optional[str] = None,
@@ -795,7 +798,7 @@ class GroupsSDK(BaseSDK):
         :param config_version:
         :param deploying_worker_count:
         :param description:
-        :param estimated_ingest_rate:
+        :param estimated_ingest_rate: Maximum expected volume of data ingested by the @{group}. (This setting is available only on @{group}s consisting of Cribl-managed Cribl.Cloud @{node}s.)
         :param git:
         :param incompatible_worker_count:
         :param inherits:
@@ -931,7 +934,7 @@ class GroupsSDK(BaseSDK):
         config_version: Optional[str] = None,
         deploying_worker_count: Optional[float] = None,
         description: Optional[str] = None,
-        estimated_ingest_rate: Optional[float] = None,
+        estimated_ingest_rate: Optional[models.EstimatedIngestRate] = None,
         git: Optional[Union[models.Git, models.GitTypedDict]] = None,
         incompatible_worker_count: Optional[float] = None,
         inherits: Optional[str] = None,
@@ -969,7 +972,7 @@ class GroupsSDK(BaseSDK):
         :param config_version:
         :param deploying_worker_count:
         :param description:
-        :param estimated_ingest_rate:
+        :param estimated_ingest_rate: Maximum expected volume of data ingested by the @{group}. (This setting is available only on @{group}s consisting of Cribl-managed Cribl.Cloud @{node}s.)
         :param git:
         :param incompatible_worker_count:
         :param inherits:

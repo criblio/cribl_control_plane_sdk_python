@@ -1838,6 +1838,7 @@ if TYPE_CHECKING:
     from .nodeskippedupgradestatus import NodeSkippedUpgradeStatus
     from .nodeupgradestate import NodeUpgradeState
     from .nodeupgradestatus import NodeUpgradeStatus, NodeUpgradeStatusTypedDict
+    from .outpostnodeinfo import OutpostNodeInfo, OutpostNodeInfoTypedDict
     from .output import Output, OutputTypedDict
     from .outputazureblob import (
         BlobAccessTier,
@@ -2098,10 +2099,15 @@ if TYPE_CHECKING:
     )
     from .outputdatabricks import (
         OutputDatabricks,
-        OutputDatabricksAuthenticationMethod,
         OutputDatabricksBackpressureBehavior,
+        OutputDatabricksCompression,
+        OutputDatabricksCompressionLevel,
         OutputDatabricksDataFormat,
+        OutputDatabricksDataPageVersion,
         OutputDatabricksDiskSpaceProtection,
+        OutputDatabricksKeyValueMetadatum,
+        OutputDatabricksKeyValueMetadatumTypedDict,
+        OutputDatabricksParquetVersion,
         OutputDatabricksType,
         OutputDatabricksTypedDict,
     )
@@ -4954,6 +4960,8 @@ __all__ = [
     "OldModeTypedDict",
     "Os",
     "OsTypedDict",
+    "OutpostNodeInfo",
+    "OutpostNodeInfoTypedDict",
     "Output",
     "OutputAzureBlob",
     "OutputAzureBlobAuthenticationMethod",
@@ -5173,10 +5181,15 @@ __all__ = [
     "OutputCrowdstrikeNextGenSiemType",
     "OutputCrowdstrikeNextGenSiemTypedDict",
     "OutputDatabricks",
-    "OutputDatabricksAuthenticationMethod",
     "OutputDatabricksBackpressureBehavior",
+    "OutputDatabricksCompression",
+    "OutputDatabricksCompressionLevel",
     "OutputDatabricksDataFormat",
+    "OutputDatabricksDataPageVersion",
     "OutputDatabricksDiskSpaceProtection",
+    "OutputDatabricksKeyValueMetadatum",
+    "OutputDatabricksKeyValueMetadatumTypedDict",
+    "OutputDatabricksParquetVersion",
     "OutputDatabricksType",
     "OutputDatabricksTypedDict",
     "OutputDatadog",
@@ -7909,6 +7922,8 @@ _dynamic_imports: dict[str, str] = {
     "NodeUpgradeState": ".nodeupgradestate",
     "NodeUpgradeStatus": ".nodeupgradestatus",
     "NodeUpgradeStatusTypedDict": ".nodeupgradestatus",
+    "OutpostNodeInfo": ".outpostnodeinfo",
+    "OutpostNodeInfoTypedDict": ".outpostnodeinfo",
     "Output": ".output",
     "OutputTypedDict": ".output",
     "BlobAccessTier": ".outputazureblob",
@@ -8145,10 +8160,15 @@ _dynamic_imports: dict[str, str] = {
     "OutputCrowdstrikeNextGenSiemType": ".outputcrowdstrikenextgensiem",
     "OutputCrowdstrikeNextGenSiemTypedDict": ".outputcrowdstrikenextgensiem",
     "OutputDatabricks": ".outputdatabricks",
-    "OutputDatabricksAuthenticationMethod": ".outputdatabricks",
     "OutputDatabricksBackpressureBehavior": ".outputdatabricks",
+    "OutputDatabricksCompression": ".outputdatabricks",
+    "OutputDatabricksCompressionLevel": ".outputdatabricks",
     "OutputDatabricksDataFormat": ".outputdatabricks",
+    "OutputDatabricksDataPageVersion": ".outputdatabricks",
     "OutputDatabricksDiskSpaceProtection": ".outputdatabricks",
+    "OutputDatabricksKeyValueMetadatum": ".outputdatabricks",
+    "OutputDatabricksKeyValueMetadatumTypedDict": ".outputdatabricks",
+    "OutputDatabricksParquetVersion": ".outputdatabricks",
     "OutputDatabricksType": ".outputdatabricks",
     "OutputDatabricksTypedDict": ".outputdatabricks",
     "DatadogSite": ".outputdatadog",

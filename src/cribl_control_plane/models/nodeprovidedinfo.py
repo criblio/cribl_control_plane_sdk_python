@@ -3,6 +3,7 @@
 from __future__ import annotations
 from .hbcriblinfo import HBCriblInfo, HBCriblInfoTypedDict
 from .heartbeatmetadata import HeartbeatMetadata, HeartbeatMetadataTypedDict
+from .outpostnodeinfo import OutpostNodeInfo, OutpostNodeInfoTypedDict
 from cribl_control_plane.types import BaseModel
 import pydantic
 from typing import Dict, List, Optional, Union
@@ -144,6 +145,7 @@ class NodeProvidedInfoTypedDict(TypedDict):
     local_time: NotRequired[float]
     metadata: NotRequired[HeartbeatMetadataTypedDict]
     os: NotRequired[OsTypedDict]
+    outpost: NotRequired[OutpostNodeInfoTypedDict]
 
 
 class NodeProvidedInfo(BaseModel):
@@ -188,3 +190,5 @@ class NodeProvidedInfo(BaseModel):
     metadata: Optional[HeartbeatMetadata] = None
 
     os: Optional[Os] = None
+
+    outpost: Optional[OutpostNodeInfo] = None

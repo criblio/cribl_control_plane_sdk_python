@@ -341,10 +341,6 @@ with CriblControlPlane(
 
 * [get](docs/sdks/configsversions/README.md#get) - Get the configuration version for a Worker Group or Edge Fleet
 
-#### [groups.mappings](docs/sdks/mappings/README.md)
-
-* [activate](docs/sdks/mappings/README.md#activate) - Set a Mapping Ruleset as the active configuration for the specified Cribl product
-
 ### [health](docs/sdks/health/README.md)
 
 * [get](docs/sdks/health/README.md#get) - Retrieve health status of the server
@@ -677,7 +673,7 @@ with CriblControlPlane(
 
 
 **Inherit from [`CriblControlPlaneError`](./src/cribl_control_plane/errors/criblcontrolplaneerror.py)**:
-* [`HealthServerStatusError`](./src/cribl_control_plane/errors/healthserverstatuserror.py): Healthy status. Status code `420`. Applicable to 1 of 64 methods.*
+* [`HealthServerStatusError`](./src/cribl_control_plane/errors/healthserverstatuserror.py): Healthy status. Status code `420`. Applicable to 1 of 63 methods.*
 * [`ResponseValidationError`](./src/cribl_control_plane/errors/responsevalidationerror.py): Type mismatch between the response data and the expected Pydantic model. Provides access to the Pydantic validation error via the `cause` attribute.
 
 </details>

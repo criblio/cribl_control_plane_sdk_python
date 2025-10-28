@@ -7,7 +7,7 @@ from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic.functional_validators import PlainValidator
-from typing import Any, List, Optional
+from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -123,6 +123,12 @@ class InputElasticMaximumTLSVersion(str, Enum, metaclass=utils.OpenEnumMeta):
 
 class InputElasticTLSSettingsServerSideTypedDict(TypedDict):
     disabled: NotRequired[bool]
+    request_cert: NotRequired[bool]
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's)"""
+    common_name_regex: NotRequired[str]
+    r"""Regex matching allowable common names in peer certificates' subject attribute"""
     certificate_name: NotRequired[str]
     r"""The name of the predefined certificate"""
     priv_key_path: NotRequired[str]
@@ -133,16 +139,25 @@ class InputElasticTLSSettingsServerSideTypedDict(TypedDict):
     r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
     ca_path: NotRequired[str]
     r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
-    request_cert: NotRequired[bool]
-    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
-    reject_unauthorized: NotRequired[Any]
-    common_name_regex: NotRequired[Any]
     min_version: NotRequired[InputElasticMinimumTLSVersion]
     max_version: NotRequired[InputElasticMaximumTLSVersion]
 
 
 class InputElasticTLSSettingsServerSide(BaseModel):
     disabled: Optional[bool] = True
+
+    request_cert: Annotated[Optional[bool], pydantic.Field(alias="requestCert")] = False
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = True
+    r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's)"""
+
+    common_name_regex: Annotated[
+        Optional[str], pydantic.Field(alias="commonNameRegex")
+    ] = "/.*/"
+    r"""Regex matching allowable common names in peer certificates' subject attribute"""
 
     certificate_name: Annotated[
         Optional[str], pydantic.Field(alias="certificateName")
@@ -160,17 +175,6 @@ class InputElasticTLSSettingsServerSide(BaseModel):
 
     ca_path: Annotated[Optional[str], pydantic.Field(alias="caPath")] = None
     r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
-
-    request_cert: Annotated[Optional[bool], pydantic.Field(alias="requestCert")] = False
-    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
-
-    reject_unauthorized: Annotated[
-        Optional[Any], pydantic.Field(alias="rejectUnauthorized")
-    ] = None
-
-    common_name_regex: Annotated[
-        Optional[Any], pydantic.Field(alias="commonNameRegex")
-    ] = None
 
     min_version: Annotated[
         Annotated[
@@ -246,6 +250,12 @@ class InputElasticAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
 class InputElasticProxyModeTypedDict(TypedDict):
     enabled: NotRequired[bool]
     r"""Enable proxying of non-bulk API requests to an external Elastic server. Enable this only if you understand the implications. See [Cribl Docs](https://docs.cribl.io/stream/sources-elastic/#proxy-mode) for more details."""
+    auth_type: NotRequired[InputElasticAuthenticationMethod]
+    r"""Enter credentials directly, or select a stored secret"""
+    username: NotRequired[str]
+    password: NotRequired[str]
+    credentials_secret: NotRequired[str]
+    r"""Select or create a secret that references your credentials"""
     url: NotRequired[str]
     r"""URL of the Elastic server to proxy non-bulk requests to, such as http://elastic:9200"""
     reject_unauthorized: NotRequired[bool]
@@ -254,13 +264,29 @@ class InputElasticProxyModeTypedDict(TypedDict):
     r"""List of headers to remove from the request to proxy"""
     timeout_sec: NotRequired[float]
     r"""Amount of time, in seconds, to wait for a proxy request to complete before canceling it"""
-    auth_type: NotRequired[InputElasticAuthenticationMethod]
-    r"""Enter credentials directly, or select a stored secret"""
 
 
 class InputElasticProxyMode(BaseModel):
     enabled: Optional[bool] = False
     r"""Enable proxying of non-bulk API requests to an external Elastic server. Enable this only if you understand the implications. See [Cribl Docs](https://docs.cribl.io/stream/sources-elastic/#proxy-mode) for more details."""
+
+    auth_type: Annotated[
+        Annotated[
+            Optional[InputElasticAuthenticationMethod],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="authType"),
+    ] = InputElasticAuthenticationMethod.NONE
+    r"""Enter credentials directly, or select a stored secret"""
+
+    username: Optional[str] = None
+
+    password: Optional[str] = None
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a secret that references your credentials"""
 
     url: Optional[str] = None
     r"""URL of the Elastic server to proxy non-bulk requests to, such as http://elastic:9200"""
@@ -277,15 +303,6 @@ class InputElasticProxyMode(BaseModel):
 
     timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 60
     r"""Amount of time, in seconds, to wait for a proxy request to complete before canceling it"""
-
-    auth_type: Annotated[
-        Annotated[
-            Optional[InputElasticAuthenticationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
-    ] = InputElasticAuthenticationMethod.NONE
-    r"""Enter credentials directly, or select a stored secret"""
 
 
 class InputElasticTypedDict(TypedDict):

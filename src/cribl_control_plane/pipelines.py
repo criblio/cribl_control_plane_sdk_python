@@ -176,7 +176,7 @@ class Pipelines(BaseSDK):
         self,
         *,
         id: str,
-        conf: Union[models.Conf, models.ConfTypedDict],
+        conf: Union[models.PipelineConf, models.PipelineConfTypedDict],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -205,7 +205,7 @@ class Pipelines(BaseSDK):
 
         request = models.Pipeline(
             id=id,
-            conf=utils.get_pydantic_model(conf, models.Conf),
+            conf=utils.get_pydantic_model(conf, models.PipelineConf),
         )
 
         req = self._build_request(
@@ -269,7 +269,7 @@ class Pipelines(BaseSDK):
         self,
         *,
         id: str,
-        conf: Union[models.Conf, models.ConfTypedDict],
+        conf: Union[models.PipelineConf, models.PipelineConfTypedDict],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -298,7 +298,7 @@ class Pipelines(BaseSDK):
 
         request = models.Pipeline(
             id=id,
-            conf=utils.get_pydantic_model(conf, models.Conf),
+            conf=utils.get_pydantic_model(conf, models.PipelineConf),
         )
 
         req = self._build_request_async(
@@ -537,7 +537,7 @@ class Pipelines(BaseSDK):
         *,
         id_param: str,
         id: str,
-        conf: Union[models.Conf, models.ConfTypedDict],
+        conf: Union[models.PipelineConf, models.PipelineConfTypedDict],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -569,7 +569,7 @@ class Pipelines(BaseSDK):
             id_param=id_param,
             pipeline=models.Pipeline(
                 id=id,
-                conf=utils.get_pydantic_model(conf, models.Conf),
+                conf=utils.get_pydantic_model(conf, models.PipelineConf),
             ),
         )
 
@@ -635,7 +635,7 @@ class Pipelines(BaseSDK):
         *,
         id_param: str,
         id: str,
-        conf: Union[models.Conf, models.ConfTypedDict],
+        conf: Union[models.PipelineConf, models.PipelineConfTypedDict],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -667,7 +667,7 @@ class Pipelines(BaseSDK):
             id_param=id_param,
             pipeline=models.Pipeline(
                 id=id,
-                conf=utils.get_pydantic_model(conf, models.Conf),
+                conf=utils.get_pydantic_model(conf, models.PipelineConf),
             ),
         )
 

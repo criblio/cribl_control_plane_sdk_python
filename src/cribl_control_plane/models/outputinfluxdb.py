@@ -18,11 +18,17 @@ class OutputInfluxdbType(str, Enum):
 class TimestampPrecision(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Sets the precision for the supplied Unix time values. Defaults to milliseconds."""
 
+    # Nanoseconds
     NS = "ns"
+    # Microseconds
     U = "u"
+    # Milliseconds
     MS = "ms"
+    # Seconds
     S = "s"
+    # Minutes
     M = "m"
+    # Hours
     H = "h"
 
 
@@ -40,8 +46,11 @@ class OutputInfluxdbExtraHTTPHeader(BaseModel):
 class OutputInfluxdbFailedRequestLoggingMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
+    # Payload
     PAYLOAD = "payload"
+    # Payload + Headers
     PAYLOAD_AND_HEADERS = "payloadAndHeaders"
+    # None
     NONE = "none"
 
 
@@ -102,8 +111,11 @@ class OutputInfluxdbTimeoutRetrySettings(BaseModel):
 class OutputInfluxdbBackpressureBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when all receivers are exerting backpressure"""
 
+    # Block
     BLOCK = "block"
+    # Drop
     DROP = "drop"
+    # Persistent Queue
     QUEUE = "queue"
 
 
@@ -121,22 +133,29 @@ class OutputInfluxdbAuthenticationType(str, Enum, metaclass=utils.OpenEnumMeta):
 class OutputInfluxdbCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
+    # None
     NONE = "none"
+    # Gzip
     GZIP = "gzip"
 
 
 class OutputInfluxdbQueueFullBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
+    # Block
     BLOCK = "block"
+    # Drop new data
     DROP = "drop"
 
 
 class OutputInfluxdbMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
+    # Error
     ERROR = "error"
+    # Backpressure
     BACKPRESSURE = "backpressure"
+    # Always On
     ALWAYS = "always"
 
 

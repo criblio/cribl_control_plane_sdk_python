@@ -29,14 +29,18 @@ class InputElasticConnection(BaseModel):
 class InputElasticMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
+    # Smart
     SMART = "smart"
+    # Always On
     ALWAYS = "always"
 
 
 class InputElasticCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
+    # None
     NONE = "none"
+    # Gzip
     GZIP = "gzip"
 
 
@@ -186,17 +190,24 @@ class InputElasticTLSSettingsServerSide(BaseModel):
 
 
 class InputElasticAuthenticationType(str, Enum, metaclass=utils.OpenEnumMeta):
+    # None
     NONE = "none"
+    # Basic
     BASIC = "basic"
+    # Basic (credentials secret)
     CREDENTIALS_SECRET = "credentialsSecret"
+    # Auth Tokens
     AUTH_TOKENS = "authTokens"
 
 
 class InputElasticAPIVersion(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The API version to use for communicating with the server"""
 
+    # 6.8.4
     SIX_DOT_8_DOT_4 = "6.8.4"
+    # 8.3.2
     EIGHT_DOT_3_DOT_2 = "8.3.2"
+    # Custom
     CUSTOM = "custom"
 
 

@@ -30,7 +30,9 @@ class OutputRingDataCompressionFormat(str, Enum, metaclass=utils.OpenEnumMeta):
 class OutputRingBackpressureBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when all receivers are exerting backpressure"""
 
+    # Block
     BLOCK = "block"
+    # Drop
     DROP = "drop"
 
 

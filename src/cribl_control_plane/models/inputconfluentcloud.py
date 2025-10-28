@@ -29,14 +29,18 @@ class InputConfluentCloudConnection(BaseModel):
 class InputConfluentCloudMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
+    # Smart
     SMART = "smart"
+    # Always On
     ALWAYS = "always"
 
 
 class InputConfluentCloudCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
+    # None
     NONE = "none"
+    # Gzip
     GZIP = "gzip"
 
 
@@ -187,13 +191,6 @@ class InputConfluentCloudTLSSettingsClientSide(BaseModel):
     ] = None
 
 
-class InputConfluentCloudSchemaType(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""The schema format used to encode and decode event data"""
-
-    AVRO = "avro"
-    JSON = "json"
-
-
 class InputConfluentCloudAuthTypedDict(TypedDict):
     r"""Credentials to use when authenticating with the schema registry using basic HTTP authentication"""
 
@@ -304,8 +301,6 @@ class InputConfluentCloudKafkaSchemaRegistryAuthenticationTypedDict(TypedDict):
     disabled: NotRequired[bool]
     schema_registry_url: NotRequired[str]
     r"""URL for accessing the Confluent Schema Registry. Example: http://localhost:8081. To connect over TLS, use https instead of http."""
-    schema_type: NotRequired[InputConfluentCloudSchemaType]
-    r"""The schema format used to encode and decode event data"""
     connection_timeout: NotRequired[float]
     r"""Maximum time to wait for a Schema Registry connection to complete successfully"""
     request_timeout: NotRequired[float]
@@ -327,15 +322,6 @@ class InputConfluentCloudKafkaSchemaRegistryAuthentication(BaseModel):
     ] = "http://localhost:8081"
     r"""URL for accessing the Confluent Schema Registry. Example: http://localhost:8081. To connect over TLS, use https instead of http."""
 
-    schema_type: Annotated[
-        Annotated[
-            Optional[InputConfluentCloudSchemaType],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="schemaType"),
-    ] = InputConfluentCloudSchemaType.AVRO
-    r"""The schema format used to encode and decode event data"""
-
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
     ] = 30000
@@ -356,9 +342,13 @@ class InputConfluentCloudKafkaSchemaRegistryAuthentication(BaseModel):
 
 
 class InputConfluentCloudSASLMechanism(str, Enum, metaclass=utils.OpenEnumMeta):
+    # PLAIN
     PLAIN = "plain"
+    # SCRAM-SHA-256
     SCRAM_SHA_256 = "scram-sha-256"
+    # SCRAM-SHA-512
     SCRAM_SHA_512 = "scram-sha-512"
+    # GSSAPI/Kerberos
     KERBEROS = "kerberos"
 
 

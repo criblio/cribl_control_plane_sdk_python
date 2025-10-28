@@ -18,7 +18,9 @@ class OutputSyslogType(str, Enum):
 class OutputSyslogProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The network protocol to use for sending out syslog messages"""
 
+    # TCP
     TCP = "tcp"
+    # UDP
     UDP = "udp"
 
 
@@ -52,27 +54,39 @@ class Facility(int, Enum, metaclass=utils.OpenEnumMeta):
 class OutputSyslogSeverity(int, Enum, metaclass=utils.OpenEnumMeta):
     r"""Default value for message severity. Will be overwritten by value of __severity if set. Defaults to notice."""
 
+    # emergency
     ZERO = 0
+    # alert
     ONE = 1
+    # critical
     TWO = 2
+    # error
     THREE = 3
+    # warning
     FOUR = 4
+    # notice
     FIVE = 5
+    # info
     SIX = 6
+    # debug
     SEVEN = 7
 
 
 class OutputSyslogMessageFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The syslog message format depending on the receiver's support"""
 
+    # RFC3164
     RFC3164 = "rfc3164"
+    # RFC5424
     RFC5424 = "rfc5424"
 
 
 class TimestampFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Timestamp format to use when serializing event's time field"""
 
+    # Syslog
     SYSLOG = "syslog"
+    # ISO8601
     ISO8601 = "iso8601"
 
 
@@ -162,30 +176,40 @@ class OutputSyslogTLSSettingsClientSide(BaseModel):
 class OutputSyslogBackpressureBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when all receivers are exerting backpressure"""
 
+    # Block
     BLOCK = "block"
+    # Drop
     DROP = "drop"
+    # Persistent Queue
     QUEUE = "queue"
 
 
 class OutputSyslogCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
+    # None
     NONE = "none"
+    # Gzip
     GZIP = "gzip"
 
 
 class OutputSyslogQueueFullBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
+    # Block
     BLOCK = "block"
+    # Drop new data
     DROP = "drop"
 
 
 class OutputSyslogMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
+    # Error
     ERROR = "error"
+    # Backpressure
     BACKPRESSURE = "backpressure"
+    # Always On
     ALWAYS = "always"
 
 

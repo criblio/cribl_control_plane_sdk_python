@@ -363,9 +363,13 @@ class RunnableJobCollectionTimeWarning(BaseModel):
 
 
 class WhereToCapture(int, Enum, metaclass=utils.OpenEnumMeta):
+    # 1. Before pre-processing Pipeline
     ZERO = 0
+    # 2. Before the Routes
     ONE = 1
+    # 3. Before post-processing Pipeline
     TWO = 2
+    # 4. Before the Destination
     THREE = 3
 
 

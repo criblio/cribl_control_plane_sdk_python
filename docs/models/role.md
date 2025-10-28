@@ -5,5 +5,5 @@
 
 | Name      | Value     |
 | --------- | --------- |
-| `PRIMARY` | primary   |
 | `STANDBY` | standby   |
+| `PRIMARY` | primary   |

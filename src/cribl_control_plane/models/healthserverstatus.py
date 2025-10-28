@@ -12,25 +12,25 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class Role(str, Enum, metaclass=utils.OpenEnumMeta):
-    PRIMARY = "primary"
     STANDBY = "standby"
+    PRIMARY = "primary"
 
 
 class Status(str, Enum, metaclass=utils.OpenEnumMeta):
-    HEALTHY = "healthy"
     SHUTTING_DOWN = "shutting down"
+    HEALTHY = "healthy"
     STANDBY = "standby"
 
 
-class HealthStatusTypedDict(TypedDict):
-    status: Status
+class HealthServerStatusTypedDict(TypedDict):
     start_time: float
+    status: Status
     role: NotRequired[Role]
 
 
-class HealthStatus(BaseModel):
-    status: Annotated[Status, PlainValidator(validate_open_enum(False))]
-
+class HealthServerStatus(BaseModel):
     start_time: Annotated[float, pydantic.Field(alias="startTime")]
+
+    status: Annotated[Status, PlainValidator(validate_open_enum(False))]
 
     role: Annotated[Optional[Role], PlainValidator(validate_open_enum(False))] = None

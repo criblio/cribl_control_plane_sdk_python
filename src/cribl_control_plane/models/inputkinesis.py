@@ -29,14 +29,18 @@ class InputKinesisConnection(BaseModel):
 class InputKinesisMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
+    # Smart
     SMART = "smart"
+    # Always On
     ALWAYS = "always"
 
 
 class InputKinesisCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
+    # None
     NONE = "none"
+    # Gzip
     GZIP = "gzip"
 
 
@@ -106,31 +110,42 @@ class InputKinesisPq(BaseModel):
 class ShardIteratorStart(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Location at which to start reading a shard for the first time"""
 
+    # Earliest record
     TRIM_HORIZON = "TRIM_HORIZON"
+    # Latest record
     LATEST = "LATEST"
 
 
 class InputKinesisRecordDataFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Format of data inside the Kinesis Stream records. Gzip compression is automatically detected."""
 
+    # Cribl
     CRIBL = "cribl"
+    # Newline JSON
     NDJSON = "ndjson"
+    # Cloudwatch Logs
     CLOUDWATCH = "cloudwatch"
+    # Event per line
     LINE = "line"
 
 
 class ShardLoadBalancing(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The load-balancing algorithm to use for spreading out shards across Workers and Worker Processes"""
 
+    # Consistent Hashing
     CONSISTENT_HASHING = "ConsistentHashing"
+    # Round Robin
     ROUND_ROBIN = "RoundRobin"
 
 
 class InputKinesisAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
+    # Auto
     AUTO = "auto"
+    # Manual
     MANUAL = "manual"
+    # Secret Key pair
     SECRET = "secret"
 
 

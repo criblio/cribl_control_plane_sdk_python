@@ -29,14 +29,18 @@ class InputSnmpConnection(BaseModel):
 class InputSnmpMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
+    # Smart
     SMART = "smart"
+    # Always On
     ALWAYS = "always"
 
 
 class InputSnmpCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
+    # None
     NONE = "none"
+    # Gzip
     GZIP = "gzip"
 
 
@@ -104,12 +108,19 @@ class InputSnmpPq(BaseModel):
 
 
 class AuthenticationProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
+    # None
     NONE = "none"
+    # MD5
     MD5 = "md5"
+    # SHA1
     SHA = "sha"
+    # SHA224
     SHA224 = "sha224"
+    # SHA256
     SHA256 = "sha256"
+    # SHA384
     SHA384 = "sha384"
+    # SHA512
     SHA512 = "sha512"
 
 

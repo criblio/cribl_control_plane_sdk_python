@@ -61,12 +61,24 @@ class OutputElasticCloudAuthenticationMethod(str, Enum, metaclass=utils.OpenEnum
 
 class OutputElasticCloudAuthTypedDict(TypedDict):
     disabled: NotRequired[bool]
+    username: NotRequired[str]
+    password: NotRequired[str]
     auth_type: NotRequired[OutputElasticCloudAuthenticationMethod]
     r"""Enter credentials directly, or select a stored secret"""
+    credentials_secret: NotRequired[str]
+    r"""Select or create a secret that references your credentials"""
+    manual_api_key: NotRequired[str]
+    r"""Enter API key directly"""
+    text_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
 
 
 class OutputElasticCloudAuth(BaseModel):
     disabled: Optional[bool] = False
+
+    username: Optional[str] = None
+
+    password: Optional[str] = None
 
     auth_type: Annotated[
         Annotated[
@@ -76,6 +88,19 @@ class OutputElasticCloudAuth(BaseModel):
         pydantic.Field(alias="authType"),
     ] = OutputElasticCloudAuthenticationMethod.MANUAL
     r"""Enter credentials directly, or select a stored secret"""
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a secret that references your credentials"""
+
+    manual_api_key: Annotated[Optional[str], pydantic.Field(alias="manualAPIKey")] = (
+        None
+    )
+    r"""Enter API key directly"""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a stored text secret"""
 
 
 class OutputElasticCloudResponseRetrySettingTypedDict(TypedDict):
@@ -143,6 +168,17 @@ class OutputElasticCloudBackpressureBehavior(str, Enum, metaclass=utils.OpenEnum
     QUEUE = "queue"
 
 
+class OutputElasticCloudMode(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
+
+    # Error
+    ERROR = "error"
+    # Backpressure
+    ALWAYS = "always"
+    # Always On
+    BACKPRESSURE = "backpressure"
+
+
 class OutputElasticCloudCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
@@ -159,17 +195,6 @@ class OutputElasticCloudQueueFullBehavior(str, Enum, metaclass=utils.OpenEnumMet
     BLOCK = "block"
     # Drop new data
     DROP = "drop"
-
-
-class OutputElasticCloudMode(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
-
-    # Error
-    ERROR = "error"
-    # Backpressure
-    BACKPRESSURE = "backpressure"
-    # Always On
-    ALWAYS = "always"
 
 
 class OutputElasticCloudPqControlsTypedDict(TypedDict):
@@ -236,6 +261,16 @@ class OutputElasticCloudTypedDict(TypedDict):
     on_backpressure: NotRequired[OutputElasticCloudBackpressureBehavior]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    pq_strict_ordering: NotRequired[bool]
+    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
+    pq_rate_per_sec: NotRequired[float]
+    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
+    pq_mode: NotRequired[OutputElasticCloudMode]
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
+    pq_max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    pq_max_backpressure_sec: NotRequired[float]
+    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
     pq_max_size: NotRequired[str]
@@ -246,8 +281,6 @@ class OutputElasticCloudTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[OutputElasticCloudQueueFullBehavior]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-    pq_mode: NotRequired[OutputElasticCloudMode]
-    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_controls: NotRequired[OutputElasticCloudPqControlsTypedDict]
 
 
@@ -374,6 +407,34 @@ class OutputElasticCloud(BaseModel):
 
     description: Optional[str] = None
 
+    pq_strict_ordering: Annotated[
+        Optional[bool], pydantic.Field(alias="pqStrictOrdering")
+    ] = True
+    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
+
+    pq_rate_per_sec: Annotated[
+        Optional[float], pydantic.Field(alias="pqRatePerSec")
+    ] = 0
+    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
+
+    pq_mode: Annotated[
+        Annotated[
+            Optional[OutputElasticCloudMode], PlainValidator(validate_open_enum(False))
+        ],
+        pydantic.Field(alias="pqMode"),
+    ] = OutputElasticCloudMode.ERROR
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
+
+    pq_max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="pqMaxBufferSize")
+    ] = 42
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    pq_max_backpressure_sec: Annotated[
+        Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
+    ] = 30
+    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
+
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
     ] = "1 MB"
@@ -404,14 +465,6 @@ class OutputElasticCloud(BaseModel):
         pydantic.Field(alias="pqOnBackpressure"),
     ] = OutputElasticCloudQueueFullBehavior.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-
-    pq_mode: Annotated[
-        Annotated[
-            Optional[OutputElasticCloudMode], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqMode"),
-    ] = OutputElasticCloudMode.ERROR
-    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_controls: Annotated[
         Optional[OutputElasticCloudPqControls], pydantic.Field(alias="pqControls")

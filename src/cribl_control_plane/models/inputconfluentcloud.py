@@ -341,6 +341,13 @@ class InputConfluentCloudKafkaSchemaRegistryAuthentication(BaseModel):
     tls: Optional[InputConfluentCloudKafkaSchemaRegistryTLSSettingsClientSide] = None
 
 
+class InputConfluentCloudAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Enter credentials directly, or select a stored secret"""
+
+    MANUAL = "manual"
+    SECRET = "secret"
+
+
 class InputConfluentCloudSASLMechanism(str, Enum, metaclass=utils.OpenEnumMeta):
     # PLAIN
     PLAIN = "plain"
@@ -352,13 +359,58 @@ class InputConfluentCloudSASLMechanism(str, Enum, metaclass=utils.OpenEnumMeta):
     KERBEROS = "kerberos"
 
 
+class InputConfluentCloudOauthParamTypedDict(TypedDict):
+    name: str
+    value: str
+
+
+class InputConfluentCloudOauthParam(BaseModel):
+    name: str
+
+    value: str
+
+
+class InputConfluentCloudSaslExtensionTypedDict(TypedDict):
+    name: str
+    value: str
+
+
+class InputConfluentCloudSaslExtension(BaseModel):
+    name: str
+
+    value: str
+
+
 class InputConfluentCloudAuthenticationTypedDict(TypedDict):
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
     disabled: NotRequired[bool]
+    username: NotRequired[str]
+    password: NotRequired[str]
+    auth_type: NotRequired[InputConfluentCloudAuthenticationMethod]
+    r"""Enter credentials directly, or select a stored secret"""
+    credentials_secret: NotRequired[str]
+    r"""Select or create a secret that references your credentials"""
     mechanism: NotRequired[InputConfluentCloudSASLMechanism]
+    keytab_location: NotRequired[str]
+    r"""Location of keytab file for authentication principal"""
+    principal: NotRequired[str]
+    r"""Authentication principal, such as `kafka_user@example.com`"""
+    broker_service_class: NotRequired[str]
+    r"""Kerberos service class for Kafka brokers, such as `kafka`"""
     oauth_enabled: NotRequired[bool]
     r"""Enable OAuth authentication"""
+    token_url: NotRequired[str]
+    r"""URL of the token endpoint to use for OAuth authentication"""
+    client_id: NotRequired[str]
+    r"""Client ID to use for OAuth authentication"""
+    oauth_secret_type: NotRequired[str]
+    client_text_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
+    oauth_params: NotRequired[List[InputConfluentCloudOauthParamTypedDict]]
+    r"""Additional fields to send to the token endpoint, such as scope or audience"""
+    sasl_extensions: NotRequired[List[InputConfluentCloudSaslExtensionTypedDict]]
+    r"""Additional SASL extension fields, such as Confluent's logicalCluster or identityPoolId"""
 
 
 class InputConfluentCloudAuthentication(BaseModel):
@@ -366,15 +418,73 @@ class InputConfluentCloudAuthentication(BaseModel):
 
     disabled: Optional[bool] = True
 
+    username: Optional[str] = None
+
+    password: Optional[str] = None
+
+    auth_type: Annotated[
+        Annotated[
+            Optional[InputConfluentCloudAuthenticationMethod],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="authType"),
+    ] = InputConfluentCloudAuthenticationMethod.MANUAL
+    r"""Enter credentials directly, or select a stored secret"""
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a secret that references your credentials"""
+
     mechanism: Annotated[
         Optional[InputConfluentCloudSASLMechanism],
         PlainValidator(validate_open_enum(False)),
     ] = InputConfluentCloudSASLMechanism.PLAIN
 
+    keytab_location: Annotated[
+        Optional[str], pydantic.Field(alias="keytabLocation")
+    ] = None
+    r"""Location of keytab file for authentication principal"""
+
+    principal: Optional[str] = None
+    r"""Authentication principal, such as `kafka_user@example.com`"""
+
+    broker_service_class: Annotated[
+        Optional[str], pydantic.Field(alias="brokerServiceClass")
+    ] = None
+    r"""Kerberos service class for Kafka brokers, such as `kafka`"""
+
     oauth_enabled: Annotated[Optional[bool], pydantic.Field(alias="oauthEnabled")] = (
         False
     )
     r"""Enable OAuth authentication"""
+
+    token_url: Annotated[Optional[str], pydantic.Field(alias="tokenUrl")] = None
+    r"""URL of the token endpoint to use for OAuth authentication"""
+
+    client_id: Annotated[Optional[str], pydantic.Field(alias="clientId")] = None
+    r"""Client ID to use for OAuth authentication"""
+
+    oauth_secret_type: Annotated[
+        Optional[str], pydantic.Field(alias="oauthSecretType")
+    ] = "secret"
+
+    client_text_secret: Annotated[
+        Optional[str], pydantic.Field(alias="clientTextSecret")
+    ] = None
+    r"""Select or create a stored text secret"""
+
+    oauth_params: Annotated[
+        Optional[List[InputConfluentCloudOauthParam]],
+        pydantic.Field(alias="oauthParams"),
+    ] = None
+    r"""Additional fields to send to the token endpoint, such as scope or audience"""
+
+    sasl_extensions: Annotated[
+        Optional[List[InputConfluentCloudSaslExtension]],
+        pydantic.Field(alias="saslExtensions"),
+    ] = None
+    r"""Additional SASL extension fields, such as Confluent's logicalCluster or identityPoolId"""
 
 
 class InputConfluentCloudMetadatumTypedDict(TypedDict):

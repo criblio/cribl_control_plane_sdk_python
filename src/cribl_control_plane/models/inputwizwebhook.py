@@ -7,7 +7,7 @@ from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic.functional_validators import PlainValidator
-from typing import Any, List, Optional
+from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -123,6 +123,12 @@ class InputWizWebhookMaximumTLSVersion(str, Enum, metaclass=utils.OpenEnumMeta):
 
 class InputWizWebhookTLSSettingsServerSideTypedDict(TypedDict):
     disabled: NotRequired[bool]
+    request_cert: NotRequired[bool]
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's)"""
+    common_name_regex: NotRequired[str]
+    r"""Regex matching allowable common names in peer certificates' subject attribute"""
     certificate_name: NotRequired[str]
     r"""The name of the predefined certificate"""
     priv_key_path: NotRequired[str]
@@ -133,16 +139,25 @@ class InputWizWebhookTLSSettingsServerSideTypedDict(TypedDict):
     r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
     ca_path: NotRequired[str]
     r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
-    request_cert: NotRequired[bool]
-    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
-    reject_unauthorized: NotRequired[Any]
-    common_name_regex: NotRequired[Any]
     min_version: NotRequired[InputWizWebhookMinimumTLSVersion]
     max_version: NotRequired[InputWizWebhookMaximumTLSVersion]
 
 
 class InputWizWebhookTLSSettingsServerSide(BaseModel):
     disabled: Optional[bool] = True
+
+    request_cert: Annotated[Optional[bool], pydantic.Field(alias="requestCert")] = False
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = True
+    r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's)"""
+
+    common_name_regex: Annotated[
+        Optional[str], pydantic.Field(alias="commonNameRegex")
+    ] = "/.*/"
+    r"""Regex matching allowable common names in peer certificates' subject attribute"""
 
     certificate_name: Annotated[
         Optional[str], pydantic.Field(alias="certificateName")
@@ -160,17 +175,6 @@ class InputWizWebhookTLSSettingsServerSide(BaseModel):
 
     ca_path: Annotated[Optional[str], pydantic.Field(alias="caPath")] = None
     r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
-
-    request_cert: Annotated[Optional[bool], pydantic.Field(alias="requestCert")] = False
-    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
-
-    reject_unauthorized: Annotated[
-        Optional[Any], pydantic.Field(alias="rejectUnauthorized")
-    ] = None
-
-    common_name_regex: Annotated[
-        Optional[Any], pydantic.Field(alias="commonNameRegex")
-    ] = None
 
     min_version: Annotated[
         Annotated[

@@ -14,7 +14,7 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class ConfigGroupEstimatedIngestRate(int, Enum, metaclass=utils.OpenEnumMeta):
+class GroupCreateRequestEstimatedIngestRate(int, Enum, metaclass=utils.OpenEnumMeta):
     r"""Maximum expected volume of data ingested by the @{group}. (This setting is available only on @{group}s consisting of Cribl-managed Cribl.Cloud @{node}s.)"""
 
     # 12 MB/sec
@@ -37,13 +37,13 @@ class ConfigGroupEstimatedIngestRate(int, Enum, metaclass=utils.OpenEnumMeta):
     RATE180_MB_PER_SEC = 15360
 
 
-class ConfigGroupGitTypedDict(TypedDict):
+class GroupCreateRequestGitTypedDict(TypedDict):
     commit: NotRequired[str]
     local_changes: NotRequired[float]
     log: NotRequired[List[CommitTypedDict]]
 
 
-class ConfigGroupGit(BaseModel):
+class GroupCreateRequestGit(BaseModel):
     commit: Optional[str] = None
 
     local_changes: Annotated[Optional[float], pydantic.Field(alias="localChanges")] = (
@@ -53,19 +53,18 @@ class ConfigGroupGit(BaseModel):
     log: Optional[List[Commit]] = None
 
 
-class ConfigGroupType(str, Enum, metaclass=utils.OpenEnumMeta):
+class GroupCreateRequestType(str, Enum, metaclass=utils.OpenEnumMeta):
     LAKE_ACCESS = "lake_access"
 
 
-class ConfigGroupTypedDict(TypedDict):
+class GroupCreateRequestTypedDict(TypedDict):
     id: str
     cloud: NotRequired[ConfigGroupCloudTypedDict]
-    config_version: NotRequired[str]
     deploying_worker_count: NotRequired[float]
     description: NotRequired[str]
-    estimated_ingest_rate: NotRequired[ConfigGroupEstimatedIngestRate]
+    estimated_ingest_rate: NotRequired[GroupCreateRequestEstimatedIngestRate]
     r"""Maximum expected volume of data ingested by the @{group}. (This setting is available only on @{group}s consisting of Cribl-managed Cribl.Cloud @{node}s.)"""
-    git: NotRequired[ConfigGroupGitTypedDict]
+    git: NotRequired[GroupCreateRequestGitTypedDict]
     incompatible_worker_count: NotRequired[float]
     inherits: NotRequired[str]
     is_fleet: NotRequired[bool]
@@ -75,22 +74,19 @@ class ConfigGroupTypedDict(TypedDict):
     name: NotRequired[str]
     on_prem: NotRequired[bool]
     provisioned: NotRequired[bool]
+    source_group_id: NotRequired[str]
     streamtags: NotRequired[List[str]]
     tags: NotRequired[str]
-    type: NotRequired[ConfigGroupType]
+    type: NotRequired[GroupCreateRequestType]
     upgrade_version: NotRequired[str]
     worker_count: NotRequired[float]
     worker_remote_access: NotRequired[bool]
 
 
-class ConfigGroup(BaseModel):
+class GroupCreateRequest(BaseModel):
     id: str
 
     cloud: Optional[ConfigGroupCloud] = None
-
-    config_version: Annotated[Optional[str], pydantic.Field(alias="configVersion")] = (
-        None
-    )
 
     deploying_worker_count: Annotated[
         Optional[float], pydantic.Field(alias="deployingWorkerCount")
@@ -100,14 +96,14 @@ class ConfigGroup(BaseModel):
 
     estimated_ingest_rate: Annotated[
         Annotated[
-            Optional[ConfigGroupEstimatedIngestRate],
+            Optional[GroupCreateRequestEstimatedIngestRate],
             PlainValidator(validate_open_enum(True)),
         ],
         pydantic.Field(alias="estimatedIngestRate"),
     ] = None
     r"""Maximum expected volume of data ingested by the @{group}. (This setting is available only on @{group}s consisting of Cribl-managed Cribl.Cloud @{node}s.)"""
 
-    git: Optional[ConfigGroupGit] = None
+    git: Optional[GroupCreateRequestGit] = None
 
     incompatible_worker_count: Annotated[
         Optional[float], pydantic.Field(alias="incompatibleWorkerCount")
@@ -133,12 +129,16 @@ class ConfigGroup(BaseModel):
 
     provisioned: Optional[bool] = None
 
+    source_group_id: Annotated[Optional[str], pydantic.Field(alias="sourceGroupId")] = (
+        None
+    )
+
     streamtags: Optional[List[str]] = None
 
     tags: Optional[str] = None
 
     type: Annotated[
-        Optional[ConfigGroupType], PlainValidator(validate_open_enum(False))
+        Optional[GroupCreateRequestType], PlainValidator(validate_open_enum(False))
     ] = None
 
     upgrade_version: Annotated[

@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.15.0-alpha.1761433539778-ea317b70
+  version: 4.15.0-alpha.1761606328595-4d5d0f38
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -224,6 +224,103 @@ components:
       required:
         - perms
         - user
+    GroupCreateRequest:
+      type: object
+      properties:
+        cloud:
+          $ref: "#/components/schemas/ConfigGroupCloud"
+        deployingWorkerCount:
+          type: number
+        description:
+          type: string
+        estimatedIngestRate:
+          type: integer
+          description: Maximum expected volume of data ingested by the @{group}. (This setting is available only on @{group}s consisting of Cribl-managed Cribl.Cloud @{node}s.)
+          enum:
+            - 1024
+            - 2048
+            - 3072
+            - 4096
+            - 5120
+            - 7168
+            - 10240
+            - 13312
+            - 15360
+          x-speakeasy-enum-descriptions:
+            - 12 MB/sec
+            - 24 MB/sec
+            - 36 MB/sec
+            - 48 MB/sec
+            - 60 MB/sec
+            - 84 MB/sec
+            - 120 MB/sec
+            - 156 MB/sec
+            - 180 MB/sec
+          x-speakeasy-enums:
+            - Rate12MBPerSec
+            - Rate24MBPerSec
+            - Rate36MBPerSec
+            - Rate48MBPerSec
+            - Rate60MBPerSec
+            - Rate84MBPerSec
+            - Rate120MBPerSec
+            - Rate156MBPerSec
+            - Rate180MBPerSec
+          x-speakeasy-unknown-values: allow
+        git:
+          type: object
+          properties:
+            commit:
+              type: string
+            localChanges:
+              type: number
+            log:
+              type: array
+              items:
+                $ref: "#/components/schemas/Commit"
+        id:
+          type: string
+        incompatibleWorkerCount:
+          type: number
+        inherits:
+          type: string
+        isFleet:
+          type: boolean
+        isSearch:
+          type: boolean
+        lookupDeployments:
+          type: array
+          items:
+            $ref: "#/components/schemas/ConfigGroupLookups"
+        maxWorkerAge:
+          type: string
+        name:
+          type: string
+        onPrem:
+          type: boolean
+        provisioned:
+          type: boolean
+        sourceGroupId:
+          type: string
+        streamtags:
+          type: array
+          items:
+            type: string
+        tags:
+          type: string
+        type:
+          type: string
+          enum:
+            - lake_access
+          x-speakeasy-unknown-values: allow
+        upgradeVersion:
+          type: string
+        workerCount:
+          type: number
+        workerRemoteAccess:
+          type: boolean
+      required:
+        - id
     DeployRequestLookups:
       type: object
       properties:
@@ -41044,25 +41141,26 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/RouteConf"
-    LoginInfo:
-      type: object
-      required:
-        - username
-        - password
-      properties:
-        username:
-          type: string
-        password:
-          type: string
     AuthToken:
       type: object
-      required:
-        - token
       properties:
-        token:
-          type: string
         forcePasswordChange:
           type: boolean
+        token:
+          type: string
+      required:
+        - forcePasswordChange
+        - token
+    LoginInfo:
+      type: object
+      properties:
+        password:
+          type: string
+        username:
+          type: string
+      required:
+        - password
+        - username
     DistributedSummary:
       type: object
       properties:
@@ -41125,27 +41223,27 @@ components:
         - worker
         - managed-edge
       x-speakeasy-unknown-values: allow
-    HealthStatus:
+    HealthServerStatus:
       type: object
-      required:
-        - status
-        - startTime
       properties:
         role:
           type: string
           enum:
+            - standby
             - primary
-            - standby
-          x-speakeasy-unknown-values: allow
-        status:
-          type: string
-          enum:
-            - healthy
-            - shutting down
-            - standby
           x-speakeasy-unknown-values: allow
         startTime:
           type: number
+        status:
+          type: string
+          enum:
+            - shutting down
+            - healthy
+            - standby
+          x-speakeasy-unknown-values: allow
+      required:
+        - startTime
+        - status
     InstallWarnings:
       type: array
       items:
@@ -43117,7 +43215,7 @@ paths:
       description: Clear the persistent queue (PQ) for the specified Destination.
       responses:
         "201":
-          description: a list of string objects
+          description: A list of job ids for the background job that clears the persistent queue
           content:
             application/json:
               schema:
@@ -43583,8 +43681,8 @@ paths:
         - routes
       x-speakeasy-group: routes
       x-speakeasy-name-override: append
-      summary: Append a Route to the end of the Routing table
-      description: Append a Route to the end of the specified Routing table.</br></br>Provide a complete representation of the Routing table, including the Route that you want to append, in the request body. Cribl removes any omitted Routes and fields in the Routing table when appending the Route.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the Routing table might not function as expected.
+      summary: Add a Route to the end of the Routing table
+      description: Add a Route to the end of the specified Routing table.
       responses:
         "200":
           description: a list of Routes objects
@@ -43621,22 +43719,16 @@ paths:
           required: true
           schema:
             type: string
-          description: The <code>id</code> of the Routing table to append the Route to. The supported value is <code>default</code>.
+          description: The <code>id</code> of the Routing table to add the Route to. The supported value is <code>default</code>.
   /auth/login:
     post:
-      operationId: login
-      summary: Log in and fetch an authentication token
-      x-speakeasy-group: auth.tokens
-      x-speakeasy-name-override: get
-      description: This endpoint is unavailable on Cribl.Cloud. Instead, follow the instructions at https://docs.cribl.io/stream/api-tutorials/#criblcloud to get an Auth token for Cribl.Cloud.
+      operationId: createAuthLogin
       tags:
         - auth
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/LoginInfo"
+      x-speakeasy-group: auth.tokens
+      x-speakeasy-name-override: get
+      summary: Log in and fetch an authentication token
+      description: This endpoint is unavailable on Cribl.Cloud.Instead, follow the instructions at https://docs.cribl.io/stream/api-tutorials/#criblcloud to get an Auth token for Cribl.Cloud.
       security: []
       responses:
         "200":
@@ -43646,11 +43738,22 @@ paths:
               schema:
                 $ref: "#/components/schemas/AuthToken"
         "401":
-          description: Unauthorized
-        "403":
-          description: Access denied
+          description: Invalid credentials or authentication failed
         "429":
           description: Rate limit exceeded
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      requestBody:
+        description: LoginInfo object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginInfo"
   /master/summary:
     get:
       operationId: getSummary
@@ -43692,32 +43795,33 @@ paths:
           description: "Filter for limiting the response by Cribl product: Cribl Stream (<code>worker</code>) or Cribl Edge (<code>managed-edge</code>)."
   /health:
     get:
-      operationId: getHealthInfo
-      summary: Retrieve health status of the server
-      x-speakeasy-group: health
-      x-speakeasy-name-override: get
-      security: []
+      operationId: getHealth
       tags:
         - health
+      x-speakeasy-group: health
+      x-speakeasy-name-override: get
+      summary: Retrieve health status of the server
+      description: Get the current health status of the server.
+      security: []
       responses:
-        default:
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
         "200":
           description: Healthy status
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/HealthStatus"
+                $ref: "#/components/schemas/HealthServerStatus"
         "420":
-          description: Shutting Down or Standby status
+          description: Server is shutting down or in standby mode
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/HealthStatus"
+                $ref: "#/components/schemas/HealthServerStatus"
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /packs:
     post:
       operationId: createPacks
@@ -44671,12 +44775,12 @@ paths:
       summary: Create a Worker Group or Edge Fleet for the specified Cribl product
       description: Create a new Worker Group or Edge Fleet for the specified Cribl product.
       requestBody:
-        description: ConfigGroup object
+        description: GroupCreateRequest object
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ConfigGroup"
+              $ref: "#/components/schemas/GroupCreateRequest"
       responses:
         "200":
           description: a list of ConfigGroup objects

@@ -375,7 +375,7 @@ with CriblControlPlane(
 * [list](docs/sdks/routessdk/README.md#list) - List all Routes
 * [get](docs/sdks/routessdk/README.md#get) - Get a Routing table
 * [update](docs/sdks/routessdk/README.md#update) - Update a Route
-* [append](docs/sdks/routessdk/README.md#append) - Append a Route to the end of the Routing table
+* [append](docs/sdks/routessdk/README.md#append) - Add a Route to the end of the Routing table
 
 ### [sources](docs/sdks/sources/README.md)
 
@@ -651,7 +651,7 @@ with CriblControlPlane(
 ### Error Classes
 **Primary errors:**
 * [`CriblControlPlaneError`](./src/cribl_control_plane/errors/criblcontrolplaneerror.py): The base class for HTTP error responses.
-  * [`Error`](./src/cribl_control_plane/errors/error.py): Unexpected error. Status code `500`. *
+  * [`Error`](./src/cribl_control_plane/errors/error.py): Unexpected error. Status code `500`.
 
 <details><summary>Less common errors (6)</summary>
 
@@ -664,7 +664,7 @@ with CriblControlPlane(
 
 
 **Inherit from [`CriblControlPlaneError`](./src/cribl_control_plane/errors/criblcontrolplaneerror.py)**:
-* [`HealthStatusError`](./src/cribl_control_plane/errors/healthstatuserror.py): Healthy status. Status code `420`. Applicable to 1 of 63 methods.*
+* [`HealthServerStatusError`](./src/cribl_control_plane/errors/healthserverstatuserror.py): Healthy status. Status code `420`. Applicable to 1 of 63 methods.*
 * [`ResponseValidationError`](./src/cribl_control_plane/errors/responsevalidationerror.py): Type mismatch between the response data and the expected Pydantic model. Provides access to the Pydantic validation error via the `cause` attribute.
 
 </details>

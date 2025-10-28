@@ -584,11 +584,11 @@ class RoutesSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreateRoutesAppendByIDResponse:
-        r"""Append a Route to the end of the Routing table
+        r"""Add a Route to the end of the Routing table
 
-        Append a Route to the end of the specified Routing table.</br></br>Provide a complete representation of the Routing table, including the Route that you want to append, in the request body. Cribl removes any omitted Routes and fields in the Routing table when appending the Route.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the Routing table might not function as expected.
+        Add a Route to the end of the specified Routing table.
 
-        :param id: The <code>id</code> of the Routing table to append the Route to. The supported value is <code>default</code>.
+        :param id: The <code>id</code> of the Routing table to add the Route to. The supported value is <code>default</code>.
         :param request_body: RouteDefinitions object
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -679,11 +679,11 @@ class RoutesSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreateRoutesAppendByIDResponse:
-        r"""Append a Route to the end of the Routing table
+        r"""Add a Route to the end of the Routing table
 
-        Append a Route to the end of the specified Routing table.</br></br>Provide a complete representation of the Routing table, including the Route that you want to append, in the request body. Cribl removes any omitted Routes and fields in the Routing table when appending the Route.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the Routing table might not function as expected.
+        Add a Route to the end of the specified Routing table.
 
-        :param id: The <code>id</code> of the Routing table to append the Route to. The supported value is <code>default</code>.
+        :param id: The <code>id</code> of the Routing table to add the Route to. The supported value is <code>default</code>.
         :param request_body: RouteDefinitions object
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method

@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 26e10d0e5f6bab095e2e59e4a2d8c7cc
-  docVersion: 4.15.0-alpha.1761433539778-ea317b70
+  docChecksum: 880def652e799eed9b092cf41ce68b2a
+  docVersion: 4.15.0-alpha.1761606328595-4d5d0f38
   speakeasyVersion: 1.639.3
   generationVersion: 2.730.5
-  releaseVersion: 0.3.0b2
-  configChecksum: 7869c6eef90a0d3731b29d821644cfed
+  releaseVersion: 0.3.0b3
+  configChecksum: 69bdb18a555d5e02d8e469822924f3c4
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -45,7 +45,7 @@ generatedFiles:
   - .vscode/settings.json
   - USAGE.md
   - docs/errors/error.md
-  - docs/errors/healthstatuserror.md
+  - docs/errors/healthserverstatuserror.md
   - docs/models/addhectokenrequest.md
   - docs/models/addhectokenrequestmetadatum.md
   - docs/models/additionalproperty.md
@@ -76,6 +76,8 @@ generatedFiles:
   - docs/models/config.md
   - docs/models/configgroup.md
   - docs/models/configgroupcloud.md
+  - docs/models/configgroupestimatedingestrate.md
+  - docs/models/configgroupgit.md
   - docs/models/configgrouplookups.md
   - docs/models/configgrouplookupslookup.md
   - docs/models/configgrouptype.md
@@ -143,8 +145,6 @@ generatedFiles:
   - docs/models/endpointheader.md
   - docs/models/endpointparam.md
   - docs/models/endpointtype.md
-  - docs/models/error.md
-  - docs/models/estimatedingestrate.md
   - docs/models/eventformat.md
   - docs/models/executor.md
   - docs/models/executorspecificsettings.md
@@ -167,7 +167,6 @@ generatedFiles:
   - docs/models/getcribllakedatasetbylakeidandidresponse.md
   - docs/models/getcribllakedatasetbylakeidrequest.md
   - docs/models/getcribllakedatasetbylakeidresponse.md
-  - docs/models/gethealthinforesponse.md
   - docs/models/getinputbyidrequest.md
   - docs/models/getinputbyidresponse.md
   - docs/models/getmasterworkerentryrequest.md
@@ -202,7 +201,6 @@ generatedFiles:
   - docs/models/getversionshowresponse.md
   - docs/models/getversionstatusrequest.md
   - docs/models/getversionstatusresponse.md
-  - docs/models/git.md
   - docs/models/gitcommitparams.md
   - docs/models/gitcommitsummary.md
   - docs/models/gitcommitsummaryfiles.md
@@ -217,9 +215,13 @@ generatedFiles:
   - docs/models/gitrevertresultfiles.md
   - docs/models/gitshowresult.md
   - docs/models/gitstatusresult.md
+  - docs/models/groupcreaterequest.md
+  - docs/models/groupcreaterequestestimatedingestrate.md
+  - docs/models/groupcreaterequestgit.md
+  - docs/models/groupcreaterequesttype.md
   - docs/models/hbcriblinfo.md
   - docs/models/hbleaderinfo.md
-  - docs/models/healthstatus.md
+  - docs/models/healthserverstatus.md
   - docs/models/heartbeatmetadata.md
   - docs/models/heartbeatmetadataaws.md
   - docs/models/heartbeatmetadatahostos.md
@@ -2049,7 +2051,7 @@ generatedFiles:
   - src/cribl_control_plane/errors/apierror.py
   - src/cribl_control_plane/errors/criblcontrolplaneerror.py
   - src/cribl_control_plane/errors/error.py
-  - src/cribl_control_plane/errors/healthstatus_error.py
+  - src/cribl_control_plane/errors/healthserverstatus_error.py
   - src/cribl_control_plane/errors/no_response_error.py
   - src/cribl_control_plane/errors/responsevalidationerror.py
   - src/cribl_control_plane/groups_configs.py
@@ -2099,14 +2101,12 @@ generatedFiles:
   - src/cribl_control_plane/models/deployrequestlookups.py
   - src/cribl_control_plane/models/difffiles.py
   - src/cribl_control_plane/models/distributedsummary.py
-  - src/cribl_control_plane/models/error.py
   - src/cribl_control_plane/models/getconfiggroupaclbyproductandidop.py
   - src/cribl_control_plane/models/getconfiggroupaclteamsbyproductandidop.py
   - src/cribl_control_plane/models/getconfiggroupbyproductandidop.py
   - src/cribl_control_plane/models/getconfiggroupconfigversionbyproductandidop.py
   - src/cribl_control_plane/models/getcribllakedatasetbylakeidandidop.py
   - src/cribl_control_plane/models/getcribllakedatasetbylakeidop.py
-  - src/cribl_control_plane/models/gethealthinfoop.py
   - src/cribl_control_plane/models/getinputbyidop.py
   - src/cribl_control_plane/models/getmasterworkerentryop.py
   - src/cribl_control_plane/models/getoutputbyidop.py
@@ -2137,9 +2137,10 @@ generatedFiles:
   - src/cribl_control_plane/models/gitrevertresult.py
   - src/cribl_control_plane/models/gitshowresult.py
   - src/cribl_control_plane/models/gitstatusresult.py
+  - src/cribl_control_plane/models/groupcreaterequest.py
   - src/cribl_control_plane/models/hbcriblinfo.py
   - src/cribl_control_plane/models/hbleaderinfo.py
-  - src/cribl_control_plane/models/healthstatus.py
+  - src/cribl_control_plane/models/healthserverstatus.py
   - src/cribl_control_plane/models/heartbeatmetadata.py
   - src/cribl_control_plane/models/input.py
   - src/cribl_control_plane/models/inputappscope.py
@@ -3118,7 +3119,7 @@ examples:
         path:
           product: "edge"
       requestBody:
-        application/json: {"cloud": {"provider": "aws", "region": "<value>"}, "configVersion": "<value>", "deployingWorkerCount": 393.49, "description": "ack before fondly scent because gee without where exactly", "estimatedIngestRate": 5120, "git": {"commit": "<value>", "localChanges": 5255.51, "log": [{"author_email": "<value>", "author_name": "<value>", "date": "2024-06-13", "hash": "<value>", "message": "<value>", "short": "<value>"}]}, "id": "<id>", "incompatibleWorkerCount": 5613.31, "inherits": "<value>", "isFleet": true, "isSearch": false, "lookupDeployments": [{"context": "<value>", "lookups": []}], "maxWorkerAge": "<value>", "name": "<value>", "onPrem": false, "provisioned": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "tags": "<value>", "type": "lake_access", "upgradeVersion": "<value>", "workerCount": 3050.1, "workerRemoteAccess": false}
+        application/json: {"cloud": {"provider": "aws", "region": "<value>"}, "deployingWorkerCount": 393.49, "description": "ack before fondly scent because gee without where exactly", "estimatedIngestRate": 5120, "git": {"commit": "<value>", "localChanges": 5255.51, "log": [{"author_email": "<value>", "author_name": "<value>", "date": "2024-06-13", "hash": "<value>", "message": "<value>", "short": "<value>"}]}, "id": "<id>", "incompatibleWorkerCount": 5613.31, "inherits": "<value>", "isFleet": true, "isSearch": false, "lookupDeployments": [{"context": "<value>", "lookups": []}], "maxWorkerAge": "<value>", "name": "<value>", "onPrem": false, "provisioned": true, "sourceGroupId": "<id>", "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "tags": "<value>", "type": "lake_access", "upgradeVersion": "<value>", "workerCount": 3050.1, "workerRemoteAccess": false}
       responses:
         "200":
           application/json: {"count": 59152, "items": [{"cloud": {"provider": "aws", "region": "<value>"}, "configVersion": "<value>", "deployingWorkerCount": 5269.24, "description": "sedately anti watery", "estimatedIngestRate": 1024, "git": {"commit": "<value>", "localChanges": 5255.51, "log": [{"author_email": "<value>", "author_name": "<value>", "date": "2024-06-13", "hash": "<value>", "message": "<value>", "short": "<value>"}]}, "id": "<id>", "incompatibleWorkerCount": 5029.74, "inherits": "<value>", "isFleet": true, "isSearch": false, "lookupDeployments": [{"context": "<value>", "lookups": []}], "maxWorkerAge": "<value>", "name": "<value>", "onPrem": false, "provisioned": true, "streamtags": ["<value 1>", "<value 2>"], "tags": "<value>", "type": "lake_access", "upgradeVersion": "<value>", "workerCount": 8633.62, "workerRemoteAccess": true}]}
@@ -3277,6 +3278,24 @@ examples:
           application/json: {"count": 163235, "items": [{"author": "<value>", "dependencies": {"key": "<value>"}, "description": "round at outside round terribly direct trolley into", "displayName": "Everett_Emmerich", "exports": ["<value 1>", "<value 2>", "<value 3>"], "id": "<id>", "inputs": 6850.5, "isDisabled": false, "minLogStreamVersion": "<value>", "outputs": 2014.93, "settings": {"key": "<value>", "key1": "<value>", "key2": "<value>"}, "source": "<value>", "spec": "<value>", "tags": {"dataType": ["boolean"], "domain": [], "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "technology": ["<value 1>", "<value 2>"]}, "version": "<value>"}]}
         "500":
           application/json: {"message": "<value>"}
+  createAuthLogin:
+    speakeasy-default-create-auth-login:
+      requestBody:
+        application/json: {"password": "6j50J9421x29IhO", "username": "Lilly_Weissnat"}
+      responses:
+        "200":
+          application/json: {"forcePasswordChange": true, "token": "<value>"}
+        "500":
+          application/json: {"message": "<value>"}
+  getHealth:
+    speakeasy-default-get-health:
+      responses:
+        "200":
+          application/json: {"role": "standby", "startTime": 1037.51, "status": "healthy"}
+        "420":
+          application/json: {"role": "standby", "startTime": 7966.74, "status": "healthy"}
+        "500":
+          application/json: {"message": "<value>"}
 examplesVersion: 1.0.2
 generatedTests:
   getHealthInfo: "2025-07-02T19:12:56+02:00"
@@ -3342,3 +3361,4 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
+releaseNotes: "## Python SDK Changes Detected:\n* `cribl_control_plane.auth.tokens.get()`: \n  *  `response.force_password_change` **Changed**\n  *  `error` **Changed** **Breaking** :warning:\n* `cribl_control_plane.health.get()`: \n  *  `response.status[default]` **Removed** **Breaking** :warning:\n  *  `error.status[500]` **Added**\n* `cribl_control_plane.groups.create()`:  `request` **Changed** **Breaking** :warning:\n"

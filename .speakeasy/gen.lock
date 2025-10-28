@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 880def652e799eed9b092cf41ce68b2a
-  docVersion: 4.15.0-alpha.1761606328595-4d5d0f38
-  speakeasyVersion: 1.639.3
-  generationVersion: 2.730.5
-  releaseVersion: 0.2.1rc2
-  configChecksum: 84f82972adbdffd22c171b5ed091f04d
+  docChecksum: a007c4cb667183aae8befae764c565ac
+  docVersion: 4.15.0-alpha.1761655977097-59e6cf2e
+  speakeasyVersion: 1.642.1
+  generationVersion: 2.731.4
+  releaseVersion: 0.2.1rc3
+  configChecksum: d367afb1b1ae1a8b0d83b1a810c53434
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -72,7 +72,6 @@ generatedFiles:
   - docs/models/columnmapping.md
   - docs/models/comment.md
   - docs/models/commit.md
-  - docs/models/conf.md
   - docs/models/config.md
   - docs/models/configgroup.md
   - docs/models/configgroupcloud.md
@@ -83,6 +82,8 @@ generatedFiles:
   - docs/models/configgrouptype.md
   - docs/models/container.md
   - docs/models/containermode.md
+  - docs/models/createadminproductsmappingsactivatebyproductrequest.md
+  - docs/models/createadminproductsmappingsactivatebyproductresponse.md
   - docs/models/createconfiggroupbyproductrequest.md
   - docs/models/createconfiggroupbyproductresponse.md
   - docs/models/createcribllakedatasetbylakeidrequest.md
@@ -1895,6 +1896,7 @@ generatedFiles:
   - docs/models/packupgraderequest.md
   - docs/models/payloadformat.md
   - docs/models/pipeline.md
+  - docs/models/pipelineconf.md
   - docs/models/pipelinefunctionconf.md
   - docs/models/pipelinegroups.md
   - docs/models/podfilter.md
@@ -1919,6 +1921,7 @@ generatedFiles:
   - docs/models/routes.md
   - docs/models/routesgroups.md
   - docs/models/routesroute.md
+  - docs/models/rulesetid.md
   - docs/models/runnablejob.md
   - docs/models/runnablejobcollection.md
   - docs/models/runnablejobcollectioninput.md
@@ -2015,6 +2018,7 @@ generatedFiles:
   - docs/sdks/health/README.md
   - docs/sdks/hectokens/README.md
   - docs/sdks/lakedatasets/README.md
+  - docs/sdks/mappings/README.md
   - docs/sdks/nodes/README.md
   - docs/sdks/packs/README.md
   - docs/sdks/pipelines/README.md
@@ -2060,6 +2064,7 @@ generatedFiles:
   - src/cribl_control_plane/hectokens.py
   - src/cribl_control_plane/httpclient.py
   - src/cribl_control_plane/lakedatasets.py
+  - src/cribl_control_plane/mappings.py
   - src/cribl_control_plane/models/__init__.py
   - src/cribl_control_plane/models/addhectokenrequest.py
   - src/cribl_control_plane/models/authtoken.py
@@ -2071,6 +2076,7 @@ generatedFiles:
   - src/cribl_control_plane/models/configgroup.py
   - src/cribl_control_plane/models/configgroupcloud.py
   - src/cribl_control_plane/models/configgrouplookups.py
+  - src/cribl_control_plane/models/createadminproductsmappingsactivatebyproductop.py
   - src/cribl_control_plane/models/createconfiggroupbyproductop.py
   - src/cribl_control_plane/models/createcribllakedatasetbylakeidop.py
   - src/cribl_control_plane/models/createinputhectokenbyidop.py
@@ -2304,6 +2310,7 @@ generatedFiles:
   - src/cribl_control_plane/models/routeconf.py
   - src/cribl_control_plane/models/routes.py
   - src/cribl_control_plane/models/routesroute.py
+  - src/cribl_control_plane/models/rulesetid.py
   - src/cribl_control_plane/models/runnablejob.py
   - src/cribl_control_plane/models/runnablejobcollection.py
   - src/cribl_control_plane/models/runnablejobexecutor.py
@@ -3296,6 +3303,18 @@ examples:
           application/json: {"role": "standby", "startTime": 7966.74, "status": "healthy"}
         "500":
           application/json: {"message": "<value>"}
+  createAdminProductsMappingsActivateByProduct:
+    MappingRulesetActivateExamplesActivate:
+      parameters:
+        path:
+          product: "stream"
+      requestBody:
+        application/json: {"id": "default"}
+      responses:
+        "200":
+          application/json: {"count": 845678, "items": [{"id": "<id>"}]}
+        "500":
+          application/json: {"message": "<value>"}
 examplesVersion: 1.0.2
 generatedTests:
   getHealthInfo: "2025-07-02T19:12:56+02:00"
@@ -3361,4 +3380,6 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: "## Python SDK Changes Detected:\n* `cribl_control_plane.health.get()`: \n  *  `response.status[default]` **Removed** **Breaking** :warning:\n  *  `error.status[500]` **Added**\n* `cribl_control_plane.groups.deploy()`:  `response.items.[].estimated_ingest_rate` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.create()`: \n  *  `request` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.groups.delete()`:  `response.items.[].estimated_ingest_rate` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.update()`: \n  *  `request.input` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.groups.update()`: \n  *  `request.estimated_ingest_rate` **Changed** **Breaking** :warning:\n  *  `response.items.[].estimated_ingest_rate` **Changed** **Breaking** :warning:\n* `cribl_control_plane.groups.get()`:  `response.items.[].estimated_ingest_rate` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.create()`: \n  *  `request` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.groups.create()`: \n  *  `request` **Changed** **Breaking** :warning:\n  *  `response.items.[].estimated_ingest_rate` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.update()`: \n  *  `request.output` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.groups.list()`:  `response.items.[].estimated_ingest_rate` **Changed** **Breaking** :warning:\n* `cribl_control_plane.versions.commits.undo()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.routes.append()`: \n  *  `request_body.[].clones.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.auth.tokens.get()`: \n  *  `response.force_password_change` **Added**\n  *  `error` **Changed** **Breaking** :warning:\n* `cribl_control_plane.nodes.list()`:  `response.items.[].info` **Changed**\n* `cribl_control_plane.packs.update()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.packs.upload()`: **Added**\n* `cribl_control_plane.packs.install()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.packs.list()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.packs.delete()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.packs.get()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.nodes.summaries.get()`:  `response.items.[].groups` **Changed**\n* `cribl_control_plane.destinations.pq.get()`:  `response.items.[].stats` **Added**\n* `cribl_control_plane.destinations.delete()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.get()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.list()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.sources.delete()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.sources.get()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.sources.list()`:  `response.items.[]` **Changed**\n"
+releaseNotes: |
+  ## Python SDK Changes Detected:
+  * `cribl_control_plane.groups.mappings.activate()`: **Added**

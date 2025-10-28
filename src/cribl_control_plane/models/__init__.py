@@ -33,6 +33,12 @@ if TYPE_CHECKING:
         ConfigGroupLookupsLookupTypedDict,
         ConfigGroupLookupsTypedDict,
     )
+    from .createadminproductsmappingsactivatebyproductop import (
+        CreateAdminProductsMappingsActivateByProductRequest,
+        CreateAdminProductsMappingsActivateByProductRequestTypedDict,
+        CreateAdminProductsMappingsActivateByProductResponse,
+        CreateAdminProductsMappingsActivateByProductResponseTypedDict,
+    )
     from .createconfiggroupbyproductop import (
         CreateConfigGroupByProductRequest,
         CreateConfigGroupByProductRequestTypedDict,
@@ -3164,9 +3170,9 @@ if TYPE_CHECKING:
     )
     from .packupgraderequest import PackUpgradeRequest, PackUpgradeRequestTypedDict
     from .pipeline import (
-        Conf,
-        ConfTypedDict,
         Pipeline,
+        PipelineConf,
+        PipelineConfTypedDict,
         PipelineGroups,
         PipelineGroupsTypedDict,
         PipelineTypedDict,
@@ -3190,6 +3196,7 @@ if TYPE_CHECKING:
         RoutesTypedDict,
     )
     from .routesroute import RoutesRoute, RoutesRouteTypedDict
+    from .rulesetid import RulesetID, RulesetIDTypedDict
     from .runnablejob import RunnableJob, RunnableJobTypedDict
     from .runnablejobcollection import (
         CaptureSettings,
@@ -3378,8 +3385,6 @@ __all__ = [
     "CommentTypedDict",
     "Commit",
     "CommitTypedDict",
-    "Conf",
-    "ConfTypedDict",
     "Config",
     "ConfigGroup",
     "ConfigGroupCloud",
@@ -3397,6 +3402,10 @@ __all__ = [
     "Container",
     "ContainerMode",
     "ContainerTypedDict",
+    "CreateAdminProductsMappingsActivateByProductRequest",
+    "CreateAdminProductsMappingsActivateByProductRequestTypedDict",
+    "CreateAdminProductsMappingsActivateByProductResponse",
+    "CreateAdminProductsMappingsActivateByProductResponseTypedDict",
     "CreateConfigGroupByProductRequest",
     "CreateConfigGroupByProductRequestTypedDict",
     "CreateConfigGroupByProductResponse",
@@ -6118,6 +6127,8 @@ __all__ = [
     "PackUpgradeRequestTypedDict",
     "PayloadFormat",
     "Pipeline",
+    "PipelineConf",
+    "PipelineConfTypedDict",
     "PipelineFunctionConf",
     "PipelineFunctionConfTypedDict",
     "PipelineGroups",
@@ -6158,6 +6169,8 @@ __all__ = [
     "RoutesRoute",
     "RoutesRouteTypedDict",
     "RoutesTypedDict",
+    "RulesetID",
+    "RulesetIDTypedDict",
     "RunnableJob",
     "RunnableJobCollection",
     "RunnableJobCollectionInput",
@@ -6326,6 +6339,10 @@ _dynamic_imports: dict[str, str] = {
     "ConfigGroupLookupsLookup": ".configgrouplookups",
     "ConfigGroupLookupsLookupTypedDict": ".configgrouplookups",
     "ConfigGroupLookupsTypedDict": ".configgrouplookups",
+    "CreateAdminProductsMappingsActivateByProductRequest": ".createadminproductsmappingsactivatebyproductop",
+    "CreateAdminProductsMappingsActivateByProductRequestTypedDict": ".createadminproductsmappingsactivatebyproductop",
+    "CreateAdminProductsMappingsActivateByProductResponse": ".createadminproductsmappingsactivatebyproductop",
+    "CreateAdminProductsMappingsActivateByProductResponseTypedDict": ".createadminproductsmappingsactivatebyproductop",
     "CreateConfigGroupByProductRequest": ".createconfiggroupbyproductop",
     "CreateConfigGroupByProductRequestTypedDict": ".createconfiggroupbyproductop",
     "CreateConfigGroupByProductResponse": ".createconfiggroupbyproductop",
@@ -9124,9 +9141,9 @@ _dynamic_imports: dict[str, str] = {
     "PackRequestBodyUnionTypedDict": ".packrequestbody_union",
     "PackUpgradeRequest": ".packupgraderequest",
     "PackUpgradeRequestTypedDict": ".packupgraderequest",
-    "Conf": ".pipeline",
-    "ConfTypedDict": ".pipeline",
     "Pipeline": ".pipeline",
+    "PipelineConf": ".pipeline",
+    "PipelineConfTypedDict": ".pipeline",
     "PipelineGroups": ".pipeline",
     "PipelineGroupsTypedDict": ".pipeline",
     "PipelineTypedDict": ".pipeline",
@@ -9148,6 +9165,8 @@ _dynamic_imports: dict[str, str] = {
     "RoutesTypedDict": ".routes",
     "RoutesRoute": ".routesroute",
     "RoutesRouteTypedDict": ".routesroute",
+    "RulesetID": ".rulesetid",
+    "RulesetIDTypedDict": ".rulesetid",
     "RunnableJob": ".runnablejob",
     "RunnableJobTypedDict": ".runnablejob",
     "CaptureSettings": ".runnablejobcollection",

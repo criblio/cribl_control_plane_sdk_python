@@ -341,6 +341,10 @@ with CriblControlPlane(
 
 * [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/configsversions/README.md#get) - Get the configuration version for a Worker Group or Edge Fleet
 
+#### [groups.mappings](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/mappings/README.md)
+
+* [activate](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/mappings/README.md#activate) - Set a Mapping Ruleset as the active configuration for the specified Cribl product
+
 ### [health](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/health/README.md)
 
 * [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/health/README.md#get) - Retrieve health status of the server
@@ -673,7 +677,7 @@ with CriblControlPlane(
 
 
 **Inherit from [`CriblControlPlaneError`](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/./src/cribl_control_plane/errors/criblcontrolplaneerror.py)**:
-* [`HealthServerStatusError`](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/./src/cribl_control_plane/errors/healthserverstatuserror.py): Healthy status. Status code `420`. Applicable to 1 of 63 methods.*
+* [`HealthServerStatusError`](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/./src/cribl_control_plane/errors/healthserverstatuserror.py): Healthy status. Status code `420`. Applicable to 1 of 64 methods.*
 * [`ResponseValidationError`](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/./src/cribl_control_plane/errors/responsevalidationerror.py): Type mismatch between the response data and the expected Pydantic model. Provides access to the Pydantic validation error via the `cause` attribute.
 
 </details>

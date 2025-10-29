@@ -8,5 +8,5 @@ In Error mode, PQ writes events to the filesystem if the Destination is unavaila
 | Name           | Value          |
 | -------------- | -------------- |
 | `ERROR`        | error          |
-| `ALWAYS`       | always         |
 | `BACKPRESSURE` | backpressure   |
+| `ALWAYS`       | always         |

@@ -35,15 +35,6 @@ class OutputAzureEventhubRecordDataFormat(str, Enum, metaclass=utils.OpenEnumMet
     RAW = "raw"
 
 
-class OutputAzureEventhubAuthTypeAuthenticationMethod(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
-    r"""Enter password directly, or select a stored secret"""
-
-    MANUAL = "manual"
-    SECRET = "secret"
-
-
 class OutputAzureEventhubSASLMechanism(str, Enum, metaclass=utils.OpenEnumMeta):
     # PLAIN
     PLAIN = "plain"
@@ -51,59 +42,11 @@ class OutputAzureEventhubSASLMechanism(str, Enum, metaclass=utils.OpenEnumMeta):
     OAUTHBEARER = "oauthbearer"
 
 
-class OutputAzureEventhubClientSecretAuthTypeAuthenticationMethod(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
-    MANUAL = "manual"
-    SECRET = "secret"
-    CERTIFICATE = "certificate"
-
-
-class OutputAzureEventhubMicrosoftEntraIDAuthenticationEndpoint(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
-    r"""Endpoint used to acquire authentication tokens from Azure"""
-
-    HTTPS_LOGIN_MICROSOFTONLINE_COM = "https://login.microsoftonline.com"
-    HTTPS_LOGIN_MICROSOFTONLINE_US = "https://login.microsoftonline.us"
-    HTTPS_LOGIN_PARTNER_MICROSOFTONLINE_CN = "https://login.partner.microsoftonline.cn"
-
-
 class OutputAzureEventhubAuthenticationTypedDict(TypedDict):
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
     disabled: NotRequired[bool]
-    auth_type: NotRequired[OutputAzureEventhubAuthTypeAuthenticationMethod]
-    r"""Enter password directly, or select a stored secret"""
-    password: NotRequired[str]
-    r"""Connection-string primary key, or connection-string secondary key, from the Event Hubs workspace"""
-    text_secret: NotRequired[str]
-    r"""Select or create a stored text secret"""
     mechanism: NotRequired[OutputAzureEventhubSASLMechanism]
-    username: NotRequired[str]
-    r"""The username for authentication. For Event Hubs, this should always be $ConnectionString."""
-    client_secret_auth_type: NotRequired[
-        OutputAzureEventhubClientSecretAuthTypeAuthenticationMethod
-    ]
-    client_secret: NotRequired[str]
-    r"""client_secret to pass in the OAuth request parameter"""
-    client_text_secret: NotRequired[str]
-    r"""Select or create a stored text secret"""
-    certificate_name: NotRequired[str]
-    r"""Select or create a stored certificate"""
-    cert_path: NotRequired[str]
-    priv_key_path: NotRequired[str]
-    passphrase: NotRequired[str]
-    oauth_endpoint: NotRequired[
-        OutputAzureEventhubMicrosoftEntraIDAuthenticationEndpoint
-    ]
-    r"""Endpoint used to acquire authentication tokens from Azure"""
-    client_id: NotRequired[str]
-    r"""client_id to pass in the OAuth request parameter"""
-    tenant_id: NotRequired[str]
-    r"""Directory ID (tenant identifier) in Azure Active Directory"""
-    scope: NotRequired[str]
-    r"""Scope to pass in the OAuth request parameter"""
 
 
 class OutputAzureEventhubAuthentication(BaseModel):
@@ -111,73 +54,10 @@ class OutputAzureEventhubAuthentication(BaseModel):
 
     disabled: Optional[bool] = False
 
-    auth_type: Annotated[
-        Annotated[
-            Optional[OutputAzureEventhubAuthTypeAuthenticationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
-    ] = OutputAzureEventhubAuthTypeAuthenticationMethod.MANUAL
-    r"""Enter password directly, or select a stored secret"""
-
-    password: Optional[str] = None
-    r"""Connection-string primary key, or connection-string secondary key, from the Event Hubs workspace"""
-
-    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
-    r"""Select or create a stored text secret"""
-
     mechanism: Annotated[
         Optional[OutputAzureEventhubSASLMechanism],
         PlainValidator(validate_open_enum(False)),
     ] = OutputAzureEventhubSASLMechanism.PLAIN
-
-    username: Optional[str] = "$ConnectionString"
-    r"""The username for authentication. For Event Hubs, this should always be $ConnectionString."""
-
-    client_secret_auth_type: Annotated[
-        Annotated[
-            Optional[OutputAzureEventhubClientSecretAuthTypeAuthenticationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="clientSecretAuthType"),
-    ] = OutputAzureEventhubClientSecretAuthTypeAuthenticationMethod.MANUAL
-
-    client_secret: Annotated[Optional[str], pydantic.Field(alias="clientSecret")] = None
-    r"""client_secret to pass in the OAuth request parameter"""
-
-    client_text_secret: Annotated[
-        Optional[str], pydantic.Field(alias="clientTextSecret")
-    ] = None
-    r"""Select or create a stored text secret"""
-
-    certificate_name: Annotated[
-        Optional[str], pydantic.Field(alias="certificateName")
-    ] = None
-    r"""Select or create a stored certificate"""
-
-    cert_path: Annotated[Optional[str], pydantic.Field(alias="certPath")] = None
-
-    priv_key_path: Annotated[Optional[str], pydantic.Field(alias="privKeyPath")] = None
-
-    passphrase: Optional[str] = None
-
-    oauth_endpoint: Annotated[
-        Annotated[
-            Optional[OutputAzureEventhubMicrosoftEntraIDAuthenticationEndpoint],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="oauthEndpoint"),
-    ] = OutputAzureEventhubMicrosoftEntraIDAuthenticationEndpoint.HTTPS_LOGIN_MICROSOFTONLINE_COM
-    r"""Endpoint used to acquire authentication tokens from Azure"""
-
-    client_id: Annotated[Optional[str], pydantic.Field(alias="clientId")] = None
-    r"""client_id to pass in the OAuth request parameter"""
-
-    tenant_id: Annotated[Optional[str], pydantic.Field(alias="tenantId")] = None
-    r"""Directory ID (tenant identifier) in Azure Active Directory"""
-
-    scope: Optional[str] = None
-    r"""Scope to pass in the OAuth request parameter"""
 
 
 class OutputAzureEventhubTLSSettingsClientSideTypedDict(TypedDict):
@@ -206,17 +86,6 @@ class OutputAzureEventhubBackpressureBehavior(str, Enum, metaclass=utils.OpenEnu
     QUEUE = "queue"
 
 
-class OutputAzureEventhubMode(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
-
-    # Error
-    ERROR = "error"
-    # Backpressure
-    ALWAYS = "always"
-    # Always On
-    BACKPRESSURE = "backpressure"
-
-
 class OutputAzureEventhubCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
@@ -233,6 +102,17 @@ class OutputAzureEventhubQueueFullBehavior(str, Enum, metaclass=utils.OpenEnumMe
     BLOCK = "block"
     # Drop new data
     DROP = "drop"
+
+
+class OutputAzureEventhubMode(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
+
+    # Error
+    ERROR = "error"
+    # Backpressure
+    BACKPRESSURE = "backpressure"
+    # Always On
+    ALWAYS = "always"
 
 
 class OutputAzureEventhubPqControlsTypedDict(TypedDict):
@@ -291,16 +171,6 @@ class OutputAzureEventhubTypedDict(TypedDict):
     on_backpressure: NotRequired[OutputAzureEventhubBackpressureBehavior]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
-    pq_strict_ordering: NotRequired[bool]
-    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
-    pq_rate_per_sec: NotRequired[float]
-    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
-    pq_mode: NotRequired[OutputAzureEventhubMode]
-    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
-    pq_max_buffer_size: NotRequired[float]
-    r"""The maximum number of events to hold in memory before writing the events to disk"""
-    pq_max_backpressure_sec: NotRequired[float]
-    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
     pq_max_size: NotRequired[str]
@@ -311,6 +181,8 @@ class OutputAzureEventhubTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[OutputAzureEventhubQueueFullBehavior]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
+    pq_mode: NotRequired[OutputAzureEventhubMode]
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_controls: NotRequired[OutputAzureEventhubPqControlsTypedDict]
 
 
@@ -420,34 +292,6 @@ class OutputAzureEventhub(BaseModel):
 
     description: Optional[str] = None
 
-    pq_strict_ordering: Annotated[
-        Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
-    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
-
-    pq_rate_per_sec: Annotated[
-        Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
-    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
-
-    pq_mode: Annotated[
-        Annotated[
-            Optional[OutputAzureEventhubMode], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqMode"),
-    ] = OutputAzureEventhubMode.ERROR
-    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
-
-    pq_max_buffer_size: Annotated[
-        Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
-    r"""The maximum number of events to hold in memory before writing the events to disk"""
-
-    pq_max_backpressure_sec: Annotated[
-        Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
-    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
-
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
     ] = "1 MB"
@@ -478,6 +322,14 @@ class OutputAzureEventhub(BaseModel):
         pydantic.Field(alias="pqOnBackpressure"),
     ] = OutputAzureEventhubQueueFullBehavior.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
+
+    pq_mode: Annotated[
+        Annotated[
+            Optional[OutputAzureEventhubMode], PlainValidator(validate_open_enum(False))
+        ],
+        pydantic.Field(alias="pqMode"),
+    ] = OutputAzureEventhubMode.ERROR
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_controls: Annotated[
         Optional[OutputAzureEventhubPqControls], pydantic.Field(alias="pqControls")

@@ -239,14 +239,12 @@ class InputSystemMetricsNetworkMode(str, Enum, metaclass=utils.OpenEnumMeta):
 class InputSystemMetricsNetworkTypedDict(TypedDict):
     mode: NotRequired[InputSystemMetricsNetworkMode]
     r"""Select the level of detail for network metrics"""
-    detail: NotRequired[bool]
-    r"""Generate full network metrics"""
-    protocols: NotRequired[bool]
-    r"""Generate protocol metrics for ICMP, ICMPMsg, IP, TCP, UDP and UDPLite"""
     devices: NotRequired[List[str]]
     r"""Network interfaces to include/exclude. Examples: eth0, !lo. All interfaces are included if this list is empty."""
     per_interface: NotRequired[bool]
     r"""Generate separate metrics for each interface"""
+    detail: NotRequired[bool]
+    r"""Generate full network metrics"""
 
 
 class InputSystemMetricsNetwork(BaseModel):
@@ -256,12 +254,6 @@ class InputSystemMetricsNetwork(BaseModel):
     ] = InputSystemMetricsNetworkMode.BASIC
     r"""Select the level of detail for network metrics"""
 
-    detail: Optional[bool] = False
-    r"""Generate full network metrics"""
-
-    protocols: Optional[bool] = False
-    r"""Generate protocol metrics for ICMP, ICMPMsg, IP, TCP, UDP and UDPLite"""
-
     devices: Optional[List[str]] = None
     r"""Network interfaces to include/exclude. Examples: eth0, !lo. All interfaces are included if this list is empty."""
 
@@ -269,6 +261,9 @@ class InputSystemMetricsNetwork(BaseModel):
         False
     )
     r"""Generate separate metrics for each interface"""
+
+    detail: Optional[bool] = False
+    r"""Generate full network metrics"""
 
 
 class InputSystemMetricsDiskMode(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -287,10 +282,6 @@ class InputSystemMetricsDiskMode(str, Enum, metaclass=utils.OpenEnumMeta):
 class InputSystemMetricsDiskTypedDict(TypedDict):
     mode: NotRequired[InputSystemMetricsDiskMode]
     r"""Select the level of detail for disk metrics"""
-    detail: NotRequired[bool]
-    r"""Generate full disk metrics"""
-    inodes: NotRequired[bool]
-    r"""Generate filesystem inode metrics"""
     devices: NotRequired[List[str]]
     r"""Block devices to include/exclude. Examples: sda*, !loop*. Wildcards and ! (not) operators are supported. All devices are included if this list is empty."""
     mountpoints: NotRequired[List[str]]
@@ -299,6 +290,8 @@ class InputSystemMetricsDiskTypedDict(TypedDict):
     r"""Filesystem types to include/exclude. Examples: ext4, !*tmpfs, !squashfs. Wildcards and ! (not) operators are supported. All types are included if this list is empty."""
     per_device: NotRequired[bool]
     r"""Generate separate metrics for each device"""
+    detail: NotRequired[bool]
+    r"""Generate full disk metrics"""
 
 
 class InputSystemMetricsDisk(BaseModel):
@@ -306,12 +299,6 @@ class InputSystemMetricsDisk(BaseModel):
         Optional[InputSystemMetricsDiskMode], PlainValidator(validate_open_enum(False))
     ] = InputSystemMetricsDiskMode.BASIC
     r"""Select the level of detail for disk metrics"""
-
-    detail: Optional[bool] = False
-    r"""Generate full disk metrics"""
-
-    inodes: Optional[bool] = False
-    r"""Generate filesystem inode metrics"""
 
     devices: Optional[List[str]] = None
     r"""Block devices to include/exclude. Examples: sda*, !loop*. Wildcards and ! (not) operators are supported. All devices are included if this list is empty."""
@@ -324,6 +311,9 @@ class InputSystemMetricsDisk(BaseModel):
 
     per_device: Annotated[Optional[bool], pydantic.Field(alias="perDevice")] = False
     r"""Generate separate metrics for each device"""
+
+    detail: Optional[bool] = False
+    r"""Generate full disk metrics"""
 
 
 class InputSystemMetricsCustomTypedDict(TypedDict):

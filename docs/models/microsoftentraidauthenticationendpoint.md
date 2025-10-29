@@ -1,4 +1,4 @@
-# InputEventhubMicrosoftEntraIDAuthenticationEndpoint
+# MicrosoftEntraIDAuthenticationEndpoint
 
 Endpoint used to acquire authentication tokens from Azure
 

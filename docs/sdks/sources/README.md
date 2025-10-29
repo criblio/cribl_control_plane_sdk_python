@@ -108,14 +108,14 @@ with CriblControlPlane(
         "port": 301.76,
         "tls": {
             "disabled": True,
-            "request_cert": False,
-            "reject_unauthorized": True,
-            "common_name_regex": "<value>",
             "certificate_name": "<value>",
             "priv_key_path": "<value>",
             "passphrase": "<value>",
             "cert_path": "<value>",
             "ca_path": "<value>",
+            "request_cert": False,
+            "reject_unauthorized": "<value>",
+            "common_name_regex": "<value>",
             "min_version": models.InputTCPMinimumTLSVersion.TL_SV1,
             "max_version": models.InputTCPMaximumTLSVersion.TL_SV1_1,
         },
@@ -146,9 +146,7 @@ with CriblControlPlane(
             ],
         },
         "description": "classic pish supposing misguided carefully fen",
-        "auth_token": "",
         "auth_type": models.InputTCPAuthenticationMethod.MANUAL,
-        "text_secret": "<value>",
     })
 
     # Handle response

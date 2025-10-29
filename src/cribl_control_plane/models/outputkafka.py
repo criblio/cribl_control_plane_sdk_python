@@ -212,13 +212,6 @@ class OutputKafkaKafkaSchemaRegistryAuthentication(BaseModel):
     r"""Used when __valueSchemaIdOut is not present, to transform _raw, leave blank if value transformation is not required by default."""
 
 
-class OutputKafkaAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Enter credentials directly, or select a stored secret"""
-
-    MANUAL = "manual"
-    SECRET = "secret"
-
-
 class OutputKafkaSASLMechanism(str, Enum, metaclass=utils.OpenEnumMeta):
     # PLAIN
     PLAIN = "plain"
@@ -230,58 +223,13 @@ class OutputKafkaSASLMechanism(str, Enum, metaclass=utils.OpenEnumMeta):
     KERBEROS = "kerberos"
 
 
-class OutputKafkaOauthParamTypedDict(TypedDict):
-    name: str
-    value: str
-
-
-class OutputKafkaOauthParam(BaseModel):
-    name: str
-
-    value: str
-
-
-class OutputKafkaSaslExtensionTypedDict(TypedDict):
-    name: str
-    value: str
-
-
-class OutputKafkaSaslExtension(BaseModel):
-    name: str
-
-    value: str
-
-
 class OutputKafkaAuthenticationTypedDict(TypedDict):
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
     disabled: NotRequired[bool]
-    username: NotRequired[str]
-    password: NotRequired[str]
-    auth_type: NotRequired[OutputKafkaAuthenticationMethod]
-    r"""Enter credentials directly, or select a stored secret"""
-    credentials_secret: NotRequired[str]
-    r"""Select or create a secret that references your credentials"""
     mechanism: NotRequired[OutputKafkaSASLMechanism]
-    keytab_location: NotRequired[str]
-    r"""Location of keytab file for authentication principal"""
-    principal: NotRequired[str]
-    r"""Authentication principal, such as `kafka_user@example.com`"""
-    broker_service_class: NotRequired[str]
-    r"""Kerberos service class for Kafka brokers, such as `kafka`"""
     oauth_enabled: NotRequired[bool]
     r"""Enable OAuth authentication"""
-    token_url: NotRequired[str]
-    r"""URL of the token endpoint to use for OAuth authentication"""
-    client_id: NotRequired[str]
-    r"""Client ID to use for OAuth authentication"""
-    oauth_secret_type: NotRequired[str]
-    client_text_secret: NotRequired[str]
-    r"""Select or create a stored text secret"""
-    oauth_params: NotRequired[List[OutputKafkaOauthParamTypedDict]]
-    r"""Additional fields to send to the token endpoint, such as scope or audience"""
-    sasl_extensions: NotRequired[List[OutputKafkaSaslExtensionTypedDict]]
-    r"""Additional SASL extension fields, such as Confluent's logicalCluster or identityPoolId"""
 
 
 class OutputKafkaAuthentication(BaseModel):
@@ -289,70 +237,14 @@ class OutputKafkaAuthentication(BaseModel):
 
     disabled: Optional[bool] = True
 
-    username: Optional[str] = None
-
-    password: Optional[str] = None
-
-    auth_type: Annotated[
-        Annotated[
-            Optional[OutputKafkaAuthenticationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
-    ] = OutputKafkaAuthenticationMethod.MANUAL
-    r"""Enter credentials directly, or select a stored secret"""
-
-    credentials_secret: Annotated[
-        Optional[str], pydantic.Field(alias="credentialsSecret")
-    ] = None
-    r"""Select or create a secret that references your credentials"""
-
     mechanism: Annotated[
         Optional[OutputKafkaSASLMechanism], PlainValidator(validate_open_enum(False))
     ] = OutputKafkaSASLMechanism.PLAIN
-
-    keytab_location: Annotated[
-        Optional[str], pydantic.Field(alias="keytabLocation")
-    ] = None
-    r"""Location of keytab file for authentication principal"""
-
-    principal: Optional[str] = None
-    r"""Authentication principal, such as `kafka_user@example.com`"""
-
-    broker_service_class: Annotated[
-        Optional[str], pydantic.Field(alias="brokerServiceClass")
-    ] = None
-    r"""Kerberos service class for Kafka brokers, such as `kafka`"""
 
     oauth_enabled: Annotated[Optional[bool], pydantic.Field(alias="oauthEnabled")] = (
         False
     )
     r"""Enable OAuth authentication"""
-
-    token_url: Annotated[Optional[str], pydantic.Field(alias="tokenUrl")] = None
-    r"""URL of the token endpoint to use for OAuth authentication"""
-
-    client_id: Annotated[Optional[str], pydantic.Field(alias="clientId")] = None
-    r"""Client ID to use for OAuth authentication"""
-
-    oauth_secret_type: Annotated[
-        Optional[str], pydantic.Field(alias="oauthSecretType")
-    ] = "secret"
-
-    client_text_secret: Annotated[
-        Optional[str], pydantic.Field(alias="clientTextSecret")
-    ] = None
-    r"""Select or create a stored text secret"""
-
-    oauth_params: Annotated[
-        Optional[List[OutputKafkaOauthParam]], pydantic.Field(alias="oauthParams")
-    ] = None
-    r"""Additional fields to send to the token endpoint, such as scope or audience"""
-
-    sasl_extensions: Annotated[
-        Optional[List[OutputKafkaSaslExtension]], pydantic.Field(alias="saslExtensions")
-    ] = None
-    r"""Additional SASL extension fields, such as Confluent's logicalCluster or identityPoolId"""
 
 
 class OutputKafkaMinimumTLSVersion(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -449,17 +341,6 @@ class OutputKafkaBackpressureBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     QUEUE = "queue"
 
 
-class OutputKafkaMode(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
-
-    # Error
-    ERROR = "error"
-    # Backpressure
-    ALWAYS = "always"
-    # Always On
-    BACKPRESSURE = "backpressure"
-
-
 class OutputKafkaPqCompressCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
@@ -476,6 +357,17 @@ class OutputKafkaQueueFullBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     BLOCK = "block"
     # Drop new data
     DROP = "drop"
+
+
+class OutputKafkaMode(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
+
+    # Error
+    ERROR = "error"
+    # Backpressure
+    BACKPRESSURE = "backpressure"
+    # Always On
+    ALWAYS = "always"
 
 
 class OutputKafkaPqControlsTypedDict(TypedDict):
@@ -541,18 +433,6 @@ class OutputKafkaTypedDict(TypedDict):
     description: NotRequired[str]
     protobuf_library_id: NotRequired[str]
     r"""Select a set of Protobuf definitions for the events you want to send"""
-    protobuf_encoding_id: NotRequired[str]
-    r"""Select the type of object you want the Protobuf definitions to use for event encoding"""
-    pq_strict_ordering: NotRequired[bool]
-    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
-    pq_rate_per_sec: NotRequired[float]
-    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
-    pq_mode: NotRequired[OutputKafkaMode]
-    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
-    pq_max_buffer_size: NotRequired[float]
-    r"""The maximum number of events to hold in memory before writing the events to disk"""
-    pq_max_backpressure_sec: NotRequired[float]
-    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
     pq_max_size: NotRequired[str]
@@ -563,6 +443,8 @@ class OutputKafkaTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[OutputKafkaQueueFullBehavior]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
+    pq_mode: NotRequired[OutputKafkaMode]
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_controls: NotRequired[OutputKafkaPqControlsTypedDict]
 
 
@@ -686,37 +568,6 @@ class OutputKafka(BaseModel):
     ] = None
     r"""Select a set of Protobuf definitions for the events you want to send"""
 
-    protobuf_encoding_id: Annotated[
-        Optional[str], pydantic.Field(alias="protobufEncodingId")
-    ] = None
-    r"""Select the type of object you want the Protobuf definitions to use for event encoding"""
-
-    pq_strict_ordering: Annotated[
-        Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
-    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
-
-    pq_rate_per_sec: Annotated[
-        Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
-    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
-
-    pq_mode: Annotated[
-        Annotated[Optional[OutputKafkaMode], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = OutputKafkaMode.ERROR
-    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
-
-    pq_max_buffer_size: Annotated[
-        Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
-    r"""The maximum number of events to hold in memory before writing the events to disk"""
-
-    pq_max_backpressure_sec: Annotated[
-        Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
-    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
-
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
     ] = "1 MB"
@@ -747,6 +598,12 @@ class OutputKafka(BaseModel):
         pydantic.Field(alias="pqOnBackpressure"),
     ] = OutputKafkaQueueFullBehavior.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
+
+    pq_mode: Annotated[
+        Annotated[Optional[OutputKafkaMode], PlainValidator(validate_open_enum(False))],
+        pydantic.Field(alias="pqMode"),
+    ] = OutputKafkaMode.ERROR
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_controls: Annotated[
         Optional[OutputKafkaPqControls], pydantic.Field(alias="pqControls")

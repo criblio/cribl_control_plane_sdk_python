@@ -90,45 +90,6 @@ class TimestampFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     ISO8601 = "iso8601"
 
 
-class OutputSyslogTLS(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Whether to inherit TLS configs from group setting or disable TLS"""
-
-    INHERIT = "inherit"
-    OFF = "off"
-
-
-class OutputSyslogHostTypedDict(TypedDict):
-    host: str
-    r"""The hostname of the receiver"""
-    port: float
-    r"""The port to connect to on the provided host"""
-    tls: NotRequired[OutputSyslogTLS]
-    r"""Whether to inherit TLS configs from group setting or disable TLS"""
-    servername: NotRequired[str]
-    r"""Servername to use if establishing a TLS connection. If not specified, defaults to connection host (if not an IP); otherwise, uses the global TLS settings."""
-    weight: NotRequired[float]
-    r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
-
-
-class OutputSyslogHost(BaseModel):
-    host: str
-    r"""The hostname of the receiver"""
-
-    port: float
-    r"""The port to connect to on the provided host"""
-
-    tls: Annotated[
-        Optional[OutputSyslogTLS], PlainValidator(validate_open_enum(False))
-    ] = OutputSyslogTLS.INHERIT
-    r"""Whether to inherit TLS configs from group setting or disable TLS"""
-
-    servername: Optional[str] = None
-    r"""Servername to use if establishing a TLS connection. If not specified, defaults to connection host (if not an IP); otherwise, uses the global TLS settings."""
-
-    weight: Optional[float] = 1
-    r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
-
-
 class OutputSyslogMinimumTLSVersion(str, Enum, metaclass=utils.OpenEnumMeta):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
@@ -223,17 +184,6 @@ class OutputSyslogBackpressureBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     QUEUE = "queue"
 
 
-class OutputSyslogMode(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
-
-    # Error
-    ERROR = "error"
-    # Backpressure
-    ALWAYS = "always"
-    # Always On
-    BACKPRESSURE = "backpressure"
-
-
 class OutputSyslogCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
@@ -252,12 +202,60 @@ class OutputSyslogQueueFullBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     DROP = "drop"
 
 
+class OutputSyslogMode(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
+
+    # Error
+    ERROR = "error"
+    # Backpressure
+    BACKPRESSURE = "backpressure"
+    # Always On
+    ALWAYS = "always"
+
+
 class OutputSyslogPqControlsTypedDict(TypedDict):
     pass
 
 
 class OutputSyslogPqControls(BaseModel):
     pass
+
+
+class OutputSyslogTLS(str, Enum):
+    r"""Whether to inherit TLS configs from group setting or disable TLS"""
+
+    INHERIT = "inherit"
+    OFF = "off"
+
+
+class OutputSyslogHostTypedDict(TypedDict):
+    host: str
+    r"""The hostname of the receiver"""
+    port: NotRequired[float]
+    r"""The port to connect to on the provided host"""
+    tls: NotRequired[OutputSyslogTLS]
+    r"""Whether to inherit TLS configs from group setting or disable TLS"""
+    servername: NotRequired[str]
+    r"""Servername to use if establishing a TLS connection. If not specified, defaults to connection host (if not an IP); otherwise, uses the global TLS settings."""
+    weight: NotRequired[float]
+    r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
+
+
+class OutputSyslogHost(BaseModel):
+    host: str
+    r"""The hostname of the receiver"""
+
+    port: Optional[float] = 9997
+    r"""The port to connect to on the provided host"""
+
+    tls: Optional[OutputSyslogTLS] = OutputSyslogTLS.INHERIT
+    r"""Whether to inherit TLS configs from group setting or disable TLS"""
+
+    servername: Optional[str] = None
+    r"""Servername to use if establishing a TLS connection. If not specified, defaults to connection host (if not an IP); otherwise, uses the global TLS settings."""
+
+    weight: Optional[float] = 1
+    r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
 
 
 class OutputSyslogTypedDict(TypedDict):
@@ -293,20 +291,6 @@ class OutputSyslogTypedDict(TypedDict):
     description: NotRequired[str]
     load_balanced: NotRequired[bool]
     r"""For optimal performance, enable load balancing even if you have one hostname, as it can expand to multiple IPs.  If this setting is disabled, consider enabling round-robin DNS."""
-    host: NotRequired[str]
-    r"""The hostname of the receiver"""
-    port: NotRequired[float]
-    r"""The port to connect to on the provided host"""
-    exclude_self: NotRequired[bool]
-    r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
-    hosts: NotRequired[List[OutputSyslogHostTypedDict]]
-    r"""Set of hosts to load-balance data to"""
-    dns_resolve_period_sec: NotRequired[float]
-    r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
-    load_balance_stats_period_sec: NotRequired[float]
-    r"""How far back in time to keep traffic stats for load balancing purposes"""
-    max_concurrent_senders: NotRequired[float]
-    r"""Maximum number of concurrent connections (per Worker Process). A random set of IPs will be picked on every DNS resolution period. Use 0 for unlimited."""
     connection_timeout: NotRequired[float]
     r"""Amount of time (milliseconds) to wait for the connection to establish before retrying"""
     write_timeout: NotRequired[float]
@@ -314,20 +298,14 @@ class OutputSyslogTypedDict(TypedDict):
     tls: NotRequired[OutputSyslogTLSSettingsClientSideTypedDict]
     on_backpressure: NotRequired[OutputSyslogBackpressureBehavior]
     r"""How to handle events when all receivers are exerting backpressure"""
+    host: NotRequired[str]
+    r"""The hostname of the receiver"""
+    port: NotRequired[float]
+    r"""The port to connect to on the provided host"""
     max_record_size: NotRequired[float]
     r"""Maximum size of syslog messages. Make sure this value is less than or equal to the MTU to avoid UDP packet fragmentation."""
     udp_dns_resolve_period_sec: NotRequired[float]
     r"""How often to resolve the destination hostname to an IP address. Ignored if the destination is an IP address. A value of 0 means every message sent will incur a DNS lookup."""
-    pq_strict_ordering: NotRequired[bool]
-    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
-    pq_rate_per_sec: NotRequired[float]
-    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
-    pq_mode: NotRequired[OutputSyslogMode]
-    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
-    pq_max_buffer_size: NotRequired[float]
-    r"""The maximum number of events to hold in memory before writing the events to disk"""
-    pq_max_backpressure_sec: NotRequired[float]
-    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
     pq_max_size: NotRequired[str]
@@ -338,7 +316,19 @@ class OutputSyslogTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[OutputSyslogQueueFullBehavior]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
+    pq_mode: NotRequired[OutputSyslogMode]
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_controls: NotRequired[OutputSyslogPqControlsTypedDict]
+    dns_resolve_period_sec: NotRequired[float]
+    r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
+    load_balance_stats_period_sec: NotRequired[float]
+    r"""How far back in time to keep traffic stats for load balancing purposes"""
+    max_concurrent_senders: NotRequired[float]
+    r"""Maximum number of concurrent connections (per Worker Process). A random set of IPs will be picked on every DNS resolution period. Use 0 for unlimited."""
+    exclude_self: NotRequired[bool]
+    r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
+    hosts: NotRequired[List[OutputSyslogHostTypedDict]]
+    r"""Set of hosts to load-balance data to."""
 
 
 class OutputSyslog(BaseModel):
@@ -416,33 +406,6 @@ class OutputSyslog(BaseModel):
     )
     r"""For optimal performance, enable load balancing even if you have one hostname, as it can expand to multiple IPs.  If this setting is disabled, consider enabling round-robin DNS."""
 
-    host: Optional[str] = None
-    r"""The hostname of the receiver"""
-
-    port: Optional[float] = None
-    r"""The port to connect to on the provided host"""
-
-    exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = False
-    r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
-
-    hosts: Optional[List[OutputSyslogHost]] = None
-    r"""Set of hosts to load-balance data to"""
-
-    dns_resolve_period_sec: Annotated[
-        Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
-    ] = 600
-    r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
-
-    load_balance_stats_period_sec: Annotated[
-        Optional[float], pydantic.Field(alias="loadBalanceStatsPeriodSec")
-    ] = 300
-    r"""How far back in time to keep traffic stats for load balancing purposes"""
-
-    max_concurrent_senders: Annotated[
-        Optional[float], pydantic.Field(alias="maxConcurrentSenders")
-    ] = 0
-    r"""Maximum number of concurrent connections (per Worker Process). A random set of IPs will be picked on every DNS resolution period. Use 0 for unlimited."""
-
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
     ] = 10000
@@ -464,6 +427,12 @@ class OutputSyslog(BaseModel):
     ] = OutputSyslogBackpressureBehavior.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
+    host: Optional[str] = None
+    r"""The hostname of the receiver"""
+
+    port: Optional[float] = None
+    r"""The port to connect to on the provided host"""
+
     max_record_size: Annotated[
         Optional[float], pydantic.Field(alias="maxRecordSize")
     ] = 1500
@@ -473,34 +442,6 @@ class OutputSyslog(BaseModel):
         Optional[float], pydantic.Field(alias="udpDnsResolvePeriodSec")
     ] = 0
     r"""How often to resolve the destination hostname to an IP address. Ignored if the destination is an IP address. A value of 0 means every message sent will incur a DNS lookup."""
-
-    pq_strict_ordering: Annotated[
-        Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
-    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
-
-    pq_rate_per_sec: Annotated[
-        Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
-    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
-
-    pq_mode: Annotated[
-        Annotated[
-            Optional[OutputSyslogMode], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqMode"),
-    ] = OutputSyslogMode.ERROR
-    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
-
-    pq_max_buffer_size: Annotated[
-        Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
-    r"""The maximum number of events to hold in memory before writing the events to disk"""
-
-    pq_max_backpressure_sec: Annotated[
-        Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
-    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
@@ -532,6 +473,35 @@ class OutputSyslog(BaseModel):
     ] = OutputSyslogQueueFullBehavior.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
+    pq_mode: Annotated[
+        Annotated[
+            Optional[OutputSyslogMode], PlainValidator(validate_open_enum(False))
+        ],
+        pydantic.Field(alias="pqMode"),
+    ] = OutputSyslogMode.ERROR
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
+
     pq_controls: Annotated[
         Optional[OutputSyslogPqControls], pydantic.Field(alias="pqControls")
     ] = None
+
+    dns_resolve_period_sec: Annotated[
+        Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
+    ] = 600
+    r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
+
+    load_balance_stats_period_sec: Annotated[
+        Optional[float], pydantic.Field(alias="loadBalanceStatsPeriodSec")
+    ] = 300
+    r"""How far back in time to keep traffic stats for load balancing purposes"""
+
+    max_concurrent_senders: Annotated[
+        Optional[float], pydantic.Field(alias="maxConcurrentSenders")
+    ] = 0
+    r"""Maximum number of concurrent connections (per Worker Process). A random set of IPs will be picked on every DNS resolution period. Use 0 for unlimited."""
+
+    exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = False
+    r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
+
+    hosts: Optional[List[OutputSyslogHost]] = None
+    r"""Set of hosts to load-balance data to."""

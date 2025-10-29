@@ -91,17 +91,6 @@ class OutputGoogleCloudLoggingBackpressureBehavior(
     QUEUE = "queue"
 
 
-class OutputGoogleCloudLoggingMode(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
-
-    # Error
-    ERROR = "error"
-    # Backpressure
-    ALWAYS = "always"
-    # Always On
-    BACKPRESSURE = "backpressure"
-
-
 class OutputGoogleCloudLoggingCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
@@ -120,6 +109,17 @@ class OutputGoogleCloudLoggingQueueFullBehavior(
     BLOCK = "block"
     # Drop new data
     DROP = "drop"
+
+
+class OutputGoogleCloudLoggingMode(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
+
+    # Error
+    ERROR = "error"
+    # Backpressure
+    BACKPRESSURE = "backpressure"
+    # Always On
+    ALWAYS = "always"
 
 
 class OutputGoogleCloudLoggingPqControlsTypedDict(TypedDict):
@@ -243,16 +243,6 @@ class OutputGoogleCloudLoggingTypedDict(TypedDict):
     description: NotRequired[str]
     payload_expression: NotRequired[str]
     r"""JavaScript expression to compute the value of the payload. Must evaluate to a JavaScript object value. If an invalid value is encountered it will result in the default value instead. Defaults to the entire event."""
-    pq_strict_ordering: NotRequired[bool]
-    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
-    pq_rate_per_sec: NotRequired[float]
-    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
-    pq_mode: NotRequired[OutputGoogleCloudLoggingMode]
-    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
-    pq_max_buffer_size: NotRequired[float]
-    r"""The maximum number of events to hold in memory before writing the events to disk"""
-    pq_max_backpressure_sec: NotRequired[float]
-    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
     pq_max_size: NotRequired[str]
@@ -263,6 +253,8 @@ class OutputGoogleCloudLoggingTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[OutputGoogleCloudLoggingQueueFullBehavior]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
+    pq_mode: NotRequired[OutputGoogleCloudLoggingMode]
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_controls: NotRequired[OutputGoogleCloudLoggingPqControlsTypedDict]
 
 
@@ -541,35 +533,6 @@ class OutputGoogleCloudLogging(BaseModel):
     ] = None
     r"""JavaScript expression to compute the value of the payload. Must evaluate to a JavaScript object value. If an invalid value is encountered it will result in the default value instead. Defaults to the entire event."""
 
-    pq_strict_ordering: Annotated[
-        Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
-    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
-
-    pq_rate_per_sec: Annotated[
-        Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
-    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
-
-    pq_mode: Annotated[
-        Annotated[
-            Optional[OutputGoogleCloudLoggingMode],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqMode"),
-    ] = OutputGoogleCloudLoggingMode.ERROR
-    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
-
-    pq_max_buffer_size: Annotated[
-        Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
-    r"""The maximum number of events to hold in memory before writing the events to disk"""
-
-    pq_max_backpressure_sec: Annotated[
-        Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
-    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
-
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
     ] = "1 MB"
@@ -600,6 +563,15 @@ class OutputGoogleCloudLogging(BaseModel):
         pydantic.Field(alias="pqOnBackpressure"),
     ] = OutputGoogleCloudLoggingQueueFullBehavior.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
+
+    pq_mode: Annotated[
+        Annotated[
+            Optional[OutputGoogleCloudLoggingMode],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="pqMode"),
+    ] = OutputGoogleCloudLoggingMode.ERROR
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_controls: Annotated[
         Optional[OutputGoogleCloudLoggingPqControls], pydantic.Field(alias="pqControls")

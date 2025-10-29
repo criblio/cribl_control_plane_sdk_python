@@ -254,8 +254,6 @@ class OutputS3TypedDict(TypedDict):
     r"""Compression level to apply before moving files to final destination"""
     automatic_schema: NotRequired[bool]
     r"""Automatically calculate the schema based on the events of each Parquet file generated"""
-    parquet_schema: NotRequired[str]
-    r"""To add a new schema, navigate to Processing > Knowledge > Parquet Schemas"""
     parquet_version: NotRequired[OutputS3ParquetVersion]
     r"""Determines which data types are supported and how they are represented"""
     parquet_data_page_version: NotRequired[OutputS3DataPageVersion]
@@ -524,11 +522,6 @@ class OutputS3(BaseModel):
         Optional[bool], pydantic.Field(alias="automaticSchema")
     ] = False
     r"""Automatically calculate the schema based on the events of each Parquet file generated"""
-
-    parquet_schema: Annotated[Optional[str], pydantic.Field(alias="parquetSchema")] = (
-        None
-    )
-    r"""To add a new schema, navigate to Processing > Knowledge > Parquet Schemas"""
 
     parquet_version: Annotated[
         Annotated[

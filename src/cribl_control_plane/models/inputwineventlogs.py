@@ -174,10 +174,6 @@ class InputWinEventLogsTypedDict(TypedDict):
     max_event_bytes: NotRequired[float]
     r"""The maximum number of bytes in an event before it is flushed to the pipelines"""
     description: NotRequired[str]
-    disable_json_rendering: NotRequired[bool]
-    r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
-    disable_xml_rendering: NotRequired[bool]
-    r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
 
 
 class InputWinEventLogs(BaseModel):
@@ -245,13 +241,3 @@ class InputWinEventLogs(BaseModel):
     r"""The maximum number of bytes in an event before it is flushed to the pipelines"""
 
     description: Optional[str] = None
-
-    disable_json_rendering: Annotated[
-        Optional[bool], pydantic.Field(alias="disableJsonRendering")
-    ] = False
-    r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
-
-    disable_xml_rendering: Annotated[
-        Optional[bool], pydantic.Field(alias="disableXmlRendering")
-    ] = True
-    r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""

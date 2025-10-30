@@ -1,4 +1,4 @@
-# PipelineConf
+# Conf
 
 
 ## Fields

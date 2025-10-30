@@ -6,7 +6,6 @@ from cribl_control_plane import errors, models, utils
 from cribl_control_plane._hooks import HookContext
 from cribl_control_plane.acl import ACL
 from cribl_control_plane.groups_configs import GroupsConfigs
-from cribl_control_plane.mappings import Mappings
 from cribl_control_plane.types import OptionalNullable, UNSET
 from cribl_control_plane.utils import get_security_from_env
 from cribl_control_plane.utils.unmarshal_json_response import unmarshal_json_response
@@ -16,7 +15,6 @@ from typing import Any, List, Mapping, Optional, Union
 class GroupsSDK(BaseSDK):
     r"""Actions related to Groups"""
 
-    mappings: Mappings
     configs: GroupsConfigs
     acl: ACL
 
@@ -28,7 +26,6 @@ class GroupsSDK(BaseSDK):
         self._init_sdks()
 
     def _init_sdks(self):
-        self.mappings = Mappings(self.sdk_configuration, parent_ref=self.parent_ref)
         self.configs = GroupsConfigs(self.sdk_configuration, parent_ref=self.parent_ref)
         self.acl = ACL(self.sdk_configuration, parent_ref=self.parent_ref)
 
@@ -262,7 +259,7 @@ class GroupsSDK(BaseSDK):
 
         Create a new Worker Group or Edge Fleet for the specified Cribl product.
 
-        :param product: Name of the Cribl product to add the Worker Group or Edge Fleet to.
+        :param product: required Name of the Cribl product to add the Worker Group or Edge Fleet to.
         :param id:
         :param cloud:
         :param deploying_worker_count:
@@ -443,7 +440,7 @@ class GroupsSDK(BaseSDK):
 
         Create a new Worker Group or Edge Fleet for the specified Cribl product.
 
-        :param product: Name of the Cribl product to add the Worker Group or Edge Fleet to.
+        :param product: required Name of the Cribl product to add the Worker Group or Edge Fleet to.
         :param id:
         :param cloud:
         :param deploying_worker_count:

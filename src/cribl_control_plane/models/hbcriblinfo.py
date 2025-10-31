@@ -3,12 +3,11 @@
 from __future__ import annotations
 from .hbleaderinfo import HBLeaderInfo, HBLeaderInfoTypedDict
 from .lookupversions import LookupVersions, LookupVersionsTypedDict
-from cribl_control_plane import models, utils
+from cribl_control_plane import utils
 from cribl_control_plane.types import BaseModel
 from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
-from pydantic import field_serializer
 from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
@@ -105,12 +104,3 @@ class HBCriblInfo(BaseModel):
     )
 
     version: Optional[str] = None
-
-    @field_serializer("dist_mode")
-    def serialize_dist_mode(self, value):
-        if isinstance(value, str):
-            try:
-                return models.DistMode(value)
-            except ValueError:
-                return value
-        return value

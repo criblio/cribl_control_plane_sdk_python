@@ -3,11 +3,9 @@
 from __future__ import annotations
 from .cacheconnectionbackfillstatus import CacheConnectionBackfillStatus
 from .lakehouseconnectiontype import LakehouseConnectionType
-from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel
 from cribl_control_plane.utils import validate_open_enum
 import pydantic
-from pydantic import field_serializer
 from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
@@ -52,21 +50,3 @@ class CacheConnection(BaseModel):
     migration_query_id: Annotated[
         Optional[str], pydantic.Field(alias="migrationQueryId")
     ] = None
-
-    @field_serializer("backfill_status")
-    def serialize_backfill_status(self, value):
-        if isinstance(value, str):
-            try:
-                return models.CacheConnectionBackfillStatus(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("lakehouse_connection_type")
-    def serialize_lakehouse_connection_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.LakehouseConnectionType(value)
-            except ValueError:
-                return value
-        return value

@@ -5,12 +5,11 @@ from .datasetmetadataruninfo import (
     DatasetMetadataRunInfo,
     DatasetMetadataRunInfoTypedDict,
 )
-from cribl_control_plane import models, utils
+from cribl_control_plane import utils
 from cribl_control_plane.types import BaseModel
 from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
-from pydantic import field_serializer
 from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
@@ -44,12 +43,3 @@ class DatasetMetadata(BaseModel):
     latest_run_info: Annotated[
         Optional[DatasetMetadataRunInfo], pydantic.Field(alias="latestRunInfo")
     ] = None
-
-    @field_serializer("scan_mode")
-    def serialize_scan_mode(self, value):
-        if isinstance(value, str):
-            try:
-                return models.ScanMode(value)
-            except ValueError:
-                return value
-        return value

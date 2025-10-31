@@ -6,12 +6,11 @@ from .lakedatasetsearchconfig import (
     LakeDatasetSearchConfig,
     LakeDatasetSearchConfigTypedDict,
 )
-from cribl_control_plane import models, utils
+from cribl_control_plane import utils
 from cribl_control_plane.types import BaseModel
 from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
-from pydantic import field_serializer
 from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
@@ -80,12 +79,3 @@ class CriblLakeDatasetUpdate(BaseModel):
     ] = None
 
     view_name: Annotated[Optional[str], pydantic.Field(alias="viewName")] = None
-
-    @field_serializer("format_")
-    def serialize_format_(self, value):
-        if isinstance(value, str):
-            try:
-                return models.CriblLakeDatasetUpdateFormat(value)
-            except ValueError:
-                return value
-        return value

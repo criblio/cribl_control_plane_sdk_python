@@ -237,6 +237,19 @@ class ScrapeProtocolProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
     HTTPS = "https"
 
 
+class InputEdgePrometheusAwsAuthenticationMethodAuthenticationMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+
+    # Auto
+    AUTO = "auto"
+    # Manual
+    MANUAL = "manual"
+    # Secret Key pair
+    SECRET = "secret"
+
+
 class InputEdgePrometheusSearchFilterTypedDict(TypedDict):
     name: str
     r"""Search filter attribute name, see: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html for more information. Attributes can be manually entered if not present in the drop down list"""
@@ -250,19 +263,6 @@ class InputEdgePrometheusSearchFilter(BaseModel):
 
     values: Annotated[List[str], pydantic.Field(alias="Values")]
     r"""Search Filter Values, if empty only \"running\" EC2 instances will be returned"""
-
-
-class InputEdgePrometheusAwsAuthenticationMethodAuthenticationMethod(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
-    r"""AWS authentication method. Choose Auto to use IAM roles."""
-
-    # Auto
-    AUTO = "auto"
-    # Manual
-    MANUAL = "manual"
-    # Secret Key pair
-    SECRET = "secret"
 
 
 class InputEdgePrometheusSignatureVersion(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -320,24 +320,27 @@ class InputEdgePrometheusTypedDict(TypedDict):
     r"""Enter credentials directly, or select a stored secret"""
     description: NotRequired[str]
     targets: NotRequired[List[TargetTypedDict]]
-    name_list: NotRequired[List[str]]
-    r"""List of DNS names to resolve"""
     record_type: NotRequired[InputEdgePrometheusRecordType]
     r"""DNS Record type to resolve"""
+    scrape_port: NotRequired[float]
+    r"""The port number in the metrics URL for discovered targets."""
+    name_list: NotRequired[List[str]]
+    r"""List of DNS names to resolve"""
     scrape_protocol: NotRequired[ScrapeProtocolProtocol]
     r"""Protocol to use when collecting metrics"""
     scrape_path: NotRequired[str]
     r"""Path to use when collecting metrics from discovered targets"""
-    use_public_ip: NotRequired[bool]
-    r"""Use public IP address for discovered targets. Set to false if the private IP address should be used."""
-    scrape_port: NotRequired[float]
-    r"""The port number in the metrics URL for discovered targets."""
-    search_filter: NotRequired[List[InputEdgePrometheusSearchFilterTypedDict]]
-    r"""EC2 Instance Search Filter"""
     aws_authentication_method: NotRequired[
         InputEdgePrometheusAwsAuthenticationMethodAuthenticationMethod
     ]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
+    aws_api_key: NotRequired[str]
+    aws_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your access key and secret key"""
+    use_public_ip: NotRequired[bool]
+    r"""Use public IP address for discovered targets. Set to false if the private IP address should be used."""
+    search_filter: NotRequired[List[InputEdgePrometheusSearchFilterTypedDict]]
+    r"""EC2 Instance Search Filter"""
     aws_secret_key: NotRequired[str]
     region: NotRequired[str]
     r"""Region where the EC2 is located"""
@@ -445,9 +448,6 @@ class InputEdgePrometheus(BaseModel):
 
     targets: Optional[List[Target]] = None
 
-    name_list: Annotated[Optional[List[str]], pydantic.Field(alias="nameList")] = None
-    r"""List of DNS names to resolve"""
-
     record_type: Annotated[
         Annotated[
             Optional[InputEdgePrometheusRecordType],
@@ -456,6 +456,12 @@ class InputEdgePrometheus(BaseModel):
         pydantic.Field(alias="recordType"),
     ] = InputEdgePrometheusRecordType.SRV
     r"""DNS Record type to resolve"""
+
+    scrape_port: Annotated[Optional[float], pydantic.Field(alias="scrapePort")] = 9090
+    r"""The port number in the metrics URL for discovered targets."""
+
+    name_list: Annotated[Optional[List[str]], pydantic.Field(alias="nameList")] = None
+    r"""List of DNS names to resolve"""
 
     scrape_protocol: Annotated[
         Annotated[
@@ -470,18 +476,6 @@ class InputEdgePrometheus(BaseModel):
     )
     r"""Path to use when collecting metrics from discovered targets"""
 
-    use_public_ip: Annotated[Optional[bool], pydantic.Field(alias="usePublicIp")] = True
-    r"""Use public IP address for discovered targets. Set to false if the private IP address should be used."""
-
-    scrape_port: Annotated[Optional[float], pydantic.Field(alias="scrapePort")] = 9090
-    r"""The port number in the metrics URL for discovered targets."""
-
-    search_filter: Annotated[
-        Optional[List[InputEdgePrometheusSearchFilter]],
-        pydantic.Field(alias="searchFilter"),
-    ] = None
-    r"""EC2 Instance Search Filter"""
-
     aws_authentication_method: Annotated[
         Annotated[
             Optional[InputEdgePrometheusAwsAuthenticationMethodAuthenticationMethod],
@@ -490,6 +484,20 @@ class InputEdgePrometheus(BaseModel):
         pydantic.Field(alias="awsAuthenticationMethod"),
     ] = InputEdgePrometheusAwsAuthenticationMethodAuthenticationMethod.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
+
+    aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+
+    aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
+    r"""Select or create a stored secret that references your access key and secret key"""
+
+    use_public_ip: Annotated[Optional[bool], pydantic.Field(alias="usePublicIp")] = True
+    r"""Use public IP address for discovered targets. Set to false if the private IP address should be used."""
+
+    search_filter: Annotated[
+        Optional[List[InputEdgePrometheusSearchFilter]],
+        pydantic.Field(alias="searchFilter"),
+    ] = None
+    r"""EC2 Instance Search Filter"""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
         None

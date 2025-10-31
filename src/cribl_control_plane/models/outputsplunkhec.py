@@ -15,6 +15,78 @@ class OutputSplunkHecType(str, Enum):
     SPLUNK_HEC = "splunk_hec"
 
 
+class OutputSplunkHecMinimumTLSVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class OutputSplunkHecMaximumTLSVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class OutputSplunkHecTLSSettingsClientSideTypedDict(TypedDict):
+    disabled: NotRequired[bool]
+    servername: NotRequired[str]
+    r"""Server name for the SNI (Server Name Indication) TLS extension. It must be a host name, and not an IP address."""
+    certificate_name: NotRequired[str]
+    r"""The name of the predefined certificate"""
+    ca_path: NotRequired[str]
+    r"""Path on client in which to find CA certificates to verify the server's cert. PEM format. Can reference $ENV_VARS."""
+    priv_key_path: NotRequired[str]
+    r"""Path on client in which to find the private key to use. PEM format. Can reference $ENV_VARS."""
+    cert_path: NotRequired[str]
+    r"""Path on client in which to find certificates to use. PEM format. Can reference $ENV_VARS."""
+    passphrase: NotRequired[str]
+    r"""Passphrase to use to decrypt private key"""
+    min_version: NotRequired[OutputSplunkHecMinimumTLSVersion]
+    max_version: NotRequired[OutputSplunkHecMaximumTLSVersion]
+
+
+class OutputSplunkHecTLSSettingsClientSide(BaseModel):
+    disabled: Optional[bool] = True
+
+    servername: Optional[str] = None
+    r"""Server name for the SNI (Server Name Indication) TLS extension. It must be a host name, and not an IP address."""
+
+    certificate_name: Annotated[
+        Optional[str], pydantic.Field(alias="certificateName")
+    ] = None
+    r"""The name of the predefined certificate"""
+
+    ca_path: Annotated[Optional[str], pydantic.Field(alias="caPath")] = None
+    r"""Path on client in which to find CA certificates to verify the server's cert. PEM format. Can reference $ENV_VARS."""
+
+    priv_key_path: Annotated[Optional[str], pydantic.Field(alias="privKeyPath")] = None
+    r"""Path on client in which to find the private key to use. PEM format. Can reference $ENV_VARS."""
+
+    cert_path: Annotated[Optional[str], pydantic.Field(alias="certPath")] = None
+    r"""Path on client in which to find certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    passphrase: Optional[str] = None
+    r"""Passphrase to use to decrypt private key"""
+
+    min_version: Annotated[
+        Annotated[
+            Optional[OutputSplunkHecMinimumTLSVersion],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="minVersion"),
+    ] = None
+
+    max_version: Annotated[
+        Annotated[
+            Optional[OutputSplunkHecMaximumTLSVersion],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="maxVersion"),
+    ] = None
+
+
 class OutputSplunkHecExtraHTTPHeaderTypedDict(TypedDict):
     value: str
     name: NotRequired[str]
@@ -124,6 +196,17 @@ class OutputSplunkHecURL(BaseModel):
     r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
 
 
+class OutputSplunkHecMode(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
+
+    # Error
+    ERROR = "error"
+    # Backpressure
+    ALWAYS = "always"
+    # Always On
+    BACKPRESSURE = "backpressure"
+
+
 class OutputSplunkHecCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
@@ -140,17 +223,6 @@ class OutputSplunkHecQueueFullBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     BLOCK = "block"
     # Drop new data
     DROP = "drop"
-
-
-class OutputSplunkHecMode(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
-
-    # Error
-    ERROR = "error"
-    # Backpressure
-    BACKPRESSURE = "backpressure"
-    # Always On
-    ALWAYS = "always"
 
 
 class OutputSplunkHecPqControlsTypedDict(TypedDict):
@@ -179,6 +251,7 @@ class OutputSplunkHecTypedDict(TypedDict):
     r"""In the Splunk app, define which Splunk processing queue to send the events after HEC processing."""
     tcp_routing: NotRequired[str]
     r"""In the Splunk app, set the value of _TCP_ROUTING for events that do not have _ctrl._TCP_ROUTING set."""
+    tls: NotRequired[OutputSplunkHecTLSSettingsClientSideTypedDict]
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
     max_payload_size_kb: NotRequired[float]
@@ -231,6 +304,16 @@ class OutputSplunkHecTypedDict(TypedDict):
     r"""Splunk HEC authentication token"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
+    pq_strict_ordering: NotRequired[bool]
+    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
+    pq_rate_per_sec: NotRequired[float]
+    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
+    pq_mode: NotRequired[OutputSplunkHecMode]
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
+    pq_max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    pq_max_backpressure_sec: NotRequired[float]
+    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
     pq_max_size: NotRequired[str]
@@ -241,8 +324,6 @@ class OutputSplunkHecTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[OutputSplunkHecQueueFullBehavior]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-    pq_mode: NotRequired[OutputSplunkHecMode]
-    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_controls: NotRequired[OutputSplunkHecPqControlsTypedDict]
 
 
@@ -280,6 +361,8 @@ class OutputSplunkHec(BaseModel):
         "nowhere"
     )
     r"""In the Splunk app, set the value of _TCP_ROUTING for events that do not have _ctrl._TCP_ROUTING set."""
+
+    tls: Optional[OutputSplunkHecTLSSettingsClientSide] = None
 
     concurrency: Optional[float] = 5
     r"""Maximum number of ongoing requests before blocking"""
@@ -403,6 +486,34 @@ class OutputSplunkHec(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
 
+    pq_strict_ordering: Annotated[
+        Optional[bool], pydantic.Field(alias="pqStrictOrdering")
+    ] = True
+    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
+
+    pq_rate_per_sec: Annotated[
+        Optional[float], pydantic.Field(alias="pqRatePerSec")
+    ] = 0
+    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
+
+    pq_mode: Annotated[
+        Annotated[
+            Optional[OutputSplunkHecMode], PlainValidator(validate_open_enum(False))
+        ],
+        pydantic.Field(alias="pqMode"),
+    ] = OutputSplunkHecMode.ERROR
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
+
+    pq_max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="pqMaxBufferSize")
+    ] = 42
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    pq_max_backpressure_sec: Annotated[
+        Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
+    ] = 30
+    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
+
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
     ] = "1 MB"
@@ -433,14 +544,6 @@ class OutputSplunkHec(BaseModel):
         pydantic.Field(alias="pqOnBackpressure"),
     ] = OutputSplunkHecQueueFullBehavior.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-
-    pq_mode: Annotated[
-        Annotated[
-            Optional[OutputSplunkHecMode], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqMode"),
-    ] = OutputSplunkHecMode.ERROR
-    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_controls: Annotated[
         Optional[OutputSplunkHecPqControls], pydantic.Field(alias="pqControls")

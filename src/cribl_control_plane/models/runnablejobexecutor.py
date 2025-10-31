@@ -173,13 +173,14 @@ class RunnableJobExecutorScheduleTypedDict(TypedDict):
 
     enabled: NotRequired[bool]
     r"""Enable to configure scheduling for this Collector"""
+    skippable: NotRequired[bool]
+    r"""Skippable jobs can be delayed, up to their next run time, if the system is hitting concurrency limits"""
+    resume_missed: NotRequired[bool]
+    r"""If Stream Leader (or single instance) restarts, run all missed jobs according to their original schedules"""
     cron_schedule: NotRequired[str]
     r"""A cron schedule on which to run this job"""
     max_concurrent_runs: NotRequired[float]
     r"""The maximum number of instances of this scheduled job that may be running at any time"""
-    skippable: NotRequired[bool]
-    r"""Skippable jobs can be delayed, up to their next run time, if the system is hitting concurrency limits"""
-    resume_missed: NotRequired[Any]
     run: NotRequired[RunnableJobExecutorRunSettingsTypedDict]
 
 
@@ -188,6 +189,14 @@ class RunnableJobExecutorSchedule(BaseModel):
 
     enabled: Optional[bool] = None
     r"""Enable to configure scheduling for this Collector"""
+
+    skippable: Optional[bool] = True
+    r"""Skippable jobs can be delayed, up to their next run time, if the system is hitting concurrency limits"""
+
+    resume_missed: Annotated[Optional[bool], pydantic.Field(alias="resumeMissed")] = (
+        False
+    )
+    r"""If Stream Leader (or single instance) restarts, run all missed jobs according to their original schedules"""
 
     cron_schedule: Annotated[Optional[str], pydantic.Field(alias="cronSchedule")] = (
         "*/5 * * * *"
@@ -198,11 +207,6 @@ class RunnableJobExecutorSchedule(BaseModel):
         Optional[float], pydantic.Field(alias="maxConcurrentRuns")
     ] = 1
     r"""The maximum number of instances of this scheduled job that may be running at any time"""
-
-    skippable: Optional[bool] = True
-    r"""Skippable jobs can be delayed, up to their next run time, if the system is hitting concurrency limits"""
-
-    resume_missed: Annotated[Optional[Any], pydantic.Field(alias="resumeMissed")] = None
 
     run: Optional[RunnableJobExecutorRunSettings] = None
 

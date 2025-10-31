@@ -7,7 +7,7 @@ from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic.functional_validators import PlainValidator
-from typing import Any, List, Optional
+from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -123,6 +123,12 @@ class InputTCPMaximumTLSVersion(str, Enum, metaclass=utils.OpenEnumMeta):
 
 class InputTCPTLSSettingsServerSideTypedDict(TypedDict):
     disabled: NotRequired[bool]
+    request_cert: NotRequired[bool]
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's)"""
+    common_name_regex: NotRequired[str]
+    r"""Regex matching allowable common names in peer certificates' subject attribute"""
     certificate_name: NotRequired[str]
     r"""The name of the predefined certificate"""
     priv_key_path: NotRequired[str]
@@ -133,16 +139,25 @@ class InputTCPTLSSettingsServerSideTypedDict(TypedDict):
     r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
     ca_path: NotRequired[str]
     r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
-    request_cert: NotRequired[bool]
-    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
-    reject_unauthorized: NotRequired[Any]
-    common_name_regex: NotRequired[Any]
     min_version: NotRequired[InputTCPMinimumTLSVersion]
     max_version: NotRequired[InputTCPMaximumTLSVersion]
 
 
 class InputTCPTLSSettingsServerSide(BaseModel):
     disabled: Optional[bool] = True
+
+    request_cert: Annotated[Optional[bool], pydantic.Field(alias="requestCert")] = False
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = True
+    r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's)"""
+
+    common_name_regex: Annotated[
+        Optional[str], pydantic.Field(alias="commonNameRegex")
+    ] = "/.*/"
+    r"""Regex matching allowable common names in peer certificates' subject attribute"""
 
     certificate_name: Annotated[
         Optional[str], pydantic.Field(alias="certificateName")
@@ -160,17 +175,6 @@ class InputTCPTLSSettingsServerSide(BaseModel):
 
     ca_path: Annotated[Optional[str], pydantic.Field(alias="caPath")] = None
     r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
-
-    request_cert: Annotated[Optional[bool], pydantic.Field(alias="requestCert")] = False
-    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
-
-    reject_unauthorized: Annotated[
-        Optional[Any], pydantic.Field(alias="rejectUnauthorized")
-    ] = None
-
-    common_name_regex: Annotated[
-        Optional[Any], pydantic.Field(alias="commonNameRegex")
-    ] = None
 
     min_version: Annotated[
         Annotated[
@@ -272,8 +276,12 @@ class InputTCPTypedDict(TypedDict):
     r"""Client will pass the header record with every new connection. The header can contain an authToken, and an object with a list of fields and values to add to every event. These fields can be used to simplify Event Breaker selection, routing, etc. Header has this format, and must be followed by a newline: { \"authToken\" : \"myToken\", \"fields\": { \"field1\": \"value1\", \"field2\": \"value2\" } }"""
     preprocess: NotRequired[InputTCPPreprocessTypedDict]
     description: NotRequired[str]
+    auth_token: NotRequired[str]
+    r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
     auth_type: NotRequired[InputTCPAuthenticationMethod]
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
+    text_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
 
 
 class InputTCP(BaseModel):
@@ -366,6 +374,9 @@ class InputTCP(BaseModel):
 
     description: Optional[str] = None
 
+    auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = ""
+    r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
+
     auth_type: Annotated[
         Annotated[
             Optional[InputTCPAuthenticationMethod],
@@ -374,3 +385,6 @@ class InputTCP(BaseModel):
         pydantic.Field(alias="authType"),
     ] = InputTCPAuthenticationMethod.MANUAL
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a stored text secret"""

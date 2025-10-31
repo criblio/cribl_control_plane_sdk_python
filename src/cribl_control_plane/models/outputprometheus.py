@@ -113,6 +113,17 @@ class OutputPrometheusAuthenticationType(str, Enum, metaclass=utils.OpenEnumMeta
     OAUTH = "oauth"
 
 
+class OutputPrometheusMode(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
+
+    # Error
+    ERROR = "error"
+    # Backpressure
+    ALWAYS = "always"
+    # Always On
+    BACKPRESSURE = "backpressure"
+
+
 class OutputPrometheusCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
@@ -129,17 +140,6 @@ class OutputPrometheusQueueFullBehavior(str, Enum, metaclass=utils.OpenEnumMeta)
     BLOCK = "block"
     # Drop new data
     DROP = "drop"
-
-
-class OutputPrometheusMode(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
-
-    # Error
-    ERROR = "error"
-    # Backpressure
-    BACKPRESSURE = "backpressure"
-    # Always On
-    ALWAYS = "always"
 
 
 class OutputPrometheusPqControlsTypedDict(TypedDict):
@@ -235,6 +235,16 @@ class OutputPrometheusTypedDict(TypedDict):
     description: NotRequired[str]
     metrics_flush_period_sec: NotRequired[float]
     r"""How frequently metrics metadata is sent out. Value cannot be smaller than the base Flush period set above."""
+    pq_strict_ordering: NotRequired[bool]
+    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
+    pq_rate_per_sec: NotRequired[float]
+    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
+    pq_mode: NotRequired[OutputPrometheusMode]
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
+    pq_max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    pq_max_backpressure_sec: NotRequired[float]
+    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
     pq_max_size: NotRequired[str]
@@ -245,8 +255,6 @@ class OutputPrometheusTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[OutputPrometheusQueueFullBehavior]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-    pq_mode: NotRequired[OutputPrometheusMode]
-    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_controls: NotRequired[OutputPrometheusPqControlsTypedDict]
     username: NotRequired[str]
     password: NotRequired[str]
@@ -402,6 +410,34 @@ class OutputPrometheus(BaseModel):
     ] = 60
     r"""How frequently metrics metadata is sent out. Value cannot be smaller than the base Flush period set above."""
 
+    pq_strict_ordering: Annotated[
+        Optional[bool], pydantic.Field(alias="pqStrictOrdering")
+    ] = True
+    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
+
+    pq_rate_per_sec: Annotated[
+        Optional[float], pydantic.Field(alias="pqRatePerSec")
+    ] = 0
+    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
+
+    pq_mode: Annotated[
+        Annotated[
+            Optional[OutputPrometheusMode], PlainValidator(validate_open_enum(False))
+        ],
+        pydantic.Field(alias="pqMode"),
+    ] = OutputPrometheusMode.ERROR
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
+
+    pq_max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="pqMaxBufferSize")
+    ] = 42
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    pq_max_backpressure_sec: Annotated[
+        Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
+    ] = 30
+    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
+
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
     ] = "1 MB"
@@ -432,14 +468,6 @@ class OutputPrometheus(BaseModel):
         pydantic.Field(alias="pqOnBackpressure"),
     ] = OutputPrometheusQueueFullBehavior.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-
-    pq_mode: Annotated[
-        Annotated[
-            Optional[OutputPrometheusMode], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqMode"),
-    ] = OutputPrometheusMode.ERROR
-    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_controls: Annotated[
         Optional[OutputPrometheusPqControls], pydantic.Field(alias="pqControls")

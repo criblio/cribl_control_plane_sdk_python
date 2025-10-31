@@ -239,12 +239,14 @@ class InputWindowsMetricsNetworkMode(str, Enum, metaclass=utils.OpenEnumMeta):
 class InputWindowsMetricsNetworkTypedDict(TypedDict):
     mode: NotRequired[InputWindowsMetricsNetworkMode]
     r"""Select the level of details for network metrics"""
+    detail: NotRequired[bool]
+    r"""Generate full network metrics"""
+    protocols: NotRequired[bool]
+    r"""Generate protocol metrics for ICMP, ICMPMsg, IP, TCP, UDP and UDPLite"""
     devices: NotRequired[List[str]]
     r"""Network interfaces to include/exclude. All interfaces are included if this list is empty."""
     per_interface: NotRequired[bool]
     r"""Generate separate metrics for each interface"""
-    detail: NotRequired[bool]
-    r"""Generate full network metrics"""
 
 
 class InputWindowsMetricsNetwork(BaseModel):
@@ -254,6 +256,12 @@ class InputWindowsMetricsNetwork(BaseModel):
     ] = InputWindowsMetricsNetworkMode.BASIC
     r"""Select the level of details for network metrics"""
 
+    detail: Optional[bool] = False
+    r"""Generate full network metrics"""
+
+    protocols: Optional[bool] = False
+    r"""Generate protocol metrics for ICMP, ICMPMsg, IP, TCP, UDP and UDPLite"""
+
     devices: Optional[List[str]] = None
     r"""Network interfaces to include/exclude. All interfaces are included if this list is empty."""
 
@@ -261,9 +269,6 @@ class InputWindowsMetricsNetwork(BaseModel):
         False
     )
     r"""Generate separate metrics for each interface"""
-
-    detail: Optional[bool] = False
-    r"""Generate full network metrics"""
 
 
 class InputWindowsMetricsDiskMode(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -282,10 +287,12 @@ class InputWindowsMetricsDiskMode(str, Enum, metaclass=utils.OpenEnumMeta):
 class InputWindowsMetricsDiskTypedDict(TypedDict):
     mode: NotRequired[InputWindowsMetricsDiskMode]
     r"""Select the level of details for disk metrics"""
-    volumes: NotRequired[List[str]]
-    r"""Windows volumes to include/exclude. E.g.: C:, !E:, etc. Wildcards and ! (not) operators are supported. All volumes are included if this list is empty."""
     per_volume: NotRequired[bool]
     r"""Generate separate metrics for each volume"""
+    detail: NotRequired[bool]
+    r"""Generate full disk metrics"""
+    volumes: NotRequired[List[str]]
+    r"""Windows volumes to include/exclude. E.g.: C:, !E:, etc. Wildcards and ! (not) operators are supported. All volumes are included if this list is empty."""
 
 
 class InputWindowsMetricsDisk(BaseModel):
@@ -294,11 +301,14 @@ class InputWindowsMetricsDisk(BaseModel):
     ] = InputWindowsMetricsDiskMode.BASIC
     r"""Select the level of details for disk metrics"""
 
-    volumes: Optional[List[str]] = None
-    r"""Windows volumes to include/exclude. E.g.: C:, !E:, etc. Wildcards and ! (not) operators are supported. All volumes are included if this list is empty."""
-
     per_volume: Annotated[Optional[bool], pydantic.Field(alias="perVolume")] = False
     r"""Generate separate metrics for each volume"""
+
+    detail: Optional[bool] = False
+    r"""Generate full disk metrics"""
+
+    volumes: Optional[List[str]] = None
+    r"""Windows volumes to include/exclude. E.g.: C:, !E:, etc. Wildcards and ! (not) operators are supported. All volumes are included if this list is empty."""
 
 
 class InputWindowsMetricsCustomTypedDict(TypedDict):

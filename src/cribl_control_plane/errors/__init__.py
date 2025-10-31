@@ -9,7 +9,10 @@ import sys
 if TYPE_CHECKING:
     from .apierror import APIError
     from .error import Error, ErrorData
-    from .healthstatus_error import HealthStatusError, HealthStatusErrorData
+    from .healthserverstatus_error import (
+        HealthServerStatusError,
+        HealthServerStatusErrorData,
+    )
     from .no_response_error import NoResponseError
     from .responsevalidationerror import ResponseValidationError
 
@@ -18,8 +21,8 @@ __all__ = [
     "CriblControlPlaneError",
     "Error",
     "ErrorData",
-    "HealthStatusError",
-    "HealthStatusErrorData",
+    "HealthServerStatusError",
+    "HealthServerStatusErrorData",
     "NoResponseError",
     "ResponseValidationError",
 ]
@@ -28,8 +31,8 @@ _dynamic_imports: dict[str, str] = {
     "APIError": ".apierror",
     "Error": ".error",
     "ErrorData": ".error",
-    "HealthStatusError": ".healthstatus_error",
-    "HealthStatusErrorData": ".healthstatus_error",
+    "HealthServerStatusError": ".healthserverstatus_error",
+    "HealthServerStatusErrorData": ".healthserverstatus_error",
     "NoResponseError": ".no_response_error",
     "ResponseValidationError": ".responsevalidationerror",
 }

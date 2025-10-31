@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.15.0-alpha.1761865929483-3f85e35a
+  version: 4.15.0-alpha.1761904027844-5c5b5b6f
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -44412,6 +44412,67 @@ components:
         - perms
         - team
   examples:
+    CreateGroupExamplesCloudWg:
+      summary: Create a Worker Group in Cribl.Cloud
+      description: Worker Group on Cribl.Cloud with estimated ingest rate of 2048 (24 MB/s, 9 Worker Processes)
+      value:
+        id: goatCloudIanWg
+        name: goatCloudIanWg
+        cloud:
+          provider: aws
+          region: us-west-2
+        workerRemoteAccess: true
+        isFleet: false
+        isSearch: false
+        onPrem: false
+        estimatedIngestRate: 2048
+        provisioned: true
+    CreateGroupExamplesOnPremWg:
+      summary: Create a Worker Group in customer-managed deployment
+      value:
+        id: goatOnPremIanWg
+        name: goatOnPremIanWg
+        description: Worker group in customer-managed deployment
+        workerRemoteAccess: true
+        isFleet: false
+        isSearch: false
+        onPrem: true
+    CreateGroupExamplesCloneWg:
+      summary: Clone an on-prem Worker Group
+      value:
+        id: goatOnPremDollyWg
+        name: goatOnPremDollyWg
+        description: Worker Group cloned from goatOnPremIanWg with identical configuration
+        workerRemoteAccess: true
+        isFleet: false
+        isSearch: false
+        onPrem: true
+        sourceGroupId: goatOnPremIanWg
+    CreateGroupExamplesEdgeFleet:
+      summary: Create Edge Fleet
+      value:
+        id: goatIanEdgeFleet
+        name: goatIanEdgeFleet
+        description: Create a new Edge Fleet
+        workerRemoteAccess: true
+        isFleet: true
+        isSearch: false
+        onPrem: true
+    UpdateGroupExamplesScaleCloudWorkerGroup:
+      summary: Scale a Cribl.Cloud Worker Group by updating estimated ingest rate
+      value:
+        id: goatCloudIanWg
+        name: goatCloudIanWg
+        description: Scaled Worker Group with estimated ingest rate of 4096 (48 MB/s, 21 Worker Processes) for increased capacity
+        cloud:
+          provider: aws
+          region: us-west-2
+        workerRemoteAccess: true
+        isFleet: false
+        isSearch: false
+        onPrem: false
+        estimatedIngestRate: 4096
+        provisioned: true
     PackInstallExamplesPackDispensary:
       summary: Install from the Pack Dispensary
       value:
@@ -44431,7 +44492,7 @@ components:
       summary: Install Pack from file upload
       value:
         source: cribl-search-missing-logs-1.0.1.Do7DH5I.crbl
-        id: cribl-search-missing-logs-
+        id: cribl-search-missing-logs
         allowCustomFunctions: false
     PackInstallExamplesURL:
       summary: Install Pack from URL
@@ -46929,6 +46990,15 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/GroupCreateRequest"
+            examples:
+              CreateGroupExamplesCloudWg:
+                $ref: "#/components/examples/CreateGroupExamplesCloudWg"
+              CreateGroupExamplesOnPremWg:
+                $ref: "#/components/examples/CreateGroupExamplesOnPremWg"
+              CreateGroupExamplesCloneWg:
+                $ref: "#/components/examples/CreateGroupExamplesCloneWg"
+              CreateGroupExamplesEdgeFleet:
+                $ref: "#/components/examples/CreateGroupExamplesEdgeFleet"
       responses:
         "200":
           description: a list of ConfigGroup objects
@@ -46958,7 +47028,7 @@ paths:
           required: true
           schema:
             $ref: "#/components/schemas/ProductsCore"
-          description: Name of the Cribl product to add the Worker Group or Edge Fleet to.
+          description: required Name of the Cribl product to add the Worker Group or Edge Fleet to.
   /products/{product}/groups/{id}:
     get:
       operationId: getConfigGroupByProductAndId
@@ -47040,6 +47110,9 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/ConfigGroup"
+            examples:
+              UpdateGroupExamplesScaleCloudWorkerGroup:
+                $ref: "#/components/examples/UpdateGroupExamplesScaleCloudWorkerGroup"
       responses:
         "200":
           description: a list of ConfigGroup objects

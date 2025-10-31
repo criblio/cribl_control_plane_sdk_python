@@ -259,7 +259,7 @@ class GroupsSDK(BaseSDK):
 
         Create a new Worker Group or Edge Fleet for the specified Cribl product.
 
-        :param product: Name of the Cribl product to add the Worker Group or Edge Fleet to.
+        :param product: required Name of the Cribl product to add the Worker Group or Edge Fleet to.
         :param id:
         :param cloud:
         :param deploying_worker_count:
@@ -440,7 +440,7 @@ class GroupsSDK(BaseSDK):
 
         Create a new Worker Group or Edge Fleet for the specified Cribl product.
 
-        :param product: Name of the Cribl product to add the Worker Group or Edge Fleet to.
+        :param product: required Name of the Cribl product to add the Worker Group or Edge Fleet to.
         :param id:
         :param cloud:
         :param deploying_worker_count:

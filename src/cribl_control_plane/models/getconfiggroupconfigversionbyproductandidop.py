@@ -2,12 +2,14 @@
 
 from __future__ import annotations
 from .productscore import ProductsCore
+from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel
 from cribl_control_plane.utils import (
     FieldMetadata,
     PathParamMetadata,
     validate_open_enum,
 )
+from pydantic import field_serializer
 from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
@@ -31,6 +33,15 @@ class GetConfigGroupConfigVersionByProductAndIDRequest(BaseModel):
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
     r"""The <code>id</code> of the Worker Group or Edge Fleet to get the configuration version for."""
+
+    @field_serializer("product")
+    def serialize_product(self, value):
+        if isinstance(value, str):
+            try:
+                return models.ProductsCore(value)
+            except ValueError:
+                return value
+        return value
 
 
 class GetConfigGroupConfigVersionByProductAndIDResponseTypedDict(TypedDict):

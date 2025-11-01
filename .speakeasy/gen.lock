@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 3164fed83164519108036c787db77406
-  docVersion: 4.14.1-alpha.1760352614113-66cf8b7e
-  speakeasyVersion: 1.636.3
-  generationVersion: 2.723.11
-  releaseVersion: 0.2.0a1
-  configChecksum: 6dd0c2eb0588118365a5cbe3cb3fb7f0
+  docChecksum: 19795dcb5fee23760be8ec308c95312f
+  docVersion: 4.14.2-alpha.1761946091518-69c0146f
+  speakeasyVersion: 1.643.3
+  generationVersion: 2.731.9
+  releaseVersion: 0.3.0a1
+  configChecksum: 366739bed0d1b98ff3f6e946d851606f
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -15,7 +15,7 @@ features:
     additionalDependencies: 1.0.0
     additionalProperties: 1.0.1
     constsAndDefaults: 1.0.5
-    core: 5.22.1
+    core: 5.23.2
     defaultEnabledRetries: 0.2.0
     devContainers: 3.0.0
     enumUnions: 0.1.0
@@ -3278,4 +3278,3 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: "## Python SDK Changes Detected:\n* `cribl_control_plane.sources.create()`: \n  *  `request.[input_sqs].queue_type` **Changed** **Breaking** :warning:\n  *  `response.items.[].[input_sqs].queue_type` **Changed**\n* `cribl_control_plane.sources.update()`: \n  *  `request.input.[input_sqs].queue_type` **Changed** **Breaking** :warning:\n  *  `response.items.[].[input_sqs].queue_type` **Changed**\n* `cribl_control_plane.destinations.create()`: \n  *  `request` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.update()`: \n  *  `request.output` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.lake_datasets.update()`:  `request.id` **Changed**\n* `cribl_control_plane.sources.list()`:  `response.items.[].[input_sqs].queue_type` **Changed**\n* `cribl_control_plane.sources.get()`:  `response.items.[].[input_sqs].queue_type` **Changed**\n* `cribl_control_plane.sources.delete()`:  `response.items.[].[input_sqs].queue_type` **Changed**\n* `cribl_control_plane.destinations.list()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.get()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.delete()`:  `response.items.[]` **Changed**\n"

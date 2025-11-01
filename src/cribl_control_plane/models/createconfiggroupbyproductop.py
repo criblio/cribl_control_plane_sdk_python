@@ -3,6 +3,7 @@
 from __future__ import annotations
 from .configgroup import ConfigGroup, ConfigGroupTypedDict
 from .productscore import ProductsCore
+from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel
 from cribl_control_plane.utils import (
     FieldMetadata,
@@ -10,6 +11,7 @@ from cribl_control_plane.utils import (
     RequestMetadata,
     validate_open_enum,
 )
+from pydantic import field_serializer
 from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
@@ -34,6 +36,15 @@ class CreateConfigGroupByProductRequest(BaseModel):
         FieldMetadata(request=RequestMetadata(media_type="application/json")),
     ]
     r"""ConfigGroup object"""
+
+    @field_serializer("product")
+    def serialize_product(self, value):
+        if isinstance(value, str):
+            try:
+                return models.ProductsCore(value)
+            except ValueError:
+                return value
+        return value
 
 
 class CreateConfigGroupByProductResponseTypedDict(TypedDict):

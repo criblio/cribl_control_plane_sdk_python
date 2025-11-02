@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 694b3139fa2fcf580ac96918588dce70
-  docVersion: 4.14.1-68918e2c
-  speakeasyVersion: 1.639.3
-  generationVersion: 2.730.5
-  releaseVersion: 0.2.1
-  configChecksum: 284ca22ec55341f4993d2031cc87375d
+  docChecksum: d42eaf1fbd79c1f5d7339faf1ae8e42f
+  docVersion: 4.14.1-f3bec2e9
+  speakeasyVersion: 1.643.2
+  generationVersion: 2.731.6
+  releaseVersion: 0.2.2
+  configChecksum: 5ccab08915d2f9fb03100f80e9cd49e4
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true

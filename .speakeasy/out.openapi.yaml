@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.15.0-alpha.1761904027844-5c5b5b6f
+  version: 4.15.0-alpha.1761948329933-b8db79db
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -27881,6 +27881,7 @@ components:
             - gzip
             - snappy
             - lz4
+            - zstd
           title: Compression
           description: Codec to use to compress the data before sending to Kafka
           x-speakeasy-enum-descriptions:
@@ -27888,6 +27889,7 @@ components:
             - Gzip
             - Snappy
             - LZ4
+            - ZSTD
           x-speakeasy-unknown-values: allow
         maxRecordSizeKB:
           type: number
@@ -28493,6 +28495,7 @@ components:
             - gzip
             - snappy
             - lz4
+            - zstd
           title: Compression
           description: Codec to use to compress the data before sending to Kafka
           x-speakeasy-enum-descriptions:
@@ -28500,6 +28503,7 @@ components:
             - Gzip
             - Snappy
             - LZ4
+            - ZSTD
           x-speakeasy-unknown-values: allow
         maxRecordSizeKB:
           type: number
@@ -28993,6 +28997,7 @@ components:
             - gzip
             - snappy
             - lz4
+            - zstd
           title: Compression
           description: Codec to use to compress the data before sending to Kafka
           x-speakeasy-enum-descriptions:
@@ -29000,6 +29005,7 @@ components:
             - Gzip
             - Snappy
             - LZ4
+            - ZSTD
           x-speakeasy-unknown-values: allow
         maxRecordSizeKB:
           type: number

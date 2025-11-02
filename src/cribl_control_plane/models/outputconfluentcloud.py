@@ -131,6 +131,8 @@ class OutputConfluentCloudCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     SNAPPY = "snappy"
     # LZ4
     LZ4 = "lz4"
+    # ZSTD
+    ZSTD = "zstd"
 
 
 class OutputConfluentCloudAuthTypedDict(TypedDict):

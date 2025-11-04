@@ -18,8 +18,11 @@ class OutputS3Type(str, Enum):
 class OutputS3AuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
+    # Auto
     AUTO = "auto"
+    # Manual
     MANUAL = "manual"
+    # Secret Key pair
     SECRET = "secret"
 
 
@@ -33,54 +36,78 @@ class OutputS3SignatureVersion(str, Enum, metaclass=utils.OpenEnumMeta):
 class OutputS3ObjectACL(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Object ACL to assign to uploaded objects"""
 
+    # Private
     PRIVATE = "private"
+    # Public Read Only
     PUBLIC_READ = "public-read"
+    # Public Read/Write
     PUBLIC_READ_WRITE = "public-read-write"
+    # Authenticated Read Only
     AUTHENTICATED_READ = "authenticated-read"
+    # AWS EC2 AMI Read Only
     AWS_EXEC_READ = "aws-exec-read"
+    # Bucket Owner Read Only
     BUCKET_OWNER_READ = "bucket-owner-read"
+    # Bucket Owner Full Control
     BUCKET_OWNER_FULL_CONTROL = "bucket-owner-full-control"
 
 
 class OutputS3StorageClass(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Storage class to select for uploaded objects"""
 
+    # Standard
     STANDARD = "STANDARD"
+    # Reduced Redundancy Storage
     REDUCED_REDUNDANCY = "REDUCED_REDUNDANCY"
+    # Standard, Infrequent Access
     STANDARD_IA = "STANDARD_IA"
+    # One Zone, Infrequent Access
     ONEZONE_IA = "ONEZONE_IA"
+    # Intelligent Tiering
     INTELLIGENT_TIERING = "INTELLIGENT_TIERING"
+    # Glacier Flexible Retrieval
     GLACIER = "GLACIER"
+    # Glacier Instant Retrieval
     GLACIER_IR = "GLACIER_IR"
+    # Glacier Deep Archive
     DEEP_ARCHIVE = "DEEP_ARCHIVE"
 
 
 class OutputS3ServerSideEncryptionForUploadedObjects(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    # Amazon S3 Managed Key
     AES256 = "AES256"
+    # AWS KMS Managed Key
     AWS_KMS = "aws:kms"
 
 
 class OutputS3DataFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Format of the output data"""
 
+    # JSON
     JSON = "json"
+    # Raw
     RAW = "raw"
+    # Parquet
     PARQUET = "parquet"
 
 
 class OutputS3BackpressureBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when all receivers are exerting backpressure"""
 
+    # Block
     BLOCK = "block"
+    # Drop
     DROP = "drop"
 
 
 class OutputS3DiskSpaceProtection(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
 
+    # Block
     BLOCK = "block"
+    # Drop
     DROP = "drop"
 
 
@@ -94,23 +121,31 @@ class OutputS3Compression(str, Enum, metaclass=utils.OpenEnumMeta):
 class OutputS3CompressionLevel(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Compression level to apply before moving files to final destination"""
 
+    # Best Speed
     BEST_SPEED = "best_speed"
+    # Normal
     NORMAL = "normal"
+    # Best Compression
     BEST_COMPRESSION = "best_compression"
 
 
 class OutputS3ParquetVersion(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Determines which data types are supported and how they are represented"""
 
+    # 1.0
     PARQUET_1_0 = "PARQUET_1_0"
+    # 2.4
     PARQUET_2_4 = "PARQUET_2_4"
+    # 2.6
     PARQUET_2_6 = "PARQUET_2_6"
 
 
 class OutputS3DataPageVersion(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it."""
 
+    # V1
     DATA_PAGE_V1 = "DATA_PAGE_V1"
+    # V2
     DATA_PAGE_V2 = "DATA_PAGE_V2"
 
 
@@ -219,6 +254,8 @@ class OutputS3TypedDict(TypedDict):
     r"""Compression level to apply before moving files to final destination"""
     automatic_schema: NotRequired[bool]
     r"""Automatically calculate the schema based on the events of each Parquet file generated"""
+    parquet_schema: NotRequired[str]
+    r"""To add a new schema, navigate to Processing > Knowledge > Parquet Schemas"""
     parquet_version: NotRequired[OutputS3ParquetVersion]
     r"""Determines which data types are supported and how they are represented"""
     parquet_data_page_version: NotRequired[OutputS3DataPageVersion]
@@ -487,6 +524,11 @@ class OutputS3(BaseModel):
         Optional[bool], pydantic.Field(alias="automaticSchema")
     ] = False
     r"""Automatically calculate the schema based on the events of each Parquet file generated"""
+
+    parquet_schema: Annotated[Optional[str], pydantic.Field(alias="parquetSchema")] = (
+        None
+    )
+    r"""To add a new schema, navigate to Processing > Knowledge > Parquet Schemas"""
 
     parquet_version: Annotated[
         Annotated[

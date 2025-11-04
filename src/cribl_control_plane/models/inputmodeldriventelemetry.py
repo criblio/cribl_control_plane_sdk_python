@@ -7,7 +7,7 @@ from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic.functional_validators import PlainValidator
-from typing import Any, List, Optional
+from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -29,14 +29,18 @@ class InputModelDrivenTelemetryConnection(BaseModel):
 class InputModelDrivenTelemetryMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
+    # Smart
     SMART = "smart"
+    # Always On
     ALWAYS = "always"
 
 
 class InputModelDrivenTelemetryCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
+    # None
     NONE = "none"
+    # Gzip
     GZIP = "gzip"
 
 
@@ -126,6 +130,12 @@ class InputModelDrivenTelemetryMaximumTLSVersion(
 
 class InputModelDrivenTelemetryTLSSettingsServerSideTypedDict(TypedDict):
     disabled: NotRequired[bool]
+    request_cert: NotRequired[bool]
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's)"""
+    common_name_regex: NotRequired[str]
+    r"""Regex matching allowable common names in peer certificates' subject attribute"""
     certificate_name: NotRequired[str]
     r"""The name of the predefined certificate"""
     priv_key_path: NotRequired[str]
@@ -136,16 +146,25 @@ class InputModelDrivenTelemetryTLSSettingsServerSideTypedDict(TypedDict):
     r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
     ca_path: NotRequired[str]
     r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
-    request_cert: NotRequired[bool]
-    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
-    reject_unauthorized: NotRequired[Any]
-    common_name_regex: NotRequired[Any]
     min_version: NotRequired[InputModelDrivenTelemetryMinimumTLSVersion]
     max_version: NotRequired[InputModelDrivenTelemetryMaximumTLSVersion]
 
 
 class InputModelDrivenTelemetryTLSSettingsServerSide(BaseModel):
     disabled: Optional[bool] = True
+
+    request_cert: Annotated[Optional[bool], pydantic.Field(alias="requestCert")] = False
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = True
+    r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's)"""
+
+    common_name_regex: Annotated[
+        Optional[str], pydantic.Field(alias="commonNameRegex")
+    ] = "/.*/"
+    r"""Regex matching allowable common names in peer certificates' subject attribute"""
 
     certificate_name: Annotated[
         Optional[str], pydantic.Field(alias="certificateName")
@@ -163,17 +182,6 @@ class InputModelDrivenTelemetryTLSSettingsServerSide(BaseModel):
 
     ca_path: Annotated[Optional[str], pydantic.Field(alias="caPath")] = None
     r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
-
-    request_cert: Annotated[Optional[bool], pydantic.Field(alias="requestCert")] = False
-    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
-
-    reject_unauthorized: Annotated[
-        Optional[Any], pydantic.Field(alias="rejectUnauthorized")
-    ] = None
-
-    common_name_regex: Annotated[
-        Optional[Any], pydantic.Field(alias="commonNameRegex")
-    ] = None
 
     min_version: Annotated[
         Annotated[

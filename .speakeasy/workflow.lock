@@ -1,28 +1,28 @@
-speakeasyVersion: 1.639.3
+speakeasyVersion: 1.643.2
 sources:
     Cribl API Reference:
         sourceNamespace: cribl-api-reference
-        sourceRevisionDigest: sha256:53f84a80a16de7f803f23e324fd0a6aa3eb7b1416cc2576e06456180f746f994
-        sourceBlobDigest: sha256:9f44e9f3899e263f24ed7b94a44685927319498a883dbab18d4ed8ea6a0e232a
+        sourceRevisionDigest: sha256:bbd4dc578d6e46ab017ca1165d35405023cc43bf5a3b6712ebc583a39a5ea38f
+        sourceBlobDigest: sha256:400b67e492882b8b4e73b5a1c47fa289264672d1133b03eecf869f92d57e54f7
         tags:
             - latest
-            - speakeasy-sdk-regen-1761637660
-            - 4.14.1-68918e2c
+            - speakeasy-sdk-regen-openapi-prerelease-1762249878
+            - 4.15.0-alpha.1762249156162-b384ad31
 targets:
     cribl-control-plane:
         source: Cribl API Reference
         sourceNamespace: cribl-api-reference
-        sourceRevisionDigest: sha256:53f84a80a16de7f803f23e324fd0a6aa3eb7b1416cc2576e06456180f746f994
-        sourceBlobDigest: sha256:9f44e9f3899e263f24ed7b94a44685927319498a883dbab18d4ed8ea6a0e232a
+        sourceRevisionDigest: sha256:bbd4dc578d6e46ab017ca1165d35405023cc43bf5a3b6712ebc583a39a5ea38f
+        sourceBlobDigest: sha256:400b67e492882b8b4e73b5a1c47fa289264672d1133b03eecf869f92d57e54f7
         codeSamplesNamespace: cribl-api-reference-python-code-samples
-        codeSamplesRevisionDigest: sha256:7fce913b44e0471547af66f0b09a1d73fc8335c1723faaa54e306f038528bd63
+        codeSamplesRevisionDigest: sha256:72f0626a8fe2b4e7c61dfd9f17c8321a6996958bf73157e990d29aad5ba9c7c0
 workflow:
     workflowVersion: 1.0.0
-    speakeasyVersion: 1.639.3
+    speakeasyVersion: 1.643.2
     sources:
         Cribl API Reference:
             inputs:
-                - location: https://raw.githubusercontent.com/criblio/cribl-openapi-spec/main/specs/control-plane.yml
+                - location: https://raw.githubusercontent.com/criblio/cribl-openapi-spec/main/specs/control-plane-prerelease.yml
             output: .speakeasy/out.openapi.yaml
             registry:
                 location: registry.speakeasyapi.dev/cribl/cribl/cribl-api-reference

@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.15.0-alpha.1761948329933-b8db79db
+  version: 4.15.0-alpha.1762220644002-9c9bb8fd
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -396,6 +396,16 @@ components:
         - cacheRef
         - createdAt
         - retentionInDays
+    LakeDatasetMetrics:
+      type: object
+      properties:
+        currentSizeBytes:
+          type: number
+        metricsDate:
+          type: string
+      required:
+        - currentSizeBytes
+        - metricsDate
     DatasetMetadataRunInfo:
       type: object
       properties:
@@ -466,6 +476,8 @@ components:
           type: boolean
         id:
           type: string
+        metrics:
+          $ref: "#/components/schemas/LakeDatasetMetrics"
         retentionPeriodInDays:
           type: number
         searchConfig:
@@ -502,6 +514,8 @@ components:
           type: boolean
         id:
           type: string
+        metrics:
+          $ref: "#/components/schemas/LakeDatasetMetrics"
         retentionPeriodInDays:
           type: number
         searchConfig:
@@ -15703,13 +15717,13 @@ components:
         mode:
           type: string
           enum:
-            - auto
             - manual
+            - auto
           x-speakeasy-enum-descriptions:
-            - Auto
             - Manual
+            - Auto
           x-speakeasy-unknown-values: allow
-          default: auto
+          default: manual
           description: Choose how to discover files to monitor
         interval:
           type: number

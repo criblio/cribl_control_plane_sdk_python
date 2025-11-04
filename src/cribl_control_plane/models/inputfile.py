@@ -110,10 +110,10 @@ class InputFilePq(BaseModel):
 class InputFileMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Choose how to discover files to monitor"""
 
-    # Auto
-    AUTO = "auto"
     # Manual
     MANUAL = "manual"
+    # Auto
+    AUTO = "auto"
 
 
 class InputFileMetadatumTypedDict(TypedDict):
@@ -217,7 +217,7 @@ class InputFile(BaseModel):
 
     mode: Annotated[
         Optional[InputFileMode], PlainValidator(validate_open_enum(False))
-    ] = InputFileMode.AUTO
+    ] = InputFileMode.MANUAL
     r"""Choose how to discover files to monitor"""
 
     interval: Optional[float] = 10

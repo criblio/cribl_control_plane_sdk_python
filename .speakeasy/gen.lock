@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: a9174770d51d6aeda67672b66a1f3ac9
-  docVersion: 4.15.0-alpha.1761948329933-b8db79db
+  docChecksum: e67ae1adef5f39685934a48367dbe06e
+  docVersion: 4.15.0-alpha.1762220644002-9c9bb8fd
   speakeasyVersion: 1.643.2
   generationVersion: 2.731.6
-  releaseVersion: 0.3.0b8
-  configChecksum: 668df8ccc65cc6b7499d8f7083384b11
+  releaseVersion: 0.3.0b9
+  configChecksum: f7face60bf3f5cb77a45ac39eef9b852
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -1016,6 +1016,7 @@ generatedFiles:
   - docs/models/interfaces.md
   - docs/models/jobinfo.md
   - docs/models/jobstatus.md
+  - docs/models/lakedatasetmetrics.md
   - docs/models/lakedatasetsearchconfig.md
   - docs/models/lakehouseconnectiontype.md
   - docs/models/lastmetrics.md
@@ -2230,6 +2231,7 @@ generatedFiles:
   - src/cribl_control_plane/models/inputzscalerhec.py
   - src/cribl_control_plane/models/jobinfo.py
   - src/cribl_control_plane/models/jobstatus.py
+  - src/cribl_control_plane/models/lakedatasetmetrics.py
   - src/cribl_control_plane/models/lakedatasetsearchconfig.py
   - src/cribl_control_plane/models/lakehouseconnectiontype.py
   - src/cribl_control_plane/models/listconfiggroupbyproductop.py
@@ -2796,10 +2798,10 @@ examples:
         path:
           lakeId: "<id>"
       requestBody:
-        application/json: {"acceleratedFields": ["<value 1>", "<value 2>"], "bucketName": "<value>", "cacheConnection": {"acceleratedFields": ["<value 1>", "<value 2>"], "backfillStatus": "pending", "cacheRef": "<value>", "createdAt": 7795.06, "lakehouseConnectionType": "cache", "migrationQueryId": "<id>", "retentionInDays": 1466.58}, "deletionStartedAt": 8310.58, "description": "pleased toothbrush long brush smooth swiftly rightfully phooey chapel", "format": "ddss", "httpDAUsed": true, "id": "<id>", "retentionPeriodInDays": 456.37, "searchConfig": {"datatypes": ["<value 1>"], "metadata": {"earliest": "<value>", "enableAcceleration": true, "fieldList": ["<value 1>", "<value 2>"], "latestRunInfo": {"earliestScannedTime": 4334.7, "finishedAt": 6811.22, "latestScannedTime": 5303.3, "objectCount": 9489.04}, "scanMode": "detailed"}}, "storageLocationId": "<id>", "viewName": "<value>"}
+        application/json: {"acceleratedFields": ["<value 1>", "<value 2>"], "bucketName": "<value>", "cacheConnection": {"acceleratedFields": ["<value 1>", "<value 2>"], "backfillStatus": "pending", "cacheRef": "<value>", "createdAt": 7795.06, "lakehouseConnectionType": "cache", "migrationQueryId": "<id>", "retentionInDays": 1466.58}, "deletionStartedAt": 8310.58, "description": "pleased toothbrush long brush smooth swiftly rightfully phooey chapel", "format": "ddss", "httpDAUsed": true, "id": "<id>", "metrics": {"currentSizeBytes": 6170.04, "metricsDate": "<value>"}, "retentionPeriodInDays": 456.37, "searchConfig": {"datatypes": ["<value 1>"], "metadata": {"earliest": "<value>", "enableAcceleration": true, "fieldList": ["<value 1>", "<value 2>"], "latestRunInfo": {"earliestScannedTime": 4334.7, "finishedAt": 6811.22, "latestScannedTime": 5303.3, "objectCount": 9489.04}, "scanMode": "detailed"}}, "storageLocationId": "<id>", "viewName": "<value>"}
       responses:
         "200":
-          application/json: {"count": 428443, "items": [{"acceleratedFields": ["<value 1>"], "bucketName": "<value>", "cacheConnection": {"acceleratedFields": ["<value 1>", "<value 2>"], "backfillStatus": "pending", "cacheRef": "<value>", "createdAt": 7795.06, "lakehouseConnectionType": "cache", "migrationQueryId": "<id>", "retentionInDays": 1466.58}, "deletionStartedAt": 6211.27, "description": "ick napkin lamp save yearly though barring", "format": "ddss", "httpDAUsed": false, "id": "<id>", "retentionPeriodInDays": 4605.98, "searchConfig": {"datatypes": ["<value 1>"], "metadata": {"earliest": "<value>", "enableAcceleration": true, "fieldList": ["<value 1>", "<value 2>"], "latestRunInfo": {"earliestScannedTime": 4334.7, "finishedAt": 6811.22, "latestScannedTime": 5303.3, "objectCount": 9489.04}, "scanMode": "detailed"}}, "storageLocationId": "<id>", "viewName": "<value>"}]}
+          application/json: {"count": 428443, "items": [{"acceleratedFields": ["<value 1>"], "bucketName": "<value>", "cacheConnection": {"acceleratedFields": ["<value 1>", "<value 2>"], "backfillStatus": "pending", "cacheRef": "<value>", "createdAt": 7795.06, "lakehouseConnectionType": "cache", "migrationQueryId": "<id>", "retentionInDays": 1466.58}, "deletionStartedAt": 6211.27, "description": "ick napkin lamp save yearly though barring", "format": "ddss", "httpDAUsed": false, "id": "<id>", "metrics": {"currentSizeBytes": 6170.04, "metricsDate": "<value>"}, "retentionPeriodInDays": 4605.98, "searchConfig": {"datatypes": ["<value 1>"], "metadata": {"earliest": "<value>", "enableAcceleration": true, "fieldList": ["<value 1>", "<value 2>"], "latestRunInfo": {"earliestScannedTime": 4334.7, "finishedAt": 6811.22, "latestScannedTime": 5303.3, "objectCount": 9489.04}, "scanMode": "detailed"}}, "storageLocationId": "<id>", "viewName": "<value>"}]}
         "500":
           application/json: {"message": "<value>"}
   getCriblLakeDatasetByLakeId:
@@ -2809,7 +2811,7 @@ examples:
           lakeId: "<id>"
       responses:
         "200":
-          application/json: {"count": 3101, "items": [{"acceleratedFields": ["<value 1>", "<value 2>"], "bucketName": "<value>", "cacheConnection": {"acceleratedFields": ["<value 1>", "<value 2>"], "backfillStatus": "finished", "cacheRef": "<value>", "createdAt": 6343.67, "lakehouseConnectionType": "cache", "migrationQueryId": "<id>", "retentionInDays": 6213}, "deletionStartedAt": 581.96, "description": "remarkable meh whoever ha crossly", "format": "json", "httpDAUsed": true, "id": "<id>", "retentionPeriodInDays": 2829.32, "searchConfig": {"datatypes": ["<value 1>"], "metadata": {"earliest": "<value>", "enableAcceleration": true, "fieldList": ["<value 1>", "<value 2>"], "latestRunInfo": {"earliestScannedTime": 4800.7, "finishedAt": 8646.6, "latestScannedTime": 5697.01, "objectCount": 4527.63}, "scanMode": "quick"}}, "storageLocationId": "<id>", "viewName": "<value>"}]}
+          application/json: {"count": 3101, "items": [{"acceleratedFields": ["<value 1>", "<value 2>"], "bucketName": "<value>", "cacheConnection": {"acceleratedFields": ["<value 1>", "<value 2>"], "backfillStatus": "finished", "cacheRef": "<value>", "createdAt": 6343.67, "lakehouseConnectionType": "cache", "migrationQueryId": "<id>", "retentionInDays": 6213}, "deletionStartedAt": 581.96, "description": "remarkable meh whoever ha crossly", "format": "json", "httpDAUsed": true, "id": "<id>", "metrics": {"currentSizeBytes": 31.01, "metricsDate": "<value>"}, "retentionPeriodInDays": 2829.32, "searchConfig": {"datatypes": ["<value 1>"], "metadata": {"earliest": "<value>", "enableAcceleration": true, "fieldList": ["<value 1>", "<value 2>"], "latestRunInfo": {"earliestScannedTime": 4800.7, "finishedAt": 8646.6, "latestScannedTime": 5697.01, "objectCount": 4527.63}, "scanMode": "quick"}}, "storageLocationId": "<id>", "viewName": "<value>"}]}
         "500":
           application/json: {"message": "<value>"}
   getSummaryWorkers:
@@ -3016,7 +3018,7 @@ examples:
           id: "<id>"
       responses:
         "200":
-          application/json: {"count": 954603, "items": [{"acceleratedFields": ["<value 1>", "<value 2>"], "bucketName": "<value>", "cacheConnection": {"acceleratedFields": ["<value 1>", "<value 2>", "<value 3>"], "backfillStatus": "finished", "cacheRef": "<value>", "createdAt": 4670.23, "lakehouseConnectionType": "zeroPoint", "migrationQueryId": "<id>", "retentionInDays": 4383.9}, "deletionStartedAt": 8741.5, "description": "twine unabashedly within hm whoever duh swift which likewise", "format": "parquet", "httpDAUsed": false, "id": "<id>", "retentionPeriodInDays": 9101.58, "searchConfig": {"datatypes": ["<value 1>", "<value 2>", "<value 3>"], "metadata": {"earliest": "<value>", "enableAcceleration": true, "fieldList": [], "latestRunInfo": {"earliestScannedTime": 5372.22, "finishedAt": 2530.33, "latestScannedTime": 3122.34, "objectCount": 5459.74}, "scanMode": "quick"}}, "storageLocationId": "<id>", "viewName": "<value>"}]}
+          application/json: {"count": 954603, "items": [{"acceleratedFields": ["<value 1>", "<value 2>"], "bucketName": "<value>", "cacheConnection": {"acceleratedFields": ["<value 1>", "<value 2>", "<value 3>"], "backfillStatus": "finished", "cacheRef": "<value>", "createdAt": 4670.23, "lakehouseConnectionType": "zeroPoint", "migrationQueryId": "<id>", "retentionInDays": 4383.9}, "deletionStartedAt": 8741.5, "description": "twine unabashedly within hm whoever duh swift which likewise", "format": "parquet", "httpDAUsed": false, "id": "<id>", "metrics": {"currentSizeBytes": 9546.03, "metricsDate": "<value>"}, "retentionPeriodInDays": 9101.58, "searchConfig": {"datatypes": ["<value 1>", "<value 2>", "<value 3>"], "metadata": {"earliest": "<value>", "enableAcceleration": true, "fieldList": [], "latestRunInfo": {"earliestScannedTime": 5372.22, "finishedAt": 2530.33, "latestScannedTime": 3122.34, "objectCount": 5459.74}, "scanMode": "quick"}}, "storageLocationId": "<id>", "viewName": "<value>"}]}
         "500":
           application/json: {"message": "<value>"}
   getCriblLakeDatasetByLakeIdAndId:
@@ -3027,7 +3029,7 @@ examples:
           id: "<id>"
       responses:
         "200":
-          application/json: {"count": 488520, "items": [{"acceleratedFields": ["<value 1>", "<value 2>", "<value 3>"], "bucketName": "<value>", "cacheConnection": {"acceleratedFields": ["<value 1>", "<value 2>"], "backfillStatus": "started", "cacheRef": "<value>", "createdAt": 4162.03, "lakehouseConnectionType": "cache", "migrationQueryId": "<id>", "retentionInDays": 3505.26}, "deletionStartedAt": 9483.64, "description": "towards as separate yum approximate than napkin over but tame", "format": "json", "httpDAUsed": true, "id": "<id>", "retentionPeriodInDays": 4689.34, "searchConfig": {"datatypes": ["<value 1>"], "metadata": {"earliest": "<value>", "enableAcceleration": false, "fieldList": [], "latestRunInfo": {"earliestScannedTime": 6809.96, "finishedAt": 8790.42, "latestScannedTime": 5054.03, "objectCount": 6377.75}, "scanMode": "quick"}}, "storageLocationId": "<id>", "viewName": "<value>"}]}
+          application/json: {"count": 488520, "items": [{"acceleratedFields": ["<value 1>", "<value 2>", "<value 3>"], "bucketName": "<value>", "cacheConnection": {"acceleratedFields": ["<value 1>", "<value 2>"], "backfillStatus": "started", "cacheRef": "<value>", "createdAt": 4162.03, "lakehouseConnectionType": "cache", "migrationQueryId": "<id>", "retentionInDays": 3505.26}, "deletionStartedAt": 9483.64, "description": "towards as separate yum approximate than napkin over but tame", "format": "json", "httpDAUsed": true, "id": "<id>", "metrics": {"currentSizeBytes": 4885.2, "metricsDate": "<value>"}, "retentionPeriodInDays": 4689.34, "searchConfig": {"datatypes": ["<value 1>"], "metadata": {"earliest": "<value>", "enableAcceleration": false, "fieldList": [], "latestRunInfo": {"earliestScannedTime": 6809.96, "finishedAt": 8790.42, "latestScannedTime": 5054.03, "objectCount": 6377.75}, "scanMode": "quick"}}, "storageLocationId": "<id>", "viewName": "<value>"}]}
         "500":
           application/json: {"message": "<value>"}
   updateCriblLakeDatasetByLakeIdAndId:
@@ -3037,10 +3039,10 @@ examples:
           lakeId: "<id>"
           id: "<value>"
       requestBody:
-        application/json: {"acceleratedFields": ["<value 1>", "<value 2>"], "bucketName": "<value>", "cacheConnection": {"acceleratedFields": ["<value 1>", "<value 2>", "<value 3>"], "backfillStatus": "incomplete", "cacheRef": "<value>", "createdAt": 267.92, "lakehouseConnectionType": "zeroPoint", "migrationQueryId": "<id>", "retentionInDays": 3769.62}, "deletionStartedAt": 836.59, "description": "highlight phew ponder but winding", "format": "json", "httpDAUsed": true, "id": "<id>", "retentionPeriodInDays": 602.09, "searchConfig": {"datatypes": ["<value 1>", "<value 2>"], "metadata": {"earliest": "<value>", "enableAcceleration": false, "fieldList": ["<value 1>"], "latestRunInfo": {"earliestScannedTime": 7659.78, "finishedAt": 6404.38, "latestScannedTime": 4426.77, "objectCount": 8849.28}, "scanMode": "detailed"}}, "storageLocationId": "<id>", "viewName": "<value>"}
+        application/json: {"acceleratedFields": ["<value 1>", "<value 2>"], "bucketName": "<value>", "cacheConnection": {"acceleratedFields": ["<value 1>", "<value 2>", "<value 3>"], "backfillStatus": "incomplete", "cacheRef": "<value>", "createdAt": 267.92, "lakehouseConnectionType": "zeroPoint", "migrationQueryId": "<id>", "retentionInDays": 3769.62}, "deletionStartedAt": 836.59, "description": "highlight phew ponder but winding", "format": "json", "httpDAUsed": true, "id": "<id>", "metrics": {"currentSizeBytes": 6237.74, "metricsDate": "<value>"}, "retentionPeriodInDays": 602.09, "searchConfig": {"datatypes": ["<value 1>", "<value 2>"], "metadata": {"earliest": "<value>", "enableAcceleration": false, "fieldList": ["<value 1>"], "latestRunInfo": {"earliestScannedTime": 7659.78, "finishedAt": 6404.38, "latestScannedTime": 4426.77, "objectCount": 8849.28}, "scanMode": "detailed"}}, "storageLocationId": "<id>", "viewName": "<value>"}
       responses:
         "200":
-          application/json: {"count": 592322, "items": [{"acceleratedFields": ["<value 1>"], "bucketName": "<value>", "cacheConnection": {"acceleratedFields": ["<value 1>", "<value 2>", "<value 3>"], "backfillStatus": "incomplete", "cacheRef": "<value>", "createdAt": 267.92, "lakehouseConnectionType": "zeroPoint", "migrationQueryId": "<id>", "retentionInDays": 3769.62}, "deletionStartedAt": 9654.8, "description": "murky out cone hm sophisticated whoa frightfully unimpressively since", "format": "ddss", "httpDAUsed": false, "id": "<id>", "retentionPeriodInDays": 6639.66, "searchConfig": {"datatypes": ["<value 1>", "<value 2>"], "metadata": {"earliest": "<value>", "enableAcceleration": false, "fieldList": ["<value 1>"], "latestRunInfo": {"earliestScannedTime": 7659.78, "finishedAt": 6404.38, "latestScannedTime": 4426.77, "objectCount": 8849.28}, "scanMode": "detailed"}}, "storageLocationId": "<id>", "viewName": "<value>"}]}
+          application/json: {"count": 592322, "items": [{"acceleratedFields": ["<value 1>"], "bucketName": "<value>", "cacheConnection": {"acceleratedFields": ["<value 1>", "<value 2>", "<value 3>"], "backfillStatus": "incomplete", "cacheRef": "<value>", "createdAt": 267.92, "lakehouseConnectionType": "zeroPoint", "migrationQueryId": "<id>", "retentionInDays": 3769.62}, "deletionStartedAt": 9654.8, "description": "murky out cone hm sophisticated whoa frightfully unimpressively since", "format": "ddss", "httpDAUsed": false, "id": "<id>", "metrics": {"currentSizeBytes": 6237.74, "metricsDate": "<value>"}, "retentionPeriodInDays": 6639.66, "searchConfig": {"datatypes": ["<value 1>", "<value 2>"], "metadata": {"earliest": "<value>", "enableAcceleration": false, "fieldList": ["<value 1>"], "latestRunInfo": {"earliestScannedTime": 7659.78, "finishedAt": 6404.38, "latestScannedTime": 4426.77, "objectCount": 8849.28}, "scanMode": "detailed"}}, "storageLocationId": "<id>", "viewName": "<value>"}]}
         "500":
           application/json: {"message": "<value>"}
   deletePacksById:
@@ -3443,3 +3445,4 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
+releaseNotes: "## Python SDK Changes Detected:\n* `cribl_control_plane.lake_datasets.create()`: \n  *  `request.metrics` **Added**\n  *  `response.items.[].metrics` **Added**\n* `cribl_control_plane.lake_datasets.list()`:  `response.items.[].metrics` **Added**\n* `cribl_control_plane.lake_datasets.delete()`:  `response.items.[].metrics` **Added**\n* `cribl_control_plane.lake_datasets.get()`:  `response.items.[].metrics` **Added**\n* `cribl_control_plane.lake_datasets.update()`: \n  *  `request.metrics` **Added**\n  *  `response.items.[].metrics` **Added**\n"

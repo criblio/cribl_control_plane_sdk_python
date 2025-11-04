@@ -20,7 +20,7 @@ class DeleteOutputPqByIDRequest(BaseModel):
 
 
 class DeleteOutputPqByIDResponseTypedDict(TypedDict):
-    r"""a list of string objects"""
+    r"""A list of job ids for the background job that clears the persistent queue"""
 
     count: NotRequired[int]
     r"""number of items present in the items array"""
@@ -28,7 +28,7 @@ class DeleteOutputPqByIDResponseTypedDict(TypedDict):
 
 
 class DeleteOutputPqByIDResponse(BaseModel):
-    r"""a list of string objects"""
+    r"""A list of job ids for the background job that clears the persistent queue"""
 
     count: Optional[int] = None
     r"""number of items present in the items array"""

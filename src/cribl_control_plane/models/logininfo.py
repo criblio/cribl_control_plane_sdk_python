@@ -6,11 +6,11 @@ from typing_extensions import TypedDict
 
 
 class LoginInfoTypedDict(TypedDict):
-    username: str
     password: str
+    username: str
 
 
 class LoginInfo(BaseModel):
-    username: str
-
     password: str
+
+    username: str

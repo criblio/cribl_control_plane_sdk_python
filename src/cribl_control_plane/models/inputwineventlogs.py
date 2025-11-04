@@ -29,14 +29,18 @@ class InputWinEventLogsConnection(BaseModel):
 class InputWinEventLogsMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
+    # Smart
     SMART = "smart"
+    # Always On
     ALWAYS = "always"
 
 
 class InputWinEventLogsCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
+    # None
     NONE = "none"
+    # Gzip
     GZIP = "gzip"
 
 
@@ -107,14 +111,18 @@ class InputWinEventLogsPq(BaseModel):
 class ReadMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Read all stored and future event logs, or only future events"""
 
+    # Entire log
     OLDEST = "oldest"
+    # From last entry
     NEWEST = "newest"
 
 
 class EventFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Format of individual events"""
 
+    # JSON
     JSON = "json"
+    # XML
     XML = "xml"
 
 
@@ -166,6 +174,10 @@ class InputWinEventLogsTypedDict(TypedDict):
     max_event_bytes: NotRequired[float]
     r"""The maximum number of bytes in an event before it is flushed to the pipelines"""
     description: NotRequired[str]
+    disable_json_rendering: NotRequired[bool]
+    r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
+    disable_xml_rendering: NotRequired[bool]
+    r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
 
 
 class InputWinEventLogs(BaseModel):
@@ -233,3 +245,13 @@ class InputWinEventLogs(BaseModel):
     r"""The maximum number of bytes in an event before it is flushed to the pipelines"""
 
     description: Optional[str] = None
+
+    disable_json_rendering: Annotated[
+        Optional[bool], pydantic.Field(alias="disableJsonRendering")
+    ] = False
+    r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
+
+    disable_xml_rendering: Annotated[
+        Optional[bool], pydantic.Field(alias="disableXmlRendering")
+    ] = True
+    r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""

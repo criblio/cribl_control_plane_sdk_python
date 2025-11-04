@@ -18,7 +18,9 @@ class OutputSplunkLbType(str, Enum):
 class OutputSplunkLbNestedFieldSerialization(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to serialize nested fields into index-time fields"""
 
+    # JSON
     JSON = "json"
+    # None
     NONE = "none"
 
 
@@ -115,8 +117,11 @@ class OutputSplunkLbMaxS2SVersion(str, Enum, metaclass=utils.OpenEnumMeta):
 class OutputSplunkLbBackpressureBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when all receivers are exerting backpressure"""
 
+    # Block
     BLOCK = "block"
+    # Drop
     DROP = "drop"
+    # Persistent Queue
     QUEUE = "queue"
 
 
@@ -130,8 +135,11 @@ class OutputSplunkLbAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta
 class OutputSplunkLbCompressCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Controls whether the sender should send compressed data to the server. Select 'Disabled' to reject compressed connections or 'Always' to ignore server's configuration and send compressed data."""
 
+    # Disabled
     DISABLED = "disabled"
+    # Automatic
     AUTO = "auto"
+    # Always
     ALWAYS = "always"
 
 
@@ -269,26 +277,33 @@ class OutputSplunkLbHost(BaseModel):
     r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
 
 
+class OutputSplunkLbMode(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
+
+    # Error
+    ERROR = "error"
+    # Backpressure
+    ALWAYS = "always"
+    # Always On
+    BACKPRESSURE = "backpressure"
+
+
 class OutputSplunkLbPqCompressCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
+    # None
     NONE = "none"
+    # Gzip
     GZIP = "gzip"
 
 
 class OutputSplunkLbQueueFullBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
+    # Block
     BLOCK = "block"
+    # Drop new data
     DROP = "drop"
-
-
-class OutputSplunkLbMode(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
-
-    ERROR = "error"
-    BACKPRESSURE = "backpressure"
-    ALWAYS = "always"
 
 
 class OutputSplunkLbPqControlsTypedDict(TypedDict):
@@ -353,6 +368,16 @@ class OutputSplunkLbTypedDict(TypedDict):
     r"""List of configurations to set up indexer discovery in Splunk Indexer clustering environment."""
     exclude_self: NotRequired[bool]
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
+    pq_strict_ordering: NotRequired[bool]
+    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
+    pq_rate_per_sec: NotRequired[float]
+    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
+    pq_mode: NotRequired[OutputSplunkLbMode]
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
+    pq_max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    pq_max_backpressure_sec: NotRequired[float]
+    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
     pq_max_size: NotRequired[str]
@@ -363,8 +388,6 @@ class OutputSplunkLbTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[OutputSplunkLbQueueFullBehavior]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-    pq_mode: NotRequired[OutputSplunkLbMode]
-    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_controls: NotRequired[OutputSplunkLbPqControlsTypedDict]
     auth_token: NotRequired[str]
     r"""Shared secret token to use when establishing a connection to a Splunk indexer."""
@@ -508,6 +531,34 @@ class OutputSplunkLb(BaseModel):
     exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = False
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
 
+    pq_strict_ordering: Annotated[
+        Optional[bool], pydantic.Field(alias="pqStrictOrdering")
+    ] = True
+    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
+
+    pq_rate_per_sec: Annotated[
+        Optional[float], pydantic.Field(alias="pqRatePerSec")
+    ] = 0
+    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
+
+    pq_mode: Annotated[
+        Annotated[
+            Optional[OutputSplunkLbMode], PlainValidator(validate_open_enum(False))
+        ],
+        pydantic.Field(alias="pqMode"),
+    ] = OutputSplunkLbMode.ERROR
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
+
+    pq_max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="pqMaxBufferSize")
+    ] = 42
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    pq_max_backpressure_sec: Annotated[
+        Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
+    ] = 30
+    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
+
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
     ] = "1 MB"
@@ -538,14 +589,6 @@ class OutputSplunkLb(BaseModel):
         pydantic.Field(alias="pqOnBackpressure"),
     ] = OutputSplunkLbQueueFullBehavior.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-
-    pq_mode: Annotated[
-        Annotated[
-            Optional[OutputSplunkLbMode], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqMode"),
-    ] = OutputSplunkLbMode.ERROR
-    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_controls: Annotated[
         Optional[OutputSplunkLbPqControls], pydantic.Field(alias="pqControls")

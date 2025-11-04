@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 from .cacheconnection import CacheConnection, CacheConnectionTypedDict
+from .lakedatasetmetrics import LakeDatasetMetrics, LakeDatasetMetricsTypedDict
 from .lakedatasetsearchconfig import (
     LakeDatasetSearchConfig,
     LakeDatasetSearchConfigTypedDict,
@@ -31,6 +32,7 @@ class CriblLakeDatasetTypedDict(TypedDict):
     description: NotRequired[str]
     format_: NotRequired[CriblLakeDatasetFormat]
     http_da_used: NotRequired[bool]
+    metrics: NotRequired[LakeDatasetMetricsTypedDict]
     retention_period_in_days: NotRequired[float]
     search_config: NotRequired[LakeDatasetSearchConfigTypedDict]
     storage_location_id: NotRequired[str]
@@ -64,6 +66,8 @@ class CriblLakeDataset(BaseModel):
     ] = None
 
     http_da_used: Annotated[Optional[bool], pydantic.Field(alias="httpDAUsed")] = None
+
+    metrics: Optional[LakeDatasetMetrics] = None
 
     retention_period_in_days: Annotated[
         Optional[float], pydantic.Field(alias="retentionPeriodInDays")

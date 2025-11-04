@@ -18,12 +18,19 @@ class OutputDatasetType(str, Enum):
 class OutputDatasetSeverity(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Default value for event severity. If the `sev` or `__severity` fields are set on an event, the first one matching will override this value."""
 
+    # 0 - finest
     FINEST = "finest"
+    # 1 - finer
     FINER = "finer"
+    # 2 - fine
     FINE = "fine"
+    # 3 - info
     INFO = "info"
+    # 4 - warning
     WARNING = "warning"
+    # 5 - error
     ERROR = "error"
+    # 6 - fatal
     FATAL = "fatal"
 
 
@@ -84,8 +91,11 @@ class OutputDatasetTimeoutRetrySettings(BaseModel):
 class DataSetSite(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""DataSet site to which events should be sent"""
 
+    # US
     US = "us"
+    # Europe
     EU = "eu"
+    # Custom
     CUSTOM = "custom"
 
 
@@ -103,16 +113,22 @@ class OutputDatasetExtraHTTPHeader(BaseModel):
 class OutputDatasetFailedRequestLoggingMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
+    # Payload
     PAYLOAD = "payload"
+    # Payload + Headers
     PAYLOAD_AND_HEADERS = "payloadAndHeaders"
+    # None
     NONE = "none"
 
 
 class OutputDatasetBackpressureBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when all receivers are exerting backpressure"""
 
+    # Block
     BLOCK = "block"
+    # Drop
     DROP = "drop"
+    # Persistent Queue
     QUEUE = "queue"
 
 
@@ -123,26 +139,33 @@ class OutputDatasetAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta)
     SECRET = "secret"
 
 
+class OutputDatasetMode(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
+
+    # Error
+    ERROR = "error"
+    # Backpressure
+    ALWAYS = "always"
+    # Always On
+    BACKPRESSURE = "backpressure"
+
+
 class OutputDatasetCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
+    # None
     NONE = "none"
+    # Gzip
     GZIP = "gzip"
 
 
 class OutputDatasetQueueFullBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
+    # Block
     BLOCK = "block"
+    # Drop new data
     DROP = "drop"
-
-
-class OutputDatasetMode(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
-
-    ERROR = "error"
-    BACKPRESSURE = "backpressure"
-    ALWAYS = "always"
 
 
 class OutputDatasetPqControlsTypedDict(TypedDict):
@@ -217,6 +240,16 @@ class OutputDatasetTypedDict(TypedDict):
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
     description: NotRequired[str]
     custom_url: NotRequired[str]
+    pq_strict_ordering: NotRequired[bool]
+    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
+    pq_rate_per_sec: NotRequired[float]
+    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
+    pq_mode: NotRequired[OutputDatasetMode]
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
+    pq_max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    pq_max_backpressure_sec: NotRequired[float]
+    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
     pq_max_size: NotRequired[str]
@@ -227,8 +260,6 @@ class OutputDatasetTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[OutputDatasetQueueFullBehavior]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-    pq_mode: NotRequired[OutputDatasetMode]
-    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_controls: NotRequired[OutputDatasetPqControlsTypedDict]
     api_key: NotRequired[str]
     r"""A 'Log Write Access' API key for the DataSet account"""
@@ -387,6 +418,34 @@ class OutputDataset(BaseModel):
 
     custom_url: Annotated[Optional[str], pydantic.Field(alias="customUrl")] = None
 
+    pq_strict_ordering: Annotated[
+        Optional[bool], pydantic.Field(alias="pqStrictOrdering")
+    ] = True
+    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
+
+    pq_rate_per_sec: Annotated[
+        Optional[float], pydantic.Field(alias="pqRatePerSec")
+    ] = 0
+    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
+
+    pq_mode: Annotated[
+        Annotated[
+            Optional[OutputDatasetMode], PlainValidator(validate_open_enum(False))
+        ],
+        pydantic.Field(alias="pqMode"),
+    ] = OutputDatasetMode.ERROR
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
+
+    pq_max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="pqMaxBufferSize")
+    ] = 42
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    pq_max_backpressure_sec: Annotated[
+        Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
+    ] = 30
+    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
+
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
     ] = "1 MB"
@@ -417,14 +476,6 @@ class OutputDataset(BaseModel):
         pydantic.Field(alias="pqOnBackpressure"),
     ] = OutputDatasetQueueFullBehavior.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-
-    pq_mode: Annotated[
-        Annotated[
-            Optional[OutputDatasetMode], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqMode"),
-    ] = OutputDatasetMode.ERROR
-    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_controls: Annotated[
         Optional[OutputDatasetPqControls], pydantic.Field(alias="pqControls")

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 from .configgroup import ConfigGroup, ConfigGroupTypedDict
+from .groupcreaterequest import GroupCreateRequest, GroupCreateRequestTypedDict
 from .productscore import ProductsCore
 from cribl_control_plane.types import BaseModel
 from cribl_control_plane.utils import (
@@ -17,9 +18,9 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class CreateConfigGroupByProductRequestTypedDict(TypedDict):
     product: ProductsCore
-    r"""Name of the Cribl product to add the Worker Group or Edge Fleet to."""
-    config_group: ConfigGroupTypedDict
-    r"""ConfigGroup object"""
+    r"""required Name of the Cribl product to add the Worker Group or Edge Fleet to."""
+    group_create_request: GroupCreateRequestTypedDict
+    r"""GroupCreateRequest object"""
 
 
 class CreateConfigGroupByProductRequest(BaseModel):
@@ -27,13 +28,13 @@ class CreateConfigGroupByProductRequest(BaseModel):
         Annotated[ProductsCore, PlainValidator(validate_open_enum(False))],
         FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
     ]
-    r"""Name of the Cribl product to add the Worker Group or Edge Fleet to."""
+    r"""required Name of the Cribl product to add the Worker Group or Edge Fleet to."""
 
-    config_group: Annotated[
-        ConfigGroup,
+    group_create_request: Annotated[
+        GroupCreateRequest,
         FieldMetadata(request=RequestMetadata(media_type="application/json")),
     ]
-    r"""ConfigGroup object"""
+    r"""GroupCreateRequest object"""
 
 
 class CreateConfigGroupByProductResponseTypedDict(TypedDict):

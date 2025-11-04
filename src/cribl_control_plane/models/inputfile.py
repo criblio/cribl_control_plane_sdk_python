@@ -29,14 +29,18 @@ class InputFileConnection(BaseModel):
 class InputFilePqMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
+    # Smart
     SMART = "smart"
+    # Always On
     ALWAYS = "always"
 
 
 class InputFileCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
+    # None
     NONE = "none"
+    # Gzip
     GZIP = "gzip"
 
 
@@ -106,8 +110,10 @@ class InputFilePq(BaseModel):
 class InputFileMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Choose how to discover files to monitor"""
 
-    AUTO = "auto"
+    # Manual
     MANUAL = "manual"
+    # Auto
+    AUTO = "auto"
 
 
 class InputFileMetadatumTypedDict(TypedDict):
@@ -151,8 +157,10 @@ class InputFileTypedDict(TypedDict):
     r"""Read only new entries at the end of all files discovered at next startup. @{product} will then read newly discovered files from the head. Disable this to resume reading all files from head."""
     idle_timeout: NotRequired[float]
     r"""Time, in seconds, before an idle file is closed"""
+    min_age_dur: NotRequired[str]
+    r"""The minimum age of files to monitor. Format examples: 30s, 15m, 1h. Age is relative to file modification time. Leave empty to apply no age filters."""
     max_age_dur: NotRequired[str]
-    r"""The maximum age of files to monitor. Format examples: 60s, 4h, 3d, 1w. Age is relative to file modification time. Leave empty to apply no age filters."""
+    r"""The maximum age of event timestamps to collect. Format examples: 60s, 4h, 3d, 1w. Can be used in conjuction with \"Check file modification times\". Leave empty to apply no age filters."""
     check_file_mod_time: NotRequired[bool]
     r"""Skip files with modification times earlier than the maximum age duration"""
     force_text: NotRequired[bool]
@@ -209,7 +217,7 @@ class InputFile(BaseModel):
 
     mode: Annotated[
         Optional[InputFileMode], PlainValidator(validate_open_enum(False))
-    ] = InputFileMode.AUTO
+    ] = InputFileMode.MANUAL
     r"""Choose how to discover files to monitor"""
 
     interval: Optional[float] = 10
@@ -224,8 +232,11 @@ class InputFile(BaseModel):
     idle_timeout: Annotated[Optional[float], pydantic.Field(alias="idleTimeout")] = 300
     r"""Time, in seconds, before an idle file is closed"""
 
+    min_age_dur: Annotated[Optional[str], pydantic.Field(alias="minAgeDur")] = None
+    r"""The minimum age of files to monitor. Format examples: 30s, 15m, 1h. Age is relative to file modification time. Leave empty to apply no age filters."""
+
     max_age_dur: Annotated[Optional[str], pydantic.Field(alias="maxAgeDur")] = None
-    r"""The maximum age of files to monitor. Format examples: 60s, 4h, 3d, 1w. Age is relative to file modification time. Leave empty to apply no age filters."""
+    r"""The maximum age of event timestamps to collect. Format examples: 60s, 4h, 3d, 1w. Can be used in conjuction with \"Check file modification times\". Leave empty to apply no age filters."""
 
     check_file_mod_time: Annotated[
         Optional[bool], pydantic.Field(alias="checkFileModTime")

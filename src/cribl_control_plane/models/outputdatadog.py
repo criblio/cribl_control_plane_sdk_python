@@ -18,32 +18,49 @@ class OutputDatadogType(str, Enum):
 class SendLogsAs(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The content type to use when sending logs"""
 
+    # text/plain
     TEXT = "text"
+    # application/json
     JSON = "json"
 
 
 class OutputDatadogSeverity(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Default value for message severity. When you send logs as JSON objects, the event's '__severity' field (if set) will override this value."""
 
+    # emergency
     EMERGENCY = "emergency"
+    # alert
     ALERT = "alert"
+    # critical
     CRITICAL = "critical"
+    # error
     ERROR = "error"
+    # warning
     WARNING = "warning"
+    # notice
     NOTICE = "notice"
+    # info
     INFO = "info"
+    # debug
     DEBUG = "debug"
 
 
 class DatadogSite(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Datadog site to which events should be sent"""
 
+    # US
     US = "us"
+    # US3
     US3 = "us3"
+    # US5
     US5 = "us5"
+    # Europe
     EU = "eu"
+    # US1-FED
     FED1 = "fed1"
+    # AP1
     AP1 = "ap1"
+    # Custom
     CUSTOM = "custom"
 
 
@@ -61,8 +78,11 @@ class OutputDatadogExtraHTTPHeader(BaseModel):
 class OutputDatadogFailedRequestLoggingMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
+    # Payload
     PAYLOAD = "payload"
+    # Payload + Headers
     PAYLOAD_AND_HEADERS = "payloadAndHeaders"
+    # None
     NONE = "none"
 
 
@@ -123,8 +143,11 @@ class OutputDatadogTimeoutRetrySettings(BaseModel):
 class OutputDatadogBackpressureBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when all receivers are exerting backpressure"""
 
+    # Block
     BLOCK = "block"
+    # Drop
     DROP = "drop"
+    # Persistent Queue
     QUEUE = "queue"
 
 
@@ -135,26 +158,33 @@ class OutputDatadogAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta)
     SECRET = "secret"
 
 
+class OutputDatadogMode(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
+
+    # Error
+    ERROR = "error"
+    # Backpressure
+    ALWAYS = "always"
+    # Always On
+    BACKPRESSURE = "backpressure"
+
+
 class OutputDatadogCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
+    # None
     NONE = "none"
+    # Gzip
     GZIP = "gzip"
 
 
 class OutputDatadogQueueFullBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
+    # Block
     BLOCK = "block"
+    # Drop new data
     DROP = "drop"
-
-
-class OutputDatadogMode(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
-
-    ERROR = "error"
-    BACKPRESSURE = "backpressure"
-    ALWAYS = "always"
 
 
 class OutputDatadogPqControlsTypedDict(TypedDict):
@@ -239,6 +269,16 @@ class OutputDatadogTypedDict(TypedDict):
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
     description: NotRequired[str]
     custom_url: NotRequired[str]
+    pq_strict_ordering: NotRequired[bool]
+    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
+    pq_rate_per_sec: NotRequired[float]
+    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
+    pq_mode: NotRequired[OutputDatadogMode]
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
+    pq_max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    pq_max_backpressure_sec: NotRequired[float]
+    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
     pq_max_size: NotRequired[str]
@@ -249,8 +289,6 @@ class OutputDatadogTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[OutputDatadogQueueFullBehavior]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-    pq_mode: NotRequired[OutputDatadogMode]
-    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_controls: NotRequired[OutputDatadogPqControlsTypedDict]
     api_key: NotRequired[str]
     r"""Organization's API key in Datadog"""
@@ -422,6 +460,34 @@ class OutputDatadog(BaseModel):
 
     custom_url: Annotated[Optional[str], pydantic.Field(alias="customUrl")] = None
 
+    pq_strict_ordering: Annotated[
+        Optional[bool], pydantic.Field(alias="pqStrictOrdering")
+    ] = True
+    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
+
+    pq_rate_per_sec: Annotated[
+        Optional[float], pydantic.Field(alias="pqRatePerSec")
+    ] = 0
+    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
+
+    pq_mode: Annotated[
+        Annotated[
+            Optional[OutputDatadogMode], PlainValidator(validate_open_enum(False))
+        ],
+        pydantic.Field(alias="pqMode"),
+    ] = OutputDatadogMode.ERROR
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
+
+    pq_max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="pqMaxBufferSize")
+    ] = 42
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    pq_max_backpressure_sec: Annotated[
+        Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
+    ] = 30
+    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
+
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
     ] = "1 MB"
@@ -452,14 +518,6 @@ class OutputDatadog(BaseModel):
         pydantic.Field(alias="pqOnBackpressure"),
     ] = OutputDatadogQueueFullBehavior.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-
-    pq_mode: Annotated[
-        Annotated[
-            Optional[OutputDatadogMode], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqMode"),
-    ] = OutputDatadogMode.ERROR
-    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_controls: Annotated[
         Optional[OutputDatadogPqControls], pydantic.Field(alias="pqControls")

@@ -29,14 +29,18 @@ class InputSystemMetricsConnection(BaseModel):
 class InputSystemMetricsPqMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
+    # Smart
     SMART = "smart"
+    # Always On
     ALWAYS = "always"
 
 
 class InputSystemMetricsCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
+    # None
     NONE = "none"
+    # Gzip
     GZIP = "gzip"
 
 
@@ -107,18 +111,26 @@ class InputSystemMetricsPq(BaseModel):
 class InputSystemMetricsHostMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select level of detail for host metrics"""
 
+    # Basic
     BASIC = "basic"
+    # All
     ALL = "all"
+    # Custom
     CUSTOM = "custom"
+    # Disabled
     DISABLED = "disabled"
 
 
 class InputSystemMetricsSystemMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of detail for system metrics"""
 
+    # Basic
     BASIC = "basic"
+    # All
     ALL = "all"
+    # Custom
     CUSTOM = "custom"
+    # Disabled
     DISABLED = "disabled"
 
 
@@ -143,9 +155,13 @@ class InputSystemMetricsSystem(BaseModel):
 class InputSystemMetricsCPUMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of detail for CPU metrics"""
 
+    # Basic
     BASIC = "basic"
+    # All
     ALL = "all"
+    # Custom
     CUSTOM = "custom"
+    # Disabled
     DISABLED = "disabled"
 
 
@@ -179,9 +195,13 @@ class InputSystemMetricsCPU(BaseModel):
 class InputSystemMetricsMemoryMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of detail for memory metrics"""
 
+    # Basic
     BASIC = "basic"
+    # All
     ALL = "all"
+    # Custom
     CUSTOM = "custom"
+    # Disabled
     DISABLED = "disabled"
 
 
@@ -206,21 +226,27 @@ class InputSystemMetricsMemory(BaseModel):
 class InputSystemMetricsNetworkMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of detail for network metrics"""
 
+    # Basic
     BASIC = "basic"
+    # All
     ALL = "all"
+    # Custom
     CUSTOM = "custom"
+    # Disabled
     DISABLED = "disabled"
 
 
 class InputSystemMetricsNetworkTypedDict(TypedDict):
     mode: NotRequired[InputSystemMetricsNetworkMode]
     r"""Select the level of detail for network metrics"""
+    detail: NotRequired[bool]
+    r"""Generate full network metrics"""
+    protocols: NotRequired[bool]
+    r"""Generate protocol metrics for ICMP, ICMPMsg, IP, TCP, UDP and UDPLite"""
     devices: NotRequired[List[str]]
     r"""Network interfaces to include/exclude. Examples: eth0, !lo. All interfaces are included if this list is empty."""
     per_interface: NotRequired[bool]
     r"""Generate separate metrics for each interface"""
-    detail: NotRequired[bool]
-    r"""Generate full network metrics"""
 
 
 class InputSystemMetricsNetwork(BaseModel):
@@ -230,6 +256,12 @@ class InputSystemMetricsNetwork(BaseModel):
     ] = InputSystemMetricsNetworkMode.BASIC
     r"""Select the level of detail for network metrics"""
 
+    detail: Optional[bool] = False
+    r"""Generate full network metrics"""
+
+    protocols: Optional[bool] = False
+    r"""Generate protocol metrics for ICMP, ICMPMsg, IP, TCP, UDP and UDPLite"""
+
     devices: Optional[List[str]] = None
     r"""Network interfaces to include/exclude. Examples: eth0, !lo. All interfaces are included if this list is empty."""
 
@@ -238,22 +270,27 @@ class InputSystemMetricsNetwork(BaseModel):
     )
     r"""Generate separate metrics for each interface"""
 
-    detail: Optional[bool] = False
-    r"""Generate full network metrics"""
-
 
 class InputSystemMetricsDiskMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of detail for disk metrics"""
 
+    # Basic
     BASIC = "basic"
+    # All
     ALL = "all"
+    # Custom
     CUSTOM = "custom"
+    # Disabled
     DISABLED = "disabled"
 
 
 class InputSystemMetricsDiskTypedDict(TypedDict):
     mode: NotRequired[InputSystemMetricsDiskMode]
     r"""Select the level of detail for disk metrics"""
+    detail: NotRequired[bool]
+    r"""Generate full disk metrics"""
+    inodes: NotRequired[bool]
+    r"""Generate filesystem inode metrics"""
     devices: NotRequired[List[str]]
     r"""Block devices to include/exclude. Examples: sda*, !loop*. Wildcards and ! (not) operators are supported. All devices are included if this list is empty."""
     mountpoints: NotRequired[List[str]]
@@ -262,8 +299,6 @@ class InputSystemMetricsDiskTypedDict(TypedDict):
     r"""Filesystem types to include/exclude. Examples: ext4, !*tmpfs, !squashfs. Wildcards and ! (not) operators are supported. All types are included if this list is empty."""
     per_device: NotRequired[bool]
     r"""Generate separate metrics for each device"""
-    detail: NotRequired[bool]
-    r"""Generate full disk metrics"""
 
 
 class InputSystemMetricsDisk(BaseModel):
@@ -271,6 +306,12 @@ class InputSystemMetricsDisk(BaseModel):
         Optional[InputSystemMetricsDiskMode], PlainValidator(validate_open_enum(False))
     ] = InputSystemMetricsDiskMode.BASIC
     r"""Select the level of detail for disk metrics"""
+
+    detail: Optional[bool] = False
+    r"""Generate full disk metrics"""
+
+    inodes: Optional[bool] = False
+    r"""Generate filesystem inode metrics"""
 
     devices: Optional[List[str]] = None
     r"""Block devices to include/exclude. Examples: sda*, !loop*. Wildcards and ! (not) operators are supported. All devices are included if this list is empty."""
@@ -283,9 +324,6 @@ class InputSystemMetricsDisk(BaseModel):
 
     per_device: Annotated[Optional[bool], pydantic.Field(alias="perDevice")] = False
     r"""Generate separate metrics for each device"""
-
-    detail: Optional[bool] = False
-    r"""Generate full disk metrics"""
 
 
 class InputSystemMetricsCustomTypedDict(TypedDict):
@@ -352,9 +390,13 @@ class InputSystemMetricsProcess(BaseModel):
 class ContainerMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of detail for container metrics"""
 
+    # Basic
     BASIC = "basic"
+    # All
     ALL = "all"
+    # Custom
     CUSTOM = "custom"
+    # Disabled
     DISABLED = "disabled"
 
 

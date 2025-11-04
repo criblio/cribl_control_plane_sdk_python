@@ -29,14 +29,18 @@ class InputSplunkHecConnection(BaseModel):
 class InputSplunkHecMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
+    # Smart
     SMART = "smart"
+    # Always On
     ALWAYS = "always"
 
 
 class InputSplunkHecCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
+    # None
     NONE = "none"
+    # Gzip
     GZIP = "gzip"
 
 
@@ -181,6 +185,12 @@ class InputSplunkHecMaximumTLSVersion(str, Enum, metaclass=utils.OpenEnumMeta):
 
 class InputSplunkHecTLSSettingsServerSideTypedDict(TypedDict):
     disabled: NotRequired[bool]
+    request_cert: NotRequired[bool]
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's)"""
+    common_name_regex: NotRequired[str]
+    r"""Regex matching allowable common names in peer certificates' subject attribute"""
     certificate_name: NotRequired[str]
     r"""The name of the predefined certificate"""
     priv_key_path: NotRequired[str]
@@ -191,16 +201,25 @@ class InputSplunkHecTLSSettingsServerSideTypedDict(TypedDict):
     r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
     ca_path: NotRequired[str]
     r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
-    request_cert: NotRequired[bool]
-    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
-    reject_unauthorized: NotRequired[Any]
-    common_name_regex: NotRequired[Any]
     min_version: NotRequired[InputSplunkHecMinimumTLSVersion]
     max_version: NotRequired[InputSplunkHecMaximumTLSVersion]
 
 
 class InputSplunkHecTLSSettingsServerSide(BaseModel):
     disabled: Optional[bool] = True
+
+    request_cert: Annotated[Optional[bool], pydantic.Field(alias="requestCert")] = False
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = True
+    r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's)"""
+
+    common_name_regex: Annotated[
+        Optional[str], pydantic.Field(alias="commonNameRegex")
+    ] = "/.*/"
+    r"""Regex matching allowable common names in peer certificates' subject attribute"""
 
     certificate_name: Annotated[
         Optional[str], pydantic.Field(alias="certificateName")
@@ -218,17 +237,6 @@ class InputSplunkHecTLSSettingsServerSide(BaseModel):
 
     ca_path: Annotated[Optional[str], pydantic.Field(alias="caPath")] = None
     r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
-
-    request_cert: Annotated[Optional[bool], pydantic.Field(alias="requestCert")] = False
-    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
-
-    reject_unauthorized: Annotated[
-        Optional[Any], pydantic.Field(alias="rejectUnauthorized")
-    ] = None
-
-    common_name_regex: Annotated[
-        Optional[Any], pydantic.Field(alias="commonNameRegex")
-    ] = None
 
     min_version: Annotated[
         Annotated[

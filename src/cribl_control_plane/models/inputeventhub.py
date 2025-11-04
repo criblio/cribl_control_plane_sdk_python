@@ -29,14 +29,18 @@ class InputEventhubConnection(BaseModel):
 class InputEventhubMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
+    # Smart
     SMART = "smart"
+    # Always On
     ALWAYS = "always"
 
 
 class InputEventhubCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
+    # None
     NONE = "none"
+    # Gzip
     GZIP = "gzip"
 
 
@@ -103,16 +107,73 @@ class InputEventhubPq(BaseModel):
     ] = None
 
 
+class InputEventhubAuthTypeAuthenticationMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Enter password directly, or select a stored secret"""
+
+    MANUAL = "manual"
+    SECRET = "secret"
+
+
 class InputEventhubSASLMechanism(str, Enum, metaclass=utils.OpenEnumMeta):
+    # PLAIN
     PLAIN = "plain"
+    # OAUTHBEARER
     OAUTHBEARER = "oauthbearer"
+
+
+class InputEventhubClientSecretAuthTypeAuthenticationMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    MANUAL = "manual"
+    SECRET = "secret"
+    CERTIFICATE = "certificate"
+
+
+class InputEventhubMicrosoftEntraIDAuthenticationEndpoint(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Endpoint used to acquire authentication tokens from Azure"""
+
+    HTTPS_LOGIN_MICROSOFTONLINE_COM = "https://login.microsoftonline.com"
+    HTTPS_LOGIN_MICROSOFTONLINE_US = "https://login.microsoftonline.us"
+    HTTPS_LOGIN_PARTNER_MICROSOFTONLINE_CN = "https://login.partner.microsoftonline.cn"
 
 
 class InputEventhubAuthenticationTypedDict(TypedDict):
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
     disabled: NotRequired[bool]
+    auth_type: NotRequired[InputEventhubAuthTypeAuthenticationMethod]
+    r"""Enter password directly, or select a stored secret"""
+    password: NotRequired[str]
+    r"""Connection-string primary key, or connection-string secondary key, from the Event Hubs workspace"""
+    text_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
     mechanism: NotRequired[InputEventhubSASLMechanism]
+    username: NotRequired[str]
+    r"""The username for authentication. For Event Hubs, this should always be $ConnectionString."""
+    client_secret_auth_type: NotRequired[
+        InputEventhubClientSecretAuthTypeAuthenticationMethod
+    ]
+    client_secret: NotRequired[str]
+    r"""client_secret to pass in the OAuth request parameter"""
+    client_text_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
+    certificate_name: NotRequired[str]
+    r"""Select or create a stored certificate"""
+    cert_path: NotRequired[str]
+    priv_key_path: NotRequired[str]
+    passphrase: NotRequired[str]
+    oauth_endpoint: NotRequired[InputEventhubMicrosoftEntraIDAuthenticationEndpoint]
+    r"""Endpoint used to acquire authentication tokens from Azure"""
+    client_id: NotRequired[str]
+    r"""client_id to pass in the OAuth request parameter"""
+    tenant_id: NotRequired[str]
+    r"""Directory ID (tenant identifier) in Azure Active Directory"""
+    scope: NotRequired[str]
+    r"""Scope to pass in the OAuth request parameter"""
 
 
 class InputEventhubAuthentication(BaseModel):
@@ -120,9 +181,72 @@ class InputEventhubAuthentication(BaseModel):
 
     disabled: Optional[bool] = False
 
+    auth_type: Annotated[
+        Annotated[
+            Optional[InputEventhubAuthTypeAuthenticationMethod],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="authType"),
+    ] = InputEventhubAuthTypeAuthenticationMethod.MANUAL
+    r"""Enter password directly, or select a stored secret"""
+
+    password: Optional[str] = None
+    r"""Connection-string primary key, or connection-string secondary key, from the Event Hubs workspace"""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a stored text secret"""
+
     mechanism: Annotated[
         Optional[InputEventhubSASLMechanism], PlainValidator(validate_open_enum(False))
     ] = InputEventhubSASLMechanism.PLAIN
+
+    username: Optional[str] = "$ConnectionString"
+    r"""The username for authentication. For Event Hubs, this should always be $ConnectionString."""
+
+    client_secret_auth_type: Annotated[
+        Annotated[
+            Optional[InputEventhubClientSecretAuthTypeAuthenticationMethod],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="clientSecretAuthType"),
+    ] = InputEventhubClientSecretAuthTypeAuthenticationMethod.MANUAL
+
+    client_secret: Annotated[Optional[str], pydantic.Field(alias="clientSecret")] = None
+    r"""client_secret to pass in the OAuth request parameter"""
+
+    client_text_secret: Annotated[
+        Optional[str], pydantic.Field(alias="clientTextSecret")
+    ] = None
+    r"""Select or create a stored text secret"""
+
+    certificate_name: Annotated[
+        Optional[str], pydantic.Field(alias="certificateName")
+    ] = None
+    r"""Select or create a stored certificate"""
+
+    cert_path: Annotated[Optional[str], pydantic.Field(alias="certPath")] = None
+
+    priv_key_path: Annotated[Optional[str], pydantic.Field(alias="privKeyPath")] = None
+
+    passphrase: Optional[str] = None
+
+    oauth_endpoint: Annotated[
+        Annotated[
+            Optional[InputEventhubMicrosoftEntraIDAuthenticationEndpoint],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="oauthEndpoint"),
+    ] = InputEventhubMicrosoftEntraIDAuthenticationEndpoint.HTTPS_LOGIN_MICROSOFTONLINE_COM
+    r"""Endpoint used to acquire authentication tokens from Azure"""
+
+    client_id: Annotated[Optional[str], pydantic.Field(alias="clientId")] = None
+    r"""client_id to pass in the OAuth request parameter"""
+
+    tenant_id: Annotated[Optional[str], pydantic.Field(alias="tenantId")] = None
+    r"""Directory ID (tenant identifier) in Azure Active Directory"""
+
+    scope: Optional[str] = None
+    r"""Scope to pass in the OAuth request parameter"""
 
 
 class InputEventhubTLSSettingsClientSideTypedDict(TypedDict):

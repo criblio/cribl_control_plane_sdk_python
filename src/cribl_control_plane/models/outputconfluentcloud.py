@@ -101,33 +101,38 @@ class OutputConfluentCloudTLSSettingsClientSide(BaseModel):
 class OutputConfluentCloudAcknowledgments(int, Enum, metaclass=utils.OpenEnumMeta):
     r"""Control the number of required acknowledgments."""
 
+    # Leader
     ONE = 1
+    # None
     ZERO = 0
+    # All
     MINUS_1 = -1
 
 
 class OutputConfluentCloudRecordDataFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Format to use to serialize events before writing to Kafka."""
 
+    # JSON
     JSON = "json"
+    # Field _raw
     RAW = "raw"
+    # Protobuf
     PROTOBUF = "protobuf"
 
 
 class OutputConfluentCloudCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the data before sending to Kafka"""
 
+    # None
     NONE = "none"
+    # Gzip
     GZIP = "gzip"
+    # Snappy
     SNAPPY = "snappy"
+    # LZ4
     LZ4 = "lz4"
-
-
-class OutputConfluentCloudSchemaType(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""The schema format used to encode and decode event data"""
-
-    AVRO = "avro"
-    JSON = "json"
+    # ZSTD
+    ZSTD = "zstd"
 
 
 class OutputConfluentCloudAuthTypedDict(TypedDict):
@@ -240,8 +245,6 @@ class OutputConfluentCloudKafkaSchemaRegistryAuthenticationTypedDict(TypedDict):
     disabled: NotRequired[bool]
     schema_registry_url: NotRequired[str]
     r"""URL for accessing the Confluent Schema Registry. Example: http://localhost:8081. To connect over TLS, use https instead of http."""
-    schema_type: NotRequired[OutputConfluentCloudSchemaType]
-    r"""The schema format used to encode and decode event data"""
     connection_timeout: NotRequired[float]
     r"""Maximum time to wait for a Schema Registry connection to complete successfully"""
     request_timeout: NotRequired[float]
@@ -266,15 +269,6 @@ class OutputConfluentCloudKafkaSchemaRegistryAuthentication(BaseModel):
         Optional[str], pydantic.Field(alias="schemaRegistryURL")
     ] = "http://localhost:8081"
     r"""URL for accessing the Confluent Schema Registry. Example: http://localhost:8081. To connect over TLS, use https instead of http."""
-
-    schema_type: Annotated[
-        Annotated[
-            Optional[OutputConfluentCloudSchemaType],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="schemaType"),
-    ] = OutputConfluentCloudSchemaType.AVRO
-    r"""The schema format used to encode and decode event data"""
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
@@ -305,20 +299,76 @@ class OutputConfluentCloudKafkaSchemaRegistryAuthentication(BaseModel):
     r"""Used when __valueSchemaIdOut is not present, to transform _raw, leave blank if value transformation is not required by default."""
 
 
+class OutputConfluentCloudAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Enter credentials directly, or select a stored secret"""
+
+    MANUAL = "manual"
+    SECRET = "secret"
+
+
 class OutputConfluentCloudSASLMechanism(str, Enum, metaclass=utils.OpenEnumMeta):
+    # PLAIN
     PLAIN = "plain"
+    # SCRAM-SHA-256
     SCRAM_SHA_256 = "scram-sha-256"
+    # SCRAM-SHA-512
     SCRAM_SHA_512 = "scram-sha-512"
+    # GSSAPI/Kerberos
     KERBEROS = "kerberos"
+
+
+class OutputConfluentCloudOauthParamTypedDict(TypedDict):
+    name: str
+    value: str
+
+
+class OutputConfluentCloudOauthParam(BaseModel):
+    name: str
+
+    value: str
+
+
+class OutputConfluentCloudSaslExtensionTypedDict(TypedDict):
+    name: str
+    value: str
+
+
+class OutputConfluentCloudSaslExtension(BaseModel):
+    name: str
+
+    value: str
 
 
 class OutputConfluentCloudAuthenticationTypedDict(TypedDict):
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
     disabled: NotRequired[bool]
+    username: NotRequired[str]
+    password: NotRequired[str]
+    auth_type: NotRequired[OutputConfluentCloudAuthenticationMethod]
+    r"""Enter credentials directly, or select a stored secret"""
+    credentials_secret: NotRequired[str]
+    r"""Select or create a secret that references your credentials"""
     mechanism: NotRequired[OutputConfluentCloudSASLMechanism]
+    keytab_location: NotRequired[str]
+    r"""Location of keytab file for authentication principal"""
+    principal: NotRequired[str]
+    r"""Authentication principal, such as `kafka_user@example.com`"""
+    broker_service_class: NotRequired[str]
+    r"""Kerberos service class for Kafka brokers, such as `kafka`"""
     oauth_enabled: NotRequired[bool]
     r"""Enable OAuth authentication"""
+    token_url: NotRequired[str]
+    r"""URL of the token endpoint to use for OAuth authentication"""
+    client_id: NotRequired[str]
+    r"""Client ID to use for OAuth authentication"""
+    oauth_secret_type: NotRequired[str]
+    client_text_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
+    oauth_params: NotRequired[List[OutputConfluentCloudOauthParamTypedDict]]
+    r"""Additional fields to send to the token endpoint, such as scope or audience"""
+    sasl_extensions: NotRequired[List[OutputConfluentCloudSaslExtensionTypedDict]]
+    r"""Additional SASL extension fields, such as Confluent's logicalCluster or identityPoolId"""
 
 
 class OutputConfluentCloudAuthentication(BaseModel):
@@ -326,23 +376,95 @@ class OutputConfluentCloudAuthentication(BaseModel):
 
     disabled: Optional[bool] = True
 
+    username: Optional[str] = None
+
+    password: Optional[str] = None
+
+    auth_type: Annotated[
+        Annotated[
+            Optional[OutputConfluentCloudAuthenticationMethod],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="authType"),
+    ] = OutputConfluentCloudAuthenticationMethod.MANUAL
+    r"""Enter credentials directly, or select a stored secret"""
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a secret that references your credentials"""
+
     mechanism: Annotated[
         Optional[OutputConfluentCloudSASLMechanism],
         PlainValidator(validate_open_enum(False)),
     ] = OutputConfluentCloudSASLMechanism.PLAIN
+
+    keytab_location: Annotated[
+        Optional[str], pydantic.Field(alias="keytabLocation")
+    ] = None
+    r"""Location of keytab file for authentication principal"""
+
+    principal: Optional[str] = None
+    r"""Authentication principal, such as `kafka_user@example.com`"""
+
+    broker_service_class: Annotated[
+        Optional[str], pydantic.Field(alias="brokerServiceClass")
+    ] = None
+    r"""Kerberos service class for Kafka brokers, such as `kafka`"""
 
     oauth_enabled: Annotated[Optional[bool], pydantic.Field(alias="oauthEnabled")] = (
         False
     )
     r"""Enable OAuth authentication"""
 
+    token_url: Annotated[Optional[str], pydantic.Field(alias="tokenUrl")] = None
+    r"""URL of the token endpoint to use for OAuth authentication"""
+
+    client_id: Annotated[Optional[str], pydantic.Field(alias="clientId")] = None
+    r"""Client ID to use for OAuth authentication"""
+
+    oauth_secret_type: Annotated[
+        Optional[str], pydantic.Field(alias="oauthSecretType")
+    ] = "secret"
+
+    client_text_secret: Annotated[
+        Optional[str], pydantic.Field(alias="clientTextSecret")
+    ] = None
+    r"""Select or create a stored text secret"""
+
+    oauth_params: Annotated[
+        Optional[List[OutputConfluentCloudOauthParam]],
+        pydantic.Field(alias="oauthParams"),
+    ] = None
+    r"""Additional fields to send to the token endpoint, such as scope or audience"""
+
+    sasl_extensions: Annotated[
+        Optional[List[OutputConfluentCloudSaslExtension]],
+        pydantic.Field(alias="saslExtensions"),
+    ] = None
+    r"""Additional SASL extension fields, such as Confluent's logicalCluster or identityPoolId"""
+
 
 class OutputConfluentCloudBackpressureBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when all receivers are exerting backpressure"""
 
+    # Block
     BLOCK = "block"
+    # Drop
     DROP = "drop"
+    # Persistent Queue
     QUEUE = "queue"
+
+
+class OutputConfluentCloudMode(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
+
+    # Error
+    ERROR = "error"
+    # Backpressure
+    ALWAYS = "always"
+    # Always On
+    BACKPRESSURE = "backpressure"
 
 
 class OutputConfluentCloudPqCompressCompression(
@@ -350,23 +472,19 @@ class OutputConfluentCloudPqCompressCompression(
 ):
     r"""Codec to use to compress the persisted data"""
 
+    # None
     NONE = "none"
+    # Gzip
     GZIP = "gzip"
 
 
 class OutputConfluentCloudQueueFullBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
+    # Block
     BLOCK = "block"
+    # Drop new data
     DROP = "drop"
-
-
-class OutputConfluentCloudMode(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
-
-    ERROR = "error"
-    BACKPRESSURE = "backpressure"
-    ALWAYS = "always"
 
 
 class OutputConfluentCloudPqControlsTypedDict(TypedDict):
@@ -432,6 +550,18 @@ class OutputConfluentCloudTypedDict(TypedDict):
     description: NotRequired[str]
     protobuf_library_id: NotRequired[str]
     r"""Select a set of Protobuf definitions for the events you want to send"""
+    protobuf_encoding_id: NotRequired[str]
+    r"""Select the type of object you want the Protobuf definitions to use for event encoding"""
+    pq_strict_ordering: NotRequired[bool]
+    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
+    pq_rate_per_sec: NotRequired[float]
+    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
+    pq_mode: NotRequired[OutputConfluentCloudMode]
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
+    pq_max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    pq_max_backpressure_sec: NotRequired[float]
+    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
     pq_max_size: NotRequired[str]
@@ -442,8 +572,6 @@ class OutputConfluentCloudTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[OutputConfluentCloudQueueFullBehavior]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-    pq_mode: NotRequired[OutputConfluentCloudMode]
-    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_controls: NotRequired[OutputConfluentCloudPqControlsTypedDict]
 
 
@@ -569,6 +697,40 @@ class OutputConfluentCloud(BaseModel):
     ] = None
     r"""Select a set of Protobuf definitions for the events you want to send"""
 
+    protobuf_encoding_id: Annotated[
+        Optional[str], pydantic.Field(alias="protobufEncodingId")
+    ] = None
+    r"""Select the type of object you want the Protobuf definitions to use for event encoding"""
+
+    pq_strict_ordering: Annotated[
+        Optional[bool], pydantic.Field(alias="pqStrictOrdering")
+    ] = True
+    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
+
+    pq_rate_per_sec: Annotated[
+        Optional[float], pydantic.Field(alias="pqRatePerSec")
+    ] = 0
+    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
+
+    pq_mode: Annotated[
+        Annotated[
+            Optional[OutputConfluentCloudMode],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="pqMode"),
+    ] = OutputConfluentCloudMode.ERROR
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
+
+    pq_max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="pqMaxBufferSize")
+    ] = 42
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    pq_max_backpressure_sec: Annotated[
+        Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
+    ] = 30
+    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
+
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
     ] = "1 MB"
@@ -599,15 +761,6 @@ class OutputConfluentCloud(BaseModel):
         pydantic.Field(alias="pqOnBackpressure"),
     ] = OutputConfluentCloudQueueFullBehavior.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-
-    pq_mode: Annotated[
-        Annotated[
-            Optional[OutputConfluentCloudMode],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqMode"),
-    ] = OutputConfluentCloudMode.ERROR
-    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_controls: Annotated[
         Optional[OutputConfluentCloudPqControls], pydantic.Field(alias="pqControls")

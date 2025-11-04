@@ -29,14 +29,18 @@ class InputWefConnection(BaseModel):
 class InputWefMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
+    # Smart
     SMART = "smart"
+    # Always On
     ALWAYS = "always"
 
 
 class InputWefCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
+    # None
     NONE = "none"
+    # Gzip
     GZIP = "gzip"
 
 
@@ -106,7 +110,9 @@ class InputWefPq(BaseModel):
 class InputWefAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to authenticate incoming client connections"""
 
+    # Client certificate
     CLIENT_CERT = "clientCert"
+    # Kerberos
     KERBEROS = "kerberos"
 
 

@@ -8,26 +8,27 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PackInfoTagsTypedDict(TypedDict):
-    data_type: List[str]
-    technology: List[str]
+    data_type: NotRequired[List[str]]
     domain: NotRequired[List[str]]
     streamtags: NotRequired[List[str]]
+    technology: NotRequired[List[str]]
 
 
 class PackInfoTags(BaseModel):
-    data_type: Annotated[List[str], pydantic.Field(alias="dataType")]
-
-    technology: List[str]
+    data_type: Annotated[Optional[List[str]], pydantic.Field(alias="dataType")] = None
 
     domain: Optional[List[str]] = None
 
     streamtags: Optional[List[str]] = None
+
+    technology: Optional[List[str]] = None
 
 
 class PackInfoTypedDict(TypedDict):
     id: str
     source: str
     author: NotRequired[str]
+    dependencies: NotRequired[Dict[str, str]]
     description: NotRequired[str]
     display_name: NotRequired[str]
     exports: NotRequired[List[str]]
@@ -47,6 +48,8 @@ class PackInfo(BaseModel):
     source: str
 
     author: Optional[str] = None
+
+    dependencies: Optional[Dict[str, str]] = None
 
     description: Optional[str] = None
 

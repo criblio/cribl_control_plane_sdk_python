@@ -18,22 +18,29 @@ class OutputAzureBlobType(str, Enum):
 class OutputAzureBlobDataFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Format of the output data"""
 
+    # JSON
     JSON = "json"
+    # Raw
     RAW = "raw"
+    # Parquet
     PARQUET = "parquet"
 
 
 class OutputAzureBlobBackpressureBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when all receivers are exerting backpressure"""
 
+    # Block
     BLOCK = "block"
+    # Drop
     DROP = "drop"
 
 
 class OutputAzureBlobDiskSpaceProtection(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
 
+    # Block
     BLOCK = "block"
+    # Drop
     DROP = "drop"
 
 
@@ -45,10 +52,15 @@ class OutputAzureBlobAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMet
 
 
 class BlobAccessTier(str, Enum, metaclass=utils.OpenEnumMeta):
+    # Default account access tier
     INFERRED = "Inferred"
+    # Hot tier
     HOT = "Hot"
+    # Cool tier
     COOL = "Cool"
+    # Cold tier
     COLD = "Cold"
+    # Archive tier
     ARCHIVE = "Archive"
 
 
@@ -62,23 +74,31 @@ class OutputAzureBlobCompression(str, Enum, metaclass=utils.OpenEnumMeta):
 class OutputAzureBlobCompressionLevel(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Compression level to apply before moving files to final destination"""
 
+    # Best Speed
     BEST_SPEED = "best_speed"
+    # Normal
     NORMAL = "normal"
+    # Best Compression
     BEST_COMPRESSION = "best_compression"
 
 
 class OutputAzureBlobParquetVersion(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Determines which data types are supported and how they are represented"""
 
+    # 1.0
     PARQUET_1_0 = "PARQUET_1_0"
+    # 2.4
     PARQUET_2_4 = "PARQUET_2_4"
+    # 2.6
     PARQUET_2_6 = "PARQUET_2_6"
 
 
 class OutputAzureBlobDataPageVersion(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it."""
 
+    # V1
     DATA_PAGE_V1 = "DATA_PAGE_V1"
+    # V2
     DATA_PAGE_V2 = "DATA_PAGE_V2"
 
 
@@ -164,6 +184,8 @@ class OutputAzureBlobTypedDict(TypedDict):
     r"""Compression level to apply before moving files to final destination"""
     automatic_schema: NotRequired[bool]
     r"""Automatically calculate the schema based on the events of each Parquet file generated"""
+    parquet_schema: NotRequired[str]
+    r"""To add a new schema, navigate to Processing > Knowledge > Parquet Schemas"""
     parquet_version: NotRequired[OutputAzureBlobParquetVersion]
     r"""Determines which data types are supported and how they are represented"""
     parquet_data_page_version: NotRequired[OutputAzureBlobDataPageVersion]
@@ -366,6 +388,11 @@ class OutputAzureBlob(BaseModel):
         Optional[bool], pydantic.Field(alias="automaticSchema")
     ] = False
     r"""Automatically calculate the schema based on the events of each Parquet file generated"""
+
+    parquet_schema: Annotated[Optional[str], pydantic.Field(alias="parquetSchema")] = (
+        None
+    )
+    r"""To add a new schema, navigate to Processing > Knowledge > Parquet Schemas"""
 
     parquet_version: Annotated[
         Annotated[

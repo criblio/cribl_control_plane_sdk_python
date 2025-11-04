@@ -29,14 +29,18 @@ class InputWindowsMetricsConnection(BaseModel):
 class InputWindowsMetricsPqMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
+    # Smart
     SMART = "smart"
+    # Always On
     ALWAYS = "always"
 
 
 class InputWindowsMetricsCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Codec to use to compress the persisted data"""
 
+    # None
     NONE = "none"
+    # Gzip
     GZIP = "gzip"
 
 
@@ -107,18 +111,26 @@ class InputWindowsMetricsPq(BaseModel):
 class InputWindowsMetricsHostMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select level of detail for host metrics"""
 
+    # Basic
     BASIC = "basic"
+    # All
     ALL = "all"
+    # Custom
     CUSTOM = "custom"
+    # Disabled
     DISABLED = "disabled"
 
 
 class InputWindowsMetricsSystemMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of details for system metrics"""
 
+    # Basic
     BASIC = "basic"
+    # All
     ALL = "all"
+    # Custom
     CUSTOM = "custom"
+    # Disabled
     DISABLED = "disabled"
 
 
@@ -143,9 +155,13 @@ class InputWindowsMetricsSystem(BaseModel):
 class InputWindowsMetricsCPUMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of details for CPU metrics"""
 
+    # Basic
     BASIC = "basic"
+    # All
     ALL = "all"
+    # Custom
     CUSTOM = "custom"
+    # Disabled
     DISABLED = "disabled"
 
 
@@ -179,9 +195,13 @@ class InputWindowsMetricsCPU(BaseModel):
 class InputWindowsMetricsMemoryMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of details for memory metrics"""
 
+    # Basic
     BASIC = "basic"
+    # All
     ALL = "all"
+    # Custom
     CUSTOM = "custom"
+    # Disabled
     DISABLED = "disabled"
 
 
@@ -206,21 +226,27 @@ class InputWindowsMetricsMemory(BaseModel):
 class InputWindowsMetricsNetworkMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of details for network metrics"""
 
+    # Basic
     BASIC = "basic"
+    # All
     ALL = "all"
+    # Custom
     CUSTOM = "custom"
+    # Disabled
     DISABLED = "disabled"
 
 
 class InputWindowsMetricsNetworkTypedDict(TypedDict):
     mode: NotRequired[InputWindowsMetricsNetworkMode]
     r"""Select the level of details for network metrics"""
+    detail: NotRequired[bool]
+    r"""Generate full network metrics"""
+    protocols: NotRequired[bool]
+    r"""Generate protocol metrics for ICMP, ICMPMsg, IP, TCP, UDP and UDPLite"""
     devices: NotRequired[List[str]]
     r"""Network interfaces to include/exclude. All interfaces are included if this list is empty."""
     per_interface: NotRequired[bool]
     r"""Generate separate metrics for each interface"""
-    detail: NotRequired[bool]
-    r"""Generate full network metrics"""
 
 
 class InputWindowsMetricsNetwork(BaseModel):
@@ -230,6 +256,12 @@ class InputWindowsMetricsNetwork(BaseModel):
     ] = InputWindowsMetricsNetworkMode.BASIC
     r"""Select the level of details for network metrics"""
 
+    detail: Optional[bool] = False
+    r"""Generate full network metrics"""
+
+    protocols: Optional[bool] = False
+    r"""Generate protocol metrics for ICMP, ICMPMsg, IP, TCP, UDP and UDPLite"""
+
     devices: Optional[List[str]] = None
     r"""Network interfaces to include/exclude. All interfaces are included if this list is empty."""
 
@@ -238,26 +270,29 @@ class InputWindowsMetricsNetwork(BaseModel):
     )
     r"""Generate separate metrics for each interface"""
 
-    detail: Optional[bool] = False
-    r"""Generate full network metrics"""
-
 
 class InputWindowsMetricsDiskMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of details for disk metrics"""
 
+    # Basic
     BASIC = "basic"
+    # All
     ALL = "all"
+    # Custom
     CUSTOM = "custom"
+    # Disabled
     DISABLED = "disabled"
 
 
 class InputWindowsMetricsDiskTypedDict(TypedDict):
     mode: NotRequired[InputWindowsMetricsDiskMode]
     r"""Select the level of details for disk metrics"""
-    volumes: NotRequired[List[str]]
-    r"""Windows volumes to include/exclude. E.g.: C:, !E:, etc. Wildcards and ! (not) operators are supported. All volumes are included if this list is empty."""
     per_volume: NotRequired[bool]
     r"""Generate separate metrics for each volume"""
+    detail: NotRequired[bool]
+    r"""Generate full disk metrics"""
+    volumes: NotRequired[List[str]]
+    r"""Windows volumes to include/exclude. E.g.: C:, !E:, etc. Wildcards and ! (not) operators are supported. All volumes are included if this list is empty."""
 
 
 class InputWindowsMetricsDisk(BaseModel):
@@ -266,11 +301,14 @@ class InputWindowsMetricsDisk(BaseModel):
     ] = InputWindowsMetricsDiskMode.BASIC
     r"""Select the level of details for disk metrics"""
 
-    volumes: Optional[List[str]] = None
-    r"""Windows volumes to include/exclude. E.g.: C:, !E:, etc. Wildcards and ! (not) operators are supported. All volumes are included if this list is empty."""
-
     per_volume: Annotated[Optional[bool], pydantic.Field(alias="perVolume")] = False
     r"""Generate separate metrics for each volume"""
+
+    detail: Optional[bool] = False
+    r"""Generate full disk metrics"""
+
+    volumes: Optional[List[str]] = None
+    r"""Windows volumes to include/exclude. E.g.: C:, !E:, etc. Wildcards and ! (not) operators are supported. All volumes are included if this list is empty."""
 
 
 class InputWindowsMetricsCustomTypedDict(TypedDict):

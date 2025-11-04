@@ -202,15 +202,7 @@ if TYPE_CHECKING:
         DistributedSummaryWorkers,
         DistributedSummaryWorkersTypedDict,
     )
-    from .evalfunction import (
-        EvalFunction,
-        EvalFunctionFunctionSpecificConfigs,
-        EvalFunctionFunctionSpecificConfigsTypedDict,
-        EvalFunctionTypedDict,
-        Group,
-        ID,
-        Name,
-    )
+    from .evalfunction import EvalFunction, EvalFunctionTypedDict, ID
     from .evalschema import Add, AddTypedDict, EvalSchema, EvalSchemaTypedDict
     from .getadminproductsmappingsbyproductandidop import (
         GetAdminProductsMappingsByProductAndIDRequest,
@@ -3255,9 +3247,9 @@ if TYPE_CHECKING:
         PipelineTypedDict,
     )
     from .pipelinefunctionconf import (
+        FunctionSpecificConfigs,
+        FunctionSpecificConfigsTypedDict,
         PipelineFunctionConf,
-        PipelineFunctionConfFunctionSpecificConfigs,
-        PipelineFunctionConfFunctionSpecificConfigsTypedDict,
         PipelineFunctionConfTypedDict,
     )
     from .productscore import ProductsCore
@@ -3615,8 +3607,6 @@ __all__ = [
     "EndpointParamTypedDict",
     "EndpointType",
     "EvalFunction",
-    "EvalFunctionFunctionSpecificConfigs",
-    "EvalFunctionFunctionSpecificConfigsTypedDict",
     "EvalFunctionTypedDict",
     "EvalSchema",
     "EvalSchemaTypedDict",
@@ -3635,6 +3625,8 @@ __all__ = [
     "FileTypedDict",
     "Firewall",
     "FirewallTypedDict",
+    "FunctionSpecificConfigs",
+    "FunctionSpecificConfigsTypedDict",
     "GetAdminProductsMappingsByProductAndIDRequest",
     "GetAdminProductsMappingsByProductAndIDRequestTypedDict",
     "GetAdminProductsMappingsByProductAndIDResponse",
@@ -3763,7 +3755,6 @@ __all__ = [
     "GitShowResultTypedDict",
     "GitStatusResult",
     "GitStatusResultTypedDict",
-    "Group",
     "GroupCreateRequest",
     "GroupCreateRequestEstimatedIngestRate",
     "GroupCreateRequestGit",
@@ -5081,7 +5072,6 @@ __all__ = [
     "MasterWorkerEntryWorkers",
     "MasterWorkerEntryWorkersTypedDict",
     "MetricsProtocol",
-    "Name",
     "NodeActiveUpgradeStatus",
     "NodeFailedUpgradeStatus",
     "NodeProvidedInfo",
@@ -6279,8 +6269,6 @@ __all__ = [
     "PipelineConf",
     "PipelineConfTypedDict",
     "PipelineFunctionConf",
-    "PipelineFunctionConfFunctionSpecificConfigs",
-    "PipelineFunctionConfFunctionSpecificConfigsTypedDict",
     "PipelineFunctionConfTypedDict",
     "PipelineGroups",
     "PipelineGroupsTypedDict",
@@ -6621,12 +6609,8 @@ _dynamic_imports: dict[str, str] = {
     "DistributedSummaryWorkers": ".distributedsummary",
     "DistributedSummaryWorkersTypedDict": ".distributedsummary",
     "EvalFunction": ".evalfunction",
-    "EvalFunctionFunctionSpecificConfigs": ".evalfunction",
-    "EvalFunctionFunctionSpecificConfigsTypedDict": ".evalfunction",
     "EvalFunctionTypedDict": ".evalfunction",
-    "Group": ".evalfunction",
     "ID": ".evalfunction",
-    "Name": ".evalfunction",
     "Add": ".evalschema",
     "AddTypedDict": ".evalschema",
     "EvalSchema": ".evalschema",
@@ -9372,9 +9356,9 @@ _dynamic_imports: dict[str, str] = {
     "PipelineGroups": ".pipeline",
     "PipelineGroupsTypedDict": ".pipeline",
     "PipelineTypedDict": ".pipeline",
+    "FunctionSpecificConfigs": ".pipelinefunctionconf",
+    "FunctionSpecificConfigsTypedDict": ".pipelinefunctionconf",
     "PipelineFunctionConf": ".pipelinefunctionconf",
-    "PipelineFunctionConfFunctionSpecificConfigs": ".pipelinefunctionconf",
-    "PipelineFunctionConfFunctionSpecificConfigsTypedDict": ".pipelinefunctionconf",
     "PipelineFunctionConfTypedDict": ".pipelinefunctionconf",
     "ProductsCore": ".productscore",
     "RbacResource": ".rbacresource",

@@ -1,4 +1,4 @@
-# Conf
+# PipelineConf
 
 
 ## Fields
@@ -9,5 +9,5 @@
 | `output`                                                                         | *Optional[str]*                                                                  | :heavy_minus_sign:                                                               | The output destination for events processed by this Pipeline                     |
 | `description`                                                                    | *Optional[str]*                                                                  | :heavy_minus_sign:                                                               | N/A                                                                              |
 | `streamtags`                                                                     | List[*str*]                                                                      | :heavy_minus_sign:                                                               | Tags for filtering and grouping in @{product}                                    |
-| `functions`                                                                      | List[[models.PipelineFunctionConf](../models/pipelinefunctionconf.md)]           | :heavy_minus_sign:                                                               | List of Functions to pass data through                                           |
 | `groups`                                                                         | Dict[str, [models.PipelineGroups](../models/pipelinegroups.md)]                  | :heavy_minus_sign:                                                               | N/A                                                                              |
+| `functions`                                                                      | List[[models.PipelineFunctionConf](../models/pipelinefunctionconf.md)]           | :heavy_minus_sign:                                                               | List of Functions to pass data through                                           |

@@ -81,6 +81,13 @@ with CriblControlPlane(
         "streamtags": [
             "<value 1>",
         ],
+        "groups": {
+            "key": {
+                "name": "<value>",
+                "description": "yuck terribly ostrich enhance sentimental strictly whereas before reboot sleet",
+                "disabled": True,
+            },
+        },
         "functions": [
             {
                 "id": "<id>",
@@ -91,13 +98,6 @@ with CriblControlPlane(
                 "group_id": "<id>",
             },
         ],
-        "groups": {
-            "key": {
-                "name": "<value>",
-                "description": "yuck terribly ostrich enhance sentimental strictly whereas before reboot sleet",
-                "disabled": True,
-            },
-        },
     })
 
     # Handle response
@@ -110,7 +110,7 @@ with CriblControlPlane(
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
 | `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | N/A                                                                 |
-| `conf`                                                              | [models.Conf](../../models/conf.md)                                 | :heavy_check_mark:                                                  | N/A                                                                 |
+| `conf`                                                              | [models.PipelineConf](../../models/pipelineconf.md)                 | :heavy_check_mark:                                                  | N/A                                                                 |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
@@ -193,6 +193,13 @@ with CriblControlPlane(
         "streamtags": [
             "<value 1>",
         ],
+        "groups": {
+            "key": {
+                "name": "<value>",
+                "description": "definitive ew but busily freely scaly indeed",
+                "disabled": True,
+            },
+        },
         "functions": [
             {
                 "id": "<id>",
@@ -203,13 +210,6 @@ with CriblControlPlane(
                 "group_id": "<id>",
             },
         ],
-        "groups": {
-            "key": {
-                "name": "<value>",
-                "description": "definitive ew but busily freely scaly indeed",
-                "disabled": True,
-            },
-        },
     })
 
     # Handle response
@@ -223,7 +223,7 @@ with CriblControlPlane(
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
 | `id_param`                                                          | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Pipeline to update.                      |
 | `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | N/A                                                                 |
-| `conf`                                                              | [models.Conf](../../models/conf.md)                                 | :heavy_check_mark:                                                  | N/A                                                                 |
+| `conf`                                                              | [models.PipelineConf](../../models/pipelineconf.md)                 | :heavy_check_mark:                                                  | N/A                                                                 |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response

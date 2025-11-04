@@ -16,25 +16,9 @@ class ID(str, Enum, metaclass=utils.OpenEnumMeta):
     EVAL = "eval"
 
 
-class EvalFunctionFunctionSpecificConfigsTypedDict(TypedDict):
-    pass
-
-
-class EvalFunctionFunctionSpecificConfigs(BaseModel):
-    pass
-
-
-class Name(str, Enum, metaclass=utils.OpenEnumMeta):
-    EVAL = "Eval"
-
-
-class Group(str, Enum, metaclass=utils.OpenEnumMeta):
-    STANDARD = "Standard"
-
-
 class EvalFunctionTypedDict(TypedDict):
     id: ID
-    conf: EvalFunctionFunctionSpecificConfigsTypedDict
+    conf: EvalSchemaTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
     description: NotRequired[str]
@@ -45,15 +29,12 @@ class EvalFunctionTypedDict(TypedDict):
     r"""If enabled, stops the results of this Function from being passed to the downstream Functions"""
     group_id: NotRequired[str]
     r"""Group ID"""
-    name: NotRequired[Name]
-    group: NotRequired[Group]
-    schema_: NotRequired[EvalSchemaTypedDict]
 
 
 class EvalFunction(BaseModel):
     id: Annotated[ID, PlainValidator(validate_open_enum(False))]
 
-    conf: EvalFunctionFunctionSpecificConfigs
+    conf: EvalSchema
 
     filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = "true"
     r"""Filter that selects data to be fed through this Function"""
@@ -69,9 +50,3 @@ class EvalFunction(BaseModel):
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = None
     r"""Group ID"""
-
-    name: Annotated[Optional[Name], PlainValidator(validate_open_enum(False))] = None
-
-    group: Annotated[Optional[Group], PlainValidator(validate_open_enum(False))] = None
-
-    schema_: Annotated[Optional[EvalSchema], pydantic.Field(alias="schema")] = None

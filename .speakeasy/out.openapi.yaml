@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.15.0-alpha.1762254484658-fcbc6b29
+  version: 4.15.0-alpha.1762262142917-f85ad7ee
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -78,17 +78,7 @@ components:
               enum:
                 - eval
               x-speakeasy-unknown-values: allow
-            name:
-              type: string
-              enum:
-                - Eval
-              x-speakeasy-unknown-values: allow
-            group:
-              type: string
-              enum:
-                - Standard
-              x-speakeasy-unknown-values: allow
-            schema:
+            conf:
               $ref: "#/components/schemas/EvalSchema"
     FunctionConf:
       type: object

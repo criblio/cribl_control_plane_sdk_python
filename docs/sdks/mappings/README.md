@@ -84,15 +84,11 @@ with CriblControlPlane(
                 "description": "Map Linux Edge Nodes",
                 "disabled": False,
                 "final": True,
-                "conf": {},
-                "group_id": "<id>",
-                "name": models.Name.EVAL,
-                "group": models.Group.STANDARD,
-                "schema_": {
+                "conf": {
                     "add": [
                         {
-                            "name": "<value>",
-                            "value": "<value>",
+                            "name": "groupId",
+                            "value": "'linux_fleet'",
                         },
                     ],
                     "keep": [
@@ -102,6 +98,7 @@ with CriblControlPlane(
                         "<value 1>",
                     ],
                 },
+                "group_id": "<id>",
             },
             {
                 "filter_": "platform === \"win32\"",
@@ -109,24 +106,24 @@ with CriblControlPlane(
                 "description": "Map Windows Edge Nodes",
                 "disabled": False,
                 "final": True,
-                "conf": {},
-                "group_id": "<id>",
-                "name": models.Name.EVAL,
-                "group": models.Group.STANDARD,
-                "schema_": {
+                "conf": {
                     "add": [
                         {
-                            "name": "<value>",
-                            "value": "<value>",
+                            "name": "groupId",
+                            "value": "'windows_fleet'",
                         },
                     ],
                     "keep": [
                         "<value 1>",
+                        "<value 2>",
                     ],
                     "remove": [
                         "<value 1>",
+                        "<value 2>",
+                        "<value 3>",
                     ],
                 },
+                "group_id": "<id>",
             },
             {
                 "filter_": "platform === \"darwin\"",
@@ -134,24 +131,22 @@ with CriblControlPlane(
                 "description": "Map macOS Edge Nodes",
                 "disabled": False,
                 "final": True,
-                "conf": {},
-                "group_id": "<id>",
-                "name": models.Name.EVAL,
-                "group": models.Group.STANDARD,
-                "schema_": {
+                "conf": {
                     "add": [
                         {
-                            "name": "<value>",
-                            "value": "<value>",
+                            "name": "groupId",
+                            "value": "'macos_fleet'",
                         },
                     ],
                     "keep": [
                         "<value 1>",
+                        "<value 2>",
                     ],
                     "remove": [
                         "<value 1>",
                     ],
                 },
+                "group_id": "<id>",
             },
             {
                 "filter_": "!cribl.group",
@@ -159,24 +154,22 @@ with CriblControlPlane(
                 "description": "Default mapping for unmapped nodes",
                 "disabled": False,
                 "final": True,
-                "conf": {},
-                "group_id": "<id>",
-                "name": models.Name.EVAL,
-                "group": models.Group.STANDARD,
-                "schema_": {
+                "conf": {
                     "add": [
                         {
-                            "name": "<value>",
-                            "value": "<value>",
+                            "name": "groupId",
+                            "value": "'default_fleet'",
                         },
                     ],
                     "keep": [
                         "<value 1>",
+                        "<value 2>",
                     ],
                     "remove": [
                         "<value 1>",
                     ],
                 },
+                "group_id": "<id>",
             },
         ],
     }, active=False)
@@ -368,15 +361,11 @@ with CriblControlPlane(
                 "description": "Map high-performance nodes in specific network or DMZ",
                 "disabled": False,
                 "final": True,
-                "conf": {},
-                "group_id": "<id>",
-                "name": models.Name.EVAL,
-                "group": models.Group.STANDARD,
-                "schema_": {
+                "conf": {
                     "add": [
                         {
-                            "name": "<value>",
-                            "value": "<value>",
+                            "name": "groupId",
+                            "value": "'high_perf_fleet'",
                         },
                     ],
                     "keep": [
@@ -387,6 +376,7 @@ with CriblControlPlane(
                         "<value 2>",
                     ],
                 },
+                "group_id": "<id>",
             },
             {
                 "filter_": "!cribl.group",
@@ -394,15 +384,11 @@ with CriblControlPlane(
                 "description": "Default mapping",
                 "disabled": False,
                 "final": True,
-                "conf": {},
-                "group_id": "<id>",
-                "name": models.Name.EVAL,
-                "group": models.Group.STANDARD,
-                "schema_": {
+                "conf": {
                     "add": [
                         {
-                            "name": "<value>",
-                            "value": "<value>",
+                            "name": "groupId",
+                            "value": "'default_fleet'",
                         },
                     ],
                     "keep": [
@@ -410,9 +396,9 @@ with CriblControlPlane(
                     ],
                     "remove": [
                         "<value 1>",
-                        "<value 2>",
                     ],
                 },
+                "group_id": "<id>",
             },
         ],
     }, active=True)

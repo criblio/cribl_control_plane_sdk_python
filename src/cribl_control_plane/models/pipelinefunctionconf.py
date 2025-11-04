@@ -7,18 +7,18 @@ from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class PipelineFunctionConfFunctionSpecificConfigsTypedDict(TypedDict):
+class FunctionSpecificConfigsTypedDict(TypedDict):
     pass
 
 
-class PipelineFunctionConfFunctionSpecificConfigs(BaseModel):
+class FunctionSpecificConfigs(BaseModel):
     pass
 
 
 class PipelineFunctionConfTypedDict(TypedDict):
     id: str
     r"""Function ID"""
-    conf: PipelineFunctionConfFunctionSpecificConfigsTypedDict
+    conf: FunctionSpecificConfigsTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
     description: NotRequired[str]
@@ -35,7 +35,7 @@ class PipelineFunctionConf(BaseModel):
     id: str
     r"""Function ID"""
 
-    conf: PipelineFunctionConfFunctionSpecificConfigs
+    conf: FunctionSpecificConfigs
 
     filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = "true"
     r"""Filter that selects data to be fed through this Function"""

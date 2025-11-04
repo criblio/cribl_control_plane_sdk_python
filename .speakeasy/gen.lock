@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 6c35362581d2f2f2e14510abff36208b
-  docVersion: 4.15.0-alpha.1762254484658-fcbc6b29
+  docChecksum: 0a033e4c3732db364ac5b99c13f42b95
+  docVersion: 4.15.0-alpha.1762262142917-f85ad7ee
   speakeasyVersion: 1.643.2
   generationVersion: 2.731.6
-  releaseVersion: 0.2.1rc9
-  configChecksum: 4bebc2d63847ce9702639e8af56ca37d
+  releaseVersion: 0.2.1rc10
+  configChecksum: cf77abbb7ba54c46eedead0874dff06c
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -152,7 +152,6 @@ generatedFiles:
   - docs/models/endpointparam.md
   - docs/models/endpointtype.md
   - docs/models/evalfunction.md
-  - docs/models/evalfunctionfunctionspecificconfigs.md
   - docs/models/evalschema.md
   - docs/models/eventformat.md
   - docs/models/executor.md
@@ -163,6 +162,7 @@ generatedFiles:
   - docs/models/fieldname.md
   - docs/models/file.md
   - docs/models/firewall.md
+  - docs/models/functionspecificconfigs.md
   - docs/models/getadminproductsmappingsbyproductandidrequest.md
   - docs/models/getadminproductsmappingsbyproductandidresponse.md
   - docs/models/getadminproductsmappingsbyproductrequest.md
@@ -227,7 +227,6 @@ generatedFiles:
   - docs/models/gitrevertresultfiles.md
   - docs/models/gitshowresult.md
   - docs/models/gitstatusresult.md
-  - docs/models/group.md
   - docs/models/groupcreaterequest.md
   - docs/models/groupcreaterequestestimatedingestrate.md
   - docs/models/groupcreaterequestgit.md
@@ -1064,7 +1063,6 @@ generatedFiles:
   - docs/models/masterworkerentryworkers.md
   - docs/models/metricsprotocol.md
   - docs/models/mtlssettings.md
-  - docs/models/name.md
   - docs/models/nodeactiveupgradestatus.md
   - docs/models/nodefailedupgradestatus.md
   - docs/models/nodeprovidedinfo.md
@@ -1940,7 +1938,6 @@ generatedFiles:
   - docs/models/pipeline.md
   - docs/models/pipelineconf.md
   - docs/models/pipelinefunctionconf.md
-  - docs/models/pipelinefunctionconffunctionspecificconfigs.md
   - docs/models/pipelinegroups.md
   - docs/models/podfilter.md
   - docs/models/prefixoptional.md
@@ -3432,10 +3429,10 @@ examples:
         path:
           product: "edge"
       requestBody:
-        application/json: {"id": "os-based-mapping", "conf": {"functions": [{"filter": "platform === \"linux\"", "id": "eval", "description": "Map Linux Edge Nodes", "disabled": false, "final": true, "conf": {}, "groupId": "<id>", "name": "Eval", "group": "Standard", "schema": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>"]}}, {"filter": "platform === \"win32\"", "id": "eval", "description": "Map Windows Edge Nodes", "disabled": false, "final": true, "conf": {}, "groupId": "<id>", "name": "Eval", "group": "Standard", "schema": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>"]}}, {"filter": "platform === \"darwin\"", "id": "eval", "description": "Map macOS Edge Nodes", "disabled": false, "final": true, "conf": {}, "groupId": "<id>", "name": "Eval", "group": "Standard", "schema": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>"]}}, {"filter": "!cribl.group", "id": "eval", "description": "Default mapping for unmapped nodes", "disabled": false, "final": true, "conf": {}, "groupId": "<id>", "name": "Eval", "group": "Standard", "schema": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>"]}}]}, "active": false}
+        application/json: {"id": "os-based-mapping", "conf": {"functions": [{"filter": "platform === \"linux\"", "id": "eval", "description": "Map Linux Edge Nodes", "disabled": false, "final": true, "conf": {"add": [{"name": "groupId", "value": "'linux_fleet'", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>"]}, "groupId": "<id>"}, {"filter": "platform === \"win32\"", "id": "eval", "description": "Map Windows Edge Nodes", "disabled": false, "final": true, "conf": {"add": [{"name": "groupId", "value": "'windows_fleet'", "disabled": false}], "keep": ["<value 1>", "<value 2>"], "remove": ["<value 1>", "<value 2>", "<value 3>"]}, "groupId": "<id>"}, {"filter": "platform === \"darwin\"", "id": "eval", "description": "Map macOS Edge Nodes", "disabled": false, "final": true, "conf": {"add": [{"name": "groupId", "value": "'macos_fleet'", "disabled": false}], "keep": ["<value 1>", "<value 2>"], "remove": ["<value 1>"]}, "groupId": "<id>"}, {"filter": "!cribl.group", "id": "eval", "description": "Default mapping for unmapped nodes", "disabled": false, "final": true, "conf": {"add": [{"name": "groupId", "value": "'default_fleet'", "disabled": false}], "keep": ["<value 1>", "<value 2>"], "remove": ["<value 1>"]}, "groupId": "<id>"}]}, "active": false}
       responses:
         "200":
-          application/json: {"count": 507815, "items": [{"id": "<id>", "conf": {"functions": [{"filter": "true", "id": "eval", "description": "around once brr", "disabled": false, "final": true, "conf": {}, "groupId": "<id>", "name": "Eval", "group": "Standard", "schema": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>"]}}]}, "active": false}]}
+          application/json: {"count": 507815, "items": [{"id": "<id>", "conf": {"functions": [{"filter": "true", "id": "eval", "description": "around once brr", "disabled": false, "final": true, "conf": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>", "<value 2>", "<value 3>"], "remove": ["<value 1>", "<value 2>"]}, "groupId": "<id>"}]}, "active": false}]}
         "500":
           application/json: {"message": "<value>"}
     MappingRulesetCreateExamplesTagBasedMapping:
@@ -3443,10 +3440,10 @@ examples:
         path:
           product: "edge"
       requestBody:
-        application/json: {"id": "tag-based-mapping", "conf": {"functions": [{"filter": "cribl.tags.includes(\"WinLaptop\")", "id": "eval", "description": "Map Windows Laptop Edge Nodes", "disabled": false, "final": true, "conf": {}, "groupId": "<id>", "name": "Eval", "group": "Standard", "schema": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>"]}}, {"filter": "cribl.tags.includes(\"Production\")", "id": "eval", "description": "Map Production Edge Nodes", "disabled": false, "final": true, "conf": {}, "groupId": "<id>", "name": "Eval", "group": "Standard", "schema": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>"]}}, {"filter": "!cribl.group", "id": "eval", "description": "Default mapping", "disabled": false, "final": true, "conf": {}, "groupId": "<id>", "name": "Eval", "group": "Standard", "schema": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>"]}}]}, "active": true}
+        application/json: {"id": "tag-based-mapping", "conf": {"functions": [{"filter": "cribl.tags.includes(\"WinLaptop\")", "id": "eval", "description": "Map Windows Laptop Edge Nodes", "disabled": false, "final": true, "conf": {"add": [{"name": "groupId", "value": "'laptop_fleet'", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>", "<value 2>"]}, "groupId": "<id>"}, {"filter": "cribl.tags.includes(\"Production\")", "id": "eval", "description": "Map Production Edge Nodes", "disabled": false, "final": true, "conf": {"add": [{"name": "groupId", "value": "'production_fleet'", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>"]}, "groupId": "<id>"}, {"filter": "!cribl.group", "id": "eval", "description": "Default mapping", "disabled": false, "final": true, "conf": {"add": [{"name": "groupId", "value": "'default_fleet'", "disabled": false}], "keep": ["<value 1>", "<value 2>", "<value 3>"], "remove": ["<value 1>"]}, "groupId": "<id>"}]}, "active": true}
       responses:
         "200":
-          application/json: {"count": 507815, "items": [{"id": "<id>", "conf": {"functions": [{"filter": "true", "id": "eval", "description": "around once brr", "disabled": false, "final": true, "conf": {}, "groupId": "<id>", "name": "Eval", "group": "Standard", "schema": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>"]}}]}, "active": false}]}
+          application/json: {"count": 507815, "items": [{"id": "<id>", "conf": {"functions": [{"filter": "true", "id": "eval", "description": "around once brr", "disabled": false, "final": true, "conf": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>", "<value 2>", "<value 3>"], "remove": ["<value 1>", "<value 2>"]}, "groupId": "<id>"}]}, "active": false}]}
         "500":
           application/json: {"message": "<value>"}
     MappingRulesetCreateExamplesOutpostBasedMapping:
@@ -3454,10 +3451,10 @@ examples:
         path:
           product: "edge"
       requestBody:
-        application/json: {"id": "outpost-mapping", "conf": {"functions": [{"filter": "outpost.host === \"5ab6c676be6a\"", "id": "eval", "description": "Map Edge Nodes from Outpost A", "disabled": false, "final": true, "conf": {}, "groupId": "<id>", "name": "Eval", "group": "Standard", "schema": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>"]}}, {"filter": "outpost.guid === \"550e8400-e29b-41d4-a716-446655440000\"", "id": "eval", "description": "Map Edge Nodes from Outpost B by GUID", "disabled": false, "final": true, "conf": {}, "groupId": "<id>", "name": "Eval", "group": "Standard", "schema": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>"]}}, {"filter": "!cribl.group", "id": "eval", "description": "Default mapping", "disabled": false, "final": true, "conf": {}, "groupId": "<id>", "name": "Eval", "group": "Standard", "schema": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>"]}}]}, "active": true}
+        application/json: {"id": "outpost-mapping", "conf": {"functions": [{"filter": "outpost.host === \"5ab6c676be6a\"", "id": "eval", "description": "Map Edge Nodes from Outpost A", "disabled": false, "final": true, "conf": {"add": [{"name": "groupId", "value": "'outpost_a_fleet'", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>", "<value 2>"]}, "groupId": "<id>"}, {"filter": "outpost.guid === \"550e8400-e29b-41d4-a716-446655440000\"", "id": "eval", "description": "Map Edge Nodes from Outpost B by GUID", "disabled": false, "final": true, "conf": {"add": [{"name": "groupId", "value": "'outpost_b_fleet'", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>", "<value 2>"]}, "groupId": "<id>"}, {"filter": "!cribl.group", "id": "eval", "description": "Default mapping", "disabled": false, "final": true, "conf": {"add": [{"name": "groupId", "value": "'default_fleet'", "disabled": false}], "keep": ["<value 1>", "<value 2>"], "remove": ["<value 1>", "<value 2>", "<value 3>"]}, "groupId": "<id>"}]}, "active": true}
       responses:
         "200":
-          application/json: {"count": 507815, "items": [{"id": "<id>", "conf": {"functions": [{"filter": "true", "id": "eval", "description": "around once brr", "disabled": false, "final": true, "conf": {}, "groupId": "<id>", "name": "Eval", "group": "Standard", "schema": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>"]}}]}, "active": false}]}
+          application/json: {"count": 507815, "items": [{"id": "<id>", "conf": {"functions": [{"filter": "true", "id": "eval", "description": "around once brr", "disabled": false, "final": true, "conf": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>", "<value 2>", "<value 3>"], "remove": ["<value 1>", "<value 2>"]}, "groupId": "<id>"}]}, "active": false}]}
         "500":
           application/json: {"message": "<value>"}
     MappingRulesetCreateExamplesComplexMapping:
@@ -3465,10 +3462,10 @@ examples:
         path:
           product: "stream"
       requestBody:
-        application/json: {"id": "complex-mapping", "conf": {"functions": [{"filter": "(conn_ip.startsWith(\"10.10.42.\") && cpus > 6) || env.CRIBL_HOME.match(\"DMZ\")", "id": "eval", "description": "Map high-performance nodes in specific network or DMZ", "disabled": false, "final": true, "conf": {}, "groupId": "<id>", "name": "Eval", "group": "Standard", "schema": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>"]}}, {"filter": "platform === \"linux\" && memory > 16000 && cribl.tags.includes(\"Database\")", "id": "eval", "description": "Map Linux nodes with high memory for database workloads", "disabled": false, "final": true, "conf": {}, "groupId": "<id>", "name": "Eval", "group": "Standard", "schema": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>"]}}, {"filter": "!cribl.group", "id": "eval", "description": "Default mapping", "disabled": false, "final": true, "conf": {}, "groupId": "<id>", "name": "Eval", "group": "Standard", "schema": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>"]}}]}, "active": true}
+        application/json: {"id": "complex-mapping", "conf": {"functions": [{"filter": "(conn_ip.startsWith(\"10.10.42.\") && cpus > 6) || env.CRIBL_HOME.match(\"DMZ\")", "id": "eval", "description": "Map high-performance nodes in specific network or DMZ", "disabled": false, "final": true, "conf": {"add": [{"name": "groupId", "value": "'high_perf_fleet'", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>"]}, "groupId": "<id>"}, {"filter": "platform === \"linux\" && memory > 16000 && cribl.tags.includes(\"Database\")", "id": "eval", "description": "Map Linux nodes with high memory for database workloads", "disabled": false, "final": true, "conf": {"add": [{"name": "groupId", "value": "'database_fleet'", "disabled": false}], "keep": ["<value 1>", "<value 2>", "<value 3>"], "remove": ["<value 1>", "<value 2>", "<value 3>"]}, "groupId": "<id>"}, {"filter": "!cribl.group", "id": "eval", "description": "Default mapping", "disabled": false, "final": true, "conf": {"add": [{"name": "groupId", "value": "'default_fleet'", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>", "<value 2>"]}, "groupId": "<id>"}]}, "active": true}
       responses:
         "200":
-          application/json: {"count": 507815, "items": [{"id": "<id>", "conf": {"functions": [{"filter": "true", "id": "eval", "description": "around once brr", "disabled": false, "final": true, "conf": {}, "groupId": "<id>", "name": "Eval", "group": "Standard", "schema": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>"]}}]}, "active": false}]}
+          application/json: {"count": 507815, "items": [{"id": "<id>", "conf": {"functions": [{"filter": "true", "id": "eval", "description": "around once brr", "disabled": false, "final": true, "conf": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>", "<value 2>", "<value 3>"], "remove": ["<value 1>", "<value 2>"]}, "groupId": "<id>"}]}, "active": false}]}
         "500":
           application/json: {"message": "<value>"}
     MappingRulesetCreateExamplesAWSEC2InstanceMapping:
@@ -3476,10 +3473,10 @@ examples:
         path:
           product: "stream"
       requestBody:
-        application/json: {"id": "aws-ec2-mapping", "conf": {"functions": [{"filter": "aws?.tags?.Environment === \"Production\"", "id": "eval", "description": "Map Production EC2 instances", "disabled": false, "final": true, "conf": {}, "groupId": "<id>", "name": "Eval", "group": "Standard", "schema": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>"]}}, {"filter": "aws?.tags?.Team === \"DevOps\"", "id": "eval", "description": "Map DevOps team EC2 instances", "disabled": false, "final": true, "conf": {}, "groupId": "<id>", "name": "Eval", "group": "Standard", "schema": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>"]}}, {"filter": "!cribl.group", "id": "eval", "description": "Default mapping", "disabled": false, "final": true, "conf": {}, "groupId": "<id>", "name": "Eval", "group": "Standard", "schema": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>"]}}]}, "active": true}
+        application/json: {"id": "aws-ec2-mapping", "conf": {"functions": [{"filter": "aws?.tags?.Environment === \"Production\"", "id": "eval", "description": "Map Production EC2 instances", "disabled": false, "final": true, "conf": {"add": [{"name": "groupId", "value": "'aws_prod_fleet'", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>", "<value 2>"]}, "groupId": "<id>"}, {"filter": "aws?.tags?.Team === \"DevOps\"", "id": "eval", "description": "Map DevOps team EC2 instances", "disabled": false, "final": true, "conf": {"add": [{"name": "groupId", "value": "'devops_fleet'", "disabled": false}], "keep": ["<value 1>", "<value 2>"], "remove": ["<value 1>", "<value 2>", "<value 3>"]}, "groupId": "<id>"}, {"filter": "!cribl.group", "id": "eval", "description": "Default mapping", "disabled": false, "final": true, "conf": {"add": [{"name": "groupId", "value": "'default_fleet'", "disabled": false}], "keep": ["<value 1>", "<value 2>"], "remove": ["<value 1>", "<value 2>", "<value 3>"]}, "groupId": "<id>"}]}, "active": true}
       responses:
         "200":
-          application/json: {"count": 507815, "items": [{"id": "<id>", "conf": {"functions": [{"filter": "true", "id": "eval", "description": "around once brr", "disabled": false, "final": true, "conf": {}, "groupId": "<id>", "name": "Eval", "group": "Standard", "schema": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>"]}}]}, "active": false}]}
+          application/json: {"count": 507815, "items": [{"id": "<id>", "conf": {"functions": [{"filter": "true", "id": "eval", "description": "around once brr", "disabled": false, "final": true, "conf": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>", "<value 2>", "<value 3>"], "remove": ["<value 1>", "<value 2>"]}, "groupId": "<id>"}]}, "active": false}]}
         "500":
           application/json: {"message": "<value>"}
     MappingRulesetCreateExamplesContainerBasedMapping:
@@ -3487,10 +3484,10 @@ examples:
         path:
           product: "stream"
       requestBody:
-        application/json: {"id": "container-mapping", "conf": {"functions": [{"filter": "hostOs?.platform === \"linux\" && hostOs?.cpu_count > 4", "id": "eval", "description": "Map containerized nodes on high-CPU Linux hosts", "disabled": false, "final": true, "conf": {}, "groupId": "<id>", "name": "Eval", "group": "Standard", "schema": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>"]}}, {"filter": "hostOs?.id", "id": "eval", "description": "Map all containerized Edge Nodes", "disabled": false, "final": true, "conf": {}, "groupId": "<id>", "name": "Eval", "group": "Standard", "schema": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>"]}}, {"filter": "!cribl.group", "id": "eval", "description": "Default mapping for non-containerized nodes", "disabled": false, "final": true, "conf": {}, "groupId": "<id>", "name": "Eval", "group": "Standard", "schema": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>"]}}]}, "active": false}
+        application/json: {"id": "container-mapping", "conf": {"functions": [{"filter": "hostOs?.platform === \"linux\" && hostOs?.cpu_count > 4", "id": "eval", "description": "Map containerized nodes on high-CPU Linux hosts", "disabled": false, "final": true, "conf": {"add": [{"name": "groupId", "value": "'container_high_cpu_fleet'", "disabled": false}], "keep": ["<value 1>", "<value 2>"], "remove": ["<value 1>"]}, "groupId": "<id>"}, {"filter": "hostOs?.id", "id": "eval", "description": "Map all containerized Edge Nodes", "disabled": false, "final": true, "conf": {"add": [{"name": "groupId", "value": "'container_fleet'", "disabled": false}], "keep": ["<value 1>", "<value 2>"], "remove": ["<value 1>", "<value 2>"]}, "groupId": "<id>"}, {"filter": "!cribl.group", "id": "eval", "description": "Default mapping for non-containerized nodes", "disabled": false, "final": true, "conf": {"add": [{"name": "groupId", "value": "'default_fleet'", "disabled": false}], "keep": ["<value 1>", "<value 2>", "<value 3>"], "remove": ["<value 1>", "<value 2>"]}, "groupId": "<id>"}]}, "active": false}
       responses:
         "200":
-          application/json: {"count": 507815, "items": [{"id": "<id>", "conf": {"functions": [{"filter": "true", "id": "eval", "description": "around once brr", "disabled": false, "final": true, "conf": {}, "groupId": "<id>", "name": "Eval", "group": "Standard", "schema": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>"]}}]}, "active": false}]}
+          application/json: {"count": 507815, "items": [{"id": "<id>", "conf": {"functions": [{"filter": "true", "id": "eval", "description": "around once brr", "disabled": false, "final": true, "conf": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>", "<value 2>", "<value 3>"], "remove": ["<value 1>", "<value 2>"]}, "groupId": "<id>"}]}, "active": false}]}
         "500":
           application/json: {"message": "<value>"}
     MappingRulesetCreateExamplesDefaultRuleset:
@@ -3498,10 +3495,10 @@ examples:
         path:
           product: "edge"
       requestBody:
-        application/json: {"id": "simple-default-mappings", "conf": {"functions": [{"filter": "!cribl.group", "id": "eval", "description": "Simple default Mapping Ruleset", "disabled": false, "final": true, "conf": {}, "groupId": "<id>", "name": "Eval", "group": "Standard", "schema": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>"]}}]}, "active": false}
+        application/json: {"id": "simple-default-mappings", "conf": {"functions": [{"filter": "!cribl.group", "id": "eval", "description": "Simple default Mapping Ruleset", "disabled": false, "final": true, "conf": {"add": [{"name": "groupId", "value": "'default_fleet'", "disabled": false}], "keep": ["<value 1>", "<value 2>", "<value 3>"], "remove": ["<value 1>", "<value 2>", "<value 3>"]}, "groupId": "<id>"}]}, "active": false}
       responses:
         "200":
-          application/json: {"count": 507815, "items": [{"id": "<id>", "conf": {"functions": [{"filter": "true", "id": "eval", "description": "around once brr", "disabled": false, "final": true, "conf": {}, "groupId": "<id>", "name": "Eval", "group": "Standard", "schema": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>"]}}]}, "active": false}]}
+          application/json: {"count": 507815, "items": [{"id": "<id>", "conf": {"functions": [{"filter": "true", "id": "eval", "description": "around once brr", "disabled": false, "final": true, "conf": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>", "<value 2>", "<value 3>"], "remove": ["<value 1>", "<value 2>"]}, "groupId": "<id>"}]}, "active": false}]}
         "500":
           application/json: {"message": "<value>"}
   getAdminProductsMappingsByProduct:
@@ -3511,7 +3508,7 @@ examples:
           product: "edge"
       responses:
         "200":
-          application/json: {"count": 775631, "items": [{"id": "<id>", "conf": {"functions": [{"filter": "true", "id": "eval", "description": "yahoo pfft repossess able sharply", "disabled": true, "final": true, "conf": {}, "groupId": "<id>", "name": "Eval", "group": "Standard", "schema": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>", "<value 2>"], "remove": ["<value 1>", "<value 2>", "<value 3>"]}}]}, "active": true}]}
+          application/json: {"count": 775631, "items": [{"id": "<id>", "conf": {"functions": [{"filter": "true", "id": "eval", "description": "yahoo pfft repossess able sharply", "disabled": true, "final": true, "conf": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>", "<value 2>", "<value 3>"], "remove": ["<value 1>", "<value 2>", "<value 3>"]}, "groupId": "<id>"}]}, "active": true}]}
         "500":
           application/json: {"message": "<value>"}
   deleteAdminProductsMappingsByProductAndId:
@@ -3522,7 +3519,7 @@ examples:
           id: "<id>"
       responses:
         "200":
-          application/json: {"count": 142793, "items": [{"id": "<id>", "conf": {"functions": [{"filter": "true", "id": "eval", "description": "engender that impact apropos minus before when stool", "disabled": true, "final": true, "conf": {}, "groupId": "<id>", "name": "Eval", "group": "Standard", "schema": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>", "<value 2>"]}}]}, "active": true}]}
+          application/json: {"count": 142793, "items": [{"id": "<id>", "conf": {"functions": [{"filter": "true", "id": "eval", "description": "engender that impact apropos minus before when stool", "disabled": true, "final": true, "conf": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>"]}, "groupId": "<id>"}]}, "active": true}]}
         "500":
           application/json: {"message": "<value>"}
   getAdminProductsMappingsByProductAndId:
@@ -3533,7 +3530,7 @@ examples:
           id: "<id>"
       responses:
         "200":
-          application/json: {"count": 205466, "items": [{"id": "<id>", "conf": {"functions": [{"filter": "true", "id": "eval", "description": "afore what which majestically before from wholly", "disabled": true, "final": false, "conf": {}, "groupId": "<id>", "name": "Eval", "group": "Standard", "schema": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>"]}}]}, "active": false}]}
+          application/json: {"count": 205466, "items": [{"id": "<id>", "conf": {"functions": [{"filter": "true", "id": "eval", "description": "afore what which majestically before from wholly", "disabled": true, "final": false, "conf": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>"]}, "groupId": "<id>"}]}, "active": false}]}
         "500":
           application/json: {"message": "<value>"}
   updateAdminProductsMappingsByProductAndId:
@@ -3543,10 +3540,10 @@ examples:
           product: "stream"
           id: "<value>"
       requestBody:
-        application/json: {"id": "complex-mapping", "conf": {"functions": [{"filter": "(conn_ip.startsWith(\"10.10.42.\") && cpus > 6) || env.CRIBL_HOME.match(\"DMZ\")", "id": "eval", "description": "Map high-performance nodes in specific network or DMZ", "disabled": false, "final": true, "conf": {}, "groupId": "<id>", "name": "Eval", "group": "Standard", "schema": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>", "<value 2>"]}}, {"filter": "!cribl.group", "id": "eval", "description": "Default mapping", "disabled": false, "final": true, "conf": {}, "groupId": "<id>", "name": "Eval", "group": "Standard", "schema": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>", "<value 2>"]}}]}, "active": true}
+        application/json: {"id": "complex-mapping", "conf": {"functions": [{"filter": "(conn_ip.startsWith(\"10.10.42.\") && cpus > 6) || env.CRIBL_HOME.match(\"DMZ\")", "id": "eval", "description": "Map high-performance nodes in specific network or DMZ", "disabled": false, "final": true, "conf": {"add": [{"name": "groupId", "value": "'high_perf_fleet'", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>", "<value 2>"]}, "groupId": "<id>"}, {"filter": "!cribl.group", "id": "eval", "description": "Default mapping", "disabled": false, "final": true, "conf": {"add": [{"name": "groupId", "value": "'default_fleet'", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>"]}, "groupId": "<id>"}]}, "active": true}
       responses:
         "200":
-          application/json: {"count": 51512, "items": [{"id": "<id>", "conf": {"functions": [{"filter": "true", "id": "eval", "description": "forage store rubbery coordinated", "disabled": true, "final": true, "conf": {}, "groupId": "<id>", "name": "Eval", "group": "Standard", "schema": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>", "<value 2>"]}}]}, "active": false}]}
+          application/json: {"count": 51512, "items": [{"id": "<id>", "conf": {"functions": [{"filter": "true", "id": "eval", "description": "forage store rubbery coordinated", "disabled": true, "final": true, "conf": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>"]}, "groupId": "<id>"}]}, "active": false}]}
         "500":
           application/json: {"message": "<value>"}
     MappingRulesetUpdateExamplesEnableDisabledRule:
@@ -3555,10 +3552,10 @@ examples:
           product: "stream"
           id: "<value>"
       requestBody:
-        application/json: {"id": "default", "conf": {"functions": [{"filter": "!cribl.group", "id": "eval", "description": "Default Mappings", "disabled": false, "final": true, "conf": {}, "groupId": "<id>", "name": "Eval", "group": "Standard", "schema": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>", "<value 2>"]}}]}, "active": true}
+        application/json: {"id": "default", "conf": {"functions": [{"filter": "!cribl.group", "id": "eval", "description": "Default Mappings", "disabled": false, "final": true, "conf": {"add": [{"name": "groupId", "value": "'default_fleet'", "disabled": false}], "keep": ["<value 1>", "<value 2>"], "remove": ["<value 1>"]}, "groupId": "<id>"}]}, "active": true}
       responses:
         "200":
-          application/json: {"count": 51512, "items": [{"id": "<id>", "conf": {"functions": [{"filter": "true", "id": "eval", "description": "forage store rubbery coordinated", "disabled": true, "final": true, "conf": {}, "groupId": "<id>", "name": "Eval", "group": "Standard", "schema": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>", "<value 2>"]}}]}, "active": false}]}
+          application/json: {"count": 51512, "items": [{"id": "<id>", "conf": {"functions": [{"filter": "true", "id": "eval", "description": "forage store rubbery coordinated", "disabled": true, "final": true, "conf": {"add": [{"name": "<value>", "value": "<value>", "disabled": false}], "keep": ["<value 1>"], "remove": ["<value 1>"]}, "groupId": "<id>"}]}, "active": false}]}
         "500":
           application/json: {"message": "<value>"}
 examplesVersion: 1.0.2
@@ -3626,4 +3623,4 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: "## Python SDK Changes Detected:\n* `cribl_control_plane.sources.hec_tokens.create()`:  `response.items.[].tls` **Changed** **Breaking** :warning:\n* `cribl_control_plane.groups.deploy()`:  `response.items.[].estimated_ingest_rate` **Changed** **Breaking** :warning:\n* `cribl_control_plane.groups.delete()`:  `response.items.[].estimated_ingest_rate` **Changed** **Breaking** :warning:\n* `cribl_control_plane.groups.update()`: \n  *  `request.estimated_ingest_rate` **Changed** **Breaking** :warning:\n  *  `response.items.[].estimated_ingest_rate` **Changed** **Breaking** :warning:\n* `cribl_control_plane.groups.get()`:  `response.items.[].estimated_ingest_rate` **Changed** **Breaking** :warning:\n* `cribl_control_plane.groups.create()`: \n  *  `request` **Changed** **Breaking** :warning:\n  *  `response.items.[].estimated_ingest_rate` **Changed** **Breaking** :warning:\n* `cribl_control_plane.groups.list()`:  `response.items.[].estimated_ingest_rate` **Changed** **Breaking** :warning:\n* `cribl_control_plane.versions.commits.undo()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.health.get()`: \n  *  `response.status[default]` **Removed** **Breaking** :warning:\n  *  `error.status[500]` **Added**\n* `cribl_control_plane.auth.tokens.get()`: \n  *  `response.force_password_change` **Added**\n  *  `error` **Changed** **Breaking** :warning:\n* `cribl_control_plane.routes.append()`: \n  *  `request_body.[].clones.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.pq.get()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.update()`: \n  *  `request.output` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.sources.create()`: \n  *  `request` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.create()`: \n  *  `request` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.sources.update()`: \n  *  `request.input` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.sources.hec_tokens.update()`:  `response.items.[].tls` **Changed** **Breaking** :warning:\n* `cribl_control_plane.lake_datasets.get()`:  `response.items.[].metrics` **Added**\n* `cribl_control_plane.packs.install()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.list()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.sources.get()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.get()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.sources.list()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.delete()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.lake_datasets.update()`: \n  *  `request.metrics` **Added**\n  *  `response.items.[].metrics` **Added**\n* `cribl_control_plane.packs.upload()`: **Added**\n* `cribl_control_plane.lake_datasets.delete()`:  `response.items.[].metrics` **Added**\n* `cribl_control_plane.nodes.list()`:  `response.items.[].info` **Changed**\n* `cribl_control_plane.nodes.summaries.get()`:  `response.items.[].groups` **Changed**\n* `cribl_control_plane.lake_datasets.list()`:  `response.items.[].metrics` **Added**\n* `cribl_control_plane.sources.delete()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.packs.list()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.packs.delete()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.packs.get()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.packs.update()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.lake_datasets.create()`: \n  *  `request.metrics` **Added**\n  *  `response.items.[].metrics` **Added**\n* `cribl_control_plane.groups.mappings.update()`: **Added**\n* `cribl_control_plane.groups.mappings.get()`: **Added**\n* `cribl_control_plane.groups.mappings.delete()`: **Added**\n* `cribl_control_plane.groups.mappings.list()`: **Added**\n* `cribl_control_plane.groups.mappings.create()`: **Added**\n* `cribl_control_plane.groups.mappings.activate()`: **Added**\n"
+releaseNotes: "## Python SDK Changes Detected:\n* `cribl_control_plane.groups.mappings.create()`: \n  *  `request.conf.functions.[]` **Changed** **Breaking** :warning:\n  *  `response.items.[].conf.functions.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.groups.mappings.list()`:  `response.items.[].conf.functions.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.groups.mappings.delete()`:  `response.items.[].conf.functions.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.groups.mappings.get()`:  `response.items.[].conf.functions.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.groups.mappings.update()`: \n  *  `request.conf.functions.[]` **Changed** **Breaking** :warning:\n  *  `response.items.[].conf.functions.[]` **Changed** **Breaking** :warning:\n"

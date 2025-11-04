@@ -1805,6 +1805,7 @@ if TYPE_CHECKING:
     )
     from .jobinfo import JobInfo, JobInfoTypedDict
     from .jobstatus import JobStatus, JobStatusTypedDict
+    from .lakedatasetmetrics import LakeDatasetMetrics, LakeDatasetMetricsTypedDict
     from .lakedatasetsearchconfig import (
         LakeDatasetSearchConfig,
         LakeDatasetSearchConfigTypedDict,
@@ -4938,6 +4939,8 @@ __all__ = [
     "JobInfoTypedDict",
     "JobStatus",
     "JobStatusTypedDict",
+    "LakeDatasetMetrics",
+    "LakeDatasetMetricsTypedDict",
     "LakeDatasetSearchConfig",
     "LakeDatasetSearchConfigTypedDict",
     "LakehouseConnectionType",
@@ -7968,6 +7971,8 @@ _dynamic_imports: dict[str, str] = {
     "JobInfoTypedDict": ".jobinfo",
     "JobStatus": ".jobstatus",
     "JobStatusTypedDict": ".jobstatus",
+    "LakeDatasetMetrics": ".lakedatasetmetrics",
+    "LakeDatasetMetricsTypedDict": ".lakedatasetmetrics",
     "LakeDatasetSearchConfig": ".lakedatasetsearchconfig",
     "LakeDatasetSearchConfigTypedDict": ".lakedatasetsearchconfig",
     "LakehouseConnectionType": ".lakehouseconnectiontype",

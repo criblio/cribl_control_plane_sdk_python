@@ -33,6 +33,18 @@ if TYPE_CHECKING:
         ConfigGroupLookupsLookupTypedDict,
         ConfigGroupLookupsTypedDict,
     )
+    from .createadminproductsmappingsactivatebyproductop import (
+        CreateAdminProductsMappingsActivateByProductRequest,
+        CreateAdminProductsMappingsActivateByProductRequestTypedDict,
+        CreateAdminProductsMappingsActivateByProductResponse,
+        CreateAdminProductsMappingsActivateByProductResponseTypedDict,
+    )
+    from .createadminproductsmappingsbyproductop import (
+        CreateAdminProductsMappingsByProductRequest,
+        CreateAdminProductsMappingsByProductRequestTypedDict,
+        CreateAdminProductsMappingsByProductResponse,
+        CreateAdminProductsMappingsByProductResponseTypedDict,
+    )
     from .createconfiggroupbyproductop import (
         CreateConfigGroupByProductRequest,
         CreateConfigGroupByProductRequestTypedDict,
@@ -109,6 +121,12 @@ if TYPE_CHECKING:
         DatasetMetadataRunInfo,
         DatasetMetadataRunInfoTypedDict,
     )
+    from .deleteadminproductsmappingsbyproductandidop import (
+        DeleteAdminProductsMappingsByProductAndIDRequest,
+        DeleteAdminProductsMappingsByProductAndIDRequestTypedDict,
+        DeleteAdminProductsMappingsByProductAndIDResponse,
+        DeleteAdminProductsMappingsByProductAndIDResponseTypedDict,
+    )
     from .deleteconfiggroupbyproductandidop import (
         DeleteConfigGroupByProductAndIDRequest,
         DeleteConfigGroupByProductAndIDRequestTypedDict,
@@ -183,6 +201,28 @@ if TYPE_CHECKING:
         DistributedSummaryTypedDict,
         DistributedSummaryWorkers,
         DistributedSummaryWorkersTypedDict,
+    )
+    from .evalfunction import (
+        EvalFunction,
+        EvalFunctionFunctionSpecificConfigs,
+        EvalFunctionFunctionSpecificConfigsTypedDict,
+        EvalFunctionTypedDict,
+        Group,
+        ID,
+        Name,
+    )
+    from .evalschema import Add, AddTypedDict, EvalSchema, EvalSchemaTypedDict
+    from .getadminproductsmappingsbyproductandidop import (
+        GetAdminProductsMappingsByProductAndIDRequest,
+        GetAdminProductsMappingsByProductAndIDRequestTypedDict,
+        GetAdminProductsMappingsByProductAndIDResponse,
+        GetAdminProductsMappingsByProductAndIDResponseTypedDict,
+    )
+    from .getadminproductsmappingsbyproductop import (
+        GetAdminProductsMappingsByProductRequest,
+        GetAdminProductsMappingsByProductRequestTypedDict,
+        GetAdminProductsMappingsByProductResponse,
+        GetAdminProductsMappingsByProductResponseTypedDict,
     )
     from .getconfiggroupaclbyproductandidop import (
         GetConfigGroupACLByProductAndIDRequest,
@@ -1803,8 +1843,8 @@ if TYPE_CHECKING:
         InputZscalerHecType,
         InputZscalerHecTypedDict,
     )
-    from .jobinfo import JobInfo, JobInfoTypedDict, Stats, StatsTypedDict
-    from .jobstatus import JobStatus, JobStatusTypedDict, State
+    from .jobinfo import JobInfo, JobInfoTypedDict
+    from .jobstatus import JobStatus, JobStatusTypedDict
     from .lakedatasetmetrics import LakeDatasetMetrics, LakeDatasetMetricsTypedDict
     from .lakedatasetsearchconfig import (
         LakeDatasetSearchConfig,
@@ -1829,6 +1869,12 @@ if TYPE_CHECKING:
     from .listroutesop import ListRoutesResponse, ListRoutesResponseTypedDict
     from .logininfo import LoginInfo, LoginInfoTypedDict
     from .lookupversions import LookupVersions, LookupVersionsTypedDict
+    from .mappingruleset import (
+        MappingRuleset,
+        MappingRulesetConf,
+        MappingRulesetConfTypedDict,
+        MappingRulesetTypedDict,
+    )
     from .masterworkerentry import (
         LastMetrics,
         LastMetricsTypedDict,
@@ -3201,17 +3247,17 @@ if TYPE_CHECKING:
     )
     from .packupgraderequest import PackUpgradeRequest, PackUpgradeRequestTypedDict
     from .pipeline import (
-        Conf,
-        ConfTypedDict,
         Pipeline,
+        PipelineConf,
+        PipelineConfTypedDict,
         PipelineGroups,
         PipelineGroupsTypedDict,
         PipelineTypedDict,
     )
     from .pipelinefunctionconf import (
-        FunctionSpecificConfigs,
-        FunctionSpecificConfigsTypedDict,
         PipelineFunctionConf,
+        PipelineFunctionConfFunctionSpecificConfigs,
+        PipelineFunctionConfFunctionSpecificConfigsTypedDict,
         PipelineFunctionConfTypedDict,
     )
     from .productscore import ProductsCore
@@ -3227,6 +3273,7 @@ if TYPE_CHECKING:
         RoutesTypedDict,
     )
     from .routesroute import RoutesRoute, RoutesRouteTypedDict
+    from .rulesetid import RulesetID, RulesetIDTypedDict
     from .runnablejob import RunnableJob, RunnableJobTypedDict
     from .runnablejobcollection import (
         CaptureSettings,
@@ -3301,6 +3348,12 @@ if TYPE_CHECKING:
         TeamAccessControlList,
         TeamAccessControlListTypedDict,
     )
+    from .updateadminproductsmappingsbyproductandidop import (
+        UpdateAdminProductsMappingsByProductAndIDRequest,
+        UpdateAdminProductsMappingsByProductAndIDRequestTypedDict,
+        UpdateAdminProductsMappingsByProductAndIDResponse,
+        UpdateAdminProductsMappingsByProductAndIDResponseTypedDict,
+    )
     from .updateconfiggroupbyproductandidop import (
         UpdateConfigGroupByProductAndIDRequest,
         UpdateConfigGroupByProductAndIDRequestTypedDict,
@@ -3371,10 +3424,12 @@ if TYPE_CHECKING:
 
 __all__ = [
     "AISIEMEndpointPath",
+    "Add",
     "AddHecTokenRequest",
     "AddHecTokenRequestMetadatum",
     "AddHecTokenRequestMetadatumTypedDict",
     "AddHecTokenRequestTypedDict",
+    "AddTypedDict",
     "AdditionalProperty",
     "AdditionalPropertyTypedDict",
     "Allow",
@@ -3415,8 +3470,6 @@ __all__ = [
     "CommentTypedDict",
     "Commit",
     "CommitTypedDict",
-    "Conf",
-    "ConfTypedDict",
     "Config",
     "ConfigGroup",
     "ConfigGroupCloud",
@@ -3434,6 +3487,14 @@ __all__ = [
     "Container",
     "ContainerMode",
     "ContainerTypedDict",
+    "CreateAdminProductsMappingsActivateByProductRequest",
+    "CreateAdminProductsMappingsActivateByProductRequestTypedDict",
+    "CreateAdminProductsMappingsActivateByProductResponse",
+    "CreateAdminProductsMappingsActivateByProductResponseTypedDict",
+    "CreateAdminProductsMappingsByProductRequest",
+    "CreateAdminProductsMappingsByProductRequestTypedDict",
+    "CreateAdminProductsMappingsByProductResponse",
+    "CreateAdminProductsMappingsByProductResponseTypedDict",
     "CreateConfigGroupByProductRequest",
     "CreateConfigGroupByProductRequestTypedDict",
     "CreateConfigGroupByProductResponse",
@@ -3494,6 +3555,10 @@ __all__ = [
     "DatasetMetadataRunInfo",
     "DatasetMetadataRunInfoTypedDict",
     "DatasetMetadataTypedDict",
+    "DeleteAdminProductsMappingsByProductAndIDRequest",
+    "DeleteAdminProductsMappingsByProductAndIDRequestTypedDict",
+    "DeleteAdminProductsMappingsByProductAndIDResponse",
+    "DeleteAdminProductsMappingsByProductAndIDResponseTypedDict",
     "DeleteConfigGroupByProductAndIDRequest",
     "DeleteConfigGroupByProductAndIDRequestTypedDict",
     "DeleteConfigGroupByProductAndIDResponse",
@@ -3549,6 +3614,12 @@ __all__ = [
     "EndpointParam",
     "EndpointParamTypedDict",
     "EndpointType",
+    "EvalFunction",
+    "EvalFunctionFunctionSpecificConfigs",
+    "EvalFunctionFunctionSpecificConfigsTypedDict",
+    "EvalFunctionTypedDict",
+    "EvalSchema",
+    "EvalSchemaTypedDict",
     "EventFormat",
     "Executor",
     "ExecutorSpecificSettings",
@@ -3564,8 +3635,14 @@ __all__ = [
     "FileTypedDict",
     "Firewall",
     "FirewallTypedDict",
-    "FunctionSpecificConfigs",
-    "FunctionSpecificConfigsTypedDict",
+    "GetAdminProductsMappingsByProductAndIDRequest",
+    "GetAdminProductsMappingsByProductAndIDRequestTypedDict",
+    "GetAdminProductsMappingsByProductAndIDResponse",
+    "GetAdminProductsMappingsByProductAndIDResponseTypedDict",
+    "GetAdminProductsMappingsByProductRequest",
+    "GetAdminProductsMappingsByProductRequestTypedDict",
+    "GetAdminProductsMappingsByProductResponse",
+    "GetAdminProductsMappingsByProductResponseTypedDict",
     "GetConfigGroupACLByProductAndIDRequest",
     "GetConfigGroupACLByProductAndIDRequestTypedDict",
     "GetConfigGroupACLByProductAndIDResponse",
@@ -3686,6 +3763,7 @@ __all__ = [
     "GitShowResultTypedDict",
     "GitStatusResult",
     "GitStatusResultTypedDict",
+    "Group",
     "GroupCreateRequest",
     "GroupCreateRequestEstimatedIngestRate",
     "GroupCreateRequestGit",
@@ -3716,6 +3794,7 @@ __all__ = [
     "HostInfoTypedDict",
     "HostsFile",
     "HostsFileTypedDict",
+    "ID",
     "IndexerDiscoveryConfigs",
     "IndexerDiscoveryConfigsAuthTokenAuthenticationMethod",
     "IndexerDiscoveryConfigsAuthenticationMethod",
@@ -4991,6 +5070,10 @@ __all__ = [
     "LookupVersionsTypedDict",
     "MTLSSettings",
     "MTLSSettingsTypedDict",
+    "MappingRuleset",
+    "MappingRulesetConf",
+    "MappingRulesetConfTypedDict",
+    "MappingRulesetTypedDict",
     "MappingType",
     "MasterWorkerEntry",
     "MasterWorkerEntryType",
@@ -4998,6 +5081,7 @@ __all__ = [
     "MasterWorkerEntryWorkers",
     "MasterWorkerEntryWorkersTypedDict",
     "MetricsProtocol",
+    "Name",
     "NodeActiveUpgradeStatus",
     "NodeFailedUpgradeStatus",
     "NodeProvidedInfo",
@@ -6192,7 +6276,11 @@ __all__ = [
     "PackUpgradeRequestTypedDict",
     "PayloadFormat",
     "Pipeline",
+    "PipelineConf",
+    "PipelineConfTypedDict",
     "PipelineFunctionConf",
+    "PipelineFunctionConfFunctionSpecificConfigs",
+    "PipelineFunctionConfFunctionSpecificConfigsTypedDict",
     "PipelineFunctionConfTypedDict",
     "PipelineGroups",
     "PipelineGroupsTypedDict",
@@ -6232,6 +6320,8 @@ __all__ = [
     "RoutesRoute",
     "RoutesRouteTypedDict",
     "RoutesTypedDict",
+    "RulesetID",
+    "RulesetIDTypedDict",
     "RunnableJob",
     "RunnableJobCollection",
     "RunnableJobCollectionInput",
@@ -6302,9 +6392,6 @@ __all__ = [
     "ShardLoadBalancing",
     "SplunkHecMetadata",
     "SplunkHecMetadataTypedDict",
-    "State",
-    "Stats",
-    "StatsTypedDict",
     "Status",
     "Subscription",
     "SubscriptionMetadatum",
@@ -6322,6 +6409,10 @@ __all__ = [
     "TimestampFormat",
     "TimestampPrecision",
     "UDMType",
+    "UpdateAdminProductsMappingsByProductAndIDRequest",
+    "UpdateAdminProductsMappingsByProductAndIDRequestTypedDict",
+    "UpdateAdminProductsMappingsByProductAndIDResponse",
+    "UpdateAdminProductsMappingsByProductAndIDResponseTypedDict",
     "UpdateConfigGroupByProductAndIDRequest",
     "UpdateConfigGroupByProductAndIDRequestTypedDict",
     "UpdateConfigGroupByProductAndIDResponse",
@@ -6404,6 +6495,14 @@ _dynamic_imports: dict[str, str] = {
     "ConfigGroupLookupsLookup": ".configgrouplookups",
     "ConfigGroupLookupsLookupTypedDict": ".configgrouplookups",
     "ConfigGroupLookupsTypedDict": ".configgrouplookups",
+    "CreateAdminProductsMappingsActivateByProductRequest": ".createadminproductsmappingsactivatebyproductop",
+    "CreateAdminProductsMappingsActivateByProductRequestTypedDict": ".createadminproductsmappingsactivatebyproductop",
+    "CreateAdminProductsMappingsActivateByProductResponse": ".createadminproductsmappingsactivatebyproductop",
+    "CreateAdminProductsMappingsActivateByProductResponseTypedDict": ".createadminproductsmappingsactivatebyproductop",
+    "CreateAdminProductsMappingsByProductRequest": ".createadminproductsmappingsbyproductop",
+    "CreateAdminProductsMappingsByProductRequestTypedDict": ".createadminproductsmappingsbyproductop",
+    "CreateAdminProductsMappingsByProductResponse": ".createadminproductsmappingsbyproductop",
+    "CreateAdminProductsMappingsByProductResponseTypedDict": ".createadminproductsmappingsbyproductop",
     "CreateConfigGroupByProductRequest": ".createconfiggroupbyproductop",
     "CreateConfigGroupByProductRequestTypedDict": ".createconfiggroupbyproductop",
     "CreateConfigGroupByProductResponse": ".createconfiggroupbyproductop",
@@ -6461,6 +6560,10 @@ _dynamic_imports: dict[str, str] = {
     "ScanMode": ".datasetmetadata",
     "DatasetMetadataRunInfo": ".datasetmetadataruninfo",
     "DatasetMetadataRunInfoTypedDict": ".datasetmetadataruninfo",
+    "DeleteAdminProductsMappingsByProductAndIDRequest": ".deleteadminproductsmappingsbyproductandidop",
+    "DeleteAdminProductsMappingsByProductAndIDRequestTypedDict": ".deleteadminproductsmappingsbyproductandidop",
+    "DeleteAdminProductsMappingsByProductAndIDResponse": ".deleteadminproductsmappingsbyproductandidop",
+    "DeleteAdminProductsMappingsByProductAndIDResponseTypedDict": ".deleteadminproductsmappingsbyproductandidop",
     "DeleteConfigGroupByProductAndIDRequest": ".deleteconfiggroupbyproductandidop",
     "DeleteConfigGroupByProductAndIDRequestTypedDict": ".deleteconfiggroupbyproductandidop",
     "DeleteConfigGroupByProductAndIDResponse": ".deleteconfiggroupbyproductandidop",
@@ -6517,6 +6620,25 @@ _dynamic_imports: dict[str, str] = {
     "DistributedSummaryTypedDict": ".distributedsummary",
     "DistributedSummaryWorkers": ".distributedsummary",
     "DistributedSummaryWorkersTypedDict": ".distributedsummary",
+    "EvalFunction": ".evalfunction",
+    "EvalFunctionFunctionSpecificConfigs": ".evalfunction",
+    "EvalFunctionFunctionSpecificConfigsTypedDict": ".evalfunction",
+    "EvalFunctionTypedDict": ".evalfunction",
+    "Group": ".evalfunction",
+    "ID": ".evalfunction",
+    "Name": ".evalfunction",
+    "Add": ".evalschema",
+    "AddTypedDict": ".evalschema",
+    "EvalSchema": ".evalschema",
+    "EvalSchemaTypedDict": ".evalschema",
+    "GetAdminProductsMappingsByProductAndIDRequest": ".getadminproductsmappingsbyproductandidop",
+    "GetAdminProductsMappingsByProductAndIDRequestTypedDict": ".getadminproductsmappingsbyproductandidop",
+    "GetAdminProductsMappingsByProductAndIDResponse": ".getadminproductsmappingsbyproductandidop",
+    "GetAdminProductsMappingsByProductAndIDResponseTypedDict": ".getadminproductsmappingsbyproductandidop",
+    "GetAdminProductsMappingsByProductRequest": ".getadminproductsmappingsbyproductop",
+    "GetAdminProductsMappingsByProductRequestTypedDict": ".getadminproductsmappingsbyproductop",
+    "GetAdminProductsMappingsByProductResponse": ".getadminproductsmappingsbyproductop",
+    "GetAdminProductsMappingsByProductResponseTypedDict": ".getadminproductsmappingsbyproductop",
     "GetConfigGroupACLByProductAndIDRequest": ".getconfiggroupaclbyproductandidop",
     "GetConfigGroupACLByProductAndIDRequestTypedDict": ".getconfiggroupaclbyproductandidop",
     "GetConfigGroupACLByProductAndIDResponse": ".getconfiggroupaclbyproductandidop",
@@ -7972,11 +8094,8 @@ _dynamic_imports: dict[str, str] = {
     "InputZscalerHecTypedDict": ".inputzscalerhec",
     "JobInfo": ".jobinfo",
     "JobInfoTypedDict": ".jobinfo",
-    "Stats": ".jobinfo",
-    "StatsTypedDict": ".jobinfo",
     "JobStatus": ".jobstatus",
     "JobStatusTypedDict": ".jobstatus",
-    "State": ".jobstatus",
     "LakeDatasetMetrics": ".lakedatasetmetrics",
     "LakeDatasetMetricsTypedDict": ".lakedatasetmetrics",
     "LakeDatasetSearchConfig": ".lakedatasetsearchconfig",
@@ -8002,6 +8121,10 @@ _dynamic_imports: dict[str, str] = {
     "LoginInfoTypedDict": ".logininfo",
     "LookupVersions": ".lookupversions",
     "LookupVersionsTypedDict": ".lookupversions",
+    "MappingRuleset": ".mappingruleset",
+    "MappingRulesetConf": ".mappingruleset",
+    "MappingRulesetConfTypedDict": ".mappingruleset",
+    "MappingRulesetTypedDict": ".mappingruleset",
     "LastMetrics": ".masterworkerentry",
     "LastMetricsTypedDict": ".masterworkerentry",
     "MasterWorkerEntry": ".masterworkerentry",
@@ -9243,15 +9366,15 @@ _dynamic_imports: dict[str, str] = {
     "PackRequestBodyUnionTypedDict": ".packrequestbody_union",
     "PackUpgradeRequest": ".packupgraderequest",
     "PackUpgradeRequestTypedDict": ".packupgraderequest",
-    "Conf": ".pipeline",
-    "ConfTypedDict": ".pipeline",
     "Pipeline": ".pipeline",
+    "PipelineConf": ".pipeline",
+    "PipelineConfTypedDict": ".pipeline",
     "PipelineGroups": ".pipeline",
     "PipelineGroupsTypedDict": ".pipeline",
     "PipelineTypedDict": ".pipeline",
-    "FunctionSpecificConfigs": ".pipelinefunctionconf",
-    "FunctionSpecificConfigsTypedDict": ".pipelinefunctionconf",
     "PipelineFunctionConf": ".pipelinefunctionconf",
+    "PipelineFunctionConfFunctionSpecificConfigs": ".pipelinefunctionconf",
+    "PipelineFunctionConfFunctionSpecificConfigsTypedDict": ".pipelinefunctionconf",
     "PipelineFunctionConfTypedDict": ".pipelinefunctionconf",
     "ProductsCore": ".productscore",
     "RbacResource": ".rbacresource",
@@ -9267,6 +9390,8 @@ _dynamic_imports: dict[str, str] = {
     "RoutesTypedDict": ".routes",
     "RoutesRoute": ".routesroute",
     "RoutesRouteTypedDict": ".routesroute",
+    "RulesetID": ".rulesetid",
+    "RulesetIDTypedDict": ".rulesetid",
     "RunnableJob": ".runnablejob",
     "RunnableJobTypedDict": ".runnablejob",
     "CaptureSettings": ".runnablejobcollection",
@@ -9336,6 +9461,10 @@ _dynamic_imports: dict[str, str] = {
     "SecurityTypedDict": ".security",
     "TeamAccessControlList": ".teamaccesscontrollist",
     "TeamAccessControlListTypedDict": ".teamaccesscontrollist",
+    "UpdateAdminProductsMappingsByProductAndIDRequest": ".updateadminproductsmappingsbyproductandidop",
+    "UpdateAdminProductsMappingsByProductAndIDRequestTypedDict": ".updateadminproductsmappingsbyproductandidop",
+    "UpdateAdminProductsMappingsByProductAndIDResponse": ".updateadminproductsmappingsbyproductandidop",
+    "UpdateAdminProductsMappingsByProductAndIDResponseTypedDict": ".updateadminproductsmappingsbyproductandidop",
     "UpdateConfigGroupByProductAndIDRequest": ".updateconfiggroupbyproductandidop",
     "UpdateConfigGroupByProductAndIDRequestTypedDict": ".updateconfiggroupbyproductandidop",
     "UpdateConfigGroupByProductAndIDResponse": ".updateconfiggroupbyproductandidop",

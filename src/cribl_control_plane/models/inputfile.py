@@ -226,7 +226,7 @@ class InputFile(BaseModel):
     filenames: Optional[List[str]] = None
     r"""The full path of discovered files are matched against this wildcard list"""
 
-    tail_only: Annotated[Optional[bool], pydantic.Field(alias="tailOnly")] = False
+    tail_only: Annotated[Optional[bool], pydantic.Field(alias="tailOnly")] = True
     r"""Read only new entries at the end of all files discovered at next startup. @{product} will then read newly discovered files from the head. Disable this to resume reading all files from head."""
 
     idle_timeout: Annotated[Optional[float], pydantic.Field(alias="idleTimeout")] = 300

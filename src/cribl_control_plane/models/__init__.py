@@ -1803,8 +1803,8 @@ if TYPE_CHECKING:
         InputZscalerHecType,
         InputZscalerHecTypedDict,
     )
-    from .jobinfo import JobInfo, JobInfoTypedDict
-    from .jobstatus import JobStatus, JobStatusTypedDict
+    from .jobinfo import JobInfo, JobInfoTypedDict, Stats, StatsTypedDict
+    from .jobstatus import JobStatus, JobStatusTypedDict, State
     from .lakedatasetmetrics import LakeDatasetMetrics, LakeDatasetMetricsTypedDict
     from .lakedatasetsearchconfig import (
         LakeDatasetSearchConfig,
@@ -6302,6 +6302,9 @@ __all__ = [
     "ShardLoadBalancing",
     "SplunkHecMetadata",
     "SplunkHecMetadataTypedDict",
+    "State",
+    "Stats",
+    "StatsTypedDict",
     "Status",
     "Subscription",
     "SubscriptionMetadatum",
@@ -7969,8 +7972,11 @@ _dynamic_imports: dict[str, str] = {
     "InputZscalerHecTypedDict": ".inputzscalerhec",
     "JobInfo": ".jobinfo",
     "JobInfoTypedDict": ".jobinfo",
+    "Stats": ".jobinfo",
+    "StatsTypedDict": ".jobinfo",
     "JobStatus": ".jobstatus",
     "JobStatusTypedDict": ".jobstatus",
+    "State": ".jobstatus",
     "LakeDatasetMetrics": ".lakedatasetmetrics",
     "LakeDatasetMetricsTypedDict": ".lakedatasetmetrics",
     "LakeDatasetSearchConfig": ".lakedatasetsearchconfig",

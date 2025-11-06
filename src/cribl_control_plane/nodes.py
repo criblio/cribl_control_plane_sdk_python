@@ -37,7 +37,7 @@ class Nodes(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ListMasterWorkerEntryResponse:
+    ) -> models.CountedListMasterWorkerEntry:
         r"""Get detailed metadata for Worker and Edge Nodes
 
         Get detailed metadata for Worker and Edge Nodes.
@@ -114,7 +114,7 @@ class Nodes(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(
-                models.ListMasterWorkerEntryResponse, http_res
+                models.CountedListMasterWorkerEntry, http_res
             )
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
@@ -141,7 +141,7 @@ class Nodes(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ListMasterWorkerEntryResponse:
+    ) -> models.CountedListMasterWorkerEntry:
         r"""Get detailed metadata for Worker and Edge Nodes
 
         Get detailed metadata for Worker and Edge Nodes.
@@ -218,7 +218,7 @@ class Nodes(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(
-                models.ListMasterWorkerEntryResponse, http_res
+                models.CountedListMasterWorkerEntry, http_res
             )
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
@@ -240,7 +240,7 @@ class Nodes(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetMasterWorkerEntryResponse:
+    ) -> models.CountedListnumber:
         r"""Get a count of Worker and Edge Nodes
 
         Get a count of all Worker and Edge Nodes.
@@ -306,9 +306,7 @@ class Nodes(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.GetMasterWorkerEntryResponse, http_res
-            )
+            return unmarshal_json_response(models.CountedListnumber, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -329,7 +327,7 @@ class Nodes(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetMasterWorkerEntryResponse:
+    ) -> models.CountedListnumber:
         r"""Get a count of Worker and Edge Nodes
 
         Get a count of all Worker and Edge Nodes.
@@ -395,9 +393,7 @@ class Nodes(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.GetMasterWorkerEntryResponse, http_res
-            )
+            return unmarshal_json_response(models.CountedListnumber, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)

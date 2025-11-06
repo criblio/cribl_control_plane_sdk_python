@@ -44,7 +44,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.GetConfigGroupACLByProductAndIDResponse](../../models/getconfiggroupaclbyproductandidresponse.md)**
+**[models.CountedListUserAccessControlList](../../models/countedlistuseraccesscontrollist.md)**
 
 ### Errors
 

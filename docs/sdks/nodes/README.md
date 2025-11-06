@@ -48,7 +48,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.ListMasterWorkerEntryResponse](../../models/listmasterworkerentryresponse.md)**
+**[models.CountedListMasterWorkerEntry](../../models/countedlistmasterworkerentry.md)**
 
 ### Errors
 
@@ -92,7 +92,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.GetMasterWorkerEntryResponse](../../models/getmasterworkerentryresponse.md)**
+**[models.CountedListnumber](../../models/countedlistnumber.md)**
 
 ### Errors
 

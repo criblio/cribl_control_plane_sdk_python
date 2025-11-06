@@ -78,7 +78,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.CreatePacksResponse](../../models/createpacksresponse.md)**
+**[models.CountedListPackInstallInfo](../../models/countedlistpackinstallinfo.md)**
 
 ### Errors
 
@@ -122,7 +122,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.GetPacksResponse](../../models/getpacksresponse.md)**
+**[models.CountedListPackInfo](../../models/countedlistpackinfo.md)**
 
 ### Errors
 
@@ -211,7 +211,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.DeletePacksByIDResponse](../../models/deletepacksbyidresponse.md)**
+**[models.CountedListPackInstallInfo](../../models/countedlistpackinstallinfo.md)**
 
 ### Errors
 
@@ -255,7 +255,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.GetPacksByIDResponse](../../models/getpacksbyidresponse.md)**
+**[models.CountedListPackInfo](../../models/countedlistpackinfo.md)**
 
 ### Errors
 
@@ -303,7 +303,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.UpdatePacksByIDResponse](../../models/updatepacksbyidresponse.md)**
+**[models.CountedListPackInfo](../../models/countedlistpackinfo.md)**
 
 ### Errors
 

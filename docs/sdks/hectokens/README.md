@@ -52,7 +52,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.CreateInputHecTokenByIDResponse](../../models/createinputhectokenbyidresponse.md)**
+**[models.CountedListInputSplunkHec](../../models/countedlistinputsplunkhec.md)**
 
 ### Errors
 
@@ -105,7 +105,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.UpdateInputHecTokenByIDAndTokenResponse](../../models/updateinputhectokenbyidandtokenresponse.md)**
+**[models.CountedListInputSplunkHec](../../models/countedlistinputsplunkhec.md)**
 
 ### Errors
 

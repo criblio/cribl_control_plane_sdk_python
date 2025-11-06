@@ -5,8 +5,7 @@ from .pipeline import Pipeline, PipelineTypedDict
 from cribl_control_plane.types import BaseModel
 from cribl_control_plane.utils import FieldMetadata, PathParamMetadata, RequestMetadata
 import pydantic
-from typing import List, Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing_extensions import Annotated, TypedDict
 
 
 class UpdatePipelineByIDRequestTypedDict(TypedDict):
@@ -28,20 +27,3 @@ class UpdatePipelineByIDRequest(BaseModel):
         Pipeline, FieldMetadata(request=RequestMetadata(media_type="application/json"))
     ]
     r"""Pipeline object"""
-
-
-class UpdatePipelineByIDResponseTypedDict(TypedDict):
-    r"""a list of Pipeline objects"""
-
-    count: NotRequired[int]
-    r"""number of items present in the items array"""
-    items: NotRequired[List[PipelineTypedDict]]
-
-
-class UpdatePipelineByIDResponse(BaseModel):
-    r"""a list of Pipeline objects"""
-
-    count: Optional[int] = None
-    r"""number of items present in the items array"""
-
-    items: Optional[List[Pipeline]] = None

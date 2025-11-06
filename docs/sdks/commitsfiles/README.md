@@ -44,7 +44,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.GetVersionCountResponse](../../models/getversioncountresponse.md)**
+**[models.CountedListGitCountResult](../../models/countedlistgitcountresult.md)**
 
 ### Errors
 
@@ -89,7 +89,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.GetVersionFilesResponse](../../models/getversionfilesresponse.md)**
+**[models.CountedListGitFilesResponse](../../models/countedlistgitfilesresponse.md)**
 
 ### Errors
 

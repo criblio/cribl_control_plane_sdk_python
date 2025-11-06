@@ -43,7 +43,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.GetConfigGroupConfigVersionByProductAndIDResponse](../../models/getconfiggroupconfigversionbyproductandidresponse.md)**
+**[models.CountedListstring](../../models/countedliststring.md)**
 
 ### Errors
 

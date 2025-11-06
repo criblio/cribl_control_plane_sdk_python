@@ -27,7 +27,7 @@ class HecTokens(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateInputHecTokenByIDResponse:
+    ) -> models.CountedListInputSplunkHec:
         r"""Add an HEC token and optional metadata to a Splunk HEC Source
 
         Add an HEC token and optional metadata to the specified Splunk HEC Source.
@@ -112,9 +112,7 @@ class HecTokens(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.CreateInputHecTokenByIDResponse, http_res
-            )
+            return unmarshal_json_response(models.CountedListInputSplunkHec, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -144,7 +142,7 @@ class HecTokens(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateInputHecTokenByIDResponse:
+    ) -> models.CountedListInputSplunkHec:
         r"""Add an HEC token and optional metadata to a Splunk HEC Source
 
         Add an HEC token and optional metadata to the specified Splunk HEC Source.
@@ -229,9 +227,7 @@ class HecTokens(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.CreateInputHecTokenByIDResponse, http_res
-            )
+            return unmarshal_json_response(models.CountedListInputSplunkHec, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -261,7 +257,7 @@ class HecTokens(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.UpdateInputHecTokenByIDAndTokenResponse:
+    ) -> models.CountedListInputSplunkHec:
         r"""Update metadata for an HEC token for a Splunk HEC Source
 
         Update the metadata for the specified HEC token for the specified Splunk HEC Source.
@@ -346,9 +342,7 @@ class HecTokens(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.UpdateInputHecTokenByIDAndTokenResponse, http_res
-            )
+            return unmarshal_json_response(models.CountedListInputSplunkHec, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -378,7 +372,7 @@ class HecTokens(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.UpdateInputHecTokenByIDAndTokenResponse:
+    ) -> models.CountedListInputSplunkHec:
         r"""Update metadata for an HEC token for a Splunk HEC Source
 
         Update the metadata for the specified HEC token for the specified Splunk HEC Source.
@@ -463,9 +457,7 @@ class HecTokens(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.UpdateInputHecTokenByIDAndTokenResponse, http_res
-            )
+            return unmarshal_json_response(models.CountedListInputSplunkHec, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)

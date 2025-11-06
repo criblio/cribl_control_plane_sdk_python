@@ -36,7 +36,7 @@ class Commits(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateVersionCommitResponse:
+    ) -> models.CountedListGitCommitSummary:
         r"""Create a new commit for pending changes to the Cribl configuration
 
         Create a new commit for pending changes to the Cribl configuration. Any merge conflicts indicated in the response must be resolved using Git.</br></br>To commit only a subset of configuration changes, specify the files to include in the commit in the <code>files</code> array.
@@ -115,7 +115,7 @@ class Commits(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CreateVersionCommitResponse, http_res)
+            return unmarshal_json_response(models.CountedListGitCommitSummary, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -140,7 +140,7 @@ class Commits(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateVersionCommitResponse:
+    ) -> models.CountedListGitCommitSummary:
         r"""Create a new commit for pending changes to the Cribl configuration
 
         Create a new commit for pending changes to the Cribl configuration. Any merge conflicts indicated in the response must be resolved using Git.</br></br>To commit only a subset of configuration changes, specify the files to include in the commit in the <code>files</code> array.
@@ -219,7 +219,7 @@ class Commits(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CreateVersionCommitResponse, http_res)
+            return unmarshal_json_response(models.CountedListGitCommitSummary, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -243,7 +243,7 @@ class Commits(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetVersionDiffResponse:
+    ) -> models.CountedListGitDiffResult:
         r"""Get the diff for a commit
 
         Get the diff for a commit. Default is the latest commit (HEAD).
@@ -315,7 +315,7 @@ class Commits(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.GetVersionDiffResponse, http_res)
+            return unmarshal_json_response(models.CountedListGitDiffResult, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -339,7 +339,7 @@ class Commits(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetVersionDiffResponse:
+    ) -> models.CountedListGitDiffResult:
         r"""Get the diff for a commit
 
         Get the diff for a commit. Default is the latest commit (HEAD).
@@ -411,7 +411,7 @@ class Commits(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.GetVersionDiffResponse, http_res)
+            return unmarshal_json_response(models.CountedListGitDiffResult, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -433,7 +433,7 @@ class Commits(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetVersionResponse:
+    ) -> models.CountedListGitLogResult:
         r"""List the commit history
 
         List the commit history.</br></br>Analogous to <code>git log</code> for the Cribl configuration, allowing you to audit and review changes over time.
@@ -501,7 +501,7 @@ class Commits(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.GetVersionResponse, http_res)
+            return unmarshal_json_response(models.CountedListGitLogResult, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -523,7 +523,7 @@ class Commits(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetVersionResponse:
+    ) -> models.CountedListGitLogResult:
         r"""List the commit history
 
         List the commit history.</br></br>Analogous to <code>git log</code> for the Cribl configuration, allowing you to audit and review changes over time.
@@ -591,7 +591,7 @@ class Commits(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.GetVersionResponse, http_res)
+            return unmarshal_json_response(models.CountedListGitLogResult, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -611,7 +611,7 @@ class Commits(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateVersionPushResponse:
+    ) -> models.CountedListstring:
         r"""Push local commits to the remote repository
 
         Push all local commits from the local repository to the remote repository.
@@ -671,7 +671,7 @@ class Commits(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CreateVersionPushResponse, http_res)
+            return unmarshal_json_response(models.CountedListstring, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -691,7 +691,7 @@ class Commits(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateVersionPushResponse:
+    ) -> models.CountedListstring:
         r"""Push local commits to the remote repository
 
         Push all local commits from the local repository to the remote repository.
@@ -751,7 +751,7 @@ class Commits(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CreateVersionPushResponse, http_res)
+            return unmarshal_json_response(models.CountedListstring, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -775,7 +775,7 @@ class Commits(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateVersionRevertResponse:
+    ) -> models.CountedListGitRevertResult:
         r"""Revert a commit in the local repository
 
         Revert a commit in the local repository.
@@ -852,7 +852,7 @@ class Commits(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CreateVersionRevertResponse, http_res)
+            return unmarshal_json_response(models.CountedListGitRevertResult, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -876,7 +876,7 @@ class Commits(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateVersionRevertResponse:
+    ) -> models.CountedListGitRevertResult:
         r"""Revert a commit in the local repository
 
         Revert a commit in the local repository.
@@ -953,7 +953,7 @@ class Commits(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CreateVersionRevertResponse, http_res)
+            return unmarshal_json_response(models.CountedListGitRevertResult, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -977,7 +977,7 @@ class Commits(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetVersionShowResponse:
+    ) -> models.CountedListGitShowResult:
         r"""Get the diff and log message for a commit
 
         Get the diff and log message for a commit. Default is the latest commit (HEAD).
@@ -1049,7 +1049,7 @@ class Commits(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.GetVersionShowResponse, http_res)
+            return unmarshal_json_response(models.CountedListGitShowResult, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -1073,7 +1073,7 @@ class Commits(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetVersionShowResponse:
+    ) -> models.CountedListGitShowResult:
         r"""Get the diff and log message for a commit
 
         Get the diff and log message for a commit. Default is the latest commit (HEAD).
@@ -1145,7 +1145,7 @@ class Commits(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.GetVersionShowResponse, http_res)
+            return unmarshal_json_response(models.CountedListGitShowResult, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -1166,7 +1166,7 @@ class Commits(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateVersionUndoResponse:
+    ) -> models.CountedListObject:
         r"""Discard uncommitted (staged) changes
 
         Discard all uncommitted (staged) configuration changes, resetting the working directory to the last committed state. Use only if you are certain that you do not need to preserve your local changes.
@@ -1232,7 +1232,7 @@ class Commits(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CreateVersionUndoResponse, http_res)
+            return unmarshal_json_response(models.CountedListObject, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -1253,7 +1253,7 @@ class Commits(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateVersionUndoResponse:
+    ) -> models.CountedListObject:
         r"""Discard uncommitted (staged) changes
 
         Discard all uncommitted (staged) configuration changes, resetting the working directory to the last committed state. Use only if you are certain that you do not need to preserve your local changes.
@@ -1319,7 +1319,7 @@ class Commits(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CreateVersionUndoResponse, http_res)
+            return unmarshal_json_response(models.CountedListObject, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)

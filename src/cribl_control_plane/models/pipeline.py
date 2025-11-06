@@ -26,7 +26,7 @@ class PipelineGroups(BaseModel):
     r"""Whether this group is disabled"""
 
 
-class PipelineConfTypedDict(TypedDict):
+class ConfTypedDict(TypedDict):
     async_func_timeout: NotRequired[int]
     r"""Time (in ms) to wait for an async function to complete processing of a data item"""
     output: NotRequired[str]
@@ -34,12 +34,12 @@ class PipelineConfTypedDict(TypedDict):
     description: NotRequired[str]
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    groups: NotRequired[Dict[str, PipelineGroupsTypedDict]]
     functions: NotRequired[List[PipelineFunctionConfTypedDict]]
     r"""List of Functions to pass data through"""
+    groups: NotRequired[Dict[str, PipelineGroupsTypedDict]]
 
 
-class PipelineConf(BaseModel):
+class Conf(BaseModel):
     async_func_timeout: Annotated[
         Optional[int], pydantic.Field(alias="asyncFuncTimeout")
     ] = None
@@ -53,18 +53,18 @@ class PipelineConf(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    groups: Optional[Dict[str, PipelineGroups]] = None
-
     functions: Optional[List[PipelineFunctionConf]] = None
     r"""List of Functions to pass data through"""
+
+    groups: Optional[Dict[str, PipelineGroups]] = None
 
 
 class PipelineTypedDict(TypedDict):
     id: str
-    conf: PipelineConfTypedDict
+    conf: ConfTypedDict
 
 
 class Pipeline(BaseModel):
     id: str
 
-    conf: PipelineConf
+    conf: Conf

@@ -99,7 +99,7 @@ class OutputDatabricksTypedDict(TypedDict):
     r"""Databricks workspace ID"""
     client_id: str
     r"""OAuth client ID for Unity Catalog authentication"""
-    client_secret: str
+    client_text_secret: str
     r"""OAuth client secret for Unity Catalog authentication"""
     id: NotRequired[str]
     r"""Unique ID for this output"""
@@ -112,7 +112,7 @@ class OutputDatabricksTypedDict(TypedDict):
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
     dest_path: NotRequired[str]
-    r"""Optional path to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myEventsVolumePath-${C.vars.myVar}`"""
+    r"""Optional path to prepend to files before uploading."""
     stage_path: NotRequired[str]
     r"""Filesystem location in which to buffer files before compressing and moving to final destination. Use performant, stable storage."""
     add_id_to_stage_path: NotRequired[bool]
@@ -197,7 +197,7 @@ class OutputDatabricks(BaseModel):
     client_id: Annotated[str, pydantic.Field(alias="clientId")]
     r"""OAuth client ID for Unity Catalog authentication"""
 
-    client_secret: Annotated[str, pydantic.Field(alias="clientSecret")]
+    client_text_secret: Annotated[str, pydantic.Field(alias="clientTextSecret")]
     r"""OAuth client secret for Unity Catalog authentication"""
 
     id: Optional[str] = None
@@ -218,7 +218,7 @@ class OutputDatabricks(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = ""
-    r"""Optional path to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myEventsVolumePath-${C.vars.myVar}`"""
+    r"""Optional path to prepend to files before uploading."""
 
     stage_path: Annotated[Optional[str], pydantic.Field(alias="stagePath")] = (
         "$CRIBL_HOME/state/outputs/staging"

@@ -42,7 +42,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.GetVersionBranchResponse](../../models/getversionbranchresponse.md)**
+**[models.CountedListBranchInfo](../../models/countedlistbranchinfo.md)**
 
 ### Errors
 

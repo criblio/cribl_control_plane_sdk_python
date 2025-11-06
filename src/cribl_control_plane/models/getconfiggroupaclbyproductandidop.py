@@ -3,7 +3,7 @@
 from __future__ import annotations
 from .productscore import ProductsCore
 from .rbacresource import RbacResource
-from .useraccesscontrollist import UserAccessControlList, UserAccessControlListTypedDict
+from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel
 from cribl_control_plane.utils import (
     FieldMetadata,
@@ -11,8 +11,9 @@ from cribl_control_plane.utils import (
     QueryParamMetadata,
     validate_open_enum,
 )
+from pydantic import field_serializer
 from pydantic.functional_validators import PlainValidator
-from typing import List, Optional
+from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -43,19 +44,20 @@ class GetConfigGroupACLByProductAndIDRequest(BaseModel):
     ] = None
     r"""Filter for limiting the response to ACL entries for the specified RBAC resource type."""
 
+    @field_serializer("product")
+    def serialize_product(self, value):
+        if isinstance(value, str):
+            try:
+                return models.ProductsCore(value)
+            except ValueError:
+                return value
+        return value
 
-class GetConfigGroupACLByProductAndIDResponseTypedDict(TypedDict):
-    r"""a list of UserAccessControlList objects"""
-
-    count: NotRequired[int]
-    r"""number of items present in the items array"""
-    items: NotRequired[List[UserAccessControlListTypedDict]]
-
-
-class GetConfigGroupACLByProductAndIDResponse(BaseModel):
-    r"""a list of UserAccessControlList objects"""
-
-    count: Optional[int] = None
-    r"""number of items present in the items array"""
-
-    items: Optional[List[UserAccessControlList]] = None
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RbacResource(value)
+            except ValueError:
+                return value
+        return value

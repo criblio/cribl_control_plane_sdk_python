@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.15.0-alpha.1762262142917-f85ad7ee
+  version: 4.15.0-alpha.1762455301531-28c2ca8d
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -31,90 +31,6 @@ components:
         message:
           type: string
           description: Error message
-    EvalSchema:
-      type: object
-      additionalProperties: false
-      properties:
-        add:
-          title: Evaluate fields
-          description: Set of key-value pairs to evaluate and add/set
-          type: array
-          items:
-            type: object
-            required:
-              - value
-            properties:
-              name:
-                type: string
-                title: Name
-              value:
-                type: string
-                title: Value Expression
-                description: JavaScript expression to compute the value (can be constant)
-              disabled:
-                type: boolean
-                default: false
-                description: Set to No to disable the evaluation of an individual expression
-        keep:
-          title: Keep fields
-          description: List of fields to keep. Supports * wildcards. Takes precedence over 'Remove fields'.
-          type: array
-          items:
-            type: string
-        remove:
-          title: Remove fields
-          description: List of fields to remove. Supports * wildcards. Fields that match 'Keep fields' will not be removed. Enclose field names containing special characters in single or double quotes.
-          type: array
-          items:
-            type: string
-    EvalFunction:
-      type: object
-      allOf:
-        - $ref: "#/components/schemas/FunctionConf"
-        - type: object
-          properties:
-            id:
-              type: string
-              enum:
-                - eval
-              x-speakeasy-unknown-values: allow
-            conf:
-              $ref: "#/components/schemas/EvalSchema"
-    FunctionConf:
-      type: object
-      required:
-        - id
-        - conf
-      additionalProperties: false
-      properties:
-        filter:
-          title: Filter
-          description: Filter that selects data to be fed through this Function
-          type: string
-          default: "true"
-        id:
-          title: ID
-          description: Function ID
-          type: string
-        description:
-          title: Description
-          description: Simple description of this step
-          type: string
-        disabled:
-          title: Disabled
-          description: If true, data will not be pushed through this function
-          type: boolean
-        final:
-          title: Final
-          description: If enabled, stops the results of this Function from being passed to the downstream Functions
-          type: boolean
-        conf:
-          type: object
-          title: Function-specific configs
-        groupId:
-          title: Group ID
-          description: Group ID
-          type: string
     CloudProvider:
       type: string
       nullable: true
@@ -270,6 +186,16 @@ components:
           type: boolean
       required:
         - id
+    CountedListConfigGroup:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/ConfigGroup"
     RbacResource:
       type: string
       enum:
@@ -308,6 +234,26 @@ components:
       required:
         - perms
         - user
+    CountedListUserAccessControlList:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/UserAccessControlList"
+    CountedListstring:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            type: string
     GroupCreateRequest:
       type: object
       properties:
@@ -442,6 +388,16 @@ components:
         - stream
         - edge
       x-speakeasy-unknown-values: allow
+    CountedListCriblLakeDataset:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/CriblLakeDataset"
     CacheConnectionBackfillStatus:
       type: string
       enum:
@@ -678,6 +634,12 @@ components:
               default: []
               items:
                 type: string
+            functions:
+              title: Functions
+              description: List of Functions to pass data through
+              type: array
+              items:
+                $ref: "#/components/schemas/PipelineFunctionConf"
             groups:
               type: object
               additionalProperties:
@@ -696,12 +658,17 @@ components:
                     type: boolean
                     title: Disabled
                     description: Whether this group is disabled
-            functions:
-              title: Functions
-              description: List of Functions to pass data through
-              type: array
-              items:
-                $ref: "#/components/schemas/PipelineFunctionConf"
+    CountedListObject:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
     InputCollection:
       type: object
       properties:
@@ -9186,6 +9153,27 @@ components:
           title: Enable load balancing
           description: Load balance traffic across all Worker Processes
           default: false
+        authTokens:
+          type: array
+          title: Connected environment tokens
+          description: Shared secrets to be used by connected environments to authorize connections. These tokens should be installed in Cribl TCP destinations in connected environments.
+          items:
+            type: object
+            required:
+              - tokenSecret
+            properties:
+              tokenSecret:
+                type: string
+                title: Token secret (text secret)
+                description: Select or create a stored text secret
+              enabled:
+                type: boolean
+                title: Enable token
+                default: true
+              description:
+                type: string
+                title: Description
+                description: Optional token description
         description:
           type: string
           title: Description
@@ -9317,10 +9305,25 @@ components:
           description: Port to listen on
         authTokens:
           type: array
-          title: Auth tokens
-          description: "Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."
+          title: Connected environment tokens
+          description: Shared secrets to be used by connected environments to authorize connections. These tokens should be installed in Cribl HTTP destinations in connected environments.
           items:
-            type: string
+            type: object
+            required:
+              - tokenSecret
+            properties:
+              tokenSecret:
+                type: string
+                title: Token secret (text secret)
+                description: Select or create a stored text secret
+              enabled:
+                type: boolean
+                title: Enable token
+                default: true
+              description:
+                type: string
+                title: Description
+                description: Optional token description
         tls:
           type: object
           title: TLS settings (server side)
@@ -15826,7 +15829,7 @@ components:
             type: string
         tailOnly:
           type: boolean
-          default: false
+          default: true
           title: Collect from end
           description: Read only new entries at the end of all files discovered at next startup. @{product} will then read newly discovered files from the head. Disable this to resume reading all files from head.
         idleTimeout:
@@ -17689,6 +17692,8 @@ components:
 
 
 
+
+
                   query: `query AuditLogTable($first: Int $after: String $filterBy: AuditLogEntryFilters){
                     auditLogEntries(first: $first after: $after filterBy: $filterBy) {
                       nodes {
@@ -17741,6 +17746,8 @@ components:
               contentDescription: Get Cloud Configuration Report
               contentQuery: |-
                 ({
+
+
 
 
 
@@ -17879,6 +17886,8 @@ components:
 
 
 
+
+
                   query: `query IssuesTable($filterBy: IssueFilters, $first: Int, $after: String, $orderBy: IssueOrder) {
                     issues: issuesV2(filterBy: $filterBy first: $first after: $after orderBy: $orderBy) {
                       nodes {
@@ -17994,6 +18003,8 @@ components:
               contentDescription: Get Vulnerability Findings
               contentQuery: |-
                 ({
+
+
 
 
 
@@ -19620,6 +19631,26 @@ components:
           netflow: "#/components/schemas/InputNetflow"
           security_lake: "#/components/schemas/InputSecurityLake"
           zscaler_hec: "#/components/schemas/InputZscalerHec"
+    CountedListInput:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Input"
+    CountedListInputSplunkHec:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/InputSplunkHec"
     AddHecTokenRequest:
       type: object
       properties:
@@ -24352,7 +24383,7 @@ components:
           type: string
           title: Cluster base URI
           description: The base URI for your cluster. Typically, `https://<cluster>.<region>.kusto.windows.net`.
-          pattern: ^https://[a-zA-Z0-9\-]+.(\w+).(kusto.fabric.microsoft.com|kusto.(windows|usgovcloudapi).net)$
+          pattern: ^https://
         database:
           type: string
           title: Database name
@@ -24603,7 +24634,7 @@ components:
           type: string
           title: Ingestion service URI
           description: The ingestion service URI for your cluster. Typically, `https://ingest-<cluster>.<region>.kusto.windows.net`.
-          pattern: ^https://[a-zA-Z0-9\-]+.(\w+).(kusto.fabric.microsoft.com|kusto.(windows|usgovcloudapi).net)$
+          pattern: ^https://
         onBackpressure:
           type: string
           title: Backpressure behavior
@@ -36830,6 +36861,27 @@ components:
           minimum: 1
           maximum: 60
           description: The number of minutes before the internally generated authentication token expires, valid values between 1 and 60
+        authTokens:
+          type: array
+          title: Connected environment tokens
+          description: Shared secrets to be used by connected environments to authorize connections. These tokens should also be installed in Cribl TCP Source in Cribl.Cloud.
+          items:
+            type: object
+            required:
+              - tokenSecret
+            properties:
+              tokenSecret:
+                type: string
+                title: Token secret (text secret)
+                description: Select or create a stored text secret
+              enabled:
+                type: boolean
+                title: Enable token
+                default: true
+              description:
+                type: string
+                title: Description
+                description: Optional token description
         excludeFields:
           type: array
           title: Exclude fields
@@ -37319,6 +37371,26 @@ components:
           title: Honor Retry-After header
           description: Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored.
           default: true
+        authTokens:
+          type: array
+          title: Connected environment tokens
+          description: Shared secrets to be used by connected environments to authorize connections. These tokens should also be installed in Cribl HTTP Source in Cribl.Cloud.
+          items:
+            type: object
+            required:
+              - tokenSecret
+            properties:
+              tokenSecret:
+                type: string
+                title: Token secret (text secret)
+                description: Select or create a stored text secret
+              enabled:
+                type: boolean
+                title: Enable token
+                default: true
+              description:
+                type: string
+                title: Description
         onBackpressure:
           type: string
           title: Backpressure behavior
@@ -41874,7 +41946,7 @@ components:
         - workspaceId
         - scope
         - clientId
-        - clientSecret
+        - clientTextSecret
         - catalog
         - schema
         - eventsVolumeName
@@ -41913,7 +41985,7 @@ components:
         destPath:
           type: string
           title: Upload path
-          description: "Optional path to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myEventsVolumePath-${C.vars.myVar}`"
+          description: Optional path to prepend to files before uploading.
           default: ""
         stagePath:
           type: string
@@ -42056,7 +42128,7 @@ components:
           title: Events volume name
           description: Name of the events volume in Databricks
           default: events
-        clientSecret:
+        clientTextSecret:
           type: string
           title: Client Secret
           description: OAuth client secret for Unity Catalog authentication
@@ -42326,6 +42398,26 @@ components:
           sentinel_one_ai_siem: "#/components/schemas/OutputSentinelOneAiSiem"
           chronicle: "#/components/schemas/OutputChronicle"
           databricks: "#/components/schemas/OutputDatabricks"
+    CountedListOutput:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Output"
+    CountedListJobInfo:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/JobInfo"
     RunnableJobCollection:
       required:
         - collector
@@ -42481,6 +42573,7 @@ components:
 
 
 
+
                             if your lower bundle size is 1MB, you can bundle up to five 200KB files into one task.
                   default: 1MB
                   pattern: ^((\d*\.?\d+)((KB|MB|GB|TB|PB|EB|ZB|YB|kb|mb|gb|tb|pb|eb|zb|yb){1}))$
@@ -42489,6 +42582,7 @@ components:
                   title: Upper task bundle size
                   description: |-
                     Limits the bundle size for files above the lower task bundle size. For example, if your upper bundle size is 10MB,
+
 
 
 
@@ -42699,6 +42793,7 @@ components:
 
 
 
+
                         if your lower bundle size is 1MB, you can bundle up to five 200KB files into one task.
               default: 1MB
               pattern: ^((\d*\.?\d+)((KB|MB|GB|TB|PB|EB|ZB|YB|kb|mb|gb|tb|pb|eb|zb|yb){1}))$
@@ -42707,6 +42802,7 @@ components:
               title: Upper task bundle size
               description: |-
                 Limits the bundle size for files above the lower task bundle size. For example, if your upper bundle size is 10MB,
+
 
 
 
@@ -42912,6 +43008,7 @@ components:
 
 
 
+
                             if your lower bundle size is 1MB, you can bundle up to five 200KB files into one task.
                   default: 1MB
                   pattern: ^((\d*\.?\d+)((KB|MB|GB|TB|PB|EB|ZB|YB|kb|mb|gb|tb|pb|eb|zb|yb){1}))$
@@ -42920,6 +43017,7 @@ components:
                   title: Upper task bundle size
                   description: |-
                     Limits the bundle size for files above the lower task bundle size. For example, if your upper bundle size is 10MB,
+
 
 
 
@@ -43145,6 +43243,7 @@ components:
 
 
 
+
                             if your lower bundle size is 1MB, you can bundle up to five 200KB files into one task.
                   default: 1MB
                   pattern: ^((\d*\.?\d+)((KB|MB|GB|TB|PB|EB|ZB|YB|kb|mb|gb|tb|pb|eb|zb|yb){1}))$
@@ -43153,6 +43252,7 @@ components:
                   title: Upper task bundle size
                   description: |-
                     Limits the bundle size for files above the lower task bundle size. For example, if your upper bundle size is 10MB,
+
 
 
 
@@ -43183,9 +43283,6 @@ components:
         - $ref: "#/components/schemas/RunnableJobCollection"
         - $ref: "#/components/schemas/RunnableJobExecutor"
         - $ref: "#/components/schemas/RunnableJobScheduledSearch"
-    State:
-      type: object
-      additionalProperties: true
     JobStatus:
       type: object
       properties:
@@ -43193,7 +43290,31 @@ components:
           type: object
           additionalProperties: true
         state:
-          $ref: "#/components/schemas/State"
+          type: integer
+          description: State of the Job
+          enum:
+            - 0
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+            - 6
+            - 7
+            - 8
+            - 9
+          x-speakeasy-enums:
+            - Initializing
+            - Pending
+            - Running
+            - Paused
+            - Cancelled
+            - Finished
+            - Failed
+            - Orphaned
+            - Unknown
+            - Length
+          x-speakeasy-unknown-values: allow
       required:
         - state
     JobInfo:
@@ -43208,7 +43329,11 @@ components:
         stats:
           type: object
           additionalProperties:
-            type: number
+            oneOf:
+              - type: number
+              - type: object
+                additionalProperties:
+                  type: number
         status:
           $ref: "#/components/schemas/JobStatus"
       required:
@@ -43216,6 +43341,16 @@ components:
         - id
         - stats
         - status
+    CountedListOutputSamplesResponse:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/OutputSamplesResponse"
     OutputSamplesResponse:
       type: object
       properties:
@@ -43226,6 +43361,16 @@ components:
             additionalProperties: true
       required:
         - events
+    CountedListOutputTestResponse:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/OutputTestResponse"
     OutputTestResponse:
       type: object
       properties:
@@ -43259,6 +43404,16 @@ components:
             $ref: "#/components/schemas/CriblEvent"
       required:
         - events
+    CountedListPipeline:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Pipeline"
     RoutesRoute:
       type: object
       additionalProperties: true
@@ -43346,6 +43501,16 @@ components:
                 title: Comment
                 description: Optional, short description of this Route's purpose
             additionalProperties: true
+    CountedListRoutes:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Routes"
     RouteCloneConf:
       type: object
       title: Fields
@@ -43413,68 +43578,6 @@ components:
       required:
         - password
         - username
-    DistributedSummary:
-      type: object
-      properties:
-        groups:
-          type: object
-          properties:
-            count:
-              type: number
-            destinations:
-              type: number
-            packs:
-              type: number
-            pipelines:
-              type: number
-            quickConnects:
-              type: number
-            routes:
-              type: number
-            sources:
-              type: number
-          required:
-            - count
-            - destinations
-            - packs
-            - pipelines
-            - quickConnects
-            - routes
-            - sources
-        workers:
-          type: object
-          properties:
-            alive:
-              type: number
-            confVersions:
-              type: number
-            count:
-              type: number
-            disconnectedCount:
-              type: number
-            groups:
-              type: number
-            softwareVersions:
-              type: number
-            unhealthy:
-              type: number
-          required:
-            - alive
-            - confVersions
-            - count
-            - disconnectedCount
-            - groups
-            - softwareVersions
-            - unhealthy
-      required:
-        - groups
-        - workers
-    WorkerTypes:
-      type: string
-      enum:
-        - worker
-        - managed-edge
-      x-speakeasy-unknown-values: allow
     HealthServerStatus:
       type: object
       properties:
@@ -43496,6 +43599,16 @@ components:
       required:
         - startTime
         - status
+    CountedListPackInstallInfo:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/PackInstallInfo"
     InstallWarnings:
       type: array
       items:
@@ -43608,6 +43721,16 @@ components:
             - id
         - required:
             - source
+    CountedListPackInfo:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/PackInfo"
     PackInfo:
       type: object
       properties:
@@ -43686,6 +43809,16 @@ components:
           type: string
       required:
         - source
+    CountedListGitCommitSummary:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/GitCommitSummary"
     GitCommitSummary:
       type: object
       properties:
@@ -43740,6 +43873,16 @@ components:
         - commit
         - files
         - summary
+    CountedListGitFilesResponse:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/GitFilesResponse"
     GitFile:
       type: object
       properties:
@@ -43768,6 +43911,16 @@ components:
       required:
         - count
         - items
+    CountedListGitRevertResult:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/GitRevertResult"
     GitRevertResult:
       type: object
       properties:
@@ -43815,6 +43968,16 @@ components:
           type: string
       required:
         - commit
+    CountedListBranchInfo:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/BranchInfo"
     BranchInfo:
       type: object
       properties:
@@ -43837,6 +44000,16 @@ components:
           type: string
       required:
         - message
+    CountedListGitCountResult:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/GitCountResult"
     GitCountResult:
       type: object
       properties:
@@ -43851,6 +44024,16 @@ components:
           type: string
       required:
         - branch
+    CountedListGitDiffResult:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/GitDiffResult"
     DiffFiles:
       type: array
       items:
@@ -43976,6 +44159,16 @@ components:
           $ref: "#/components/schemas/DiffFiles"
       required:
         - diffJson
+    CountedListGitInfo:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/GitInfo"
     GitInfo:
       type: object
       properties:
@@ -43990,6 +44183,16 @@ components:
       required:
         - remote
         - versioning
+    CountedListGitLogResult:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/GitLogResult"
     GitLogResult:
       type: object
       properties:
@@ -44007,6 +44210,16 @@ components:
           type: string
         refs:
           type: string
+    CountedListGitShowResult:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/GitShowResult"
     GitShowResult:
       type: object
       properties:
@@ -44017,6 +44230,16 @@ components:
       required:
         - commitMessage
         - diffJson
+    CountedListGitStatusResult:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/GitStatusResult"
     GitStatusResult:
       type: object
       properties:
@@ -44503,34 +44726,36 @@ components:
         - info
         - lastMsgTime
         - workerProcesses
-    RulesetId:
+    CountedListMasterWorkerEntry:
       type: object
       properties:
-        id:
-          type: string
-      required:
-        - id
-    MappingRuleset:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/MasterWorkerEntry"
+    CountedListnumber:
       type: object
-      additionalProperties: false
-      required:
-        - id
       properties:
-        id:
-          type: string
-          title: ID
-        conf:
-          type: object
-          additionalProperties: false
-          properties:
-            functions:
-              title: Functions
-              description: List of functions to pass data through
-              type: array
-              items:
-                $ref: "#/components/schemas/EvalFunction"
-        active:
-          type: boolean
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            type: number
+    CountedListTeamAccessControlList:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/TeamAccessControlList"
     TeamAccessControlList:
       type: object
       properties:
@@ -44543,6 +44768,78 @@ components:
       required:
         - perms
         - team
+    CountedListDistributedSummary:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/DistributedSummary"
+    DistributedSummary:
+      type: object
+      properties:
+        groups:
+          type: object
+          properties:
+            count:
+              type: number
+            destinations:
+              type: number
+            packs:
+              type: number
+            pipelines:
+              type: number
+            quickConnects:
+              type: number
+            routes:
+              type: number
+            sources:
+              type: number
+          required:
+            - count
+            - destinations
+            - packs
+            - pipelines
+            - quickConnects
+            - routes
+            - sources
+        workers:
+          type: object
+          properties:
+            alive:
+              type: number
+            confVersions:
+              type: number
+            count:
+              type: number
+            disconnectedCount:
+              type: number
+            groups:
+              type: number
+            softwareVersions:
+              type: number
+            unhealthy:
+              type: number
+          required:
+            - alive
+            - confVersions
+            - count
+            - disconnectedCount
+            - groups
+            - softwareVersions
+            - unhealthy
+      required:
+        - groups
+        - workers
+    WorkerTypes:
+      type: string
+      enum:
+        - worker
+        - managed-edge
+      x-speakeasy-unknown-values: allow
   examples:
     CreateGroupExamplesCloudWg:
       summary: Create a Worker Group in Cribl.Cloud
@@ -44640,272 +44937,6 @@ components:
       summary: Upgrade Pack from URL
       value:
         source: https://github.com/criblpacks/cribl-palo-alto-networks/releases/download/1.1.4/cribl-palo-alto-networks-a3e5a19d-1.1.4.crbl
-    MappingRulesetActivateExamplesActivate:
-      summary: Activate the default Mapping Ruleset
-      value:
-        id: default
-    MappingRulesetCreateExamplesOSBasedMapping:
-      summary: Map Edge Nodes based on their Operating System (Linux, Win32, macOS)
-      value:
-        id: os-based-mapping
-        conf:
-          functions:
-            - filter: platform === "linux"
-              id: eval
-              description: Map Linux Edge Nodes
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'linux_fleet'"
-            - filter: platform === "win32"
-              id: eval
-              description: Map Windows Edge Nodes
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'windows_fleet'"
-            - filter: platform === "darwin"
-              id: eval
-              description: Map macOS Edge Nodes
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'macos_fleet'"
-            - filter: "!cribl.group"
-              id: eval
-              description: Default mapping for unmapped nodes
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'default_fleet'"
-    MappingRulesetCreateExamplesTagBasedMapping:
-      summary: Map Edge Nodes using cribl.tags
-      value:
-        id: tag-based-mapping
-        conf:
-          functions:
-            - filter: cribl.tags.includes("WinLaptop")
-              id: eval
-              description: Map Windows Laptop Edge Nodes
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'laptop_fleet'"
-            - filter: cribl.tags.includes("Production")
-              id: eval
-              description: Map Production Edge Nodes
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'production_fleet'"
-            - filter: "!cribl.group"
-              id: eval
-              description: Default mapping
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'default_fleet'"
-    MappingRulesetCreateExamplesOutpostBasedMapping:
-      summary: Map Edge Nodes connected to a specific Outpost ID or hostname
-      value:
-        id: outpost-mapping
-        conf:
-          functions:
-            - filter: outpost.host === "5ab6c676be6a"
-              id: eval
-              description: Map Edge Nodes from Outpost A
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'outpost_a_fleet'"
-            - filter: outpost.guid === "550e8400-e29b-41d4-a716-446655440000"
-              id: eval
-              description: Map Edge Nodes from Outpost B by GUID
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'outpost_b_fleet'"
-            - filter: "!cribl.group"
-              id: eval
-              description: Default mapping
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'default_fleet'"
-    MappingRulesetCreateExamplesComplexMapping:
-      summary: Map Edge Nodes using complex filters based on IP, CPU, memory, and environment
-      value:
-        id: complex-mapping
-        conf:
-          functions:
-            - filter: (conn_ip.startsWith("10.10.42.") && cpus > 6) || env.CRIBL_HOME.match("DMZ")
-              id: eval
-              description: Map high-performance nodes in specific network or DMZ
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'high_perf_fleet'"
-            - filter: platform === "linux" && memory > 16000 && cribl.tags.includes("Database")
-              id: eval
-              description: Map Linux nodes with high memory for database workloads
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'database_fleet'"
-            - filter: "!cribl.group"
-              id: eval
-              description: Default mapping
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'default_fleet'"
-    MappingRulesetCreateExamplesAWSEC2InstanceMapping:
-      summary: Map Edge Nodes using AWS EC2 instance tags
-      value:
-        id: aws-ec2-mapping
-        conf:
-          functions:
-            - filter: aws?.tags?.Environment === "Production"
-              id: eval
-              description: Map Production EC2 instances
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'aws_prod_fleet'"
-            - filter: aws?.tags?.Team === "DevOps"
-              id: eval
-              description: Map DevOps team EC2 instances
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'devops_fleet'"
-            - filter: "!cribl.group"
-              id: eval
-              description: Default mapping
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'default_fleet'"
-    MappingRulesetCreateExamplesContainerBasedMapping:
-      summary: Map Edge Nodes running in containers based on host characteristics
-      value:
-        id: container-mapping
-        conf:
-          functions:
-            - filter: hostOs?.platform === "linux" && hostOs?.cpu_count > 4
-              id: eval
-              description: Map containerized nodes on high-CPU Linux hosts
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'container_high_cpu_fleet'"
-            - filter: hostOs?.id
-              id: eval
-              description: Map all containerized Edge Nodes
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'container_fleet'"
-            - filter: "!cribl.group"
-              id: eval
-              description: Default mapping for non-containerized nodes
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'default_fleet'"
-    MappingRulesetCreateExamplesDefaultRuleset:
-      summary: Routes all unmapped Edge Nodes to the default_fleet
-      value:
-        id: simple-default-mappings
-        conf:
-          functions:
-            - filter: "!cribl.group"
-              id: eval
-              description: Simple default Mapping Ruleset
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'default_fleet'"
-    MappingRulesetUpdateExamplesUpdateComplexRule:
-      summary: Modify an existing ruleset with a complex, multi-condition filter
-      value:
-        id: complex-mapping
-        conf:
-          functions:
-            - filter: (conn_ip.startsWith("10.10.42.") && cpus > 6) || env.CRIBL_HOME.match("DMZ")
-              id: eval
-              description: Map high-performance nodes in specific network or DMZ
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'high_perf_fleet'"
-            - filter: "!cribl.group"
-              id: eval
-              description: Default mapping
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'default_fleet'"
-    MappingRulesetUpdateExamplesEnableDisabledRule:
-      summary: Change an existing ruleset flag to enable it
-      value:
-        id: default
-        conf:
-          functions:
-            - filter: "!cribl.group"
-              id: eval
-              description: Default Mappings
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'default_fleet'"
-        active: true
 security:
   - bearerAuth: []
   - clientOauth: []
@@ -45110,15 +45141,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/CriblLakeDataset"
+                $ref: "#/components/schemas/CountedListCriblLakeDataset"
         "401":
           description: Unauthorized
         "500":
@@ -45155,15 +45178,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/CriblLakeDataset"
+                $ref: "#/components/schemas/CountedListCriblLakeDataset"
         "401":
           description: Unauthorized
         "500":
@@ -45194,15 +45209,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/CriblLakeDataset"
+                $ref: "#/components/schemas/CountedListCriblLakeDataset"
         "401":
           description: Unauthorized
         "500":
@@ -45238,15 +45245,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/CriblLakeDataset"
+                $ref: "#/components/schemas/CountedListCriblLakeDataset"
         "401":
           description: Unauthorized
         "500":
@@ -45282,15 +45281,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/CriblLakeDataset"
+                $ref: "#/components/schemas/CountedListCriblLakeDataset"
         "401":
           description: Unauthorized
         "500":
@@ -45334,15 +45325,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Input"
+                $ref: "#/components/schemas/CountedListInput"
         "401":
           description: Unauthorized
         "500":
@@ -45377,15 +45360,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Input"
+                $ref: "#/components/schemas/CountedListInput"
         "401":
           description: Unauthorized
         "500":
@@ -45416,15 +45391,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Input"
+                $ref: "#/components/schemas/CountedListInput"
         "401":
           description: Unauthorized
         "500":
@@ -45461,15 +45428,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Input"
+                $ref: "#/components/schemas/CountedListInput"
         "401":
           description: Unauthorized
         "500":
@@ -45499,15 +45458,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Input"
+                $ref: "#/components/schemas/CountedListInput"
         "401":
           description: Unauthorized
         "500":
@@ -45531,15 +45482,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/InputSplunkHec"
+                $ref: "#/components/schemas/CountedListInputSplunkHec"
         "401":
           description: Unauthorized
         "500":
@@ -45577,15 +45520,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/InputSplunkHec"
+                $ref: "#/components/schemas/CountedListInputSplunkHec"
         "401":
           description: Unauthorized
         "500":
@@ -45629,15 +45564,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Output"
+                $ref: "#/components/schemas/CountedListOutput"
         "401":
           description: Unauthorized
         "500":
@@ -45672,15 +45599,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Output"
+                $ref: "#/components/schemas/CountedListOutput"
         "401":
           description: Unauthorized
         "500":
@@ -45711,15 +45630,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Output"
+                $ref: "#/components/schemas/CountedListOutput"
         "401":
           description: Unauthorized
         "500":
@@ -45756,15 +45667,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Output"
+                $ref: "#/components/schemas/CountedListOutput"
         "401":
           description: Unauthorized
         "500":
@@ -45794,15 +45697,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Output"
+                $ref: "#/components/schemas/CountedListOutput"
         "401":
           description: Unauthorized
         "500":
@@ -45826,15 +45721,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      type: string
+                $ref: "#/components/schemas/CountedListstring"
         "401":
           description: Unauthorized
         "500":
@@ -45864,15 +45751,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/JobInfo"
+                $ref: "#/components/schemas/CountedListJobInfo"
         "401":
           description: Unauthorized
         "500":
@@ -45903,15 +45782,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/OutputSamplesResponse"
+                $ref: "#/components/schemas/CountedListOutputSamplesResponse"
         "401":
           description: Unauthorized
         "500":
@@ -45942,15 +45813,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/OutputTestResponse"
+                $ref: "#/components/schemas/CountedListOutputTestResponse"
         "401":
           description: Unauthorized
         "500":
@@ -45988,15 +45851,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Pipeline"
+                $ref: "#/components/schemas/CountedListPipeline"
         "401":
           description: Unauthorized
         "500":
@@ -46026,15 +45881,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Pipeline"
+                $ref: "#/components/schemas/CountedListPipeline"
         "401":
           description: Unauthorized
         "500":
@@ -46065,15 +45912,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Pipeline"
+                $ref: "#/components/schemas/CountedListPipeline"
         "401":
           description: Unauthorized
         "500":
@@ -46110,15 +45949,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Pipeline"
+                $ref: "#/components/schemas/CountedListPipeline"
         "401":
           description: Unauthorized
         "500":
@@ -46148,15 +45979,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Pipeline"
+                $ref: "#/components/schemas/CountedListPipeline"
         "401":
           description: Unauthorized
         "500":
@@ -46180,15 +46003,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Routes"
+                $ref: "#/components/schemas/CountedListRoutes"
         "401":
           description: Unauthorized
         "500":
@@ -46219,15 +46034,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Routes"
+                $ref: "#/components/schemas/CountedListRoutes"
         "401":
           description: Unauthorized
         "500":
@@ -46264,15 +46071,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Routes"
+                $ref: "#/components/schemas/CountedListRoutes"
         "401":
           description: Unauthorized
         "500":
@@ -46296,15 +46095,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Routes"
+                $ref: "#/components/schemas/CountedListRoutes"
         "401":
           description: Unauthorized
         "500":
@@ -46361,45 +46152,6 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/LoginInfo"
-  /master/summary:
-    get:
-      operationId: getSummary
-      tags:
-        - distributed
-      x-speakeasy-group: nodes.summaries
-      x-speakeasy-name-override: get
-      summary: Get a summary of the Distributed deployment
-      description: Get a summary of the Distributed deployment. The response includes counts of Worker Groups, Edge Fleets, Pipelines, Routes, Sources, Destinations, and Worker and Edge Nodes, as well as statistics for the Worker and Edge Nodes.
-      responses:
-        "200":
-          description: a list of DistributedSummary objects
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/DistributedSummary"
-        "401":
-          description: Unauthorized
-        "500":
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-      parameters:
-        - name: mode
-          in: query
-          required: false
-          schema:
-            $ref: "#/components/schemas/WorkerTypes"
-          description: "Filter for limiting the response by Cribl product: Cribl Stream (<code>worker</code>) or Cribl Edge (<code>managed-edge</code>)."
   /health:
     get:
       operationId: getHealth
@@ -46444,15 +46196,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/PackInstallInfo"
+                $ref: "#/components/schemas/CountedListPackInstallInfo"
         "401":
           description: Unauthorized
         "500":
@@ -46493,15 +46237,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/PackInfo"
+                $ref: "#/components/schemas/CountedListPackInfo"
         "401":
           description: Unauthorized
         "500":
@@ -46570,15 +46306,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/PackInstallInfo"
+                $ref: "#/components/schemas/CountedListPackInstallInfo"
         "401":
           description: Unauthorized
         "500":
@@ -46608,15 +46336,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/PackInfo"
+                $ref: "#/components/schemas/CountedListPackInfo"
         "401":
           description: Unauthorized
         "500":
@@ -46646,15 +46366,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/PackInfo"
+                $ref: "#/components/schemas/CountedListPackInfo"
         "401":
           description: Unauthorized
         "500":
@@ -46695,15 +46407,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/BranchInfo"
+                $ref: "#/components/schemas/CountedListBranchInfo"
         "401":
           description: Unauthorized
         "500":
@@ -46727,15 +46431,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/GitCommitSummary"
+                $ref: "#/components/schemas/CountedListGitCommitSummary"
         "401":
           description: Unauthorized
         "500":
@@ -46773,15 +46469,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/GitCountResult"
+                $ref: "#/components/schemas/CountedListGitCountResult"
         "401":
           description: Unauthorized
         "500":
@@ -46842,15 +46530,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/GitDiffResult"
+                $ref: "#/components/schemas/CountedListGitDiffResult"
         "401":
           description: Unauthorized
         "500":
@@ -46899,15 +46579,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/GitFilesResponse"
+                $ref: "#/components/schemas/CountedListGitFilesResponse"
         "401":
           description: Unauthorized
         "500":
@@ -46944,15 +46616,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/GitInfo"
+                $ref: "#/components/schemas/CountedListGitInfo"
         "401":
           description: Unauthorized
         "500":
@@ -46976,15 +46640,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/GitLogResult"
+                $ref: "#/components/schemas/CountedListGitLogResult"
         "401":
           description: Unauthorized
         "500":
@@ -47021,15 +46677,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      type: string
+                $ref: "#/components/schemas/CountedListstring"
         "401":
           description: Unauthorized
         "500":
@@ -47053,15 +46701,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/GitRevertResult"
+                $ref: "#/components/schemas/CountedListGitRevertResult"
         "401":
           description: Unauthorized
         "500":
@@ -47099,15 +46739,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/GitShowResult"
+                $ref: "#/components/schemas/CountedListGitShowResult"
         "401":
           description: Unauthorized
         "500":
@@ -47156,15 +46788,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/GitStatusResult"
+                $ref: "#/components/schemas/CountedListGitStatusResult"
         "401":
           description: Unauthorized
         "500":
@@ -47195,16 +46819,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      type: object
-                      additionalProperties: true
+                $ref: "#/components/schemas/CountedListObject"
         "401":
           description: Unauthorized
         "500":
@@ -47235,15 +46850,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/MasterWorkerEntry"
+                $ref: "#/components/schemas/CountedListMasterWorkerEntry"
         "401":
           description: Unauthorized
         "500":
@@ -47304,15 +46911,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      type: number
+                $ref: "#/components/schemas/CountedListnumber"
         "401":
           description: Unauthorized
         "500":
@@ -47328,299 +46927,6 @@ paths:
           schema:
             type: string
           description: Filter expression to evaluate against Nodes for inclusion in the response.
-  /admin/products/{product}/mappings/activate:
-    post:
-      operationId: createAdminProductsMappingsActivateByProduct
-      tags:
-        - mappings
-      x-speakeasy-group: groups.mappings
-      x-speakeasy-name-override: activate
-      summary: Set a Mapping Ruleset as the active configuration for the specified Cribl product
-      description: Set a specific Mapping Ruleset as the currently active configuration for the specified Cribl product.
-      responses:
-        "200":
-          description: The <code>id</code> of the Mapping Ruleset that has been successfully activated
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/RulesetId"
-        "401":
-          description: Unauthorized
-        "500":
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-      requestBody:
-        description: RulesetId object
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/RulesetId"
-            examples:
-              MappingRulesetActivateExamplesActivate:
-                $ref: "#/components/examples/MappingRulesetActivateExamplesActivate"
-      parameters:
-        - name: product
-          in: path
-          required: true
-          schema:
-            $ref: "#/components/schemas/ProductsCore"
-          description: Name of the Cribl product to activate the Mapping Ruleset for
-  /admin/products/{product}/mappings:
-    post:
-      operationId: createAdminProductsMappingsByProduct
-      tags:
-        - mappings
-      x-speakeasy-group: groups.mappings
-      x-speakeasy-name-override: create
-      summary: Create a new Mapping Ruleset for the specified Cribl product
-      description: Create and save a new Mapping Ruleset for the specified Cribl product.
-      responses:
-        "200":
-          description: A list containing the newly created Mapping Ruleset objects
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/MappingRuleset"
-        "401":
-          description: Unauthorized
-        "500":
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-      requestBody:
-        description: MappingRuleset object
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/MappingRuleset"
-            examples:
-              MappingRulesetCreateExamplesOSBasedMapping:
-                $ref: "#/components/examples/MappingRulesetCreateExamplesOSBasedMapping"
-              MappingRulesetCreateExamplesTagBasedMapping:
-                $ref: "#/components/examples/MappingRulesetCreateExamplesTagBasedMapping"
-              MappingRulesetCreateExamplesOutpostBasedMapping:
-                $ref: "#/components/examples/MappingRulesetCreateExamplesOutpostBasedMapping"
-              MappingRulesetCreateExamplesComplexMapping:
-                $ref: "#/components/examples/MappingRulesetCreateExamplesComplexMapping"
-              MappingRulesetCreateExamplesAWSEC2InstanceMapping:
-                $ref: "#/components/examples/MappingRulesetCreateExamplesAWSEC2InstanceMapping"
-              MappingRulesetCreateExamplesContainerBasedMapping:
-                $ref: "#/components/examples/MappingRulesetCreateExamplesContainerBasedMapping"
-              MappingRulesetCreateExamplesDefaultRuleset:
-                $ref: "#/components/examples/MappingRulesetCreateExamplesDefaultRuleset"
-      parameters:
-        - name: product
-          in: path
-          required: true
-          schema:
-            $ref: "#/components/schemas/ProductsCore"
-          description: Name of the Cribl product to create the Mapping Ruleset for
-    get:
-      operationId: getAdminProductsMappingsByProduct
-      tags:
-        - mappings
-      x-speakeasy-group: groups.mappings
-      x-speakeasy-name-override: list
-      summary: List all Mapping Rulesets for the specified Cribl product
-      description: Retrieve a list of all existing Mapping Rulesets for the specified Cribl product.
-      responses:
-        "200":
-          description: a list of MappingRuleset objects
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/MappingRuleset"
-        "401":
-          description: Unauthorized
-        "500":
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-      parameters:
-        - name: product
-          in: path
-          required: true
-          schema:
-            $ref: "#/components/schemas/ProductsCore"
-          description: Name of the Cribl product to list the Mapping Rulesets for
-  /admin/products/{product}/mappings/{id}:
-    delete:
-      operationId: deleteAdminProductsMappingsByProductAndId
-      tags:
-        - mappings
-      x-speakeasy-group: groups.mappings
-      x-speakeasy-name-override: delete
-      summary: Delete the specified Mapping Ruleset from the Worker Group or Edge Fleet
-      description: Permanently remove the specified Mapping Ruleset from the Worker Group or Edge Fleet.
-      responses:
-        "200":
-          description: A list containing the deleted Mapping Ruleset objects
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/MappingRuleset"
-        "401":
-          description: Unauthorized
-        "500":
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-      parameters:
-        - name: product
-          in: path
-          required: true
-          schema:
-            $ref: "#/components/schemas/ProductsCore"
-          description: Name of the Cribl product to delete the Mapping Ruleset for
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: The <code>id</code> of the Mapping Ruleset to delete.
-    get:
-      operationId: getAdminProductsMappingsByProductAndId
-      tags:
-        - mappings
-      x-speakeasy-group: groups.mappings
-      x-speakeasy-name-override: get
-      summary: Retrieve a Specific Mapping Ruleset
-      description: Get the details for a single Mapping Ruleset, identified by its id, for a Worker Group or Edge Fleet.
-      responses:
-        "200":
-          description: a list of MappingRuleset objects
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/MappingRuleset"
-        "401":
-          description: Unauthorized
-        "500":
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-      parameters:
-        - name: product
-          in: path
-          required: true
-          schema:
-            $ref: "#/components/schemas/ProductsCore"
-          description: Name of the Cribl product to get the Mappings for
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: The <code>id</code> of the Worker Group or Edge Fleet Mapping Ruleset to get
-    patch:
-      operationId: updateAdminProductsMappingsByProductAndId
-      tags:
-        - mappings
-      x-speakeasy-group: groups.mappings
-      x-speakeasy-name-override: update
-      summary: Update an existing Mapping Ruleset for a Worker Group or Edge Fleet
-      description: Modify the configuration of the specified Mapping Ruleset for a Worker Group or Edge Fleet.
-      responses:
-        "200":
-          description: A list containing the updated Mapping Ruleset objects
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/MappingRuleset"
-        "401":
-          description: Unauthorized
-        "500":
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-      requestBody:
-        description: MappingRuleset object
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/MappingRuleset"
-            examples:
-              MappingRulesetUpdateExamplesUpdateComplexRule:
-                $ref: "#/components/examples/MappingRulesetUpdateExamplesUpdateComplexRule"
-              MappingRulesetUpdateExamplesEnableDisabledRule:
-                $ref: "#/components/examples/MappingRulesetUpdateExamplesEnableDisabledRule"
-      parameters:
-        - name: product
-          in: path
-          required: true
-          schema:
-            $ref: "#/components/schemas/ProductsCore"
-          description: Name of the Cribl product to update the Mapping Ruleset for
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: The <code>id</code> of the Mapping Ruleset to update.
   /products/{product}/groups:
     get:
       operationId: listConfigGroupByProduct
@@ -47636,15 +46942,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/ConfigGroup"
+                $ref: "#/components/schemas/CountedListConfigGroup"
         "401":
           description: Unauthorized
         "500":
@@ -47696,15 +46994,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/ConfigGroup"
+                $ref: "#/components/schemas/CountedListConfigGroup"
         "401":
           description: Unauthorized
         "500":
@@ -47755,15 +47045,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/ConfigGroup"
+                $ref: "#/components/schemas/CountedListConfigGroup"
         "401":
           description: Unauthorized
         "500":
@@ -47810,15 +47092,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/ConfigGroup"
+                $ref: "#/components/schemas/CountedListConfigGroup"
         "401":
           description: Unauthorized
         "500":
@@ -47855,15 +47129,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/ConfigGroup"
+                $ref: "#/components/schemas/CountedListConfigGroup"
         "401":
           description: Unauthorized
         "500":
@@ -47887,15 +47153,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      type: string
+                $ref: "#/components/schemas/CountedListstring"
         "401":
           description: Unauthorized
         "500":
@@ -47932,15 +47190,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/ConfigGroup"
+                $ref: "#/components/schemas/CountedListConfigGroup"
         "401":
           description: Unauthorized
         "500":
@@ -47984,15 +47234,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/TeamAccessControlList"
+                $ref: "#/components/schemas/CountedListTeamAccessControlList"
         "401":
           description: Unauthorized
         "500":
@@ -48035,15 +47277,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/UserAccessControlList"
+                $ref: "#/components/schemas/CountedListUserAccessControlList"
         "401":
           description: Unauthorized
         "500":
@@ -48071,3 +47305,34 @@ paths:
           schema:
             $ref: "#/components/schemas/RbacResource"
           description: Filter for limiting the response to ACL entries for the specified RBAC resource type.
+  /master/summary:
+    get:
+      operationId: getSummary
+      tags:
+        - distributed
+      x-speakeasy-group: nodes.summaries
+      x-speakeasy-name-override: get
+      summary: Get a summary of the Distributed deployment
+      description: Get a summary of the Distributed deployment. The response includes counts of Worker Groups, Edge Fleets, Pipelines, Routes, Sources, Destinations, and Worker and Edge Nodes, as well as statistics for the Worker and Edge Nodes.
+      responses:
+        "200":
+          description: a list of DistributedSummary objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedListDistributedSummary"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: mode
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/WorkerTypes"
+          description: "Filter for limiting the response by Cribl product: Cribl Stream (<code>worker</code>) or Cribl Edge (<code>managed-edge</code>)."

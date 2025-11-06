@@ -50,7 +50,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.ListConfigGroupByProductResponse](../../models/listconfiggroupbyproductresponse.md)**
+**[models.CountedListConfigGroup](../../models/countedlistconfiggroup.md)**
 
 ### Errors
 
@@ -147,7 +147,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.CreateConfigGroupByProductResponse](../../models/createconfiggroupbyproductresponse.md)**
+**[models.CountedListConfigGroup](../../models/countedlistconfiggroup.md)**
 
 ### Errors
 
@@ -193,7 +193,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.GetConfigGroupByProductAndIDResponse](../../models/getconfiggroupbyproductandidresponse.md)**
+**[models.CountedListConfigGroup](../../models/countedlistconfiggroup.md)**
 
 ### Errors
 
@@ -285,7 +285,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.UpdateConfigGroupByProductAndIDResponse](../../models/updateconfiggroupbyproductandidresponse.md)**
+**[models.CountedListConfigGroup](../../models/countedlistconfiggroup.md)**
 
 ### Errors
 
@@ -330,7 +330,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.DeleteConfigGroupByProductAndIDResponse](../../models/deleteconfiggroupbyproductandidresponse.md)**
+**[models.CountedListConfigGroup](../../models/countedlistconfiggroup.md)**
 
 ### Errors
 
@@ -382,7 +382,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.UpdateConfigGroupDeployByProductAndIDResponse](../../models/updateconfiggroupdeploybyproductandidresponse.md)**
+**[models.CountedListConfigGroup](../../models/countedlistconfiggroup.md)**
 
 ### Errors
 

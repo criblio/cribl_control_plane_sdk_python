@@ -43,7 +43,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.DeleteOutputPqByIDResponse](../../models/deleteoutputpqbyidresponse.md)**
+**[models.CountedListstring](../../models/countedliststring.md)**
 
 ### Errors
 
@@ -87,7 +87,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.GetOutputPqByIDResponse](../../models/getoutputpqbyidresponse.md)**
+**[models.CountedListJobInfo](../../models/countedlistjobinfo.md)**
 
 ### Errors
 

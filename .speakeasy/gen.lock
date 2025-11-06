@@ -3,10 +3,10 @@ id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
   docChecksum: d5e71c600b11bf9409114d9016fe6d31
   docVersion: 4.15.0-alpha.1762383805913-2ea53e6b
-  speakeasyVersion: 1.643.2
-  generationVersion: 2.731.6
-  releaseVersion: 0.3.0b11
-  configChecksum: 0a88a55f320699760f6cc03b31ddef2b
+  speakeasyVersion: 1.650.0
+  generationVersion: 2.743.2
+  releaseVersion: 0.3.0b12
+  configChecksum: 6070b9b6f8c8523796b8c68371665929
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -15,7 +15,7 @@ features:
     additionalDependencies: 1.0.0
     additionalProperties: 1.0.1
     constsAndDefaults: 1.0.5
-    core: 5.23.0
+    core: 5.23.5
     defaultEnabledRetries: 0.2.0
     devContainers: 3.0.0
     enumUnions: 0.1.0
@@ -25,7 +25,7 @@ features:
     flattening: 3.1.1
     globalSecurity: 3.0.4
     globalSecurityCallbacks: 1.0.0
-    globalServerURLs: 3.1.1
+    globalServerURLs: 3.2.0
     groups: 3.0.1
     methodArguments: 1.0.2
     nameOverrides: 3.0.1
@@ -3447,4 +3447,3 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: "## Python SDK Changes Detected:\n* `cribl_control_plane.destinations.list()`:  `response.items.[].[databricks]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.create()`: \n  *  `request.[databricks]` **Changed** **Breaking** :warning:\n  *  `response.items.[].[databricks]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.get()`:  `response.items.[].[databricks]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.update()`: \n  *  `request.output.[databricks]` **Changed** **Breaking** :warning:\n  *  `response.items.[].[databricks]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.delete()`:  `response.items.[].[databricks]` **Changed** **Breaking** :warning:\n"

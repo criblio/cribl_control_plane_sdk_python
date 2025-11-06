@@ -4,11 +4,12 @@ from __future__ import annotations
 from .commit import Commit, CommitTypedDict
 from .configgroupcloud import ConfigGroupCloud, ConfigGroupCloudTypedDict
 from .configgrouplookups import ConfigGroupLookups, ConfigGroupLookupsTypedDict
-from cribl_control_plane import utils
+from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
 from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
+from pydantic import field_serializer
 from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
@@ -150,3 +151,21 @@ class GroupCreateRequest(BaseModel):
     worker_remote_access: Annotated[
         Optional[bool], pydantic.Field(alias="workerRemoteAccess")
     ] = None
+
+    @field_serializer("estimated_ingest_rate")
+    def serialize_estimated_ingest_rate(self, value):
+        if isinstance(value, str):
+            try:
+                return models.GroupCreateRequestEstimatedIngestRate(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.GroupCreateRequestType(value)
+            except ValueError:
+                return value
+        return value

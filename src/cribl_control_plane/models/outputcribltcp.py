@@ -126,6 +126,24 @@ class OutputCriblTCPTLSSettingsClientSide(BaseModel):
         return value
 
 
+class OutputCriblTCPAuthTokenTypedDict(TypedDict):
+    token_secret: str
+    r"""Select or create a stored text secret"""
+    enabled: NotRequired[bool]
+    description: NotRequired[str]
+    r"""Optional token description"""
+
+
+class OutputCriblTCPAuthToken(BaseModel):
+    token_secret: Annotated[str, pydantic.Field(alias="tokenSecret")]
+    r"""Select or create a stored text secret"""
+
+    enabled: Optional[bool] = True
+
+    description: Optional[str] = None
+    r"""Optional token description"""
+
+
 class OutputCriblTCPBackpressureBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -249,6 +267,8 @@ class OutputCriblTCPTypedDict(TypedDict):
     r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
     token_ttl_minutes: NotRequired[float]
     r"""The number of minutes before the internally generated authentication token expires, valid values between 1 and 60"""
+    auth_tokens: NotRequired[List[OutputCriblTCPAuthTokenTypedDict]]
+    r"""Shared secrets to be used by connected environments to authorize connections. These tokens should also be installed in Cribl TCP Source in Cribl.Cloud."""
     exclude_fields: NotRequired[List[str]]
     r"""Fields to exclude from the event. By default, all internal fields except `__output` are sent. Example: `cribl_pipe`, `c*`. Wildcards supported."""
     on_backpressure: NotRequired[OutputCriblTCPBackpressureBehavior]
@@ -347,6 +367,11 @@ class OutputCriblTCP(BaseModel):
         Optional[float], pydantic.Field(alias="tokenTTLMinutes")
     ] = 60
     r"""The number of minutes before the internally generated authentication token expires, valid values between 1 and 60"""
+
+    auth_tokens: Annotated[
+        Optional[List[OutputCriblTCPAuthToken]], pydantic.Field(alias="authTokens")
+    ] = None
+    r"""Shared secrets to be used by connected environments to authorize connections. These tokens should also be installed in Cribl TCP Source in Cribl.Cloud."""
 
     exclude_fields: Annotated[
         Optional[List[str]], pydantic.Field(alias="excludeFields")

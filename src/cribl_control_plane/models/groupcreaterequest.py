@@ -56,6 +56,7 @@ class GroupCreateRequestGit(BaseModel):
 
 class GroupCreateRequestType(str, Enum, metaclass=utils.OpenEnumMeta):
     LAKE_ACCESS = "lake_access"
+    RIPTIDE = "riptide"
 
 
 class GroupCreateRequestTypedDict(TypedDict):

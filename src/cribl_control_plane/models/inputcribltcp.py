@@ -243,6 +243,24 @@ class InputCriblTCPMetadatum(BaseModel):
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
+class InputCriblTCPAuthTokenTypedDict(TypedDict):
+    token_secret: str
+    r"""Select or create a stored text secret"""
+    enabled: NotRequired[bool]
+    description: NotRequired[str]
+    r"""Optional token description"""
+
+
+class InputCriblTCPAuthToken(BaseModel):
+    token_secret: Annotated[str, pydantic.Field(alias="tokenSecret")]
+    r"""Select or create a stored text secret"""
+
+    enabled: Optional[bool] = True
+
+    description: Optional[str] = None
+    r"""Optional token description"""
+
+
 class InputCriblTCPTypedDict(TypedDict):
     type: InputCriblTCPType
     port: float
@@ -280,6 +298,8 @@ class InputCriblTCPTypedDict(TypedDict):
     r"""Fields to add to events from this input"""
     enable_load_balancing: NotRequired[bool]
     r"""Load balance traffic across all Worker Processes"""
+    auth_tokens: NotRequired[List[InputCriblTCPAuthTokenTypedDict]]
+    r"""Shared secrets to be used by connected environments to authorize connections. These tokens should be installed in Cribl TCP destinations in connected environments."""
     description: NotRequired[str]
 
 
@@ -353,5 +373,10 @@ class InputCriblTCP(BaseModel):
         Optional[bool], pydantic.Field(alias="enableLoadBalancing")
     ] = False
     r"""Load balance traffic across all Worker Processes"""
+
+    auth_tokens: Annotated[
+        Optional[List[InputCriblTCPAuthToken]], pydantic.Field(alias="authTokens")
+    ] = None
+    r"""Shared secrets to be used by connected environments to authorize connections. These tokens should be installed in Cribl TCP destinations in connected environments."""
 
     description: Optional[str] = None

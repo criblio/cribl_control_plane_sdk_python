@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.15.0-alpha.1762383805913-2ea53e6b
+  version: 4.16.0-alpha.1762501435331-171bb29b
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -177,6 +177,7 @@ components:
           type: string
           enum:
             - lake_access
+            - riptide
           x-speakeasy-unknown-values: allow
         upgradeVersion:
           type: string
@@ -312,6 +313,7 @@ components:
           type: string
           enum:
             - lake_access
+            - riptide
           x-speakeasy-unknown-values: allow
         upgradeVersion:
           type: string
@@ -9102,6 +9104,27 @@ components:
           title: Enable load balancing
           description: Load balance traffic across all Worker Processes
           default: false
+        authTokens:
+          type: array
+          title: Connected environment tokens
+          description: Shared secrets to be used by connected environments to authorize connections. These tokens should be installed in Cribl TCP destinations in connected environments.
+          items:
+            type: object
+            required:
+              - tokenSecret
+            properties:
+              tokenSecret:
+                type: string
+                title: Token secret (text secret)
+                description: Select or create a stored text secret
+              enabled:
+                type: boolean
+                title: Enable token
+                default: true
+              description:
+                type: string
+                title: Description
+                description: Optional token description
         description:
           type: string
           title: Description
@@ -9233,10 +9256,25 @@ components:
           description: Port to listen on
         authTokens:
           type: array
-          title: Auth tokens
-          description: "Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."
+          title: Connected environment tokens
+          description: Shared secrets to be used by connected environments to authorize connections. These tokens should be installed in Cribl HTTP destinations in connected environments.
           items:
-            type: string
+            type: object
+            required:
+              - tokenSecret
+            properties:
+              tokenSecret:
+                type: string
+                title: Token secret (text secret)
+                description: Select or create a stored text secret
+              enabled:
+                type: boolean
+                title: Enable token
+                default: true
+              description:
+                type: string
+                title: Description
+                description: Optional token description
         tls:
           type: object
           title: TLS settings (server side)
@@ -15740,6 +15778,11 @@ components:
             - "*log"
           items:
             type: string
+        filterArchivedFiles:
+          type: boolean
+          default: false
+          title: Apply filename allowlist internal to archive files
+          description: Apply filename allowlist to file entries in archive file types, like tar or zip.
         tailOnly:
           type: boolean
           default: true
@@ -36746,6 +36789,27 @@ components:
           minimum: 1
           maximum: 60
           description: The number of minutes before the internally generated authentication token expires, valid values between 1 and 60
+        authTokens:
+          type: array
+          title: Connected environment tokens
+          description: Shared secrets to be used by connected environments to authorize connections. These tokens should also be installed in Cribl TCP Source in Cribl.Cloud.
+          items:
+            type: object
+            required:
+              - tokenSecret
+            properties:
+              tokenSecret:
+                type: string
+                title: Token secret (text secret)
+                description: Select or create a stored text secret
+              enabled:
+                type: boolean
+                title: Enable token
+                default: true
+              description:
+                type: string
+                title: Description
+                description: Optional token description
         excludeFields:
           type: array
           title: Exclude fields
@@ -37235,6 +37299,26 @@ components:
           title: Honor Retry-After header
           description: Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored.
           default: true
+        authTokens:
+          type: array
+          title: Connected environment tokens
+          description: Shared secrets to be used by connected environments to authorize connections. These tokens should also be installed in Cribl HTTP Source in Cribl.Cloud.
+          items:
+            type: object
+            required:
+              - tokenSecret
+            properties:
+              tokenSecret:
+                type: string
+                title: Token secret (text secret)
+                description: Select or create a stored text secret
+              enabled:
+                type: boolean
+                title: Enable token
+                default: true
+              description:
+                type: string
+                title: Description
         onBackpressure:
           type: string
           title: Backpressure behavior
@@ -42105,6 +42189,340 @@ components:
           description: The maximum number of times a file will attempt to move to its final destination before being dead-lettered
           default: 20
           minimum: 1
+    OutputMicrosoftFabric:
+      type: object
+      required:
+        - type
+        - bootstrap_server
+        - topic
+      properties:
+        id:
+          type: string
+          title: Output ID
+          description: Unique ID for this output
+        type:
+          type: string
+          enum:
+            - microsoft_fabric
+        pipeline:
+          type: string
+          title: Pipeline
+          description: Pipeline to process data before sending out to this output
+        systemFields:
+          type: array
+          title: System fields
+          description: Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
+          default:
+            - cribl_pipe
+          items:
+            type: string
+        environment:
+          type: string
+          title: Environment
+          description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
+        streamtags:
+          type: array
+          title: Tags
+          description: Tags for filtering and grouping in @{product}
+          default: []
+          items:
+            type: string
+        topic:
+          type: string
+          title: Topic name
+          description: Topic name from Fabric Eventstream's endpoint
+        ack:
+          type: integer
+          default: 1
+          title: Acknowledgments
+          description: Control the number of required acknowledgments
+          enum:
+            - 1
+            - 0
+            - -1
+          x-speakeasy-enum-descriptions:
+            - Leader
+            - None
+            - All
+          x-speakeasy-unknown-values: allow
+        format:
+          type: string
+          default: json
+          enum:
+            - json
+            - raw
+          title: Record data format
+          description: Format to use to serialize events before writing to the Event Hubs Kafka brokers
+          x-speakeasy-enum-descriptions:
+            - JSON
+            - Field _raw
+          x-speakeasy-unknown-values: allow
+        maxRecordSizeKB:
+          type: number
+          default: 768
+          minimum: 1
+          title: Record size limit (KB, uncompressed)
+          description: Maximum size of each record batch before compression. Setting should be < message.max.bytes settings in Event Hubs brokers.
+        flushEventCount:
+          type: number
+          default: 1000
+          minimum: 1
+          maximum: 10000
+          title: Events-per-batch limit
+          description: Maximum number of events in a batch before forcing a flush
+        flushPeriodSec:
+          type: number
+          default: 1
+          title: Flush period (sec)
+          description: Maximum time between requests. Small values could cause the payload size to be smaller than the configured Max record size.
+        connectionTimeout:
+          type: number
+          title: Connection timeout (ms)
+          description: Maximum time to wait for a connection to complete successfully
+          default: 10000
+          minimum: 1000
+          maximum: 3600000
+        requestTimeout:
+          type: number
+          title: Request timeout (ms)
+          description: Maximum time to wait for Kafka to respond to a request
+          default: 60000
+          minimum: 1000
+          maximum: 3600000
+        maxRetries:
+          type: number
+          title: Retry limit
+          description: If messages are failing, you can set the maximum number of retries as high as 100 to prevent loss of data
+          default: 5
+          minimum: 0
+          maximum: 100
+        maxBackOff:
+          type: number
+          title: Backoff limit (ms)
+          description: The maximum wait time for a retry, in milliseconds. Default (and minimum) is 30,000 ms (30 seconds); maximum is 180,000 ms (180 seconds).
+          default: 30000
+          minimum: 30000
+          maximum: 180000
+        initialBackoff:
+          type: number
+          title: Initial retry interval (ms)
+          description: Initial value used to calculate the retry, in milliseconds. Maximum is 600,000 ms (10 minutes).
+          default: 300
+          minimum: 300
+          maximum: 600000
+        backoffRate:
+          type: number
+          title: Backoff multiplier
+          description: Set the backoff multiplier (2-20) to control the retry frequency for failed messages. For faster retries, use a lower multiplier. For slower retries with more delay between attempts, use a higher multiplier. The multiplier is used in an exponential backoff formula; see the Kafka [documentation](https://kafka.js.org/docs/retry-detailed) for details.
+          default: 2
+          minimum: 2
+          maximum: 20
+        authenticationTimeout:
+          type: number
+          title: Authentication timeout (ms)
+          description: Maximum time to wait for Kafka to respond to an authentication request
+          default: 10000
+          minimum: 1000
+          maximum: 3600000
+        reauthenticationThreshold:
+          type: number
+          title: Reauthentication threshold (ms)
+          description: Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire.
+          default: 10000
+          minimum: 1000
+          maximum: 1800000
+        sasl:
+          type: object
+          title: Authentication
+          description: Authentication parameters to use when connecting to bootstrap server. Using TLS is highly recommended.
+          required:
+            - disabled
+          properties:
+            disabled:
+              type: boolean
+              title: Disabled
+              default: false
+            mechanism:
+              enum:
+                - plain
+                - oauthbearer
+              type: string
+              x-speakeasy-enum-descriptions:
+                - PLAIN
+                - OAUTHBEARER
+              x-speakeasy-unknown-values: allow
+              title: SASL mechanism
+              default: plain
+            username:
+              type: string
+              title: SASL JASS username
+              default: $ConnectionString
+              description: The username for authentication. This should always be $ConnectionString.
+            textSecret:
+              type: string
+              title: SASL JASS password
+              description: Select or create a stored text secret
+            clientSecretAuthType:
+              enum:
+                - secret
+                - certificate
+              title: Authentication method
+              type: string
+              default: secret
+              x-speakeasy-unknown-values: allow
+            clientTextSecret:
+              type: string
+              title: Client secret (text secret)
+              description: Select or create a stored text secret
+            certificateName:
+              type: string
+              title: Certificate
+              description: Select or create a stored certificate
+            certPath:
+              type: string
+            privKeyPath:
+              type: string
+            passphrase:
+              type: string
+            oauthEndpoint:
+              type: string
+              title: Microsoft Entra ID authentication endpoint
+              default: https://login.microsoftonline.com
+              enum:
+                - https://login.microsoftonline.com
+                - https://login.microsoftonline.us
+                - https://login.partner.microsoftonline.cn
+              description: Endpoint used to acquire authentication tokens from Azure
+              x-speakeasy-unknown-values: allow
+            clientId:
+              type: string
+              title: Client ID
+              description: client_id to pass in the OAuth request parameter
+            tenantId:
+              type: string
+              title: Tenant identifier
+              description: Directory ID (tenant identifier) in Azure Active Directory
+            scope:
+              type: string
+              title: Scope
+              description: Scope to pass in the OAuth request parameter
+        tls:
+          type: object
+          title: TLS settings (client side)
+          required:
+            - disabled
+          properties:
+            disabled:
+              type: boolean
+              title: Disabled
+              default: false
+            rejectUnauthorized:
+              type: boolean
+              title: Validate server certs
+              description: Reject certificates that are not authorized by a CA in the CA certificate path, or by another trusted CA (such as the system's)
+              default: true
+        onBackpressure:
+          type: string
+          title: Backpressure behavior
+          description: How to handle events when all receivers are exerting backpressure
+          enum:
+            - block
+            - drop
+            - queue
+          x-speakeasy-enum-descriptions:
+            - Block
+            - Drop
+            - Persistent Queue
+          x-speakeasy-unknown-values: allow
+          default: block
+        bootstrap_server:
+          type: string
+          title: Bootstrap server
+          description: Bootstrap server from Fabric Eventstream's endpoint
+        description:
+          type: string
+          title: Description
+        pqStrictOrdering:
+          title: Strict ordering
+          description: Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed.
+          type: boolean
+          default: true
+        pqRatePerSec:
+          type: number
+          title: Drain rate limit (EPS)
+          description: Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling.
+          minimum: 0
+          default: 0
+        pqMode:
+          enum:
+            - error
+            - always
+            - backpressure
+          title: Mode
+          description: In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem.
+          type: string
+          default: error
+          x-speakeasy-enum-descriptions:
+            - Error
+            - Backpressure
+            - Always On
+          x-speakeasy-unknown-values: allow
+        pqMaxBufferSize:
+          type: number
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
+          default: 42
+          minimum: 42
+          maximum: 1000
+        pqMaxBackpressureSec:
+          type: number
+          title: Backpressure duration limit
+          description: How long (in seconds) to wait for backpressure to resolve before engaging the queue
+          minimum: 0
+          default: 30
+        pqMaxFileSize:
+          type: string
+          title: File size limit
+          description: The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)
+          pattern: ^\d+\s*(?:\w{2})?$
+          default: 1 MB
+        pqMaxSize:
+          type: string
+          title: Queue size limit
+          description: The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc.
+          pattern: ^\d+\s*(?:\w{2})?$
+          default: 5GB
+        pqPath:
+          type: string
+          default: $CRIBL_HOME/state/queues
+          title: Queue file path
+          description: "The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."
+        pqCompress:
+          type: string
+          default: none
+          enum:
+            - none
+            - gzip
+          x-speakeasy-enum-descriptions:
+            - None
+            - Gzip
+          x-speakeasy-unknown-values: allow
+          title: Compression
+          description: Codec to use to compress the persisted data
+        pqOnBackpressure:
+          type: string
+          default: block
+          enum:
+            - block
+            - drop
+          x-speakeasy-enum-descriptions:
+            - Block
+            - Drop new data
+          x-speakeasy-unknown-values: allow
+          title: Queue-full behavior
+          description: How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged.
+        pqControls:
+          type: object
     Output:
       oneOf:
         - $ref: "#/components/schemas/OutputDefault"
@@ -42173,6 +42591,7 @@ components:
         - $ref: "#/components/schemas/OutputSentinelOneAiSiem"
         - $ref: "#/components/schemas/OutputChronicle"
         - $ref: "#/components/schemas/OutputDatabricks"
+        - $ref: "#/components/schemas/OutputMicrosoftFabric"
       discriminator:
         propertyName: type
         mapping:
@@ -42242,6 +42661,7 @@ components:
           sentinel_one_ai_siem: "#/components/schemas/OutputSentinelOneAiSiem"
           chronicle: "#/components/schemas/OutputChronicle"
           databricks: "#/components/schemas/OutputDatabricks"
+          microsoft_fabric: "#/components/schemas/OutputMicrosoftFabric"
     RunnableJobCollection:
       required:
         - collector

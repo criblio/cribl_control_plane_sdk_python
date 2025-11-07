@@ -399,3 +399,9 @@ value: models.OutputChronicle = /* values here */
 value: models.OutputDatabricks = /* values here */
 ```
 
+### `models.OutputMicrosoftFabric`
+
+```python
+value: models.OutputMicrosoftFabric = /* values here */
+```
+

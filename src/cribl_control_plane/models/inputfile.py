@@ -172,6 +172,8 @@ class InputFileTypedDict(TypedDict):
     r"""Time, in seconds, between scanning for files"""
     filenames: NotRequired[List[str]]
     r"""The full path of discovered files are matched against this wildcard list"""
+    filter_archived_files: NotRequired[bool]
+    r"""Apply filename allowlist to file entries in archive file types, like tar or zip."""
     tail_only: NotRequired[bool]
     r"""Read only new entries at the end of all files discovered at next startup. @{product} will then read newly discovered files from the head. Disable this to resume reading all files from head."""
     idle_timeout: NotRequired[float]
@@ -244,6 +246,11 @@ class InputFile(BaseModel):
 
     filenames: Optional[List[str]] = None
     r"""The full path of discovered files are matched against this wildcard list"""
+
+    filter_archived_files: Annotated[
+        Optional[bool], pydantic.Field(alias="filterArchivedFiles")
+    ] = False
+    r"""Apply filename allowlist to file entries in archive file types, like tar or zip."""
 
     tail_only: Annotated[Optional[bool], pydantic.Field(alias="tailOnly")] = True
     r"""Read only new entries at the end of all files discovered at next startup. @{product} will then read newly discovered files from the head. Disable this to resume reading all files from head."""

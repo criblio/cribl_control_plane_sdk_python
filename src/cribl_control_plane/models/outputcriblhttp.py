@@ -202,6 +202,22 @@ class OutputCriblHTTPTimeoutRetrySettings(BaseModel):
     r"""The maximum backoff interval, in milliseconds, Cribl Stream should apply. Default (and minimum) is 10,000 ms (10 seconds); maximum is 180,000 ms (180 seconds)."""
 
 
+class OutputCriblHTTPAuthTokenTypedDict(TypedDict):
+    token_secret: str
+    r"""Select or create a stored text secret"""
+    enabled: NotRequired[bool]
+    description: NotRequired[str]
+
+
+class OutputCriblHTTPAuthToken(BaseModel):
+    token_secret: Annotated[str, pydantic.Field(alias="tokenSecret")]
+    r"""Select or create a stored text secret"""
+
+    enabled: Optional[bool] = True
+
+    description: Optional[str] = None
+
+
 class OutputCriblHTTPBackpressureBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -314,6 +330,8 @@ class OutputCriblHTTPTypedDict(TypedDict):
     timeout_retry_settings: NotRequired[OutputCriblHTTPTimeoutRetrySettingsTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
+    auth_tokens: NotRequired[List[OutputCriblHTTPAuthTokenTypedDict]]
+    r"""Shared secrets to be used by connected environments to authorize connections. These tokens should also be installed in Cribl HTTP Source in Cribl.Cloud."""
     on_backpressure: NotRequired[OutputCriblHTTPBackpressureBehavior]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
@@ -457,6 +475,11 @@ class OutputCriblHTTP(BaseModel):
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
     ] = True
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
+
+    auth_tokens: Annotated[
+        Optional[List[OutputCriblHTTPAuthToken]], pydantic.Field(alias="authTokens")
+    ] = None
+    r"""Shared secrets to be used by connected environments to authorize connections. These tokens should also be installed in Cribl HTTP Source in Cribl.Cloud."""
 
     on_backpressure: Annotated[
         Annotated[

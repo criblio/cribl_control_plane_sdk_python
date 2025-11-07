@@ -26,7 +26,10 @@ with CriblControlPlane(
         "lakehouse_connection_type": models.LakehouseConnectionType.CACHE,
         "migration_query_id": "<id>",
         "retention_in_days": 1466.58,
-    }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.CriblLakeDatasetFormat.DDSS, http_da_used=True, retention_period_in_days=456.37, search_config={
+    }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.CriblLakeDatasetFormat.DDSS, http_da_used=True, metrics={
+        "current_size_bytes": 6170.04,
+        "metrics_date": "<value>",
+    }, retention_period_in_days=456.37, search_config={
         "datatypes": [
             "<value 1>",
         ],
@@ -84,7 +87,10 @@ async def main():
             "lakehouse_connection_type": models.LakehouseConnectionType.CACHE,
             "migration_query_id": "<id>",
             "retention_in_days": 1466.58,
-        }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.CriblLakeDatasetFormat.DDSS, http_da_used=True, retention_period_in_days=456.37, search_config={
+        }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.CriblLakeDatasetFormat.DDSS, http_da_used=True, metrics={
+            "current_size_bytes": 6170.04,
+            "metrics_date": "<value>",
+        }, retention_period_in_days=456.37, search_config={
             "datatypes": [
                 "<value 1>",
             ],

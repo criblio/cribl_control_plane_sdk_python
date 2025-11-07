@@ -4,23 +4,47 @@ from __future__ import annotations
 from .commit import Commit, CommitTypedDict
 from .configgroupcloud import ConfigGroupCloud, ConfigGroupCloudTypedDict
 from .configgrouplookups import ConfigGroupLookups, ConfigGroupLookupsTypedDict
-from cribl_control_plane import utils
+from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
 from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
+from pydantic import field_serializer
 from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class GitTypedDict(TypedDict):
+class ConfigGroupEstimatedIngestRate(int, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Maximum expected volume of data ingested by the @{group}. (This setting is available only on @{group}s consisting of Cribl-managed Cribl.Cloud @{node}s.)"""
+
+    # 12 MB/sec
+    RATE12_MB_PER_SEC = 1024
+    # 24 MB/sec
+    RATE24_MB_PER_SEC = 2048
+    # 36 MB/sec
+    RATE36_MB_PER_SEC = 3072
+    # 48 MB/sec
+    RATE48_MB_PER_SEC = 4096
+    # 60 MB/sec
+    RATE60_MB_PER_SEC = 5120
+    # 84 MB/sec
+    RATE84_MB_PER_SEC = 7168
+    # 120 MB/sec
+    RATE120_MB_PER_SEC = 10240
+    # 156 MB/sec
+    RATE156_MB_PER_SEC = 13312
+    # 180 MB/sec
+    RATE180_MB_PER_SEC = 15360
+
+
+class ConfigGroupGitTypedDict(TypedDict):
     commit: NotRequired[str]
     local_changes: NotRequired[float]
     log: NotRequired[List[CommitTypedDict]]
 
 
-class Git(BaseModel):
+class ConfigGroupGit(BaseModel):
     commit: Optional[str] = None
 
     local_changes: Annotated[Optional[float], pydantic.Field(alias="localChanges")] = (
@@ -40,8 +64,9 @@ class ConfigGroupTypedDict(TypedDict):
     config_version: NotRequired[str]
     deploying_worker_count: NotRequired[float]
     description: NotRequired[str]
-    estimated_ingest_rate: NotRequired[float]
-    git: NotRequired[GitTypedDict]
+    estimated_ingest_rate: NotRequired[ConfigGroupEstimatedIngestRate]
+    r"""Maximum expected volume of data ingested by the @{group}. (This setting is available only on @{group}s consisting of Cribl-managed Cribl.Cloud @{node}s.)"""
+    git: NotRequired[ConfigGroupGitTypedDict]
     incompatible_worker_count: NotRequired[float]
     inherits: NotRequired[str]
     is_fleet: NotRequired[bool]
@@ -75,10 +100,15 @@ class ConfigGroup(BaseModel):
     description: Optional[str] = None
 
     estimated_ingest_rate: Annotated[
-        Optional[float], pydantic.Field(alias="estimatedIngestRate")
+        Annotated[
+            Optional[ConfigGroupEstimatedIngestRate],
+            PlainValidator(validate_open_enum(True)),
+        ],
+        pydantic.Field(alias="estimatedIngestRate"),
     ] = None
+    r"""Maximum expected volume of data ingested by the @{group}. (This setting is available only on @{group}s consisting of Cribl-managed Cribl.Cloud @{node}s.)"""
 
-    git: Optional[Git] = None
+    git: Optional[ConfigGroupGit] = None
 
     incompatible_worker_count: Annotated[
         Optional[float], pydantic.Field(alias="incompatibleWorkerCount")
@@ -121,3 +151,21 @@ class ConfigGroup(BaseModel):
     worker_remote_access: Annotated[
         Optional[bool], pydantic.Field(alias="workerRemoteAccess")
     ] = None
+
+    @field_serializer("estimated_ingest_rate")
+    def serialize_estimated_ingest_rate(self, value):
+        if isinstance(value, str):
+            try:
+                return models.ConfigGroupEstimatedIngestRate(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.ConfigGroupType(value)
+            except ValueError:
+                return value
+        return value

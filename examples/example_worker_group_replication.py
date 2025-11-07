@@ -26,7 +26,7 @@ import asyncio
 import sys
 from typing import Optional
 from cribl_control_plane import CriblControlPlane
-from cribl_control_plane.models import ConfigGroup, ProductsCore
+from cribl_control_plane.models import (ConfigGroup, ProductsCore, GroupCreateRequestEstimatedIngestRate)
 from auth import create_cribl_client
 
 
@@ -103,12 +103,11 @@ def replicate_worker_group(client: CriblControlPlane, source_id: str) -> Optiona
             provisioned=source.provisioned,
             is_fleet=source.is_fleet,
             is_search=source.is_search,
-            estimated_ingest_rate=source.estimated_ingest_rate,
+            estimated_ingest_rate=GroupCreateRequestEstimatedIngestRate(source.estimated_ingest_rate.value) if source.estimated_ingest_rate else None,
             inherits=source.inherits,
             max_worker_age=source.max_worker_age,
             streamtags=source.streamtags,
             tags=source.tags,
-            type_=source.type,
             upgrade_version=source.upgrade_version
         )
         

@@ -2,15 +2,17 @@
 
 from __future__ import annotations
 from .cacheconnection import CacheConnection, CacheConnectionTypedDict
+from .lakedatasetmetrics import LakeDatasetMetrics, LakeDatasetMetricsTypedDict
 from .lakedatasetsearchconfig import (
     LakeDatasetSearchConfig,
     LakeDatasetSearchConfigTypedDict,
 )
-from cribl_control_plane import utils
+from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
 from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
+from pydantic import field_serializer
 from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
@@ -31,6 +33,7 @@ class CriblLakeDatasetUpdateTypedDict(TypedDict):
     format_: NotRequired[CriblLakeDatasetUpdateFormat]
     http_da_used: NotRequired[bool]
     id: NotRequired[str]
+    metrics: NotRequired[LakeDatasetMetricsTypedDict]
     retention_period_in_days: NotRequired[float]
     search_config: NotRequired[LakeDatasetSearchConfigTypedDict]
     storage_location_id: NotRequired[str]
@@ -66,6 +69,8 @@ class CriblLakeDatasetUpdate(BaseModel):
 
     id: Optional[str] = None
 
+    metrics: Optional[LakeDatasetMetrics] = None
+
     retention_period_in_days: Annotated[
         Optional[float], pydantic.Field(alias="retentionPeriodInDays")
     ] = None
@@ -79,3 +84,12 @@ class CriblLakeDatasetUpdate(BaseModel):
     ] = None
 
     view_name: Annotated[Optional[str], pydantic.Field(alias="viewName")] = None
+
+    @field_serializer("format_")
+    def serialize_format_(self, value):
+        if isinstance(value, str):
+            try:
+                return models.CriblLakeDatasetUpdateFormat(value)
+            except ValueError:
+                return value
+        return value

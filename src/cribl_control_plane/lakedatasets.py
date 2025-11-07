@@ -24,6 +24,9 @@ class LakeDatasets(BaseSDK):
         description: Optional[str] = None,
         format_: Optional[models.CriblLakeDatasetFormat] = None,
         http_da_used: Optional[bool] = None,
+        metrics: Optional[
+            Union[models.LakeDatasetMetrics, models.LakeDatasetMetricsTypedDict]
+        ] = None,
         retention_period_in_days: Optional[float] = None,
         search_config: Optional[
             Union[
@@ -50,6 +53,7 @@ class LakeDatasets(BaseSDK):
         :param description:
         :param format_:
         :param http_da_used:
+        :param metrics:
         :param retention_period_in_days:
         :param search_config:
         :param storage_location_id:
@@ -82,6 +86,9 @@ class LakeDatasets(BaseSDK):
                 format_=format_,
                 http_da_used=http_da_used,
                 id=id,
+                metrics=utils.get_pydantic_model(
+                    metrics, Optional[models.LakeDatasetMetrics]
+                ),
                 retention_period_in_days=retention_period_in_days,
                 search_config=utils.get_pydantic_model(
                     search_config, Optional[models.LakeDatasetSearchConfig]
@@ -168,6 +175,9 @@ class LakeDatasets(BaseSDK):
         description: Optional[str] = None,
         format_: Optional[models.CriblLakeDatasetFormat] = None,
         http_da_used: Optional[bool] = None,
+        metrics: Optional[
+            Union[models.LakeDatasetMetrics, models.LakeDatasetMetricsTypedDict]
+        ] = None,
         retention_period_in_days: Optional[float] = None,
         search_config: Optional[
             Union[
@@ -194,6 +204,7 @@ class LakeDatasets(BaseSDK):
         :param description:
         :param format_:
         :param http_da_used:
+        :param metrics:
         :param retention_period_in_days:
         :param search_config:
         :param storage_location_id:
@@ -226,6 +237,9 @@ class LakeDatasets(BaseSDK):
                 format_=format_,
                 http_da_used=http_da_used,
                 id=id,
+                metrics=utils.get_pydantic_model(
+                    metrics, Optional[models.LakeDatasetMetrics]
+                ),
                 retention_period_in_days=retention_period_in_days,
                 search_config=utils.get_pydantic_model(
                     search_config, Optional[models.LakeDatasetSearchConfig]
@@ -859,6 +873,9 @@ class LakeDatasets(BaseSDK):
         format_: Optional[models.CriblLakeDatasetUpdateFormat] = None,
         http_da_used: Optional[bool] = None,
         id: Optional[str] = None,
+        metrics: Optional[
+            Union[models.LakeDatasetMetrics, models.LakeDatasetMetricsTypedDict]
+        ] = None,
         retention_period_in_days: Optional[float] = None,
         search_config: Optional[
             Union[
@@ -886,6 +903,7 @@ class LakeDatasets(BaseSDK):
         :param format_:
         :param http_da_used:
         :param id:
+        :param metrics:
         :param retention_period_in_days:
         :param search_config:
         :param storage_location_id:
@@ -919,6 +937,9 @@ class LakeDatasets(BaseSDK):
                 format_=format_,
                 http_da_used=http_da_used,
                 id=id,
+                metrics=utils.get_pydantic_model(
+                    metrics, Optional[models.LakeDatasetMetrics]
+                ),
                 retention_period_in_days=retention_period_in_days,
                 search_config=utils.get_pydantic_model(
                     search_config, Optional[models.LakeDatasetSearchConfig]
@@ -1006,6 +1027,9 @@ class LakeDatasets(BaseSDK):
         format_: Optional[models.CriblLakeDatasetUpdateFormat] = None,
         http_da_used: Optional[bool] = None,
         id: Optional[str] = None,
+        metrics: Optional[
+            Union[models.LakeDatasetMetrics, models.LakeDatasetMetricsTypedDict]
+        ] = None,
         retention_period_in_days: Optional[float] = None,
         search_config: Optional[
             Union[
@@ -1033,6 +1057,7 @@ class LakeDatasets(BaseSDK):
         :param format_:
         :param http_da_used:
         :param id:
+        :param metrics:
         :param retention_period_in_days:
         :param search_config:
         :param storage_location_id:
@@ -1066,6 +1091,9 @@ class LakeDatasets(BaseSDK):
                 format_=format_,
                 http_da_used=http_da_used,
                 id=id,
+                metrics=utils.get_pydantic_model(
+                    metrics, Optional[models.LakeDatasetMetrics]
+                ),
                 retention_period_in_days=retention_period_in_days,
                 search_config=utils.get_pydantic_model(
                     search_config, Optional[models.LakeDatasetSearchConfig]

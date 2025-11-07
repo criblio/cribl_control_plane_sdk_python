@@ -41,12 +41,12 @@ class CriblControlPlane(BaseSDK):
     routes: "RoutesSDK"
     r"""Actions related to Routes"""
     auth: "AuthSDK"
-    nodes: "Nodes"
     health: "Health"
     r"""Actions related to REST server health"""
     packs: "Packs"
     r"""Actions related to Packs"""
     versions: "Versions"
+    nodes: "Nodes"
     groups: "GroupsSDK"
     r"""Actions related to Groups"""
     _sub_sdk_map = {
@@ -56,10 +56,10 @@ class CriblControlPlane(BaseSDK):
         "pipelines": ("cribl_control_plane.pipelines", "Pipelines"),
         "routes": ("cribl_control_plane.routes_sdk", "RoutesSDK"),
         "auth": ("cribl_control_plane.auth_sdk", "AuthSDK"),
-        "nodes": ("cribl_control_plane.nodes", "Nodes"),
         "health": ("cribl_control_plane.health", "Health"),
         "packs": ("cribl_control_plane.packs", "Packs"),
         "versions": ("cribl_control_plane.versions", "Versions"),
+        "nodes": ("cribl_control_plane.nodes", "Nodes"),
         "groups": ("cribl_control_plane.groups_sdk", "GroupsSDK"),
     }
 

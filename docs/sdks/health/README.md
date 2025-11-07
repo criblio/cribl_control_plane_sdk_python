@@ -11,11 +11,11 @@ Actions related to REST server health
 
 ## get
 
-Retrieve health status of the server
+Get the current health status of the server.
 
 ### Example Usage
 
-<!-- UsageSnippet language="python" operationID="getHealthInfo" method="get" path="/health" -->
+<!-- UsageSnippet language="python" operationID="getHealth" method="get" path="/health" -->
 ```python
 from cribl_control_plane import CriblControlPlane
 
@@ -39,11 +39,12 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.GetHealthInfoResponse](../../models/gethealthinforesponse.md)**
+**[models.HealthServerStatus](../../models/healthserverstatus.md)**
 
 ### Errors
 
-| Error Type               | Status Code              | Content Type             |
-| ------------------------ | ------------------------ | ------------------------ |
-| errors.HealthStatusError | 420                      | application/json         |
-| errors.APIError          | 4XX, 5XX                 | \*/\*                    |
+| Error Type                     | Status Code                    | Content Type                   |
+| ------------------------------ | ------------------------------ | ------------------------------ |
+| errors.HealthServerStatusError | 420                            | application/json               |
+| errors.Error                   | 500                            | application/json               |
+| errors.APIError                | 4XX, 5XX                       | \*/\*                          |

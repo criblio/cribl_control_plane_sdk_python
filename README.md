@@ -14,6 +14,7 @@ Cribl API Reference: This API Reference lists available REST endpoints, along wi
   * [SDK Example Usage](#sdk-example-usage)
   * [Authentication](#authentication)
   * [Available Resources and Operations](#available-resources-and-operations)
+  * [File uploads](#file-uploads)
   * [Retries](#retries)
   * [Error Handling](#error-handling)
   * [Custom HTTP Client](#custom-http-client)
@@ -130,7 +131,10 @@ with CriblControlPlane(
         "lakehouse_connection_type": models.LakehouseConnectionType.CACHE,
         "migration_query_id": "<id>",
         "retention_in_days": 1466.58,
-    }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.CriblLakeDatasetFormat.DDSS, http_da_used=True, retention_period_in_days=456.37, search_config={
+    }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.CriblLakeDatasetFormat.DDSS, http_da_used=True, metrics={
+        "current_size_bytes": 6170.04,
+        "metrics_date": "<value>",
+    }, retention_period_in_days=456.37, search_config={
         "datatypes": [
             "<value 1>",
         ],
@@ -188,7 +192,10 @@ async def main():
             "lakehouse_connection_type": models.LakehouseConnectionType.CACHE,
             "migration_query_id": "<id>",
             "retention_in_days": 1466.58,
-        }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.CriblLakeDatasetFormat.DDSS, http_da_used=True, retention_period_in_days=456.37, search_config={
+        }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.CriblLakeDatasetFormat.DDSS, http_da_used=True, metrics={
+            "current_size_bytes": 6170.04,
+            "metrics_date": "<value>",
+        }, retention_period_in_days=456.37, search_config={
             "datatypes": [
                 "<value 1>",
             ],
@@ -255,7 +262,10 @@ with CriblControlPlane(
         "lakehouse_connection_type": models.LakehouseConnectionType.CACHE,
         "migration_query_id": "<id>",
         "retention_in_days": 1466.58,
-    }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.CriblLakeDatasetFormat.DDSS, http_da_used=True, retention_period_in_days=456.37, search_config={
+    }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.CriblLakeDatasetFormat.DDSS, http_da_used=True, metrics={
+        "current_size_bytes": 6170.04,
+        "metrics_date": "<value>",
+    }, retention_period_in_days=456.37, search_config={
         "datatypes": [
             "<value 1>",
         ],
@@ -354,8 +364,9 @@ with CriblControlPlane(
 
 ### [packs](docs/sdks/packs/README.md)
 
-* [install](docs/sdks/packs/README.md#install) - Create or install a Pack
+* [install](docs/sdks/packs/README.md#install) - Install a Pack
 * [list](docs/sdks/packs/README.md#list) - List all Packs
+* [upload](docs/sdks/packs/README.md#upload) - Upload a Pack file
 * [delete](docs/sdks/packs/README.md#delete) - Uninstall a Pack
 * [get](docs/sdks/packs/README.md#get) - Get a Pack
 * [update](docs/sdks/packs/README.md#update) - Upgrade a Pack
@@ -373,7 +384,7 @@ with CriblControlPlane(
 * [list](docs/sdks/routessdk/README.md#list) - List all Routes
 * [get](docs/sdks/routessdk/README.md#get) - Get a Routing table
 * [update](docs/sdks/routessdk/README.md#update) - Update a Route
-* [append](docs/sdks/routessdk/README.md#append) - Append a Route to the end of the Routing table
+* [append](docs/sdks/routessdk/README.md#append) - Add a Route to the end of the Routing table
 
 ### [sources](docs/sdks/sources/README.md)
 
@@ -419,6 +430,36 @@ with CriblControlPlane(
 </details>
 <!-- End Available Resources and Operations [operations] -->
 
+<!-- Start File uploads [file-upload] -->
+## File uploads
+
+Certain SDK methods accept file objects as part of a request body or multi-part request. It is possible and typically recommended to upload files as a stream rather than reading the entire contents into memory. This avoids excessive memory consumption and potentially crashing with out-of-memory errors when working with very large files. The following example demonstrates how to attach a file stream to a request.
+
+> [!TIP]
+>
+> For endpoints that handle file uploads bytes arrays can also be used. However, using streams is recommended for large files.
+>
+
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    server_url="https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.upload(filename="example.file", request_body=open("example.file", "rb"))
+
+    # Handle response
+    print(res)
+
+```
+<!-- End File uploads [file-upload] -->
+
 <!-- Start Retries [retries] -->
 ## Retries
 
@@ -452,7 +493,10 @@ with CriblControlPlane(
         "lakehouse_connection_type": models.LakehouseConnectionType.CACHE,
         "migration_query_id": "<id>",
         "retention_in_days": 1466.58,
-    }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.CriblLakeDatasetFormat.DDSS, http_da_used=True, retention_period_in_days=456.37, search_config={
+    }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.CriblLakeDatasetFormat.DDSS, http_da_used=True, metrics={
+        "current_size_bytes": 6170.04,
+        "metrics_date": "<value>",
+    }, retention_period_in_days=456.37, search_config={
         "datatypes": [
             "<value 1>",
         ],
@@ -508,7 +552,10 @@ with CriblControlPlane(
         "lakehouse_connection_type": models.LakehouseConnectionType.CACHE,
         "migration_query_id": "<id>",
         "retention_in_days": 1466.58,
-    }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.CriblLakeDatasetFormat.DDSS, http_da_used=True, retention_period_in_days=456.37, search_config={
+    }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.CriblLakeDatasetFormat.DDSS, http_da_used=True, metrics={
+        "current_size_bytes": 6170.04,
+        "metrics_date": "<value>",
+    }, retention_period_in_days=456.37, search_config={
         "datatypes": [
             "<value 1>",
         ],
@@ -578,7 +625,10 @@ with CriblControlPlane(
             "lakehouse_connection_type": models.LakehouseConnectionType.CACHE,
             "migration_query_id": "<id>",
             "retention_in_days": 1466.58,
-        }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.CriblLakeDatasetFormat.DDSS, http_da_used=True, retention_period_in_days=456.37, search_config={
+        }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.CriblLakeDatasetFormat.DDSS, http_da_used=True, metrics={
+            "current_size_bytes": 6170.04,
+            "metrics_date": "<value>",
+        }, retention_period_in_days=456.37, search_config={
             "datatypes": [
                 "<value 1>",
             ],
@@ -619,7 +669,7 @@ with CriblControlPlane(
 ### Error Classes
 **Primary errors:**
 * [`CriblControlPlaneError`](./src/cribl_control_plane/errors/criblcontrolplaneerror.py): The base class for HTTP error responses.
-  * [`Error`](./src/cribl_control_plane/errors/error.py): Unexpected error. Status code `500`. *
+  * [`Error`](./src/cribl_control_plane/errors/error.py): Unexpected error. Status code `500`.
 
 <details><summary>Less common errors (6)</summary>
 
@@ -632,7 +682,7 @@ with CriblControlPlane(
 
 
 **Inherit from [`CriblControlPlaneError`](./src/cribl_control_plane/errors/criblcontrolplaneerror.py)**:
-* [`HealthStatusError`](./src/cribl_control_plane/errors/healthstatuserror.py): Healthy status. Status code `420`. Applicable to 1 of 62 methods.*
+* [`HealthServerStatusError`](./src/cribl_control_plane/errors/healthserverstatuserror.py): Healthy status. Status code `420`. Applicable to 1 of 63 methods.*
 * [`ResponseValidationError`](./src/cribl_control_plane/errors/responsevalidationerror.py): Type mismatch between the response data and the expected Pydantic model. Provides access to the Pydantic validation error via the `cause` attribute.
 
 </details>

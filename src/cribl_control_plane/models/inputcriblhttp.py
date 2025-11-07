@@ -126,6 +126,24 @@ class InputCriblHTTPPq(BaseModel):
         return value
 
 
+class InputCriblHTTPAuthTokenTypedDict(TypedDict):
+    token_secret: str
+    r"""Select or create a stored text secret"""
+    enabled: NotRequired[bool]
+    description: NotRequired[str]
+    r"""Optional token description"""
+
+
+class InputCriblHTTPAuthToken(BaseModel):
+    token_secret: Annotated[str, pydantic.Field(alias="tokenSecret")]
+    r"""Select or create a stored text secret"""
+
+    enabled: Optional[bool] = True
+
+    description: Optional[str] = None
+    r"""Optional token description"""
+
+
 class InputCriblHTTPMinimumTLSVersion(str, Enum, metaclass=utils.OpenEnumMeta):
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
@@ -265,8 +283,8 @@ class InputCriblHTTPTypedDict(TypedDict):
     pq: NotRequired[InputCriblHTTPPqTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-    auth_tokens: NotRequired[List[str]]
-    r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
+    auth_tokens: NotRequired[List[InputCriblHTTPAuthTokenTypedDict]]
+    r"""Shared secrets to be used by connected environments to authorize connections. These tokens should be installed in Cribl HTTP destinations in connected environments."""
     tls: NotRequired[InputCriblHTTPTLSSettingsServerSideTypedDict]
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
@@ -331,10 +349,10 @@ class InputCriblHTTP(BaseModel):
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
 
-    auth_tokens: Annotated[Optional[List[str]], pydantic.Field(alias="authTokens")] = (
-        None
-    )
-    r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
+    auth_tokens: Annotated[
+        Optional[List[InputCriblHTTPAuthToken]], pydantic.Field(alias="authTokens")
+    ] = None
+    r"""Shared secrets to be used by connected environments to authorize connections. These tokens should be installed in Cribl HTTP destinations in connected environments."""
 
     tls: Optional[InputCriblHTTPTLSSettingsServerSide] = None
 

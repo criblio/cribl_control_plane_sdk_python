@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: d5e71c600b11bf9409114d9016fe6d31
-  docVersion: 4.15.0-alpha.1762383805913-2ea53e6b
+  docChecksum: da13f17c4117f04bcd2ed6fd3e722bb2
+  docVersion: 4.16.0-alpha.1762501435331-171bb29b
   speakeasyVersion: 1.650.0
   generationVersion: 2.743.2
-  releaseVersion: 0.3.0b12
-  configChecksum: 6070b9b6f8c8523796b8c68371665929
+  releaseVersion: 0.3.0b13
+  configChecksum: cfd933b2832a3c9679188e97b229ab82
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -296,6 +296,7 @@ generatedFiles:
   - docs/models/inputcriblcompression.md
   - docs/models/inputcriblconnection.md
   - docs/models/inputcriblhttp.md
+  - docs/models/inputcriblhttpauthtoken.md
   - docs/models/inputcriblhttpcompression.md
   - docs/models/inputcriblhttpconnection.md
   - docs/models/inputcriblhttpmaximumtlsversion.md
@@ -332,6 +333,7 @@ generatedFiles:
   - docs/models/inputcriblpq.md
   - docs/models/inputcriblpqcontrols.md
   - docs/models/inputcribltcp.md
+  - docs/models/inputcribltcpauthtoken.md
   - docs/models/inputcribltcpcompression.md
   - docs/models/inputcribltcpconnection.md
   - docs/models/inputcribltcpmaximumtlsversion.md
@@ -1186,6 +1188,7 @@ generatedFiles:
   - docs/models/outputconfluentcloudtlssettingsclientside.md
   - docs/models/outputconfluentcloudtype.md
   - docs/models/outputcriblhttp.md
+  - docs/models/outputcriblhttpauthtoken.md
   - docs/models/outputcriblhttpbackpressurebehavior.md
   - docs/models/outputcriblhttpcompression.md
   - docs/models/outputcriblhttpextrahttpheader.md
@@ -1211,6 +1214,7 @@ generatedFiles:
   - docs/models/outputcribllakestorageclass.md
   - docs/models/outputcribllaketype.md
   - docs/models/outputcribltcp.md
+  - docs/models/outputcribltcpauthtoken.md
   - docs/models/outputcribltcpbackpressurebehavior.md
   - docs/models/outputcribltcpcompression.md
   - docs/models/outputcribltcphost.md
@@ -1543,6 +1547,20 @@ generatedFiles:
   - docs/models/outputlokiresponseretrysetting.md
   - docs/models/outputlokitimeoutretrysettings.md
   - docs/models/outputlokitype.md
+  - docs/models/outputmicrosoftfabric.md
+  - docs/models/outputmicrosoftfabricacknowledgments.md
+  - docs/models/outputmicrosoftfabricauthentication.md
+  - docs/models/outputmicrosoftfabricauthenticationmethod.md
+  - docs/models/outputmicrosoftfabricbackpressurebehavior.md
+  - docs/models/outputmicrosoftfabriccompression.md
+  - docs/models/outputmicrosoftfabricmicrosoftentraidauthenticationendpoint.md
+  - docs/models/outputmicrosoftfabricmode.md
+  - docs/models/outputmicrosoftfabricpqcontrols.md
+  - docs/models/outputmicrosoftfabricqueuefullbehavior.md
+  - docs/models/outputmicrosoftfabricrecorddataformat.md
+  - docs/models/outputmicrosoftfabricsaslmechanism.md
+  - docs/models/outputmicrosoftfabrictlssettingsclientside.md
+  - docs/models/outputmicrosoftfabrictype.md
   - docs/models/outputminio.md
   - docs/models/outputminioauthenticationmethod.md
   - docs/models/outputminiobackpressurebehavior.md
@@ -2290,6 +2308,7 @@ generatedFiles:
   - src/cribl_control_plane/models/outputkafka.py
   - src/cribl_control_plane/models/outputkinesis.py
   - src/cribl_control_plane/models/outputloki.py
+  - src/cribl_control_plane/models/outputmicrosoftfabric.py
   - src/cribl_control_plane/models/outputminio.py
   - src/cribl_control_plane/models/outputmsk.py
   - src/cribl_control_plane/models/outputnetflow.py
@@ -2429,7 +2448,7 @@ examples:
           id: "<id>"
       responses:
         "200":
-          application/json: {"count": 893499, "items": [{"id": "<id>", "type": "cribl_http", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "always", "maxBufferSize": 1000, "commitFrequency": 42, "maxFileSize": "1 MB", "maxSize": "5GB", "path": "$CRIBL_HOME/state/queues", "compress": "none", "pqControls": {}}, "host": "0.0.0.0", "port": 407.44, "authTokens": ["<value 1>", "<value 2>"], "tls": {"disabled": true, "requestCert": false, "rejectUnauthorized": false, "commonNameRegex": "<value>", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1", "maxVersion": "TLSv1.2"}, "maxActiveReq": 256, "maxRequestsPerSocket": 0, "enableProxyHeader": false, "captureHeaders": false, "activityLogSampleRate": 100, "requestTimeout": 0, "socketTimeout": 0, "keepAliveTimeout": 5, "enableHealthCheck": false, "ipAllowlistRegex": "/.*/", "ipDenylistRegex": "/^$/", "metadata": [{"name": "<value>", "value": "<value>"}], "description": "promptly confound shinny hygienic ack consequently which besides mould spectate"}]}
+          application/json: {"count": 893499, "items": [{"id": "<id>", "type": "cribl_http", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "always", "maxBufferSize": 1000, "commitFrequency": 42, "maxFileSize": "1 MB", "maxSize": "5GB", "path": "$CRIBL_HOME/state/queues", "compress": "none", "pqControls": {}}, "host": "0.0.0.0", "port": 407.44, "authTokens": [{"tokenSecret": "<value>", "enabled": true, "description": "uncork promptly confound shinny hygienic ack consequently which besides mould"}, {"tokenSecret": "<value>", "enabled": true, "description": "finished middle glimmer between times orange poorly"}], "tls": {"disabled": true, "requestCert": false, "rejectUnauthorized": false, "commonNameRegex": "<value>", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1", "maxVersion": "TLSv1.2"}, "maxActiveReq": 256, "maxRequestsPerSocket": 0, "enableProxyHeader": false, "captureHeaders": false, "activityLogSampleRate": 100, "requestTimeout": 0, "socketTimeout": 0, "keepAliveTimeout": 5, "enableHealthCheck": false, "ipAllowlistRegex": "/.*/", "ipDenylistRegex": "/^$/", "metadata": [{"name": "<value>", "value": "<value>"}], "description": "promptly confound shinny hygienic ack consequently which besides mould spectate"}]}
         "500":
           application/json: {"message": "<value>"}
   updateInputById:
@@ -3447,3 +3466,4 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
+releaseNotes: "## Python SDK Changes Detected:\n* `cribl_control_plane.sources.list()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.create()`: \n  *  `request` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.get()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.update()`: \n  *  `request.input` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.delete()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.list()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.create()`: \n  *  `request` **Changed**\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.get()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.update()`: \n  *  `request.output` **Changed**\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.delete()`:  `response.items.[]` **Changed**\n"

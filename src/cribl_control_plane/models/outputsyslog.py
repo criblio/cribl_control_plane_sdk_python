@@ -346,6 +346,8 @@ class OutputSyslogTypedDict(TypedDict):
     r"""Maximum size of syslog messages. Make sure this value is less than or equal to the MTU to avoid UDP packet fragmentation."""
     udp_dns_resolve_period_sec: NotRequired[float]
     r"""How often to resolve the destination hostname to an IP address. Ignored if the destination is an IP address. A value of 0 means every message sent will incur a DNS lookup."""
+    enable_ip_spoofing: NotRequired[bool]
+    r"""Send Syslog traffic using the original event's Source IP and port. To enable this, you must install the external `udp-sender` helper binary at `/usr/bin/udp-sender` on all Worker Nodes and grant it the `CAP_NET_RAW` capability."""
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
     pq_rate_per_sec: NotRequired[float]
@@ -501,6 +503,11 @@ class OutputSyslog(BaseModel):
         Optional[float], pydantic.Field(alias="udpDnsResolvePeriodSec")
     ] = 0
     r"""How often to resolve the destination hostname to an IP address. Ignored if the destination is an IP address. A value of 0 means every message sent will incur a DNS lookup."""
+
+    enable_ip_spoofing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableIpSpoofing")
+    ] = False
+    r"""Send Syslog traffic using the original event's Source IP and port. To enable this, you must install the external `udp-sender` helper binary at `/usr/bin/udp-sender` on all Worker Nodes and grant it the `CAP_NET_RAW` capability."""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")

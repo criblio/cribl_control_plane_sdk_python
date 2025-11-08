@@ -3,8 +3,7 @@
 from __future__ import annotations
 from cribl_control_plane.types import BaseModel
 from cribl_control_plane.utils import FieldMetadata, PathParamMetadata
-from typing import List, Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing_extensions import Annotated, TypedDict
 
 
 class DeleteOutputPqByIDRequestTypedDict(TypedDict):
@@ -17,20 +16,3 @@ class DeleteOutputPqByIDRequest(BaseModel):
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
     r"""The <code>id</code> of the Destination to clear the PQ for."""
-
-
-class DeleteOutputPqByIDResponseTypedDict(TypedDict):
-    r"""A list of job ids for the background job that clears the persistent queue"""
-
-    count: NotRequired[int]
-    r"""number of items present in the items array"""
-    items: NotRequired[List[str]]
-
-
-class DeleteOutputPqByIDResponse(BaseModel):
-    r"""A list of job ids for the background job that clears the persistent queue"""
-
-    count: Optional[int] = None
-    r"""number of items present in the items array"""
-
-    items: Optional[List[str]] = None

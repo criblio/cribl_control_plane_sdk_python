@@ -47,7 +47,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.ListInputResponse](../../models/listinputresponse.md)**
+**[models.CountedInput](../../models/countedinput.md)**
 
 ### Errors
 
@@ -76,11 +76,11 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.sources.create(request={
+        "send_to_routes": True,
         "id": "<id>",
-        "type": models.InputTCPType.TCP,
+        "type": models.InputTCPType1.TCP,
         "disabled": False,
         "pipeline": "<value>",
-        "send_to_routes": True,
         "environment": "<value>",
         "pq_enabled": False,
         "streamtags": [
@@ -95,29 +95,29 @@ with CriblControlPlane(
             },
         ],
         "pq": {
-            "mode": models.InputTCPMode.ALWAYS,
+            "mode": models.PqTypeMode.ALWAYS,
             "max_buffer_size": 1000,
             "commit_frequency": 42,
             "max_file_size": "1 MB",
             "max_size": "5GB",
             "path": "$CRIBL_HOME/state/queues",
-            "compress": models.InputTCPCompression.NONE,
+            "compress": models.PqTypeCompression.NONE,
             "pq_controls": {},
         },
         "host": "0.0.0.0",
         "port": 301.76,
         "tls": {
             "disabled": True,
+            "request_cert": False,
+            "reject_unauthorized": True,
+            "common_name_regex": "/.*/",
             "certificate_name": "<value>",
             "priv_key_path": "<value>",
             "passphrase": "<value>",
             "cert_path": "<value>",
             "ca_path": "<value>",
-            "request_cert": False,
-            "reject_unauthorized": "<value>",
-            "common_name_regex": "<value>",
-            "min_version": models.InputTCPMinimumTLSVersion.TL_SV1,
-            "max_version": models.InputTCPMaximumTLSVersion.TL_SV1_1,
+            "min_version": models.Tls2TypeMinimumTLSVersion.TL_SV1,
+            "max_version": models.Tls2TypeMaximumTLSVersion.TL_SV1_1,
         },
         "ip_whitelist_regex": "/.*/",
         "max_active_cxn": 1000,
@@ -146,7 +146,9 @@ with CriblControlPlane(
             ],
         },
         "description": "classic pish supposing misguided carefully fen",
-        "auth_type": models.InputTCPAuthenticationMethod.MANUAL,
+        "auth_token": "",
+        "auth_type": models.AuthType2Options.MANUAL,
+        "text_secret": "<value>",
     })
 
     # Handle response
@@ -163,7 +165,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.CreateInputResponse](../../models/createinputresponse.md)**
+**[models.CountedInput](../../models/countedinput.md)**
 
 ### Errors
 
@@ -207,7 +209,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.GetInputByIDResponse](../../models/getinputbyidresponse.md)**
+**[models.CountedInput](../../models/countedinput.md)**
 
 ### Errors
 
@@ -236,11 +238,11 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.sources.update(id="<id>", input_={
+        "send_to_routes": True,
         "id": "<id>",
-        "type": models.InputKubeEventsType.KUBE_EVENTS,
+        "type": models.InputKubeEventsType1.KUBE_EVENTS,
         "disabled": False,
         "pipeline": "<value>",
-        "send_to_routes": True,
         "environment": "<value>",
         "pq_enabled": False,
         "streamtags": [
@@ -254,13 +256,13 @@ with CriblControlPlane(
             },
         ],
         "pq": {
-            "mode": models.InputKubeEventsMode.ALWAYS,
+            "mode": models.PqTypeMode.ALWAYS,
             "max_buffer_size": 1000,
             "commit_frequency": 42,
             "max_file_size": "1 MB",
             "max_size": "5GB",
             "path": "$CRIBL_HOME/state/queues",
-            "compress": models.InputKubeEventsCompression.NONE,
+            "compress": models.PqTypeCompression.NONE,
             "pq_controls": {},
         },
         "rules": [
@@ -293,7 +295,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.UpdateInputByIDResponse](../../models/updateinputbyidresponse.md)**
+**[models.CountedInput](../../models/countedinput.md)**
 
 ### Errors
 
@@ -337,7 +339,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.DeleteInputByIDResponse](../../models/deleteinputbyidresponse.md)**
+**[models.CountedInput](../../models/countedinput.md)**
 
 ### Errors
 

@@ -12,7 +12,7 @@ class OutputRouterType(str, Enum):
     ROUTER = "router"
 
 
-class OutputRouterRuleTypedDict(TypedDict):
+class RuleTypedDict(TypedDict):
     filter_: str
     r"""JavaScript expression to select events to send to output"""
     output: str
@@ -23,7 +23,7 @@ class OutputRouterRuleTypedDict(TypedDict):
     r"""Flag to control whether to stop the event from being checked against other rules"""
 
 
-class OutputRouterRule(BaseModel):
+class Rule(BaseModel):
     filter_: Annotated[str, pydantic.Field(alias="filter")]
     r"""JavaScript expression to select events to send to output"""
 
@@ -39,7 +39,7 @@ class OutputRouterRule(BaseModel):
 
 class OutputRouterTypedDict(TypedDict):
     type: OutputRouterType
-    rules: List[OutputRouterRuleTypedDict]
+    rules: List[RuleTypedDict]
     r"""Event routing rules"""
     id: NotRequired[str]
     r"""Unique ID for this output"""
@@ -57,7 +57,7 @@ class OutputRouterTypedDict(TypedDict):
 class OutputRouter(BaseModel):
     type: OutputRouterType
 
-    rules: List[OutputRouterRule]
+    rules: List[Rule]
     r"""Event routing rules"""
 
     id: Optional[str] = None

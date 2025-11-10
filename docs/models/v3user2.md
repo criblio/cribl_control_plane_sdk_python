@@ -1,0 +1,11 @@
+# V3User2
+
+
+## Fields
+
+| Field                                                                            | Type                                                                             | Required                                                                         | Description                                                                      |
+| -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `name`                                                                           | *str*                                                                            | :heavy_check_mark:                                                               | N/A                                                                              |
+| `auth_protocol`                                                                  | [Optional[models.AuthenticationProtocol2]](../models/authenticationprotocol2.md) | :heavy_minus_sign:                                                               | N/A                                                                              |
+| `auth_key`                                                                       | *Optional[Any]*                                                                  | :heavy_minus_sign:                                                               | N/A                                                                              |
+| `priv_protocol`                                                                  | *Optional[str]*                                                                  | :heavy_minus_sign:                                                               | N/A                                                                              |

@@ -1,0 +1,11 @@
+# InputSystemMetricsCPU4
+
+
+## Fields
+
+| Field                                                                                  | Type                                                                                   | Required                                                                               | Description                                                                            |
+| -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| `mode`                                                                                 | [Optional[models.InputSystemMetricsCPUMode4]](../models/inputsystemmetricscpumode4.md) | :heavy_minus_sign:                                                                     | Select the level of detail for CPU metrics                                             |
+| `per_cpu`                                                                              | *Optional[bool]*                                                                       | :heavy_minus_sign:                                                                     | Generate metrics for each CPU                                                          |
+| `detail`                                                                               | *Optional[bool]*                                                                       | :heavy_minus_sign:                                                                     | Generate metrics for all CPU states                                                    |
+| `time`                                                                                 | *Optional[bool]*                                                                       | :heavy_minus_sign:                                                                     | Generate raw, monotonic CPU time counters                                              |

@@ -44,7 +44,10 @@ with CriblControlPlane(
         "lakehouse_connection_type": models.LakehouseConnectionType.CACHE,
         "migration_query_id": "<id>",
         "retention_in_days": 1466.58,
-    }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.CriblLakeDatasetFormat.DDSS, http_da_used=True, retention_period_in_days=456.37, search_config={
+    }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.FormatOptions.DDSS, http_da_used=True, metrics={
+        "current_size_bytes": 6170.04,
+        "metrics_date": "<value>",
+    }, retention_period_in_days=456.37, search_config={
         "datatypes": [
             "<value 1>",
         ],
@@ -81,8 +84,9 @@ with CriblControlPlane(
 | `cache_connection`                                                                  | [Optional[models.CacheConnection]](../../models/cacheconnection.md)                 | :heavy_minus_sign:                                                                  | N/A                                                                                 |
 | `deletion_started_at`                                                               | *Optional[float]*                                                                   | :heavy_minus_sign:                                                                  | N/A                                                                                 |
 | `description`                                                                       | *Optional[str]*                                                                     | :heavy_minus_sign:                                                                  | N/A                                                                                 |
-| `format_`                                                                           | [Optional[models.CriblLakeDatasetFormat]](../../models/cribllakedatasetformat.md)   | :heavy_minus_sign:                                                                  | N/A                                                                                 |
+| `format_`                                                                           | [Optional[models.FormatOptions]](../../models/formatoptions.md)                     | :heavy_minus_sign:                                                                  | N/A                                                                                 |
 | `http_da_used`                                                                      | *Optional[bool]*                                                                    | :heavy_minus_sign:                                                                  | N/A                                                                                 |
+| `metrics`                                                                           | [Optional[models.LakeDatasetMetrics]](../../models/lakedatasetmetrics.md)           | :heavy_minus_sign:                                                                  | N/A                                                                                 |
 | `retention_period_in_days`                                                          | *Optional[float]*                                                                   | :heavy_minus_sign:                                                                  | N/A                                                                                 |
 | `search_config`                                                                     | [Optional[models.LakeDatasetSearchConfig]](../../models/lakedatasetsearchconfig.md) | :heavy_minus_sign:                                                                  | N/A                                                                                 |
 | `storage_location_id`                                                               | *Optional[str]*                                                                     | :heavy_minus_sign:                                                                  | N/A                                                                                 |
@@ -91,7 +95,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.CreateCriblLakeDatasetByLakeIDResponse](../../models/createcribllakedatasetbylakeidresponse.md)**
+**[models.CountedCriblLakeDataset](../../models/countedcribllakedataset.md)**
 
 ### Errors
 
@@ -135,7 +139,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.GetCriblLakeDatasetByLakeIDResponse](../../models/getcribllakedatasetbylakeidresponse.md)**
+**[models.CountedCriblLakeDataset](../../models/countedcribllakedataset.md)**
 
 ### Errors
 
@@ -180,7 +184,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.DeleteCriblLakeDatasetByLakeIDAndIDResponse](../../models/deletecribllakedatasetbylakeidandidresponse.md)**
+**[models.CountedCriblLakeDataset](../../models/countedcribllakedataset.md)**
 
 ### Errors
 
@@ -225,7 +229,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.GetCriblLakeDatasetByLakeIDAndIDResponse](../../models/getcribllakedatasetbylakeidandidresponse.md)**
+**[models.CountedCriblLakeDataset](../../models/countedcribllakedataset.md)**
 
 ### Errors
 
@@ -268,7 +272,10 @@ with CriblControlPlane(
         "lakehouse_connection_type": models.LakehouseConnectionType.ZERO_POINT,
         "migration_query_id": "<id>",
         "retention_in_days": 3769.62,
-    }, deletion_started_at=836.59, description="highlight phew ponder but winding", format_=models.CriblLakeDatasetUpdateFormat.JSON, http_da_used=True, id="<id>", retention_period_in_days=602.09, search_config={
+    }, deletion_started_at=836.59, description="highlight phew ponder but winding", format_=models.FormatOptions.JSON, http_da_used=True, id="<id>", metrics={
+        "current_size_bytes": 6237.74,
+        "metrics_date": "<value>",
+    }, retention_period_in_days=602.09, search_config={
         "datatypes": [
             "<value 1>",
             "<value 2>",
@@ -296,27 +303,28 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                                                     | Type                                                                                          | Required                                                                                      | Description                                                                                   |
-| --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| `lake_id`                                                                                     | *str*                                                                                         | :heavy_check_mark:                                                                            | The <code>id</code> of the Lake that contains the Lake Dataset to update.                     |
-| `id_param`                                                                                    | *str*                                                                                         | :heavy_check_mark:                                                                            | The <code>id</code> of the Lake Dataset to update.                                            |
-| `accelerated_fields`                                                                          | List[*str*]                                                                                   | :heavy_minus_sign:                                                                            | N/A                                                                                           |
-| `bucket_name`                                                                                 | *Optional[str]*                                                                               | :heavy_minus_sign:                                                                            | N/A                                                                                           |
-| `cache_connection`                                                                            | [Optional[models.CacheConnection]](../../models/cacheconnection.md)                           | :heavy_minus_sign:                                                                            | N/A                                                                                           |
-| `deletion_started_at`                                                                         | *Optional[float]*                                                                             | :heavy_minus_sign:                                                                            | N/A                                                                                           |
-| `description`                                                                                 | *Optional[str]*                                                                               | :heavy_minus_sign:                                                                            | N/A                                                                                           |
-| `format_`                                                                                     | [Optional[models.CriblLakeDatasetUpdateFormat]](../../models/cribllakedatasetupdateformat.md) | :heavy_minus_sign:                                                                            | N/A                                                                                           |
-| `http_da_used`                                                                                | *Optional[bool]*                                                                              | :heavy_minus_sign:                                                                            | N/A                                                                                           |
-| `id`                                                                                          | *Optional[str]*                                                                               | :heavy_minus_sign:                                                                            | N/A                                                                                           |
-| `retention_period_in_days`                                                                    | *Optional[float]*                                                                             | :heavy_minus_sign:                                                                            | N/A                                                                                           |
-| `search_config`                                                                               | [Optional[models.LakeDatasetSearchConfig]](../../models/lakedatasetsearchconfig.md)           | :heavy_minus_sign:                                                                            | N/A                                                                                           |
-| `storage_location_id`                                                                         | *Optional[str]*                                                                               | :heavy_minus_sign:                                                                            | N/A                                                                                           |
-| `view_name`                                                                                   | *Optional[str]*                                                                               | :heavy_minus_sign:                                                                            | N/A                                                                                           |
-| `retries`                                                                                     | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                              | :heavy_minus_sign:                                                                            | Configuration to override the default retry behavior of the client.                           |
+| Parameter                                                                           | Type                                                                                | Required                                                                            | Description                                                                         |
+| ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| `lake_id`                                                                           | *str*                                                                               | :heavy_check_mark:                                                                  | The <code>id</code> of the Lake that contains the Lake Dataset to update.           |
+| `id_param`                                                                          | *str*                                                                               | :heavy_check_mark:                                                                  | The <code>id</code> of the Lake Dataset to update.                                  |
+| `accelerated_fields`                                                                | List[*str*]                                                                         | :heavy_minus_sign:                                                                  | N/A                                                                                 |
+| `bucket_name`                                                                       | *Optional[str]*                                                                     | :heavy_minus_sign:                                                                  | N/A                                                                                 |
+| `cache_connection`                                                                  | [Optional[models.CacheConnection]](../../models/cacheconnection.md)                 | :heavy_minus_sign:                                                                  | N/A                                                                                 |
+| `deletion_started_at`                                                               | *Optional[float]*                                                                   | :heavy_minus_sign:                                                                  | N/A                                                                                 |
+| `description`                                                                       | *Optional[str]*                                                                     | :heavy_minus_sign:                                                                  | N/A                                                                                 |
+| `format_`                                                                           | [Optional[models.FormatOptions]](../../models/formatoptions.md)                     | :heavy_minus_sign:                                                                  | N/A                                                                                 |
+| `http_da_used`                                                                      | *Optional[bool]*                                                                    | :heavy_minus_sign:                                                                  | N/A                                                                                 |
+| `id`                                                                                | *Optional[str]*                                                                     | :heavy_minus_sign:                                                                  | N/A                                                                                 |
+| `metrics`                                                                           | [Optional[models.LakeDatasetMetrics]](../../models/lakedatasetmetrics.md)           | :heavy_minus_sign:                                                                  | N/A                                                                                 |
+| `retention_period_in_days`                                                          | *Optional[float]*                                                                   | :heavy_minus_sign:                                                                  | N/A                                                                                 |
+| `search_config`                                                                     | [Optional[models.LakeDatasetSearchConfig]](../../models/lakedatasetsearchconfig.md) | :heavy_minus_sign:                                                                  | N/A                                                                                 |
+| `storage_location_id`                                                               | *Optional[str]*                                                                     | :heavy_minus_sign:                                                                  | N/A                                                                                 |
+| `view_name`                                                                         | *Optional[str]*                                                                     | :heavy_minus_sign:                                                                  | N/A                                                                                 |
+| `retries`                                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                    | :heavy_minus_sign:                                                                  | Configuration to override the default retry behavior of the client.                 |
 
 ### Response
 
-**[models.UpdateCriblLakeDatasetByLakeIDAndIDResponse](../../models/updatecribllakedatasetbylakeidandidresponse.md)**
+**[models.CountedCriblLakeDataset](../../models/countedcribllakedataset.md)**
 
 ### Errors
 

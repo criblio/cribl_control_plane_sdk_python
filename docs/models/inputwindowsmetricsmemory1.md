@@ -1,0 +1,9 @@
+# InputWindowsMetricsMemory1
+
+
+## Fields
+
+| Field                                                                                          | Type                                                                                           | Required                                                                                       | Description                                                                                    |
+| ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `mode`                                                                                         | [Optional[models.InputWindowsMetricsMemoryMode1]](../models/inputwindowsmetricsmemorymode1.md) | :heavy_minus_sign:                                                                             | Select the level of details for memory metrics                                                 |
+| `detail`                                                                                       | *Optional[bool]*                                                                               | :heavy_minus_sign:                                                                             | Generate metrics for all memory states                                                         |

@@ -1,0 +1,11 @@
+# InputWindowsMetricsCPU1
+
+
+## Fields
+
+| Field                                                                                    | Type                                                                                     | Required                                                                                 | Description                                                                              |
+| ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `mode`                                                                                   | [Optional[models.InputWindowsMetricsCPUMode1]](../models/inputwindowsmetricscpumode1.md) | :heavy_minus_sign:                                                                       | Select the level of details for CPU metrics                                              |
+| `per_cpu`                                                                                | *Optional[bool]*                                                                         | :heavy_minus_sign:                                                                       | Generate metrics for each CPU                                                            |
+| `detail`                                                                                 | *Optional[bool]*                                                                         | :heavy_minus_sign:                                                                       | Generate metrics for all CPU states                                                      |
+| `time`                                                                                   | *Optional[bool]*                                                                         | :heavy_minus_sign:                                                                       | Generate raw, monotonic CPU time counters                                                |

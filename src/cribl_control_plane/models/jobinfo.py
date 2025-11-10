@@ -4,13 +4,20 @@ from __future__ import annotations
 from .jobstatus import JobStatus, JobStatusTypedDict
 from .runnablejob import RunnableJob, RunnableJobTypedDict
 from cribl_control_plane.types import BaseModel
-from typing import Optional
-from typing_extensions import NotRequired, TypedDict
+from typing import Dict, Optional, Union
+from typing_extensions import NotRequired, TypeAliasType, TypedDict
+
+
+StatsTypedDict = TypeAliasType("StatsTypedDict", Union[float, Dict[str, float]])
+
+
+Stats = TypeAliasType("Stats", Union[float, Dict[str, float]])
 
 
 class JobInfoTypedDict(TypedDict):
     args: RunnableJobTypedDict
     id: str
+    stats: Dict[str, StatsTypedDict]
     status: JobStatusTypedDict
     keep: NotRequired[bool]
 
@@ -19,6 +26,8 @@ class JobInfo(BaseModel):
     args: RunnableJob
 
     id: str
+
+    stats: Dict[str, Stats]
 
     status: JobStatus
 

@@ -1,11 +1,15 @@
 # ScheduleType
 
-Select a schedule type; either an interval (in seconds) or a cron-style schedule.
+Configuration for a scheduled job
 
 
-## Values
+## Fields
 
-| Name            | Value           |
-| --------------- | --------------- |
-| `INTERVAL`      | interval        |
-| `CRON_SCHEDULE` | cronSchedule    |
+| Field                                                                                                     | Type                                                                                                      | Required                                                                                                  | Description                                                                                               |
+| --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| `enabled`                                                                                                 | *Optional[bool]*                                                                                          | :heavy_minus_sign:                                                                                        | Enable to configure scheduling for this Collector                                                         |
+| `skippable`                                                                                               | *Optional[bool]*                                                                                          | :heavy_minus_sign:                                                                                        | Skippable jobs can be delayed, up to their next run time, if the system is hitting concurrency limits     |
+| `resume_missed`                                                                                           | *Optional[bool]*                                                                                          | :heavy_minus_sign:                                                                                        | If Stream Leader (or single instance) restarts, run all missed jobs according to their original schedules |
+| `cron_schedule`                                                                                           | *Optional[str]*                                                                                           | :heavy_minus_sign:                                                                                        | A cron schedule on which to run this job                                                                  |
+| `max_concurrent_runs`                                                                                     | *Optional[float]*                                                                                         | :heavy_minus_sign:                                                                                        | The maximum number of instances of this scheduled job that may be running at any time                     |
+| `run`                                                                                                     | [Optional[models.RunSettings]](../models/runsettings.md)                                                  | :heavy_minus_sign:                                                                                        | N/A                                                                                                       |

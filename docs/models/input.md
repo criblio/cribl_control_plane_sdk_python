@@ -117,10 +117,10 @@ value: models.InputOffice365MsgTrace = /* values here */
 value: models.InputEventhub = /* values here */
 ```
 
-### `models.InputExec`
+### `models.InputExecUnion`
 
 ```python
-value: models.InputExec = /* values here */
+value: models.InputExecUnion = /* values here */
 ```
 
 ### `models.InputFirehose`
@@ -285,10 +285,10 @@ value: models.InputSqs = /* values here */
 value: models.InputSyslog = /* values here */
 ```
 
-### `models.InputFile`
+### `models.InputFileUnion`
 
 ```python
-value: models.InputFile = /* values here */
+value: models.InputFileUnion = /* values here */
 ```
 
 ### `models.InputTCP`
@@ -321,10 +321,10 @@ value: models.InputWinEventLogs = /* values here */
 value: models.InputRawUDP = /* values here */
 ```
 
-### `models.InputJournalFiles`
+### `models.InputJournalFilesUnion`
 
 ```python
-value: models.InputJournalFiles = /* values here */
+value: models.InputJournalFilesUnion = /* values here */
 ```
 
 ### `models.InputWiz`

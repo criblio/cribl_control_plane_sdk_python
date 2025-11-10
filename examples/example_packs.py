@@ -26,13 +26,14 @@ AWS_REGION.
 
 import asyncio
 from cribl_control_plane.models import (
-    InputTcpjson,
-    InputTcpjsonType,
-    InputTcpjsonAuthenticationMethod,
+    InputTcpjsonTcpjson3,  # Part of InputTcpjson union type
+    TypeTcpjsonOption,
+    AuthType2Options,
     OutputS3,
-    OutputS3Type,
-    OutputS3Compression,
-    OutputS3CompressionLevel,
+    OutputS3S32,
+    TypeS3Option,
+    PqCompressOptions,
+    CompressionLevelOptions,
     Pipeline,
     RoutesRoute,
     Conf,
@@ -63,24 +64,25 @@ group_url = f"{base_url}/m/{WORKER_GROUP_ID}"
 pack_url = f"{group_url}/p/{PACK_ID}"
 
 # TCP JSON Source configuration
-tcp_json_source = InputTcpjson(
+# Using InputTcpjsonTcpjson3 which is part of InputTcpjson union type
+tcp_json_source = InputTcpjsonTcpjson3(
     id="my-tcp-json",
-    type=InputTcpjsonType.TCPJSON,
+    type=TypeTcpjsonOption.TCPJSON,
     port=PORT,
-    auth_type=InputTcpjsonAuthenticationMethod.MANUAL,
+    auth_type=AuthType2Options.MANUAL,
     auth_token=AUTH_TOKEN
 )
 
 # Amazon S3 Destination configuration
-s3_destination = OutputS3(
+s3_destination: OutputS3 = OutputS3S32(
     id="my-s3-destination",
-    type=OutputS3Type.S3,
+    type=TypeS3Option.S3,
     bucket=AWS_BUCKET_NAME,
     region=AWS_REGION,
     aws_secret_key=AWS_SECRET_KEY,
     aws_api_key=AWS_API_KEY,
-    compress=OutputS3Compression.GZIP,
-    compression_level=OutputS3CompressionLevel.BEST_SPEED,
+    compress=PqCompressOptions.GZIP,
+    compression_level=CompressionLevelOptions.BEST_SPEED,
     empty_dir_cleanup_sec=300
 )
 

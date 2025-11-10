@@ -28,11 +28,11 @@ Prerequisites:
 import asyncio
 from cribl_control_plane.models import (
     ConfigGroup,
-    InputTcpjson,
-    InputTcpjsonType,
-    InputTcpjsonAuthenticationMethod,
-    OutputFilesystem,
-    OutputFilesystemType,
+    InputTcpjsonTcpjson3,  # Part of InputTcpjson union type
+    TypeTcpjsonOption,
+    AuthType2Options,
+    OutputFilesystemFilesystem1,  # Part of OutputFilesystem union type
+    OutputFilesystemType1,
     Pipeline,
     RoutesRoute,
     Conf,
@@ -54,18 +54,20 @@ my_worker_group = ConfigGroup(
 )
 
 # TCP JSON Source configuration
-tcp_json_source = InputTcpjson(
+# Using InputTcpjsonTcpjson3 which is part of InputTcpjson union type
+tcp_json_source = InputTcpjsonTcpjson3(
     id="my-tcp-json",
-    type=InputTcpjsonType.TCPJSON,
+    type=TypeTcpjsonOption.TCPJSON,
     port=PORT,
-    auth_type=InputTcpjsonAuthenticationMethod.MANUAL,
+    auth_type=AuthType2Options.MANUAL,
     auth_token=AUTH_TOKEN
 )
 
 # Filesystem Destination configuration
-file_system_destination = OutputFilesystem(
+# Using OutputFilesystemFilesystem1 which is part of OutputFilesystem union type
+file_system_destination = OutputFilesystemFilesystem1(
     id="my-fs-destination",
-    type=OutputFilesystemType.FILESYSTEM,
+    type=OutputFilesystemType1.FILESYSTEM,
     dest_path="/tmp/my-output"
 )
 

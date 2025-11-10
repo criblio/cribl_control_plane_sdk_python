@@ -1,0 +1,12 @@
+# AuthTokensExt2
+
+
+## Fields
+
+| Field                                                                                  | Type                                                                                   | Required                                                                               | Description                                                                            |
+| -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| `token`                                                                                | *str*                                                                                  | :heavy_check_mark:                                                                     | N/A                                                                                    |
+| `description`                                                                          | *Optional[str]*                                                                        | :heavy_minus_sign:                                                                     | N/A                                                                                    |
+| `metadata`                                                                             | List[[models.InputCriblLakeHTTPMetadatum2](../models/inputcribllakehttpmetadatum2.md)] | :heavy_minus_sign:                                                                     | Fields to add to events referencing this token                                         |
+| `splunk_hec_metadata`                                                                  | [Optional[models.SplunkHecMetadata2]](../models/splunkhecmetadata2.md)                 | :heavy_minus_sign:                                                                     | N/A                                                                                    |
+| `elasticsearch_metadata`                                                               | [Optional[models.ElasticsearchMetadata2]](../models/elasticsearchmetadata2.md)         | :heavy_minus_sign:                                                                     | N/A                                                                                    |

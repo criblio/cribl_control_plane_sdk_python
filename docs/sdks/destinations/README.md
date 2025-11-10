@@ -47,7 +47,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.ListOutputResponse](../../models/listoutputresponse.md)**
+**[models.CountedOutput](../../models/countedoutput.md)**
 
 ### Errors
 
@@ -76,8 +76,9 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.destinations.create(request={
+        "on_backpressure": models.OnBackpressureOptions.BLOCK,
         "id": "<id>",
-        "type": models.OutputElasticCloudType.ELASTIC_CLOUD,
+        "type": models.OutputElasticCloudType1.ELASTIC_CLOUD,
         "pipeline": "<value>",
         "system_fields": [
             "<value 1>",
@@ -102,7 +103,7 @@ with CriblControlPlane(
                 "value": "<value>",
             },
         ],
-        "failed_request_logging_mode": models.OutputElasticCloudFailedRequestLoggingMode.NONE,
+        "failed_request_logging_mode": models.FailedRequestLoggingModeOptions.NONE,
         "safe_headers": [
             "<value 1>",
             "<value 2>",
@@ -115,7 +116,12 @@ with CriblControlPlane(
         ],
         "auth": {
             "disabled": False,
-            "auth_type": models.OutputElasticCloudAuthenticationMethod.MANUAL,
+            "username": "Imogene1",
+            "password": "tA9DUjJtHSnXqh9",
+            "auth_type": models.AuthTypeAuthenticationMethod.MANUAL,
+            "credentials_secret": "<value>",
+            "manual_api_key": "<value>",
+            "text_secret": "<value>",
         },
         "elastic_pipeline": "<value>",
         "include_doc_id": True,
@@ -134,14 +140,17 @@ with CriblControlPlane(
             "max_backoff": 10000,
         },
         "response_honor_retry_after_header": False,
-        "on_backpressure": models.OutputElasticCloudBackpressureBehavior.BLOCK,
         "description": "hourly about into",
+        "pq_strict_ordering": True,
+        "pq_rate_per_sec": 0,
+        "pq_mode": models.PqModeOptions.ERROR,
+        "pq_max_buffer_size": 42,
+        "pq_max_backpressure_sec": 30,
         "pq_max_file_size": "1 MB",
         "pq_max_size": "5GB",
         "pq_path": "$CRIBL_HOME/state/queues",
-        "pq_compress": models.OutputElasticCloudCompression.NONE,
-        "pq_on_backpressure": models.OutputElasticCloudQueueFullBehavior.BLOCK,
-        "pq_mode": models.OutputElasticCloudMode.ERROR,
+        "pq_compress": models.PqCompressOptions.NONE,
+        "pq_on_backpressure": models.PqOnBackpressureOptions.BLOCK,
         "pq_controls": {},
     })
 
@@ -159,7 +168,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.CreateOutputResponse](../../models/createoutputresponse.md)**
+**[models.CountedOutput](../../models/countedoutput.md)**
 
 ### Errors
 
@@ -203,7 +212,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.GetOutputByIDResponse](../../models/getoutputbyidresponse.md)**
+**[models.CountedOutput](../../models/countedoutput.md)**
 
 ### Errors
 
@@ -232,8 +241,9 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.destinations.update(id="<id>", output={
+        "auth_type": models.AuthType2Options.MANUAL,
         "id": "<id>",
-        "type": models.OutputSignalfxType.SIGNALFX,
+        "type": models.OutputSignalfxType1.SIGNALFX,
         "pipeline": "<value>",
         "system_fields": [
             "<value 1>",
@@ -243,7 +253,6 @@ with CriblControlPlane(
             "<value 1>",
             "<value 2>",
         ],
-        "auth_type": models.OutputSignalfxAuthenticationMethod.MANUAL,
         "realm": "us0",
         "concurrency": 5,
         "max_payload_size_kb": 4096,
@@ -259,7 +268,7 @@ with CriblControlPlane(
             },
         ],
         "use_round_robin_dns": False,
-        "failed_request_logging_mode": models.OutputSignalfxFailedRequestLoggingMode.NONE,
+        "failed_request_logging_mode": models.FailedRequestLoggingModeOptions.NONE,
         "safe_headers": [
             "<value 1>",
         ],
@@ -278,16 +287,20 @@ with CriblControlPlane(
             "max_backoff": 10000,
         },
         "response_honor_retry_after_header": False,
-        "on_backpressure": models.OutputSignalfxBackpressureBehavior.BLOCK,
+        "on_backpressure": models.OnBackpressureOptions.BLOCK,
         "description": "phooey positively a consequently meh until",
         "token": "<value>",
         "text_secret": "<value>",
+        "pq_strict_ordering": True,
+        "pq_rate_per_sec": 0,
+        "pq_mode": models.PqModeOptions.ERROR,
+        "pq_max_buffer_size": 42,
+        "pq_max_backpressure_sec": 30,
         "pq_max_file_size": "1 MB",
         "pq_max_size": "5GB",
         "pq_path": "$CRIBL_HOME/state/queues",
-        "pq_compress": models.OutputSignalfxCompression.NONE,
-        "pq_on_backpressure": models.OutputSignalfxQueueFullBehavior.BLOCK,
-        "pq_mode": models.OutputSignalfxMode.ERROR,
+        "pq_compress": models.PqCompressOptions.NONE,
+        "pq_on_backpressure": models.PqOnBackpressureOptions.BLOCK,
         "pq_controls": {},
     })
 
@@ -306,7 +319,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.UpdateOutputByIDResponse](../../models/updateoutputbyidresponse.md)**
+**[models.CountedOutput](../../models/countedoutput.md)**
 
 ### Errors
 
@@ -350,7 +363,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.DeleteOutputByIDResponse](../../models/deleteoutputbyidresponse.md)**
+**[models.CountedOutput](../../models/countedoutput.md)**
 
 ### Errors
 

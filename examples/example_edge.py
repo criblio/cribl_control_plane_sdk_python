@@ -30,18 +30,19 @@
 import asyncio
 from cribl_control_plane.models import (
     ConfigGroup,
+    InputSyslog,
     InputSyslogSyslog2,
-    InputSyslogType2,
-    OutputS3,
-    OutputS3Type,
-    OutputS3Compression,
-    OutputS3CompressionLevel,
+    TypeSyslogOption,
+    OutputS3S32,  # Part of OutputS3 union type
+    TypeS3Option,
+    PqCompressOptions,
+    CompressionLevelOptions,
     Pipeline,
     RoutesRoute,
     Conf,
     PipelineFunctionConf,
     FunctionSpecificConfigs,
-    InputSyslogTLSSettingsServerSide2,
+    Tls2Type,
     ProductsCore
 )
 from auth import base_url, create_cribl_client
@@ -68,23 +69,24 @@ my_fleet = ConfigGroup(
 )
 
 # Syslog Source configuration
-syslog_source = InputSyslogSyslog2(
+syslog_source: InputSyslog = InputSyslogSyslog2(
     id="my-syslog-source",
-    type=InputSyslogType2.SYSLOG,
+    type=TypeSyslogOption.SYSLOG,
     tcp_port=SYSLOG_PORT,
-    tls=InputSyslogTLSSettingsServerSide2(disabled=True)
+    tls=Tls2Type(disabled=True)
 )
 
 # Amazon S3 Destination configuration
-s3_destination = OutputS3(
+# Using OutputS3S32 which is part of OutputS3 union type
+s3_destination = OutputS3S32(
     id="my-s3-destination",
-    type=OutputS3Type.S3,
+    type=TypeS3Option.S3,
     bucket=AWS_BUCKET_NAME,
     region=AWS_REGION,
     aws_secret_key=AWS_SECRET_KEY,
     aws_api_key=AWS_API_KEY,
-    compress=OutputS3Compression.GZIP,
-    compression_level=OutputS3CompressionLevel.BEST_SPEED,
+    compress=PqCompressOptions.GZIP,
+    compression_level=CompressionLevelOptions.BEST_SPEED,
     empty_dir_cleanup_sec=300
 )
 

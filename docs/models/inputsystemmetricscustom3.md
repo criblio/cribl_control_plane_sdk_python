@@ -1,0 +1,12 @@
+# InputSystemMetricsCustom3
+
+
+## Fields
+
+| Field                                                                                  | Type                                                                                   | Required                                                                               | Description                                                                            |
+| -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| `system`                                                                               | [Optional[models.InputSystemMetricsSystem3]](../models/inputsystemmetricssystem3.md)   | :heavy_minus_sign:                                                                     | N/A                                                                                    |
+| `cpu`                                                                                  | [Optional[models.InputSystemMetricsCPU3]](../models/inputsystemmetricscpu3.md)         | :heavy_minus_sign:                                                                     | N/A                                                                                    |
+| `memory`                                                                               | [Optional[models.InputSystemMetricsMemory3]](../models/inputsystemmetricsmemory3.md)   | :heavy_minus_sign:                                                                     | N/A                                                                                    |
+| `network`                                                                              | [Optional[models.InputSystemMetricsNetwork3]](../models/inputsystemmetricsnetwork3.md) | :heavy_minus_sign:                                                                     | N/A                                                                                    |
+| `disk`                                                                                 | [Optional[models.InputSystemMetricsDisk3]](../models/inputsystemmetricsdisk3.md)       | :heavy_minus_sign:                                                                     | N/A                                                                                    |

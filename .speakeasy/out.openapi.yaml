@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.16.0-alpha.1762556913841-714da0ec
+  version: 4.16.0-alpha.1762729323295-56963ed5
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -21065,6 +21065,11 @@ components:
           maximum: 86400
           title: DNS resolution period (sec)
           description: How often to resolve the destination hostname to an IP address. Ignored if the destination is an IP address. A value of 0 means every message sent will incur a DNS lookup.
+        enableIpSpoofing:
+          title: Enable Source IP spoofing
+          description: Send Syslog traffic using the original event's Source IP and port. To enable this, you must install the external `udp-sender` helper binary at `/usr/bin/udp-sender` on all Worker Nodes and grant it the `CAP_NET_RAW` capability.
+          type: boolean
+          default: false
         pqStrictOrdering:
           title: Strict ordering
           description: Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed.

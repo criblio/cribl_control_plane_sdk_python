@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 65719ce1166a1c517b87d9ef5bdcf4ee
-  docVersion: 4.16.0-alpha.1762556913841-714da0ec
+  docChecksum: 6655aa6d2083f1d5f69497aa522b72c0
+  docVersion: 4.16.0-alpha.1762729323295-56963ed5
   speakeasyVersion: 1.650.0
   generationVersion: 2.743.2
-  releaseVersion: 0.3.0b14
-  configChecksum: 1c49fe48774457c538a1d2f1d7a09e9b
+  releaseVersion: 0.3.0b15
+  configChecksum: b8bb8b62735c29872a3f26766a3729c5
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -3454,3 +3454,4 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
+releaseNotes: "## Python SDK Changes Detected:\n* `cribl_control_plane.destinations.list()`:  `response.items.[].[syslog].enable_ip_spoofing` **Added**\n* `cribl_control_plane.destinations.create()`: \n  *  `request.[syslog].enable_ip_spoofing` **Added**\n  *  `response.items.[].[syslog].enable_ip_spoofing` **Added**\n* `cribl_control_plane.destinations.get()`:  `response.items.[].[syslog].enable_ip_spoofing` **Added**\n* `cribl_control_plane.destinations.update()`: \n  *  `request.output.[syslog].enable_ip_spoofing` **Added**\n  *  `response.items.[].[syslog].enable_ip_spoofing` **Added**\n* `cribl_control_plane.destinations.delete()`:  `response.items.[].[syslog].enable_ip_spoofing` **Added**\n"

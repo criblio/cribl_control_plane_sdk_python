@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 4e67f720051f249ed370cd5ac969d88e
-  docVersion: 4.15.0-alpha.1762556927854-f0fbba4e
+  docChecksum: 2f5b0a1265542f011b402843a2915f05
+  docVersion: 4.15.0-alpha.1762815739257-9cd5f1d2
   speakeasyVersion: 1.650.0
   generationVersion: 2.743.2
-  releaseVersion: 0.3.0a3
-  configChecksum: 6497c36ee1e5fd6e53c50c0823dde0df
+  releaseVersion: 0.3.0a4
+  configChecksum: be877486e98db87a1a7765c59e2b98d5
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -3466,4 +3466,4 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: "## Python SDK Changes Detected:\n* `cribl_control_plane.destinations.list()`:  `response.items.[].[syslog].enable_ip_spoofing` **Added**\n* `cribl_control_plane.destinations.create()`: \n  *  `request.[syslog].enable_ip_spoofing` **Added**\n  *  `response.items.[].[syslog].enable_ip_spoofing` **Added**\n* `cribl_control_plane.destinations.get()`:  `response.items.[].[syslog].enable_ip_spoofing` **Added**\n* `cribl_control_plane.destinations.update()`: \n  *  `request.output.[syslog].enable_ip_spoofing` **Added**\n  *  `response.items.[].[syslog].enable_ip_spoofing` **Added**\n* `cribl_control_plane.destinations.delete()`:  `response.items.[].[syslog].enable_ip_spoofing` **Added**\n"
+releaseNotes: "## Python SDK Changes Detected:\n* `cribl_control_plane.destinations.list()`:  `response.items.[].[chronicle].custom_labels.[].rbac_enabled` **Added**\n* `cribl_control_plane.destinations.create()`: \n  *  `request.[chronicle].custom_labels.[].rbac_enabled` **Added**\n  *  `response.items.[].[chronicle].custom_labels.[].rbac_enabled` **Added**\n* `cribl_control_plane.destinations.get()`:  `response.items.[].[chronicle].custom_labels.[].rbac_enabled` **Added**\n* `cribl_control_plane.destinations.update()`: \n  *  `request.output.[chronicle].custom_labels.[].rbac_enabled` **Added**\n  *  `response.items.[].[chronicle].custom_labels.[].rbac_enabled` **Added**\n* `cribl_control_plane.destinations.delete()`:  `response.items.[].[chronicle].custom_labels.[].rbac_enabled` **Added**\n"

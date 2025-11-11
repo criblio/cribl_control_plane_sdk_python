@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.15.0-alpha.1762556927854-f0fbba4e
+  version: 4.15.0-alpha.1762815739257-9cd5f1d2
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -41778,6 +41778,11 @@ components:
               value:
                 type: string
                 title: Value
+              rbacEnabled:
+                type: boolean
+                title: Enable RBAC
+                description: Designate this label for role-based access control and filtering
+                default: false
         description:
           type: string
           title: Description

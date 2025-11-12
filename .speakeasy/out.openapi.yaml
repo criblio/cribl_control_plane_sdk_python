@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.15.0-alpha.1762815739257-9cd5f1d2
+  version: 4.15.0-alpha.1762902161749-ab8de3f0
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -19454,6 +19454,364 @@ components:
         description:
           type: string
           title: Description
+    InputCloudflareHec:
+      type: object
+      required:
+        - type
+        - host
+        - port
+        - hecAPI
+      properties:
+        id:
+          type: string
+          title: Input ID
+          description: Unique ID for this input
+        type:
+          type: string
+          enum:
+            - cloudflare_hec
+        disabled:
+          type: boolean
+          title: Disabled
+          default: false
+        pipeline:
+          type: string
+          title: Pipeline
+          description: Pipeline to process data from this Source before sending it through the Routes
+        sendToRoutes:
+          type: boolean
+          default: true
+          description: Select whether to send data to Routes, or directly to Destinations.
+        environment:
+          type: string
+          title: Environment
+          description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
+        pqEnabled:
+          type: boolean
+          default: false
+          title: Enable persistent queue
+          description: Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers).
+        streamtags:
+          type: array
+          title: Tags
+          description: Tags for filtering and grouping in @{product}
+          default: []
+          items:
+            type: string
+        connections:
+          type: array
+          title: Use QuickConnect
+          description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
+          items:
+            type: object
+            required:
+              - output
+            properties:
+              pipeline:
+                title: Pipeline or Pack
+                type: string
+              output:
+                title: Destination
+                type: string
+        pq:
+          type: object
+          properties:
+            mode:
+              type: string
+              title: Mode
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              default: always
+              enum:
+                - smart
+                - always
+              x-speakeasy-enum-descriptions:
+                - Smart
+                - Always On
+              x-speakeasy-unknown-values: allow
+            maxBufferSize:
+              type: number
+              title: Buffer size limit
+              description: The maximum number of events to hold in memory before writing the events to disk
+              default: 1000
+              minimum: 42
+            commitFrequency:
+              type: number
+              title: Commit frequency
+              description: The number of events to send downstream before committing that Stream has read them
+              default: 42
+              minimum: 1
+            maxFileSize:
+              type: string
+              title: File size limit
+              description: The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc.
+              pattern: ^\d+\s*(?:\w{2})?$
+              default: 1 MB
+            maxSize:
+              type: string
+              title: Queue size limit
+              description: The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc.
+              pattern: ^\d+\s*(?:\w{2})?$
+              default: 5GB
+            path:
+              type: string
+              default: $CRIBL_HOME/state/queues
+              title: Queue file path
+              description: "The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"
+            compress:
+              type: string
+              default: none
+              enum:
+                - none
+                - gzip
+              x-speakeasy-enum-descriptions:
+                - None
+                - Gzip
+              x-speakeasy-unknown-values: allow
+              title: Compression
+              description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
+        host:
+          type: string
+          title: Address
+          description: Address to bind on. Defaults to 0.0.0.0 (all addresses).
+          default: 0.0.0.0
+        port:
+          type: number
+          title: Port
+          maximum: 65535
+          description: Port to listen on
+        authTokens:
+          type: array
+          title: Auth tokens
+          description: "Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."
+          items:
+            type: object
+            properties:
+              authType:
+                title: Authentication method
+                type: string
+                enum:
+                  - secret
+                default: secret
+                description: Select Secret to use a text secret to authenticate
+                x-speakeasy-unknown-values: allow
+              tokenSecret: {}
+              token: {}
+              enabled:
+                type: boolean
+                title: Enable token
+                default: true
+              description:
+                type: string
+                title: Description
+              allowedIndexesAtToken:
+                type: array
+                title: Allowed indexes
+                description: Enter the values you want to allow in the HEC event index field at the token level. Supports wildcards. To skip validation, leave blank.
+                items:
+                  type: string
+                  minLength: 1
+              metadata:
+                type: array
+                title: Fields
+                description: Fields to add to events referencing this token
+                items:
+                  type: object
+                  required:
+                    - name
+                    - value
+                  properties:
+                    name:
+                      type: string
+                      title: Field Name
+                    value:
+                      type: string
+                      title: Value
+                      description: JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
+        tls:
+          type: object
+          title: TLS settings (server side)
+          properties:
+            disabled:
+              type: boolean
+              title: Disabled
+              default: true
+            requestCert:
+              type: boolean
+              title: Authenticate client (mutual auth)
+              description: Require clients to present their certificates. Used to perform client authentication using SSL certs.
+              default: false
+            rejectUnauthorized:
+              type: boolean
+              title: Validate client certificates
+              description: Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's)
+              default: true
+            commonNameRegex:
+              type: string
+              title: Common name
+              description: Regex matching allowable common names in peer certificates' subject attribute
+              default: /.*/
+            certificateName:
+              type: string
+              title: Certificate
+              description: The name of the predefined certificate
+            privKeyPath:
+              type: string
+              title: Private key path
+              description: Path on server containing the private key to use. PEM format. Can reference $ENV_VARS.
+            passphrase:
+              type: string
+              title: Passphrase
+              description: Passphrase to use to decrypt private key
+            certPath:
+              type: string
+              title: Certificate path
+              description: Path on server containing certificates to use. PEM format. Can reference $ENV_VARS.
+            caPath:
+              type: string
+              title: CA certificate path
+              description: Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS.
+            minVersion:
+              type: string
+              title: Minimum TLS version
+              enum:
+                - TLSv1
+                - TLSv1.1
+                - TLSv1.2
+                - TLSv1.3
+              x-speakeasy-unknown-values: allow
+            maxVersion:
+              type: string
+              title: Maximum TLS version
+              enum:
+                - TLSv1
+                - TLSv1.1
+                - TLSv1.2
+                - TLSv1.3
+              x-speakeasy-unknown-values: allow
+        maxActiveReq:
+          type: number
+          title: Active request limit
+          description: "Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."
+          default: 256
+          minimum: 0
+        maxRequestsPerSocket:
+          type: integer
+          title: Requests-per-socket limit
+          description: Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited).
+          default: 0
+          minimum: 0
+        enableProxyHeader:
+          type: boolean
+          title: Show originating IP
+          description: Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction.
+          default: false
+        captureHeaders:
+          type: boolean
+          title: Capture request headers
+          description: Add request headers to events, in the __headers field
+          default: false
+        activityLogSampleRate:
+          type: number
+          title: Activity log sample rate
+          description: How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc.
+          default: 100
+          minimum: 1
+        requestTimeout:
+          type: number
+          title: Request timeout (seconds)
+          description: How long to wait for an incoming request to complete before aborting it. Use 0 to disable.
+          default: 0
+          minimum: 0
+        socketTimeout:
+          type: number
+          title: Socket timeout (seconds)
+          description: How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0.
+          default: 0
+          minimum: 0
+        keepAliveTimeout:
+          type: number
+          title: Keep-alive timeout (seconds)
+          description: After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes).
+          default: 5
+          minimum: 1
+          maximum: 600
+        enableHealthCheck: {}
+        ipAllowlistRegex:
+          type: string
+          title: IP allowlist regex
+          description: Messages from matched IP addresses will be processed, unless also matched by the denylist
+          default: /.*/
+        ipDenylistRegex:
+          type: string
+          title: IP denylist regex
+          description: Messages from matched IP addresses will be ignored. This takes precedence over the allowlist.
+          default: /^$/
+        hecAPI:
+          type: string
+          title: HEC endpoint
+          description: Absolute path on which to listen for the Cloudflare HTTP Event Collector API requests. This input supports the /event endpoint.
+          pattern: ^/
+        metadata:
+          type: array
+          title: Fields
+          description: Fields to add to every event. May be overridden by fields added at the token or request level.
+          items:
+            type: object
+            required:
+              - name
+              - value
+            properties:
+              name:
+                type: string
+                title: Field Name
+              value:
+                type: string
+                title: Value
+                description: JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
+        allowedIndexes:
+          type: array
+          title: Allowed indexes
+          description: List values allowed in HEC event index field. Leave blank to skip validation. Supports wildcards. The values here can expand index validation at the token level.
+          items:
+            type: string
+            minLength: 1
+        breakerRulesets:
+          type: array
+          title: Event Breaker rulesets
+          description: A list of event-breaking rulesets that will be applied, in order, to the input data stream
+          items:
+            type: string
+        staleChannelFlushMs:
+          type: number
+          title: Event Breaker buffer timeout (ms)
+          description: How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines
+          default: 10000
+          minimum: 10
+          maximum: 43200000
+        accessControlAllowOrigin:
+          title: CORS allowed origins
+          type: array
+          description: HTTP origins to which @{product} should send CORS (cross-origin resource sharing) Access-Control-Allow-* headers. Supports wildcards.
+          items:
+            type: string
+            minLength: 1
+        accessControlAllowHeaders:
+          title: CORS allowed headers
+          type: array
+          description: HTTP headers that @{product} will send to allowed origins as "Access-Control-Allow-Headers" in a CORS preflight response. Use "*" to allow all headers.
+          items:
+            type: string
+            minLength: 1
+        emitTokenMetrics:
+          type: boolean
+          title: Emit per-token request metrics
+          description: Emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics
+          default: false
+        description:
+          type: string
+          title: Description
     Input:
       oneOf:
         - $ref: "#/components/schemas/InputCollection"
@@ -19515,6 +19873,7 @@ components:
         - $ref: "#/components/schemas/InputNetflow"
         - $ref: "#/components/schemas/InputSecurityLake"
         - $ref: "#/components/schemas/InputZscalerHec"
+        - $ref: "#/components/schemas/InputCloudflareHec"
       discriminator:
         propertyName: type
         mapping:
@@ -19577,6 +19936,7 @@ components:
           netflow: "#/components/schemas/InputNetflow"
           security_lake: "#/components/schemas/InputSecurityLake"
           zscaler_hec: "#/components/schemas/InputZscalerHec"
+          cloudflare_hec: "#/components/schemas/InputCloudflareHec"
     AddHecTokenRequest:
       type: object
       properties:

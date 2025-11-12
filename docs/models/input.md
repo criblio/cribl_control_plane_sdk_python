@@ -357,3 +357,9 @@ value: models.InputSecurityLake = /* values here */
 value: models.InputZscalerHec = /* values here */
 ```
 
+### `models.InputCloudflareHec`
+
+```python
+value: models.InputCloudflareHec = /* values here */
+```
+

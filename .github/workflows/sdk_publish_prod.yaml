@@ -36,6 +36,22 @@ jobs:
           else
             echo "is-production=false" >> "$GITHUB_OUTPUT"
             echo "✅ Prerelease from ${GITHUB_REF_NAME} branch"
+            
+            # For non-standard branches, check prerelease version
+            if [[ "${GITHUB_REF_NAME}" != "dev" && "${GITHUB_REF_NAME}" != "stage" ]]; then
+              VERSION=$(yq '.python.version' .speakeasy/gen.yaml)
+              echo "Detected version: $VERSION"
+
+              # Check if version is alpha, beta, or rc prerelease (Python format)
+              if [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+a[0-9]+$ ]] || [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+b[0-9]+$ ]] || [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+rc[0-9]+$ ]]; then
+                echo "✅ Prerelease version detected: $VERSION"
+              else
+                echo "::error::Version is not a valid prerelease (expected format X.Y.Z{a|b|rc}<n>)"
+                echo "::error::Detected version: $VERSION"
+                echo "::error::Examples: 1.2.0a1, 1.2.0b1, 1.2.0rc1"
+                exit 1
+              fi
+            fi
           fi
 
   publish:

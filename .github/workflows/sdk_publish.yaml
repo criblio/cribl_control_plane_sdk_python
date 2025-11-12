@@ -1,4 +1,4 @@
-name: Publish SDK (main/dev/stage)
+name: Publish SDK
 permissions:
   checks: write
   contents: write
@@ -27,7 +27,7 @@ jobs:
         run: |
           echo "Current branch: ${GITHUB_REF_NAME}"
           echo "branch=${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
-          
+
           # Determine if this is a production release
           if [[ "${GITHUB_REF_NAME}" == "main" ]]; then
             echo "is-production=true" >> "$GITHUB_OUTPUT"
@@ -37,19 +37,17 @@ jobs:
             echo "✅ Prerelease from ${GITHUB_REF_NAME} branch"
             
             # For non-standard branches, check prerelease version
-            if [[ "${GITHUB_REF_NAME}" != "dev" && "${GITHUB_REF_NAME}" != "stage" ]]; then
-              VERSION=$(yq '.python.version' .speakeasy/gen.yaml)
-              echo "Detected version: $VERSION"
+            VERSION=$(yq '.python.version' .speakeasy/gen.yaml)
+            echo "Detected version: $VERSION"
 
-              # Check if version is alpha, beta, or rc prerelease (Python format)
-              if [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+a[0-9]+$ ]] || [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+b[0-9]+$ ]] || [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+rc[0-9]+$ ]]; then
-                echo "✅ Prerelease version detected: $VERSION"
-              else
-                echo "::error::Version is not a valid prerelease (expected format X.Y.Z{a|b|rc}<n>)"
-                echo "::error::Detected version: $VERSION"
-                echo "::error::Examples: 1.2.0a1, 1.2.0b1, 1.2.0rc1"
-                exit 1
-              fi
+            # Check if version is alpha, beta, rc, or dev prerelease (Python format)
+            if [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+a[0-9]+$ ]] || [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+b[0-9]+$ ]] || [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+rc[0-9]+$ ]] || [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+dev[0-9]+$ ]]; then
+              echo "✅ Prerelease version detected: $VERSION"
+            else
+              echo "::error::Version is not a valid prerelease (expected format X.Y.Z{a|b|rc|dev}<n>)"
+              echo "::error::Detected version: $VERSION"
+              echo "::error::Examples: 1.2.0a1, 1.2.0b1, 1.2.0rc1, 1.2.0dev1"
+              exit 1
             fi
           fi
 

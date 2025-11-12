@@ -18,8 +18,10 @@ class Health(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetHealthInfoResponse:
+    ) -> models.HealthServerStatus:
         r"""Retrieve health status of the server
+
+        Get the current health status of the server.
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -62,31 +64,32 @@ class Health(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="getHealthInfo",
+                operation_id="getHealth",
                 oauth2_scopes=[],
                 security_source=None,
             ),
             request=req,
-            error_status_codes=["420", "4XX", "5XX"],
+            error_status_codes=["420", "4XX", "500", "5XX"],
             retry_config=retry_config,
         )
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.HealthStatus, http_res)
+            return unmarshal_json_response(models.HealthServerStatus, http_res)
         if utils.match_response(http_res, "420", "application/json"):
             response_data = unmarshal_json_response(
-                errors.HealthStatusErrorData, http_res
+                errors.HealthServerStatusErrorData, http_res
             )
-            raise errors.HealthStatusError(response_data, http_res)
+            raise errors.HealthServerStatusError(response_data, http_res)
+        if utils.match_response(http_res, "500", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
-        if utils.match_response(http_res, "default", "application/json"):
-            return unmarshal_json_response(models.Error, http_res)
 
         raise errors.APIError("Unexpected response received", http_res)
 
@@ -97,8 +100,10 @@ class Health(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetHealthInfoResponse:
+    ) -> models.HealthServerStatus:
         r"""Retrieve health status of the server
+
+        Get the current health status of the server.
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -141,30 +146,31 @@ class Health(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="getHealthInfo",
+                operation_id="getHealth",
                 oauth2_scopes=[],
                 security_source=None,
             ),
             request=req,
-            error_status_codes=["420", "4XX", "5XX"],
+            error_status_codes=["420", "4XX", "500", "5XX"],
             retry_config=retry_config,
         )
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.HealthStatus, http_res)
+            return unmarshal_json_response(models.HealthServerStatus, http_res)
         if utils.match_response(http_res, "420", "application/json"):
             response_data = unmarshal_json_response(
-                errors.HealthStatusErrorData, http_res
+                errors.HealthServerStatusErrorData, http_res
             )
-            raise errors.HealthStatusError(response_data, http_res)
+            raise errors.HealthServerStatusError(response_data, http_res)
+        if utils.match_response(http_res, "500", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
-        if utils.match_response(http_res, "default", "application/json"):
-            return unmarshal_json_response(models.Error, http_res)
 
         raise errors.APIError("Unexpected response received", http_res)

@@ -3,6 +3,7 @@
 from __future__ import annotations
 from .configgroup import ConfigGroup, ConfigGroupTypedDict
 from .productscore import ProductsCore
+from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel
 from cribl_control_plane.utils import (
     FieldMetadata,
@@ -11,9 +12,9 @@ from cribl_control_plane.utils import (
     validate_open_enum,
 )
 import pydantic
+from pydantic import field_serializer
 from pydantic.functional_validators import PlainValidator
-from typing import List, Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing_extensions import Annotated, TypedDict
 
 
 class UpdateConfigGroupByProductAndIDRequestTypedDict(TypedDict):
@@ -45,19 +46,11 @@ class UpdateConfigGroupByProductAndIDRequest(BaseModel):
     ]
     r"""ConfigGroup object"""
 
-
-class UpdateConfigGroupByProductAndIDResponseTypedDict(TypedDict):
-    r"""a list of ConfigGroup objects"""
-
-    count: NotRequired[int]
-    r"""number of items present in the items array"""
-    items: NotRequired[List[ConfigGroupTypedDict]]
-
-
-class UpdateConfigGroupByProductAndIDResponse(BaseModel):
-    r"""a list of ConfigGroup objects"""
-
-    count: Optional[int] = None
-    r"""number of items present in the items array"""
-
-    items: Optional[List[ConfigGroup]] = None
+    @field_serializer("product")
+    def serialize_product(self, value):
+        if isinstance(value, str):
+            try:
+                return models.ProductsCore(value)
+            except ValueError:
+                return value
+        return value

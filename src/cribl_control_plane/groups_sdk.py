@@ -38,7 +38,7 @@ class GroupsSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ListConfigGroupByProductResponse:
+    ) -> models.CountedConfigGroup:
         r"""List all Worker Groups or Edge Fleets for the specified Cribl product
 
         Get a list of all Worker Groups or Edge Fleets for the specified Cribl product.
@@ -106,9 +106,7 @@ class GroupsSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.ListConfigGroupByProductResponse, http_res
-            )
+            return unmarshal_json_response(models.CountedConfigGroup, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -130,7 +128,7 @@ class GroupsSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ListConfigGroupByProductResponse:
+    ) -> models.CountedConfigGroup:
         r"""List all Worker Groups or Edge Fleets for the specified Cribl product
 
         Get a list of all Worker Groups or Edge Fleets for the specified Cribl product.
@@ -198,9 +196,7 @@ class GroupsSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.ListConfigGroupByProductResponse, http_res
-            )
+            return unmarshal_json_response(models.CountedConfigGroup, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -221,11 +217,14 @@ class GroupsSDK(BaseSDK):
         cloud: Optional[
             Union[models.ConfigGroupCloud, models.ConfigGroupCloudTypedDict]
         ] = None,
-        config_version: Optional[str] = None,
         deploying_worker_count: Optional[float] = None,
         description: Optional[str] = None,
-        estimated_ingest_rate: Optional[float] = None,
-        git: Optional[Union[models.Git, models.GitTypedDict]] = None,
+        estimated_ingest_rate: Optional[
+            models.GroupCreateRequestEstimatedIngestRate
+        ] = None,
+        git: Optional[
+            Union[models.GroupCreateRequestGit, models.GroupCreateRequestGitTypedDict]
+        ] = None,
         incompatible_worker_count: Optional[float] = None,
         inherits: Optional[str] = None,
         is_fleet: Optional[bool] = None,
@@ -240,9 +239,10 @@ class GroupsSDK(BaseSDK):
         name: Optional[str] = None,
         on_prem: Optional[bool] = None,
         provisioned: Optional[bool] = None,
+        source_group_id: Optional[str] = None,
         streamtags: Optional[List[str]] = None,
         tags: Optional[str] = None,
-        type_: Optional[models.ConfigGroupType] = None,
+        type_: Optional[models.GroupCreateRequestType] = None,
         upgrade_version: Optional[str] = None,
         worker_count: Optional[float] = None,
         worker_remote_access: Optional[bool] = None,
@@ -250,18 +250,17 @@ class GroupsSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateConfigGroupByProductResponse:
+    ) -> models.CountedConfigGroup:
         r"""Create a Worker Group or Edge Fleet for the specified Cribl product
 
         Create a new Worker Group or Edge Fleet for the specified Cribl product.
 
-        :param product: Name of the Cribl product to add the Worker Group or Edge Fleet to.
+        :param product: required Name of the Cribl product to add the Worker Group or Edge Fleet to.
         :param id:
         :param cloud:
-        :param config_version:
         :param deploying_worker_count:
         :param description:
-        :param estimated_ingest_rate:
+        :param estimated_ingest_rate: Maximum expected volume of data ingested by the @{group}. (This setting is available only on @{group}s consisting of Cribl-managed Cribl.Cloud @{node}s.)
         :param git:
         :param incompatible_worker_count:
         :param inherits:
@@ -272,6 +271,7 @@ class GroupsSDK(BaseSDK):
         :param name:
         :param on_prem:
         :param provisioned:
+        :param source_group_id:
         :param streamtags:
         :param tags:
         :param type:
@@ -295,15 +295,16 @@ class GroupsSDK(BaseSDK):
 
         request = models.CreateConfigGroupByProductRequest(
             product=product,
-            config_group=models.ConfigGroup(
+            group_create_request=models.GroupCreateRequest(
                 cloud=utils.get_pydantic_model(
                     cloud, Optional[models.ConfigGroupCloud]
                 ),
-                config_version=config_version,
                 deploying_worker_count=deploying_worker_count,
                 description=description,
                 estimated_ingest_rate=estimated_ingest_rate,
-                git=utils.get_pydantic_model(git, Optional[models.Git]),
+                git=utils.get_pydantic_model(
+                    git, Optional[models.GroupCreateRequestGit]
+                ),
                 id=id,
                 incompatible_worker_count=incompatible_worker_count,
                 inherits=inherits,
@@ -316,6 +317,7 @@ class GroupsSDK(BaseSDK):
                 name=name,
                 on_prem=on_prem,
                 provisioned=provisioned,
+                source_group_id=source_group_id,
                 streamtags=streamtags,
                 tags=tags,
                 type=type_,
@@ -339,7 +341,11 @@ class GroupsSDK(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.config_group, False, False, "json", models.ConfigGroup
+                request.group_create_request,
+                False,
+                False,
+                "json",
+                models.GroupCreateRequest,
             ),
             timeout_ms=timeout_ms,
         )
@@ -369,9 +375,7 @@ class GroupsSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.CreateConfigGroupByProductResponse, http_res
-            )
+            return unmarshal_json_response(models.CountedConfigGroup, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -392,11 +396,14 @@ class GroupsSDK(BaseSDK):
         cloud: Optional[
             Union[models.ConfigGroupCloud, models.ConfigGroupCloudTypedDict]
         ] = None,
-        config_version: Optional[str] = None,
         deploying_worker_count: Optional[float] = None,
         description: Optional[str] = None,
-        estimated_ingest_rate: Optional[float] = None,
-        git: Optional[Union[models.Git, models.GitTypedDict]] = None,
+        estimated_ingest_rate: Optional[
+            models.GroupCreateRequestEstimatedIngestRate
+        ] = None,
+        git: Optional[
+            Union[models.GroupCreateRequestGit, models.GroupCreateRequestGitTypedDict]
+        ] = None,
         incompatible_worker_count: Optional[float] = None,
         inherits: Optional[str] = None,
         is_fleet: Optional[bool] = None,
@@ -411,9 +418,10 @@ class GroupsSDK(BaseSDK):
         name: Optional[str] = None,
         on_prem: Optional[bool] = None,
         provisioned: Optional[bool] = None,
+        source_group_id: Optional[str] = None,
         streamtags: Optional[List[str]] = None,
         tags: Optional[str] = None,
-        type_: Optional[models.ConfigGroupType] = None,
+        type_: Optional[models.GroupCreateRequestType] = None,
         upgrade_version: Optional[str] = None,
         worker_count: Optional[float] = None,
         worker_remote_access: Optional[bool] = None,
@@ -421,18 +429,17 @@ class GroupsSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateConfigGroupByProductResponse:
+    ) -> models.CountedConfigGroup:
         r"""Create a Worker Group or Edge Fleet for the specified Cribl product
 
         Create a new Worker Group or Edge Fleet for the specified Cribl product.
 
-        :param product: Name of the Cribl product to add the Worker Group or Edge Fleet to.
+        :param product: required Name of the Cribl product to add the Worker Group or Edge Fleet to.
         :param id:
         :param cloud:
-        :param config_version:
         :param deploying_worker_count:
         :param description:
-        :param estimated_ingest_rate:
+        :param estimated_ingest_rate: Maximum expected volume of data ingested by the @{group}. (This setting is available only on @{group}s consisting of Cribl-managed Cribl.Cloud @{node}s.)
         :param git:
         :param incompatible_worker_count:
         :param inherits:
@@ -443,6 +450,7 @@ class GroupsSDK(BaseSDK):
         :param name:
         :param on_prem:
         :param provisioned:
+        :param source_group_id:
         :param streamtags:
         :param tags:
         :param type:
@@ -466,15 +474,16 @@ class GroupsSDK(BaseSDK):
 
         request = models.CreateConfigGroupByProductRequest(
             product=product,
-            config_group=models.ConfigGroup(
+            group_create_request=models.GroupCreateRequest(
                 cloud=utils.get_pydantic_model(
                     cloud, Optional[models.ConfigGroupCloud]
                 ),
-                config_version=config_version,
                 deploying_worker_count=deploying_worker_count,
                 description=description,
                 estimated_ingest_rate=estimated_ingest_rate,
-                git=utils.get_pydantic_model(git, Optional[models.Git]),
+                git=utils.get_pydantic_model(
+                    git, Optional[models.GroupCreateRequestGit]
+                ),
                 id=id,
                 incompatible_worker_count=incompatible_worker_count,
                 inherits=inherits,
@@ -487,6 +496,7 @@ class GroupsSDK(BaseSDK):
                 name=name,
                 on_prem=on_prem,
                 provisioned=provisioned,
+                source_group_id=source_group_id,
                 streamtags=streamtags,
                 tags=tags,
                 type=type_,
@@ -510,7 +520,11 @@ class GroupsSDK(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.config_group, False, False, "json", models.ConfigGroup
+                request.group_create_request,
+                False,
+                False,
+                "json",
+                models.GroupCreateRequest,
             ),
             timeout_ms=timeout_ms,
         )
@@ -540,9 +554,7 @@ class GroupsSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.CreateConfigGroupByProductResponse, http_res
-            )
+            return unmarshal_json_response(models.CountedConfigGroup, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -565,7 +577,7 @@ class GroupsSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetConfigGroupByProductAndIDResponse:
+    ) -> models.CountedConfigGroup:
         r"""Get a Worker Group or Edge Fleet
 
         Get the specified Worker Group or Edge Fleet.
@@ -635,9 +647,7 @@ class GroupsSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.GetConfigGroupByProductAndIDResponse, http_res
-            )
+            return unmarshal_json_response(models.CountedConfigGroup, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -660,7 +670,7 @@ class GroupsSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetConfigGroupByProductAndIDResponse:
+    ) -> models.CountedConfigGroup:
         r"""Get a Worker Group or Edge Fleet
 
         Get the specified Worker Group or Edge Fleet.
@@ -730,9 +740,7 @@ class GroupsSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.GetConfigGroupByProductAndIDResponse, http_res
-            )
+            return unmarshal_json_response(models.CountedConfigGroup, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -757,8 +765,10 @@ class GroupsSDK(BaseSDK):
         config_version: Optional[str] = None,
         deploying_worker_count: Optional[float] = None,
         description: Optional[str] = None,
-        estimated_ingest_rate: Optional[float] = None,
-        git: Optional[Union[models.Git, models.GitTypedDict]] = None,
+        estimated_ingest_rate: Optional[models.ConfigGroupEstimatedIngestRate] = None,
+        git: Optional[
+            Union[models.ConfigGroupGit, models.ConfigGroupGitTypedDict]
+        ] = None,
         incompatible_worker_count: Optional[float] = None,
         inherits: Optional[str] = None,
         is_fleet: Optional[bool] = None,
@@ -783,7 +793,7 @@ class GroupsSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.UpdateConfigGroupByProductAndIDResponse:
+    ) -> models.CountedConfigGroup:
         r"""Update a Worker Group or Edge Fleet
 
         Update the specified Worker Group or Edge Fleet.
@@ -795,7 +805,7 @@ class GroupsSDK(BaseSDK):
         :param config_version:
         :param deploying_worker_count:
         :param description:
-        :param estimated_ingest_rate:
+        :param estimated_ingest_rate: Maximum expected volume of data ingested by the @{group}. (This setting is available only on @{group}s consisting of Cribl-managed Cribl.Cloud @{node}s.)
         :param git:
         :param incompatible_worker_count:
         :param inherits:
@@ -838,7 +848,7 @@ class GroupsSDK(BaseSDK):
                 deploying_worker_count=deploying_worker_count,
                 description=description,
                 estimated_ingest_rate=estimated_ingest_rate,
-                git=utils.get_pydantic_model(git, Optional[models.Git]),
+                git=utils.get_pydantic_model(git, Optional[models.ConfigGroupGit]),
                 id=id,
                 incompatible_worker_count=incompatible_worker_count,
                 inherits=inherits,
@@ -904,9 +914,7 @@ class GroupsSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.UpdateConfigGroupByProductAndIDResponse, http_res
-            )
+            return unmarshal_json_response(models.CountedConfigGroup, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -931,8 +939,10 @@ class GroupsSDK(BaseSDK):
         config_version: Optional[str] = None,
         deploying_worker_count: Optional[float] = None,
         description: Optional[str] = None,
-        estimated_ingest_rate: Optional[float] = None,
-        git: Optional[Union[models.Git, models.GitTypedDict]] = None,
+        estimated_ingest_rate: Optional[models.ConfigGroupEstimatedIngestRate] = None,
+        git: Optional[
+            Union[models.ConfigGroupGit, models.ConfigGroupGitTypedDict]
+        ] = None,
         incompatible_worker_count: Optional[float] = None,
         inherits: Optional[str] = None,
         is_fleet: Optional[bool] = None,
@@ -957,7 +967,7 @@ class GroupsSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.UpdateConfigGroupByProductAndIDResponse:
+    ) -> models.CountedConfigGroup:
         r"""Update a Worker Group or Edge Fleet
 
         Update the specified Worker Group or Edge Fleet.
@@ -969,7 +979,7 @@ class GroupsSDK(BaseSDK):
         :param config_version:
         :param deploying_worker_count:
         :param description:
-        :param estimated_ingest_rate:
+        :param estimated_ingest_rate: Maximum expected volume of data ingested by the @{group}. (This setting is available only on @{group}s consisting of Cribl-managed Cribl.Cloud @{node}s.)
         :param git:
         :param incompatible_worker_count:
         :param inherits:
@@ -1012,7 +1022,7 @@ class GroupsSDK(BaseSDK):
                 deploying_worker_count=deploying_worker_count,
                 description=description,
                 estimated_ingest_rate=estimated_ingest_rate,
-                git=utils.get_pydantic_model(git, Optional[models.Git]),
+                git=utils.get_pydantic_model(git, Optional[models.ConfigGroupGit]),
                 id=id,
                 incompatible_worker_count=incompatible_worker_count,
                 inherits=inherits,
@@ -1078,9 +1088,7 @@ class GroupsSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.UpdateConfigGroupByProductAndIDResponse, http_res
-            )
+            return unmarshal_json_response(models.CountedConfigGroup, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -1102,7 +1110,7 @@ class GroupsSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.DeleteConfigGroupByProductAndIDResponse:
+    ) -> models.CountedConfigGroup:
         r"""Delete a Worker Group or Edge Fleet
 
         Delete the specified Worker Group or Edge Fleet.
@@ -1170,9 +1178,7 @@ class GroupsSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.DeleteConfigGroupByProductAndIDResponse, http_res
-            )
+            return unmarshal_json_response(models.CountedConfigGroup, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -1194,7 +1200,7 @@ class GroupsSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.DeleteConfigGroupByProductAndIDResponse:
+    ) -> models.CountedConfigGroup:
         r"""Delete a Worker Group or Edge Fleet
 
         Delete the specified Worker Group or Edge Fleet.
@@ -1262,9 +1268,7 @@ class GroupsSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.DeleteConfigGroupByProductAndIDResponse, http_res
-            )
+            return unmarshal_json_response(models.CountedConfigGroup, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -1293,7 +1297,7 @@ class GroupsSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.UpdateConfigGroupDeployByProductAndIDResponse:
+    ) -> models.CountedConfigGroup:
         r"""Deploy commits to a Worker Group or Edge Fleet
 
         Deploy commits to the specified Worker Group or Edge Fleet.
@@ -1372,9 +1376,7 @@ class GroupsSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.UpdateConfigGroupDeployByProductAndIDResponse, http_res
-            )
+            return unmarshal_json_response(models.CountedConfigGroup, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -1403,7 +1405,7 @@ class GroupsSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.UpdateConfigGroupDeployByProductAndIDResponse:
+    ) -> models.CountedConfigGroup:
         r"""Deploy commits to a Worker Group or Edge Fleet
 
         Deploy commits to the specified Worker Group or Edge Fleet.
@@ -1482,9 +1484,7 @@ class GroupsSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.UpdateConfigGroupDeployByProductAndIDResponse, http_res
-            )
+            return unmarshal_json_response(models.CountedConfigGroup, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)

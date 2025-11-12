@@ -44,7 +44,10 @@ with CriblControlPlane(
         "lakehouse_connection_type": models.LakehouseConnectionType.CACHE,
         "migration_query_id": "<id>",
         "retention_in_days": 1466.58,
-    }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.CriblLakeDatasetFormat.DDSS, http_da_used=True, retention_period_in_days=456.37, search_config={
+    }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.CriblLakeDatasetFormat.DDSS, http_da_used=True, metrics={
+        "current_size_bytes": 6170.04,
+        "metrics_date": "<value>",
+    }, retention_period_in_days=456.37, search_config={
         "datatypes": [
             "<value 1>",
         ],
@@ -83,6 +86,7 @@ with CriblControlPlane(
 | `description`                                                                       | *Optional[str]*                                                                     | :heavy_minus_sign:                                                                  | N/A                                                                                 |
 | `format_`                                                                           | [Optional[models.CriblLakeDatasetFormat]](../../models/cribllakedatasetformat.md)   | :heavy_minus_sign:                                                                  | N/A                                                                                 |
 | `http_da_used`                                                                      | *Optional[bool]*                                                                    | :heavy_minus_sign:                                                                  | N/A                                                                                 |
+| `metrics`                                                                           | [Optional[models.LakeDatasetMetrics]](../../models/lakedatasetmetrics.md)           | :heavy_minus_sign:                                                                  | N/A                                                                                 |
 | `retention_period_in_days`                                                          | *Optional[float]*                                                                   | :heavy_minus_sign:                                                                  | N/A                                                                                 |
 | `search_config`                                                                     | [Optional[models.LakeDatasetSearchConfig]](../../models/lakedatasetsearchconfig.md) | :heavy_minus_sign:                                                                  | N/A                                                                                 |
 | `storage_location_id`                                                               | *Optional[str]*                                                                     | :heavy_minus_sign:                                                                  | N/A                                                                                 |
@@ -91,7 +95,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.CreateCriblLakeDatasetByLakeIDResponse](../../models/createcribllakedatasetbylakeidresponse.md)**
+**[models.CountedCriblLakeDataset](../../models/countedcribllakedataset.md)**
 
 ### Errors
 
@@ -135,7 +139,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.GetCriblLakeDatasetByLakeIDResponse](../../models/getcribllakedatasetbylakeidresponse.md)**
+**[models.CountedCriblLakeDataset](../../models/countedcribllakedataset.md)**
 
 ### Errors
 
@@ -180,7 +184,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.DeleteCriblLakeDatasetByLakeIDAndIDResponse](../../models/deletecribllakedatasetbylakeidandidresponse.md)**
+**[models.CountedCriblLakeDataset](../../models/countedcribllakedataset.md)**
 
 ### Errors
 
@@ -225,7 +229,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.GetCriblLakeDatasetByLakeIDAndIDResponse](../../models/getcribllakedatasetbylakeidandidresponse.md)**
+**[models.CountedCriblLakeDataset](../../models/countedcribllakedataset.md)**
 
 ### Errors
 
@@ -268,7 +272,10 @@ with CriblControlPlane(
         "lakehouse_connection_type": models.LakehouseConnectionType.ZERO_POINT,
         "migration_query_id": "<id>",
         "retention_in_days": 3769.62,
-    }, deletion_started_at=836.59, description="highlight phew ponder but winding", format_=models.CriblLakeDatasetUpdateFormat.JSON, http_da_used=True, id="<id>", retention_period_in_days=602.09, search_config={
+    }, deletion_started_at=836.59, description="highlight phew ponder but winding", format_=models.CriblLakeDatasetUpdateFormat.JSON, http_da_used=True, id="<id>", metrics={
+        "current_size_bytes": 6237.74,
+        "metrics_date": "<value>",
+    }, retention_period_in_days=602.09, search_config={
         "datatypes": [
             "<value 1>",
             "<value 2>",
@@ -308,6 +315,7 @@ with CriblControlPlane(
 | `format_`                                                                                     | [Optional[models.CriblLakeDatasetUpdateFormat]](../../models/cribllakedatasetupdateformat.md) | :heavy_minus_sign:                                                                            | N/A                                                                                           |
 | `http_da_used`                                                                                | *Optional[bool]*                                                                              | :heavy_minus_sign:                                                                            | N/A                                                                                           |
 | `id`                                                                                          | *Optional[str]*                                                                               | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `metrics`                                                                                     | [Optional[models.LakeDatasetMetrics]](../../models/lakedatasetmetrics.md)                     | :heavy_minus_sign:                                                                            | N/A                                                                                           |
 | `retention_period_in_days`                                                                    | *Optional[float]*                                                                             | :heavy_minus_sign:                                                                            | N/A                                                                                           |
 | `search_config`                                                                               | [Optional[models.LakeDatasetSearchConfig]](../../models/lakedatasetsearchconfig.md)           | :heavy_minus_sign:                                                                            | N/A                                                                                           |
 | `storage_location_id`                                                                         | *Optional[str]*                                                                               | :heavy_minus_sign:                                                                            | N/A                                                                                           |
@@ -316,7 +324,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.UpdateCriblLakeDatasetByLakeIDAndIDResponse](../../models/updatecribllakedatasetbylakeidandidresponse.md)**
+**[models.CountedCriblLakeDataset](../../models/countedcribllakedataset.md)**
 
 ### Errors
 

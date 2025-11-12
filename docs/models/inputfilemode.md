@@ -7,5 +7,5 @@ Choose how to discover files to monitor
 
 | Name     | Value    |
 | -------- | -------- |
-| `AUTO`   | auto     |
 | `MANUAL` | manual   |
+| `AUTO`   | auto     |

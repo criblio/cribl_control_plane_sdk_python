@@ -2,11 +2,10 @@
 
 from __future__ import annotations
 from .gitcommitparams import GitCommitParams, GitCommitParamsTypedDict
-from .gitcommitsummary import GitCommitSummary, GitCommitSummaryTypedDict
 from cribl_control_plane.types import BaseModel
 from cribl_control_plane.utils import FieldMetadata, QueryParamMetadata, RequestMetadata
 import pydantic
-from typing import List, Optional
+from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -30,20 +29,3 @@ class CreateVersionCommitRequest(BaseModel):
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
     r"""The <code>id</code> of the Worker Group or Edge Fleet to create a new commit for."""
-
-
-class CreateVersionCommitResponseTypedDict(TypedDict):
-    r"""a list of GitCommitSummary objects"""
-
-    count: NotRequired[int]
-    r"""number of items present in the items array"""
-    items: NotRequired[List[GitCommitSummaryTypedDict]]
-
-
-class CreateVersionCommitResponse(BaseModel):
-    r"""a list of GitCommitSummary objects"""
-
-    count: Optional[int] = None
-    r"""number of items present in the items array"""
-
-    items: Optional[List[GitCommitSummary]] = None

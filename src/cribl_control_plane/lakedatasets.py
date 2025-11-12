@@ -24,6 +24,9 @@ class LakeDatasets(BaseSDK):
         description: Optional[str] = None,
         format_: Optional[models.CriblLakeDatasetFormat] = None,
         http_da_used: Optional[bool] = None,
+        metrics: Optional[
+            Union[models.LakeDatasetMetrics, models.LakeDatasetMetricsTypedDict]
+        ] = None,
         retention_period_in_days: Optional[float] = None,
         search_config: Optional[
             Union[
@@ -36,7 +39,7 @@ class LakeDatasets(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateCriblLakeDatasetByLakeIDResponse:
+    ) -> models.CountedCriblLakeDataset:
         r"""Create a Lake Dataset
 
         Create a new Lake Dataset in the specified Lake.
@@ -50,6 +53,7 @@ class LakeDatasets(BaseSDK):
         :param description:
         :param format_:
         :param http_da_used:
+        :param metrics:
         :param retention_period_in_days:
         :param search_config:
         :param storage_location_id:
@@ -82,6 +86,9 @@ class LakeDatasets(BaseSDK):
                 format_=format_,
                 http_da_used=http_da_used,
                 id=id,
+                metrics=utils.get_pydantic_model(
+                    metrics, Optional[models.LakeDatasetMetrics]
+                ),
                 retention_period_in_days=retention_period_in_days,
                 search_config=utils.get_pydantic_model(
                     search_config, Optional[models.LakeDatasetSearchConfig]
@@ -139,9 +146,7 @@ class LakeDatasets(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.CreateCriblLakeDatasetByLakeIDResponse, http_res
-            )
+            return unmarshal_json_response(models.CountedCriblLakeDataset, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -168,6 +173,9 @@ class LakeDatasets(BaseSDK):
         description: Optional[str] = None,
         format_: Optional[models.CriblLakeDatasetFormat] = None,
         http_da_used: Optional[bool] = None,
+        metrics: Optional[
+            Union[models.LakeDatasetMetrics, models.LakeDatasetMetricsTypedDict]
+        ] = None,
         retention_period_in_days: Optional[float] = None,
         search_config: Optional[
             Union[
@@ -180,7 +188,7 @@ class LakeDatasets(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateCriblLakeDatasetByLakeIDResponse:
+    ) -> models.CountedCriblLakeDataset:
         r"""Create a Lake Dataset
 
         Create a new Lake Dataset in the specified Lake.
@@ -194,6 +202,7 @@ class LakeDatasets(BaseSDK):
         :param description:
         :param format_:
         :param http_da_used:
+        :param metrics:
         :param retention_period_in_days:
         :param search_config:
         :param storage_location_id:
@@ -226,6 +235,9 @@ class LakeDatasets(BaseSDK):
                 format_=format_,
                 http_da_used=http_da_used,
                 id=id,
+                metrics=utils.get_pydantic_model(
+                    metrics, Optional[models.LakeDatasetMetrics]
+                ),
                 retention_period_in_days=retention_period_in_days,
                 search_config=utils.get_pydantic_model(
                     search_config, Optional[models.LakeDatasetSearchConfig]
@@ -283,9 +295,7 @@ class LakeDatasets(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.CreateCriblLakeDatasetByLakeIDResponse, http_res
-            )
+            return unmarshal_json_response(models.CountedCriblLakeDataset, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -306,7 +316,7 @@ class LakeDatasets(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetCriblLakeDatasetByLakeIDResponse:
+    ) -> models.CountedCriblLakeDataset:
         r"""List all Lake Datasets
 
         Get a list of all Lake Datasets in the specified Lake.
@@ -372,9 +382,7 @@ class LakeDatasets(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.GetCriblLakeDatasetByLakeIDResponse, http_res
-            )
+            return unmarshal_json_response(models.CountedCriblLakeDataset, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -395,7 +403,7 @@ class LakeDatasets(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetCriblLakeDatasetByLakeIDResponse:
+    ) -> models.CountedCriblLakeDataset:
         r"""List all Lake Datasets
 
         Get a list of all Lake Datasets in the specified Lake.
@@ -461,9 +469,7 @@ class LakeDatasets(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.GetCriblLakeDatasetByLakeIDResponse, http_res
-            )
+            return unmarshal_json_response(models.CountedCriblLakeDataset, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -485,7 +491,7 @@ class LakeDatasets(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.DeleteCriblLakeDatasetByLakeIDAndIDResponse:
+    ) -> models.CountedCriblLakeDataset:
         r"""Delete a Lake Dataset
 
         Delete the specified Lake Dataset in the specified Lake
@@ -553,9 +559,7 @@ class LakeDatasets(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.DeleteCriblLakeDatasetByLakeIDAndIDResponse, http_res
-            )
+            return unmarshal_json_response(models.CountedCriblLakeDataset, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -577,7 +581,7 @@ class LakeDatasets(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.DeleteCriblLakeDatasetByLakeIDAndIDResponse:
+    ) -> models.CountedCriblLakeDataset:
         r"""Delete a Lake Dataset
 
         Delete the specified Lake Dataset in the specified Lake
@@ -645,9 +649,7 @@ class LakeDatasets(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.DeleteCriblLakeDatasetByLakeIDAndIDResponse, http_res
-            )
+            return unmarshal_json_response(models.CountedCriblLakeDataset, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -669,7 +671,7 @@ class LakeDatasets(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetCriblLakeDatasetByLakeIDAndIDResponse:
+    ) -> models.CountedCriblLakeDataset:
         r"""Get a Lake Dataset
 
         Get the specified Lake Dataset in the specified Lake.
@@ -737,9 +739,7 @@ class LakeDatasets(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.GetCriblLakeDatasetByLakeIDAndIDResponse, http_res
-            )
+            return unmarshal_json_response(models.CountedCriblLakeDataset, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -761,7 +761,7 @@ class LakeDatasets(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetCriblLakeDatasetByLakeIDAndIDResponse:
+    ) -> models.CountedCriblLakeDataset:
         r"""Get a Lake Dataset
 
         Get the specified Lake Dataset in the specified Lake.
@@ -829,9 +829,7 @@ class LakeDatasets(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.GetCriblLakeDatasetByLakeIDAndIDResponse, http_res
-            )
+            return unmarshal_json_response(models.CountedCriblLakeDataset, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -859,6 +857,9 @@ class LakeDatasets(BaseSDK):
         format_: Optional[models.CriblLakeDatasetUpdateFormat] = None,
         http_da_used: Optional[bool] = None,
         id: Optional[str] = None,
+        metrics: Optional[
+            Union[models.LakeDatasetMetrics, models.LakeDatasetMetricsTypedDict]
+        ] = None,
         retention_period_in_days: Optional[float] = None,
         search_config: Optional[
             Union[
@@ -871,7 +872,7 @@ class LakeDatasets(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.UpdateCriblLakeDatasetByLakeIDAndIDResponse:
+    ) -> models.CountedCriblLakeDataset:
         r"""Update a Lake Dataset
 
         Update the specified Lake Dataset in the specified Lake.
@@ -886,6 +887,7 @@ class LakeDatasets(BaseSDK):
         :param format_:
         :param http_da_used:
         :param id:
+        :param metrics:
         :param retention_period_in_days:
         :param search_config:
         :param storage_location_id:
@@ -919,6 +921,9 @@ class LakeDatasets(BaseSDK):
                 format_=format_,
                 http_da_used=http_da_used,
                 id=id,
+                metrics=utils.get_pydantic_model(
+                    metrics, Optional[models.LakeDatasetMetrics]
+                ),
                 retention_period_in_days=retention_period_in_days,
                 search_config=utils.get_pydantic_model(
                     search_config, Optional[models.LakeDatasetSearchConfig]
@@ -976,9 +981,7 @@ class LakeDatasets(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.UpdateCriblLakeDatasetByLakeIDAndIDResponse, http_res
-            )
+            return unmarshal_json_response(models.CountedCriblLakeDataset, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -1006,6 +1009,9 @@ class LakeDatasets(BaseSDK):
         format_: Optional[models.CriblLakeDatasetUpdateFormat] = None,
         http_da_used: Optional[bool] = None,
         id: Optional[str] = None,
+        metrics: Optional[
+            Union[models.LakeDatasetMetrics, models.LakeDatasetMetricsTypedDict]
+        ] = None,
         retention_period_in_days: Optional[float] = None,
         search_config: Optional[
             Union[
@@ -1018,7 +1024,7 @@ class LakeDatasets(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.UpdateCriblLakeDatasetByLakeIDAndIDResponse:
+    ) -> models.CountedCriblLakeDataset:
         r"""Update a Lake Dataset
 
         Update the specified Lake Dataset in the specified Lake.
@@ -1033,6 +1039,7 @@ class LakeDatasets(BaseSDK):
         :param format_:
         :param http_da_used:
         :param id:
+        :param metrics:
         :param retention_period_in_days:
         :param search_config:
         :param storage_location_id:
@@ -1066,6 +1073,9 @@ class LakeDatasets(BaseSDK):
                 format_=format_,
                 http_da_used=http_da_used,
                 id=id,
+                metrics=utils.get_pydantic_model(
+                    metrics, Optional[models.LakeDatasetMetrics]
+                ),
                 retention_period_in_days=retention_period_in_days,
                 search_config=utils.get_pydantic_model(
                     search_config, Optional[models.LakeDatasetSearchConfig]
@@ -1123,9 +1133,7 @@ class LakeDatasets(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.UpdateCriblLakeDatasetByLakeIDAndIDResponse, http_res
-            )
+            return unmarshal_json_response(models.CountedCriblLakeDataset, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)

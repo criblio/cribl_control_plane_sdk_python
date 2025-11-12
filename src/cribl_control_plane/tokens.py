@@ -5,26 +5,26 @@ from cribl_control_plane import errors, models, utils
 from cribl_control_plane._hooks import HookContext
 from cribl_control_plane.types import OptionalNullable, UNSET
 from cribl_control_plane.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Mapping, Optional
+from typing import Any, Mapping, Optional
 
 
 class Tokens(BaseSDK):
     def get(
         self,
         *,
-        username: str,
         password: str,
+        username: str,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.AuthToken:
+    ) -> models.CreateAuthLoginResponse:
         r"""Log in and fetch an authentication token
 
-        This endpoint is unavailable on Cribl.Cloud. Instead, follow the instructions at https://docs.cribl.io/stream/api-tutorials/#criblcloud to get an Auth token for Cribl.Cloud.
+        This endpoint is unavailable on Cribl.Cloud.Instead, follow the instructions at https://docs.cribl.io/stream/api-tutorials/#criblcloud to get an Auth token for Cribl.Cloud.
 
-        :param username:
         :param password:
+        :param username:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -41,8 +41,8 @@ class Tokens(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.LoginInfo(
-            username=username,
             password=password,
+            username=username,
         )
 
         req = self._build_request(
@@ -75,18 +75,27 @@ class Tokens(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="login",
+                operation_id="createAuthLogin",
                 oauth2_scopes=[],
                 security_source=None,
             ),
             request=req,
-            error_status_codes=["401", "403", "429", "4XX", "5XX"],
+            error_status_codes=["401", "429", "4XX", "500", "5XX"],
             retry_config=retry_config,
         )
 
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.AuthToken, http_res)
-        if utils.match_response(http_res, ["401", "403", "429", "4XX"], "*"):
+            return models.CreateAuthLoginResponse(
+                result=unmarshal_json_response(models.AuthToken, http_res), headers={}
+            )
+        if utils.match_response(http_res, "429", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.APIError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "500", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
+        if utils.match_response(http_res, ["401", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -98,19 +107,19 @@ class Tokens(BaseSDK):
     async def get_async(
         self,
         *,
-        username: str,
         password: str,
+        username: str,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.AuthToken:
+    ) -> models.CreateAuthLoginResponse:
         r"""Log in and fetch an authentication token
 
-        This endpoint is unavailable on Cribl.Cloud. Instead, follow the instructions at https://docs.cribl.io/stream/api-tutorials/#criblcloud to get an Auth token for Cribl.Cloud.
+        This endpoint is unavailable on Cribl.Cloud.Instead, follow the instructions at https://docs.cribl.io/stream/api-tutorials/#criblcloud to get an Auth token for Cribl.Cloud.
 
-        :param username:
         :param password:
+        :param username:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -127,8 +136,8 @@ class Tokens(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.LoginInfo(
-            username=username,
             password=password,
+            username=username,
         )
 
         req = self._build_request_async(
@@ -161,18 +170,27 @@ class Tokens(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="login",
+                operation_id="createAuthLogin",
                 oauth2_scopes=[],
                 security_source=None,
             ),
             request=req,
-            error_status_codes=["401", "403", "429", "4XX", "5XX"],
+            error_status_codes=["401", "429", "4XX", "500", "5XX"],
             retry_config=retry_config,
         )
 
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.AuthToken, http_res)
-        if utils.match_response(http_res, ["401", "403", "429", "4XX"], "*"):
+            return models.CreateAuthLoginResponse(
+                result=unmarshal_json_response(models.AuthToken, http_res), headers={}
+            )
+        if utils.match_response(http_res, "429", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.APIError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "500", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
+        if utils.match_response(http_res, ["401", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):

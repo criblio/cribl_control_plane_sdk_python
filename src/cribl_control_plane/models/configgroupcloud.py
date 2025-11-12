@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 from .cloudprovider import CloudProvider
+from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, Nullable, UNSET_SENTINEL
 from cribl_control_plane.utils import validate_open_enum
-from pydantic import model_serializer
+from pydantic import field_serializer, model_serializer
 from pydantic.functional_validators import PlainValidator
 from typing_extensions import Annotated, TypedDict
 
@@ -20,6 +21,15 @@ class ConfigGroupCloud(BaseModel):
     ]
 
     region: str
+
+    @field_serializer("provider")
+    def serialize_provider(self, value):
+        if isinstance(value, str):
+            try:
+                return models.CloudProvider(value)
+            except ValueError:
+                return value
+        return value
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

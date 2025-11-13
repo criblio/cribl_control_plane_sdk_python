@@ -176,6 +176,8 @@ class OutputAzureBlobTypedDict(TypedDict):
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
     on_disk_full_backpressure: NotRequired[OutputAzureBlobDiskSpaceProtection]
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
+    force_close_on_shutdown: NotRequired[bool]
+    r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     auth_type: NotRequired[OutputAzureBlobAuthenticationMethod]
     storage_class: NotRequired[BlobAccessTier]
     description: NotRequired[str]
@@ -355,6 +357,11 @@ class OutputAzureBlob(BaseModel):
         pydantic.Field(alias="onDiskFullBackpressure"),
     ] = OutputAzureBlobDiskSpaceProtection.BLOCK
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
+
+    force_close_on_shutdown: Annotated[
+        Optional[bool], pydantic.Field(alias="forceCloseOnShutdown")
+    ] = False
+    r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
 
     auth_type: Annotated[
         Annotated[

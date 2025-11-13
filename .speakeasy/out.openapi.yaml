@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.15.0-alpha.1762902161749-ab8de3f0
+  version: 4.15.0-alpha.1762988717257-65c7dcf5
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -23686,6 +23686,11 @@ components:
             - Drop
           x-speakeasy-unknown-values: allow
           default: block
+        forceCloseOnShutdown:
+          type: boolean
+          title: Force close on shutdown
+          description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
+          default: false
         description:
           type: string
           title: Description
@@ -24087,6 +24092,11 @@ components:
             - Drop
           x-speakeasy-unknown-values: allow
           default: block
+        forceCloseOnShutdown:
+          type: boolean
+          title: Force close on shutdown
+          description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
+          default: false
         maxFileOpenTimeSec:
           type: number
           title: File open time limit (sec)
@@ -24428,6 +24438,11 @@ components:
             - Drop
           x-speakeasy-unknown-values: allow
           default: block
+        forceCloseOnShutdown:
+          type: boolean
+          title: Force close on shutdown
+          description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
+          default: false
         authType:
           title: Authentication method
           type: string
@@ -27223,6 +27238,11 @@ components:
             - Drop
           x-speakeasy-unknown-values: allow
           default: block
+        forceCloseOnShutdown:
+          type: boolean
+          title: Force close on shutdown
+          description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
+          default: false
         description:
           type: string
           title: Description
@@ -32267,6 +32287,11 @@ components:
             - Drop
           x-speakeasy-unknown-values: allow
           default: block
+        forceCloseOnShutdown:
+          type: boolean
+          title: Force close on shutdown
+          description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
+          default: false
         maxFileOpenTimeSec:
           type: number
           title: File open time limit (sec)
@@ -38755,6 +38780,11 @@ components:
             - Drop
           x-speakeasy-unknown-values: allow
           default: block
+        forceCloseOnShutdown:
+          type: boolean
+          title: Force close on shutdown
+          description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
+          default: false
         maxFileOpenTimeSec:
           type: number
           title: File open time limit (sec)
@@ -39177,6 +39207,11 @@ components:
             - Drop
           x-speakeasy-unknown-values: allow
           default: block
+        forceCloseOnShutdown:
+          type: boolean
+          title: Force close on shutdown
+          description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
+          default: false
         maxFileOpenTimeSec:
           type: number
           title: File open time limit (sec)
@@ -39566,6 +39601,11 @@ components:
             - Drop
           x-speakeasy-unknown-values: allow
           default: block
+        forceCloseOnShutdown:
+          type: boolean
+          title: Force close on shutdown
+          description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
+          default: false
         maxFileOpenTimeSec:
           type: number
           title: File open time limit (sec)
@@ -42396,6 +42436,11 @@ components:
             - Drop
           x-speakeasy-unknown-values: allow
           default: block
+        forceCloseOnShutdown:
+          type: boolean
+          title: Force close on shutdown
+          description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
+          default: false
         workspaceId:
           type: string
           title: Workspace ID
@@ -42428,6 +42473,12 @@ components:
           type: string
           title: Client Secret
           description: OAuth client secret for Unity Catalog authentication
+        timeoutSec:
+          type: number
+          title: Request timeout
+          description: Amount of time, in seconds, to wait for a request to complete before canceling it
+          default: 60
+          minimum: 30
         description:
           type: string
           title: Description
@@ -42729,7 +42780,7 @@ components:
             textSecret:
               type: string
               title: SASL JASS password
-              description: Select or create a stored text secret
+              description: Select or create a stored text secret corresponding to the SASL JASS Password Primary or Password Secondary
             clientSecretAuthType:
               enum:
                 - secret
@@ -42891,6 +42942,380 @@ components:
           description: How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged.
         pqControls:
           type: object
+    OutputCloudflareR2:
+      type: object
+      required:
+        - type
+        - bucket
+        - stagePath
+        - endpoint
+      properties:
+        id:
+          type: string
+          title: Output ID
+          description: Unique ID for this output
+        type:
+          type: string
+          enum:
+            - cloudflare_r2
+        pipeline:
+          type: string
+          title: Pipeline
+          description: Pipeline to process data before sending out to this output
+        systemFields:
+          type: array
+          title: System fields
+          description: Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
+          default:
+            - cribl_pipe
+          items:
+            type: string
+        environment:
+          type: string
+          title: Environment
+          description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
+        streamtags:
+          type: array
+          title: Tags
+          description: Tags for filtering and grouping in @{product}
+          default: []
+          items:
+            type: string
+        endpoint:
+          type: string
+          title: R2 endpoint
+          description: "Cloudflare R2 service URL (example: https://<ACCOUNT_ID>.r2.cloudflarestorage.com)"
+          pattern: ^https?://.*
+        bucket:
+          type: string
+          title: R2 bucket name
+          description: "Name of the destination R2 bucket. This value can be a constant or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"
+        awsAuthenticationMethod:
+          type: string
+          title: Authentication method
+          description: AWS authentication method. Choose Auto to use IAM roles.
+          default: auto
+          enum:
+            - auto
+            - secret
+            - manual
+          x-speakeasy-unknown-values: allow
+        awsSecretKey:
+          type: string
+          title: Secret key
+          description: Secret key. This value can be a constant or a JavaScript expression, such as `${C.env.SOME_SECRET}`).
+        region: {}
+        stagePath:
+          type: string
+          title: Staging location
+          description: Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant stable storage.
+          default: $CRIBL_HOME/state/outputs/staging
+        addIdToStagePath:
+          type: boolean
+          title: Add output ID
+          description: Add the Output ID value to staging location
+          default: true
+        destPath:
+          type: string
+          title: Key prefix
+          description: Root directory to prepend to path before uploading. Enter a constant, or a JavaScript expression enclosed in quotes or backticks.
+        signatureVersion:
+          type: string
+          title: Signature version
+          description: Signature version to use for signing MinIO requests
+          default: v4
+          enum:
+            - v2
+            - v4
+          x-speakeasy-unknown-values: allow
+        objectACL: {}
+        storageClass:
+          type: string
+          title: Storage class
+          description: Storage class to select for uploaded objects
+          enum:
+            - STANDARD
+            - REDUCED_REDUNDANCY
+          x-speakeasy-enum-descriptions:
+            - Standard
+            - Reduced Redundancy Storage
+          x-speakeasy-unknown-values: allow
+        serverSideEncryption:
+          type: string
+          title: Server-side encryption
+          description: Server-side encryption for uploaded objects
+          enum:
+            - AES256
+          x-speakeasy-enum-descriptions:
+            - Amazon S3 Managed Key
+          x-speakeasy-unknown-values: allow
+        reuseConnections:
+          type: boolean
+          title: Reuse connections
+          description: Reuse connections between requests, which can improve performance
+          default: true
+        rejectUnauthorized:
+          type: boolean
+          title: Reject unauthorized certificates
+          description: Reject certificates that cannot be verified against a valid CA, such as self-signed certificates)
+          default: true
+        verifyPermissions:
+          type: boolean
+          title: Verify if bucket exists
+          description: Disable if you can access files within the bucket but not the bucket itself
+          default: true
+        removeEmptyDirs:
+          type: boolean
+          title: Remove empty staging directories
+          description: Remove empty staging directories after moving files
+          default: true
+        partitionExpr:
+          type: string
+          title: Partitioning expression
+          description: JavaScript expression defining how files are partitioned and organized. Default is date-based. If blank, Stream will fall back to the event's __partition field value – if present – otherwise to each location's root directory.
+          default: "C.Time.strftime(_time ? _time : Date.now()/1000, '%Y/%m/%d')"
+        format:
+          type: string
+          title: Data format
+          description: Format of the output data
+          enum:
+            - json
+            - raw
+            - parquet
+          x-speakeasy-enum-descriptions:
+            - JSON
+            - Raw
+            - Parquet
+          x-speakeasy-unknown-values: allow
+          default: json
+        baseFileName:
+          type: string
+          title: File name prefix expression
+          description: JavaScript expression to define the output filename prefix (can be constant)
+          default: "`CriblOut`"
+        fileNameSuffix:
+          type: string
+          title: File name suffix expression
+          description: JavaScript expression to define the output filename suffix (can be constant).  The `__format` variable refers to the value of the `Data format` field (`json` or `raw`).  The `__compression` field refers to the kind of compression being used (`none` or `gzip`).
+          default: '`.${C.env["CRIBL_WORKER_ID"]}.${__format}${__compression === "gzip" ? ".gz" : ""}`'
+        maxFileSizeMB:
+          type: number
+          title: File size limit (MB)
+          description: Maximum uncompressed output file size. Files of this size will be closed and moved to final output location.
+          default: 32
+          maximum: 1024
+          minimum: 5
+        maxOpenFiles:
+          type: number
+          title: Open file limit
+          description: Maximum number of files to keep open concurrently. When exceeded, @{product} will close the oldest open files and move them to the final output location.
+          default: 100
+          minimum: 10
+          maximum: 2000
+        headerLine:
+          type: string
+          title: Header line
+          description: If set, this line will be written to the beginning of each output file
+          default: ""
+        writeHighWaterMark:
+          type: number
+          title: Writing high watermark (KB)
+          description: Buffer size used to write to a file
+          default: 64
+          maximum: 4096
+          minimum: 16
+        onBackpressure:
+          type: string
+          title: Backpressure behavior
+          description: How to handle events when all receivers are exerting backpressure
+          enum:
+            - block
+            - drop
+          x-speakeasy-enum-descriptions:
+            - Block
+            - Drop
+          x-speakeasy-unknown-values: allow
+          default: block
+        deadletterEnabled:
+          type: boolean
+          default: false
+          title: Enable dead-lettering
+          description: If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors
+        onDiskFullBackpressure:
+          type: string
+          title: Disk space protection
+          description: How to handle events when disk space is below the global 'Min free disk space' limit
+          enum:
+            - block
+            - drop
+          x-speakeasy-enum-descriptions:
+            - Block
+            - Drop
+          x-speakeasy-unknown-values: allow
+          default: block
+        forceCloseOnShutdown:
+          type: boolean
+          title: Force close on shutdown
+          description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
+          default: false
+        maxFileOpenTimeSec:
+          type: number
+          title: File open time limit (sec)
+          description: Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location.
+          default: 300
+          minimum: 10
+          maximum: 86400
+        maxFileIdleTimeSec:
+          type: number
+          title: Idle time limit (sec)
+          description: Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location.
+          default: 30
+          minimum: 5
+          maximum: 86400
+        maxConcurrentFileParts:
+          type: number
+          title: Concurrent file parts limit
+          description: Maximum number of parts to upload in parallel per file. Minimum part size is 5MB.
+          default: 4
+          minimum: 1
+          maximum: 10
+        description:
+          type: string
+          title: Description
+        awsApiKey:
+          type: string
+          title: Access key
+          description: This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)
+        awsSecret:
+          type: string
+          title: Secret key pair
+          description: Select or create a stored secret that references your access key and secret key
+        compress:
+          type: string
+          title: Compression
+          description: Data compression format to apply to HTTP content before it is delivered
+          enum:
+            - none
+            - gzip
+          default: gzip
+          x-speakeasy-unknown-values: allow
+        compressionLevel:
+          type: string
+          title: Compression level
+          description: Compression level to apply before moving files to final destination
+          enum:
+            - best_speed
+            - normal
+            - best_compression
+          x-speakeasy-enum-descriptions:
+            - Best Speed
+            - Normal
+            - Best Compression
+          x-speakeasy-unknown-values: allow
+          default: best_speed
+        automaticSchema:
+          type: boolean
+          title: Automatic schema
+          default: false
+          description: Automatically calculate the schema based on the events of each Parquet file generated
+        parquetSchema:
+          type: string
+          title: Parquet schema
+          description: To add a new schema, navigate to Processing > Knowledge > Parquet Schemas
+          minLength: 1
+        parquetVersion:
+          type: string
+          title: Parquet version
+          enum:
+            - PARQUET_1_0
+            - PARQUET_2_4
+            - PARQUET_2_6
+          x-speakeasy-enum-descriptions:
+            - "1.0"
+            - "2.4"
+            - "2.6"
+          x-speakeasy-unknown-values: allow
+          default: PARQUET_2_6
+          description: Determines which data types are supported and how they are represented
+        parquetDataPageVersion:
+          type: string
+          title: Data page version
+          enum:
+            - DATA_PAGE_V1
+            - DATA_PAGE_V2
+          x-speakeasy-enum-descriptions:
+            - V1
+            - V2
+          x-speakeasy-unknown-values: allow
+          default: DATA_PAGE_V2
+          description: Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it.
+        parquetRowGroupLength:
+          type: number
+          title: Group row limit
+          description: The number of rows that every group will contain. The final group can contain a smaller number of rows.
+          default: 10000
+          minimum: 1
+          maximum: 67108864
+        parquetPageSize:
+          type: string
+          title: Page size
+          description: Target memory size for page segments, such as 1MB or 128MB. Generally, lower values improve reading speed, while higher values improve compression.
+          pattern: ^\d+\s*(?:[kK][bB]|[mM][bB]|[gG][bB]|[tT][bB])?$
+          default: 1MB
+        shouldLogInvalidRows:
+          type: boolean
+          title: Log invalid rows
+          description: Log up to 3 rows that @{product} skips due to data mismatch
+        keyValueMetadata:
+          type: array
+          title: Metadata (optional)
+          description: 'The metadata of files the Destination writes will include the properties you add here as key-value pairs. Useful for tagging. Examples: "key":"OCSF Event Class", "value":"9001"'
+          items:
+            type: object
+            required:
+              - key
+              - value
+            properties:
+              key:
+                type: string
+                title: Key
+                default: ""
+              value:
+                type: string
+                title: Value
+        enableStatistics:
+          type: boolean
+          title: Write statistics
+          default: true
+          description: Statistics profile an entire file in terms of minimum/maximum values within data, numbers of nulls, etc. You can use Parquet tools to view statistics.
+        enableWritePageIndex:
+          type: boolean
+          title: Write page indexes
+          default: true
+          description: One page index contains statistics for one data page. Parquet readers use statistics to enable page skipping.
+        enablePageChecksum:
+          type: boolean
+          title: Write page checksum
+          default: false
+          description: Parquet tools can use the checksum of a Parquet page to verify data integrity
+        emptyDirCleanupSec:
+          type: number
+          title: Staging cleanup period
+          description: How frequently, in seconds, to clean up empty directories
+          default: 300
+          minimum: 10
+          maximum: 86400
+        deadletterPath:
+          type: string
+          title: Dead-letter location
+          description: Storage location for files that fail to reach their final destination after maximum retries are exceeded
+          default: $CRIBL_HOME/state/outputs/dead-letter
+        maxRetryNum:
+          type: number
+          title: Retry limit
+          description: The maximum number of times a file will attempt to move to its final destination before being dead-lettered
+          default: 20
+          minimum: 1
     Output:
       oneOf:
         - $ref: "#/components/schemas/OutputDefault"
@@ -42960,6 +43385,7 @@ components:
         - $ref: "#/components/schemas/OutputChronicle"
         - $ref: "#/components/schemas/OutputDatabricks"
         - $ref: "#/components/schemas/OutputMicrosoftFabric"
+        - $ref: "#/components/schemas/OutputCloudflareR2"
       discriminator:
         propertyName: type
         mapping:
@@ -43030,6 +43456,7 @@ components:
           chronicle: "#/components/schemas/OutputChronicle"
           databricks: "#/components/schemas/OutputDatabricks"
           microsoft_fabric: "#/components/schemas/OutputMicrosoftFabric"
+          cloudflare_r2: "#/components/schemas/OutputCloudflareR2"
     RunnableJobCollection:
       required:
         - collector

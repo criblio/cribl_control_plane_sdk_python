@@ -405,3 +405,9 @@ value: models.OutputDatabricks = /* values here */
 value: models.OutputMicrosoftFabric = /* values here */
 ```
 
+### `models.OutputCloudflareR2`
+
+```python
+value: models.OutputCloudflareR2 = /* values here */
+```
+

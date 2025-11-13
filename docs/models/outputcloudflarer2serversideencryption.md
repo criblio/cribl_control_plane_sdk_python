@@ -1,4 +1,4 @@
-# ServerSideEncryption
+# OutputCloudflareR2ServerSideEncryption
 
 Server-side encryption for uploaded objects
 

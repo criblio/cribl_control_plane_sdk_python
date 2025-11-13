@@ -211,6 +211,8 @@ class OutputGoogleCloudStorageTypedDict(TypedDict):
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
     on_disk_full_backpressure: NotRequired[OutputGoogleCloudStorageDiskSpaceProtection]
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
+    force_close_on_shutdown: NotRequired[bool]
+    r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     description: NotRequired[str]
     compress: NotRequired[OutputGoogleCloudStorageCompression]
     r"""Data compression format to apply to HTTP content before it is delivered"""
@@ -425,6 +427,11 @@ class OutputGoogleCloudStorage(BaseModel):
         pydantic.Field(alias="onDiskFullBackpressure"),
     ] = OutputGoogleCloudStorageDiskSpaceProtection.BLOCK
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
+
+    force_close_on_shutdown: Annotated[
+        Optional[bool], pydantic.Field(alias="forceCloseOnShutdown")
+    ] = False
+    r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
 
     description: Optional[str] = None
 

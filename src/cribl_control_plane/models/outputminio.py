@@ -62,7 +62,7 @@ class OutputMinioStorageClass(str, Enum, metaclass=utils.OpenEnumMeta):
     REDUCED_REDUNDANCY = "REDUCED_REDUNDANCY"
 
 
-class ServerSideEncryption(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputMinioServerSideEncryption(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Server-side encryption for uploaded objects"""
 
     # Amazon S3 Managed Key
@@ -181,7 +181,7 @@ class OutputMinioTypedDict(TypedDict):
     r"""Object ACL to assign to uploaded objects"""
     storage_class: NotRequired[OutputMinioStorageClass]
     r"""Storage class to select for uploaded objects"""
-    server_side_encryption: NotRequired[ServerSideEncryption]
+    server_side_encryption: NotRequired[OutputMinioServerSideEncryption]
     r"""Server-side encryption for uploaded objects"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
@@ -213,6 +213,8 @@ class OutputMinioTypedDict(TypedDict):
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
     on_disk_full_backpressure: NotRequired[OutputMinioDiskSpaceProtection]
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
+    force_close_on_shutdown: NotRequired[bool]
+    r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     max_file_open_time_sec: NotRequired[float]
     r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
     max_file_idle_time_sec: NotRequired[float]
@@ -341,7 +343,8 @@ class OutputMinio(BaseModel):
 
     server_side_encryption: Annotated[
         Annotated[
-            Optional[ServerSideEncryption], PlainValidator(validate_open_enum(False))
+            Optional[OutputMinioServerSideEncryption],
+            PlainValidator(validate_open_enum(False)),
         ],
         pydantic.Field(alias="serverSideEncryption"),
     ] = None
@@ -430,6 +433,11 @@ class OutputMinio(BaseModel):
         pydantic.Field(alias="onDiskFullBackpressure"),
     ] = OutputMinioDiskSpaceProtection.BLOCK
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
+
+    force_close_on_shutdown: Annotated[
+        Optional[bool], pydantic.Field(alias="forceCloseOnShutdown")
+    ] = False
+    r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
 
     max_file_open_time_sec: Annotated[
         Optional[float], pydantic.Field(alias="maxFileOpenTimeSec")
@@ -585,7 +593,7 @@ class OutputMinio(BaseModel):
     def serialize_server_side_encryption(self, value):
         if isinstance(value, str):
             try:
-                return models.ServerSideEncryption(value)
+                return models.OutputMinioServerSideEncryption(value)
             except ValueError:
                 return value
         return value

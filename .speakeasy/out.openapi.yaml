@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.15.0-alpha.1762988717257-65c7dcf5
+  version: 4.15.0-alpha.1763072414698-97546d75
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -23809,6 +23809,11 @@ components:
           default: 300
           minimum: 10
           maximum: 86400
+        directoryBatchSize:
+          type: number
+          title: Directory batch size
+          description: Number of directories to process in each batch during cleanup of empty directories. Minimum is 10, maximum is 10000. Higher values may require more memory.
+          default: 1000
         deadletterPath:
           type: string
           title: Dead-letter location
@@ -24256,6 +24261,11 @@ components:
           default: 300
           minimum: 10
           maximum: 86400
+        directoryBatchSize:
+          type: number
+          title: Directory batch size
+          description: Number of directories to process in each batch during cleanup of empty directories. Minimum is 10, maximum is 10000. Higher values may require more memory.
+          default: 1000
         deadletterPath:
           type: string
           title: Dead-letter location
@@ -24588,6 +24598,11 @@ components:
           default: 300
           minimum: 10
           maximum: 86400
+        directoryBatchSize:
+          type: number
+          title: Directory batch size
+          description: Number of directories to process in each batch during cleanup of empty directories. Minimum is 10, maximum is 10000. Higher values may require more memory.
+          default: 1000
         deadletterPath:
           type: string
           title: Dead-letter location
@@ -24906,6 +24921,11 @@ components:
           default: 300
           minimum: 10
           maximum: 86400
+        directoryBatchSize:
+          type: number
+          title: Directory batch size
+          description: Number of directories to process in each batch during cleanup of empty directories. Minimum is 10, maximum is 10000. Higher values may require more memory.
+          default: 1000
         deadletterEnabled:
           type: boolean
           default: false
@@ -27361,6 +27381,11 @@ components:
           default: 300
           minimum: 10
           maximum: 86400
+        directoryBatchSize:
+          type: number
+          title: Directory batch size
+          description: Number of directories to process in each batch during cleanup of empty directories. Minimum is 10, maximum is 10000. Higher values may require more memory.
+          default: 1000
         deadletterPath:
           type: string
           title: Dead-letter location
@@ -28224,6 +28249,11 @@ components:
           default: 300
           minimum: 10
           maximum: 86400
+        directoryBatchSize:
+          type: number
+          title: Directory batch size
+          description: Number of directories to process in each batch during cleanup of empty directories. Minimum is 10, maximum is 10000. Higher values may require more memory.
+          default: 1000
         deadletterPath:
           type: string
           title: Dead-letter location
@@ -32439,6 +32469,11 @@ components:
           default: 300
           minimum: 10
           maximum: 86400
+        directoryBatchSize:
+          type: number
+          title: Directory batch size
+          description: Number of directories to process in each batch during cleanup of empty directories. Minimum is 10, maximum is 10000. Higher values may require more memory.
+          default: 1000
         deadletterPath:
           type: string
           title: Dead-letter location
@@ -38951,6 +38986,11 @@ components:
           default: 300
           minimum: 10
           maximum: 86400
+        directoryBatchSize:
+          type: number
+          title: Directory batch size
+          description: Number of directories to process in each batch during cleanup of empty directories. Minimum is 10, maximum is 10000. Higher values may require more memory.
+          default: 1000
         deadletterPath:
           type: string
           title: Dead-letter location
@@ -39351,6 +39391,11 @@ components:
           default: 300
           minimum: 10
           maximum: 86400
+        directoryBatchSize:
+          type: number
+          title: Directory batch size
+          description: Number of directories to process in each batch during cleanup of empty directories. Minimum is 10, maximum is 10000. Higher values may require more memory.
+          default: 1000
         parquetSchema:
           type: string
           title: Parquet schema
@@ -39664,6 +39709,11 @@ components:
           default: 300
           minimum: 10
           maximum: 86400
+        directoryBatchSize:
+          type: number
+          title: Directory batch size
+          description: Number of directories to process in each batch during cleanup of empty directories. Minimum is 10, maximum is 10000. Higher values may require more memory.
+          default: 1000
         deadletterPath:
           type: string
           title: Dead-letter location
@@ -42597,6 +42647,11 @@ components:
           default: 300
           minimum: 10
           maximum: 86400
+        directoryBatchSize:
+          type: number
+          title: Directory batch size
+          description: Number of directories to process in each batch during cleanup of empty directories. Minimum is 10, maximum is 10000. Higher values may require more memory.
+          default: 1000
         deadletterPath:
           type: string
           title: Dead-letter location
@@ -43305,6 +43360,11 @@ components:
           default: 300
           minimum: 10
           maximum: 86400
+        directoryBatchSize:
+          type: number
+          title: Directory batch size
+          description: Number of directories to process in each batch during cleanup of empty directories. Minimum is 10, maximum is 10000. Higher values may require more memory.
+          default: 1000
         deadletterPath:
           type: string
           title: Dead-letter location

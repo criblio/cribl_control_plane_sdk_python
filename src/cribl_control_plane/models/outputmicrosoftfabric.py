@@ -68,7 +68,7 @@ class OutputMicrosoftFabricAuthenticationTypedDict(TypedDict):
     username: NotRequired[str]
     r"""The username for authentication. This should always be $ConnectionString."""
     text_secret: NotRequired[str]
-    r"""Select or create a stored text secret"""
+    r"""Select or create a stored text secret corresponding to the SASL JASS Password Primary or Password Secondary"""
     client_secret_auth_type: NotRequired[OutputMicrosoftFabricAuthenticationMethod]
     client_text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
@@ -103,7 +103,7 @@ class OutputMicrosoftFabricAuthentication(BaseModel):
     r"""The username for authentication. This should always be $ConnectionString."""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
-    r"""Select or create a stored text secret"""
+    r"""Select or create a stored text secret corresponding to the SASL JASS Password Primary or Password Secondary"""
 
     client_secret_auth_type: Annotated[
         Annotated[

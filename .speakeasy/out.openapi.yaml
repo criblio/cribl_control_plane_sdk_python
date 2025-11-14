@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.16.0-alpha.1762729323295-56963ed5
+  version: 4.16.0-alpha.1763072414864-e4e827ee
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -19515,6 +19515,364 @@ components:
         description:
           type: string
           title: Description
+    InputCloudflareHec:
+      type: object
+      required:
+        - type
+        - host
+        - port
+        - hecAPI
+      properties:
+        id:
+          type: string
+          title: Input ID
+          description: Unique ID for this input
+        type:
+          type: string
+          enum:
+            - cloudflare_hec
+        disabled:
+          type: boolean
+          title: Disabled
+          default: false
+        pipeline:
+          type: string
+          title: Pipeline
+          description: Pipeline to process data from this Source before sending it through the Routes
+        sendToRoutes:
+          type: boolean
+          default: true
+          description: Select whether to send data to Routes, or directly to Destinations.
+        environment:
+          type: string
+          title: Environment
+          description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
+        pqEnabled:
+          type: boolean
+          default: false
+          title: Enable persistent queue
+          description: Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers).
+        streamtags:
+          type: array
+          title: Tags
+          description: Tags for filtering and grouping in @{product}
+          default: []
+          items:
+            type: string
+        connections:
+          type: array
+          title: Use QuickConnect
+          description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
+          items:
+            type: object
+            required:
+              - output
+            properties:
+              pipeline:
+                title: Pipeline or Pack
+                type: string
+              output:
+                title: Destination
+                type: string
+        pq:
+          type: object
+          properties:
+            mode:
+              type: string
+              title: Mode
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              default: always
+              enum:
+                - smart
+                - always
+              x-speakeasy-enum-descriptions:
+                - Smart
+                - Always On
+              x-speakeasy-unknown-values: allow
+            maxBufferSize:
+              type: number
+              title: Buffer size limit
+              description: The maximum number of events to hold in memory before writing the events to disk
+              default: 1000
+              minimum: 42
+            commitFrequency:
+              type: number
+              title: Commit frequency
+              description: The number of events to send downstream before committing that Stream has read them
+              default: 42
+              minimum: 1
+            maxFileSize:
+              type: string
+              title: File size limit
+              description: The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc.
+              pattern: ^\d+\s*(?:\w{2})?$
+              default: 1 MB
+            maxSize:
+              type: string
+              title: Queue size limit
+              description: The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc.
+              pattern: ^\d+\s*(?:\w{2})?$
+              default: 5GB
+            path:
+              type: string
+              default: $CRIBL_HOME/state/queues
+              title: Queue file path
+              description: "The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"
+            compress:
+              type: string
+              default: none
+              enum:
+                - none
+                - gzip
+              x-speakeasy-enum-descriptions:
+                - None
+                - Gzip
+              x-speakeasy-unknown-values: allow
+              title: Compression
+              description: Codec to use to compress the persisted data
+            pqControls:
+              type: object
+        host:
+          type: string
+          title: Address
+          description: Address to bind on. Defaults to 0.0.0.0 (all addresses).
+          default: 0.0.0.0
+        port:
+          type: number
+          title: Port
+          maximum: 65535
+          description: Port to listen on
+        authTokens:
+          type: array
+          title: Auth tokens
+          description: "Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."
+          items:
+            type: object
+            properties:
+              authType:
+                title: Authentication method
+                type: string
+                enum:
+                  - secret
+                default: secret
+                description: Select Secret to use a text secret to authenticate
+                x-speakeasy-unknown-values: allow
+              tokenSecret: {}
+              token: {}
+              enabled:
+                type: boolean
+                title: Enable token
+                default: true
+              description:
+                type: string
+                title: Description
+              allowedIndexesAtToken:
+                type: array
+                title: Allowed indexes
+                description: Enter the values you want to allow in the HEC event index field at the token level. Supports wildcards. To skip validation, leave blank.
+                items:
+                  type: string
+                  minLength: 1
+              metadata:
+                type: array
+                title: Fields
+                description: Fields to add to events referencing this token
+                items:
+                  type: object
+                  required:
+                    - name
+                    - value
+                  properties:
+                    name:
+                      type: string
+                      title: Field Name
+                    value:
+                      type: string
+                      title: Value
+                      description: JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
+        tls:
+          type: object
+          title: TLS settings (server side)
+          properties:
+            disabled:
+              type: boolean
+              title: Disabled
+              default: true
+            requestCert:
+              type: boolean
+              title: Authenticate client (mutual auth)
+              description: Require clients to present their certificates. Used to perform client authentication using SSL certs.
+              default: false
+            rejectUnauthorized:
+              type: boolean
+              title: Validate client certificates
+              description: Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's)
+              default: true
+            commonNameRegex:
+              type: string
+              title: Common name
+              description: Regex matching allowable common names in peer certificates' subject attribute
+              default: /.*/
+            certificateName:
+              type: string
+              title: Certificate
+              description: The name of the predefined certificate
+            privKeyPath:
+              type: string
+              title: Private key path
+              description: Path on server containing the private key to use. PEM format. Can reference $ENV_VARS.
+            passphrase:
+              type: string
+              title: Passphrase
+              description: Passphrase to use to decrypt private key
+            certPath:
+              type: string
+              title: Certificate path
+              description: Path on server containing certificates to use. PEM format. Can reference $ENV_VARS.
+            caPath:
+              type: string
+              title: CA certificate path
+              description: Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS.
+            minVersion:
+              type: string
+              title: Minimum TLS version
+              enum:
+                - TLSv1
+                - TLSv1.1
+                - TLSv1.2
+                - TLSv1.3
+              x-speakeasy-unknown-values: allow
+            maxVersion:
+              type: string
+              title: Maximum TLS version
+              enum:
+                - TLSv1
+                - TLSv1.1
+                - TLSv1.2
+                - TLSv1.3
+              x-speakeasy-unknown-values: allow
+        maxActiveReq:
+          type: number
+          title: Active request limit
+          description: "Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."
+          default: 256
+          minimum: 0
+        maxRequestsPerSocket:
+          type: integer
+          title: Requests-per-socket limit
+          description: Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited).
+          default: 0
+          minimum: 0
+        enableProxyHeader:
+          type: boolean
+          title: Show originating IP
+          description: Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction.
+          default: false
+        captureHeaders:
+          type: boolean
+          title: Capture request headers
+          description: Add request headers to events, in the __headers field
+          default: false
+        activityLogSampleRate:
+          type: number
+          title: Activity log sample rate
+          description: How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc.
+          default: 100
+          minimum: 1
+        requestTimeout:
+          type: number
+          title: Request timeout (seconds)
+          description: How long to wait for an incoming request to complete before aborting it. Use 0 to disable.
+          default: 0
+          minimum: 0
+        socketTimeout:
+          type: number
+          title: Socket timeout (seconds)
+          description: How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0.
+          default: 0
+          minimum: 0
+        keepAliveTimeout:
+          type: number
+          title: Keep-alive timeout (seconds)
+          description: After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes).
+          default: 5
+          minimum: 1
+          maximum: 600
+        enableHealthCheck: {}
+        ipAllowlistRegex:
+          type: string
+          title: IP allowlist regex
+          description: Messages from matched IP addresses will be processed, unless also matched by the denylist
+          default: /.*/
+        ipDenylistRegex:
+          type: string
+          title: IP denylist regex
+          description: Messages from matched IP addresses will be ignored. This takes precedence over the allowlist.
+          default: /^$/
+        hecAPI:
+          type: string
+          title: HEC endpoint
+          description: Absolute path on which to listen for the Cloudflare HTTP Event Collector API requests. This input supports the /event endpoint.
+          pattern: ^/
+        metadata:
+          type: array
+          title: Fields
+          description: Fields to add to every event. May be overridden by fields added at the token or request level.
+          items:
+            type: object
+            required:
+              - name
+              - value
+            properties:
+              name:
+                type: string
+                title: Field Name
+              value:
+                type: string
+                title: Value
+                description: JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
+        allowedIndexes:
+          type: array
+          title: Allowed indexes
+          description: List values allowed in HEC event index field. Leave blank to skip validation. Supports wildcards. The values here can expand index validation at the token level.
+          items:
+            type: string
+            minLength: 1
+        breakerRulesets:
+          type: array
+          title: Event Breaker rulesets
+          description: A list of event-breaking rulesets that will be applied, in order, to the input data stream
+          items:
+            type: string
+        staleChannelFlushMs:
+          type: number
+          title: Event Breaker buffer timeout (ms)
+          description: How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines
+          default: 10000
+          minimum: 10
+          maximum: 43200000
+        accessControlAllowOrigin:
+          title: CORS allowed origins
+          type: array
+          description: HTTP origins to which @{product} should send CORS (cross-origin resource sharing) Access-Control-Allow-* headers. Supports wildcards.
+          items:
+            type: string
+            minLength: 1
+        accessControlAllowHeaders:
+          title: CORS allowed headers
+          type: array
+          description: HTTP headers that @{product} will send to allowed origins as "Access-Control-Allow-Headers" in a CORS preflight response. Use "*" to allow all headers.
+          items:
+            type: string
+            minLength: 1
+        emitTokenMetrics:
+          type: boolean
+          title: Emit per-token request metrics
+          description: Emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics
+          default: false
+        description:
+          type: string
+          title: Description
     Input:
       oneOf:
         - $ref: "#/components/schemas/InputCollection"
@@ -19576,6 +19934,7 @@ components:
         - $ref: "#/components/schemas/InputNetflow"
         - $ref: "#/components/schemas/InputSecurityLake"
         - $ref: "#/components/schemas/InputZscalerHec"
+        - $ref: "#/components/schemas/InputCloudflareHec"
       discriminator:
         propertyName: type
         mapping:
@@ -19638,6 +19997,7 @@ components:
           netflow: "#/components/schemas/InputNetflow"
           security_lake: "#/components/schemas/InputSecurityLake"
           zscaler_hec: "#/components/schemas/InputZscalerHec"
+          cloudflare_hec: "#/components/schemas/InputCloudflareHec"
     CountedInput:
       type: object
       properties:
@@ -23407,6 +23767,11 @@ components:
             - Drop
           x-speakeasy-unknown-values: allow
           default: block
+        forceCloseOnShutdown:
+          type: boolean
+          title: Force close on shutdown
+          description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
+          default: false
         description:
           type: string
           title: Description
@@ -23808,6 +24173,11 @@ components:
             - Drop
           x-speakeasy-unknown-values: allow
           default: block
+        forceCloseOnShutdown:
+          type: boolean
+          title: Force close on shutdown
+          description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
+          default: false
         maxFileOpenTimeSec:
           type: number
           title: File open time limit (sec)
@@ -24149,6 +24519,11 @@ components:
             - Drop
           x-speakeasy-unknown-values: allow
           default: block
+        forceCloseOnShutdown:
+          type: boolean
+          title: Force close on shutdown
+          description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
+          default: false
         authType:
           title: Authentication method
           type: string
@@ -26944,6 +27319,11 @@ components:
             - Drop
           x-speakeasy-unknown-values: allow
           default: block
+        forceCloseOnShutdown:
+          type: boolean
+          title: Force close on shutdown
+          description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
+          default: false
         description:
           type: string
           title: Description
@@ -31988,6 +32368,11 @@ components:
             - Drop
           x-speakeasy-unknown-values: allow
           default: block
+        forceCloseOnShutdown:
+          type: boolean
+          title: Force close on shutdown
+          description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
+          default: false
         maxFileOpenTimeSec:
           type: number
           title: File open time limit (sec)
@@ -38476,6 +38861,11 @@ components:
             - Drop
           x-speakeasy-unknown-values: allow
           default: block
+        forceCloseOnShutdown:
+          type: boolean
+          title: Force close on shutdown
+          description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
+          default: false
         maxFileOpenTimeSec:
           type: number
           title: File open time limit (sec)
@@ -38898,6 +39288,11 @@ components:
             - Drop
           x-speakeasy-unknown-values: allow
           default: block
+        forceCloseOnShutdown:
+          type: boolean
+          title: Force close on shutdown
+          description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
+          default: false
         maxFileOpenTimeSec:
           type: number
           title: File open time limit (sec)
@@ -39287,6 +39682,11 @@ components:
             - Drop
           x-speakeasy-unknown-values: allow
           default: block
+        forceCloseOnShutdown:
+          type: boolean
+          title: Force close on shutdown
+          description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
+          default: false
         maxFileOpenTimeSec:
           type: number
           title: File open time limit (sec)
@@ -41859,6 +42259,11 @@ components:
               value:
                 type: string
                 title: Value
+              rbacEnabled:
+                type: boolean
+                title: Enable RBAC
+                description: Designate this label for role-based access control and filtering
+                default: false
         description:
           type: string
           title: Description
@@ -42112,6 +42517,11 @@ components:
             - Drop
           x-speakeasy-unknown-values: allow
           default: block
+        forceCloseOnShutdown:
+          type: boolean
+          title: Force close on shutdown
+          description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
+          default: false
         workspaceId:
           type: string
           title: Workspace ID
@@ -42144,6 +42554,12 @@ components:
           type: string
           title: Client Secret
           description: OAuth client secret for Unity Catalog authentication
+        timeoutSec:
+          type: number
+          title: Request timeout
+          description: Amount of time, in seconds, to wait for a request to complete before canceling it
+          default: 60
+          minimum: 30
         description:
           type: string
           title: Description
@@ -42445,7 +42861,7 @@ components:
             textSecret:
               type: string
               title: SASL JASS password
-              description: Select or create a stored text secret
+              description: Select or create a stored text secret corresponding to the SASL JASS Password Primary or Password Secondary
             clientSecretAuthType:
               enum:
                 - secret
@@ -42607,6 +43023,380 @@ components:
           description: How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged.
         pqControls:
           type: object
+    OutputCloudflareR2:
+      type: object
+      required:
+        - type
+        - bucket
+        - stagePath
+        - endpoint
+      properties:
+        id:
+          type: string
+          title: Output ID
+          description: Unique ID for this output
+        type:
+          type: string
+          enum:
+            - cloudflare_r2
+        pipeline:
+          type: string
+          title: Pipeline
+          description: Pipeline to process data before sending out to this output
+        systemFields:
+          type: array
+          title: System fields
+          description: Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
+          default:
+            - cribl_pipe
+          items:
+            type: string
+        environment:
+          type: string
+          title: Environment
+          description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
+        streamtags:
+          type: array
+          title: Tags
+          description: Tags for filtering and grouping in @{product}
+          default: []
+          items:
+            type: string
+        endpoint:
+          type: string
+          title: R2 endpoint
+          description: "Cloudflare R2 service URL (example: https://<ACCOUNT_ID>.r2.cloudflarestorage.com)"
+          pattern: ^https?://.*
+        bucket:
+          type: string
+          title: R2 bucket name
+          description: "Name of the destination R2 bucket. This value can be a constant or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"
+        awsAuthenticationMethod:
+          type: string
+          title: Authentication method
+          description: AWS authentication method. Choose Auto to use IAM roles.
+          default: auto
+          enum:
+            - auto
+            - secret
+            - manual
+          x-speakeasy-unknown-values: allow
+        awsSecretKey:
+          type: string
+          title: Secret key
+          description: Secret key. This value can be a constant or a JavaScript expression, such as `${C.env.SOME_SECRET}`).
+        region: {}
+        stagePath:
+          type: string
+          title: Staging location
+          description: Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant stable storage.
+          default: $CRIBL_HOME/state/outputs/staging
+        addIdToStagePath:
+          type: boolean
+          title: Add output ID
+          description: Add the Output ID value to staging location
+          default: true
+        destPath:
+          type: string
+          title: Key prefix
+          description: Root directory to prepend to path before uploading. Enter a constant, or a JavaScript expression enclosed in quotes or backticks.
+        signatureVersion:
+          type: string
+          title: Signature version
+          description: Signature version to use for signing MinIO requests
+          default: v4
+          enum:
+            - v2
+            - v4
+          x-speakeasy-unknown-values: allow
+        objectACL: {}
+        storageClass:
+          type: string
+          title: Storage class
+          description: Storage class to select for uploaded objects
+          enum:
+            - STANDARD
+            - REDUCED_REDUNDANCY
+          x-speakeasy-enum-descriptions:
+            - Standard
+            - Reduced Redundancy Storage
+          x-speakeasy-unknown-values: allow
+        serverSideEncryption:
+          type: string
+          title: Server-side encryption
+          description: Server-side encryption for uploaded objects
+          enum:
+            - AES256
+          x-speakeasy-enum-descriptions:
+            - Amazon S3 Managed Key
+          x-speakeasy-unknown-values: allow
+        reuseConnections:
+          type: boolean
+          title: Reuse connections
+          description: Reuse connections between requests, which can improve performance
+          default: true
+        rejectUnauthorized:
+          type: boolean
+          title: Reject unauthorized certificates
+          description: Reject certificates that cannot be verified against a valid CA, such as self-signed certificates)
+          default: true
+        verifyPermissions:
+          type: boolean
+          title: Verify if bucket exists
+          description: Disable if you can access files within the bucket but not the bucket itself
+          default: true
+        removeEmptyDirs:
+          type: boolean
+          title: Remove empty staging directories
+          description: Remove empty staging directories after moving files
+          default: true
+        partitionExpr:
+          type: string
+          title: Partitioning expression
+          description: JavaScript expression defining how files are partitioned and organized. Default is date-based. If blank, Stream will fall back to the event's __partition field value – if present – otherwise to each location's root directory.
+          default: "C.Time.strftime(_time ? _time : Date.now()/1000, '%Y/%m/%d')"
+        format:
+          type: string
+          title: Data format
+          description: Format of the output data
+          enum:
+            - json
+            - raw
+            - parquet
+          x-speakeasy-enum-descriptions:
+            - JSON
+            - Raw
+            - Parquet
+          x-speakeasy-unknown-values: allow
+          default: json
+        baseFileName:
+          type: string
+          title: File name prefix expression
+          description: JavaScript expression to define the output filename prefix (can be constant)
+          default: "`CriblOut`"
+        fileNameSuffix:
+          type: string
+          title: File name suffix expression
+          description: JavaScript expression to define the output filename suffix (can be constant).  The `__format` variable refers to the value of the `Data format` field (`json` or `raw`).  The `__compression` field refers to the kind of compression being used (`none` or `gzip`).
+          default: '`.${C.env["CRIBL_WORKER_ID"]}.${__format}${__compression === "gzip" ? ".gz" : ""}`'
+        maxFileSizeMB:
+          type: number
+          title: File size limit (MB)
+          description: Maximum uncompressed output file size. Files of this size will be closed and moved to final output location.
+          default: 32
+          maximum: 1024
+          minimum: 5
+        maxOpenFiles:
+          type: number
+          title: Open file limit
+          description: Maximum number of files to keep open concurrently. When exceeded, @{product} will close the oldest open files and move them to the final output location.
+          default: 100
+          minimum: 10
+          maximum: 2000
+        headerLine:
+          type: string
+          title: Header line
+          description: If set, this line will be written to the beginning of each output file
+          default: ""
+        writeHighWaterMark:
+          type: number
+          title: Writing high watermark (KB)
+          description: Buffer size used to write to a file
+          default: 64
+          maximum: 4096
+          minimum: 16
+        onBackpressure:
+          type: string
+          title: Backpressure behavior
+          description: How to handle events when all receivers are exerting backpressure
+          enum:
+            - block
+            - drop
+          x-speakeasy-enum-descriptions:
+            - Block
+            - Drop
+          x-speakeasy-unknown-values: allow
+          default: block
+        deadletterEnabled:
+          type: boolean
+          default: false
+          title: Enable dead-lettering
+          description: If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors
+        onDiskFullBackpressure:
+          type: string
+          title: Disk space protection
+          description: How to handle events when disk space is below the global 'Min free disk space' limit
+          enum:
+            - block
+            - drop
+          x-speakeasy-enum-descriptions:
+            - Block
+            - Drop
+          x-speakeasy-unknown-values: allow
+          default: block
+        forceCloseOnShutdown:
+          type: boolean
+          title: Force close on shutdown
+          description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
+          default: false
+        maxFileOpenTimeSec:
+          type: number
+          title: File open time limit (sec)
+          description: Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location.
+          default: 300
+          minimum: 10
+          maximum: 86400
+        maxFileIdleTimeSec:
+          type: number
+          title: Idle time limit (sec)
+          description: Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location.
+          default: 30
+          minimum: 5
+          maximum: 86400
+        maxConcurrentFileParts:
+          type: number
+          title: Concurrent file parts limit
+          description: Maximum number of parts to upload in parallel per file. Minimum part size is 5MB.
+          default: 4
+          minimum: 1
+          maximum: 10
+        description:
+          type: string
+          title: Description
+        awsApiKey:
+          type: string
+          title: Access key
+          description: This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)
+        awsSecret:
+          type: string
+          title: Secret key pair
+          description: Select or create a stored secret that references your access key and secret key
+        compress:
+          type: string
+          title: Compression
+          description: Data compression format to apply to HTTP content before it is delivered
+          enum:
+            - none
+            - gzip
+          default: gzip
+          x-speakeasy-unknown-values: allow
+        compressionLevel:
+          type: string
+          title: Compression level
+          description: Compression level to apply before moving files to final destination
+          enum:
+            - best_speed
+            - normal
+            - best_compression
+          x-speakeasy-enum-descriptions:
+            - Best Speed
+            - Normal
+            - Best Compression
+          x-speakeasy-unknown-values: allow
+          default: best_speed
+        automaticSchema:
+          type: boolean
+          title: Automatic schema
+          default: false
+          description: Automatically calculate the schema based on the events of each Parquet file generated
+        parquetSchema:
+          type: string
+          title: Parquet schema
+          description: To add a new schema, navigate to Processing > Knowledge > Parquet Schemas
+          minLength: 1
+        parquetVersion:
+          type: string
+          title: Parquet version
+          enum:
+            - PARQUET_1_0
+            - PARQUET_2_4
+            - PARQUET_2_6
+          x-speakeasy-enum-descriptions:
+            - "1.0"
+            - "2.4"
+            - "2.6"
+          x-speakeasy-unknown-values: allow
+          default: PARQUET_2_6
+          description: Determines which data types are supported and how they are represented
+        parquetDataPageVersion:
+          type: string
+          title: Data page version
+          enum:
+            - DATA_PAGE_V1
+            - DATA_PAGE_V2
+          x-speakeasy-enum-descriptions:
+            - V1
+            - V2
+          x-speakeasy-unknown-values: allow
+          default: DATA_PAGE_V2
+          description: Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it.
+        parquetRowGroupLength:
+          type: number
+          title: Group row limit
+          description: The number of rows that every group will contain. The final group can contain a smaller number of rows.
+          default: 10000
+          minimum: 1
+          maximum: 67108864
+        parquetPageSize:
+          type: string
+          title: Page size
+          description: Target memory size for page segments, such as 1MB or 128MB. Generally, lower values improve reading speed, while higher values improve compression.
+          pattern: ^\d+\s*(?:[kK][bB]|[mM][bB]|[gG][bB]|[tT][bB])?$
+          default: 1MB
+        shouldLogInvalidRows:
+          type: boolean
+          title: Log invalid rows
+          description: Log up to 3 rows that @{product} skips due to data mismatch
+        keyValueMetadata:
+          type: array
+          title: Metadata (optional)
+          description: 'The metadata of files the Destination writes will include the properties you add here as key-value pairs. Useful for tagging. Examples: "key":"OCSF Event Class", "value":"9001"'
+          items:
+            type: object
+            required:
+              - key
+              - value
+            properties:
+              key:
+                type: string
+                title: Key
+                default: ""
+              value:
+                type: string
+                title: Value
+        enableStatistics:
+          type: boolean
+          title: Write statistics
+          default: true
+          description: Statistics profile an entire file in terms of minimum/maximum values within data, numbers of nulls, etc. You can use Parquet tools to view statistics.
+        enableWritePageIndex:
+          type: boolean
+          title: Write page indexes
+          default: true
+          description: One page index contains statistics for one data page. Parquet readers use statistics to enable page skipping.
+        enablePageChecksum:
+          type: boolean
+          title: Write page checksum
+          default: false
+          description: Parquet tools can use the checksum of a Parquet page to verify data integrity
+        emptyDirCleanupSec:
+          type: number
+          title: Staging cleanup period
+          description: How frequently, in seconds, to clean up empty directories
+          default: 300
+          minimum: 10
+          maximum: 86400
+        deadletterPath:
+          type: string
+          title: Dead-letter location
+          description: Storage location for files that fail to reach their final destination after maximum retries are exceeded
+          default: $CRIBL_HOME/state/outputs/dead-letter
+        maxRetryNum:
+          type: number
+          title: Retry limit
+          description: The maximum number of times a file will attempt to move to its final destination before being dead-lettered
+          default: 20
+          minimum: 1
     Output:
       oneOf:
         - $ref: "#/components/schemas/OutputDefault"
@@ -42676,6 +43466,7 @@ components:
         - $ref: "#/components/schemas/OutputChronicle"
         - $ref: "#/components/schemas/OutputDatabricks"
         - $ref: "#/components/schemas/OutputMicrosoftFabric"
+        - $ref: "#/components/schemas/OutputCloudflareR2"
       discriminator:
         propertyName: type
         mapping:
@@ -42746,6 +43537,7 @@ components:
           chronicle: "#/components/schemas/OutputChronicle"
           databricks: "#/components/schemas/OutputDatabricks"
           microsoft_fabric: "#/components/schemas/OutputMicrosoftFabric"
+          cloudflare_r2: "#/components/schemas/OutputCloudflareR2"
     CountedOutput:
       type: object
       properties:
@@ -44662,6 +45454,10 @@ components:
         - staged
     LookupVersions:
       type: object
+      additionalProperties:
+        type: object
+        additionalProperties:
+          type: string
     HBLeaderInfo:
       type: object
       properties:
@@ -44752,6 +45548,8 @@ components:
               type: string
             tags:
               type: object
+              additionalProperties:
+                type: string
             type:
               type: string
             zone:
@@ -44853,6 +45651,8 @@ components:
               type: string
             tags:
               type: object
+              additionalProperties:
+                type: string
             type:
               type: string
             zone:
@@ -45043,6 +45843,9 @@ components:
           $ref: "#/components/schemas/NodeProvidedInfo"
         lastMetrics:
           type: object
+          additionalProperties:
+            type: object
+            additionalProperties: true
         lastMsgTime:
           type: number
         metadata:

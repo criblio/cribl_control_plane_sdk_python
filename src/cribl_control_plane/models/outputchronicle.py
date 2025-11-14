@@ -111,12 +111,17 @@ class OutputChronicleBackpressureBehavior(str, Enum, metaclass=utils.OpenEnumMet
 class OutputChronicleCustomLabelTypedDict(TypedDict):
     key: str
     value: str
+    rbac_enabled: NotRequired[bool]
+    r"""Designate this label for role-based access control and filtering"""
 
 
 class OutputChronicleCustomLabel(BaseModel):
     key: str
 
     value: str
+
+    rbac_enabled: Annotated[Optional[bool], pydantic.Field(alias="rbacEnabled")] = False
+    r"""Designate this label for role-based access control and filtering"""
 
 
 class OutputChronicleMode(str, Enum, metaclass=utils.OpenEnumMeta):

@@ -234,6 +234,8 @@ class OutputDlS3TypedDict(TypedDict):
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
     on_disk_full_backpressure: NotRequired[OutputDlS3DiskSpaceProtection]
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
+    force_close_on_shutdown: NotRequired[bool]
+    r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     max_file_open_time_sec: NotRequired[float]
     r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
     max_file_idle_time_sec: NotRequired[float]
@@ -470,6 +472,11 @@ class OutputDlS3(BaseModel):
         pydantic.Field(alias="onDiskFullBackpressure"),
     ] = OutputDlS3DiskSpaceProtection.BLOCK
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
+
+    force_close_on_shutdown: Annotated[
+        Optional[bool], pydantic.Field(alias="forceCloseOnShutdown")
+    ] = False
+    r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
 
     max_file_open_time_sec: Annotated[
         Optional[float], pydantic.Field(alias="maxFileOpenTimeSec")

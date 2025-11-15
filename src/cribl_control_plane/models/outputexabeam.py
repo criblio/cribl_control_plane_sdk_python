@@ -137,6 +137,8 @@ class OutputExabeamTypedDict(TypedDict):
     description: NotRequired[str]
     empty_dir_cleanup_sec: NotRequired[float]
     r"""How frequently, in seconds, to clean up empty directories"""
+    directory_batch_size: NotRequired[float]
+    r"""Number of directories to process in each batch during cleanup of empty directories. Minimum is 10, maximum is 10000. Higher values may require more memory."""
     deadletter_path: NotRequired[str]
     r"""Storage location for files that fail to reach their final destination after maximum retries are exceeded"""
     max_retry_num: NotRequired[float]
@@ -300,6 +302,11 @@ class OutputExabeam(BaseModel):
         Optional[float], pydantic.Field(alias="emptyDirCleanupSec")
     ] = 300
     r"""How frequently, in seconds, to clean up empty directories"""
+
+    directory_batch_size: Annotated[
+        Optional[float], pydantic.Field(alias="directoryBatchSize")
+    ] = 1000
+    r"""Number of directories to process in each batch during cleanup of empty directories. Minimum is 10, maximum is 10000. Higher values may require more memory."""
 
     deadletter_path: Annotated[
         Optional[str], pydantic.Field(alias="deadletterPath")

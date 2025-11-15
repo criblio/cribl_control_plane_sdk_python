@@ -393,3 +393,21 @@ value: models.OutputSentinelOneAiSiem = /* values here */
 value: models.OutputChronicle = /* values here */
 ```
 
+### `models.OutputDatabricks`
+
+```python
+value: models.OutputDatabricks = /* values here */
+```
+
+### `models.OutputMicrosoftFabric`
+
+```python
+value: models.OutputMicrosoftFabric = /* values here */
+```
+
+### `models.OutputCloudflareR2`
+
+```python
+value: models.OutputCloudflareR2 = /* values here */
+```
+

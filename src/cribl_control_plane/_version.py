@@ -3,11 +3,11 @@
 import importlib.metadata
 
 __title__: str = "cribl-control-plane"
-__version__: str = "0.2.1"
-__openapi_doc_version__: str = "4.14.1-68918e2c"
-__gen_version__: str = "2.730.5"
+__version__: str = "0.3.0rc1"
+__openapi_doc_version__: str = "4.15.0-7d8cd109"
+__gen_version__: str = "2.743.2"
 __user_agent__: str = (
-    "speakeasy-sdk/python 0.2.1 2.730.5 4.14.1-68918e2c cribl-control-plane"
+    "speakeasy-sdk/python 0.3.0rc1 2.743.2 4.15.0-7d8cd109 cribl-control-plane"
 )
 
 try:

@@ -26,7 +26,12 @@ import asyncio
 import sys
 from typing import Optional
 from cribl_control_plane import CriblControlPlane
-from cribl_control_plane.models import ConfigGroup, ProductsCore
+from cribl_control_plane.models import (
+    ConfigGroup,
+    ProductsCore,
+    GroupCreateRequestEstimatedIngestRate,
+    GroupCreateRequestType,
+)
 from auth import create_cribl_client
 
 
@@ -92,6 +97,15 @@ def replicate_worker_group(client: CriblControlPlane, source_id: str) -> Optiona
 
         # Create the replica Worker Group by copying the configuration of the source Worker Group
         # Filter out read-only fields like config_version, lookup_deployments, and worker_count
+        # Convert enum types from ConfigGroup to GroupCreateRequest types
+        estimated_ingest_rate = None
+        if source.estimated_ingest_rate is not None:
+            estimated_ingest_rate = GroupCreateRequestEstimatedIngestRate(source.estimated_ingest_rate.value)
+        
+        type_ = None
+        if source.type is not None:
+            type_ = GroupCreateRequestType(source.type.value)
+        
         result = client.groups.create(
             product=ProductsCore.STREAM,
             id=replica_id,
@@ -103,12 +117,12 @@ def replicate_worker_group(client: CriblControlPlane, source_id: str) -> Optiona
             provisioned=source.provisioned,
             is_fleet=source.is_fleet,
             is_search=source.is_search,
-            estimated_ingest_rate=source.estimated_ingest_rate,
+            estimated_ingest_rate=estimated_ingest_rate,
             inherits=source.inherits,
             max_worker_age=source.max_worker_age,
             streamtags=source.streamtags,
             tags=source.tags,
-            type_=source.type,
+            type_=type_,
             upgrade_version=source.upgrade_version
         )
         

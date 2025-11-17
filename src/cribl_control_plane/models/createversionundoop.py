@@ -4,7 +4,7 @@ from __future__ import annotations
 from cribl_control_plane.types import BaseModel
 from cribl_control_plane.utils import FieldMetadata, QueryParamMetadata
 import pydantic
-from typing import Any, Dict, List, Optional
+from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -20,20 +20,3 @@ class CreateVersionUndoRequest(BaseModel):
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
     r"""The <code>id</code> of the Worker Group or Edge Fleet to undo the uncommited changes for."""
-
-
-class CreateVersionUndoResponseTypedDict(TypedDict):
-    r"""a list of object objects"""
-
-    count: NotRequired[int]
-    r"""number of items present in the items array"""
-    items: NotRequired[List[Dict[str, Any]]]
-
-
-class CreateVersionUndoResponse(BaseModel):
-    r"""a list of object objects"""
-
-    count: Optional[int] = None
-    r"""number of items present in the items array"""
-
-    items: Optional[List[Dict[str, Any]]] = None

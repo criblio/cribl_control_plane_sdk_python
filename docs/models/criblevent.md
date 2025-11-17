@@ -3,6 +3,7 @@
 
 ## Fields
 
-| Field              | Type               | Required           | Description        |
-| ------------------ | ------------------ | ------------------ | ------------------ |
-| `raw`              | *str*              | :heavy_check_mark: | N/A                |
+| Field                       | Type                        | Required                    | Description                 |
+| --------------------------- | --------------------------- | --------------------------- | --------------------------- |
+| `raw`                       | *str*                       | :heavy_check_mark:          | N/A                         |
+| `__pydantic_extra__`        | Dict[str, Dict[str, *Any*]] | :heavy_minus_sign:          | N/A                         |

@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.15.0-7d8cd109
+  version: 4.16.0-alpha.1763378523045-8f007285
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -31,6 +31,62 @@ components:
         message:
           type: string
           description: Error message
+    DiffLineDelete:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - delete
+        newNumber:
+          type: number
+          nullable: true
+        oldNumber:
+          type: number
+        content:
+          type: string
+      required:
+        - type
+        - newNumber
+        - oldNumber
+        - content
+    DiffLineInsert:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - insert
+        newNumber:
+          type: number
+        oldNumber:
+          type: number
+          nullable: true
+        content:
+          type: string
+      required:
+        - type
+        - newNumber
+        - oldNumber
+        - content
+    DiffLineContext:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - context
+        newNumber:
+          type: number
+        oldNumber:
+          type: number
+        content:
+          type: string
+      required:
+        - type
+        - newNumber
+        - oldNumber
+        - content
     CloudProvider:
       type: string
       nullable: true
@@ -177,6 +233,7 @@ components:
           type: string
           enum:
             - lake_access
+            - riptide
           x-speakeasy-unknown-values: allow
         upgradeVersion:
           type: string
@@ -186,6 +243,16 @@ components:
           type: boolean
       required:
         - id
+    CountedConfigGroup:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/ConfigGroup"
     RbacResource:
       type: string
       enum:
@@ -224,6 +291,26 @@ components:
       required:
         - perms
         - user
+    CountedUserAccessControlList:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/UserAccessControlList"
+    CountedString:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            type: string
     GroupCreateRequest:
       type: object
       properties:
@@ -312,6 +399,7 @@ components:
           type: string
           enum:
             - lake_access
+            - riptide
           x-speakeasy-unknown-values: allow
         upgradeVersion:
           type: string
@@ -358,6 +446,16 @@ components:
         - stream
         - edge
       x-speakeasy-unknown-values: allow
+    CountedCriblLakeDataset:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/CriblLakeDataset"
     CacheConnectionBackfillStatus:
       type: string
       enum:
@@ -618,6 +716,17 @@ components:
                     type: boolean
                     title: Disabled
                     description: Whether this group is disabled
+    CountedObject:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
     InputCollection:
       type: object
       properties:
@@ -17646,6 +17755,8 @@ components:
 
 
 
+
+
                   query: `query AuditLogTable($first: Int $after: String $filterBy: AuditLogEntryFilters){
                     auditLogEntries(first: $first after: $after filterBy: $filterBy) {
                       nodes {
@@ -17698,6 +17809,8 @@ components:
               contentDescription: Get Cloud Configuration Report
               contentQuery: |-
                 ({
+
+
 
 
 
@@ -17836,6 +17949,8 @@ components:
 
 
 
+
+
                   query: `query IssuesTable($filterBy: IssueFilters, $first: Int, $after: String, $orderBy: IssueOrder) {
                     issues: issuesV2(filterBy: $filterBy first: $first after: $after orderBy: $orderBy) {
                       nodes {
@@ -17951,6 +18066,8 @@ components:
               contentDescription: Get Vulnerability Findings
               contentQuery: |-
                 ({
+
+
 
 
 
@@ -19937,6 +20054,26 @@ components:
           security_lake: "#/components/schemas/InputSecurityLake"
           zscaler_hec: "#/components/schemas/InputZscalerHec"
           cloudflare_hec: "#/components/schemas/InputCloudflareHec"
+    CountedInput:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Input"
+    CountedInputSplunkHec:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/InputSplunkHec"
     AddHecTokenRequest:
       type: object
       properties:
@@ -43517,6 +43654,26 @@ components:
           databricks: "#/components/schemas/OutputDatabricks"
           microsoft_fabric: "#/components/schemas/OutputMicrosoftFabric"
           cloudflare_r2: "#/components/schemas/OutputCloudflareR2"
+    CountedOutput:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Output"
+    CountedJobInfo:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/JobInfo"
     RunnableJobCollection:
       required:
         - collector
@@ -43672,6 +43829,7 @@ components:
 
 
 
+
                             if your lower bundle size is 1MB, you can bundle up to five 200KB files into one task.
                   default: 1MB
                   pattern: ^((\d*\.?\d+)((KB|MB|GB|TB|PB|EB|ZB|YB|kb|mb|gb|tb|pb|eb|zb|yb){1}))$
@@ -43680,6 +43838,7 @@ components:
                   title: Upper task bundle size
                   description: |-
                     Limits the bundle size for files above the lower task bundle size. For example, if your upper bundle size is 10MB,
+
 
 
 
@@ -43890,6 +44049,7 @@ components:
 
 
 
+
                         if your lower bundle size is 1MB, you can bundle up to five 200KB files into one task.
               default: 1MB
               pattern: ^((\d*\.?\d+)((KB|MB|GB|TB|PB|EB|ZB|YB|kb|mb|gb|tb|pb|eb|zb|yb){1}))$
@@ -43898,6 +44058,7 @@ components:
               title: Upper task bundle size
               description: |-
                 Limits the bundle size for files above the lower task bundle size. For example, if your upper bundle size is 10MB,
+
 
 
 
@@ -44103,6 +44264,7 @@ components:
 
 
 
+
                             if your lower bundle size is 1MB, you can bundle up to five 200KB files into one task.
                   default: 1MB
                   pattern: ^((\d*\.?\d+)((KB|MB|GB|TB|PB|EB|ZB|YB|kb|mb|gb|tb|pb|eb|zb|yb){1}))$
@@ -44111,6 +44273,7 @@ components:
                   title: Upper task bundle size
                   description: |-
                     Limits the bundle size for files above the lower task bundle size. For example, if your upper bundle size is 10MB,
+
 
 
 
@@ -44336,6 +44499,7 @@ components:
 
 
 
+
                             if your lower bundle size is 1MB, you can bundle up to five 200KB files into one task.
                   default: 1MB
                   pattern: ^((\d*\.?\d+)((KB|MB|GB|TB|PB|EB|ZB|YB|kb|mb|gb|tb|pb|eb|zb|yb){1}))$
@@ -44344,6 +44508,7 @@ components:
                   title: Upper task bundle size
                   description: |-
                     Limits the bundle size for files above the lower task bundle size. For example, if your upper bundle size is 10MB,
+
 
 
 
@@ -44432,6 +44597,16 @@ components:
         - id
         - stats
         - status
+    CountedOutputSamplesResponse:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/OutputSamplesResponse"
     OutputSamplesResponse:
       type: object
       properties:
@@ -44442,6 +44617,16 @@ components:
             additionalProperties: true
       required:
         - events
+    CountedOutputTestResponse:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/OutputTestResponse"
     OutputTestResponse:
       type: object
       properties:
@@ -44466,6 +44651,9 @@ components:
           type: string
       required:
         - _raw
+      additionalProperties:
+        type: object
+        additionalProperties: true
     OutputTestRequest:
       type: object
       properties:
@@ -44475,6 +44663,16 @@ components:
             $ref: "#/components/schemas/CriblEvent"
       required:
         - events
+    CountedPipeline:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Pipeline"
     RoutesRoute:
       type: object
       additionalProperties: true
@@ -44562,6 +44760,16 @@ components:
                 title: Comment
                 description: Optional, short description of this Route's purpose
             additionalProperties: true
+    CountedRoutes:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Routes"
     RouteCloneConf:
       type: object
       title: Fields
@@ -44650,6 +44858,16 @@ components:
       required:
         - startTime
         - status
+    CountedPackInstallInfo:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/PackInstallInfo"
     InstallWarnings:
       type: array
       items:
@@ -44762,6 +44980,16 @@ components:
             - id
         - required:
             - source
+    CountedPackInfo:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/PackInfo"
     PackInfo:
       type: object
       properties:
@@ -44840,6 +45068,16 @@ components:
           type: string
       required:
         - source
+    CountedGitCommitSummary:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/GitCommitSummary"
     GitCommitSummary:
       type: object
       properties:
@@ -44894,6 +45132,16 @@ components:
         - commit
         - files
         - summary
+    CountedGitFilesResponse:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/GitFilesResponse"
     GitFile:
       type: object
       properties:
@@ -44922,6 +45170,16 @@ components:
       required:
         - count
         - items
+    CountedGitRevertResult:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/GitRevertResult"
     GitRevertResult:
       type: object
       properties:
@@ -44969,6 +45227,16 @@ components:
           type: string
       required:
         - commit
+    CountedBranchInfo:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/BranchInfo"
     BranchInfo:
       type: object
       properties:
@@ -44991,6 +45259,16 @@ components:
           type: string
       required:
         - message
+    CountedGitCountResult:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/GitCountResult"
     GitCountResult:
       type: object
       properties:
@@ -45005,6 +45283,16 @@ components:
           type: string
       required:
         - branch
+    CountedGitDiffResult:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/GitDiffResult"
     DiffFiles:
       type: array
       items:
@@ -45020,39 +45308,17 @@ components:
                 header:
                   type: string
                 lines:
-                  type: array
-                  items:
-                    oneOf:
-                      - type: object
-                        properties:
-                          content:
-                            type: string
-                          oldNumber:
-                            type: number
-                        required:
-                          - content
-                          - oldNumber
-                      - type: object
-                        properties:
-                          content:
-                            type: string
-                          newNumber:
-                            type: number
-                        required:
-                          - content
-                          - newNumber
-                      - type: object
-                        properties:
-                          content:
-                            type: string
-                          newNumber:
-                            type: number
-                          oldNumber:
-                            type: number
-                        required:
-                          - content
-                          - newNumber
-                          - oldNumber
+                  description: Diff Line
+                  discriminator:
+                    propertyName: type
+                    mapping:
+                      delete: "#/components/schemas/DiffLineDelete"
+                      insert: "#/components/schemas/DiffLineInsert"
+                      context: "#/components/schemas/DiffLineContext"
+                  oneOf:
+                    - $ref: "#/components/schemas/DiffLineDelete"
+                    - $ref: "#/components/schemas/DiffLineInsert"
+                    - $ref: "#/components/schemas/DiffLineContext"
                 newStartLine:
                   type: number
                 oldStartLine:
@@ -45130,6 +45396,16 @@ components:
           $ref: "#/components/schemas/DiffFiles"
       required:
         - diffJson
+    CountedGitInfo:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/GitInfo"
     GitInfo:
       type: object
       properties:
@@ -45144,6 +45420,16 @@ components:
       required:
         - remote
         - versioning
+    CountedGitLogResult:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/GitLogResult"
     GitLogResult:
       type: object
       properties:
@@ -45161,6 +45447,16 @@ components:
           type: string
         refs:
           type: string
+    CountedGitShowResult:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/GitShowResult"
     GitShowResult:
       type: object
       properties:
@@ -45171,6 +45467,16 @@ components:
       required:
         - commitMessage
         - diffJson
+    CountedGitStatusResult:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/GitStatusResult"
     GitStatusResult:
       type: object
       properties:
@@ -45245,6 +45551,10 @@ components:
         - staged
     LookupVersions:
       type: object
+      additionalProperties:
+        type: object
+        additionalProperties:
+          type: string
     HBLeaderInfo:
       type: object
       properties:
@@ -45335,6 +45645,8 @@ components:
               type: string
             tags:
               type: object
+              additionalProperties:
+                type: string
             type:
               type: string
             zone:
@@ -45436,6 +45748,8 @@ components:
               type: string
             tags:
               type: object
+              additionalProperties:
+                type: string
             type:
               type: string
             zone:
@@ -45626,6 +45940,9 @@ components:
           $ref: "#/components/schemas/NodeProvidedInfo"
         lastMetrics:
           type: object
+          additionalProperties:
+            type: object
+            additionalProperties: true
         lastMsgTime:
           type: number
         metadata:
@@ -45657,6 +45974,36 @@ components:
         - info
         - lastMsgTime
         - workerProcesses
+    CountedMasterWorkerEntry:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/MasterWorkerEntry"
+    CountedNumber:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            type: number
+    CountedTeamAccessControlList:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/TeamAccessControlList"
     TeamAccessControlList:
       type: object
       properties:
@@ -45669,6 +46016,16 @@ components:
       required:
         - perms
         - team
+    CountedDistributedSummary:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/DistributedSummary"
     DistributedSummary:
       type: object
       properties:
@@ -46032,15 +46389,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/CriblLakeDataset"
+                $ref: "#/components/schemas/CountedCriblLakeDataset"
         "401":
           description: Unauthorized
         "500":
@@ -46077,15 +46426,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/CriblLakeDataset"
+                $ref: "#/components/schemas/CountedCriblLakeDataset"
         "401":
           description: Unauthorized
         "500":
@@ -46116,15 +46457,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/CriblLakeDataset"
+                $ref: "#/components/schemas/CountedCriblLakeDataset"
         "401":
           description: Unauthorized
         "500":
@@ -46160,15 +46493,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/CriblLakeDataset"
+                $ref: "#/components/schemas/CountedCriblLakeDataset"
         "401":
           description: Unauthorized
         "500":
@@ -46204,15 +46529,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/CriblLakeDataset"
+                $ref: "#/components/schemas/CountedCriblLakeDataset"
         "401":
           description: Unauthorized
         "500":
@@ -46256,15 +46573,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Input"
+                $ref: "#/components/schemas/CountedInput"
         "401":
           description: Unauthorized
         "500":
@@ -46299,15 +46608,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Input"
+                $ref: "#/components/schemas/CountedInput"
         "401":
           description: Unauthorized
         "500":
@@ -46338,15 +46639,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Input"
+                $ref: "#/components/schemas/CountedInput"
         "401":
           description: Unauthorized
         "500":
@@ -46383,15 +46676,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Input"
+                $ref: "#/components/schemas/CountedInput"
         "401":
           description: Unauthorized
         "500":
@@ -46421,15 +46706,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Input"
+                $ref: "#/components/schemas/CountedInput"
         "401":
           description: Unauthorized
         "500":
@@ -46453,15 +46730,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/InputSplunkHec"
+                $ref: "#/components/schemas/CountedInputSplunkHec"
         "401":
           description: Unauthorized
         "500":
@@ -46499,15 +46768,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/InputSplunkHec"
+                $ref: "#/components/schemas/CountedInputSplunkHec"
         "401":
           description: Unauthorized
         "500":
@@ -46551,15 +46812,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Output"
+                $ref: "#/components/schemas/CountedOutput"
         "401":
           description: Unauthorized
         "500":
@@ -46594,15 +46847,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Output"
+                $ref: "#/components/schemas/CountedOutput"
         "401":
           description: Unauthorized
         "500":
@@ -46633,15 +46878,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Output"
+                $ref: "#/components/schemas/CountedOutput"
         "401":
           description: Unauthorized
         "500":
@@ -46678,15 +46915,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Output"
+                $ref: "#/components/schemas/CountedOutput"
         "401":
           description: Unauthorized
         "500":
@@ -46716,15 +46945,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Output"
+                $ref: "#/components/schemas/CountedOutput"
         "401":
           description: Unauthorized
         "500":
@@ -46748,15 +46969,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      type: string
+                $ref: "#/components/schemas/CountedString"
         "401":
           description: Unauthorized
         "500":
@@ -46786,15 +46999,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/JobInfo"
+                $ref: "#/components/schemas/CountedJobInfo"
         "401":
           description: Unauthorized
         "500":
@@ -46825,15 +47030,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/OutputSamplesResponse"
+                $ref: "#/components/schemas/CountedOutputSamplesResponse"
         "401":
           description: Unauthorized
         "500":
@@ -46864,15 +47061,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/OutputTestResponse"
+                $ref: "#/components/schemas/CountedOutputTestResponse"
         "401":
           description: Unauthorized
         "500":
@@ -46910,15 +47099,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Pipeline"
+                $ref: "#/components/schemas/CountedPipeline"
         "401":
           description: Unauthorized
         "500":
@@ -46948,15 +47129,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Pipeline"
+                $ref: "#/components/schemas/CountedPipeline"
         "401":
           description: Unauthorized
         "500":
@@ -46987,15 +47160,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Pipeline"
+                $ref: "#/components/schemas/CountedPipeline"
         "401":
           description: Unauthorized
         "500":
@@ -47032,15 +47197,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Pipeline"
+                $ref: "#/components/schemas/CountedPipeline"
         "401":
           description: Unauthorized
         "500":
@@ -47070,15 +47227,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Pipeline"
+                $ref: "#/components/schemas/CountedPipeline"
         "401":
           description: Unauthorized
         "500":
@@ -47102,15 +47251,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Routes"
+                $ref: "#/components/schemas/CountedRoutes"
         "401":
           description: Unauthorized
         "500":
@@ -47141,15 +47282,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Routes"
+                $ref: "#/components/schemas/CountedRoutes"
         "401":
           description: Unauthorized
         "500":
@@ -47186,15 +47319,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Routes"
+                $ref: "#/components/schemas/CountedRoutes"
         "401":
           description: Unauthorized
         "500":
@@ -47218,15 +47343,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Routes"
+                $ref: "#/components/schemas/CountedRoutes"
         "401":
           description: Unauthorized
         "500":
@@ -47327,15 +47444,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/PackInstallInfo"
+                $ref: "#/components/schemas/CountedPackInstallInfo"
         "401":
           description: Unauthorized
         "500":
@@ -47376,15 +47485,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/PackInfo"
+                $ref: "#/components/schemas/CountedPackInfo"
         "401":
           description: Unauthorized
         "500":
@@ -47453,15 +47554,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/PackInstallInfo"
+                $ref: "#/components/schemas/CountedPackInstallInfo"
         "401":
           description: Unauthorized
         "500":
@@ -47491,15 +47584,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/PackInfo"
+                $ref: "#/components/schemas/CountedPackInfo"
         "401":
           description: Unauthorized
         "500":
@@ -47529,15 +47614,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/PackInfo"
+                $ref: "#/components/schemas/CountedPackInfo"
         "401":
           description: Unauthorized
         "500":
@@ -47578,15 +47655,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/BranchInfo"
+                $ref: "#/components/schemas/CountedBranchInfo"
         "401":
           description: Unauthorized
         "500":
@@ -47610,15 +47679,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/GitCommitSummary"
+                $ref: "#/components/schemas/CountedGitCommitSummary"
         "401":
           description: Unauthorized
         "500":
@@ -47656,15 +47717,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/GitCountResult"
+                $ref: "#/components/schemas/CountedGitCountResult"
         "401":
           description: Unauthorized
         "500":
@@ -47725,15 +47778,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/GitDiffResult"
+                $ref: "#/components/schemas/CountedGitDiffResult"
         "401":
           description: Unauthorized
         "500":
@@ -47782,15 +47827,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/GitFilesResponse"
+                $ref: "#/components/schemas/CountedGitFilesResponse"
         "401":
           description: Unauthorized
         "500":
@@ -47827,15 +47864,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/GitInfo"
+                $ref: "#/components/schemas/CountedGitInfo"
         "401":
           description: Unauthorized
         "500":
@@ -47859,15 +47888,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/GitLogResult"
+                $ref: "#/components/schemas/CountedGitLogResult"
         "401":
           description: Unauthorized
         "500":
@@ -47904,15 +47925,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      type: string
+                $ref: "#/components/schemas/CountedString"
         "401":
           description: Unauthorized
         "500":
@@ -47936,15 +47949,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/GitRevertResult"
+                $ref: "#/components/schemas/CountedGitRevertResult"
         "401":
           description: Unauthorized
         "500":
@@ -47982,15 +47987,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/GitShowResult"
+                $ref: "#/components/schemas/CountedGitShowResult"
         "401":
           description: Unauthorized
         "500":
@@ -48039,15 +48036,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/GitStatusResult"
+                $ref: "#/components/schemas/CountedGitStatusResult"
         "401":
           description: Unauthorized
         "500":
@@ -48078,16 +48067,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      type: object
-                      additionalProperties: true
+                $ref: "#/components/schemas/CountedObject"
         "401":
           description: Unauthorized
         "500":
@@ -48118,15 +48098,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/MasterWorkerEntry"
+                $ref: "#/components/schemas/CountedMasterWorkerEntry"
         "401":
           description: Unauthorized
         "500":
@@ -48187,15 +48159,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      type: number
+                $ref: "#/components/schemas/CountedNumber"
         "401":
           description: Unauthorized
         "500":
@@ -48226,15 +48190,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/ConfigGroup"
+                $ref: "#/components/schemas/CountedConfigGroup"
         "401":
           description: Unauthorized
         "500":
@@ -48286,15 +48242,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/ConfigGroup"
+                $ref: "#/components/schemas/CountedConfigGroup"
         "401":
           description: Unauthorized
         "500":
@@ -48345,15 +48293,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/ConfigGroup"
+                $ref: "#/components/schemas/CountedConfigGroup"
         "401":
           description: Unauthorized
         "500":
@@ -48400,15 +48340,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/ConfigGroup"
+                $ref: "#/components/schemas/CountedConfigGroup"
         "401":
           description: Unauthorized
         "500":
@@ -48445,15 +48377,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/ConfigGroup"
+                $ref: "#/components/schemas/CountedConfigGroup"
         "401":
           description: Unauthorized
         "500":
@@ -48477,15 +48401,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      type: string
+                $ref: "#/components/schemas/CountedString"
         "401":
           description: Unauthorized
         "500":
@@ -48522,15 +48438,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/ConfigGroup"
+                $ref: "#/components/schemas/CountedConfigGroup"
         "401":
           description: Unauthorized
         "500":
@@ -48574,15 +48482,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/TeamAccessControlList"
+                $ref: "#/components/schemas/CountedTeamAccessControlList"
         "401":
           description: Unauthorized
         "500":
@@ -48625,15 +48525,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/UserAccessControlList"
+                $ref: "#/components/schemas/CountedUserAccessControlList"
         "401":
           description: Unauthorized
         "500":
@@ -48676,15 +48568,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: number of items present in the items array
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/DistributedSummary"
+                $ref: "#/components/schemas/CountedDistributedSummary"
         "401":
           description: Unauthorized
         "500":

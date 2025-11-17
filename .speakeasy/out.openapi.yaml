@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.16.0-alpha.1763385600706-7963999d
+  version: 4.16.0-alpha.1763389255632-6abe197e
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -38,16 +38,12 @@ components:
           type: string
           enum:
             - delete
-        newNumber:
-          type: number
-          nullable: true
         oldNumber:
           type: number
         content:
           type: string
       required:
         - type
-        - newNumber
         - oldNumber
         - content
     DiffLineInsert:
@@ -59,15 +55,11 @@ components:
             - insert
         newNumber:
           type: number
-        oldNumber:
-          type: number
-          nullable: true
         content:
           type: string
       required:
         - type
         - newNumber
-        - oldNumber
         - content
     DiffLineContext:
       type: object

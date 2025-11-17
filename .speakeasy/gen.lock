@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 55213576b60f9fb5289d353dfac1068f
-  docVersion: 4.16.0-alpha.1763382029899-b6373218
+  docChecksum: d77a722992a2993734111c73bdd527d5
+  docVersion: 4.16.0-alpha.1763385600706-7963999d
   speakeasyVersion: 1.650.0
   generationVersion: 2.743.2
-  releaseVersion: 0.3.0rc3
-  configChecksum: 89c61cdf1c4c3f2eb49d18d708e9f7ab
+  releaseVersion: 0.3.0rc4
+  configChecksum: f32eda11131ea212be898560b4b0085c
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -1025,7 +1025,7 @@ generatedFiles:
   - docs/models/lakedatasetmetrics.md
   - docs/models/lakedatasetsearchconfig.md
   - docs/models/lakehouseconnectiontype.md
-  - docs/models/lines.md
+  - docs/models/line.md
   - docs/models/listconfiggroupbyproductrequest.md
   - docs/models/listeningports.md
   - docs/models/listmasterworkerentryrequest.md
@@ -2747,7 +2747,7 @@ examples:
           groupId: "<id>"
       responses:
         "200":
-          application/json: {"count": 236125, "items": [{"diffJson": [{"addedLines": 2361.25, "blocks": [{"header": "<value>", "lines": {"type": "insert", "newNumber": 2361.25, "oldNumber": 4941.69, "content": "<value>"}, "newStartLine": 6726.7, "oldStartLine": 645.87, "oldStartLine2": 5821.43}], "changedPercentage": 9419.83, "checksumAfter": "<value>", "checksumBefore": "<value>", "deletedFileMode": "<value>", "deletedLines": 6123.7, "isBinary": false, "isCombined": false, "isCopy": true, "isDeleted": true, "isGitDiff": false, "isNew": true, "isRename": true, "isTooBig": true, "language": "<value>", "mode": "<value>", "newFileMode": "<value>", "newMode": "<value>", "newName": "<value>", "oldMode": "<value>", "oldName": "<value>", "unchangedPercentage": 4730.65}]}, {"diffJson": []}, {"diffJson": []}]}
+          application/json: {"count": 236125, "items": [{"diffJson": [{"addedLines": 2361.25, "blocks": [{"header": "<value>", "lines": [{"type": "insert", "newNumber": 2361.25, "oldNumber": 4941.69, "content": "<value>"}], "newStartLine": 6726.7, "oldStartLine": 645.87, "oldStartLine2": 5821.43}], "changedPercentage": 9419.83, "checksumAfter": "<value>", "checksumBefore": "<value>", "deletedFileMode": "<value>", "deletedLines": 6123.7, "isBinary": false, "isCombined": false, "isCopy": true, "isDeleted": true, "isGitDiff": false, "isNew": true, "isRename": true, "isTooBig": true, "language": "<value>", "mode": "<value>", "newFileMode": "<value>", "newMode": "<value>", "newName": "<value>", "oldMode": "<value>", "oldName": "<value>", "unchangedPercentage": 4730.65}]}, {"diffJson": []}, {"diffJson": []}]}
         "500":
           application/json: {"message": "<value>"}
   getVersionFiles:
@@ -2800,7 +2800,7 @@ examples:
           groupId: "<id>"
       responses:
         "200":
-          application/json: {"count": 969040, "items": [{"commitMessage": "<value>", "diffJson": [{"addedLines": 9690.4, "blocks": [{"header": "<value>", "lines": {"type": "context", "newNumber": 9690.4, "oldNumber": 6372.82, "content": "<value>"}, "newStartLine": 76.45, "oldStartLine": 9379.01, "oldStartLine2": 5511.01}], "changedPercentage": 2205.67, "checksumAfter": "<value>", "checksumBefore": "<value>", "deletedFileMode": "<value>", "deletedLines": 7460.36, "isBinary": true, "isCombined": true, "isCopy": false, "isDeleted": false, "isGitDiff": false, "isNew": true, "isRename": false, "isTooBig": false, "language": "<value>", "mode": "<value>", "newFileMode": "<value>", "newMode": "<value>", "newName": "<value>", "oldMode": ["<value 1>", "<value 2>"], "oldName": "<value>", "unchangedPercentage": 3722.48}]}, {"commitMessage": "<value>", "diffJson": [{"addedLines": 9690.4, "blocks": [{"header": "<value>", "lines": {"type": "context", "newNumber": 349.88, "oldNumber": 3887.81, "content": "<value>"}, "newStartLine": 76.45, "oldStartLine": 9379.01, "oldStartLine2": 5511.01}], "changedPercentage": 2205.67, "checksumAfter": "<value>", "checksumBefore": "<value>", "deletedFileMode": "<value>", "deletedLines": 7460.36, "isBinary": true, "isCombined": true, "isCopy": false, "isDeleted": false, "isGitDiff": false, "isNew": true, "isRename": false, "isTooBig": false, "language": "<value>", "mode": "<value>", "newFileMode": "<value>", "newMode": "<value>", "newName": "<value>", "oldMode": ["<value 1>", "<value 2>"], "oldName": "<value>", "unchangedPercentage": 3722.48}]}]}
+          application/json: {"count": 969040, "items": [{"commitMessage": "<value>", "diffJson": [{"addedLines": 9690.4, "blocks": [{"header": "<value>", "lines": [{"type": "context", "newNumber": 9690.4, "oldNumber": 6372.82, "content": "<value>"}], "newStartLine": 76.45, "oldStartLine": 9379.01, "oldStartLine2": 5511.01}], "changedPercentage": 2205.67, "checksumAfter": "<value>", "checksumBefore": "<value>", "deletedFileMode": "<value>", "deletedLines": 7460.36, "isBinary": true, "isCombined": true, "isCopy": false, "isDeleted": false, "isGitDiff": false, "isNew": true, "isRename": false, "isTooBig": false, "language": "<value>", "mode": "<value>", "newFileMode": "<value>", "newMode": "<value>", "newName": "<value>", "oldMode": ["<value 1>", "<value 2>"], "oldName": "<value>", "unchangedPercentage": 3722.48}]}, {"commitMessage": "<value>", "diffJson": [{"addedLines": 9690.4, "blocks": [{"header": "<value>", "lines": [{"type": "context", "newNumber": 349.88, "oldNumber": 3887.81, "content": "<value>"}], "newStartLine": 76.45, "oldStartLine": 9379.01, "oldStartLine2": 5511.01}], "changedPercentage": 2205.67, "checksumAfter": "<value>", "checksumBefore": "<value>", "deletedFileMode": "<value>", "deletedLines": 7460.36, "isBinary": true, "isCombined": true, "isCopy": false, "isDeleted": false, "isGitDiff": false, "isNew": true, "isRename": false, "isTooBig": false, "language": "<value>", "mode": "<value>", "newFileMode": "<value>", "newMode": "<value>", "newName": "<value>", "oldMode": ["<value 1>", "<value 2>"], "oldName": "<value>", "unchangedPercentage": 3722.48}]}]}
         "500":
           application/json: {"message": "<value>"}
   getVersionStatus:
@@ -3487,5 +3487,5 @@ generatedTests:
   updateGroupsById: "2025-08-04T02:32:44Z"
 releaseNotes: |
   ## Python SDK Changes Detected:
-  * `cribl_control_plane.versions.commits.diff()`:  `response.items.[].diff_json.[].blocks.[].lines` **Changed**
-  * `cribl_control_plane.versions.commits.get()`:  `response.items.[].diff_json.[].blocks.[].lines` **Changed**
+  * `cribl_control_plane.versions.commits.diff()`:  `response.items.[].diff_json.[].blocks.[].lines` **Changed** **Breaking** :warning:
+  * `cribl_control_plane.versions.commits.get()`:  `response.items.[].diff_json.[].blocks.[].lines` **Changed** **Breaking** :warning:

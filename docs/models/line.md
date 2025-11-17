@@ -1,6 +1,4 @@
-# Lines
-
-Diff Line
+# Line
 
 
 ## Supported Types

@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.16.0-alpha.1763378523045-8f007285
+  version: 4.16.0-alpha.1763382029899-b6373218
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -45309,12 +45309,6 @@ components:
                   type: string
                 lines:
                   description: Diff Line
-                  discriminator:
-                    propertyName: type
-                    mapping:
-                      delete: "#/components/schemas/DiffLineDelete"
-                      insert: "#/components/schemas/DiffLineInsert"
-                      context: "#/components/schemas/DiffLineContext"
                   oneOf:
                     - $ref: "#/components/schemas/DiffLineDelete"
                     - $ref: "#/components/schemas/DiffLineInsert"

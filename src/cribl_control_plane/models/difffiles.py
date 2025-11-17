@@ -5,9 +5,7 @@ from .difflinecontext import DiffLineContext, DiffLineContextTypedDict
 from .difflinedelete import DiffLineDelete, DiffLineDeleteTypedDict
 from .difflineinsert import DiffLineInsert, DiffLineInsertTypedDict
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import get_discriminator
 import pydantic
-from pydantic import Discriminator, Tag
 from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
@@ -19,14 +17,7 @@ LinesTypedDict = TypeAliasType(
 r"""Diff Line"""
 
 
-Lines = Annotated[
-    Union[
-        Annotated[DiffLineDelete, Tag("delete")],
-        Annotated[DiffLineInsert, Tag("insert")],
-        Annotated[DiffLineContext, Tag("context")],
-    ],
-    Discriminator(lambda m: get_discriminator(m, "type", "type")),
-]
+Lines = TypeAliasType("Lines", Union[DiffLineDelete, DiffLineInsert, DiffLineContext])
 r"""Diff Line"""
 
 

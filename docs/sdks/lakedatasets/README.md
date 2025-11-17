@@ -95,7 +95,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.CreateCriblLakeDatasetByLakeIDResponse](../../models/createcribllakedatasetbylakeidresponse.md)**
+**[models.CountedCriblLakeDataset](../../models/countedcribllakedataset.md)**
 
 ### Errors
 
@@ -139,7 +139,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.GetCriblLakeDatasetByLakeIDResponse](../../models/getcribllakedatasetbylakeidresponse.md)**
+**[models.CountedCriblLakeDataset](../../models/countedcribllakedataset.md)**
 
 ### Errors
 
@@ -184,7 +184,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.DeleteCriblLakeDatasetByLakeIDAndIDResponse](../../models/deletecribllakedatasetbylakeidandidresponse.md)**
+**[models.CountedCriblLakeDataset](../../models/countedcribllakedataset.md)**
 
 ### Errors
 
@@ -229,7 +229,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.GetCriblLakeDatasetByLakeIDAndIDResponse](../../models/getcribllakedatasetbylakeidandidresponse.md)**
+**[models.CountedCriblLakeDataset](../../models/countedcribllakedataset.md)**
 
 ### Errors
 
@@ -324,7 +324,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.UpdateCriblLakeDatasetByLakeIDAndIDResponse](../../models/updatecribllakedatasetbylakeidandidresponse.md)**
+**[models.CountedCriblLakeDataset](../../models/countedcribllakedataset.md)**
 
 ### Errors
 

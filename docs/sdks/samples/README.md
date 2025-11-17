@@ -43,7 +43,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.GetOutputSamplesByIDResponse](../../models/getoutputsamplesbyidresponse.md)**
+**[models.CountedOutputSamplesResponse](../../models/countedoutputsamplesresponse.md)**
 
 ### Errors
 
@@ -72,9 +72,9 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.destinations.samples.create(id="<id>", events=[
-        {
-            "raw": "<value>",
-        },
+        models.CriblEvent(
+            raw="<value>",
+        ),
     ])
 
     # Handle response
@@ -92,7 +92,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.CreateOutputTestByIDResponse](../../models/createoutputtestbyidresponse.md)**
+**[models.CountedOutputTestResponse](../../models/countedoutputtestresponse.md)**
 
 ### Errors
 

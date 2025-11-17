@@ -5,25 +5,32 @@ from .difflinecontext import DiffLineContext, DiffLineContextTypedDict
 from .difflinedelete import DiffLineDelete, DiffLineDeleteTypedDict
 from .difflineinsert import DiffLineInsert, DiffLineInsertTypedDict
 from cribl_control_plane.types import BaseModel
+from cribl_control_plane.utils import get_discriminator
 import pydantic
+from pydantic import Discriminator, Tag
 from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
-LinesTypedDict = TypeAliasType(
-    "LinesTypedDict",
+LineTypedDict = TypeAliasType(
+    "LineTypedDict",
     Union[DiffLineDeleteTypedDict, DiffLineInsertTypedDict, DiffLineContextTypedDict],
 )
-r"""Diff Line"""
 
 
-Lines = TypeAliasType("Lines", Union[DiffLineDelete, DiffLineInsert, DiffLineContext])
-r"""Diff Line"""
+Line = Annotated[
+    Union[
+        Annotated[DiffLineDelete, Tag("delete")],
+        Annotated[DiffLineInsert, Tag("insert")],
+        Annotated[DiffLineContext, Tag("context")],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "type", "type")),
+]
 
 
 class BlockTypedDict(TypedDict):
     header: str
-    lines: LinesTypedDict
+    lines: List[LineTypedDict]
     r"""Diff Line"""
     new_start_line: float
     old_start_line: float
@@ -33,7 +40,7 @@ class BlockTypedDict(TypedDict):
 class Block(BaseModel):
     header: str
 
-    lines: Lines
+    lines: List[Line]
     r"""Diff Line"""
 
     new_start_line: Annotated[float, pydantic.Field(alias="newStartLine")]

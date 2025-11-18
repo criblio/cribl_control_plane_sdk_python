@@ -7,8 +7,7 @@ and in hybrid deployments using OAuth2 credentials.
 1. Create an SDK client with OAuth2 client credentials using the 
 client_oauth security scheme.
 2. Automatically handle token exchange and refresh.
-3. Validate the connection by checking the server health status and listing 
-all git branches.
+3. Validate the connection by listing all git branches.
  
 Prerequisites: Replace the placeholder values for ORG_ID, CLIENT_ID, 
 CLIENT_SECRET, and WORKSPACE_NAME with your Organization ID, Client ID and 

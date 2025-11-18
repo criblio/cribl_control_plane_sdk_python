@@ -7,8 +7,7 @@ Cribl instance using username and password credentials.
 1. Create an SDK client with username and password credentials using the 
 bearer_auth security scheme.
 2. Automatically handle token exchange and refresh using a callback function.
-3. Validate the connection by checking the server health status and listing 
-all git branches.
+3. Validate the connection by listing all git branches.
 
 Prerequisites: Replace the placeholder values for ONPREM_SERVER_URL 
 ONPREM_USERNAME, and ONPREM_PASSWORD with your server URL and credentials. 

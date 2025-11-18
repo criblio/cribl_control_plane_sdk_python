@@ -39,10 +39,10 @@ value: models.InputSplunk = /* values here */
 value: models.InputSplunkSearch = /* values here */
 ```
 
-### `models.InputSplunkHec`
+### `models.InputInputSplunkHec`
 
 ```python
-value: models.InputSplunkHec = /* values here */
+value: models.InputInputSplunkHec = /* values here */
 ```
 
 ### `models.InputAzureBlob`

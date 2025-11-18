@@ -33,9 +33,9 @@ from cribl_control_plane.models import (
     InputSyslogSyslog2,
     InputSyslogType2,
     OutputS3,
-    OutputS3Type,
-    OutputS3Compression,
-    OutputS3CompressionLevel,
+    OutputTypeS3,
+    OutputCompressionS3,
+    CompressionLevelS3,
     Pipeline,
     RoutesRoute,
     Conf,
@@ -78,13 +78,13 @@ syslog_source = InputSyslogSyslog2(
 # Amazon S3 Destination configuration
 s3_destination = OutputS3(
     id="my-s3-destination",
-    type=OutputS3Type.S3,
+    type=OutputTypeS3.S3,
     bucket=AWS_BUCKET_NAME,
     region=AWS_REGION,
     aws_secret_key=AWS_SECRET_KEY,
     aws_api_key=AWS_API_KEY,
-    compress=OutputS3Compression.GZIP,
-    compression_level=OutputS3CompressionLevel.BEST_SPEED,
+    compress=OutputCompressionS3.GZIP,
+    compression_level=CompressionLevelS3.BEST_SPEED,
     empty_dir_cleanup_sec=300
 )
 

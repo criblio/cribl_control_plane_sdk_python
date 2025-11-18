@@ -33,7 +33,7 @@ ONPREM_PASSWORD = "admin"  # Replace with your password
 
 BASE_URL = f"{ONPREM_SERVER_URL}/api/v1"
 
-# Token cache
+# Token cache (module-level variables, not constants)
 _cached_token = None
 _token_expires_at = None
 
@@ -53,7 +53,7 @@ async def main():
     client = CriblControlPlane(server_url=BASE_URL)
 
     def callback() -> Security:
-        global _cached_token, _token_expires_at
+        global _cached_token, _token_expires_at  # pylint: disable=global-statement
 
         # Check cache
         now = datetime.now(timezone.utc)
@@ -71,7 +71,7 @@ async def main():
 
     # Create authenticated SDK client
     client = CriblControlPlane(server_url=BASE_URL, security=callback)
-    print(f"✅ Authenticated SDK client created for on-prem server")
+    print("✅ Authenticated SDK client created for on-prem server")
 
     # Validate connection and list all git branches
     response = await client.versions.branches.list_async()
@@ -83,10 +83,10 @@ if __name__ == "__main__":
     try:
         asyncio.run(main())
     except Exception as error:
-        status_code = getattr(error, "status_code", None)
-        if status_code == 401:
+        error_status_code = getattr(error, "status_code", None)
+        if error_status_code == 401:
             print("⚠️ Authentication failed! Check your USERNAME and PASSWORD.")
-        elif status_code == 429:
+        elif error_status_code == 429:
             print("⚠️ Uh oh, you've reached the rate limit! Try again in a few seconds.")
         else:
             print(f"❌ Something went wrong: {error}")

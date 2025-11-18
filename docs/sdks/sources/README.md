@@ -47,7 +47,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.ListInputResponse](../../models/listinputresponse.md)**
+**[models.CountedInput](../../models/countedinput.md)**
 
 ### Errors
 
@@ -75,81 +75,81 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.sources.create(request={
-        "id": "<id>",
-        "type": models.InputTCPType.TCP,
-        "disabled": False,
-        "pipeline": "<value>",
-        "send_to_routes": True,
-        "environment": "<value>",
-        "pq_enabled": False,
-        "streamtags": [
+    res = ccp_client.sources.create(request=models.InputTCP(
+        id="<id>",
+        type=models.TypeTCP.TCP,
+        disabled=False,
+        pipeline="<value>",
+        send_to_routes=True,
+        environment="<value>",
+        pq_enabled=False,
+        streamtags=[
             "<value 1>",
             "<value 2>",
             "<value 3>",
         ],
-        "connections": [
-            {
-                "pipeline": "<value>",
-                "output": "<value>",
-            },
+        connections=[
+            models.ConnectionTCP(
+                pipeline="<value>",
+                output="<value>",
+            ),
         ],
-        "pq": {
-            "mode": models.InputTCPMode.ALWAYS,
-            "max_buffer_size": 1000,
-            "commit_frequency": 42,
-            "max_file_size": "1 MB",
-            "max_size": "5GB",
-            "path": "$CRIBL_HOME/state/queues",
-            "compress": models.InputTCPCompression.NONE,
-            "pq_controls": {},
-        },
-        "host": "0.0.0.0",
-        "port": 301.76,
-        "tls": {
-            "disabled": True,
-            "request_cert": False,
-            "reject_unauthorized": True,
-            "common_name_regex": "<value>",
-            "certificate_name": "<value>",
-            "priv_key_path": "<value>",
-            "passphrase": "<value>",
-            "cert_path": "<value>",
-            "ca_path": "<value>",
-            "min_version": models.InputTCPMinimumTLSVersion.TL_SV1,
-            "max_version": models.InputTCPMaximumTLSVersion.TL_SV1_1,
-        },
-        "ip_whitelist_regex": "/.*/",
-        "max_active_cxn": 1000,
-        "socket_idle_timeout": 0,
-        "socket_ending_max_wait": 30,
-        "socket_max_lifespan": 0,
-        "enable_proxy_header": False,
-        "metadata": [
-            {
-                "name": "<value>",
-                "value": "<value>",
-            },
+        pq=models.PqTCP(
+            mode=models.ModeTCP.ALWAYS,
+            max_buffer_size=1000,
+            commit_frequency=42,
+            max_file_size="1 MB",
+            max_size="5GB",
+            path="$CRIBL_HOME/state/queues",
+            compress=models.CompressionTCP.NONE,
+            pq_controls=models.PqControlsTCP(),
+        ),
+        host="0.0.0.0",
+        port=301.76,
+        tls=models.TLSSettingsServerSideTCP(
+            disabled=True,
+            request_cert=False,
+            reject_unauthorized=True,
+            common_name_regex="<value>",
+            certificate_name="<value>",
+            priv_key_path="<value>",
+            passphrase="<value>",
+            cert_path="<value>",
+            ca_path="<value>",
+            min_version=models.MinimumTLSVersionTCP.TL_SV1,
+            max_version=models.MaximumTLSVersionTCP.TL_SV1_1,
+        ),
+        ip_whitelist_regex="/.*/",
+        max_active_cxn=1000,
+        socket_idle_timeout=0,
+        socket_ending_max_wait=30,
+        socket_max_lifespan=0,
+        enable_proxy_header=False,
+        metadata=[
+            models.MetadatumTCP(
+                name="<value>",
+                value="<value>",
+            ),
         ],
-        "breaker_rulesets": [
+        breaker_rulesets=[
             "<value 1>",
         ],
-        "stale_channel_flush_ms": 10000,
-        "enable_header": False,
-        "preprocess": {
-            "disabled": True,
-            "command": "<value>",
-            "args": [
+        stale_channel_flush_ms=10000,
+        enable_header=False,
+        preprocess=models.PreprocessTCP(
+            disabled=True,
+            command="<value>",
+            args=[
                 "<value 1>",
                 "<value 2>",
                 "<value 3>",
             ],
-        },
-        "description": "classic pish supposing misguided carefully fen",
-        "auth_token": "",
-        "auth_type": models.InputTCPAuthenticationMethod.MANUAL,
-        "text_secret": "<value>",
-    })
+        ),
+        description="classic pish supposing misguided carefully fen",
+        auth_token="",
+        auth_type=models.AuthenticationMethodTCP.MANUAL,
+        text_secret="<value>",
+    ))
 
     # Handle response
     print(res)
@@ -165,7 +165,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.CreateInputResponse](../../models/createinputresponse.md)**
+**[models.CountedInput](../../models/countedinput.md)**
 
 ### Errors
 
@@ -209,7 +209,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.GetInputByIDResponse](../../models/getinputbyidresponse.md)**
+**[models.CountedInput](../../models/countedinput.md)**
 
 ### Errors
 
@@ -237,48 +237,48 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.sources.update(id="<id>", input_={
-        "id": "<id>",
-        "type": models.InputKubeEventsType.KUBE_EVENTS,
-        "disabled": False,
-        "pipeline": "<value>",
-        "send_to_routes": True,
-        "environment": "<value>",
-        "pq_enabled": False,
-        "streamtags": [
+    res = ccp_client.sources.update(id="<id>", input_=models.InputKubeEvents(
+        id="<id>",
+        type=models.TypeKubeEvents.KUBE_EVENTS,
+        disabled=False,
+        pipeline="<value>",
+        send_to_routes=True,
+        environment="<value>",
+        pq_enabled=False,
+        streamtags=[
             "<value 1>",
             "<value 2>",
         ],
-        "connections": [
-            {
-                "pipeline": "<value>",
-                "output": "<value>",
-            },
+        connections=[
+            models.ConnectionKubeEvents(
+                pipeline="<value>",
+                output="<value>",
+            ),
         ],
-        "pq": {
-            "mode": models.InputKubeEventsMode.ALWAYS,
-            "max_buffer_size": 1000,
-            "commit_frequency": 42,
-            "max_file_size": "1 MB",
-            "max_size": "5GB",
-            "path": "$CRIBL_HOME/state/queues",
-            "compress": models.InputKubeEventsCompression.NONE,
-            "pq_controls": {},
-        },
-        "rules": [
-            {
-                "filter_": "<value>",
-                "description": "invite meh corny incidentally down",
-            },
+        pq=models.PqKubeEvents(
+            mode=models.ModeKubeEvents.ALWAYS,
+            max_buffer_size=1000,
+            commit_frequency=42,
+            max_file_size="1 MB",
+            max_size="5GB",
+            path="$CRIBL_HOME/state/queues",
+            compress=models.CompressionKubeEvents.NONE,
+            pq_controls=models.PqControlsKubeEvents(),
+        ),
+        rules=[
+            models.RuleKubeEvents(
+                filter_="<value>",
+                description="invite meh corny incidentally down",
+            ),
         ],
-        "metadata": [
-            {
-                "name": "<value>",
-                "value": "<value>",
-            },
+        metadata=[
+            models.MetadatumKubeEvents(
+                name="<value>",
+                value="<value>",
+            ),
         ],
-        "description": "gown deployment portray gah mindless carp stabilise",
-    })
+        description="gown deployment portray gah mindless carp stabilise",
+    ))
 
     # Handle response
     print(res)
@@ -295,7 +295,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.UpdateInputByIDResponse](../../models/updateinputbyidresponse.md)**
+**[models.CountedInput](../../models/countedinput.md)**
 
 ### Errors
 
@@ -339,7 +339,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.DeleteInputByIDResponse](../../models/deleteinputbyidresponse.md)**
+**[models.CountedInput](../../models/countedinput.md)**
 
 ### Errors
 

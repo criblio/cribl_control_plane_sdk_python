@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: b3c14327d9a385447f9f14e06790fbc5
-  docVersion: 4.15.0-7d8cd109
+  docChecksum: d4b65932284f6c53ee9309e16f8ba11b
+  docVersion: 4.16.0-alpha.1763470649884-7b409591
   speakeasyVersion: 1.650.0
   generationVersion: 2.743.2
-  releaseVersion: 0.3.0rc1
-  configChecksum: ce11ec55bc76b32ee5646a60ff771df1
+  releaseVersion: 0.3.0rc6
+  configChecksum: 6dac24f155929050a59031808b29422f
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -46,25 +46,169 @@ generatedFiles:
   - USAGE.md
   - docs/errors/error.md
   - docs/errors/healthserverstatuserror.md
+  - docs/models/acknowledgmentsazureeventhub.md
+  - docs/models/acknowledgmentsconfluentcloud.md
+  - docs/models/acknowledgmentskafka.md
+  - docs/models/acknowledgmentsmicrosoftfabric.md
+  - docs/models/acknowledgmentsmsk.md
   - docs/models/addhectokenrequest.md
   - docs/models/addhectokenrequestmetadatum.md
   - docs/models/additionalproperty.md
   - docs/models/aisiemendpointpath.md
   - docs/models/allow.md
   - docs/models/audit.md
+  - docs/models/authauthenticationmethodelastic.md
+  - docs/models/authelastic.md
+  - docs/models/authelasticcloud.md
+  - docs/models/authenticationazureeventhub.md
+  - docs/models/authenticationeventhub.md
+  - docs/models/authenticationmethodappscope.md
+  - docs/models/authenticationmethodazurelogs.md
+  - docs/models/authenticationmethodchronicle.md
+  - docs/models/authenticationmethodcloudflarehec.md
+  - docs/models/authenticationmethodcloudflarer2.md
+  - docs/models/authenticationmethodcloudwatch.md
+  - docs/models/authenticationmethodcrowdstrike.md
+  - docs/models/authenticationmethodcrowdstrikenextgensiem.md
+  - docs/models/authenticationmethoddatadog.md
+  - docs/models/authenticationmethoddataset.md
+  - docs/models/authenticationmethoddls3.md
+  - docs/models/authenticationmethodelasticcloud.md
+  - docs/models/authenticationmethodgooglechronicle.md
+  - docs/models/authenticationmethodgooglecloudstorage.md
+  - docs/models/authenticationmethodhoneycomb.md
+  - docs/models/authenticationmethodhumiohec.md
+  - docs/models/authenticationmethodmicrosoftfabric.md
+  - docs/models/authenticationmethodminio.md
+  - docs/models/authenticationmethodnewrelic.md
+  - docs/models/authenticationmethodnewrelicevents.md
+  - docs/models/authenticationmethodoffice365mgmt.md
+  - docs/models/authenticationmethodoffice365msgtrace.md
+  - docs/models/authenticationmethodoffice365service.md
+  - docs/models/authenticationmethods3inventory.md
+  - docs/models/authenticationmethodsentineloneaisiem.md
+  - docs/models/authenticationmethodsignalfx.md
+  - docs/models/authenticationmethodsns.md
+  - docs/models/authenticationmethodsplunk.md
+  - docs/models/authenticationmethodsplunklb.md
+  - docs/models/authenticationmethodtcp.md
+  - docs/models/authenticationmethodwavefront.md
+  - docs/models/authenticationmethodwiz.md
+  - docs/models/authenticationmethodxsiam.md
+  - docs/models/authenticationmethodzscalerhec.md
+  - docs/models/authenticationmicrosoftfabric.md
   - docs/models/authenticationprotocol.md
+  - docs/models/authenticationtypeclickhouse.md
+  - docs/models/authenticationtypedynatracehttp.md
+  - docs/models/authenticationtypeelastic.md
+  - docs/models/authenticationtypeinfluxdb.md
+  - docs/models/authenticationtypeprometheus.md
+  - docs/models/authenticationtypeprometheusrw.md
+  - docs/models/authenticationtypesplunksearch.md
+  - docs/models/authenticationtypewebhook.md
+  - docs/models/authmethodauthenticationmethod.md
   - docs/models/author.md
   - docs/models/authtoken.md
+  - docs/models/authtokenauthenticationmethodsplunkhec.md
+  - docs/models/authtokencloudflarehec.md
+  - docs/models/authtokenmetadatumcloudflarehec.md
+  - docs/models/authtokenmetadatumsplunkhec.md
+  - docs/models/authtokenmetadatumzscalerhec.md
+  - docs/models/authtokensextcribllakehttp.md
+  - docs/models/authtokensexthttp.md
+  - docs/models/authtokensexthttpraw.md
+  - docs/models/authtokensextmetadatumcribllakehttp.md
+  - docs/models/authtokensextmetadatumhttp.md
+  - docs/models/authtokensextmetadatumhttpraw.md
+  - docs/models/authtokensextmetadatumwizwebhook.md
+  - docs/models/authtokensextwizwebhook.md
+  - docs/models/authtokensplunk.md
+  - docs/models/authtokensplunkhec.md
+  - docs/models/authtokenzscalerhec.md
   - docs/models/authtype.md
+  - docs/models/authtypeauthenticationmethodazureeventhub.md
+  - docs/models/authtypeauthenticationmethodedgeprometheus.md
+  - docs/models/authtypeauthenticationmethodeventhub.md
+  - docs/models/authtypeauthenticationmethodprometheus.md
   - docs/models/awsauthenticationmethod.md
+  - docs/models/awsauthenticationmethodauthenticationmethodedgeprometheus.md
+  - docs/models/awsauthenticationmethodauthenticationmethodprometheus.md
+  - docs/models/backpressurebehaviorazureblob.md
+  - docs/models/backpressurebehaviorazuredataexplorer.md
+  - docs/models/backpressurebehaviorazureeventhub.md
+  - docs/models/backpressurebehaviorazurelogs.md
+  - docs/models/backpressurebehaviorchronicle.md
+  - docs/models/backpressurebehaviorclickhouse.md
+  - docs/models/backpressurebehaviorcloudflarer2.md
+  - docs/models/backpressurebehaviorcloudwatch.md
+  - docs/models/backpressurebehaviorconfluentcloud.md
+  - docs/models/backpressurebehaviorcriblhttp.md
+  - docs/models/backpressurebehaviorcribllake.md
+  - docs/models/backpressurebehaviorcribltcp.md
+  - docs/models/backpressurebehaviorcrowdstrikenextgensiem.md
+  - docs/models/backpressurebehaviordatabricks.md
+  - docs/models/backpressurebehaviordatadog.md
+  - docs/models/backpressurebehaviordataset.md
+  - docs/models/backpressurebehaviordls3.md
+  - docs/models/backpressurebehaviordynatracehttp.md
+  - docs/models/backpressurebehaviordynatraceotlp.md
+  - docs/models/backpressurebehaviorelastic.md
+  - docs/models/backpressurebehaviorelasticcloud.md
+  - docs/models/backpressurebehaviorexabeam.md
+  - docs/models/backpressurebehaviorfilesystem.md
+  - docs/models/backpressurebehaviorgooglechronicle.md
+  - docs/models/backpressurebehaviorgooglecloudlogging.md
+  - docs/models/backpressurebehaviorgooglecloudstorage.md
+  - docs/models/backpressurebehaviorgooglepubsub.md
+  - docs/models/backpressurebehaviorgraphite.md
+  - docs/models/backpressurebehaviorhoneycomb.md
+  - docs/models/backpressurebehaviorhumiohec.md
+  - docs/models/backpressurebehaviorinfluxdb.md
+  - docs/models/backpressurebehaviorkafka.md
+  - docs/models/backpressurebehaviorkinesis.md
+  - docs/models/backpressurebehaviorloki.md
+  - docs/models/backpressurebehaviormicrosoftfabric.md
+  - docs/models/backpressurebehaviorminio.md
+  - docs/models/backpressurebehaviormsk.md
+  - docs/models/backpressurebehaviornewrelic.md
+  - docs/models/backpressurebehaviornewrelicevents.md
+  - docs/models/backpressurebehavioropentelemetry.md
+  - docs/models/backpressurebehaviorprometheus.md
+  - docs/models/backpressurebehaviorring.md
+  - docs/models/backpressurebehaviors3.md
+  - docs/models/backpressurebehaviorsecuritylake.md
+  - docs/models/backpressurebehaviorsentinel.md
+  - docs/models/backpressurebehaviorsentineloneaisiem.md
+  - docs/models/backpressurebehaviorservicenow.md
+  - docs/models/backpressurebehaviorsignalfx.md
+  - docs/models/backpressurebehaviorsns.md
+  - docs/models/backpressurebehaviorsplunk.md
+  - docs/models/backpressurebehaviorsplunkhec.md
+  - docs/models/backpressurebehaviorsplunklb.md
+  - docs/models/backpressurebehaviorsqs.md
+  - docs/models/backpressurebehaviorstatsd.md
+  - docs/models/backpressurebehaviorstatsdext.md
+  - docs/models/backpressurebehaviorsumologic.md
+  - docs/models/backpressurebehaviorsyslog.md
+  - docs/models/backpressurebehaviortcpjson.md
+  - docs/models/backpressurebehaviorwavefront.md
+  - docs/models/backpressurebehaviorwebhook.md
+  - docs/models/backpressurebehaviorxsiam.md
   - docs/models/blobaccesstier.md
   - docs/models/block.md
   - docs/models/branchinfo.md
   - docs/models/cacheconnection.md
   - docs/models/cacheconnectionbackfillstatus.md
   - docs/models/capturesettings.md
+  - docs/models/certificateazuredataexplorer.md
   - docs/models/certoptions.md
+  - docs/models/checkpointingcrowdstrike.md
+  - docs/models/checkpointings3.md
+  - docs/models/checkpointings3inventory.md
+  - docs/models/checkpointingsecuritylake.md
   - docs/models/checksumbefore.md
+  - docs/models/clientsecretauthtypeauthenticationmethodazureeventhub.md
+  - docs/models/clientsecretauthtypeauthenticationmethodeventhub.md
   - docs/models/cloudprovider.md
   - docs/models/collector.md
   - docs/models/collectors.md
@@ -72,6 +216,92 @@ generatedFiles:
   - docs/models/columnmapping.md
   - docs/models/comment.md
   - docs/models/commit.md
+  - docs/models/compresscompressionazuredataexplorer.md
+  - docs/models/compresscompressiondynatraceotlp.md
+  - docs/models/compresscompressionservicenow.md
+  - docs/models/compresscompressionsplunklb.md
+  - docs/models/compressionappscope.md
+  - docs/models/compressionazureeventhub.md
+  - docs/models/compressionazurelogs.md
+  - docs/models/compressionchronicle.md
+  - docs/models/compressionclickhouse.md
+  - docs/models/compressioncloudflarehec.md
+  - docs/models/compressioncloudflarer2.md
+  - docs/models/compressioncloudwatch.md
+  - docs/models/compressioncollection.md
+  - docs/models/compressioncribl.md
+  - docs/models/compressioncribllakehttp.md
+  - docs/models/compressioncriblmetrics.md
+  - docs/models/compressioncrowdstrike.md
+  - docs/models/compressioncrowdstrikenextgensiem.md
+  - docs/models/compressiondatabricks.md
+  - docs/models/compressiondatadog.md
+  - docs/models/compressiondatadogagent.md
+  - docs/models/compressiondatagen.md
+  - docs/models/compressiondataset.md
+  - docs/models/compressiondiskspool.md
+  - docs/models/compressiondls3.md
+  - docs/models/compressiondynatracehttp.md
+  - docs/models/compressionelasticcloud.md
+  - docs/models/compressioneventhub.md
+  - docs/models/compressionfilesystem.md
+  - docs/models/compressionfirehose.md
+  - docs/models/compressiongooglechronicle.md
+  - docs/models/compressiongooglecloudlogging.md
+  - docs/models/compressiongooglecloudstorage.md
+  - docs/models/compressiongraphite.md
+  - docs/models/compressionhoneycomb.md
+  - docs/models/compressionhttp.md
+  - docs/models/compressionhttpraw.md
+  - docs/models/compressionhumiohec.md
+  - docs/models/compressioninfluxdb.md
+  - docs/models/compressionkubeevents.md
+  - docs/models/compressionkubemetrics.md
+  - docs/models/compressionlevelazureblob.md
+  - docs/models/compressionlevelazuredataexplorer.md
+  - docs/models/compressionlevelcloudflarer2.md
+  - docs/models/compressionleveldatabricks.md
+  - docs/models/compressionleveldls3.md
+  - docs/models/compressionlevelfilesystem.md
+  - docs/models/compressionlevelgooglecloudstorage.md
+  - docs/models/compressionlevelminio.md
+  - docs/models/compressionlevels3.md
+  - docs/models/compressionmetrics.md
+  - docs/models/compressionmicrosoftfabric.md
+  - docs/models/compressionminio.md
+  - docs/models/compressionmodeldriventelemetry.md
+  - docs/models/compressionnetflow.md
+  - docs/models/compressionnewrelic.md
+  - docs/models/compressionnewrelicevents.md
+  - docs/models/compressionoffice365mgmt.md
+  - docs/models/compressionoffice365msgtrace.md
+  - docs/models/compressionoffice365service.md
+  - docs/models/compressionprometheusrw.md
+  - docs/models/compressionrawudp.md
+  - docs/models/compressions3inventory.md
+  - docs/models/compressionsecuritylake.md
+  - docs/models/compressionsentinel.md
+  - docs/models/compressionsentineloneaisiem.md
+  - docs/models/compressionsignalfx.md
+  - docs/models/compressionsnmp.md
+  - docs/models/compressionsns.md
+  - docs/models/compressionsplunksearch.md
+  - docs/models/compressionstatsd.md
+  - docs/models/compressionstatsdext.md
+  - docs/models/compressionsumologic.md
+  - docs/models/compressionsyslog.md
+  - docs/models/compressionsystemmetrics.md
+  - docs/models/compressionsystemstate.md
+  - docs/models/compressiontcp.md
+  - docs/models/compressionwavefront.md
+  - docs/models/compressionwebhook.md
+  - docs/models/compressionwef.md
+  - docs/models/compressionwindowsmetrics.md
+  - docs/models/compressionwineventlogs.md
+  - docs/models/compressionwiz.md
+  - docs/models/compressionwizwebhook.md
+  - docs/models/compressionxsiam.md
+  - docs/models/compressionzscalerhec.md
   - docs/models/conf.md
   - docs/models/config.md
   - docs/models/configgroup.md
@@ -81,58 +311,184 @@ generatedFiles:
   - docs/models/configgrouplookups.md
   - docs/models/configgrouplookupslookup.md
   - docs/models/configgrouptype.md
+  - docs/models/connectionappscope.md
+  - docs/models/connectionazureblob.md
+  - docs/models/connectioncloudflarehec.md
+  - docs/models/connectioncollection.md
+  - docs/models/connectionconfluentcloud.md
+  - docs/models/connectioncribl.md
+  - docs/models/connectioncriblhttp.md
+  - docs/models/connectioncribllakehttp.md
+  - docs/models/connectioncriblmetrics.md
+  - docs/models/connectioncribltcp.md
+  - docs/models/connectioncrowdstrike.md
+  - docs/models/connectiondatadogagent.md
+  - docs/models/connectiondatagen.md
+  - docs/models/connectionedgeprometheus.md
+  - docs/models/connectionelastic.md
+  - docs/models/connectioneventhub.md
+  - docs/models/connectionfirehose.md
+  - docs/models/connectiongooglepubsub.md
+  - docs/models/connectionhttp.md
+  - docs/models/connectionhttpraw.md
+  - docs/models/connectionkafka.md
+  - docs/models/connectionkinesis.md
+  - docs/models/connectionkubeevents.md
+  - docs/models/connectionkubelogs.md
+  - docs/models/connectionkubemetrics.md
+  - docs/models/connectionloki.md
+  - docs/models/connectionmetrics.md
+  - docs/models/connectionmodeldriventelemetry.md
+  - docs/models/connectionmsk.md
+  - docs/models/connectionnetflow.md
+  - docs/models/connectionoffice365mgmt.md
+  - docs/models/connectionoffice365msgtrace.md
+  - docs/models/connectionoffice365service.md
+  - docs/models/connectionopentelemetry.md
+  - docs/models/connectionprometheus.md
+  - docs/models/connectionprometheusrw.md
+  - docs/models/connectionrawudp.md
+  - docs/models/connections3.md
+  - docs/models/connections3inventory.md
+  - docs/models/connectionsecuritylake.md
+  - docs/models/connectionsnmp.md
+  - docs/models/connectionsplunk.md
+  - docs/models/connectionsplunkhec.md
+  - docs/models/connectionsplunksearch.md
+  - docs/models/connectionsqs.md
+  - docs/models/connectionsystemmetrics.md
+  - docs/models/connectionsystemstate.md
+  - docs/models/connectiontcp.md
+  - docs/models/connectiontcpjson.md
+  - docs/models/connectionwef.md
+  - docs/models/connectionwindowsmetrics.md
+  - docs/models/connectionwineventlogs.md
+  - docs/models/connectionwiz.md
+  - docs/models/connectionwizwebhook.md
+  - docs/models/connectionzscalerhec.md
   - docs/models/container.md
+  - docs/models/containerfilter.md
   - docs/models/containermode.md
+  - docs/models/contentconfigoffice365mgmt.md
+  - docs/models/contentconfigoffice365service.md
+  - docs/models/contentconfigwiz.md
+  - docs/models/countedbranchinfo.md
+  - docs/models/countedconfiggroup.md
+  - docs/models/countedcribllakedataset.md
+  - docs/models/counteddistributedsummary.md
+  - docs/models/countedgitcommitsummary.md
+  - docs/models/countedgitcountresult.md
+  - docs/models/countedgitdiffresult.md
+  - docs/models/countedgitfilesresponse.md
+  - docs/models/countedgitinfo.md
+  - docs/models/countedgitlogresult.md
+  - docs/models/countedgitrevertresult.md
+  - docs/models/countedgitshowresult.md
+  - docs/models/countedgitstatusresult.md
+  - docs/models/countedinput.md
+  - docs/models/countedinputsplunkhec.md
+  - docs/models/countedjobinfo.md
+  - docs/models/countedmasterworkerentry.md
+  - docs/models/countednumber.md
+  - docs/models/countedobject.md
+  - docs/models/countedoutput.md
+  - docs/models/countedoutputsamplesresponse.md
+  - docs/models/countedoutputtestresponse.md
+  - docs/models/countedpackinfo.md
+  - docs/models/countedpackinstallinfo.md
+  - docs/models/countedpipeline.md
+  - docs/models/countedroutes.md
+  - docs/models/countedstring.md
+  - docs/models/countedteamaccesscontrollist.md
+  - docs/models/counteduseraccesscontrollist.md
+  - docs/models/cpumodesystemmetrics.md
+  - docs/models/cpumodewindowsmetrics.md
+  - docs/models/cpusystemmetrics.md
+  - docs/models/cpuwindowsmetrics.md
   - docs/models/createconfiggroupbyproductrequest.md
-  - docs/models/createconfiggroupbyproductresponse.md
   - docs/models/createcribllakedatasetbylakeidrequest.md
-  - docs/models/createcribllakedatasetbylakeidresponse.md
   - docs/models/createinputhectokenbyidrequest.md
-  - docs/models/createinputhectokenbyidresponse.md
-  - docs/models/createinputresponse.md
-  - docs/models/createoutputresponse.md
   - docs/models/createoutputtestbyidrequest.md
-  - docs/models/createoutputtestbyidresponse.md
-  - docs/models/createpacksresponse.md
-  - docs/models/createpipelineresponse.md
   - docs/models/createroutesappendbyidrequest.md
-  - docs/models/createroutesappendbyidresponse.md
   - docs/models/createversioncommitrequest.md
-  - docs/models/createversioncommitresponse.md
-  - docs/models/createversionpushresponse.md
   - docs/models/createversionrevertrequest.md
-  - docs/models/createversionrevertresponse.md
   - docs/models/createversionundorequest.md
-  - docs/models/createversionundoresponse.md
   - docs/models/criblevent.md
   - docs/models/cribllakedataset.md
   - docs/models/cribllakedatasetformat.md
   - docs/models/cribllakedatasetupdate.md
   - docs/models/cribllakedatasetupdateformat.md
   - docs/models/currentbranchresult.md
+  - docs/models/customlabelchronicle.md
+  - docs/models/customlabelgooglechronicle.md
+  - docs/models/customsystemmetrics.md
+  - docs/models/customwindowsmetrics.md
+  - docs/models/datacompressionformatappscope.md
+  - docs/models/datacompressionformatkubemetrics.md
+  - docs/models/datacompressionformatsystemmetrics.md
+  - docs/models/datacompressionformatsystemstate.md
+  - docs/models/datacompressionformatwindowsmetrics.md
   - docs/models/datadogsite.md
+  - docs/models/dataformatazureblob.md
+  - docs/models/dataformatazuredataexplorer.md
+  - docs/models/dataformatcloudflarer2.md
+  - docs/models/dataformatdatabricks.md
+  - docs/models/dataformatdls3.md
+  - docs/models/dataformatfilesystem.md
+  - docs/models/dataformatgooglecloudstorage.md
+  - docs/models/dataformatminio.md
+  - docs/models/dataformatring.md
+  - docs/models/dataformats3.md
+  - docs/models/dataformatsumologic.md
+  - docs/models/datapageversionazureblob.md
+  - docs/models/datapageversionazuredataexplorer.md
+  - docs/models/datapageversioncloudflarer2.md
+  - docs/models/datapageversiondatabricks.md
+  - docs/models/datapageversiondls3.md
+  - docs/models/datapageversionfilesystem.md
+  - docs/models/datapageversiongooglecloudstorage.md
+  - docs/models/datapageversionminio.md
+  - docs/models/datapageversions3.md
+  - docs/models/datapageversionsecuritylake.md
   - docs/models/datasetmetadata.md
   - docs/models/datasetmetadataruninfo.md
   - docs/models/datasetsite.md
+  - docs/models/defaultseverityseverity.md
   - docs/models/deleteconfiggroupbyproductandidrequest.md
-  - docs/models/deleteconfiggroupbyproductandidresponse.md
   - docs/models/deletecribllakedatasetbylakeidandidrequest.md
-  - docs/models/deletecribllakedatasetbylakeidandidresponse.md
   - docs/models/deleteinputbyidrequest.md
-  - docs/models/deleteinputbyidresponse.md
   - docs/models/deleteoutputbyidrequest.md
-  - docs/models/deleteoutputbyidresponse.md
   - docs/models/deleteoutputpqbyidrequest.md
-  - docs/models/deleteoutputpqbyidresponse.md
   - docs/models/deletepacksbyidrequest.md
-  - docs/models/deletepacksbyidresponse.md
   - docs/models/deletepipelinebyidrequest.md
-  - docs/models/deletepipelinebyidresponse.md
   - docs/models/deployrequest.md
   - docs/models/deployrequestlookups.md
   - docs/models/deployrequestlookupslookup.md
+  - docs/models/destinationprotocolgraphite.md
+  - docs/models/destinationprotocolstatsd.md
+  - docs/models/destinationprotocolstatsdext.md
   - docs/models/difffiles.md
+  - docs/models/discoverytypeedgeprometheus.md
+  - docs/models/discoverytypeprometheus.md
+  - docs/models/diskmodesystemmetrics.md
+  - docs/models/diskmodewindowsmetrics.md
   - docs/models/disksandfilesystems.md
+  - docs/models/diskspaceprotectionazureblob.md
+  - docs/models/diskspaceprotectionazuredataexplorer.md
+  - docs/models/diskspaceprotectioncloudflarer2.md
+  - docs/models/diskspaceprotectioncribllake.md
+  - docs/models/diskspaceprotectiondatabricks.md
+  - docs/models/diskspaceprotectiondls3.md
+  - docs/models/diskspaceprotectionexabeam.md
+  - docs/models/diskspaceprotectionfilesystem.md
+  - docs/models/diskspaceprotectiongooglecloudstorage.md
+  - docs/models/diskspaceprotectionminio.md
+  - docs/models/diskspaceprotections3.md
+  - docs/models/diskspaceprotectionsecuritylake.md
+  - docs/models/diskspoolingedgeprometheus.md
+  - docs/models/diskspoolingkubelogs.md
+  - docs/models/disksystemmetrics.md
+  - docs/models/diskwindowsmetrics.md
   - docs/models/distmode.md
   - docs/models/distributedsummary.md
   - docs/models/distributedsummarygroups.md
@@ -149,58 +505,99 @@ generatedFiles:
   - docs/models/executor.md
   - docs/models/executorspecificsettings.md
   - docs/models/extenttag.md
+  - docs/models/extrahttpheaderazurelogs.md
+  - docs/models/extrahttpheaderchronicle.md
+  - docs/models/extrahttpheaderclickhouse.md
+  - docs/models/extrahttpheadercriblhttp.md
+  - docs/models/extrahttpheadercrowdstrikenextgensiem.md
+  - docs/models/extrahttpheaderdatadog.md
+  - docs/models/extrahttpheaderdataset.md
+  - docs/models/extrahttpheaderdynatracehttp.md
+  - docs/models/extrahttpheaderdynatraceotlp.md
+  - docs/models/extrahttpheaderelasticcloud.md
+  - docs/models/extrahttpheadergooglechronicle.md
+  - docs/models/extrahttpheaderhoneycomb.md
+  - docs/models/extrahttpheaderhumiohec.md
+  - docs/models/extrahttpheaderinfluxdb.md
+  - docs/models/extrahttpheaderloki.md
+  - docs/models/extrahttpheadernewrelic.md
+  - docs/models/extrahttpheadernewrelicevents.md
+  - docs/models/extrahttpheaderopentelemetry.md
+  - docs/models/extrahttpheaderprometheus.md
+  - docs/models/extrahttpheadersentinel.md
+  - docs/models/extrahttpheadersentineloneaisiem.md
+  - docs/models/extrahttpheaderservicenow.md
+  - docs/models/extrahttpheadersignalfx.md
+  - docs/models/extrahttpheadersplunkhec.md
+  - docs/models/extrahttpheadersumologic.md
+  - docs/models/extrahttpheaderwavefront.md
+  - docs/models/extrahttpheaderwebhook.md
+  - docs/models/extrahttpheaderxsiam.md
   - docs/models/extralogtype.md
+  - docs/models/extraparamelastic.md
+  - docs/models/extraparamelasticcloud.md
   - docs/models/facility.md
+  - docs/models/failedrequestloggingmodeazurelogs.md
+  - docs/models/failedrequestloggingmodechronicle.md
+  - docs/models/failedrequestloggingmodeclickhouse.md
+  - docs/models/failedrequestloggingmodecriblhttp.md
+  - docs/models/failedrequestloggingmodecrowdstrikenextgensiem.md
+  - docs/models/failedrequestloggingmodedatadog.md
+  - docs/models/failedrequestloggingmodedataset.md
+  - docs/models/failedrequestloggingmodedynatracehttp.md
+  - docs/models/failedrequestloggingmodedynatraceotlp.md
+  - docs/models/failedrequestloggingmodeelastic.md
+  - docs/models/failedrequestloggingmodeelasticcloud.md
+  - docs/models/failedrequestloggingmodegooglechronicle.md
+  - docs/models/failedrequestloggingmodehoneycomb.md
+  - docs/models/failedrequestloggingmodehumiohec.md
+  - docs/models/failedrequestloggingmodeinfluxdb.md
+  - docs/models/failedrequestloggingmodeloki.md
+  - docs/models/failedrequestloggingmodenewrelic.md
+  - docs/models/failedrequestloggingmodenewrelicevents.md
+  - docs/models/failedrequestloggingmodeopentelemetry.md
+  - docs/models/failedrequestloggingmodeprometheus.md
+  - docs/models/failedrequestloggingmodesentinel.md
+  - docs/models/failedrequestloggingmodesentineloneaisiem.md
+  - docs/models/failedrequestloggingmodeservicenow.md
+  - docs/models/failedrequestloggingmodesignalfx.md
+  - docs/models/failedrequestloggingmodesplunkhec.md
+  - docs/models/failedrequestloggingmodesumologic.md
+  - docs/models/failedrequestloggingmodewavefront.md
+  - docs/models/failedrequestloggingmodewebhook.md
+  - docs/models/failedrequestloggingmodexsiam.md
   - docs/models/fieldname.md
   - docs/models/file.md
+  - docs/models/filterappscope.md
   - docs/models/firewall.md
+  - docs/models/formatclickhouse.md
+  - docs/models/formatcribllake.md
+  - docs/models/formatdynatracehttp.md
+  - docs/models/formatsentinel.md
+  - docs/models/formatwebhook.md
   - docs/models/functionspecificconfigs.md
   - docs/models/getconfiggroupaclbyproductandidrequest.md
-  - docs/models/getconfiggroupaclbyproductandidresponse.md
   - docs/models/getconfiggroupaclteamsbyproductandidrequest.md
-  - docs/models/getconfiggroupaclteamsbyproductandidresponse.md
   - docs/models/getconfiggroupbyproductandidrequest.md
-  - docs/models/getconfiggroupbyproductandidresponse.md
   - docs/models/getconfiggroupconfigversionbyproductandidrequest.md
-  - docs/models/getconfiggroupconfigversionbyproductandidresponse.md
   - docs/models/getcribllakedatasetbylakeidandidrequest.md
-  - docs/models/getcribllakedatasetbylakeidandidresponse.md
   - docs/models/getcribllakedatasetbylakeidrequest.md
-  - docs/models/getcribllakedatasetbylakeidresponse.md
   - docs/models/getinputbyidrequest.md
-  - docs/models/getinputbyidresponse.md
   - docs/models/getmasterworkerentryrequest.md
-  - docs/models/getmasterworkerentryresponse.md
   - docs/models/getoutputbyidrequest.md
-  - docs/models/getoutputbyidresponse.md
   - docs/models/getoutputpqbyidrequest.md
-  - docs/models/getoutputpqbyidresponse.md
   - docs/models/getoutputsamplesbyidrequest.md
-  - docs/models/getoutputsamplesbyidresponse.md
   - docs/models/getpacksbyidrequest.md
-  - docs/models/getpacksbyidresponse.md
   - docs/models/getpacksrequest.md
-  - docs/models/getpacksresponse.md
   - docs/models/getpipelinebyidrequest.md
-  - docs/models/getpipelinebyidresponse.md
   - docs/models/getroutesbyidrequest.md
-  - docs/models/getroutesbyidresponse.md
   - docs/models/getsummaryrequest.md
-  - docs/models/getsummaryresponse.md
-  - docs/models/getversionbranchresponse.md
   - docs/models/getversioncountrequest.md
-  - docs/models/getversioncountresponse.md
   - docs/models/getversiondiffrequest.md
-  - docs/models/getversiondiffresponse.md
   - docs/models/getversionfilesrequest.md
-  - docs/models/getversionfilesresponse.md
-  - docs/models/getversioninforesponse.md
   - docs/models/getversionrequest.md
-  - docs/models/getversionresponse.md
   - docs/models/getversionshowrequest.md
-  - docs/models/getversionshowresponse.md
   - docs/models/getversionstatusrequest.md
-  - docs/models/getversionstatusresponse.md
   - docs/models/gitcommitparams.md
   - docs/models/gitcommitsummary.md
   - docs/models/gitcommitsummaryfiles.md
@@ -215,6 +612,7 @@ generatedFiles:
   - docs/models/gitrevertresultfiles.md
   - docs/models/gitshowresult.md
   - docs/models/gitstatusresult.md
+  - docs/models/googleauthenticationmethodgooglecloudlogging.md
   - docs/models/groupcreaterequest.md
   - docs/models/groupcreaterequestestimatedingestrate.md
   - docs/models/groupcreaterequestgit.md
@@ -228,216 +626,65 @@ generatedFiles:
   - docs/models/heartbeatmetadatakube.md
   - docs/models/heartbeatmetadataos.md
   - docs/models/heartbeatmetadataowner.md
-  - docs/models/heartbeatmetadatatags.md
+  - docs/models/hostcribltcp.md
   - docs/models/hostinfo.md
+  - docs/models/hostmodesystemmetrics.md
+  - docs/models/hostmodewindowsmetrics.md
+  - docs/models/hostnetflow.md
   - docs/models/hostsfile.md
+  - docs/models/hostsnmp.md
+  - docs/models/hostsplunklb.md
+  - docs/models/hostsyslog.md
+  - docs/models/hostsystemmetrics.md
+  - docs/models/hosttcpjson.md
+  - docs/models/hostwindowsmetrics.md
+  - docs/models/httpcompresscompressiondynatraceotlp.md
+  - docs/models/httpcompresscompressionopentelemetry.md
+  - docs/models/httpcompresscompressionservicenow.md
   - docs/models/indexerdiscoveryconfigs.md
   - docs/models/indexerdiscoveryconfigsauthenticationmethod.md
+  - docs/models/indexerdiscoveryconfigsauthtoken.md
   - docs/models/indexerdiscoveryconfigsauthtokenauthenticationmethod.md
   - docs/models/ingestifnotexist.md
   - docs/models/ingestionmode.md
   - docs/models/input.md
+  - docs/models/inputapiversion.md
   - docs/models/inputappscope.md
-  - docs/models/inputappscopeauthenticationmethod.md
-  - docs/models/inputappscopecompression.md
-  - docs/models/inputappscopeconnection.md
-  - docs/models/inputappscopedatacompressionformat.md
-  - docs/models/inputappscopefilter.md
-  - docs/models/inputappscopemaximumtlsversion.md
-  - docs/models/inputappscopemetadatum.md
-  - docs/models/inputappscopeminimumtlsversion.md
-  - docs/models/inputappscopemode.md
-  - docs/models/inputappscopepersistence.md
-  - docs/models/inputappscopepq.md
-  - docs/models/inputappscopepqcontrols.md
-  - docs/models/inputappscopetlssettingsserverside.md
-  - docs/models/inputappscopetype.md
+  - docs/models/inputauthconfluentcloud.md
+  - docs/models/inputauthenticationconfluentcloud.md
+  - docs/models/inputauthenticationkafka.md
+  - docs/models/inputauthenticationmethodazureblob.md
+  - docs/models/inputauthenticationmethodconfluentcloud.md
+  - docs/models/inputauthenticationmethodkafka.md
+  - docs/models/inputauthenticationmethodkinesis.md
+  - docs/models/inputauthenticationmethodmsk.md
+  - docs/models/inputauthenticationmethods3.md
+  - docs/models/inputauthenticationmethodsecuritylake.md
+  - docs/models/inputauthenticationmethodsqs.md
+  - docs/models/inputauthenticationmethodtcpjson.md
+  - docs/models/inputauthenticationtypeloki.md
+  - docs/models/inputauthenticationtypeopentelemetry.md
+  - docs/models/inputauthkafka.md
+  - docs/models/inputauthmsk.md
+  - docs/models/inputauthtokencriblhttp.md
+  - docs/models/inputauthtokencribltcp.md
   - docs/models/inputazureblob.md
-  - docs/models/inputazureblobauthenticationmethod.md
-  - docs/models/inputazureblobcertificate.md
-  - docs/models/inputazureblobcompression.md
-  - docs/models/inputazureblobconnection.md
-  - docs/models/inputazureblobmetadatum.md
-  - docs/models/inputazureblobmode.md
-  - docs/models/inputazureblobpq.md
-  - docs/models/inputazureblobpqcontrols.md
-  - docs/models/inputazureblobtype.md
+  - docs/models/inputcertificate.md
   - docs/models/inputcloudflarehec.md
-  - docs/models/inputcloudflarehecauthenticationmethod.md
-  - docs/models/inputcloudflarehecauthtoken.md
-  - docs/models/inputcloudflarehecauthtokenmetadatum.md
-  - docs/models/inputcloudflareheccompression.md
-  - docs/models/inputcloudflarehecconnection.md
-  - docs/models/inputcloudflarehecmaximumtlsversion.md
-  - docs/models/inputcloudflarehecmetadatum.md
-  - docs/models/inputcloudflarehecminimumtlsversion.md
-  - docs/models/inputcloudflarehecmode.md
-  - docs/models/inputcloudflarehecpq.md
-  - docs/models/inputcloudflarehecpqcontrols.md
-  - docs/models/inputcloudflarehectlssettingsserverside.md
-  - docs/models/inputcloudflarehectype.md
   - docs/models/inputcollection.md
-  - docs/models/inputcollectioncompression.md
-  - docs/models/inputcollectionconnection.md
-  - docs/models/inputcollectionmetadatum.md
-  - docs/models/inputcollectionmode.md
-  - docs/models/inputcollectionpq.md
-  - docs/models/inputcollectionpqcontrols.md
-  - docs/models/inputcollectionpreprocess.md
-  - docs/models/inputcollectiontype.md
+  - docs/models/inputcompressionsplunk.md
   - docs/models/inputconfluentcloud.md
-  - docs/models/inputconfluentcloudauth.md
-  - docs/models/inputconfluentcloudauthentication.md
-  - docs/models/inputconfluentcloudauthenticationmethod.md
-  - docs/models/inputconfluentcloudcompression.md
-  - docs/models/inputconfluentcloudconnection.md
-  - docs/models/inputconfluentcloudkafkaschemaregistryauthentication.md
-  - docs/models/inputconfluentcloudkafkaschemaregistrymaximumtlsversion.md
-  - docs/models/inputconfluentcloudkafkaschemaregistryminimumtlsversion.md
-  - docs/models/inputconfluentcloudkafkaschemaregistrytlssettingsclientside.md
-  - docs/models/inputconfluentcloudmaximumtlsversion.md
-  - docs/models/inputconfluentcloudmetadatum.md
-  - docs/models/inputconfluentcloudminimumtlsversion.md
-  - docs/models/inputconfluentcloudmode.md
-  - docs/models/inputconfluentcloudoauthparam.md
-  - docs/models/inputconfluentcloudpq.md
-  - docs/models/inputconfluentcloudpqcontrols.md
-  - docs/models/inputconfluentcloudsaslextension.md
-  - docs/models/inputconfluentcloudsaslmechanism.md
-  - docs/models/inputconfluentcloudtlssettingsclientside.md
-  - docs/models/inputconfluentcloudtype.md
   - docs/models/inputcribl.md
-  - docs/models/inputcriblcompression.md
-  - docs/models/inputcriblconnection.md
   - docs/models/inputcriblhttp.md
-  - docs/models/inputcriblhttpauthtoken.md
-  - docs/models/inputcriblhttpcompression.md
-  - docs/models/inputcriblhttpconnection.md
-  - docs/models/inputcriblhttpmaximumtlsversion.md
-  - docs/models/inputcriblhttpmetadatum.md
-  - docs/models/inputcriblhttpminimumtlsversion.md
-  - docs/models/inputcriblhttpmode.md
-  - docs/models/inputcriblhttppq.md
-  - docs/models/inputcriblhttppqcontrols.md
-  - docs/models/inputcriblhttptlssettingsserverside.md
-  - docs/models/inputcriblhttptype.md
   - docs/models/inputcribllakehttp.md
-  - docs/models/inputcribllakehttpauthtokensext.md
-  - docs/models/inputcribllakehttpauthtokensextmetadatum.md
-  - docs/models/inputcribllakehttpcompression.md
-  - docs/models/inputcribllakehttpconnection.md
-  - docs/models/inputcribllakehttpmaximumtlsversion.md
-  - docs/models/inputcribllakehttpmetadatum.md
-  - docs/models/inputcribllakehttpminimumtlsversion.md
-  - docs/models/inputcribllakehttpmode.md
-  - docs/models/inputcribllakehttppq.md
-  - docs/models/inputcribllakehttppqcontrols.md
-  - docs/models/inputcribllakehttptlssettingsserverside.md
-  - docs/models/inputcribllakehttptype.md
-  - docs/models/inputcriblmetadatum.md
   - docs/models/inputcriblmetrics.md
-  - docs/models/inputcriblmetricscompression.md
-  - docs/models/inputcriblmetricsconnection.md
-  - docs/models/inputcriblmetricsmetadatum.md
-  - docs/models/inputcriblmetricsmode.md
-  - docs/models/inputcriblmetricspq.md
-  - docs/models/inputcriblmetricspqcontrols.md
-  - docs/models/inputcriblmetricstype.md
-  - docs/models/inputcriblmode.md
-  - docs/models/inputcriblpq.md
-  - docs/models/inputcriblpqcontrols.md
   - docs/models/inputcribltcp.md
-  - docs/models/inputcribltcpauthtoken.md
-  - docs/models/inputcribltcpcompression.md
-  - docs/models/inputcribltcpconnection.md
-  - docs/models/inputcribltcpmaximumtlsversion.md
-  - docs/models/inputcribltcpmetadatum.md
-  - docs/models/inputcribltcpminimumtlsversion.md
-  - docs/models/inputcribltcpmode.md
-  - docs/models/inputcribltcppq.md
-  - docs/models/inputcribltcppqcontrols.md
-  - docs/models/inputcribltcptlssettingsserverside.md
-  - docs/models/inputcribltcptype.md
-  - docs/models/inputcribltype.md
   - docs/models/inputcrowdstrike.md
-  - docs/models/inputcrowdstrikeauthenticationmethod.md
-  - docs/models/inputcrowdstrikecheckpointing.md
-  - docs/models/inputcrowdstrikecompression.md
-  - docs/models/inputcrowdstrikeconnection.md
-  - docs/models/inputcrowdstrikemetadatum.md
-  - docs/models/inputcrowdstrikemode.md
-  - docs/models/inputcrowdstrikepq.md
-  - docs/models/inputcrowdstrikepqcontrols.md
-  - docs/models/inputcrowdstrikepreprocess.md
-  - docs/models/inputcrowdstrikesignatureversion.md
-  - docs/models/inputcrowdstriketagafterprocessing.md
-  - docs/models/inputcrowdstriketype.md
   - docs/models/inputdatadogagent.md
-  - docs/models/inputdatadogagentcompression.md
-  - docs/models/inputdatadogagentconnection.md
-  - docs/models/inputdatadogagentmaximumtlsversion.md
-  - docs/models/inputdatadogagentmetadatum.md
-  - docs/models/inputdatadogagentminimumtlsversion.md
-  - docs/models/inputdatadogagentmode.md
-  - docs/models/inputdatadogagentpq.md
-  - docs/models/inputdatadogagentpqcontrols.md
-  - docs/models/inputdatadogagentproxymode.md
-  - docs/models/inputdatadogagenttlssettingsserverside.md
-  - docs/models/inputdatadogagenttype.md
   - docs/models/inputdatagen.md
-  - docs/models/inputdatagencompression.md
-  - docs/models/inputdatagenconnection.md
-  - docs/models/inputdatagenmetadatum.md
-  - docs/models/inputdatagenmode.md
-  - docs/models/inputdatagenpq.md
-  - docs/models/inputdatagenpqcontrols.md
-  - docs/models/inputdatagentype.md
   - docs/models/inputedgeprometheus.md
-  - docs/models/inputedgeprometheusauthtypeauthenticationmethod.md
-  - docs/models/inputedgeprometheusawsauthenticationmethodauthenticationmethod.md
-  - docs/models/inputedgeprometheusconnection.md
-  - docs/models/inputedgeprometheusdiscoverytype.md
-  - docs/models/inputedgeprometheusdiskspooling.md
-  - docs/models/inputedgeprometheusmetadatum.md
-  - docs/models/inputedgeprometheusmode.md
-  - docs/models/inputedgeprometheuspersistencecompression.md
-  - docs/models/inputedgeprometheuspq.md
-  - docs/models/inputedgeprometheuspqcompression.md
-  - docs/models/inputedgeprometheuspqcontrols.md
-  - docs/models/inputedgeprometheusrecordtype.md
-  - docs/models/inputedgeprometheussearchfilter.md
-  - docs/models/inputedgeprometheussignatureversion.md
-  - docs/models/inputedgeprometheustype.md
   - docs/models/inputelastic.md
-  - docs/models/inputelasticapiversion.md
-  - docs/models/inputelasticauthenticationmethod.md
-  - docs/models/inputelasticauthenticationtype.md
-  - docs/models/inputelasticcompression.md
-  - docs/models/inputelasticconnection.md
-  - docs/models/inputelasticextrahttpheader.md
-  - docs/models/inputelasticmaximumtlsversion.md
-  - docs/models/inputelasticmetadatum.md
-  - docs/models/inputelasticminimumtlsversion.md
-  - docs/models/inputelasticmode.md
-  - docs/models/inputelasticpq.md
-  - docs/models/inputelasticpqcontrols.md
-  - docs/models/inputelasticproxymode.md
-  - docs/models/inputelastictlssettingsserverside.md
-  - docs/models/inputelastictype.md
   - docs/models/inputeventhub.md
-  - docs/models/inputeventhubauthentication.md
-  - docs/models/inputeventhubauthtypeauthenticationmethod.md
-  - docs/models/inputeventhubclientsecretauthtypeauthenticationmethod.md
-  - docs/models/inputeventhubcompression.md
-  - docs/models/inputeventhubconnection.md
-  - docs/models/inputeventhubmetadatum.md
-  - docs/models/inputeventhubmicrosoftentraidauthenticationendpoint.md
-  - docs/models/inputeventhubmode.md
-  - docs/models/inputeventhubpq.md
-  - docs/models/inputeventhubpqcontrols.md
-  - docs/models/inputeventhubsaslmechanism.md
-  - docs/models/inputeventhubtlssettingsclientside.md
-  - docs/models/inputeventhubtype.md
   - docs/models/inputexec.md
   - docs/models/inputexeccompression.md
   - docs/models/inputexecconnection.md
@@ -446,6 +693,7 @@ generatedFiles:
   - docs/models/inputexecpq.md
   - docs/models/inputexecpqcontrols.md
   - docs/models/inputexectype.md
+  - docs/models/inputextrahttpheader.md
   - docs/models/inputfile.md
   - docs/models/inputfilecompression.md
   - docs/models/inputfileconnection.md
@@ -456,25 +704,9 @@ generatedFiles:
   - docs/models/inputfilepqmode.md
   - docs/models/inputfiletype.md
   - docs/models/inputfirehose.md
-  - docs/models/inputfirehosecompression.md
-  - docs/models/inputfirehoseconnection.md
-  - docs/models/inputfirehosemaximumtlsversion.md
-  - docs/models/inputfirehosemetadatum.md
-  - docs/models/inputfirehoseminimumtlsversion.md
-  - docs/models/inputfirehosemode.md
-  - docs/models/inputfirehosepq.md
-  - docs/models/inputfirehosepqcontrols.md
-  - docs/models/inputfirehosetlssettingsserverside.md
-  - docs/models/inputfirehosetype.md
+  - docs/models/inputformat.md
+  - docs/models/inputgoogleauthenticationmethod.md
   - docs/models/inputgooglepubsub.md
-  - docs/models/inputgooglepubsubcompression.md
-  - docs/models/inputgooglepubsubconnection.md
-  - docs/models/inputgooglepubsubgoogleauthenticationmethod.md
-  - docs/models/inputgooglepubsubmetadatum.md
-  - docs/models/inputgooglepubsubmode.md
-  - docs/models/inputgooglepubsubpq.md
-  - docs/models/inputgooglepubsubpqcontrols.md
-  - docs/models/inputgooglepubsubtype.md
   - docs/models/inputgrafana.md
   - docs/models/inputgrafanacompression1.md
   - docs/models/inputgrafanacompression2.md
@@ -482,8 +714,6 @@ generatedFiles:
   - docs/models/inputgrafanaconnection2.md
   - docs/models/inputgrafanagrafana1.md
   - docs/models/inputgrafanagrafana2.md
-  - docs/models/inputgrafanalokiauth1.md
-  - docs/models/inputgrafanalokiauth2.md
   - docs/models/inputgrafanalokiauthauthenticationtype1.md
   - docs/models/inputgrafanalokiauthauthenticationtype2.md
   - docs/models/inputgrafanamaximumtlsversion1.md
@@ -498,8 +728,6 @@ generatedFiles:
   - docs/models/inputgrafanapq2.md
   - docs/models/inputgrafanapqcontrols1.md
   - docs/models/inputgrafanapqcontrols2.md
-  - docs/models/inputgrafanaprometheusauth1.md
-  - docs/models/inputgrafanaprometheusauth2.md
   - docs/models/inputgrafanaprometheusauthauthenticationtype1.md
   - docs/models/inputgrafanaprometheusauthauthenticationtype2.md
   - docs/models/inputgrafanatlssettingsserverside1.md
@@ -507,31 +735,8 @@ generatedFiles:
   - docs/models/inputgrafanatype1.md
   - docs/models/inputgrafanatype2.md
   - docs/models/inputhttp.md
-  - docs/models/inputhttpauthtokensext.md
-  - docs/models/inputhttpauthtokensextmetadatum.md
-  - docs/models/inputhttpcompression.md
-  - docs/models/inputhttpconnection.md
-  - docs/models/inputhttpmaximumtlsversion.md
-  - docs/models/inputhttpmetadatum.md
-  - docs/models/inputhttpminimumtlsversion.md
-  - docs/models/inputhttpmode.md
-  - docs/models/inputhttppq.md
-  - docs/models/inputhttppqcontrols.md
   - docs/models/inputhttpraw.md
-  - docs/models/inputhttprawauthtokensext.md
-  - docs/models/inputhttprawauthtokensextmetadatum.md
-  - docs/models/inputhttprawcompression.md
-  - docs/models/inputhttprawconnection.md
-  - docs/models/inputhttprawmaximumtlsversion.md
-  - docs/models/inputhttprawmetadatum.md
-  - docs/models/inputhttprawminimumtlsversion.md
-  - docs/models/inputhttprawmode.md
-  - docs/models/inputhttprawpq.md
-  - docs/models/inputhttprawpqcontrols.md
-  - docs/models/inputhttprawtlssettingsserverside.md
-  - docs/models/inputhttprawtype.md
-  - docs/models/inputhttptlssettingsserverside.md
-  - docs/models/inputhttptype.md
+  - docs/models/inputinputsplunkhec.md
   - docs/models/inputjournalfiles.md
   - docs/models/inputjournalfilescompression.md
   - docs/models/inputjournalfilesconnection.md
@@ -542,274 +747,97 @@ generatedFiles:
   - docs/models/inputjournalfilesrule.md
   - docs/models/inputjournalfilestype.md
   - docs/models/inputkafka.md
-  - docs/models/inputkafkaauth.md
-  - docs/models/inputkafkaauthentication.md
-  - docs/models/inputkafkaauthenticationmethod.md
-  - docs/models/inputkafkacompression.md
-  - docs/models/inputkafkaconnection.md
-  - docs/models/inputkafkakafkaschemaregistryauthentication.md
-  - docs/models/inputkafkakafkaschemaregistrymaximumtlsversion.md
-  - docs/models/inputkafkakafkaschemaregistryminimumtlsversion.md
-  - docs/models/inputkafkakafkaschemaregistrytlssettingsclientside.md
-  - docs/models/inputkafkamaximumtlsversion.md
-  - docs/models/inputkafkametadatum.md
-  - docs/models/inputkafkaminimumtlsversion.md
-  - docs/models/inputkafkamode.md
-  - docs/models/inputkafkaoauthparam.md
-  - docs/models/inputkafkapq.md
-  - docs/models/inputkafkapqcontrols.md
-  - docs/models/inputkafkasaslextension.md
-  - docs/models/inputkafkasaslmechanism.md
-  - docs/models/inputkafkatlssettingsclientside.md
-  - docs/models/inputkafkatype.md
+  - docs/models/inputkafkaschemaregistryauthenticationconfluentcloud.md
+  - docs/models/inputkafkaschemaregistryauthenticationkafka.md
+  - docs/models/inputkafkaschemaregistryauthenticationmsk.md
+  - docs/models/inputkafkaschemaregistrymaximumtlsversionconfluentcloud.md
+  - docs/models/inputkafkaschemaregistrymaximumtlsversionkafka.md
+  - docs/models/inputkafkaschemaregistrymaximumtlsversionmsk.md
+  - docs/models/inputkafkaschemaregistryminimumtlsversionconfluentcloud.md
+  - docs/models/inputkafkaschemaregistryminimumtlsversionkafka.md
+  - docs/models/inputkafkaschemaregistryminimumtlsversionmsk.md
+  - docs/models/inputkafkaschemaregistrytlssettingsclientsideconfluentcloud.md
+  - docs/models/inputkafkaschemaregistrytlssettingsclientsidekafka.md
+  - docs/models/inputkafkaschemaregistrytlssettingsclientsidemsk.md
   - docs/models/inputkinesis.md
-  - docs/models/inputkinesisauthenticationmethod.md
-  - docs/models/inputkinesiscompression.md
-  - docs/models/inputkinesisconnection.md
-  - docs/models/inputkinesismetadatum.md
-  - docs/models/inputkinesismode.md
-  - docs/models/inputkinesispq.md
-  - docs/models/inputkinesispqcontrols.md
-  - docs/models/inputkinesisrecorddataformat.md
-  - docs/models/inputkinesissignatureversion.md
-  - docs/models/inputkinesistype.md
   - docs/models/inputkubeevents.md
-  - docs/models/inputkubeeventscompression.md
-  - docs/models/inputkubeeventsconnection.md
-  - docs/models/inputkubeeventsmetadatum.md
-  - docs/models/inputkubeeventsmode.md
-  - docs/models/inputkubeeventspq.md
-  - docs/models/inputkubeeventspqcontrols.md
-  - docs/models/inputkubeeventsrule.md
-  - docs/models/inputkubeeventstype.md
   - docs/models/inputkubelogs.md
-  - docs/models/inputkubelogsconnection.md
-  - docs/models/inputkubelogsdiskspooling.md
-  - docs/models/inputkubelogsmetadatum.md
-  - docs/models/inputkubelogsmode.md
-  - docs/models/inputkubelogspersistencecompression.md
-  - docs/models/inputkubelogspq.md
-  - docs/models/inputkubelogspqcompression.md
-  - docs/models/inputkubelogspqcontrols.md
-  - docs/models/inputkubelogsrule.md
-  - docs/models/inputkubelogstype.md
   - docs/models/inputkubemetrics.md
-  - docs/models/inputkubemetricscompression.md
-  - docs/models/inputkubemetricsconnection.md
-  - docs/models/inputkubemetricsdatacompressionformat.md
-  - docs/models/inputkubemetricsmetadatum.md
-  - docs/models/inputkubemetricsmode.md
-  - docs/models/inputkubemetricspersistence.md
-  - docs/models/inputkubemetricspq.md
-  - docs/models/inputkubemetricspqcontrols.md
-  - docs/models/inputkubemetricsrule.md
-  - docs/models/inputkubemetricstype.md
   - docs/models/inputloki.md
-  - docs/models/inputlokiauthenticationtype.md
-  - docs/models/inputlokicompression.md
-  - docs/models/inputlokiconnection.md
-  - docs/models/inputlokimaximumtlsversion.md
-  - docs/models/inputlokimetadatum.md
-  - docs/models/inputlokiminimumtlsversion.md
-  - docs/models/inputlokimode.md
-  - docs/models/inputlokioauthheader.md
-  - docs/models/inputlokioauthparam.md
-  - docs/models/inputlokipq.md
-  - docs/models/inputlokipqcontrols.md
-  - docs/models/inputlokitlssettingsserverside.md
-  - docs/models/inputlokitype.md
+  - docs/models/inputlokiauth1.md
+  - docs/models/inputlokiauth2.md
+  - docs/models/inputmaximumtlsversionconfluentcloud.md
+  - docs/models/inputmaximumtlsversioncriblhttp.md
+  - docs/models/inputmaximumtlsversioncribltcp.md
+  - docs/models/inputmaximumtlsversionkafka.md
+  - docs/models/inputmaximumtlsversionmsk.md
+  - docs/models/inputmaximumtlsversionopentelemetry.md
+  - docs/models/inputmaximumtlsversionsplunk.md
+  - docs/models/inputmaximumtlsversionsplunkhec.md
+  - docs/models/inputmaximumtlsversiontcpjson.md
+  - docs/models/inputmaxs2sversion.md
+  - docs/models/inputmetadatumopentelemetry.md
   - docs/models/inputmetrics.md
-  - docs/models/inputmetricscompression.md
-  - docs/models/inputmetricsconnection.md
-  - docs/models/inputmetricsmaximumtlsversion.md
-  - docs/models/inputmetricsmetadatum.md
-  - docs/models/inputmetricsminimumtlsversion.md
-  - docs/models/inputmetricsmode.md
-  - docs/models/inputmetricspq.md
-  - docs/models/inputmetricspqcontrols.md
-  - docs/models/inputmetricstlssettingsserverside.md
-  - docs/models/inputmetricstype.md
+  - docs/models/inputmicrosoftentraidauthenticationendpoint.md
+  - docs/models/inputminimumtlsversionconfluentcloud.md
+  - docs/models/inputminimumtlsversioncriblhttp.md
+  - docs/models/inputminimumtlsversioncribltcp.md
+  - docs/models/inputminimumtlsversionkafka.md
+  - docs/models/inputminimumtlsversionmsk.md
+  - docs/models/inputminimumtlsversionopentelemetry.md
+  - docs/models/inputminimumtlsversionsplunk.md
+  - docs/models/inputminimumtlsversionsplunkhec.md
+  - docs/models/inputminimumtlsversiontcpjson.md
   - docs/models/inputmodeldriventelemetry.md
-  - docs/models/inputmodeldriventelemetrycompression.md
-  - docs/models/inputmodeldriventelemetryconnection.md
-  - docs/models/inputmodeldriventelemetrymaximumtlsversion.md
-  - docs/models/inputmodeldriventelemetrymetadatum.md
-  - docs/models/inputmodeldriventelemetryminimumtlsversion.md
-  - docs/models/inputmodeldriventelemetrymode.md
-  - docs/models/inputmodeldriventelemetrypq.md
-  - docs/models/inputmodeldriventelemetrypqcontrols.md
-  - docs/models/inputmodeldriventelemetrytlssettingsserverside.md
-  - docs/models/inputmodeldriventelemetrytype.md
   - docs/models/inputmsk.md
-  - docs/models/inputmskauth.md
-  - docs/models/inputmskauthenticationmethod.md
-  - docs/models/inputmskcompression.md
-  - docs/models/inputmskconnection.md
-  - docs/models/inputmskkafkaschemaregistryauthentication.md
-  - docs/models/inputmskkafkaschemaregistrymaximumtlsversion.md
-  - docs/models/inputmskkafkaschemaregistryminimumtlsversion.md
-  - docs/models/inputmskkafkaschemaregistrytlssettingsclientside.md
-  - docs/models/inputmskmaximumtlsversion.md
-  - docs/models/inputmskmetadatum.md
-  - docs/models/inputmskminimumtlsversion.md
-  - docs/models/inputmskmode.md
-  - docs/models/inputmskpq.md
-  - docs/models/inputmskpqcontrols.md
-  - docs/models/inputmsksignatureversion.md
-  - docs/models/inputmsktlssettingsclientside.md
-  - docs/models/inputmsktype.md
   - docs/models/inputnetflow.md
-  - docs/models/inputnetflowcompression.md
-  - docs/models/inputnetflowconnection.md
-  - docs/models/inputnetflowmetadatum.md
-  - docs/models/inputnetflowmode.md
-  - docs/models/inputnetflowpq.md
-  - docs/models/inputnetflowpqcontrols.md
-  - docs/models/inputnetflowtype.md
+  - docs/models/inputoauthheaderopentelemetry.md
+  - docs/models/inputoauthparamconfluentcloud.md
+  - docs/models/inputoauthparamkafka.md
+  - docs/models/inputoauthparamopentelemetry.md
   - docs/models/inputoffice365mgmt.md
-  - docs/models/inputoffice365mgmtauthenticationmethod.md
-  - docs/models/inputoffice365mgmtcompression.md
-  - docs/models/inputoffice365mgmtconnection.md
-  - docs/models/inputoffice365mgmtcontentconfig.md
-  - docs/models/inputoffice365mgmtloglevel.md
-  - docs/models/inputoffice365mgmtmetadatum.md
-  - docs/models/inputoffice365mgmtmode.md
-  - docs/models/inputoffice365mgmtpq.md
-  - docs/models/inputoffice365mgmtpqcontrols.md
-  - docs/models/inputoffice365mgmtretryrules.md
-  - docs/models/inputoffice365mgmtretrytype.md
-  - docs/models/inputoffice365mgmtsubscriptionplan.md
-  - docs/models/inputoffice365mgmttype.md
   - docs/models/inputoffice365msgtrace.md
-  - docs/models/inputoffice365msgtraceauthenticationmethod.md
-  - docs/models/inputoffice365msgtracecompression.md
-  - docs/models/inputoffice365msgtraceconnection.md
-  - docs/models/inputoffice365msgtraceloglevel.md
-  - docs/models/inputoffice365msgtracemetadatum.md
-  - docs/models/inputoffice365msgtracemode.md
-  - docs/models/inputoffice365msgtracepq.md
-  - docs/models/inputoffice365msgtracepqcontrols.md
-  - docs/models/inputoffice365msgtraceretryrules.md
-  - docs/models/inputoffice365msgtraceretrytype.md
-  - docs/models/inputoffice365msgtracesubscriptionplan.md
-  - docs/models/inputoffice365msgtracetype.md
   - docs/models/inputoffice365service.md
-  - docs/models/inputoffice365serviceauthenticationmethod.md
-  - docs/models/inputoffice365servicecompression.md
-  - docs/models/inputoffice365serviceconnection.md
-  - docs/models/inputoffice365servicecontentconfig.md
-  - docs/models/inputoffice365serviceloglevel.md
-  - docs/models/inputoffice365servicemetadatum.md
-  - docs/models/inputoffice365servicemode.md
-  - docs/models/inputoffice365servicepq.md
-  - docs/models/inputoffice365servicepqcontrols.md
-  - docs/models/inputoffice365serviceretryrules.md
-  - docs/models/inputoffice365serviceretrytype.md
-  - docs/models/inputoffice365servicesubscriptionplan.md
-  - docs/models/inputoffice365servicetype.md
   - docs/models/inputopentelemetry.md
-  - docs/models/inputopentelemetryauthenticationtype.md
-  - docs/models/inputopentelemetrycompression.md
-  - docs/models/inputopentelemetryconnection.md
-  - docs/models/inputopentelemetrymaximumtlsversion.md
-  - docs/models/inputopentelemetrymetadatum.md
-  - docs/models/inputopentelemetryminimumtlsversion.md
-  - docs/models/inputopentelemetrymode.md
-  - docs/models/inputopentelemetryoauthheader.md
-  - docs/models/inputopentelemetryoauthparam.md
-  - docs/models/inputopentelemetryotlpversion.md
-  - docs/models/inputopentelemetrypq.md
-  - docs/models/inputopentelemetrypqcontrols.md
-  - docs/models/inputopentelemetryprotocol.md
-  - docs/models/inputopentelemetrytlssettingsserverside.md
-  - docs/models/inputopentelemetrytype.md
+  - docs/models/inputotlpversion.md
+  - docs/models/inputpqcontrolsconfluentcloud.md
+  - docs/models/inputpqcontrolscriblhttp.md
+  - docs/models/inputpqcontrolscribltcp.md
+  - docs/models/inputpqcontrolselastic.md
+  - docs/models/inputpqcontrolsgooglepubsub.md
+  - docs/models/inputpqcontrolskafka.md
+  - docs/models/inputpqcontrolskinesis.md
+  - docs/models/inputpqcontrolsloki.md
+  - docs/models/inputpqcontrolsmsk.md
+  - docs/models/inputpqcontrolsopentelemetry.md
+  - docs/models/inputpqcontrolsprometheus.md
+  - docs/models/inputpqcontrolssplunk.md
+  - docs/models/inputpqcontrolssplunkhec.md
+  - docs/models/inputpqcontrolssqs.md
+  - docs/models/inputpqcontrolstcpjson.md
   - docs/models/inputprometheus.md
-  - docs/models/inputprometheusauthtypeauthenticationmethod.md
-  - docs/models/inputprometheusawsauthenticationmethodauthenticationmethod.md
-  - docs/models/inputprometheuscompression.md
-  - docs/models/inputprometheusconnection.md
-  - docs/models/inputprometheusdiscoverytype.md
-  - docs/models/inputprometheusloglevel.md
-  - docs/models/inputprometheusmetadatum.md
-  - docs/models/inputprometheusmode.md
-  - docs/models/inputprometheuspq.md
-  - docs/models/inputprometheuspqcontrols.md
-  - docs/models/inputprometheusrecordtype.md
+  - docs/models/inputprometheusauth1.md
+  - docs/models/inputprometheusauth2.md
   - docs/models/inputprometheusrw.md
-  - docs/models/inputprometheusrwauthenticationtype.md
-  - docs/models/inputprometheusrwcompression.md
-  - docs/models/inputprometheusrwconnection.md
-  - docs/models/inputprometheusrwmaximumtlsversion.md
-  - docs/models/inputprometheusrwmetadatum.md
-  - docs/models/inputprometheusrwminimumtlsversion.md
-  - docs/models/inputprometheusrwmode.md
-  - docs/models/inputprometheusrwoauthheader.md
-  - docs/models/inputprometheusrwoauthparam.md
-  - docs/models/inputprometheusrwpq.md
-  - docs/models/inputprometheusrwpqcontrols.md
-  - docs/models/inputprometheusrwtlssettingsserverside.md
-  - docs/models/inputprometheusrwtype.md
-  - docs/models/inputprometheussearchfilter.md
-  - docs/models/inputprometheussignatureversion.md
-  - docs/models/inputprometheustype.md
+  - docs/models/inputprotocolopentelemetry.md
+  - docs/models/inputqueuetype.md
   - docs/models/inputrawudp.md
-  - docs/models/inputrawudpcompression.md
-  - docs/models/inputrawudpconnection.md
-  - docs/models/inputrawudpmetadatum.md
-  - docs/models/inputrawudpmode.md
-  - docs/models/inputrawudppq.md
-  - docs/models/inputrawudppqcontrols.md
-  - docs/models/inputrawudptype.md
+  - docs/models/inputrecorddataformat.md
+  - docs/models/inputroutes.md
   - docs/models/inputs3.md
-  - docs/models/inputs3authenticationmethod.md
-  - docs/models/inputs3checkpointing.md
-  - docs/models/inputs3compression.md
-  - docs/models/inputs3connection.md
   - docs/models/inputs3inventory.md
-  - docs/models/inputs3inventoryauthenticationmethod.md
-  - docs/models/inputs3inventorycheckpointing.md
-  - docs/models/inputs3inventorycompression.md
-  - docs/models/inputs3inventoryconnection.md
-  - docs/models/inputs3inventorymetadatum.md
-  - docs/models/inputs3inventorymode.md
-  - docs/models/inputs3inventorypq.md
-  - docs/models/inputs3inventorypqcontrols.md
-  - docs/models/inputs3inventorypreprocess.md
-  - docs/models/inputs3inventorysignatureversion.md
-  - docs/models/inputs3inventorytagafterprocessing.md
-  - docs/models/inputs3inventorytype.md
-  - docs/models/inputs3metadatum.md
-  - docs/models/inputs3mode.md
-  - docs/models/inputs3pq.md
-  - docs/models/inputs3pqcontrols.md
-  - docs/models/inputs3preprocess.md
-  - docs/models/inputs3signatureversion.md
-  - docs/models/inputs3type.md
+  - docs/models/inputsaslextensionconfluentcloud.md
+  - docs/models/inputsaslextensionkafka.md
+  - docs/models/inputsaslmechanismconfluentcloud.md
+  - docs/models/inputsaslmechanismkafka.md
   - docs/models/inputsecuritylake.md
-  - docs/models/inputsecuritylakeauthenticationmethod.md
-  - docs/models/inputsecuritylakecheckpointing.md
-  - docs/models/inputsecuritylakecompression.md
-  - docs/models/inputsecuritylakeconnection.md
-  - docs/models/inputsecuritylakemetadatum.md
-  - docs/models/inputsecuritylakemode.md
-  - docs/models/inputsecuritylakepq.md
-  - docs/models/inputsecuritylakepqcontrols.md
-  - docs/models/inputsecuritylakepreprocess.md
-  - docs/models/inputsecuritylakesignatureversion.md
-  - docs/models/inputsecuritylaketagafterprocessing.md
-  - docs/models/inputsecuritylaketype.md
+  - docs/models/inputsignatureversionkinesis.md
+  - docs/models/inputsignatureversionmsk.md
+  - docs/models/inputsignatureversions3.md
+  - docs/models/inputsignatureversionsecuritylake.md
+  - docs/models/inputsignatureversionsqs.md
   - docs/models/inputsnmp.md
-  - docs/models/inputsnmpcompression.md
-  - docs/models/inputsnmpconnection.md
-  - docs/models/inputsnmpmetadatum.md
-  - docs/models/inputsnmpmode.md
-  - docs/models/inputsnmppq.md
-  - docs/models/inputsnmppqcontrols.md
-  - docs/models/inputsnmptype.md
   - docs/models/inputsplunk.md
-  - docs/models/inputsplunkauthtoken.md
-  - docs/models/inputsplunkcompression.md
-  - docs/models/inputsplunkconnection.md
   - docs/models/inputsplunkhec.md
   - docs/models/inputsplunkhecauthenticationmethod.md
   - docs/models/inputsplunkhecauthtoken.md
@@ -824,41 +852,8 @@ generatedFiles:
   - docs/models/inputsplunkhecpqcontrols.md
   - docs/models/inputsplunkhectlssettingsserverside.md
   - docs/models/inputsplunkhectype.md
-  - docs/models/inputsplunkmaximumtlsversion.md
-  - docs/models/inputsplunkmaxs2sversion.md
-  - docs/models/inputsplunkmetadatum.md
-  - docs/models/inputsplunkminimumtlsversion.md
-  - docs/models/inputsplunkmode.md
-  - docs/models/inputsplunkpq.md
-  - docs/models/inputsplunkpqcompression.md
-  - docs/models/inputsplunkpqcontrols.md
   - docs/models/inputsplunksearch.md
-  - docs/models/inputsplunksearchauthenticationtype.md
-  - docs/models/inputsplunksearchcompression.md
-  - docs/models/inputsplunksearchconnection.md
-  - docs/models/inputsplunksearchloglevel.md
-  - docs/models/inputsplunksearchmetadatum.md
-  - docs/models/inputsplunksearchmode.md
-  - docs/models/inputsplunksearchoauthheader.md
-  - docs/models/inputsplunksearchoauthparam.md
-  - docs/models/inputsplunksearchpq.md
-  - docs/models/inputsplunksearchpqcontrols.md
-  - docs/models/inputsplunksearchretryrules.md
-  - docs/models/inputsplunksearchretrytype.md
-  - docs/models/inputsplunksearchtype.md
-  - docs/models/inputsplunktlssettingsserverside.md
-  - docs/models/inputsplunktype.md
   - docs/models/inputsqs.md
-  - docs/models/inputsqsauthenticationmethod.md
-  - docs/models/inputsqscompression.md
-  - docs/models/inputsqsconnection.md
-  - docs/models/inputsqsmetadatum.md
-  - docs/models/inputsqsmode.md
-  - docs/models/inputsqspq.md
-  - docs/models/inputsqspqcontrols.md
-  - docs/models/inputsqsqueuetype.md
-  - docs/models/inputsqssignatureversion.md
-  - docs/models/inputsqstype.md
   - docs/models/inputsyslog.md
   - docs/models/inputsyslogcompression1.md
   - docs/models/inputsyslogcompression2.md
@@ -883,187 +878,272 @@ generatedFiles:
   - docs/models/inputsyslogtype1.md
   - docs/models/inputsyslogtype2.md
   - docs/models/inputsystemmetrics.md
-  - docs/models/inputsystemmetricscompression.md
-  - docs/models/inputsystemmetricsconnection.md
-  - docs/models/inputsystemmetricscpu.md
-  - docs/models/inputsystemmetricscpumode.md
-  - docs/models/inputsystemmetricscustom.md
-  - docs/models/inputsystemmetricsdatacompressionformat.md
-  - docs/models/inputsystemmetricsdisk.md
-  - docs/models/inputsystemmetricsdiskmode.md
-  - docs/models/inputsystemmetricsfilter.md
-  - docs/models/inputsystemmetricshost.md
-  - docs/models/inputsystemmetricshostmode.md
-  - docs/models/inputsystemmetricsmemory.md
-  - docs/models/inputsystemmetricsmemorymode.md
-  - docs/models/inputsystemmetricsmetadatum.md
-  - docs/models/inputsystemmetricsnetwork.md
-  - docs/models/inputsystemmetricsnetworkmode.md
-  - docs/models/inputsystemmetricspersistence.md
-  - docs/models/inputsystemmetricspq.md
-  - docs/models/inputsystemmetricspqcontrols.md
-  - docs/models/inputsystemmetricspqmode.md
-  - docs/models/inputsystemmetricsprocess.md
-  - docs/models/inputsystemmetricsset.md
-  - docs/models/inputsystemmetricssystem.md
-  - docs/models/inputsystemmetricssystemmode.md
-  - docs/models/inputsystemmetricstype.md
   - docs/models/inputsystemstate.md
-  - docs/models/inputsystemstatecompression.md
-  - docs/models/inputsystemstateconnection.md
-  - docs/models/inputsystemstatedatacompressionformat.md
-  - docs/models/inputsystemstatemetadatum.md
-  - docs/models/inputsystemstatemode.md
-  - docs/models/inputsystemstatepersistence.md
-  - docs/models/inputsystemstatepq.md
-  - docs/models/inputsystemstatepqcontrols.md
-  - docs/models/inputsystemstateroutes.md
-  - docs/models/inputsystemstatetype.md
   - docs/models/inputtcp.md
-  - docs/models/inputtcpauthenticationmethod.md
-  - docs/models/inputtcpcompression.md
-  - docs/models/inputtcpconnection.md
   - docs/models/inputtcpjson.md
-  - docs/models/inputtcpjsonauthenticationmethod.md
-  - docs/models/inputtcpjsoncompression.md
-  - docs/models/inputtcpjsonconnection.md
-  - docs/models/inputtcpjsonmaximumtlsversion.md
-  - docs/models/inputtcpjsonmetadatum.md
-  - docs/models/inputtcpjsonminimumtlsversion.md
-  - docs/models/inputtcpjsonmode.md
-  - docs/models/inputtcpjsonpq.md
-  - docs/models/inputtcpjsonpqcontrols.md
-  - docs/models/inputtcpjsontlssettingsserverside.md
-  - docs/models/inputtcpjsontype.md
-  - docs/models/inputtcpmaximumtlsversion.md
-  - docs/models/inputtcpmetadatum.md
-  - docs/models/inputtcpminimumtlsversion.md
-  - docs/models/inputtcpmode.md
-  - docs/models/inputtcppq.md
-  - docs/models/inputtcppqcontrols.md
-  - docs/models/inputtcppreprocess.md
-  - docs/models/inputtcptlssettingsserverside.md
-  - docs/models/inputtcptype.md
+  - docs/models/inputtlssettingsclientsideconfluentcloud.md
+  - docs/models/inputtlssettingsclientsidekafka.md
+  - docs/models/inputtlssettingsclientsidemsk.md
   - docs/models/inputtype.md
+  - docs/models/inputtypeazureblob.md
+  - docs/models/inputtypecollection.md
+  - docs/models/inputtypeconfluentcloud.md
+  - docs/models/inputtypecriblhttp.md
+  - docs/models/inputtypecribltcp.md
+  - docs/models/inputtypeelastic.md
+  - docs/models/inputtypegooglepubsub.md
+  - docs/models/inputtypekafka.md
+  - docs/models/inputtypekinesis.md
+  - docs/models/inputtypeloki.md
+  - docs/models/inputtypemsk.md
+  - docs/models/inputtypenetflow.md
+  - docs/models/inputtypeopentelemetry.md
+  - docs/models/inputtypeprometheus.md
+  - docs/models/inputtypes3.md
+  - docs/models/inputtypesecuritylake.md
+  - docs/models/inputtypesnmp.md
+  - docs/models/inputtypesplunk.md
+  - docs/models/inputtypesplunkhec.md
+  - docs/models/inputtypesqs.md
+  - docs/models/inputtypetcpjson.md
   - docs/models/inputwef.md
-  - docs/models/inputwefauthenticationmethod.md
-  - docs/models/inputwefcompression.md
-  - docs/models/inputwefconnection.md
-  - docs/models/inputwefformat.md
-  - docs/models/inputwefmaximumtlsversion.md
-  - docs/models/inputwefmetadatum.md
-  - docs/models/inputwefminimumtlsversion.md
-  - docs/models/inputwefmode.md
-  - docs/models/inputwefpq.md
-  - docs/models/inputwefpqcontrols.md
-  - docs/models/inputweftype.md
   - docs/models/inputwindowsmetrics.md
-  - docs/models/inputwindowsmetricscompression.md
-  - docs/models/inputwindowsmetricsconnection.md
-  - docs/models/inputwindowsmetricscpu.md
-  - docs/models/inputwindowsmetricscpumode.md
-  - docs/models/inputwindowsmetricscustom.md
-  - docs/models/inputwindowsmetricsdatacompressionformat.md
-  - docs/models/inputwindowsmetricsdisk.md
-  - docs/models/inputwindowsmetricsdiskmode.md
-  - docs/models/inputwindowsmetricshost.md
-  - docs/models/inputwindowsmetricshostmode.md
-  - docs/models/inputwindowsmetricsmemory.md
-  - docs/models/inputwindowsmetricsmemorymode.md
-  - docs/models/inputwindowsmetricsmetadatum.md
-  - docs/models/inputwindowsmetricsnetwork.md
-  - docs/models/inputwindowsmetricsnetworkmode.md
-  - docs/models/inputwindowsmetricspersistence.md
-  - docs/models/inputwindowsmetricspq.md
-  - docs/models/inputwindowsmetricspqcontrols.md
-  - docs/models/inputwindowsmetricspqmode.md
-  - docs/models/inputwindowsmetricsprocess.md
-  - docs/models/inputwindowsmetricsset.md
-  - docs/models/inputwindowsmetricssystem.md
-  - docs/models/inputwindowsmetricssystemmode.md
-  - docs/models/inputwindowsmetricstype.md
   - docs/models/inputwineventlogs.md
-  - docs/models/inputwineventlogscompression.md
-  - docs/models/inputwineventlogsconnection.md
-  - docs/models/inputwineventlogsmetadatum.md
-  - docs/models/inputwineventlogsmode.md
-  - docs/models/inputwineventlogspq.md
-  - docs/models/inputwineventlogspqcontrols.md
-  - docs/models/inputwineventlogstype.md
   - docs/models/inputwiz.md
-  - docs/models/inputwizauthenticationmethod.md
-  - docs/models/inputwizcompression.md
-  - docs/models/inputwizconnection.md
-  - docs/models/inputwizcontentconfig.md
-  - docs/models/inputwizmetadatum.md
-  - docs/models/inputwizmode.md
-  - docs/models/inputwizpq.md
-  - docs/models/inputwizpqcontrols.md
-  - docs/models/inputwizretryrules.md
-  - docs/models/inputwizretrytype.md
-  - docs/models/inputwiztype.md
   - docs/models/inputwizwebhook.md
-  - docs/models/inputwizwebhookauthtokensext.md
-  - docs/models/inputwizwebhookauthtokensextmetadatum.md
-  - docs/models/inputwizwebhookcompression.md
-  - docs/models/inputwizwebhookconnection.md
-  - docs/models/inputwizwebhookmaximumtlsversion.md
-  - docs/models/inputwizwebhookmetadatum.md
-  - docs/models/inputwizwebhookminimumtlsversion.md
-  - docs/models/inputwizwebhookmode.md
-  - docs/models/inputwizwebhookpq.md
-  - docs/models/inputwizwebhookpqcontrols.md
-  - docs/models/inputwizwebhooktlssettingsserverside.md
-  - docs/models/inputwizwebhooktype.md
   - docs/models/inputzscalerhec.md
-  - docs/models/inputzscalerhecauthenticationmethod.md
-  - docs/models/inputzscalerhecauthtoken.md
-  - docs/models/inputzscalerhecauthtokenmetadatum.md
-  - docs/models/inputzscalerheccompression.md
-  - docs/models/inputzscalerhecconnection.md
-  - docs/models/inputzscalerhecmaximumtlsversion.md
-  - docs/models/inputzscalerhecmetadatum.md
-  - docs/models/inputzscalerhecminimumtlsversion.md
-  - docs/models/inputzscalerhecmode.md
-  - docs/models/inputzscalerhecpq.md
-  - docs/models/inputzscalerhecpqcontrols.md
-  - docs/models/inputzscalerhectlssettingsserverside.md
-  - docs/models/inputzscalerhectype.md
   - docs/models/interfaces.md
   - docs/models/jobinfo.md
   - docs/models/jobstatus.md
+  - docs/models/keyvaluemetadatumazureblob.md
+  - docs/models/keyvaluemetadatumazuredataexplorer.md
+  - docs/models/keyvaluemetadatumcloudflarer2.md
+  - docs/models/keyvaluemetadatumdatabricks.md
+  - docs/models/keyvaluemetadatumdls3.md
+  - docs/models/keyvaluemetadatumfilesystem.md
+  - docs/models/keyvaluemetadatumgooglecloudstorage.md
+  - docs/models/keyvaluemetadatumminio.md
+  - docs/models/keyvaluemetadatums3.md
+  - docs/models/keyvaluemetadatumsecuritylake.md
+  - docs/models/labelloki.md
   - docs/models/lakedatasetmetrics.md
   - docs/models/lakedatasetsearchconfig.md
   - docs/models/lakehouseconnectiontype.md
-  - docs/models/lastmetrics.md
   - docs/models/line1.md
   - docs/models/line2.md
   - docs/models/line3.md
   - docs/models/lineunion.md
   - docs/models/listconfiggroupbyproductrequest.md
-  - docs/models/listconfiggroupbyproductresponse.md
   - docs/models/listeningports.md
-  - docs/models/listinputresponse.md
   - docs/models/listmasterworkerentryrequest.md
-  - docs/models/listmasterworkerentryresponse.md
-  - docs/models/listoutputresponse.md
-  - docs/models/listpipelineresponse.md
-  - docs/models/listroutesresponse.md
   - docs/models/loggedinusers.md
   - docs/models/logininfo.md
   - docs/models/loglabel.md
+  - docs/models/logleveloffice365mgmt.md
+  - docs/models/logleveloffice365msgtrace.md
+  - docs/models/logleveloffice365service.md
+  - docs/models/loglevelprometheus.md
+  - docs/models/loglevelsplunksearch.md
   - docs/models/loglocationtype.md
   - docs/models/lokiauthoauthheader1.md
   - docs/models/lokiauthoauthheader2.md
   - docs/models/lokiauthoauthparam1.md
   - docs/models/lokiauthoauthparam2.md
-  - docs/models/lookupversions.md
   - docs/models/mappingtype.md
   - docs/models/masterworkerentry.md
   - docs/models/masterworkerentrytype.md
   - docs/models/masterworkerentryworkers.md
+  - docs/models/maximumtlsversionappscope.md
+  - docs/models/maximumtlsversionclickhouse.md
+  - docs/models/maximumtlsversioncloudflarehec.md
+  - docs/models/maximumtlsversioncribllakehttp.md
+  - docs/models/maximumtlsversiondatadogagent.md
+  - docs/models/maximumtlsversionelastic.md
+  - docs/models/maximumtlsversionfirehose.md
+  - docs/models/maximumtlsversionhttp.md
+  - docs/models/maximumtlsversionhttpraw.md
+  - docs/models/maximumtlsversionloki.md
+  - docs/models/maximumtlsversionmetrics.md
+  - docs/models/maximumtlsversionmodeldriventelemetry.md
+  - docs/models/maximumtlsversionprometheusrw.md
+  - docs/models/maximumtlsversionservicenow.md
+  - docs/models/maximumtlsversionsplunklb.md
+  - docs/models/maximumtlsversionsyslog.md
+  - docs/models/maximumtlsversiontcp.md
+  - docs/models/maximumtlsversionwebhook.md
+  - docs/models/maximumtlsversionwef.md
+  - docs/models/maximumtlsversionwizwebhook.md
+  - docs/models/maximumtlsversionzscalerhec.md
+  - docs/models/maxs2sversionsplunklb.md
+  - docs/models/memorymodesystemmetrics.md
+  - docs/models/memorymodewindowsmetrics.md
+  - docs/models/memorysystemmetrics.md
+  - docs/models/memorywindowsmetrics.md
+  - docs/models/messageformatloki.md
+  - docs/models/messageformatsyslog.md
+  - docs/models/metadatumappscope.md
+  - docs/models/metadatumazureblob.md
+  - docs/models/metadatumcloudflarehec.md
+  - docs/models/metadatumcollection.md
+  - docs/models/metadatumconfluentcloud.md
+  - docs/models/metadatumcribl.md
+  - docs/models/metadatumcriblhttp.md
+  - docs/models/metadatumcribllakehttp.md
+  - docs/models/metadatumcriblmetrics.md
+  - docs/models/metadatumcribltcp.md
+  - docs/models/metadatumcrowdstrike.md
+  - docs/models/metadatumdatadogagent.md
+  - docs/models/metadatumdatagen.md
+  - docs/models/metadatumdynatraceotlp.md
+  - docs/models/metadatumedgeprometheus.md
+  - docs/models/metadatumelastic.md
+  - docs/models/metadatumeventhub.md
+  - docs/models/metadatumfirehose.md
+  - docs/models/metadatumgooglepubsub.md
+  - docs/models/metadatumhttp.md
+  - docs/models/metadatumhttpraw.md
+  - docs/models/metadatumkafka.md
+  - docs/models/metadatumkinesis.md
+  - docs/models/metadatumkubeevents.md
+  - docs/models/metadatumkubelogs.md
+  - docs/models/metadatumkubemetrics.md
+  - docs/models/metadatumloki.md
+  - docs/models/metadatummetrics.md
+  - docs/models/metadatummodeldriventelemetry.md
+  - docs/models/metadatummsk.md
+  - docs/models/metadatumnetflow.md
+  - docs/models/metadatumnewrelic.md
+  - docs/models/metadatumoffice365mgmt.md
+  - docs/models/metadatumoffice365msgtrace.md
+  - docs/models/metadatumoffice365service.md
+  - docs/models/metadatumprometheus.md
+  - docs/models/metadatumprometheusrw.md
+  - docs/models/metadatumrawudp.md
+  - docs/models/metadatums3.md
+  - docs/models/metadatums3inventory.md
+  - docs/models/metadatumsecuritylake.md
+  - docs/models/metadatumservicenow.md
+  - docs/models/metadatumsnmp.md
+  - docs/models/metadatumsplunk.md
+  - docs/models/metadatumsplunkhec.md
+  - docs/models/metadatumsplunksearch.md
+  - docs/models/metadatumsqs.md
+  - docs/models/metadatumsystemmetrics.md
+  - docs/models/metadatumsystemstate.md
+  - docs/models/metadatumtcp.md
+  - docs/models/metadatumtcpjson.md
+  - docs/models/metadatumwef.md
+  - docs/models/metadatumwindowsmetrics.md
+  - docs/models/metadatumwineventlogs.md
+  - docs/models/metadatumwiz.md
+  - docs/models/metadatumwizwebhook.md
+  - docs/models/metadatumzscalerhec.md
+  - docs/models/methoddynatracehttp.md
+  - docs/models/methodwebhook.md
   - docs/models/metricsprotocol.md
+  - docs/models/microsoftentraidauthenticationendpointazuredataexplorer.md
+  - docs/models/microsoftentraidauthenticationendpointazureeventhub.md
+  - docs/models/microsoftentraidauthenticationendpointmicrosoftfabric.md
+  - docs/models/minimumtlsversionappscope.md
+  - docs/models/minimumtlsversionclickhouse.md
+  - docs/models/minimumtlsversioncloudflarehec.md
+  - docs/models/minimumtlsversioncribllakehttp.md
+  - docs/models/minimumtlsversiondatadogagent.md
+  - docs/models/minimumtlsversionelastic.md
+  - docs/models/minimumtlsversionfirehose.md
+  - docs/models/minimumtlsversionhttp.md
+  - docs/models/minimumtlsversionhttpraw.md
+  - docs/models/minimumtlsversionloki.md
+  - docs/models/minimumtlsversionmetrics.md
+  - docs/models/minimumtlsversionmodeldriventelemetry.md
+  - docs/models/minimumtlsversionprometheusrw.md
+  - docs/models/minimumtlsversionservicenow.md
+  - docs/models/minimumtlsversionsplunklb.md
+  - docs/models/minimumtlsversionsyslog.md
+  - docs/models/minimumtlsversiontcp.md
+  - docs/models/minimumtlsversionwebhook.md
+  - docs/models/minimumtlsversionwef.md
+  - docs/models/minimumtlsversionwizwebhook.md
+  - docs/models/minimumtlsversionzscalerhec.md
+  - docs/models/modeappscope.md
+  - docs/models/modeazureblob.md
+  - docs/models/modeazuredataexplorer.md
+  - docs/models/modeazureeventhub.md
+  - docs/models/modeazurelogs.md
+  - docs/models/modechronicle.md
+  - docs/models/modeclickhouse.md
+  - docs/models/modecloudflarehec.md
+  - docs/models/modecloudwatch.md
+  - docs/models/modecollection.md
+  - docs/models/modecribl.md
+  - docs/models/modecribllakehttp.md
+  - docs/models/modecriblmetrics.md
+  - docs/models/modecrowdstrike.md
+  - docs/models/modecrowdstrikenextgensiem.md
+  - docs/models/modedatadog.md
+  - docs/models/modedatadogagent.md
+  - docs/models/modedatagen.md
+  - docs/models/modedataset.md
+  - docs/models/modedynatracehttp.md
+  - docs/models/modedynatraceotlp.md
+  - docs/models/modeedgeprometheus.md
+  - docs/models/modeelasticcloud.md
+  - docs/models/modeeventhub.md
+  - docs/models/modefirehose.md
+  - docs/models/modegooglechronicle.md
+  - docs/models/modegooglecloudlogging.md
+  - docs/models/modegraphite.md
+  - docs/models/modehoneycomb.md
+  - docs/models/modehttp.md
+  - docs/models/modehttpraw.md
+  - docs/models/modehumiohec.md
+  - docs/models/modeinfluxdb.md
+  - docs/models/modekubeevents.md
+  - docs/models/modekubelogs.md
+  - docs/models/modekubemetrics.md
+  - docs/models/modemetrics.md
+  - docs/models/modemicrosoftfabric.md
+  - docs/models/modemodeldriventelemetry.md
+  - docs/models/modenetflow.md
+  - docs/models/modenewrelic.md
+  - docs/models/modenewrelicevents.md
+  - docs/models/modeoffice365mgmt.md
+  - docs/models/modeoffice365msgtrace.md
+  - docs/models/modeoffice365service.md
+  - docs/models/modeprometheusrw.md
+  - docs/models/moderawudp.md
+  - docs/models/modes3.md
+  - docs/models/modes3inventory.md
+  - docs/models/modesecuritylake.md
+  - docs/models/modesentinel.md
+  - docs/models/modesentineloneaisiem.md
+  - docs/models/modeservicenow.md
+  - docs/models/modesignalfx.md
+  - docs/models/modesnmp.md
+  - docs/models/modesns.md
+  - docs/models/modesplunklb.md
+  - docs/models/modesplunksearch.md
+  - docs/models/modestatsd.md
+  - docs/models/modestatsdext.md
+  - docs/models/modesumologic.md
+  - docs/models/modesyslog.md
+  - docs/models/modesystemstate.md
+  - docs/models/modetcp.md
+  - docs/models/modewavefront.md
+  - docs/models/modewebhook.md
+  - docs/models/modewef.md
+  - docs/models/modewineventlogs.md
+  - docs/models/modewiz.md
+  - docs/models/modewizwebhook.md
+  - docs/models/modexsiam.md
+  - docs/models/modezscalerhec.md
   - docs/models/mtlssettings.md
+  - docs/models/nestedfieldserializationsplunk.md
+  - docs/models/nestedfieldserializationsplunklb.md
+  - docs/models/networkmodesystemmetrics.md
+  - docs/models/networkmodewindowsmetrics.md
+  - docs/models/networksystemmetrics.md
+  - docs/models/networkwindowsmetrics.md
   - docs/models/nodeactiveupgradestatus.md
   - docs/models/nodefailedupgradestatus.md
   - docs/models/nodeprovidedinfo.md
@@ -1073,379 +1153,102 @@ generatedFiles:
   - docs/models/nodeprovidedinfoos1.md
   - docs/models/nodeprovidedinfoos2.md
   - docs/models/nodeprovidedinfoowner.md
-  - docs/models/nodeprovidedinfotags.md
   - docs/models/nodeskippedupgradestatus.md
   - docs/models/nodeupgradestate.md
   - docs/models/nodeupgradestatus.md
+  - docs/models/oauthheaderclickhouse.md
+  - docs/models/oauthheaderinfluxdb.md
+  - docs/models/oauthheaderloki.md
+  - docs/models/oauthheaderprometheus.md
+  - docs/models/oauthheaderprometheusrw.md
+  - docs/models/oauthheadersplunksearch.md
+  - docs/models/oauthheaderwebhook.md
+  - docs/models/oauthparamclickhouse.md
+  - docs/models/oauthparaminfluxdb.md
+  - docs/models/oauthparamloki.md
+  - docs/models/oauthparamprometheus.md
+  - docs/models/oauthparamprometheusrw.md
+  - docs/models/oauthparamsplunksearch.md
+  - docs/models/oauthparamwebhook.md
+  - docs/models/oauthtypeauthenticationmethod.md
+  - docs/models/objectaclcribllake.md
+  - docs/models/objectacldls3.md
+  - docs/models/objectaclexabeam.md
+  - docs/models/objectaclgooglecloudstorage.md
+  - docs/models/objectaclminio.md
+  - docs/models/objectacls3.md
+  - docs/models/objectaclsecuritylake.md
   - docs/models/oldmode.md
   - docs/models/os.md
+  - docs/models/otlpversiondynatraceotlp.md
+  - docs/models/otlpversionservicenow.md
   - docs/models/outpostnodeinfo.md
   - docs/models/output.md
+  - docs/models/outputapiversion.md
+  - docs/models/outputauthconfluentcloud.md
+  - docs/models/outputauthenticationconfluentcloud.md
+  - docs/models/outputauthenticationkafka.md
+  - docs/models/outputauthenticationmethodazureblob.md
+  - docs/models/outputauthenticationmethodconfluentcloud.md
+  - docs/models/outputauthenticationmethodkafka.md
+  - docs/models/outputauthenticationmethodkinesis.md
+  - docs/models/outputauthenticationmethodmsk.md
+  - docs/models/outputauthenticationmethods3.md
+  - docs/models/outputauthenticationmethodsecuritylake.md
+  - docs/models/outputauthenticationmethodsplunkhec.md
+  - docs/models/outputauthenticationmethodsqs.md
+  - docs/models/outputauthenticationmethodtcpjson.md
+  - docs/models/outputauthenticationtypeloki.md
+  - docs/models/outputauthenticationtypeopentelemetry.md
+  - docs/models/outputauthkafka.md
+  - docs/models/outputauthmsk.md
+  - docs/models/outputauthtokencriblhttp.md
+  - docs/models/outputauthtokencribltcp.md
   - docs/models/outputazureblob.md
-  - docs/models/outputazureblobauthenticationmethod.md
-  - docs/models/outputazureblobbackpressurebehavior.md
-  - docs/models/outputazureblobcertificate.md
-  - docs/models/outputazureblobcompression.md
-  - docs/models/outputazureblobcompressionlevel.md
-  - docs/models/outputazureblobdataformat.md
-  - docs/models/outputazureblobdatapageversion.md
-  - docs/models/outputazureblobdiskspaceprotection.md
-  - docs/models/outputazureblobkeyvaluemetadatum.md
-  - docs/models/outputazureblobparquetversion.md
-  - docs/models/outputazureblobtype.md
   - docs/models/outputazuredataexplorer.md
-  - docs/models/outputazuredataexplorerauthenticationmethod.md
-  - docs/models/outputazuredataexplorerbackpressurebehavior.md
-  - docs/models/outputazuredataexplorercertificate.md
-  - docs/models/outputazuredataexplorercompresscompression.md
-  - docs/models/outputazuredataexplorercompressionlevel.md
-  - docs/models/outputazuredataexplorerdataformat.md
-  - docs/models/outputazuredataexplorerdatapageversion.md
-  - docs/models/outputazuredataexplorerdiskspaceprotection.md
-  - docs/models/outputazuredataexplorerkeyvaluemetadatum.md
-  - docs/models/outputazuredataexplorermicrosoftentraidauthenticationendpoint.md
-  - docs/models/outputazuredataexplorermode.md
-  - docs/models/outputazuredataexplorerparquetversion.md
-  - docs/models/outputazuredataexplorerpqcompresscompression.md
-  - docs/models/outputazuredataexplorerpqcontrols.md
-  - docs/models/outputazuredataexplorerqueuefullbehavior.md
-  - docs/models/outputazuredataexplorerresponseretrysetting.md
-  - docs/models/outputazuredataexplorertimeoutretrysettings.md
-  - docs/models/outputazuredataexplorertype.md
   - docs/models/outputazureeventhub.md
-  - docs/models/outputazureeventhubacknowledgments.md
-  - docs/models/outputazureeventhubauthentication.md
-  - docs/models/outputazureeventhubauthtypeauthenticationmethod.md
-  - docs/models/outputazureeventhubbackpressurebehavior.md
-  - docs/models/outputazureeventhubclientsecretauthtypeauthenticationmethod.md
-  - docs/models/outputazureeventhubcompression.md
-  - docs/models/outputazureeventhubmicrosoftentraidauthenticationendpoint.md
-  - docs/models/outputazureeventhubmode.md
-  - docs/models/outputazureeventhubpqcontrols.md
-  - docs/models/outputazureeventhubqueuefullbehavior.md
-  - docs/models/outputazureeventhubrecorddataformat.md
-  - docs/models/outputazureeventhubsaslmechanism.md
-  - docs/models/outputazureeventhubtlssettingsclientside.md
-  - docs/models/outputazureeventhubtype.md
   - docs/models/outputazurelogs.md
-  - docs/models/outputazurelogsauthenticationmethod.md
-  - docs/models/outputazurelogsbackpressurebehavior.md
-  - docs/models/outputazurelogscompression.md
-  - docs/models/outputazurelogsextrahttpheader.md
-  - docs/models/outputazurelogsfailedrequestloggingmode.md
-  - docs/models/outputazurelogsmode.md
-  - docs/models/outputazurelogspqcontrols.md
-  - docs/models/outputazurelogsqueuefullbehavior.md
-  - docs/models/outputazurelogsresponseretrysetting.md
-  - docs/models/outputazurelogstimeoutretrysettings.md
-  - docs/models/outputazurelogstype.md
+  - docs/models/outputcertificateazureblob.md
   - docs/models/outputchronicle.md
-  - docs/models/outputchronicleauthenticationmethod.md
-  - docs/models/outputchroniclebackpressurebehavior.md
-  - docs/models/outputchroniclecompression.md
-  - docs/models/outputchroniclecustomlabel.md
-  - docs/models/outputchronicleextrahttpheader.md
-  - docs/models/outputchroniclefailedrequestloggingmode.md
-  - docs/models/outputchroniclemode.md
-  - docs/models/outputchroniclepqcontrols.md
-  - docs/models/outputchroniclequeuefullbehavior.md
-  - docs/models/outputchronicleresponseretrysetting.md
-  - docs/models/outputchronicletimeoutretrysettings.md
-  - docs/models/outputchronicletype.md
   - docs/models/outputclickhouse.md
-  - docs/models/outputclickhouseauthenticationtype.md
-  - docs/models/outputclickhousebackpressurebehavior.md
-  - docs/models/outputclickhousecompression.md
-  - docs/models/outputclickhouseextrahttpheader.md
-  - docs/models/outputclickhousefailedrequestloggingmode.md
-  - docs/models/outputclickhouseformat.md
-  - docs/models/outputclickhousemaximumtlsversion.md
-  - docs/models/outputclickhouseminimumtlsversion.md
-  - docs/models/outputclickhousemode.md
-  - docs/models/outputclickhouseoauthheader.md
-  - docs/models/outputclickhouseoauthparam.md
-  - docs/models/outputclickhousepqcontrols.md
-  - docs/models/outputclickhousequeuefullbehavior.md
-  - docs/models/outputclickhouseresponseretrysetting.md
-  - docs/models/outputclickhousetimeoutretrysettings.md
-  - docs/models/outputclickhousetlssettingsclientside.md
-  - docs/models/outputclickhousetype.md
   - docs/models/outputcloudflarer2.md
-  - docs/models/outputcloudflarer2authenticationmethod.md
-  - docs/models/outputcloudflarer2backpressurebehavior.md
-  - docs/models/outputcloudflarer2compression.md
-  - docs/models/outputcloudflarer2compressionlevel.md
-  - docs/models/outputcloudflarer2dataformat.md
-  - docs/models/outputcloudflarer2datapageversion.md
-  - docs/models/outputcloudflarer2diskspaceprotection.md
-  - docs/models/outputcloudflarer2keyvaluemetadatum.md
-  - docs/models/outputcloudflarer2parquetversion.md
-  - docs/models/outputcloudflarer2serversideencryption.md
-  - docs/models/outputcloudflarer2signatureversion.md
-  - docs/models/outputcloudflarer2storageclass.md
-  - docs/models/outputcloudflarer2type.md
   - docs/models/outputcloudwatch.md
-  - docs/models/outputcloudwatchauthenticationmethod.md
-  - docs/models/outputcloudwatchbackpressurebehavior.md
-  - docs/models/outputcloudwatchcompression.md
-  - docs/models/outputcloudwatchmode.md
-  - docs/models/outputcloudwatchpqcontrols.md
-  - docs/models/outputcloudwatchqueuefullbehavior.md
-  - docs/models/outputcloudwatchtype.md
+  - docs/models/outputcompresscompressionopentelemetry.md
+  - docs/models/outputcompresscompressionsplunk.md
+  - docs/models/outputcompressionazureblob.md
+  - docs/models/outputcompressionconfluentcloud.md
+  - docs/models/outputcompressioncriblhttp.md
+  - docs/models/outputcompressioncribltcp.md
+  - docs/models/outputcompressionkafka.md
+  - docs/models/outputcompressionkinesis.md
+  - docs/models/outputcompressionmsk.md
+  - docs/models/outputcompressions3.md
+  - docs/models/outputcompressiontcpjson.md
   - docs/models/outputconfluentcloud.md
-  - docs/models/outputconfluentcloudacknowledgments.md
-  - docs/models/outputconfluentcloudauth.md
-  - docs/models/outputconfluentcloudauthentication.md
-  - docs/models/outputconfluentcloudauthenticationmethod.md
-  - docs/models/outputconfluentcloudbackpressurebehavior.md
-  - docs/models/outputconfluentcloudcompression.md
-  - docs/models/outputconfluentcloudkafkaschemaregistryauthentication.md
-  - docs/models/outputconfluentcloudkafkaschemaregistrymaximumtlsversion.md
-  - docs/models/outputconfluentcloudkafkaschemaregistryminimumtlsversion.md
-  - docs/models/outputconfluentcloudkafkaschemaregistrytlssettingsclientside.md
-  - docs/models/outputconfluentcloudmaximumtlsversion.md
-  - docs/models/outputconfluentcloudminimumtlsversion.md
-  - docs/models/outputconfluentcloudmode.md
-  - docs/models/outputconfluentcloudoauthparam.md
-  - docs/models/outputconfluentcloudpqcompresscompression.md
-  - docs/models/outputconfluentcloudpqcontrols.md
-  - docs/models/outputconfluentcloudqueuefullbehavior.md
-  - docs/models/outputconfluentcloudrecorddataformat.md
-  - docs/models/outputconfluentcloudsaslextension.md
-  - docs/models/outputconfluentcloudsaslmechanism.md
-  - docs/models/outputconfluentcloudtlssettingsclientside.md
-  - docs/models/outputconfluentcloudtype.md
   - docs/models/outputcriblhttp.md
-  - docs/models/outputcriblhttpauthtoken.md
-  - docs/models/outputcriblhttpbackpressurebehavior.md
-  - docs/models/outputcriblhttpcompression.md
-  - docs/models/outputcriblhttpextrahttpheader.md
-  - docs/models/outputcriblhttpfailedrequestloggingmode.md
-  - docs/models/outputcriblhttpmaximumtlsversion.md
-  - docs/models/outputcriblhttpminimumtlsversion.md
-  - docs/models/outputcriblhttpmode.md
-  - docs/models/outputcriblhttppqcompresscompression.md
-  - docs/models/outputcriblhttppqcontrols.md
-  - docs/models/outputcriblhttpqueuefullbehavior.md
-  - docs/models/outputcriblhttpresponseretrysetting.md
-  - docs/models/outputcriblhttptimeoutretrysettings.md
-  - docs/models/outputcriblhttptlssettingsclientside.md
-  - docs/models/outputcriblhttptype.md
-  - docs/models/outputcriblhttpurl.md
   - docs/models/outputcribllake.md
-  - docs/models/outputcribllakebackpressurebehavior.md
-  - docs/models/outputcribllakediskspaceprotection.md
-  - docs/models/outputcribllakeformat.md
-  - docs/models/outputcribllakeobjectacl.md
-  - docs/models/outputcribllakeserversideencryptionforuploadedobjects.md
-  - docs/models/outputcribllakesignatureversion.md
-  - docs/models/outputcribllakestorageclass.md
-  - docs/models/outputcribllaketype.md
   - docs/models/outputcribltcp.md
-  - docs/models/outputcribltcpauthtoken.md
-  - docs/models/outputcribltcpbackpressurebehavior.md
-  - docs/models/outputcribltcpcompression.md
-  - docs/models/outputcribltcphost.md
-  - docs/models/outputcribltcpmaximumtlsversion.md
-  - docs/models/outputcribltcpminimumtlsversion.md
-  - docs/models/outputcribltcpmode.md
-  - docs/models/outputcribltcppqcompresscompression.md
-  - docs/models/outputcribltcppqcontrols.md
-  - docs/models/outputcribltcpqueuefullbehavior.md
-  - docs/models/outputcribltcptls.md
-  - docs/models/outputcribltcptlssettingsclientside.md
-  - docs/models/outputcribltcptype.md
   - docs/models/outputcrowdstrikenextgensiem.md
-  - docs/models/outputcrowdstrikenextgensiemauthenticationmethod.md
-  - docs/models/outputcrowdstrikenextgensiembackpressurebehavior.md
-  - docs/models/outputcrowdstrikenextgensiemcompression.md
-  - docs/models/outputcrowdstrikenextgensiemextrahttpheader.md
-  - docs/models/outputcrowdstrikenextgensiemfailedrequestloggingmode.md
-  - docs/models/outputcrowdstrikenextgensiemmode.md
-  - docs/models/outputcrowdstrikenextgensiempqcontrols.md
-  - docs/models/outputcrowdstrikenextgensiemqueuefullbehavior.md
-  - docs/models/outputcrowdstrikenextgensiemrequestformat.md
-  - docs/models/outputcrowdstrikenextgensiemresponseretrysetting.md
-  - docs/models/outputcrowdstrikenextgensiemtimeoutretrysettings.md
-  - docs/models/outputcrowdstrikenextgensiemtype.md
   - docs/models/outputdatabricks.md
-  - docs/models/outputdatabricksbackpressurebehavior.md
-  - docs/models/outputdatabrickscompression.md
-  - docs/models/outputdatabrickscompressionlevel.md
-  - docs/models/outputdatabricksdataformat.md
-  - docs/models/outputdatabricksdatapageversion.md
-  - docs/models/outputdatabricksdiskspaceprotection.md
-  - docs/models/outputdatabrickskeyvaluemetadatum.md
-  - docs/models/outputdatabricksparquetversion.md
-  - docs/models/outputdatabrickstype.md
+  - docs/models/outputdatacompressionformat.md
   - docs/models/outputdatadog.md
-  - docs/models/outputdatadogauthenticationmethod.md
-  - docs/models/outputdatadogbackpressurebehavior.md
-  - docs/models/outputdatadogcompression.md
-  - docs/models/outputdatadogextrahttpheader.md
-  - docs/models/outputdatadogfailedrequestloggingmode.md
-  - docs/models/outputdatadogmode.md
-  - docs/models/outputdatadogpqcontrols.md
-  - docs/models/outputdatadogqueuefullbehavior.md
-  - docs/models/outputdatadogresponseretrysetting.md
-  - docs/models/outputdatadogseverity.md
-  - docs/models/outputdatadogtimeoutretrysettings.md
-  - docs/models/outputdatadogtype.md
   - docs/models/outputdataset.md
-  - docs/models/outputdatasetauthenticationmethod.md
-  - docs/models/outputdatasetbackpressurebehavior.md
-  - docs/models/outputdatasetcompression.md
-  - docs/models/outputdatasetextrahttpheader.md
-  - docs/models/outputdatasetfailedrequestloggingmode.md
-  - docs/models/outputdatasetmode.md
-  - docs/models/outputdatasetpqcontrols.md
-  - docs/models/outputdatasetqueuefullbehavior.md
-  - docs/models/outputdatasetresponseretrysetting.md
-  - docs/models/outputdatasetseverity.md
-  - docs/models/outputdatasettimeoutretrysettings.md
-  - docs/models/outputdatasettype.md
   - docs/models/outputdefault.md
-  - docs/models/outputdefaulttype.md
   - docs/models/outputdevnull.md
-  - docs/models/outputdevnulltype.md
   - docs/models/outputdiskspool.md
-  - docs/models/outputdiskspoolcompression.md
-  - docs/models/outputdiskspooltype.md
   - docs/models/outputdls3.md
-  - docs/models/outputdls3authenticationmethod.md
-  - docs/models/outputdls3backpressurebehavior.md
-  - docs/models/outputdls3compression.md
-  - docs/models/outputdls3compressionlevel.md
-  - docs/models/outputdls3dataformat.md
-  - docs/models/outputdls3datapageversion.md
-  - docs/models/outputdls3diskspaceprotection.md
-  - docs/models/outputdls3keyvaluemetadatum.md
-  - docs/models/outputdls3objectacl.md
-  - docs/models/outputdls3parquetversion.md
-  - docs/models/outputdls3serversideencryptionforuploadedobjects.md
-  - docs/models/outputdls3signatureversion.md
-  - docs/models/outputdls3storageclass.md
-  - docs/models/outputdls3type.md
   - docs/models/outputdynatracehttp.md
-  - docs/models/outputdynatracehttpauthenticationtype.md
-  - docs/models/outputdynatracehttpbackpressurebehavior.md
-  - docs/models/outputdynatracehttpcompression.md
-  - docs/models/outputdynatracehttpextrahttpheader.md
-  - docs/models/outputdynatracehttpfailedrequestloggingmode.md
-  - docs/models/outputdynatracehttpformat.md
-  - docs/models/outputdynatracehttpmethod.md
-  - docs/models/outputdynatracehttpmode.md
-  - docs/models/outputdynatracehttppqcontrols.md
-  - docs/models/outputdynatracehttpqueuefullbehavior.md
-  - docs/models/outputdynatracehttpresponseretrysetting.md
-  - docs/models/outputdynatracehttptimeoutretrysettings.md
-  - docs/models/outputdynatracehttptype.md
   - docs/models/outputdynatraceotlp.md
-  - docs/models/outputdynatraceotlpbackpressurebehavior.md
-  - docs/models/outputdynatraceotlpcompresscompression.md
-  - docs/models/outputdynatraceotlpextrahttpheader.md
-  - docs/models/outputdynatraceotlpfailedrequestloggingmode.md
-  - docs/models/outputdynatraceotlphttpcompresscompression.md
-  - docs/models/outputdynatraceotlpmetadatum.md
-  - docs/models/outputdynatraceotlpmode.md
-  - docs/models/outputdynatraceotlpotlpversion.md
-  - docs/models/outputdynatraceotlppqcompresscompression.md
-  - docs/models/outputdynatraceotlppqcontrols.md
-  - docs/models/outputdynatraceotlpprotocol.md
-  - docs/models/outputdynatraceotlpqueuefullbehavior.md
-  - docs/models/outputdynatraceotlpresponseretrysetting.md
-  - docs/models/outputdynatraceotlptimeoutretrysettings.md
-  - docs/models/outputdynatraceotlptype.md
   - docs/models/outputelastic.md
-  - docs/models/outputelasticauth.md
-  - docs/models/outputelasticauthenticationmethod.md
-  - docs/models/outputelasticbackpressurebehavior.md
   - docs/models/outputelasticcloud.md
-  - docs/models/outputelasticcloudauth.md
-  - docs/models/outputelasticcloudauthenticationmethod.md
-  - docs/models/outputelasticcloudbackpressurebehavior.md
-  - docs/models/outputelasticcloudcompression.md
-  - docs/models/outputelasticcloudextrahttpheader.md
-  - docs/models/outputelasticcloudextraparam.md
-  - docs/models/outputelasticcloudfailedrequestloggingmode.md
-  - docs/models/outputelasticcloudmode.md
-  - docs/models/outputelasticcloudpqcontrols.md
-  - docs/models/outputelasticcloudqueuefullbehavior.md
-  - docs/models/outputelasticcloudresponseretrysetting.md
-  - docs/models/outputelasticcloudtimeoutretrysettings.md
-  - docs/models/outputelasticcloudtype.md
-  - docs/models/outputelasticcompression.md
-  - docs/models/outputelasticextrahttpheader.md
-  - docs/models/outputelasticextraparam.md
-  - docs/models/outputelasticfailedrequestloggingmode.md
-  - docs/models/outputelasticmode.md
-  - docs/models/outputelasticpqcontrols.md
-  - docs/models/outputelasticqueuefullbehavior.md
-  - docs/models/outputelasticresponseretrysetting.md
-  - docs/models/outputelastictimeoutretrysettings.md
-  - docs/models/outputelastictype.md
-  - docs/models/outputelasticurl.md
   - docs/models/outputexabeam.md
-  - docs/models/outputexabeambackpressurebehavior.md
-  - docs/models/outputexabeamdiskspaceprotection.md
-  - docs/models/outputexabeamobjectacl.md
-  - docs/models/outputexabeamsignatureversion.md
-  - docs/models/outputexabeamstorageclass.md
-  - docs/models/outputexabeamtype.md
+  - docs/models/outputextrahttpheaderelastic.md
   - docs/models/outputfilesystem.md
-  - docs/models/outputfilesystembackpressurebehavior.md
-  - docs/models/outputfilesystemcompression.md
-  - docs/models/outputfilesystemcompressionlevel.md
-  - docs/models/outputfilesystemdataformat.md
-  - docs/models/outputfilesystemdatapageversion.md
-  - docs/models/outputfilesystemdiskspaceprotection.md
-  - docs/models/outputfilesystemkeyvaluemetadatum.md
-  - docs/models/outputfilesystemparquetversion.md
-  - docs/models/outputfilesystemtype.md
+  - docs/models/outputgoogleauthenticationmethodgooglepubsub.md
   - docs/models/outputgooglechronicle.md
-  - docs/models/outputgooglechronicleapiversion.md
-  - docs/models/outputgooglechronicleauthenticationmethod.md
-  - docs/models/outputgooglechroniclebackpressurebehavior.md
-  - docs/models/outputgooglechroniclecompression.md
-  - docs/models/outputgooglechroniclecustomlabel.md
-  - docs/models/outputgooglechronicleextrahttpheader.md
-  - docs/models/outputgooglechroniclefailedrequestloggingmode.md
-  - docs/models/outputgooglechroniclemode.md
-  - docs/models/outputgooglechroniclepqcontrols.md
-  - docs/models/outputgooglechroniclequeuefullbehavior.md
-  - docs/models/outputgooglechronicleresponseretrysetting.md
-  - docs/models/outputgooglechronicletimeoutretrysettings.md
-  - docs/models/outputgooglechronicletype.md
   - docs/models/outputgooglecloudlogging.md
-  - docs/models/outputgooglecloudloggingbackpressurebehavior.md
-  - docs/models/outputgooglecloudloggingcompression.md
-  - docs/models/outputgooglecloudlogginggoogleauthenticationmethod.md
-  - docs/models/outputgooglecloudloggingmode.md
-  - docs/models/outputgooglecloudloggingpqcontrols.md
-  - docs/models/outputgooglecloudloggingqueuefullbehavior.md
-  - docs/models/outputgooglecloudloggingtype.md
   - docs/models/outputgooglecloudstorage.md
-  - docs/models/outputgooglecloudstorageauthenticationmethod.md
-  - docs/models/outputgooglecloudstoragebackpressurebehavior.md
-  - docs/models/outputgooglecloudstoragecompression.md
-  - docs/models/outputgooglecloudstoragecompressionlevel.md
-  - docs/models/outputgooglecloudstoragedataformat.md
-  - docs/models/outputgooglecloudstoragedatapageversion.md
-  - docs/models/outputgooglecloudstoragediskspaceprotection.md
-  - docs/models/outputgooglecloudstoragekeyvaluemetadatum.md
-  - docs/models/outputgooglecloudstorageobjectacl.md
-  - docs/models/outputgooglecloudstorageparquetversion.md
-  - docs/models/outputgooglecloudstoragesignatureversion.md
-  - docs/models/outputgooglecloudstoragestorageclass.md
-  - docs/models/outputgooglecloudstoragetype.md
   - docs/models/outputgooglepubsub.md
-  - docs/models/outputgooglepubsubbackpressurebehavior.md
-  - docs/models/outputgooglepubsubcompression.md
-  - docs/models/outputgooglepubsubgoogleauthenticationmethod.md
-  - docs/models/outputgooglepubsubmode.md
-  - docs/models/outputgooglepubsubpqcontrols.md
-  - docs/models/outputgooglepubsubqueuefullbehavior.md
-  - docs/models/outputgooglepubsubtype.md
   - docs/models/outputgrafanacloud.md
   - docs/models/outputgrafanacloudbackpressurebehavior1.md
   - docs/models/outputgrafanacloudbackpressurebehavior2.md
@@ -1459,8 +1262,6 @@ generatedFiles:
   - docs/models/outputgrafanacloudgrafanacloud2.md
   - docs/models/outputgrafanacloudlabel1.md
   - docs/models/outputgrafanacloudlabel2.md
-  - docs/models/outputgrafanacloudlokiauth1.md
-  - docs/models/outputgrafanacloudlokiauth2.md
   - docs/models/outputgrafanacloudlokiauthauthenticationtype1.md
   - docs/models/outputgrafanacloudlokiauthauthenticationtype2.md
   - docs/models/outputgrafanacloudmessageformat1.md
@@ -1469,8 +1270,6 @@ generatedFiles:
   - docs/models/outputgrafanacloudmode2.md
   - docs/models/outputgrafanacloudpqcontrols1.md
   - docs/models/outputgrafanacloudpqcontrols2.md
-  - docs/models/outputgrafanacloudprometheusauth1.md
-  - docs/models/outputgrafanacloudprometheusauth2.md
   - docs/models/outputgrafanacloudprometheusauthauthenticationtype1.md
   - docs/models/outputgrafanacloudprometheusauthauthenticationtype2.md
   - docs/models/outputgrafanacloudqueuefullbehavior1.md
@@ -1482,480 +1281,153 @@ generatedFiles:
   - docs/models/outputgrafanacloudtype1.md
   - docs/models/outputgrafanacloudtype2.md
   - docs/models/outputgraphite.md
-  - docs/models/outputgraphitebackpressurebehavior.md
-  - docs/models/outputgraphitecompression.md
-  - docs/models/outputgraphitedestinationprotocol.md
-  - docs/models/outputgraphitemode.md
-  - docs/models/outputgraphitepqcontrols.md
-  - docs/models/outputgraphitequeuefullbehavior.md
-  - docs/models/outputgraphitetype.md
   - docs/models/outputhoneycomb.md
-  - docs/models/outputhoneycombauthenticationmethod.md
-  - docs/models/outputhoneycombbackpressurebehavior.md
-  - docs/models/outputhoneycombcompression.md
-  - docs/models/outputhoneycombextrahttpheader.md
-  - docs/models/outputhoneycombfailedrequestloggingmode.md
-  - docs/models/outputhoneycombmode.md
-  - docs/models/outputhoneycombpqcontrols.md
-  - docs/models/outputhoneycombqueuefullbehavior.md
-  - docs/models/outputhoneycombresponseretrysetting.md
-  - docs/models/outputhoneycombtimeoutretrysettings.md
-  - docs/models/outputhoneycombtype.md
   - docs/models/outputhumiohec.md
-  - docs/models/outputhumiohecauthenticationmethod.md
-  - docs/models/outputhumiohecbackpressurebehavior.md
-  - docs/models/outputhumioheccompression.md
-  - docs/models/outputhumiohecextrahttpheader.md
-  - docs/models/outputhumiohecfailedrequestloggingmode.md
-  - docs/models/outputhumiohecmode.md
-  - docs/models/outputhumiohecpqcontrols.md
-  - docs/models/outputhumiohecqueuefullbehavior.md
-  - docs/models/outputhumiohecrequestformat.md
-  - docs/models/outputhumiohecresponseretrysetting.md
-  - docs/models/outputhumiohectimeoutretrysettings.md
-  - docs/models/outputhumiohectype.md
   - docs/models/outputinfluxdb.md
-  - docs/models/outputinfluxdbauthenticationtype.md
-  - docs/models/outputinfluxdbbackpressurebehavior.md
-  - docs/models/outputinfluxdbcompression.md
-  - docs/models/outputinfluxdbextrahttpheader.md
-  - docs/models/outputinfluxdbfailedrequestloggingmode.md
-  - docs/models/outputinfluxdbmode.md
-  - docs/models/outputinfluxdboauthheader.md
-  - docs/models/outputinfluxdboauthparam.md
-  - docs/models/outputinfluxdbpqcontrols.md
-  - docs/models/outputinfluxdbqueuefullbehavior.md
-  - docs/models/outputinfluxdbresponseretrysetting.md
-  - docs/models/outputinfluxdbtimeoutretrysettings.md
-  - docs/models/outputinfluxdbtype.md
   - docs/models/outputkafka.md
-  - docs/models/outputkafkaacknowledgments.md
-  - docs/models/outputkafkaauth.md
-  - docs/models/outputkafkaauthentication.md
-  - docs/models/outputkafkaauthenticationmethod.md
-  - docs/models/outputkafkabackpressurebehavior.md
-  - docs/models/outputkafkacompression.md
-  - docs/models/outputkafkakafkaschemaregistryauthentication.md
-  - docs/models/outputkafkakafkaschemaregistrymaximumtlsversion.md
-  - docs/models/outputkafkakafkaschemaregistryminimumtlsversion.md
-  - docs/models/outputkafkakafkaschemaregistrytlssettingsclientside.md
-  - docs/models/outputkafkamaximumtlsversion.md
-  - docs/models/outputkafkaminimumtlsversion.md
-  - docs/models/outputkafkamode.md
-  - docs/models/outputkafkaoauthparam.md
-  - docs/models/outputkafkapqcompresscompression.md
-  - docs/models/outputkafkapqcontrols.md
-  - docs/models/outputkafkaqueuefullbehavior.md
-  - docs/models/outputkafkarecorddataformat.md
-  - docs/models/outputkafkasaslextension.md
-  - docs/models/outputkafkasaslmechanism.md
-  - docs/models/outputkafkatlssettingsclientside.md
-  - docs/models/outputkafkatype.md
+  - docs/models/outputkafkaschemaregistryauthenticationconfluentcloud.md
+  - docs/models/outputkafkaschemaregistryauthenticationkafka.md
+  - docs/models/outputkafkaschemaregistryauthenticationmsk.md
+  - docs/models/outputkafkaschemaregistrymaximumtlsversionconfluentcloud.md
+  - docs/models/outputkafkaschemaregistrymaximumtlsversionkafka.md
+  - docs/models/outputkafkaschemaregistrymaximumtlsversionmsk.md
+  - docs/models/outputkafkaschemaregistryminimumtlsversionconfluentcloud.md
+  - docs/models/outputkafkaschemaregistryminimumtlsversionkafka.md
+  - docs/models/outputkafkaschemaregistryminimumtlsversionmsk.md
+  - docs/models/outputkafkaschemaregistrytlssettingsclientsideconfluentcloud.md
+  - docs/models/outputkafkaschemaregistrytlssettingsclientsidekafka.md
+  - docs/models/outputkafkaschemaregistrytlssettingsclientsidemsk.md
   - docs/models/outputkinesis.md
-  - docs/models/outputkinesisauthenticationmethod.md
-  - docs/models/outputkinesisbackpressurebehavior.md
-  - docs/models/outputkinesiscompression.md
-  - docs/models/outputkinesismode.md
-  - docs/models/outputkinesispqcompresscompression.md
-  - docs/models/outputkinesispqcontrols.md
-  - docs/models/outputkinesisqueuefullbehavior.md
-  - docs/models/outputkinesissignatureversion.md
-  - docs/models/outputkinesistype.md
   - docs/models/outputloki.md
-  - docs/models/outputlokiauthenticationtype.md
-  - docs/models/outputlokibackpressurebehavior.md
-  - docs/models/outputlokicompression.md
-  - docs/models/outputlokiextrahttpheader.md
-  - docs/models/outputlokifailedrequestloggingmode.md
-  - docs/models/outputlokilabel.md
-  - docs/models/outputlokimessageformat.md
-  - docs/models/outputlokimode.md
-  - docs/models/outputlokipqcontrols.md
-  - docs/models/outputlokiqueuefullbehavior.md
-  - docs/models/outputlokiresponseretrysetting.md
-  - docs/models/outputlokitimeoutretrysettings.md
-  - docs/models/outputlokitype.md
+  - docs/models/outputlokiauth1.md
+  - docs/models/outputlokiauth2.md
+  - docs/models/outputmaximumtlsversionconfluentcloud.md
+  - docs/models/outputmaximumtlsversioncriblhttp.md
+  - docs/models/outputmaximumtlsversioncribltcp.md
+  - docs/models/outputmaximumtlsversionkafka.md
+  - docs/models/outputmaximumtlsversionmsk.md
+  - docs/models/outputmaximumtlsversionopentelemetry.md
+  - docs/models/outputmaximumtlsversionsplunk.md
+  - docs/models/outputmaximumtlsversionsplunkhec.md
+  - docs/models/outputmaximumtlsversiontcpjson.md
+  - docs/models/outputmaxs2sversionsplunk.md
+  - docs/models/outputmetadatumopentelemetry.md
   - docs/models/outputmicrosoftfabric.md
-  - docs/models/outputmicrosoftfabricacknowledgments.md
-  - docs/models/outputmicrosoftfabricauthentication.md
-  - docs/models/outputmicrosoftfabricauthenticationmethod.md
-  - docs/models/outputmicrosoftfabricbackpressurebehavior.md
-  - docs/models/outputmicrosoftfabriccompression.md
-  - docs/models/outputmicrosoftfabricmicrosoftentraidauthenticationendpoint.md
-  - docs/models/outputmicrosoftfabricmode.md
-  - docs/models/outputmicrosoftfabricpqcontrols.md
-  - docs/models/outputmicrosoftfabricqueuefullbehavior.md
-  - docs/models/outputmicrosoftfabricrecorddataformat.md
-  - docs/models/outputmicrosoftfabricsaslmechanism.md
-  - docs/models/outputmicrosoftfabrictlssettingsclientside.md
-  - docs/models/outputmicrosoftfabrictype.md
+  - docs/models/outputminimumtlsversionconfluentcloud.md
+  - docs/models/outputminimumtlsversioncriblhttp.md
+  - docs/models/outputminimumtlsversioncribltcp.md
+  - docs/models/outputminimumtlsversionkafka.md
+  - docs/models/outputminimumtlsversionmsk.md
+  - docs/models/outputminimumtlsversionopentelemetry.md
+  - docs/models/outputminimumtlsversionsplunk.md
+  - docs/models/outputminimumtlsversionsplunkhec.md
+  - docs/models/outputminimumtlsversiontcpjson.md
   - docs/models/outputminio.md
-  - docs/models/outputminioauthenticationmethod.md
-  - docs/models/outputminiobackpressurebehavior.md
-  - docs/models/outputminiocompression.md
-  - docs/models/outputminiocompressionlevel.md
-  - docs/models/outputminiodataformat.md
-  - docs/models/outputminiodatapageversion.md
-  - docs/models/outputminiodiskspaceprotection.md
-  - docs/models/outputminiokeyvaluemetadatum.md
-  - docs/models/outputminioobjectacl.md
-  - docs/models/outputminioparquetversion.md
-  - docs/models/outputminioserversideencryption.md
-  - docs/models/outputminiosignatureversion.md
-  - docs/models/outputminiostorageclass.md
-  - docs/models/outputminiotype.md
   - docs/models/outputmode.md
+  - docs/models/outputmodeconfluentcloud.md
+  - docs/models/outputmodecriblhttp.md
+  - docs/models/outputmodecribltcp.md
+  - docs/models/outputmodeelastic.md
+  - docs/models/outputmodegooglepubsub.md
+  - docs/models/outputmodekafka.md
+  - docs/models/outputmodekinesis.md
+  - docs/models/outputmodeloki.md
+  - docs/models/outputmodemsk.md
+  - docs/models/outputmodeopentelemetry.md
+  - docs/models/outputmodeprometheus.md
+  - docs/models/outputmodesplunk.md
+  - docs/models/outputmodesplunkhec.md
+  - docs/models/outputmodesqs.md
+  - docs/models/outputmodetcpjson.md
   - docs/models/outputmsk.md
-  - docs/models/outputmskacknowledgments.md
-  - docs/models/outputmskauth.md
-  - docs/models/outputmskauthenticationmethod.md
-  - docs/models/outputmskbackpressurebehavior.md
-  - docs/models/outputmskcompression.md
-  - docs/models/outputmskkafkaschemaregistryauthentication.md
-  - docs/models/outputmskkafkaschemaregistrymaximumtlsversion.md
-  - docs/models/outputmskkafkaschemaregistryminimumtlsversion.md
-  - docs/models/outputmskkafkaschemaregistrytlssettingsclientside.md
-  - docs/models/outputmskmaximumtlsversion.md
-  - docs/models/outputmskminimumtlsversion.md
-  - docs/models/outputmskmode.md
-  - docs/models/outputmskpqcompresscompression.md
-  - docs/models/outputmskpqcontrols.md
-  - docs/models/outputmskqueuefullbehavior.md
-  - docs/models/outputmskrecorddataformat.md
-  - docs/models/outputmsksignatureversion.md
-  - docs/models/outputmsktlssettingsclientside.md
-  - docs/models/outputmsktype.md
   - docs/models/outputnetflow.md
-  - docs/models/outputnetflowhost.md
-  - docs/models/outputnetflowtype.md
   - docs/models/outputnewrelic.md
-  - docs/models/outputnewrelicauthenticationmethod.md
-  - docs/models/outputnewrelicbackpressurebehavior.md
-  - docs/models/outputnewreliccompression.md
   - docs/models/outputnewrelicevents.md
-  - docs/models/outputnewreliceventsauthenticationmethod.md
-  - docs/models/outputnewreliceventsbackpressurebehavior.md
-  - docs/models/outputnewreliceventscompression.md
-  - docs/models/outputnewreliceventsextrahttpheader.md
-  - docs/models/outputnewreliceventsfailedrequestloggingmode.md
-  - docs/models/outputnewreliceventsmode.md
-  - docs/models/outputnewreliceventspqcontrols.md
-  - docs/models/outputnewreliceventsqueuefullbehavior.md
-  - docs/models/outputnewreliceventsregion.md
-  - docs/models/outputnewreliceventsresponseretrysetting.md
-  - docs/models/outputnewreliceventstimeoutretrysettings.md
-  - docs/models/outputnewreliceventstype.md
-  - docs/models/outputnewrelicextrahttpheader.md
-  - docs/models/outputnewrelicfailedrequestloggingmode.md
-  - docs/models/outputnewrelicmetadatum.md
-  - docs/models/outputnewrelicmode.md
-  - docs/models/outputnewrelicpqcontrols.md
-  - docs/models/outputnewrelicqueuefullbehavior.md
-  - docs/models/outputnewrelicregion.md
-  - docs/models/outputnewrelicresponseretrysetting.md
-  - docs/models/outputnewrelictimeoutretrysettings.md
-  - docs/models/outputnewrelictype.md
+  - docs/models/outputoauthheaderopentelemetry.md
+  - docs/models/outputoauthparamconfluentcloud.md
+  - docs/models/outputoauthparamkafka.md
+  - docs/models/outputoauthparamopentelemetry.md
   - docs/models/outputopentelemetry.md
-  - docs/models/outputopentelemetryauthenticationtype.md
-  - docs/models/outputopentelemetrybackpressurebehavior.md
-  - docs/models/outputopentelemetrycompresscompression.md
-  - docs/models/outputopentelemetryextrahttpheader.md
-  - docs/models/outputopentelemetryfailedrequestloggingmode.md
-  - docs/models/outputopentelemetryhttpcompresscompression.md
-  - docs/models/outputopentelemetrymaximumtlsversion.md
-  - docs/models/outputopentelemetrymetadatum.md
-  - docs/models/outputopentelemetryminimumtlsversion.md
-  - docs/models/outputopentelemetrymode.md
-  - docs/models/outputopentelemetryoauthheader.md
-  - docs/models/outputopentelemetryoauthparam.md
-  - docs/models/outputopentelemetryotlpversion.md
-  - docs/models/outputopentelemetrypqcompresscompression.md
-  - docs/models/outputopentelemetrypqcontrols.md
-  - docs/models/outputopentelemetryprotocol.md
-  - docs/models/outputopentelemetryqueuefullbehavior.md
-  - docs/models/outputopentelemetryresponseretrysetting.md
-  - docs/models/outputopentelemetrytimeoutretrysettings.md
-  - docs/models/outputopentelemetrytlssettingsclientside.md
-  - docs/models/outputopentelemetrytype.md
+  - docs/models/outputotlpversionopentelemetry.md
+  - docs/models/outputpqcontrolsconfluentcloud.md
+  - docs/models/outputpqcontrolscriblhttp.md
+  - docs/models/outputpqcontrolscribltcp.md
+  - docs/models/outputpqcontrolselastic.md
+  - docs/models/outputpqcontrolsgooglepubsub.md
+  - docs/models/outputpqcontrolskafka.md
+  - docs/models/outputpqcontrolskinesis.md
+  - docs/models/outputpqcontrolsloki.md
+  - docs/models/outputpqcontrolsmsk.md
+  - docs/models/outputpqcontrolsopentelemetry.md
+  - docs/models/outputpqcontrolsprometheus.md
+  - docs/models/outputpqcontrolssplunk.md
+  - docs/models/outputpqcontrolssplunkhec.md
+  - docs/models/outputpqcontrolssqs.md
+  - docs/models/outputpqcontrolstcpjson.md
   - docs/models/outputprometheus.md
-  - docs/models/outputprometheusauthenticationtype.md
-  - docs/models/outputprometheusbackpressurebehavior.md
-  - docs/models/outputprometheuscompression.md
-  - docs/models/outputprometheusextrahttpheader.md
-  - docs/models/outputprometheusfailedrequestloggingmode.md
-  - docs/models/outputprometheusmode.md
-  - docs/models/outputprometheusoauthheader.md
-  - docs/models/outputprometheusoauthparam.md
-  - docs/models/outputprometheuspqcontrols.md
-  - docs/models/outputprometheusqueuefullbehavior.md
-  - docs/models/outputprometheusresponseretrysetting.md
-  - docs/models/outputprometheustimeoutretrysettings.md
-  - docs/models/outputprometheustype.md
+  - docs/models/outputprometheusauth1.md
+  - docs/models/outputprometheusauth2.md
+  - docs/models/outputprotocolopentelemetry.md
+  - docs/models/outputqueuetype.md
   - docs/models/outputring.md
-  - docs/models/outputringbackpressurebehavior.md
-  - docs/models/outputringdatacompressionformat.md
-  - docs/models/outputringdataformat.md
-  - docs/models/outputringtype.md
   - docs/models/outputrouter.md
-  - docs/models/outputrouterrule.md
-  - docs/models/outputroutertype.md
+  - docs/models/outputrule.md
   - docs/models/outputs3.md
-  - docs/models/outputs3authenticationmethod.md
-  - docs/models/outputs3backpressurebehavior.md
-  - docs/models/outputs3compression.md
-  - docs/models/outputs3compressionlevel.md
-  - docs/models/outputs3dataformat.md
-  - docs/models/outputs3datapageversion.md
-  - docs/models/outputs3diskspaceprotection.md
-  - docs/models/outputs3keyvaluemetadatum.md
-  - docs/models/outputs3objectacl.md
-  - docs/models/outputs3parquetversion.md
-  - docs/models/outputs3serversideencryptionforuploadedobjects.md
-  - docs/models/outputs3signatureversion.md
-  - docs/models/outputs3storageclass.md
-  - docs/models/outputs3type.md
   - docs/models/outputsamplesresponse.md
+  - docs/models/outputsaslextensionconfluentcloud.md
+  - docs/models/outputsaslextensionkafka.md
+  - docs/models/outputsaslmechanismconfluentcloud.md
+  - docs/models/outputsaslmechanismkafka.md
   - docs/models/outputsecuritylake.md
-  - docs/models/outputsecuritylakeauthenticationmethod.md
-  - docs/models/outputsecuritylakebackpressurebehavior.md
-  - docs/models/outputsecuritylakedatapageversion.md
-  - docs/models/outputsecuritylakediskspaceprotection.md
-  - docs/models/outputsecuritylakekeyvaluemetadatum.md
-  - docs/models/outputsecuritylakeobjectacl.md
-  - docs/models/outputsecuritylakeparquetversion.md
-  - docs/models/outputsecuritylakeserversideencryptionforuploadedobjects.md
-  - docs/models/outputsecuritylakesignatureversion.md
-  - docs/models/outputsecuritylakestorageclass.md
-  - docs/models/outputsecuritylaketype.md
   - docs/models/outputsentinel.md
-  - docs/models/outputsentinelbackpressurebehavior.md
-  - docs/models/outputsentinelcompression.md
-  - docs/models/outputsentinelextrahttpheader.md
-  - docs/models/outputsentinelfailedrequestloggingmode.md
-  - docs/models/outputsentinelformat.md
-  - docs/models/outputsentinelmode.md
   - docs/models/outputsentineloneaisiem.md
-  - docs/models/outputsentineloneaisiemauthenticationmethod.md
-  - docs/models/outputsentineloneaisiembackpressurebehavior.md
-  - docs/models/outputsentineloneaisiemcompression.md
-  - docs/models/outputsentineloneaisiemextrahttpheader.md
-  - docs/models/outputsentineloneaisiemfailedrequestloggingmode.md
-  - docs/models/outputsentineloneaisiemmode.md
-  - docs/models/outputsentineloneaisiempqcontrols.md
-  - docs/models/outputsentineloneaisiemqueuefullbehavior.md
-  - docs/models/outputsentineloneaisiemregion.md
-  - docs/models/outputsentineloneaisiemresponseretrysetting.md
-  - docs/models/outputsentineloneaisiemtimeoutretrysettings.md
-  - docs/models/outputsentineloneaisiemtype.md
-  - docs/models/outputsentinelpqcontrols.md
-  - docs/models/outputsentinelqueuefullbehavior.md
-  - docs/models/outputsentinelresponseretrysetting.md
-  - docs/models/outputsentineltimeoutretrysettings.md
-  - docs/models/outputsentineltype.md
   - docs/models/outputservicenow.md
-  - docs/models/outputservicenowbackpressurebehavior.md
-  - docs/models/outputservicenowcompresscompression.md
-  - docs/models/outputservicenowextrahttpheader.md
-  - docs/models/outputservicenowfailedrequestloggingmode.md
-  - docs/models/outputservicenowhttpcompresscompression.md
-  - docs/models/outputservicenowmaximumtlsversion.md
-  - docs/models/outputservicenowmetadatum.md
-  - docs/models/outputservicenowminimumtlsversion.md
-  - docs/models/outputservicenowmode.md
-  - docs/models/outputservicenowotlpversion.md
-  - docs/models/outputservicenowpqcompresscompression.md
-  - docs/models/outputservicenowpqcontrols.md
-  - docs/models/outputservicenowprotocol.md
-  - docs/models/outputservicenowqueuefullbehavior.md
-  - docs/models/outputservicenowresponseretrysetting.md
-  - docs/models/outputservicenowtimeoutretrysettings.md
-  - docs/models/outputservicenowtlssettingsclientside.md
-  - docs/models/outputservicenowtype.md
   - docs/models/outputsignalfx.md
-  - docs/models/outputsignalfxauthenticationmethod.md
-  - docs/models/outputsignalfxbackpressurebehavior.md
-  - docs/models/outputsignalfxcompression.md
-  - docs/models/outputsignalfxextrahttpheader.md
-  - docs/models/outputsignalfxfailedrequestloggingmode.md
-  - docs/models/outputsignalfxmode.md
-  - docs/models/outputsignalfxpqcontrols.md
-  - docs/models/outputsignalfxqueuefullbehavior.md
-  - docs/models/outputsignalfxresponseretrysetting.md
-  - docs/models/outputsignalfxtimeoutretrysettings.md
-  - docs/models/outputsignalfxtype.md
+  - docs/models/outputsignatureversionkinesis.md
+  - docs/models/outputsignatureversionmsk.md
+  - docs/models/outputsignatureversions3.md
+  - docs/models/outputsignatureversionsecuritylake.md
+  - docs/models/outputsignatureversionsqs.md
   - docs/models/outputsnmp.md
-  - docs/models/outputsnmphost.md
-  - docs/models/outputsnmptype.md
   - docs/models/outputsns.md
-  - docs/models/outputsnsauthenticationmethod.md
-  - docs/models/outputsnsbackpressurebehavior.md
-  - docs/models/outputsnscompression.md
-  - docs/models/outputsnsmode.md
-  - docs/models/outputsnspqcontrols.md
-  - docs/models/outputsnsqueuefullbehavior.md
-  - docs/models/outputsnssignatureversion.md
-  - docs/models/outputsnstype.md
   - docs/models/outputsplunk.md
-  - docs/models/outputsplunkauthenticationmethod.md
-  - docs/models/outputsplunkbackpressurebehavior.md
-  - docs/models/outputsplunkcompresscompression.md
   - docs/models/outputsplunkhec.md
-  - docs/models/outputsplunkhecauthenticationmethod.md
-  - docs/models/outputsplunkhecbackpressurebehavior.md
-  - docs/models/outputsplunkheccompression.md
-  - docs/models/outputsplunkhecextrahttpheader.md
-  - docs/models/outputsplunkhecfailedrequestloggingmode.md
-  - docs/models/outputsplunkhecmaximumtlsversion.md
-  - docs/models/outputsplunkhecminimumtlsversion.md
-  - docs/models/outputsplunkhecmode.md
-  - docs/models/outputsplunkhecpqcontrols.md
-  - docs/models/outputsplunkhecqueuefullbehavior.md
-  - docs/models/outputsplunkhecresponseretrysetting.md
-  - docs/models/outputsplunkhectimeoutretrysettings.md
-  - docs/models/outputsplunkhectlssettingsclientside.md
-  - docs/models/outputsplunkhectype.md
-  - docs/models/outputsplunkhecurl.md
   - docs/models/outputsplunklb.md
-  - docs/models/outputsplunklbauthenticationmethod.md
-  - docs/models/outputsplunklbauthtoken.md
-  - docs/models/outputsplunklbbackpressurebehavior.md
-  - docs/models/outputsplunklbcompresscompression.md
-  - docs/models/outputsplunklbhost.md
-  - docs/models/outputsplunklbmaximumtlsversion.md
-  - docs/models/outputsplunklbmaxs2sversion.md
-  - docs/models/outputsplunklbminimumtlsversion.md
-  - docs/models/outputsplunklbmode.md
-  - docs/models/outputsplunklbnestedfieldserialization.md
-  - docs/models/outputsplunklbpqcompresscompression.md
-  - docs/models/outputsplunklbpqcontrols.md
-  - docs/models/outputsplunklbqueuefullbehavior.md
-  - docs/models/outputsplunklbtls.md
-  - docs/models/outputsplunklbtlssettingsclientside.md
-  - docs/models/outputsplunklbtype.md
-  - docs/models/outputsplunkmaximumtlsversion.md
-  - docs/models/outputsplunkmaxs2sversion.md
-  - docs/models/outputsplunkminimumtlsversion.md
-  - docs/models/outputsplunkmode.md
-  - docs/models/outputsplunknestedfieldserialization.md
-  - docs/models/outputsplunkpqcompresscompression.md
-  - docs/models/outputsplunkpqcontrols.md
-  - docs/models/outputsplunkqueuefullbehavior.md
-  - docs/models/outputsplunktlssettingsclientside.md
-  - docs/models/outputsplunktype.md
   - docs/models/outputsqs.md
-  - docs/models/outputsqsauthenticationmethod.md
-  - docs/models/outputsqsbackpressurebehavior.md
-  - docs/models/outputsqscompression.md
-  - docs/models/outputsqsmode.md
-  - docs/models/outputsqspqcontrols.md
-  - docs/models/outputsqsqueuefullbehavior.md
-  - docs/models/outputsqsqueuetype.md
-  - docs/models/outputsqssignatureversion.md
-  - docs/models/outputsqstype.md
   - docs/models/outputstatsd.md
-  - docs/models/outputstatsdbackpressurebehavior.md
-  - docs/models/outputstatsdcompression.md
-  - docs/models/outputstatsddestinationprotocol.md
   - docs/models/outputstatsdext.md
-  - docs/models/outputstatsdextbackpressurebehavior.md
-  - docs/models/outputstatsdextcompression.md
-  - docs/models/outputstatsdextdestinationprotocol.md
-  - docs/models/outputstatsdextmode.md
-  - docs/models/outputstatsdextpqcontrols.md
-  - docs/models/outputstatsdextqueuefullbehavior.md
-  - docs/models/outputstatsdexttype.md
-  - docs/models/outputstatsdmode.md
-  - docs/models/outputstatsdpqcontrols.md
-  - docs/models/outputstatsdqueuefullbehavior.md
-  - docs/models/outputstatsdtype.md
   - docs/models/outputsumologic.md
-  - docs/models/outputsumologicbackpressurebehavior.md
-  - docs/models/outputsumologiccompression.md
-  - docs/models/outputsumologicdataformat.md
-  - docs/models/outputsumologicextrahttpheader.md
-  - docs/models/outputsumologicfailedrequestloggingmode.md
-  - docs/models/outputsumologicmode.md
-  - docs/models/outputsumologicpqcontrols.md
-  - docs/models/outputsumologicqueuefullbehavior.md
-  - docs/models/outputsumologicresponseretrysetting.md
-  - docs/models/outputsumologictimeoutretrysettings.md
-  - docs/models/outputsumologictype.md
   - docs/models/outputsyslog.md
-  - docs/models/outputsyslogbackpressurebehavior.md
-  - docs/models/outputsyslogcompression.md
-  - docs/models/outputsysloghost.md
-  - docs/models/outputsyslogmaximumtlsversion.md
-  - docs/models/outputsyslogmessageformat.md
-  - docs/models/outputsyslogminimumtlsversion.md
-  - docs/models/outputsyslogmode.md
-  - docs/models/outputsyslogpqcontrols.md
-  - docs/models/outputsyslogprotocol.md
-  - docs/models/outputsyslogqueuefullbehavior.md
-  - docs/models/outputsyslogseverity.md
-  - docs/models/outputsyslogtls.md
-  - docs/models/outputsyslogtlssettingsclientside.md
-  - docs/models/outputsyslogtype.md
   - docs/models/outputtcpjson.md
-  - docs/models/outputtcpjsonauthenticationmethod.md
-  - docs/models/outputtcpjsonbackpressurebehavior.md
-  - docs/models/outputtcpjsoncompression.md
-  - docs/models/outputtcpjsonhost.md
-  - docs/models/outputtcpjsonmaximumtlsversion.md
-  - docs/models/outputtcpjsonminimumtlsversion.md
-  - docs/models/outputtcpjsonmode.md
-  - docs/models/outputtcpjsonpqcompresscompression.md
-  - docs/models/outputtcpjsonpqcontrols.md
-  - docs/models/outputtcpjsonqueuefullbehavior.md
-  - docs/models/outputtcpjsontls.md
-  - docs/models/outputtcpjsontlssettingsclientside.md
-  - docs/models/outputtcpjsontype.md
   - docs/models/outputtestrequest.md
   - docs/models/outputtestresponse.md
+  - docs/models/outputtlssettingsclientsideconfluentcloud.md
+  - docs/models/outputtlssettingsclientsidekafka.md
+  - docs/models/outputtlssettingsclientsidemsk.md
+  - docs/models/outputtypeazureblob.md
+  - docs/models/outputtypeconfluentcloud.md
+  - docs/models/outputtypecriblhttp.md
+  - docs/models/outputtypecribltcp.md
+  - docs/models/outputtypeelastic.md
+  - docs/models/outputtypegooglepubsub.md
+  - docs/models/outputtypekafka.md
+  - docs/models/outputtypekinesis.md
+  - docs/models/outputtypeloki.md
+  - docs/models/outputtypemsk.md
+  - docs/models/outputtypenetflow.md
+  - docs/models/outputtypeopentelemetry.md
+  - docs/models/outputtypeprometheus.md
+  - docs/models/outputtypes3.md
+  - docs/models/outputtypesecuritylake.md
+  - docs/models/outputtypesnmp.md
+  - docs/models/outputtypesplunk.md
+  - docs/models/outputtypesplunkhec.md
+  - docs/models/outputtypesqs.md
+  - docs/models/outputtypesyslog.md
+  - docs/models/outputtypetcpjson.md
   - docs/models/outputwavefront.md
-  - docs/models/outputwavefrontauthenticationmethod.md
-  - docs/models/outputwavefrontbackpressurebehavior.md
-  - docs/models/outputwavefrontcompression.md
-  - docs/models/outputwavefrontextrahttpheader.md
-  - docs/models/outputwavefrontfailedrequestloggingmode.md
-  - docs/models/outputwavefrontmode.md
-  - docs/models/outputwavefrontpqcontrols.md
-  - docs/models/outputwavefrontqueuefullbehavior.md
-  - docs/models/outputwavefrontresponseretrysetting.md
-  - docs/models/outputwavefronttimeoutretrysettings.md
-  - docs/models/outputwavefronttype.md
   - docs/models/outputwebhook.md
-  - docs/models/outputwebhookauthenticationtype.md
-  - docs/models/outputwebhookbackpressurebehavior.md
-  - docs/models/outputwebhookcompression.md
-  - docs/models/outputwebhookextrahttpheader.md
-  - docs/models/outputwebhookfailedrequestloggingmode.md
-  - docs/models/outputwebhookformat.md
-  - docs/models/outputwebhookmaximumtlsversion.md
-  - docs/models/outputwebhookmethod.md
-  - docs/models/outputwebhookminimumtlsversion.md
-  - docs/models/outputwebhookmode.md
-  - docs/models/outputwebhookoauthheader.md
-  - docs/models/outputwebhookoauthparam.md
-  - docs/models/outputwebhookpqcontrols.md
-  - docs/models/outputwebhookqueuefullbehavior.md
-  - docs/models/outputwebhookresponseretrysetting.md
-  - docs/models/outputwebhooktimeoutretrysettings.md
-  - docs/models/outputwebhooktlssettingsclientside.md
-  - docs/models/outputwebhooktype.md
-  - docs/models/outputwebhookurl.md
   - docs/models/outputxsiam.md
-  - docs/models/outputxsiamauthenticationmethod.md
-  - docs/models/outputxsiambackpressurebehavior.md
-  - docs/models/outputxsiamcompression.md
-  - docs/models/outputxsiamextrahttpheader.md
-  - docs/models/outputxsiamfailedrequestloggingmode.md
-  - docs/models/outputxsiammode.md
-  - docs/models/outputxsiampqcontrols.md
-  - docs/models/outputxsiamqueuefullbehavior.md
-  - docs/models/outputxsiamresponseretrysetting.md
-  - docs/models/outputxsiamtimeoutretrysettings.md
-  - docs/models/outputxsiamtype.md
-  - docs/models/outputxsiamurl.md
   - docs/models/packinfo.md
   - docs/models/packinfotags.md
   - docs/models/packinstallinfo.md
@@ -1966,32 +1438,351 @@ generatedFiles:
   - docs/models/packrequestbodytags2.md
   - docs/models/packrequestbodyunion.md
   - docs/models/packupgraderequest.md
+  - docs/models/parquetversionazureblob.md
+  - docs/models/parquetversionazuredataexplorer.md
+  - docs/models/parquetversioncloudflarer2.md
+  - docs/models/parquetversiondatabricks.md
+  - docs/models/parquetversiondls3.md
+  - docs/models/parquetversionfilesystem.md
+  - docs/models/parquetversiongooglecloudstorage.md
+  - docs/models/parquetversionminio.md
+  - docs/models/parquetversions3.md
+  - docs/models/parquetversionsecuritylake.md
   - docs/models/payloadformat.md
+  - docs/models/persistenceappscope.md
+  - docs/models/persistencecompressionedgeprometheus.md
+  - docs/models/persistencecompressionkubelogs.md
+  - docs/models/persistencekubemetrics.md
+  - docs/models/persistencesystemmetrics.md
+  - docs/models/persistencesystemstate.md
+  - docs/models/persistencewindowsmetrics.md
   - docs/models/pipeline.md
   - docs/models/pipelinefunctionconf.md
   - docs/models/pipelinegroups.md
   - docs/models/podfilter.md
+  - docs/models/pqappscope.md
+  - docs/models/pqazureblob.md
+  - docs/models/pqcloudflarehec.md
+  - docs/models/pqcollection.md
+  - docs/models/pqcompresscompressionazuredataexplorer.md
+  - docs/models/pqcompresscompressionconfluentcloud.md
+  - docs/models/pqcompresscompressioncriblhttp.md
+  - docs/models/pqcompresscompressioncribltcp.md
+  - docs/models/pqcompresscompressiondynatraceotlp.md
+  - docs/models/pqcompresscompressionelastic.md
+  - docs/models/pqcompresscompressiongooglepubsub.md
+  - docs/models/pqcompresscompressionkafka.md
+  - docs/models/pqcompresscompressionkinesis.md
+  - docs/models/pqcompresscompressionloki.md
+  - docs/models/pqcompresscompressionmsk.md
+  - docs/models/pqcompresscompressionopentelemetry.md
+  - docs/models/pqcompresscompressionprometheus.md
+  - docs/models/pqcompresscompressionservicenow.md
+  - docs/models/pqcompresscompressionsplunk.md
+  - docs/models/pqcompresscompressionsplunkhec.md
+  - docs/models/pqcompresscompressionsplunklb.md
+  - docs/models/pqcompresscompressionsqs.md
+  - docs/models/pqcompresscompressiontcpjson.md
+  - docs/models/pqcompressionazureblob.md
+  - docs/models/pqcompressionconfluentcloud.md
+  - docs/models/pqcompressioncriblhttp.md
+  - docs/models/pqcompressioncribltcp.md
+  - docs/models/pqcompressionedgeprometheus.md
+  - docs/models/pqcompressionelastic.md
+  - docs/models/pqcompressiongooglepubsub.md
+  - docs/models/pqcompressionkafka.md
+  - docs/models/pqcompressionkinesis.md
+  - docs/models/pqcompressionkubelogs.md
+  - docs/models/pqcompressionloki.md
+  - docs/models/pqcompressionmsk.md
+  - docs/models/pqcompressionopentelemetry.md
+  - docs/models/pqcompressionprometheus.md
+  - docs/models/pqcompressions3.md
+  - docs/models/pqcompressionsplunk.md
+  - docs/models/pqcompressionsplunkhec.md
+  - docs/models/pqcompressionsqs.md
+  - docs/models/pqcompressiontcpjson.md
+  - docs/models/pqconfluentcloud.md
+  - docs/models/pqcontrolsappscope.md
+  - docs/models/pqcontrolsazureblob.md
+  - docs/models/pqcontrolsazuredataexplorer.md
+  - docs/models/pqcontrolsazureeventhub.md
+  - docs/models/pqcontrolsazurelogs.md
+  - docs/models/pqcontrolschronicle.md
+  - docs/models/pqcontrolsclickhouse.md
+  - docs/models/pqcontrolscloudflarehec.md
+  - docs/models/pqcontrolscloudwatch.md
+  - docs/models/pqcontrolscollection.md
+  - docs/models/pqcontrolscribl.md
+  - docs/models/pqcontrolscribllakehttp.md
+  - docs/models/pqcontrolscriblmetrics.md
+  - docs/models/pqcontrolscrowdstrike.md
+  - docs/models/pqcontrolscrowdstrikenextgensiem.md
+  - docs/models/pqcontrolsdatadog.md
+  - docs/models/pqcontrolsdatadogagent.md
+  - docs/models/pqcontrolsdatagen.md
+  - docs/models/pqcontrolsdataset.md
+  - docs/models/pqcontrolsdynatracehttp.md
+  - docs/models/pqcontrolsdynatraceotlp.md
+  - docs/models/pqcontrolsedgeprometheus.md
+  - docs/models/pqcontrolselasticcloud.md
+  - docs/models/pqcontrolseventhub.md
+  - docs/models/pqcontrolsfirehose.md
+  - docs/models/pqcontrolsgooglechronicle.md
+  - docs/models/pqcontrolsgooglecloudlogging.md
+  - docs/models/pqcontrolsgraphite.md
+  - docs/models/pqcontrolshoneycomb.md
+  - docs/models/pqcontrolshttp.md
+  - docs/models/pqcontrolshttpraw.md
+  - docs/models/pqcontrolshumiohec.md
+  - docs/models/pqcontrolsinfluxdb.md
+  - docs/models/pqcontrolskubeevents.md
+  - docs/models/pqcontrolskubelogs.md
+  - docs/models/pqcontrolskubemetrics.md
+  - docs/models/pqcontrolsmetrics.md
+  - docs/models/pqcontrolsmicrosoftfabric.md
+  - docs/models/pqcontrolsmodeldriventelemetry.md
+  - docs/models/pqcontrolsnetflow.md
+  - docs/models/pqcontrolsnewrelic.md
+  - docs/models/pqcontrolsnewrelicevents.md
+  - docs/models/pqcontrolsoffice365mgmt.md
+  - docs/models/pqcontrolsoffice365msgtrace.md
+  - docs/models/pqcontrolsoffice365service.md
+  - docs/models/pqcontrolsprometheusrw.md
+  - docs/models/pqcontrolsrawudp.md
+  - docs/models/pqcontrolss3.md
+  - docs/models/pqcontrolss3inventory.md
+  - docs/models/pqcontrolssecuritylake.md
+  - docs/models/pqcontrolssentinel.md
+  - docs/models/pqcontrolssentineloneaisiem.md
+  - docs/models/pqcontrolsservicenow.md
+  - docs/models/pqcontrolssignalfx.md
+  - docs/models/pqcontrolssnmp.md
+  - docs/models/pqcontrolssns.md
+  - docs/models/pqcontrolssplunklb.md
+  - docs/models/pqcontrolssplunksearch.md
+  - docs/models/pqcontrolsstatsd.md
+  - docs/models/pqcontrolsstatsdext.md
+  - docs/models/pqcontrolssumologic.md
+  - docs/models/pqcontrolssyslog.md
+  - docs/models/pqcontrolssystemmetrics.md
+  - docs/models/pqcontrolssystemstate.md
+  - docs/models/pqcontrolstcp.md
+  - docs/models/pqcontrolswavefront.md
+  - docs/models/pqcontrolswebhook.md
+  - docs/models/pqcontrolswef.md
+  - docs/models/pqcontrolswindowsmetrics.md
+  - docs/models/pqcontrolswineventlogs.md
+  - docs/models/pqcontrolswiz.md
+  - docs/models/pqcontrolswizwebhook.md
+  - docs/models/pqcontrolsxsiam.md
+  - docs/models/pqcontrolszscalerhec.md
+  - docs/models/pqcribl.md
+  - docs/models/pqcriblhttp.md
+  - docs/models/pqcribllakehttp.md
+  - docs/models/pqcriblmetrics.md
+  - docs/models/pqcribltcp.md
+  - docs/models/pqcrowdstrike.md
+  - docs/models/pqdatadogagent.md
+  - docs/models/pqdatagen.md
+  - docs/models/pqedgeprometheus.md
+  - docs/models/pqelastic.md
+  - docs/models/pqeventhub.md
+  - docs/models/pqfirehose.md
+  - docs/models/pqgooglepubsub.md
+  - docs/models/pqhttp.md
+  - docs/models/pqhttpraw.md
+  - docs/models/pqkafka.md
+  - docs/models/pqkinesis.md
+  - docs/models/pqkubeevents.md
+  - docs/models/pqkubelogs.md
+  - docs/models/pqkubemetrics.md
+  - docs/models/pqloki.md
+  - docs/models/pqmetrics.md
+  - docs/models/pqmodeconfluentcloud.md
+  - docs/models/pqmodecriblhttp.md
+  - docs/models/pqmodecribltcp.md
+  - docs/models/pqmodeelastic.md
+  - docs/models/pqmodegooglepubsub.md
+  - docs/models/pqmodekafka.md
+  - docs/models/pqmodekinesis.md
+  - docs/models/pqmodeldriventelemetry.md
+  - docs/models/pqmodeloki.md
+  - docs/models/pqmodemsk.md
+  - docs/models/pqmodeopentelemetry.md
+  - docs/models/pqmodeprometheus.md
+  - docs/models/pqmodesplunk.md
+  - docs/models/pqmodesplunkhec.md
+  - docs/models/pqmodesqs.md
+  - docs/models/pqmodesystemmetrics.md
+  - docs/models/pqmodetcpjson.md
+  - docs/models/pqmodewindowsmetrics.md
+  - docs/models/pqmsk.md
+  - docs/models/pqnetflow.md
+  - docs/models/pqoffice365mgmt.md
+  - docs/models/pqoffice365msgtrace.md
+  - docs/models/pqoffice365service.md
+  - docs/models/pqopentelemetry.md
+  - docs/models/pqprometheus.md
+  - docs/models/pqprometheusrw.md
+  - docs/models/pqrawudp.md
+  - docs/models/pqs3.md
+  - docs/models/pqs3inventory.md
+  - docs/models/pqsecuritylake.md
+  - docs/models/pqsnmp.md
+  - docs/models/pqsplunk.md
+  - docs/models/pqsplunkhec.md
+  - docs/models/pqsplunksearch.md
+  - docs/models/pqsqs.md
+  - docs/models/pqsystemmetrics.md
+  - docs/models/pqsystemstate.md
+  - docs/models/pqtcp.md
+  - docs/models/pqtcpjson.md
+  - docs/models/pqwef.md
+  - docs/models/pqwindowsmetrics.md
+  - docs/models/pqwineventlogs.md
+  - docs/models/pqwiz.md
+  - docs/models/pqwizwebhook.md
+  - docs/models/pqzscalerhec.md
   - docs/models/prefixoptional.md
+  - docs/models/preprocesscollection.md
+  - docs/models/preprocesscrowdstrike.md
+  - docs/models/preprocesss3.md
+  - docs/models/preprocesss3inventory.md
+  - docs/models/preprocesssecuritylake.md
+  - docs/models/preprocesstcp.md
+  - docs/models/processsystemmetrics.md
+  - docs/models/processwindowsmetrics.md
   - docs/models/productscore.md
   - docs/models/prometheusauthoauthheader1.md
   - docs/models/prometheusauthoauthheader2.md
   - docs/models/prometheusauthoauthparam1.md
   - docs/models/prometheusauthoauthparam2.md
+  - docs/models/protocoldynatraceotlp.md
+  - docs/models/protocolservicenow.md
+  - docs/models/protocolsyslog.md
+  - docs/models/proxymodeauthenticationmethod.md
+  - docs/models/proxymodedatadogagent.md
+  - docs/models/proxymodeelastic.md
   - docs/models/querybuildermode.md
+  - docs/models/queuefullbehaviorazuredataexplorer.md
+  - docs/models/queuefullbehaviorazureeventhub.md
+  - docs/models/queuefullbehaviorazurelogs.md
+  - docs/models/queuefullbehaviorchronicle.md
+  - docs/models/queuefullbehaviorclickhouse.md
+  - docs/models/queuefullbehaviorcloudwatch.md
+  - docs/models/queuefullbehaviorconfluentcloud.md
+  - docs/models/queuefullbehaviorcriblhttp.md
+  - docs/models/queuefullbehaviorcribltcp.md
+  - docs/models/queuefullbehaviorcrowdstrikenextgensiem.md
+  - docs/models/queuefullbehaviordatadog.md
+  - docs/models/queuefullbehaviordataset.md
+  - docs/models/queuefullbehaviordynatracehttp.md
+  - docs/models/queuefullbehaviordynatraceotlp.md
+  - docs/models/queuefullbehaviorelastic.md
+  - docs/models/queuefullbehaviorelasticcloud.md
+  - docs/models/queuefullbehaviorgooglechronicle.md
+  - docs/models/queuefullbehaviorgooglecloudlogging.md
+  - docs/models/queuefullbehaviorgooglepubsub.md
+  - docs/models/queuefullbehaviorgraphite.md
+  - docs/models/queuefullbehaviorhoneycomb.md
+  - docs/models/queuefullbehaviorhumiohec.md
+  - docs/models/queuefullbehaviorinfluxdb.md
+  - docs/models/queuefullbehaviorkafka.md
+  - docs/models/queuefullbehaviorkinesis.md
+  - docs/models/queuefullbehaviorloki.md
+  - docs/models/queuefullbehaviormicrosoftfabric.md
+  - docs/models/queuefullbehaviormsk.md
+  - docs/models/queuefullbehaviornewrelic.md
+  - docs/models/queuefullbehaviornewrelicevents.md
+  - docs/models/queuefullbehavioropentelemetry.md
+  - docs/models/queuefullbehaviorprometheus.md
+  - docs/models/queuefullbehaviorsentinel.md
+  - docs/models/queuefullbehaviorsentineloneaisiem.md
+  - docs/models/queuefullbehaviorservicenow.md
+  - docs/models/queuefullbehaviorsignalfx.md
+  - docs/models/queuefullbehaviorsns.md
+  - docs/models/queuefullbehaviorsplunk.md
+  - docs/models/queuefullbehaviorsplunkhec.md
+  - docs/models/queuefullbehaviorsplunklb.md
+  - docs/models/queuefullbehaviorsqs.md
+  - docs/models/queuefullbehaviorstatsd.md
+  - docs/models/queuefullbehaviorstatsdext.md
+  - docs/models/queuefullbehaviorsumologic.md
+  - docs/models/queuefullbehaviorsyslog.md
+  - docs/models/queuefullbehaviortcpjson.md
+  - docs/models/queuefullbehaviorwavefront.md
+  - docs/models/queuefullbehaviorwebhook.md
+  - docs/models/queuefullbehaviorxsiam.md
   - docs/models/rbacresource.md
   - docs/models/readmode.md
+  - docs/models/recorddataformatazureeventhub.md
+  - docs/models/recorddataformatconfluentcloud.md
+  - docs/models/recorddataformatkafka.md
+  - docs/models/recorddataformatmicrosoftfabric.md
+  - docs/models/recorddataformatmsk.md
+  - docs/models/recordtypeedgeprometheus.md
+  - docs/models/recordtypeprometheus.md
+  - docs/models/regionnewrelic.md
+  - docs/models/regionnewrelicevents.md
+  - docs/models/regionsentineloneaisiem.md
   - docs/models/remote.md
   - docs/models/remoteenum.md
   - docs/models/renamed.md
   - docs/models/reportlevel.md
   - docs/models/reportmethod.md
+  - docs/models/requestformatcrowdstrikenextgensiem.md
+  - docs/models/requestformathumiohec.md
   - docs/models/resourcepolicy.md
   - docs/models/resourcetypelabel.md
+  - docs/models/responseretrysettingazuredataexplorer.md
+  - docs/models/responseretrysettingazurelogs.md
+  - docs/models/responseretrysettingchronicle.md
+  - docs/models/responseretrysettingclickhouse.md
+  - docs/models/responseretrysettingcriblhttp.md
+  - docs/models/responseretrysettingcrowdstrikenextgensiem.md
+  - docs/models/responseretrysettingdatadog.md
+  - docs/models/responseretrysettingdataset.md
+  - docs/models/responseretrysettingdynatracehttp.md
+  - docs/models/responseretrysettingdynatraceotlp.md
+  - docs/models/responseretrysettingelastic.md
+  - docs/models/responseretrysettingelasticcloud.md
+  - docs/models/responseretrysettinggooglechronicle.md
+  - docs/models/responseretrysettinghoneycomb.md
+  - docs/models/responseretrysettinghumiohec.md
+  - docs/models/responseretrysettinginfluxdb.md
+  - docs/models/responseretrysettingloki.md
+  - docs/models/responseretrysettingnewrelic.md
+  - docs/models/responseretrysettingnewrelicevents.md
+  - docs/models/responseretrysettingopentelemetry.md
+  - docs/models/responseretrysettingprometheus.md
+  - docs/models/responseretrysettingsentinel.md
+  - docs/models/responseretrysettingsentineloneaisiem.md
+  - docs/models/responseretrysettingservicenow.md
+  - docs/models/responseretrysettingsignalfx.md
+  - docs/models/responseretrysettingsplunkhec.md
+  - docs/models/responseretrysettingsumologic.md
+  - docs/models/responseretrysettingwavefront.md
+  - docs/models/responseretrysettingwebhook.md
+  - docs/models/responseretrysettingxsiam.md
+  - docs/models/retryrulesoffice365mgmt.md
+  - docs/models/retryrulesoffice365msgtrace.md
+  - docs/models/retryrulesoffice365service.md
+  - docs/models/retryrulessplunksearch.md
+  - docs/models/retryruleswiz.md
+  - docs/models/retrytypeoffice365mgmt.md
+  - docs/models/retrytypeoffice365msgtrace.md
+  - docs/models/retrytypeoffice365service.md
+  - docs/models/retrytypesplunksearch.md
+  - docs/models/retrytypewiz.md
   - docs/models/role.md
   - docs/models/routeconf.md
   - docs/models/routes.md
   - docs/models/routesgroups.md
   - docs/models/routesroute.md
+  - docs/models/rulekubeevents.md
+  - docs/models/rulekubelogs.md
+  - docs/models/rulekubemetrics.md
   - docs/models/runnablejob.md
   - docs/models/runnablejobcollection.md
   - docs/models/runnablejobcollectioninput.md
@@ -2024,54 +1815,243 @@ generatedFiles:
   - docs/models/runnablejobscheduledsearchtimewarning.md
   - docs/models/runnablejobscheduledsearchtype.md
   - docs/models/sample.md
+  - docs/models/saslmechanismazureeventhub.md
+  - docs/models/saslmechanismeventhub.md
+  - docs/models/saslmechanismmicrosoftfabric.md
   - docs/models/scanmode.md
   - docs/models/scheduletype.md
   - docs/models/schemeclientoauth.md
   - docs/models/scrapeprotocolprotocol.md
+  - docs/models/searchfilteredgeprometheus.md
+  - docs/models/searchfilterprometheus.md
   - docs/models/security.md
   - docs/models/sendeventsas.md
   - docs/models/sendlogsas.md
+  - docs/models/serversideencryptioncloudflarer2.md
+  - docs/models/serversideencryptionforuploadedobjectscribllake.md
+  - docs/models/serversideencryptionforuploadedobjectsdls3.md
+  - docs/models/serversideencryptionforuploadedobjectss3.md
+  - docs/models/serversideencryptionforuploadedobjectssecuritylake.md
+  - docs/models/serversideencryptionminio.md
   - docs/models/services.md
+  - docs/models/setsystemmetrics.md
+  - docs/models/setwindowsmetrics.md
+  - docs/models/severitydatadog.md
+  - docs/models/severitysyslog.md
   - docs/models/sharditeratorstart.md
   - docs/models/shardloadbalancing.md
+  - docs/models/signatureversioncloudflarer2.md
+  - docs/models/signatureversioncribllake.md
+  - docs/models/signatureversioncrowdstrike.md
+  - docs/models/signatureversiondls3.md
+  - docs/models/signatureversionedgeprometheus.md
+  - docs/models/signatureversionexabeam.md
+  - docs/models/signatureversiongooglecloudstorage.md
+  - docs/models/signatureversionminio.md
+  - docs/models/signatureversionprometheus.md
+  - docs/models/signatureversions3inventory.md
+  - docs/models/signatureversionsns.md
   - docs/models/snmpv3authentication.md
   - docs/models/splunkhecmetadata.md
   - docs/models/state.md
   - docs/models/stats.md
   - docs/models/status.md
+  - docs/models/storageclasscloudflarer2.md
+  - docs/models/storageclasscribllake.md
+  - docs/models/storageclassdls3.md
+  - docs/models/storageclassexabeam.md
+  - docs/models/storageclassgooglecloudstorage.md
+  - docs/models/storageclassminio.md
+  - docs/models/storageclasss3.md
+  - docs/models/storageclasssecuritylake.md
   - docs/models/subscription.md
   - docs/models/subscriptionmetadatum.md
+  - docs/models/subscriptionplanoffice365mgmt.md
+  - docs/models/subscriptionplanoffice365msgtrace.md
+  - docs/models/subscriptionplanoffice365service.md
   - docs/models/summary.md
+  - docs/models/systemmodesystemmetrics.md
+  - docs/models/systemmodewindowsmetrics.md
+  - docs/models/systemsystemmetrics.md
+  - docs/models/systemwindowsmetrics.md
+  - docs/models/tagafterprocessingcrowdstrike.md
+  - docs/models/tagafterprocessings3inventory.md
+  - docs/models/tagafterprocessingsecuritylake.md
   - docs/models/target.md
   - docs/models/targetprotocol.md
   - docs/models/teamaccesscontrollist.md
   - docs/models/telemetrytype.md
+  - docs/models/timeoutretrysettingsazuredataexplorer.md
+  - docs/models/timeoutretrysettingsazurelogs.md
+  - docs/models/timeoutretrysettingschronicle.md
+  - docs/models/timeoutretrysettingsclickhouse.md
+  - docs/models/timeoutretrysettingscriblhttp.md
+  - docs/models/timeoutretrysettingscrowdstrikenextgensiem.md
+  - docs/models/timeoutretrysettingsdatadog.md
+  - docs/models/timeoutretrysettingsdataset.md
+  - docs/models/timeoutretrysettingsdynatracehttp.md
+  - docs/models/timeoutretrysettingsdynatraceotlp.md
+  - docs/models/timeoutretrysettingselastic.md
+  - docs/models/timeoutretrysettingselasticcloud.md
+  - docs/models/timeoutretrysettingsgooglechronicle.md
+  - docs/models/timeoutretrysettingshoneycomb.md
+  - docs/models/timeoutretrysettingshumiohec.md
+  - docs/models/timeoutretrysettingsinfluxdb.md
+  - docs/models/timeoutretrysettingsloki.md
+  - docs/models/timeoutretrysettingsnewrelic.md
+  - docs/models/timeoutretrysettingsnewrelicevents.md
+  - docs/models/timeoutretrysettingsopentelemetry.md
+  - docs/models/timeoutretrysettingsprometheus.md
+  - docs/models/timeoutretrysettingssentinel.md
+  - docs/models/timeoutretrysettingssentineloneaisiem.md
+  - docs/models/timeoutretrysettingsservicenow.md
+  - docs/models/timeoutretrysettingssignalfx.md
+  - docs/models/timeoutretrysettingssplunkhec.md
+  - docs/models/timeoutretrysettingssumologic.md
+  - docs/models/timeoutretrysettingswavefront.md
+  - docs/models/timeoutretrysettingswebhook.md
+  - docs/models/timeoutretrysettingsxsiam.md
   - docs/models/timerange.md
   - docs/models/timestampformat.md
   - docs/models/timestampprecision.md
+  - docs/models/tlscribltcp.md
+  - docs/models/tlssettingsclientsideazureeventhub.md
+  - docs/models/tlssettingsclientsideclickhouse.md
+  - docs/models/tlssettingsclientsidecriblhttp.md
+  - docs/models/tlssettingsclientsidecribltcp.md
+  - docs/models/tlssettingsclientsideeventhub.md
+  - docs/models/tlssettingsclientsidemicrosoftfabric.md
+  - docs/models/tlssettingsclientsideopentelemetry.md
+  - docs/models/tlssettingsclientsideservicenow.md
+  - docs/models/tlssettingsclientsidesplunk.md
+  - docs/models/tlssettingsclientsidesplunkhec.md
+  - docs/models/tlssettingsclientsidesplunklb.md
+  - docs/models/tlssettingsclientsidesyslog.md
+  - docs/models/tlssettingsclientsidetcpjson.md
+  - docs/models/tlssettingsclientsidewebhook.md
+  - docs/models/tlssettingsserversideappscope.md
+  - docs/models/tlssettingsserversidecloudflarehec.md
+  - docs/models/tlssettingsserversidecriblhttp.md
+  - docs/models/tlssettingsserversidecribllakehttp.md
+  - docs/models/tlssettingsserversidecribltcp.md
+  - docs/models/tlssettingsserversidedatadogagent.md
+  - docs/models/tlssettingsserversideelastic.md
+  - docs/models/tlssettingsserversidefirehose.md
+  - docs/models/tlssettingsserversidehttp.md
+  - docs/models/tlssettingsserversidehttpraw.md
+  - docs/models/tlssettingsserversideloki.md
+  - docs/models/tlssettingsserversidemetrics.md
+  - docs/models/tlssettingsserversidemodeldriventelemetry.md
+  - docs/models/tlssettingsserversideopentelemetry.md
+  - docs/models/tlssettingsserversideprometheusrw.md
+  - docs/models/tlssettingsserversidesplunk.md
+  - docs/models/tlssettingsserversidesplunkhec.md
+  - docs/models/tlssettingsserversidetcp.md
+  - docs/models/tlssettingsserversidetcpjson.md
+  - docs/models/tlssettingsserversidewizwebhook.md
+  - docs/models/tlssettingsserversidezscalerhec.md
+  - docs/models/tlssplunklb.md
+  - docs/models/tlssyslog.md
+  - docs/models/tlstcpjson.md
+  - docs/models/typeappscope.md
+  - docs/models/typeazuredataexplorer.md
+  - docs/models/typeazureeventhub.md
+  - docs/models/typeazurelogs.md
+  - docs/models/typechronicle.md
+  - docs/models/typeclickhouse.md
+  - docs/models/typecloudflarehec.md
+  - docs/models/typecloudflarer2.md
+  - docs/models/typecloudwatch.md
+  - docs/models/typecribl.md
+  - docs/models/typecribllake.md
+  - docs/models/typecribllakehttp.md
+  - docs/models/typecriblmetrics.md
+  - docs/models/typecrowdstrike.md
+  - docs/models/typecrowdstrikenextgensiem.md
+  - docs/models/typedatabricks.md
+  - docs/models/typedatadog.md
+  - docs/models/typedatadogagent.md
+  - docs/models/typedatagen.md
+  - docs/models/typedataset.md
+  - docs/models/typedefault.md
+  - docs/models/typedevnull.md
+  - docs/models/typediskspool.md
+  - docs/models/typedls3.md
+  - docs/models/typedynatracehttp.md
+  - docs/models/typedynatraceotlp.md
+  - docs/models/typeedgeprometheus.md
+  - docs/models/typeelasticcloud.md
+  - docs/models/typeeventhub.md
+  - docs/models/typeexabeam.md
+  - docs/models/typefilesystem.md
+  - docs/models/typefirehose.md
+  - docs/models/typegooglechronicle.md
+  - docs/models/typegooglecloudlogging.md
+  - docs/models/typegooglecloudstorage.md
+  - docs/models/typegraphite.md
+  - docs/models/typehoneycomb.md
+  - docs/models/typehttp.md
+  - docs/models/typehttpraw.md
+  - docs/models/typehumiohec.md
+  - docs/models/typeinfluxdb.md
+  - docs/models/typekubeevents.md
+  - docs/models/typekubelogs.md
+  - docs/models/typekubemetrics.md
+  - docs/models/typemetrics.md
+  - docs/models/typemicrosoftfabric.md
+  - docs/models/typeminio.md
+  - docs/models/typemodeldriventelemetry.md
+  - docs/models/typenewrelic.md
+  - docs/models/typenewrelicevents.md
+  - docs/models/typeoffice365mgmt.md
+  - docs/models/typeoffice365msgtrace.md
+  - docs/models/typeoffice365service.md
+  - docs/models/typeprometheusrw.md
+  - docs/models/typerawudp.md
+  - docs/models/typering.md
+  - docs/models/typerouter.md
+  - docs/models/types3inventory.md
+  - docs/models/typesentinel.md
+  - docs/models/typesentineloneaisiem.md
+  - docs/models/typeservicenow.md
+  - docs/models/typesignalfx.md
+  - docs/models/typesns.md
+  - docs/models/typesplunklb.md
+  - docs/models/typesplunksearch.md
+  - docs/models/typestatsd.md
+  - docs/models/typestatsdext.md
+  - docs/models/typesumologic.md
+  - docs/models/typesystemmetrics.md
+  - docs/models/typesystemstate.md
+  - docs/models/typetcp.md
+  - docs/models/typewavefront.md
+  - docs/models/typewebhook.md
+  - docs/models/typewef.md
+  - docs/models/typewindowsmetrics.md
+  - docs/models/typewineventlogs.md
+  - docs/models/typewiz.md
+  - docs/models/typewizwebhook.md
+  - docs/models/typexsiam.md
+  - docs/models/typezscalerhec.md
   - docs/models/udmtype.md
   - docs/models/updateconfiggroupbyproductandidrequest.md
-  - docs/models/updateconfiggroupbyproductandidresponse.md
   - docs/models/updateconfiggroupdeploybyproductandidrequest.md
-  - docs/models/updateconfiggroupdeploybyproductandidresponse.md
   - docs/models/updatecribllakedatasetbylakeidandidrequest.md
-  - docs/models/updatecribllakedatasetbylakeidandidresponse.md
   - docs/models/updatehectokenrequest.md
   - docs/models/updatehectokenrequestmetadatum.md
   - docs/models/updateinputbyidrequest.md
-  - docs/models/updateinputbyidresponse.md
   - docs/models/updateinputhectokenbyidandtokenrequest.md
-  - docs/models/updateinputhectokenbyidandtokenresponse.md
   - docs/models/updateoutputbyidrequest.md
-  - docs/models/updateoutputbyidresponse.md
   - docs/models/updatepacksbyidrequest.md
-  - docs/models/updatepacksbyidresponse.md
   - docs/models/updatepacksrequest.md
   - docs/models/updatepipelinebyidrequest.md
-  - docs/models/updatepipelinebyidresponse.md
   - docs/models/updateroutesbyidrequest.md
-  - docs/models/updateroutesbyidresponse.md
   - docs/models/uploadpackresponse.md
+  - docs/models/urlcriblhttp.md
+  - docs/models/urlelastic.md
+  - docs/models/urlsplunkhec.md
+  - docs/models/urlwebhook.md
+  - docs/models/urlxsiam.md
   - docs/models/useraccesscontrollist.md
   - docs/models/usersandgroups.md
   - docs/models/utils/retryconfig.md
@@ -2146,17 +2126,41 @@ generatedFiles:
   - src/cribl_control_plane/models/configgroup.py
   - src/cribl_control_plane/models/configgroupcloud.py
   - src/cribl_control_plane/models/configgrouplookups.py
+  - src/cribl_control_plane/models/countedbranchinfo.py
+  - src/cribl_control_plane/models/countedconfiggroup.py
+  - src/cribl_control_plane/models/countedcribllakedataset.py
+  - src/cribl_control_plane/models/counteddistributedsummary.py
+  - src/cribl_control_plane/models/countedgitcommitsummary.py
+  - src/cribl_control_plane/models/countedgitcountresult.py
+  - src/cribl_control_plane/models/countedgitdiffresult.py
+  - src/cribl_control_plane/models/countedgitfilesresponse.py
+  - src/cribl_control_plane/models/countedgitinfo.py
+  - src/cribl_control_plane/models/countedgitlogresult.py
+  - src/cribl_control_plane/models/countedgitrevertresult.py
+  - src/cribl_control_plane/models/countedgitshowresult.py
+  - src/cribl_control_plane/models/countedgitstatusresult.py
+  - src/cribl_control_plane/models/countedinput.py
+  - src/cribl_control_plane/models/countedinputsplunkhec.py
+  - src/cribl_control_plane/models/countedjobinfo.py
+  - src/cribl_control_plane/models/countedmasterworkerentry.py
+  - src/cribl_control_plane/models/countednumber.py
+  - src/cribl_control_plane/models/countedobject.py
+  - src/cribl_control_plane/models/countedoutput.py
+  - src/cribl_control_plane/models/countedoutputsamplesresponse.py
+  - src/cribl_control_plane/models/countedoutputtestresponse.py
+  - src/cribl_control_plane/models/countedpackinfo.py
+  - src/cribl_control_plane/models/countedpackinstallinfo.py
+  - src/cribl_control_plane/models/countedpipeline.py
+  - src/cribl_control_plane/models/countedroutes.py
+  - src/cribl_control_plane/models/countedstring.py
+  - src/cribl_control_plane/models/countedteamaccesscontrollist.py
+  - src/cribl_control_plane/models/counteduseraccesscontrollist.py
   - src/cribl_control_plane/models/createconfiggroupbyproductop.py
   - src/cribl_control_plane/models/createcribllakedatasetbylakeidop.py
   - src/cribl_control_plane/models/createinputhectokenbyidop.py
-  - src/cribl_control_plane/models/createinputop.py
-  - src/cribl_control_plane/models/createoutputop.py
   - src/cribl_control_plane/models/createoutputtestbyidop.py
-  - src/cribl_control_plane/models/createpacksop.py
-  - src/cribl_control_plane/models/createpipelineop.py
   - src/cribl_control_plane/models/createroutesappendbyidop.py
   - src/cribl_control_plane/models/createversioncommitop.py
-  - src/cribl_control_plane/models/createversionpushop.py
   - src/cribl_control_plane/models/createversionrevertop.py
   - src/cribl_control_plane/models/createversionundoop.py
   - src/cribl_control_plane/models/criblevent.py
@@ -2192,11 +2196,9 @@ generatedFiles:
   - src/cribl_control_plane/models/getpipelinebyidop.py
   - src/cribl_control_plane/models/getroutesbyidop.py
   - src/cribl_control_plane/models/getsummaryop.py
-  - src/cribl_control_plane/models/getversionbranchop.py
   - src/cribl_control_plane/models/getversioncountop.py
   - src/cribl_control_plane/models/getversiondiffop.py
   - src/cribl_control_plane/models/getversionfilesop.py
-  - src/cribl_control_plane/models/getversioninfoop.py
   - src/cribl_control_plane/models/getversionop.py
   - src/cribl_control_plane/models/getversionshowop.py
   - src/cribl_control_plane/models/getversionstatusop.py
@@ -2218,79 +2220,15 @@ generatedFiles:
   - src/cribl_control_plane/models/healthserverstatus.py
   - src/cribl_control_plane/models/heartbeatmetadata.py
   - src/cribl_control_plane/models/input.py
-  - src/cribl_control_plane/models/inputappscope.py
-  - src/cribl_control_plane/models/inputazureblob.py
-  - src/cribl_control_plane/models/inputcloudflarehec.py
-  - src/cribl_control_plane/models/inputcollection.py
-  - src/cribl_control_plane/models/inputconfluentcloud.py
-  - src/cribl_control_plane/models/inputcribl.py
-  - src/cribl_control_plane/models/inputcriblhttp.py
-  - src/cribl_control_plane/models/inputcribllakehttp.py
-  - src/cribl_control_plane/models/inputcriblmetrics.py
-  - src/cribl_control_plane/models/inputcribltcp.py
-  - src/cribl_control_plane/models/inputcrowdstrike.py
-  - src/cribl_control_plane/models/inputdatadogagent.py
-  - src/cribl_control_plane/models/inputdatagen.py
-  - src/cribl_control_plane/models/inputedgeprometheus.py
-  - src/cribl_control_plane/models/inputelastic.py
-  - src/cribl_control_plane/models/inputeventhub.py
-  - src/cribl_control_plane/models/inputexec.py
-  - src/cribl_control_plane/models/inputfile.py
-  - src/cribl_control_plane/models/inputfirehose.py
-  - src/cribl_control_plane/models/inputgooglepubsub.py
-  - src/cribl_control_plane/models/inputgrafana.py
-  - src/cribl_control_plane/models/inputhttp.py
-  - src/cribl_control_plane/models/inputhttpraw.py
-  - src/cribl_control_plane/models/inputjournalfiles.py
-  - src/cribl_control_plane/models/inputkafka.py
-  - src/cribl_control_plane/models/inputkinesis.py
-  - src/cribl_control_plane/models/inputkubeevents.py
-  - src/cribl_control_plane/models/inputkubelogs.py
-  - src/cribl_control_plane/models/inputkubemetrics.py
-  - src/cribl_control_plane/models/inputloki.py
-  - src/cribl_control_plane/models/inputmetrics.py
-  - src/cribl_control_plane/models/inputmodeldriventelemetry.py
-  - src/cribl_control_plane/models/inputmsk.py
-  - src/cribl_control_plane/models/inputnetflow.py
-  - src/cribl_control_plane/models/inputoffice365mgmt.py
-  - src/cribl_control_plane/models/inputoffice365msgtrace.py
-  - src/cribl_control_plane/models/inputoffice365service.py
-  - src/cribl_control_plane/models/inputopentelemetry.py
-  - src/cribl_control_plane/models/inputprometheus.py
-  - src/cribl_control_plane/models/inputprometheusrw.py
-  - src/cribl_control_plane/models/inputrawudp.py
-  - src/cribl_control_plane/models/inputs3.py
-  - src/cribl_control_plane/models/inputs3inventory.py
-  - src/cribl_control_plane/models/inputsecuritylake.py
-  - src/cribl_control_plane/models/inputsnmp.py
-  - src/cribl_control_plane/models/inputsplunk.py
   - src/cribl_control_plane/models/inputsplunkhec.py
-  - src/cribl_control_plane/models/inputsplunksearch.py
-  - src/cribl_control_plane/models/inputsqs.py
-  - src/cribl_control_plane/models/inputsyslog.py
-  - src/cribl_control_plane/models/inputsystemmetrics.py
-  - src/cribl_control_plane/models/inputsystemstate.py
-  - src/cribl_control_plane/models/inputtcp.py
-  - src/cribl_control_plane/models/inputtcpjson.py
-  - src/cribl_control_plane/models/inputwef.py
-  - src/cribl_control_plane/models/inputwindowsmetrics.py
-  - src/cribl_control_plane/models/inputwineventlogs.py
-  - src/cribl_control_plane/models/inputwiz.py
-  - src/cribl_control_plane/models/inputwizwebhook.py
-  - src/cribl_control_plane/models/inputzscalerhec.py
   - src/cribl_control_plane/models/jobinfo.py
   - src/cribl_control_plane/models/jobstatus.py
   - src/cribl_control_plane/models/lakedatasetmetrics.py
   - src/cribl_control_plane/models/lakedatasetsearchconfig.py
   - src/cribl_control_plane/models/lakehouseconnectiontype.py
   - src/cribl_control_plane/models/listconfiggroupbyproductop.py
-  - src/cribl_control_plane/models/listinputop.py
   - src/cribl_control_plane/models/listmasterworkerentryop.py
-  - src/cribl_control_plane/models/listoutputop.py
-  - src/cribl_control_plane/models/listpipelineop.py
-  - src/cribl_control_plane/models/listroutesop.py
   - src/cribl_control_plane/models/logininfo.py
-  - src/cribl_control_plane/models/lookupversions.py
   - src/cribl_control_plane/models/masterworkerentry.py
   - src/cribl_control_plane/models/nodeactiveupgradestatus.py
   - src/cribl_control_plane/models/nodefailedupgradestatus.py
@@ -2300,77 +2238,9 @@ generatedFiles:
   - src/cribl_control_plane/models/nodeupgradestatus.py
   - src/cribl_control_plane/models/outpostnodeinfo.py
   - src/cribl_control_plane/models/output.py
-  - src/cribl_control_plane/models/outputazureblob.py
-  - src/cribl_control_plane/models/outputazuredataexplorer.py
-  - src/cribl_control_plane/models/outputazureeventhub.py
-  - src/cribl_control_plane/models/outputazurelogs.py
-  - src/cribl_control_plane/models/outputchronicle.py
-  - src/cribl_control_plane/models/outputclickhouse.py
-  - src/cribl_control_plane/models/outputcloudflarer2.py
-  - src/cribl_control_plane/models/outputcloudwatch.py
-  - src/cribl_control_plane/models/outputconfluentcloud.py
-  - src/cribl_control_plane/models/outputcriblhttp.py
-  - src/cribl_control_plane/models/outputcribllake.py
-  - src/cribl_control_plane/models/outputcribltcp.py
-  - src/cribl_control_plane/models/outputcrowdstrikenextgensiem.py
-  - src/cribl_control_plane/models/outputdatabricks.py
-  - src/cribl_control_plane/models/outputdatadog.py
-  - src/cribl_control_plane/models/outputdataset.py
-  - src/cribl_control_plane/models/outputdefault.py
-  - src/cribl_control_plane/models/outputdevnull.py
-  - src/cribl_control_plane/models/outputdiskspool.py
-  - src/cribl_control_plane/models/outputdls3.py
-  - src/cribl_control_plane/models/outputdynatracehttp.py
-  - src/cribl_control_plane/models/outputdynatraceotlp.py
-  - src/cribl_control_plane/models/outputelastic.py
-  - src/cribl_control_plane/models/outputelasticcloud.py
-  - src/cribl_control_plane/models/outputexabeam.py
-  - src/cribl_control_plane/models/outputfilesystem.py
-  - src/cribl_control_plane/models/outputgooglechronicle.py
-  - src/cribl_control_plane/models/outputgooglecloudlogging.py
-  - src/cribl_control_plane/models/outputgooglecloudstorage.py
-  - src/cribl_control_plane/models/outputgooglepubsub.py
-  - src/cribl_control_plane/models/outputgrafanacloud.py
-  - src/cribl_control_plane/models/outputgraphite.py
-  - src/cribl_control_plane/models/outputhoneycomb.py
-  - src/cribl_control_plane/models/outputhumiohec.py
-  - src/cribl_control_plane/models/outputinfluxdb.py
-  - src/cribl_control_plane/models/outputkafka.py
-  - src/cribl_control_plane/models/outputkinesis.py
-  - src/cribl_control_plane/models/outputloki.py
-  - src/cribl_control_plane/models/outputmicrosoftfabric.py
-  - src/cribl_control_plane/models/outputminio.py
-  - src/cribl_control_plane/models/outputmsk.py
-  - src/cribl_control_plane/models/outputnetflow.py
-  - src/cribl_control_plane/models/outputnewrelic.py
-  - src/cribl_control_plane/models/outputnewrelicevents.py
-  - src/cribl_control_plane/models/outputopentelemetry.py
-  - src/cribl_control_plane/models/outputprometheus.py
-  - src/cribl_control_plane/models/outputring.py
-  - src/cribl_control_plane/models/outputrouter.py
-  - src/cribl_control_plane/models/outputs3.py
   - src/cribl_control_plane/models/outputsamplesresponse.py
-  - src/cribl_control_plane/models/outputsecuritylake.py
-  - src/cribl_control_plane/models/outputsentinel.py
-  - src/cribl_control_plane/models/outputsentineloneaisiem.py
-  - src/cribl_control_plane/models/outputservicenow.py
-  - src/cribl_control_plane/models/outputsignalfx.py
-  - src/cribl_control_plane/models/outputsnmp.py
-  - src/cribl_control_plane/models/outputsns.py
-  - src/cribl_control_plane/models/outputsplunk.py
-  - src/cribl_control_plane/models/outputsplunkhec.py
-  - src/cribl_control_plane/models/outputsplunklb.py
-  - src/cribl_control_plane/models/outputsqs.py
-  - src/cribl_control_plane/models/outputstatsd.py
-  - src/cribl_control_plane/models/outputstatsdext.py
-  - src/cribl_control_plane/models/outputsumologic.py
-  - src/cribl_control_plane/models/outputsyslog.py
-  - src/cribl_control_plane/models/outputtcpjson.py
   - src/cribl_control_plane/models/outputtestrequest.py
   - src/cribl_control_plane/models/outputtestresponse.py
-  - src/cribl_control_plane/models/outputwavefront.py
-  - src/cribl_control_plane/models/outputwebhook.py
-  - src/cribl_control_plane/models/outputxsiam.py
   - src/cribl_control_plane/models/packinfo.py
   - src/cribl_control_plane/models/packinstallinfo.py
   - src/cribl_control_plane/models/packrequestbody_union.py
@@ -3496,4 +3366,4 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: "## Python SDK Changes Detected:\n* `cribl_control_plane.destinations.pq.get()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.update()`: \n  *  `request.output` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.groups.deploy()`:  `response.items.[].estimated_ingest_rate` **Changed** **Breaking** :warning:\n* `cribl_control_plane.groups.delete()`:  `response.items.[].estimated_ingest_rate` **Changed** **Breaking** :warning:\n* `cribl_control_plane.groups.update()`: \n  *  `request.estimated_ingest_rate` **Changed** **Breaking** :warning:\n  *  `response.items.[].estimated_ingest_rate` **Changed** **Breaking** :warning:\n* `cribl_control_plane.groups.get()`:  `response.items.[].estimated_ingest_rate` **Changed** **Breaking** :warning:\n* `cribl_control_plane.groups.create()`: \n  *  `request` **Changed** **Breaking** :warning:\n  *  `response.items.[].estimated_ingest_rate` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.create()`: \n  *  `request` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.groups.list()`:  `response.items.[].estimated_ingest_rate` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.update()`: \n  *  `request.input` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.versions.commits.undo()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.hec_tokens.create()`:  `response.items.[].tls` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.hec_tokens.update()`:  `response.items.[].tls` **Changed** **Breaking** :warning:\n* `cribl_control_plane.health.get()`: \n  *  `response.status[default]` **Removed** **Breaking** :warning:\n  *  `error.status[500]` **Added**\n* `cribl_control_plane.destinations.create()`: \n  *  `request` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.auth.tokens.get()`: \n  *  `response.force_password_change` **Added**\n  *  `error` **Changed** **Breaking** :warning:\n* `cribl_control_plane.routes.append()`: \n  *  `request_body.[].clones.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.lake_datasets.create()`: \n  *  `request.metrics` **Added**\n  *  `response.items.[].metrics` **Added**\n* `cribl_control_plane.packs.delete()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.delete()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.get()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.nodes.list()`:  `response.items.[].info` **Changed**\n* `cribl_control_plane.nodes.summaries.get()`:  `response.items.[].groups` **Changed**\n* `cribl_control_plane.destinations.list()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.packs.install()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.packs.list()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.packs.update()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.packs.get()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.packs.upload()`: **Added**\n* `cribl_control_plane.sources.delete()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.sources.get()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.sources.list()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.lake_datasets.update()`: \n  *  `request.metrics` **Added**\n  *  `response.items.[].metrics` **Added**\n* `cribl_control_plane.lake_datasets.get()`:  `response.items.[].metrics` **Added**\n* `cribl_control_plane.lake_datasets.delete()`:  `response.items.[].metrics` **Added**\n* `cribl_control_plane.lake_datasets.list()`:  `response.items.[].metrics` **Added**\n"
+releaseNotes: "## Python SDK Changes Detected:\n* `cribl_control_plane.sources.create()`: \n  *  `request` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.sources.update()`: \n  *  `request.input` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.create()`: \n  *  `request` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.update()`: \n  *  `request.output` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.nodes.list()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.list()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.sources.get()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.sources.delete()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.list()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.get()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.delete()`:  `response.items.[]` **Changed**\n"

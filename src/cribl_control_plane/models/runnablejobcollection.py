@@ -73,10 +73,12 @@ class RunnableJobCollectionRunSettingsTypedDict(TypedDict):
 
 
 
+
     if your lower bundle size is 1MB, you can bundle up to five 200KB files into one task.
     """
     max_task_size: NotRequired[str]
     r"""Limits the bundle size for files above the lower task bundle size. For example, if your upper bundle size is 10MB,
+
 
 
 
@@ -150,6 +152,7 @@ class RunnableJobCollectionRunSettings(BaseModel):
 
 
 
+
     if your lower bundle size is 1MB, you can bundle up to five 200KB files into one task.
     """
 
@@ -157,6 +160,7 @@ class RunnableJobCollectionRunSettings(BaseModel):
         "10MB"
     )
     r"""Limits the bundle size for files above the lower task bundle size. For example, if your upper bundle size is 10MB,
+
 
 
 
@@ -448,10 +452,12 @@ class RunnableJobCollectionRunTypedDict(TypedDict):
 
 
 
+
     if your lower bundle size is 1MB, you can bundle up to five 200KB files into one task.
     """
     max_task_size: NotRequired[str]
     r"""Limits the bundle size for files above the lower task bundle size. For example, if your upper bundle size is 10MB,
+
 
 
 
@@ -530,6 +536,7 @@ class RunnableJobCollectionRun(BaseModel):
 
 
 
+
     if your lower bundle size is 1MB, you can bundle up to five 200KB files into one task.
     """
 
@@ -537,6 +544,7 @@ class RunnableJobCollectionRun(BaseModel):
         "10MB"
     )
     r"""Limits the bundle size for files above the lower task bundle size. For example, if your upper bundle size is 10MB,
+
 
 
 

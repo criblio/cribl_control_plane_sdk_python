@@ -1,4 +1,4 @@
-# MinimumTLSVersionHTTP
+# InputHTTPMinimumTLSVersion
 
 
 ## Values

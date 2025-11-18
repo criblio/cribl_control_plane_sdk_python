@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: d4b65932284f6c53ee9309e16f8ba11b
+  docChecksum: d6203a7fcdec2e7028416eacc5329885
   docVersion: 4.16.0-alpha.1763470649884-7b409591
   speakeasyVersion: 1.650.0
   generationVersion: 2.743.2
-  releaseVersion: 0.3.0rc6
-  configChecksum: 6dac24f155929050a59031808b29422f
+  releaseVersion: 0.3.0rc7
+  configChecksum: 53a7b2074b262cfdbd6e3ba6de8ce9f3
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -115,10 +115,8 @@ generatedFiles:
   - docs/models/authtokenmetadatumsplunkhec.md
   - docs/models/authtokenmetadatumzscalerhec.md
   - docs/models/authtokensextcribllakehttp.md
-  - docs/models/authtokensexthttp.md
   - docs/models/authtokensexthttpraw.md
   - docs/models/authtokensextmetadatumcribllakehttp.md
-  - docs/models/authtokensextmetadatumhttp.md
   - docs/models/authtokensextmetadatumhttpraw.md
   - docs/models/authtokensextmetadatumwizwebhook.md
   - docs/models/authtokensextwizwebhook.md
@@ -251,7 +249,6 @@ generatedFiles:
   - docs/models/compressiongooglecloudstorage.md
   - docs/models/compressiongraphite.md
   - docs/models/compressionhoneycomb.md
-  - docs/models/compressionhttp.md
   - docs/models/compressionhttpraw.md
   - docs/models/compressionhumiohec.md
   - docs/models/compressioninfluxdb.md
@@ -329,7 +326,6 @@ generatedFiles:
   - docs/models/connectioneventhub.md
   - docs/models/connectionfirehose.md
   - docs/models/connectiongooglepubsub.md
-  - docs/models/connectionhttp.md
   - docs/models/connectionhttpraw.md
   - docs/models/connectionkafka.md
   - docs/models/connectionkinesis.md
@@ -735,7 +731,19 @@ generatedFiles:
   - docs/models/inputgrafanatype1.md
   - docs/models/inputgrafanatype2.md
   - docs/models/inputhttp.md
+  - docs/models/inputhttpauthtokensext.md
+  - docs/models/inputhttpauthtokensextmetadatum.md
+  - docs/models/inputhttpcompression.md
+  - docs/models/inputhttpconnection.md
+  - docs/models/inputhttpmaximumtlsversion.md
+  - docs/models/inputhttpmetadatum.md
+  - docs/models/inputhttpminimumtlsversion.md
+  - docs/models/inputhttpmode.md
+  - docs/models/inputhttppq.md
+  - docs/models/inputhttppqcontrols.md
   - docs/models/inputhttpraw.md
+  - docs/models/inputhttptlssettingsserverside.md
+  - docs/models/inputhttptype.md
   - docs/models/inputinputsplunkhec.md
   - docs/models/inputjournalfiles.md
   - docs/models/inputjournalfilescompression.md
@@ -960,7 +968,6 @@ generatedFiles:
   - docs/models/maximumtlsversiondatadogagent.md
   - docs/models/maximumtlsversionelastic.md
   - docs/models/maximumtlsversionfirehose.md
-  - docs/models/maximumtlsversionhttp.md
   - docs/models/maximumtlsversionhttpraw.md
   - docs/models/maximumtlsversionloki.md
   - docs/models/maximumtlsversionmetrics.md
@@ -1000,7 +1007,6 @@ generatedFiles:
   - docs/models/metadatumeventhub.md
   - docs/models/metadatumfirehose.md
   - docs/models/metadatumgooglepubsub.md
-  - docs/models/metadatumhttp.md
   - docs/models/metadatumhttpraw.md
   - docs/models/metadatumkafka.md
   - docs/models/metadatumkinesis.md
@@ -1051,7 +1057,6 @@ generatedFiles:
   - docs/models/minimumtlsversiondatadogagent.md
   - docs/models/minimumtlsversionelastic.md
   - docs/models/minimumtlsversionfirehose.md
-  - docs/models/minimumtlsversionhttp.md
   - docs/models/minimumtlsversionhttpraw.md
   - docs/models/minimumtlsversionloki.md
   - docs/models/minimumtlsversionmetrics.md
@@ -1094,7 +1099,6 @@ generatedFiles:
   - docs/models/modegooglecloudlogging.md
   - docs/models/modegraphite.md
   - docs/models/modehoneycomb.md
-  - docs/models/modehttp.md
   - docs/models/modehttpraw.md
   - docs/models/modehumiohec.md
   - docs/models/modeinfluxdb.md
@@ -1532,7 +1536,6 @@ generatedFiles:
   - docs/models/pqcontrolsgooglecloudlogging.md
   - docs/models/pqcontrolsgraphite.md
   - docs/models/pqcontrolshoneycomb.md
-  - docs/models/pqcontrolshttp.md
   - docs/models/pqcontrolshttpraw.md
   - docs/models/pqcontrolshumiohec.md
   - docs/models/pqcontrolsinfluxdb.md
@@ -1590,7 +1593,6 @@ generatedFiles:
   - docs/models/pqeventhub.md
   - docs/models/pqfirehose.md
   - docs/models/pqgooglepubsub.md
-  - docs/models/pqhttp.md
   - docs/models/pqhttpraw.md
   - docs/models/pqkafka.md
   - docs/models/pqkinesis.md
@@ -1937,7 +1939,6 @@ generatedFiles:
   - docs/models/tlssettingsserversidedatadogagent.md
   - docs/models/tlssettingsserversideelastic.md
   - docs/models/tlssettingsserversidefirehose.md
-  - docs/models/tlssettingsserversidehttp.md
   - docs/models/tlssettingsserversidehttpraw.md
   - docs/models/tlssettingsserversideloki.md
   - docs/models/tlssettingsserversidemetrics.md
@@ -1990,7 +1991,6 @@ generatedFiles:
   - docs/models/typegooglecloudstorage.md
   - docs/models/typegraphite.md
   - docs/models/typehoneycomb.md
-  - docs/models/typehttp.md
   - docs/models/typehttpraw.md
   - docs/models/typehumiohec.md
   - docs/models/typeinfluxdb.md
@@ -2220,6 +2220,7 @@ generatedFiles:
   - src/cribl_control_plane/models/healthserverstatus.py
   - src/cribl_control_plane/models/heartbeatmetadata.py
   - src/cribl_control_plane/models/input.py
+  - src/cribl_control_plane/models/inputhttp.py
   - src/cribl_control_plane/models/inputsplunkhec.py
   - src/cribl_control_plane/models/jobinfo.py
   - src/cribl_control_plane/models/jobstatus.py
@@ -3366,4 +3367,3 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: "## Python SDK Changes Detected:\n* `cribl_control_plane.sources.create()`: \n  *  `request` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.sources.update()`: \n  *  `request.input` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.create()`: \n  *  `request` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.update()`: \n  *  `request.output` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.nodes.list()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.list()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.sources.get()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.sources.delete()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.list()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.get()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.delete()`:  `response.items.[]` **Changed**\n"

@@ -1,4 +1,4 @@
-# CompressionHTTP
+# InputHTTPCompression
 
 Codec to use to compress the persisted data
 

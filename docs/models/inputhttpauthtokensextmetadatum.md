@@ -1,4 +1,4 @@
-# AuthTokensExtMetadatumHTTP
+# InputHTTPAuthTokensExtMetadatum
 
 
 ## Fields

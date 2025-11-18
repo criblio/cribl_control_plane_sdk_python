@@ -1,4 +1,4 @@
-# ConnectionHTTP
+# InputHTTPConnection
 
 
 ## Fields

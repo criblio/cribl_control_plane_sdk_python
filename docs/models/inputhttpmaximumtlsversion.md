@@ -1,4 +1,4 @@
-# MaximumTLSVersionHTTP
+# InputHTTPMaximumTLSVersion
 
 
 ## Values

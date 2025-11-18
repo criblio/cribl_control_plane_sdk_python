@@ -1,4 +1,4 @@
-# TypeHTTP
+# InputHTTPType
 
 
 ## Values

@@ -2256,6 +2256,7 @@ components:
         description:
           type: string
           title: Description
+      additionalProperties: true
     InputSplunk:
       type: object
       required:

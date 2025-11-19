@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: ae8c55091e5afdc7ade0ebab9dd4727b
-  docVersion: 4.15.0-f275b803
+  docChecksum: cd3529b733b18b2e3863dc83231059c8
+  docVersion: 4.16.0-alpha.1763546908276-fb594515
   speakeasyVersion: 1.650.0
   generationVersion: 2.743.2
-  releaseVersion: 0.3.0
-  configChecksum: a757e862e6fd1ea3b9296a6e16738e42
+  releaseVersion: 0.4.0rc2
+  configChecksum: 679e1fd2ef624232b824343a3d64ee2b
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -83,27 +83,43 @@ generatedFiles:
   - docs/models/configgrouptype.md
   - docs/models/container.md
   - docs/models/containermode.md
+  - docs/models/countedbranchinfo.md
+  - docs/models/countedconfiggroup.md
+  - docs/models/countedcribllakedataset.md
+  - docs/models/counteddistributedsummary.md
+  - docs/models/countedgitcommitsummary.md
+  - docs/models/countedgitcountresult.md
+  - docs/models/countedgitdiffresult.md
+  - docs/models/countedgitfilesresponse.md
+  - docs/models/countedgitinfo.md
+  - docs/models/countedgitlogresult.md
+  - docs/models/countedgitrevertresult.md
+  - docs/models/countedgitshowresult.md
+  - docs/models/countedgitstatusresult.md
+  - docs/models/countedinput.md
+  - docs/models/countedinputsplunkhec.md
+  - docs/models/countedjobinfo.md
+  - docs/models/countedmasterworkerentry.md
+  - docs/models/countednumber.md
+  - docs/models/countedobject.md
+  - docs/models/countedoutput.md
+  - docs/models/countedoutputsamplesresponse.md
+  - docs/models/countedoutputtestresponse.md
+  - docs/models/countedpackinfo.md
+  - docs/models/countedpackinstallinfo.md
+  - docs/models/countedpipeline.md
+  - docs/models/countedroutes.md
+  - docs/models/countedstring.md
+  - docs/models/countedteamaccesscontrollist.md
+  - docs/models/counteduseraccesscontrollist.md
   - docs/models/createconfiggroupbyproductrequest.md
-  - docs/models/createconfiggroupbyproductresponse.md
   - docs/models/createcribllakedatasetbylakeidrequest.md
-  - docs/models/createcribllakedatasetbylakeidresponse.md
   - docs/models/createinputhectokenbyidrequest.md
-  - docs/models/createinputhectokenbyidresponse.md
-  - docs/models/createinputresponse.md
-  - docs/models/createoutputresponse.md
   - docs/models/createoutputtestbyidrequest.md
-  - docs/models/createoutputtestbyidresponse.md
-  - docs/models/createpacksresponse.md
-  - docs/models/createpipelineresponse.md
   - docs/models/createroutesappendbyidrequest.md
-  - docs/models/createroutesappendbyidresponse.md
   - docs/models/createversioncommitrequest.md
-  - docs/models/createversioncommitresponse.md
-  - docs/models/createversionpushresponse.md
   - docs/models/createversionrevertrequest.md
-  - docs/models/createversionrevertresponse.md
   - docs/models/createversionundorequest.md
-  - docs/models/createversionundoresponse.md
   - docs/models/criblevent.md
   - docs/models/cribllakedataset.md
   - docs/models/cribllakedatasetformat.md
@@ -115,19 +131,12 @@ generatedFiles:
   - docs/models/datasetmetadataruninfo.md
   - docs/models/datasetsite.md
   - docs/models/deleteconfiggroupbyproductandidrequest.md
-  - docs/models/deleteconfiggroupbyproductandidresponse.md
   - docs/models/deletecribllakedatasetbylakeidandidrequest.md
-  - docs/models/deletecribllakedatasetbylakeidandidresponse.md
   - docs/models/deleteinputbyidrequest.md
-  - docs/models/deleteinputbyidresponse.md
   - docs/models/deleteoutputbyidrequest.md
-  - docs/models/deleteoutputbyidresponse.md
   - docs/models/deleteoutputpqbyidrequest.md
-  - docs/models/deleteoutputpqbyidresponse.md
   - docs/models/deletepacksbyidrequest.md
-  - docs/models/deletepacksbyidresponse.md
   - docs/models/deletepipelinebyidrequest.md
-  - docs/models/deletepipelinebyidresponse.md
   - docs/models/deployrequest.md
   - docs/models/deployrequestlookups.md
   - docs/models/deployrequestlookupslookup.md
@@ -156,51 +165,27 @@ generatedFiles:
   - docs/models/firewall.md
   - docs/models/functionspecificconfigs.md
   - docs/models/getconfiggroupaclbyproductandidrequest.md
-  - docs/models/getconfiggroupaclbyproductandidresponse.md
   - docs/models/getconfiggroupaclteamsbyproductandidrequest.md
-  - docs/models/getconfiggroupaclteamsbyproductandidresponse.md
   - docs/models/getconfiggroupbyproductandidrequest.md
-  - docs/models/getconfiggroupbyproductandidresponse.md
   - docs/models/getconfiggroupconfigversionbyproductandidrequest.md
-  - docs/models/getconfiggroupconfigversionbyproductandidresponse.md
   - docs/models/getcribllakedatasetbylakeidandidrequest.md
-  - docs/models/getcribllakedatasetbylakeidandidresponse.md
   - docs/models/getcribllakedatasetbylakeidrequest.md
-  - docs/models/getcribllakedatasetbylakeidresponse.md
   - docs/models/getinputbyidrequest.md
-  - docs/models/getinputbyidresponse.md
   - docs/models/getmasterworkerentryrequest.md
-  - docs/models/getmasterworkerentryresponse.md
   - docs/models/getoutputbyidrequest.md
-  - docs/models/getoutputbyidresponse.md
   - docs/models/getoutputpqbyidrequest.md
-  - docs/models/getoutputpqbyidresponse.md
   - docs/models/getoutputsamplesbyidrequest.md
-  - docs/models/getoutputsamplesbyidresponse.md
   - docs/models/getpacksbyidrequest.md
-  - docs/models/getpacksbyidresponse.md
   - docs/models/getpacksrequest.md
-  - docs/models/getpacksresponse.md
   - docs/models/getpipelinebyidrequest.md
-  - docs/models/getpipelinebyidresponse.md
   - docs/models/getroutesbyidrequest.md
-  - docs/models/getroutesbyidresponse.md
   - docs/models/getsummaryrequest.md
-  - docs/models/getsummaryresponse.md
-  - docs/models/getversionbranchresponse.md
   - docs/models/getversioncountrequest.md
-  - docs/models/getversioncountresponse.md
   - docs/models/getversiondiffrequest.md
-  - docs/models/getversiondiffresponse.md
   - docs/models/getversionfilesrequest.md
-  - docs/models/getversionfilesresponse.md
-  - docs/models/getversioninforesponse.md
   - docs/models/getversionrequest.md
-  - docs/models/getversionresponse.md
   - docs/models/getversionshowrequest.md
-  - docs/models/getversionshowresponse.md
   - docs/models/getversionstatusrequest.md
-  - docs/models/getversionstatusresponse.md
   - docs/models/gitcommitparams.md
   - docs/models/gitcommitsummary.md
   - docs/models/gitcommitsummaryfiles.md
@@ -228,7 +213,6 @@ generatedFiles:
   - docs/models/heartbeatmetadatakube.md
   - docs/models/heartbeatmetadataos.md
   - docs/models/heartbeatmetadataowner.md
-  - docs/models/heartbeatmetadatatags.md
   - docs/models/hostinfo.md
   - docs/models/hostsfile.md
   - docs/models/indexerdiscoveryconfigs.md
@@ -995,6 +979,7 @@ generatedFiles:
   - docs/models/inputwizcompression.md
   - docs/models/inputwizconnection.md
   - docs/models/inputwizcontentconfig.md
+  - docs/models/inputwizloglevel.md
   - docs/models/inputwizmetadatum.md
   - docs/models/inputwizmode.md
   - docs/models/inputwizpq.md
@@ -1035,20 +1020,13 @@ generatedFiles:
   - docs/models/lakedatasetmetrics.md
   - docs/models/lakedatasetsearchconfig.md
   - docs/models/lakehouseconnectiontype.md
-  - docs/models/lastmetrics.md
   - docs/models/line1.md
   - docs/models/line2.md
   - docs/models/line3.md
   - docs/models/lineunion.md
   - docs/models/listconfiggroupbyproductrequest.md
-  - docs/models/listconfiggroupbyproductresponse.md
   - docs/models/listeningports.md
-  - docs/models/listinputresponse.md
   - docs/models/listmasterworkerentryrequest.md
-  - docs/models/listmasterworkerentryresponse.md
-  - docs/models/listoutputresponse.md
-  - docs/models/listpipelineresponse.md
-  - docs/models/listroutesresponse.md
   - docs/models/loggedinusers.md
   - docs/models/logininfo.md
   - docs/models/loglabel.md
@@ -1057,7 +1035,7 @@ generatedFiles:
   - docs/models/lokiauthoauthheader2.md
   - docs/models/lokiauthoauthparam1.md
   - docs/models/lokiauthoauthparam2.md
-  - docs/models/lookupversions.md
+  - docs/models/managestate.md
   - docs/models/mappingtype.md
   - docs/models/masterworkerentry.md
   - docs/models/masterworkerentrytype.md
@@ -1073,7 +1051,6 @@ generatedFiles:
   - docs/models/nodeprovidedinfoos1.md
   - docs/models/nodeprovidedinfoos2.md
   - docs/models/nodeprovidedinfoowner.md
-  - docs/models/nodeprovidedinfotags.md
   - docs/models/nodeskippedupgradestatus.md
   - docs/models/nodeupgradestate.md
   - docs/models/nodeupgradestatus.md
@@ -1972,11 +1949,13 @@ generatedFiles:
   - docs/models/pipelinegroups.md
   - docs/models/podfilter.md
   - docs/models/prefixoptional.md
+  - docs/models/privacyprotocol.md
   - docs/models/productscore.md
   - docs/models/prometheusauthoauthheader1.md
   - docs/models/prometheusauthoauthheader2.md
   - docs/models/prometheusauthoauthparam1.md
   - docs/models/prometheusauthoauthparam2.md
+  - docs/models/query.md
   - docs/models/querybuildermode.md
   - docs/models/rbacresource.md
   - docs/models/readmode.md
@@ -2051,26 +2030,17 @@ generatedFiles:
   - docs/models/timestampprecision.md
   - docs/models/udmtype.md
   - docs/models/updateconfiggroupbyproductandidrequest.md
-  - docs/models/updateconfiggroupbyproductandidresponse.md
   - docs/models/updateconfiggroupdeploybyproductandidrequest.md
-  - docs/models/updateconfiggroupdeploybyproductandidresponse.md
   - docs/models/updatecribllakedatasetbylakeidandidrequest.md
-  - docs/models/updatecribllakedatasetbylakeidandidresponse.md
   - docs/models/updatehectokenrequest.md
   - docs/models/updatehectokenrequestmetadatum.md
   - docs/models/updateinputbyidrequest.md
-  - docs/models/updateinputbyidresponse.md
   - docs/models/updateinputhectokenbyidandtokenrequest.md
-  - docs/models/updateinputhectokenbyidandtokenresponse.md
   - docs/models/updateoutputbyidrequest.md
-  - docs/models/updateoutputbyidresponse.md
   - docs/models/updatepacksbyidrequest.md
-  - docs/models/updatepacksbyidresponse.md
   - docs/models/updatepacksrequest.md
   - docs/models/updatepipelinebyidrequest.md
-  - docs/models/updatepipelinebyidresponse.md
   - docs/models/updateroutesbyidrequest.md
-  - docs/models/updateroutesbyidresponse.md
   - docs/models/uploadpackresponse.md
   - docs/models/useraccesscontrollist.md
   - docs/models/usersandgroups.md
@@ -2146,17 +2116,41 @@ generatedFiles:
   - src/cribl_control_plane/models/configgroup.py
   - src/cribl_control_plane/models/configgroupcloud.py
   - src/cribl_control_plane/models/configgrouplookups.py
+  - src/cribl_control_plane/models/countedbranchinfo.py
+  - src/cribl_control_plane/models/countedconfiggroup.py
+  - src/cribl_control_plane/models/countedcribllakedataset.py
+  - src/cribl_control_plane/models/counteddistributedsummary.py
+  - src/cribl_control_plane/models/countedgitcommitsummary.py
+  - src/cribl_control_plane/models/countedgitcountresult.py
+  - src/cribl_control_plane/models/countedgitdiffresult.py
+  - src/cribl_control_plane/models/countedgitfilesresponse.py
+  - src/cribl_control_plane/models/countedgitinfo.py
+  - src/cribl_control_plane/models/countedgitlogresult.py
+  - src/cribl_control_plane/models/countedgitrevertresult.py
+  - src/cribl_control_plane/models/countedgitshowresult.py
+  - src/cribl_control_plane/models/countedgitstatusresult.py
+  - src/cribl_control_plane/models/countedinput.py
+  - src/cribl_control_plane/models/countedinputsplunkhec.py
+  - src/cribl_control_plane/models/countedjobinfo.py
+  - src/cribl_control_plane/models/countedmasterworkerentry.py
+  - src/cribl_control_plane/models/countednumber.py
+  - src/cribl_control_plane/models/countedobject.py
+  - src/cribl_control_plane/models/countedoutput.py
+  - src/cribl_control_plane/models/countedoutputsamplesresponse.py
+  - src/cribl_control_plane/models/countedoutputtestresponse.py
+  - src/cribl_control_plane/models/countedpackinfo.py
+  - src/cribl_control_plane/models/countedpackinstallinfo.py
+  - src/cribl_control_plane/models/countedpipeline.py
+  - src/cribl_control_plane/models/countedroutes.py
+  - src/cribl_control_plane/models/countedstring.py
+  - src/cribl_control_plane/models/countedteamaccesscontrollist.py
+  - src/cribl_control_plane/models/counteduseraccesscontrollist.py
   - src/cribl_control_plane/models/createconfiggroupbyproductop.py
   - src/cribl_control_plane/models/createcribllakedatasetbylakeidop.py
   - src/cribl_control_plane/models/createinputhectokenbyidop.py
-  - src/cribl_control_plane/models/createinputop.py
-  - src/cribl_control_plane/models/createoutputop.py
   - src/cribl_control_plane/models/createoutputtestbyidop.py
-  - src/cribl_control_plane/models/createpacksop.py
-  - src/cribl_control_plane/models/createpipelineop.py
   - src/cribl_control_plane/models/createroutesappendbyidop.py
   - src/cribl_control_plane/models/createversioncommitop.py
-  - src/cribl_control_plane/models/createversionpushop.py
   - src/cribl_control_plane/models/createversionrevertop.py
   - src/cribl_control_plane/models/createversionundoop.py
   - src/cribl_control_plane/models/criblevent.py
@@ -2192,11 +2186,9 @@ generatedFiles:
   - src/cribl_control_plane/models/getpipelinebyidop.py
   - src/cribl_control_plane/models/getroutesbyidop.py
   - src/cribl_control_plane/models/getsummaryop.py
-  - src/cribl_control_plane/models/getversionbranchop.py
   - src/cribl_control_plane/models/getversioncountop.py
   - src/cribl_control_plane/models/getversiondiffop.py
   - src/cribl_control_plane/models/getversionfilesop.py
-  - src/cribl_control_plane/models/getversioninfoop.py
   - src/cribl_control_plane/models/getversionop.py
   - src/cribl_control_plane/models/getversionshowop.py
   - src/cribl_control_plane/models/getversionstatusop.py
@@ -2284,13 +2276,8 @@ generatedFiles:
   - src/cribl_control_plane/models/lakedatasetsearchconfig.py
   - src/cribl_control_plane/models/lakehouseconnectiontype.py
   - src/cribl_control_plane/models/listconfiggroupbyproductop.py
-  - src/cribl_control_plane/models/listinputop.py
   - src/cribl_control_plane/models/listmasterworkerentryop.py
-  - src/cribl_control_plane/models/listoutputop.py
-  - src/cribl_control_plane/models/listpipelineop.py
-  - src/cribl_control_plane/models/listroutesop.py
   - src/cribl_control_plane/models/logininfo.py
-  - src/cribl_control_plane/models/lookupversions.py
   - src/cribl_control_plane/models/masterworkerentry.py
   - src/cribl_control_plane/models/nodeactiveupgradestatus.py
   - src/cribl_control_plane/models/nodefailedupgradestatus.py
@@ -3496,3 +3483,4 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
+releaseNotes: "## Python SDK Changes Detected:\n* `cribl_control_plane.sources.hec_tokens.update()`:  `response.items.[].auth_tokens.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.create()`: \n  *  `request` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.get()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.update()`: \n  *  `request.input` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.delete()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.hec_tokens.create()`:  `response.items.[].auth_tokens.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.list()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.nodes.list()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.list()`:  `response.items.[].[splunk_lb].indexer_discovery_configs.auth_tokens.[]` **Changed**\n* `cribl_control_plane.destinations.create()`: \n  *  `request.[splunk_lb].indexer_discovery_configs.auth_tokens.[]` **Changed**\n  *  `response.items.[].[splunk_lb].indexer_discovery_configs.auth_tokens.[]` **Changed**\n* `cribl_control_plane.destinations.get()`:  `response.items.[].[splunk_lb].indexer_discovery_configs.auth_tokens.[]` **Changed**\n* `cribl_control_plane.destinations.update()`: \n  *  `request.output.[splunk_lb].indexer_discovery_configs.auth_tokens.[]` **Changed**\n  *  `response.items.[].[splunk_lb].indexer_discovery_configs.auth_tokens.[]` **Changed**\n* `cribl_control_plane.destinations.delete()`:  `response.items.[].[splunk_lb].indexer_discovery_configs.auth_tokens.[]` **Changed**\n"

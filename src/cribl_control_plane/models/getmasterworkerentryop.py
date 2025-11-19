@@ -4,7 +4,7 @@ from __future__ import annotations
 from cribl_control_plane.types import BaseModel
 from cribl_control_plane.utils import FieldMetadata, QueryParamMetadata
 import pydantic
-from typing import List, Optional
+from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -20,20 +20,3 @@ class GetMasterWorkerEntryRequest(BaseModel):
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
     r"""Filter expression to evaluate against Nodes for inclusion in the response."""
-
-
-class GetMasterWorkerEntryResponseTypedDict(TypedDict):
-    r"""a list of number objects"""
-
-    count: NotRequired[int]
-    r"""number of items present in the items array"""
-    items: NotRequired[List[float]]
-
-
-class GetMasterWorkerEntryResponse(BaseModel):
-    r"""a list of number objects"""
-
-    count: Optional[int] = None
-    r"""number of items present in the items array"""
-
-    items: Optional[List[float]] = None

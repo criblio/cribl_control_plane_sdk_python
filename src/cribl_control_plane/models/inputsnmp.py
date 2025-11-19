@@ -8,7 +8,7 @@ from enum import Enum
 import pydantic
 from pydantic import field_serializer
 from pydantic.functional_validators import PlainValidator
-from typing import Any, List, Optional
+from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -143,11 +143,25 @@ class AuthenticationProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
     SHA512 = "sha512"
 
 
+class PrivacyProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
+    # None
+    NONE = "none"
+    # DES
+    DES = "des"
+    # AES128
+    AES = "aes"
+    # AES256b (Blumenthal)
+    AES256B = "aes256b"
+    # AES256r (Reeder)
+    AES256R = "aes256r"
+
+
 class V3UserTypedDict(TypedDict):
     name: str
     auth_protocol: NotRequired[AuthenticationProtocol]
-    auth_key: NotRequired[Any]
-    priv_protocol: NotRequired[str]
+    auth_key: NotRequired[str]
+    priv_protocol: NotRequired[PrivacyProtocol]
+    priv_key: NotRequired[str]
 
 
 class V3User(BaseModel):
@@ -160,17 +174,29 @@ class V3User(BaseModel):
         pydantic.Field(alias="authProtocol"),
     ] = AuthenticationProtocol.NONE
 
-    auth_key: Annotated[Optional[Any], pydantic.Field(alias="authKey")] = None
+    auth_key: Annotated[Optional[str], pydantic.Field(alias="authKey")] = None
 
-    priv_protocol: Annotated[Optional[str], pydantic.Field(alias="privProtocol")] = (
-        "none"
-    )
+    priv_protocol: Annotated[
+        Annotated[Optional[PrivacyProtocol], PlainValidator(validate_open_enum(False))],
+        pydantic.Field(alias="privProtocol"),
+    ] = PrivacyProtocol.NONE
+
+    priv_key: Annotated[Optional[str], pydantic.Field(alias="privKey")] = None
 
     @field_serializer("auth_protocol")
     def serialize_auth_protocol(self, value):
         if isinstance(value, str):
             try:
                 return models.AuthenticationProtocol(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("priv_protocol")
+    def serialize_priv_protocol(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PrivacyProtocol(value)
             except ValueError:
                 return value
         return value

@@ -131,6 +131,7 @@ class InputCloudflareHecAuthenticationMethod(str, Enum, metaclass=utils.OpenEnum
     r"""Select Secret to use a text secret to authenticate"""
 
     SECRET = "secret"
+    MANUAL = "manual"
 
 
 class InputCloudflareHecAuthTokenMetadatumTypedDict(TypedDict):
@@ -149,8 +150,10 @@ class InputCloudflareHecAuthTokenMetadatum(BaseModel):
 class InputCloudflareHecAuthTokenTypedDict(TypedDict):
     auth_type: NotRequired[InputCloudflareHecAuthenticationMethod]
     r"""Select Secret to use a text secret to authenticate"""
-    token_secret: NotRequired[Any]
-    token: NotRequired[Any]
+    token_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
+    token: NotRequired[str]
+    r"""Shared secret to be provided by any client (Authorization: <token>)"""
     enabled: NotRequired[bool]
     description: NotRequired[str]
     allowed_indexes_at_token: NotRequired[List[str]]
@@ -169,9 +172,11 @@ class InputCloudflareHecAuthToken(BaseModel):
     ] = InputCloudflareHecAuthenticationMethod.SECRET
     r"""Select Secret to use a text secret to authenticate"""
 
-    token_secret: Annotated[Optional[Any], pydantic.Field(alias="tokenSecret")] = None
+    token_secret: Annotated[Optional[str], pydantic.Field(alias="tokenSecret")] = None
+    r"""Select or create a stored text secret"""
 
-    token: Optional[Any] = None
+    token: Optional[str] = None
+    r"""Shared secret to be provided by any client (Authorization: <token>)"""
 
     enabled: Optional[bool] = True
 

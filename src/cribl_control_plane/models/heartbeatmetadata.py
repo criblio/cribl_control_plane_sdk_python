@@ -3,16 +3,8 @@
 from __future__ import annotations
 from cribl_control_plane.types import BaseModel
 import pydantic
-from typing import List, Optional
+from typing import Dict, List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
-
-
-class HeartbeatMetadataTagsTypedDict(TypedDict):
-    pass
-
-
-class HeartbeatMetadataTags(BaseModel):
-    pass
 
 
 class HeartbeatMetadataAwsTypedDict(TypedDict):
@@ -21,7 +13,7 @@ class HeartbeatMetadataAwsTypedDict(TypedDict):
     region: str
     type: str
     zone: str
-    tags: NotRequired[HeartbeatMetadataTagsTypedDict]
+    tags: NotRequired[Dict[str, str]]
 
 
 class HeartbeatMetadataAws(BaseModel):
@@ -35,7 +27,7 @@ class HeartbeatMetadataAws(BaseModel):
 
     zone: str
 
-    tags: Optional[HeartbeatMetadataTags] = None
+    tags: Optional[Dict[str, str]] = None
 
 
 class HeartbeatMetadataHostOsTypedDict(TypedDict):

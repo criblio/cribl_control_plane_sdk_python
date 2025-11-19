@@ -259,18 +259,33 @@ class InputCriblLakeHTTPAuthTokensExtMetadatum(BaseModel):
 
 class SplunkHecMetadataTypedDict(TypedDict):
     enabled: NotRequired[bool]
+    default_dataset: NotRequired[str]
+    allowed_indexes_at_token: NotRequired[List[str]]
 
 
 class SplunkHecMetadata(BaseModel):
     enabled: Optional[bool] = None
 
+    default_dataset: Annotated[
+        Optional[str], pydantic.Field(alias="defaultDataset")
+    ] = None
+
+    allowed_indexes_at_token: Annotated[
+        Optional[List[str]], pydantic.Field(alias="allowedIndexesAtToken")
+    ] = None
+
 
 class ElasticsearchMetadataTypedDict(TypedDict):
     enabled: NotRequired[bool]
+    default_dataset: NotRequired[str]
 
 
 class ElasticsearchMetadata(BaseModel):
     enabled: Optional[bool] = None
+
+    default_dataset: Annotated[
+        Optional[str], pydantic.Field(alias="defaultDataset")
+    ] = None
 
 
 class InputCriblLakeHTTPAuthTokensExtTypedDict(TypedDict):

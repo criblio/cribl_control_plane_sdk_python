@@ -174,6 +174,10 @@ class IndexerDiscoveryConfigsAuthTokenAuthenticationMethod(
 class OutputSplunkLbAuthTokenTypedDict(TypedDict):
     auth_type: NotRequired[IndexerDiscoveryConfigsAuthTokenAuthenticationMethod]
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
+    auth_token: NotRequired[str]
+    r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
+    text_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
 
 
 class OutputSplunkLbAuthToken(BaseModel):
@@ -185,6 +189,12 @@ class OutputSplunkLbAuthToken(BaseModel):
         pydantic.Field(alias="authType"),
     ] = IndexerDiscoveryConfigsAuthTokenAuthenticationMethod.MANUAL
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
+
+    auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = ""
+    r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a stored text secret"""
 
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):

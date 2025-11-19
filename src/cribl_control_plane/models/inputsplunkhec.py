@@ -147,10 +147,12 @@ class InputSplunkHecAuthTokenMetadatum(BaseModel):
 
 
 class InputSplunkHecAuthTokenTypedDict(TypedDict):
-    token: Any
+    token: str
+    r"""Shared secret to be provided by any client (Authorization: <token>)"""
     auth_type: NotRequired[InputSplunkHecAuthenticationMethod]
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
-    token_secret: NotRequired[Any]
+    token_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
     enabled: NotRequired[bool]
     description: NotRequired[str]
     r"""Optional token description"""
@@ -161,7 +163,8 @@ class InputSplunkHecAuthTokenTypedDict(TypedDict):
 
 
 class InputSplunkHecAuthToken(BaseModel):
-    token: Any
+    token: str
+    r"""Shared secret to be provided by any client (Authorization: <token>)"""
 
     auth_type: Annotated[
         Annotated[
@@ -172,7 +175,8 @@ class InputSplunkHecAuthToken(BaseModel):
     ] = InputSplunkHecAuthenticationMethod.MANUAL
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
-    token_secret: Annotated[Optional[Any], pydantic.Field(alias="tokenSecret")] = None
+    token_secret: Annotated[Optional[str], pydantic.Field(alias="tokenSecret")] = None
+    r"""Select or create a stored text secret"""
 
     enabled: Optional[bool] = True
 

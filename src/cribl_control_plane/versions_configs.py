@@ -17,7 +17,7 @@ class VersionsConfigs(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetVersionInfoResponse:
+    ) -> models.CountedGitInfo:
         r"""Get the configuration and status for the Git integration
 
         Get the configuration and versioning status for the Git integration for the Cribl configuration.
@@ -77,7 +77,7 @@ class VersionsConfigs(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.GetVersionInfoResponse, http_res)
+            return unmarshal_json_response(models.CountedGitInfo, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -97,7 +97,7 @@ class VersionsConfigs(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetVersionInfoResponse:
+    ) -> models.CountedGitInfo:
         r"""Get the configuration and status for the Git integration
 
         Get the configuration and versioning status for the Git integration for the Cribl configuration.
@@ -157,7 +157,7 @@ class VersionsConfigs(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.GetVersionInfoResponse, http_res)
+            return unmarshal_json_response(models.CountedGitInfo, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)

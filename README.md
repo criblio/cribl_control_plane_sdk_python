@@ -238,6 +238,8 @@ Except for the `health.get` and `auth.tokens.get` methods, all Cribl SDK request
 
 For information about Bearer token expiration, see [Token Management](https://docs.cribl.io/cribl-as-code/sdks-auth/#sdks-token-mgmt) in the Cribl as Code documentation.
 
+**Authentication happens once during SDK initialization**. After you initialize the SDK client with authentication as shown in the [authentication examples](#authentication-examples), the SDK automatically handles authentication for all subsequent API calls. You do not need to include authentication parameters in individual API requests. The [SDK Example Usage](#sdk-example-usage) section shows how to initialize the SDK and make API calls, but if you've properly initialized your client as shown in the authentication examples, you only need to make the API method calls themselves without re-initializing.
+
 ### Per-Client Security Schemes
 
 This SDK supports the following security schemes globally:
@@ -249,9 +251,9 @@ This SDK supports the following security schemes globally:
 
 To configure authentication on Cribl.Cloud and in hybrid deployments, use the `client_oauth` security scheme. The SDK uses the OAuth credentials that you provide to obtain a Bearer token and refresh the token within its expiration window using the standard OAuth2 flow.
 
-In on-prem deployments, use the `bearer_auth` security scheme. The SDK uses the username/password credentials that you provide to obtain a Bearer token. Automatically refreshing the Bearer token within its expiration window requires a callback function as shown in the authentication example.
+In on-prem deployments, use the `bearer_auth` security scheme. The SDK uses the username/password credentials that you provide to obtain a Bearer token. Automatically refreshing the Bearer token within its expiration window requires a callback function as shown in the [On-Prem Authentication Example](https://github.com/criblio/cribl_control_plane_sdk_python/blob/main/examples/example_onprem_auth.py).
 
-Set the security scheme through the `security` optional parameter when initializing the SDK client instance. The SDK uses the selected scheme by default to authenticate with the API for all operations that support it, as shown in the [SDK Example Usage](#sdk-example-usage) code example.
+Set the security scheme through the `security` optional parameter when initializing the SDK client instance. The SDK uses the selected scheme by default to authenticate with the API for all operations that support it.
 
 ### Authentication Examples
 

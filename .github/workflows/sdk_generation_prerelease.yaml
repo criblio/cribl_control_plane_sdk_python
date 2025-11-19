@@ -33,22 +33,11 @@ jobs:
           ref: openapi-prerelease
           fetch-depth: 0
 
-      - name: Install yq
-        run: |
-          sudo curl -L https://github.com/mikefarah/yq/releases/download/v4.44.3/yq_linux_amd64 -o /usr/local/bin/yq
-          sudo chmod +x /usr/local/bin/yq
 
       - name: Compute prerelease version (X.Y.Zrc<n>)
         id: ver
         run: |
           set -euo pipefail
-
-          BASE_GEN=$(yq -r '.python.version' .speakeasy/gen.yaml)
-          # Strip any existing prerelease suffix (e.g. 1.2.3rc5 -> 1.2.3 or 1.2.3a1 -> 1.2.3)
-          BASE_STRIPPED=$(printf '%s' "${BASE_GEN}" | sed -E 's/^([0-9]+\.[0-9]+\.[0-9]+).*/\1/')
-
-          echo "Version from gen.yaml: ${BASE_GEN}"
-          echo "Stripped base:         ${BASE_STRIPPED}"
 
           # Fetch tags (add --refs to avoid peeled ^{} entries)
           git fetch --tags --quiet || true
@@ -57,17 +46,26 @@ jobs:
           echo "Last tags on origin:"
           git ls-remote --tags --refs origin | awk '{print $2}' | sed 's|refs/tags/||' | tail -n 50 || true
 
-          # If there are rc tags for BASE_STRIPPED (with or without leading 'v'), keep that base; otherwise bump patch
-          if git ls-remote --tags --refs origin | awk '{print $2}' | sed 's|refs/tags/||' \
-              | grep -qE "^(v)?${BASE_STRIPPED}rc[0-9]+$"; then
-            BASE="${BASE_STRIPPED}"
-            echo "Found existing rc tags for ${BASE}. Will increment rc."
-          else
-            IFS='.' read -r major minor patch <<< "${BASE_STRIPPED}"
-            patch=$((patch + 1))
-            BASE="${major}.${minor}.${patch}"
-            echo "No rc tags for ${BASE_STRIPPED}. Bumping patch to ${BASE} and starting rc1."
+          # Find the latest official (non-rc) version tag
+          # Extract all version tags (with or without 'v' prefix), exclude rc tags, sort semver-style
+          # Use awk to pad version numbers for proper numeric sorting
+          LATEST_OFFICIAL=$(git ls-remote --tags --refs origin | awk '{print $2}' | sed 's|refs/tags/||' | sed 's|^v||' \
+            | { grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' || true; } \
+            | awk -F. '{printf "%03d.%03d.%03d %s\n", $1, $2, $3, $0}' | sort -r | head -n 1 | awk '{print $2}' || true)
+
+          if [[ -z "${LATEST_OFFICIAL}" ]]; then
+            echo "Error: No official version tags found. Cannot compute prerelease version."
+            exit 1
           fi
+
+          echo "Latest official version: ${LATEST_OFFICIAL}"
+
+          # Bump minor version (X.Y.Z -> X.(Y+1).0)
+          IFS='.' read -r major minor _ <<< "${LATEST_OFFICIAL}"
+          minor=$((minor + 1))
+          BASE="${major}.${minor}.0"
+
+          echo "Bumped minor version to: ${BASE}"
 
           PREFIX="${BASE}rc"
 

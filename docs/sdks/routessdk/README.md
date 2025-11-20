@@ -46,7 +46,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.ListRoutesResponse](../../models/listroutesresponse.md)**
+**[models.CountedRoutes](../../models/countedroutes.md)**
 
 ### Errors
 
@@ -90,7 +90,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.GetRoutesByIDResponse](../../models/getroutesbyidresponse.md)**
+**[models.CountedRoutes](../../models/countedroutes.md)**
 
 ### Errors
 
@@ -148,7 +148,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.UpdateRoutesByIDResponse](../../models/updateroutesbyidresponse.md)**
+**[models.CountedRoutes](../../models/countedroutes.md)**
 
 ### Errors
 
@@ -193,7 +193,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.CreateRoutesAppendByIDResponse](../../models/createroutesappendbyidresponse.md)**
+**[models.CountedRoutes](../../models/countedroutes.md)**
 
 ### Errors
 

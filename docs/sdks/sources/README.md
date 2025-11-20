@@ -47,7 +47,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.ListInputResponse](../../models/listinputresponse.md)**
+**[models.CountedInput](../../models/countedinput.md)**
 
 ### Errors
 
@@ -165,7 +165,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.CreateInputResponse](../../models/createinputresponse.md)**
+**[models.CountedInput](../../models/countedinput.md)**
 
 ### Errors
 
@@ -209,7 +209,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.GetInputByIDResponse](../../models/getinputbyidresponse.md)**
+**[models.CountedInput](../../models/countedinput.md)**
 
 ### Errors
 
@@ -295,7 +295,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.UpdateInputByIDResponse](../../models/updateinputbyidresponse.md)**
+**[models.CountedInput](../../models/countedinput.md)**
 
 ### Errors
 
@@ -339,7 +339,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.DeleteInputByIDResponse](../../models/deleteinputbyidresponse.md)**
+**[models.CountedInput](../../models/countedinput.md)**
 
 ### Errors
 

@@ -43,7 +43,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.GetOutputSamplesByIDResponse](../../models/getoutputsamplesbyidresponse.md)**
+**[models.CountedOutputSamplesResponse](../../models/countedoutputsamplesresponse.md)**
 
 ### Errors
 
@@ -92,7 +92,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.CreateOutputTestByIDResponse](../../models/createoutputtestbyidresponse.md)**
+**[models.CountedOutputTestResponse](../../models/countedoutputtestresponse.md)**
 
 ### Errors
 

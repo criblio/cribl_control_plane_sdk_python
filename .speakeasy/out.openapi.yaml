@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.16.0-alpha.1763161384714-3f229248
+  version: 4.16.0-alpha.1763717483983-bf4ec3a8
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -3160,8 +3160,14 @@ components:
                 default: manual
                 description: Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate
                 x-speakeasy-unknown-values: allow
-              tokenSecret: {}
-              token: {}
+              tokenSecret:
+                type: string
+                title: Token secret (text secret)
+                description: Select or create a stored text secret
+              token:
+                type: string
+                title: Token
+                description: "Shared secret to be provided by any client (Authorization: <token>)"
               enabled:
                 type: boolean
                 title: Enable token
@@ -9799,12 +9805,21 @@ components:
                   enabled:
                     type: boolean
                     title: Splunk HEC
+                  defaultDataset:
+                    type: string
+                  allowedIndexesAtToken:
+                    type: array
+                    items:
+                      type: string
+                      minLength: 1
               elasticsearchMetadata:
                 type: object
                 properties:
                   enabled:
                     title: Elasticsearch
                     type: boolean
+                  defaultDataset:
+                    type: string
         description:
           type: string
           title: Description
@@ -14452,10 +14467,29 @@ components:
                       - SHA512
                     x-speakeasy-unknown-values: allow
                     title: Authentication protocol
-                  authKey: {}
+                  authKey:
+                    type: string
+                    title: V3 authentication key
                   privProtocol:
                     default: none
+                    enum:
+                      - none
+                      - des
+                      - aes
+                      - aes256b
+                      - aes256r
                     type: string
+                    x-speakeasy-enum-descriptions:
+                      - None
+                      - DES
+                      - AES128
+                      - AES256b (Blumenthal)
+                      - AES256r (Reeder)
+                    x-speakeasy-unknown-values: allow
+                    title: Privacy protocol
+                  privKey:
+                    type: string
+                    title: V3 privacy key
         maxBufferSize:
           type: number
           title: Buffer size limit (events)
@@ -16955,6 +16989,28 @@ components:
                       type: string
                       title: Value
                       description: JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
+              queries:
+                type: array
+                title: Queries
+                items:
+                  type: object
+                  minLength: 1
+                  required:
+                    - path
+                    - queryExpression
+                  properties:
+                    path:
+                      type: string
+                      title: Path
+                      description: The Path attribute from the relevant XML Select element
+                    queryExpression:
+                      type: string
+                      title: Query expression
+                      description: The XPath query inside the relevant XML Select element
+              xmlQuery:
+                type: string
+                title: XML query
+                description: The XPath query to use for selecting events
         metadata:
           type: array
           title: Fields
@@ -18146,6 +18202,60 @@ components:
                 type: boolean
                 title: Enable content
                 default: false
+              stateTracking:
+                type: boolean
+                title: State tracking
+                description: Track collection progress between consecutive scheduled executions
+                default: false
+              stateUpdateExpression:
+                type: string
+                title: State update expression
+                description: JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information.
+                default: "__timestampExtracted !== false && {latestTime: (state.latestTime || 0) > _time ? state.latestTime : _time}"
+              stateMergeExpression:
+                type: string
+                title: State merge expression
+                description: JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep.
+                default: "prevState.latestTime > newState.latestTime ? prevState : newState"
+              manageState:
+                type: object
+              contentQuery:
+                type: string
+                title: Content query
+                description: "Template for POST body to send with the Collect request. Reference global variables, or functions using template params: `${C.vars.myVar}`, or `${Date.now()}`, `${param}`."
+              cronSchedule:
+                type: string
+                title: Cron schedule
+                description: A cron schedule on which to run this job
+                default: 0 */12 * * *
+              earliest:
+                type: string
+                title: Earliest time
+                default: -12h@h
+                description: "Earliest time, relative to now. Format supported: [+|-]<time_integer><time_unit>@<snap-to_time_unit> (ex: -1hr, -42m, -42m@h)"
+              latest:
+                type: string
+                title: Latest time
+                default: now
+                description: "Latest time, relative to now. Format supported: [+|-]<time_integer><time_unit>@<snap-to_time_unit> (ex: -1hr, -42m, -42m@h)"
+              jobTimeout:
+                title: Job timeout
+                type: string
+                description: "Maximum time the job is allowed to run (examples: 30, 45s, 15m). Units default to seconds if not specified. Enter 0 for unlimited time."
+                pattern: ^\d+[sm]?$
+                default: "0"
+              logLevel:
+                type: string
+                title: Log level
+                enum:
+                  - error
+                  - warn
+                  - info
+                  - debug
+                  - silly
+                default: info
+                description: Collector runtime log level
+                x-speakeasy-unknown-values: allow
         requestTimeout:
           type: number
           title: Request timeout (seconds)
@@ -19306,8 +19416,14 @@ components:
                 default: manual
                 description: Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate
                 x-speakeasy-unknown-values: allow
-              tokenSecret: {}
-              token: {}
+              tokenSecret:
+                type: string
+                title: Token secret (text secret)
+                description: Select or create a stored text secret
+              token:
+                type: string
+                title: Token
+                description: "Shared secret to be provided by any client (Authorization: <token>)"
               enabled:
                 type: boolean
                 title: Enable token
@@ -19654,11 +19770,18 @@ components:
                 type: string
                 enum:
                   - secret
+                  - manual
                 default: secret
                 description: Select Secret to use a text secret to authenticate
                 x-speakeasy-unknown-values: allow
-              tokenSecret: {}
-              token: {}
+              tokenSecret:
+                type: string
+                title: Token secret (text secret)
+                description: Select or create a stored text secret
+              token:
+                type: string
+                title: Token
+                description: "Shared secret to be provided by any client (Authorization: <token>)"
               enabled:
                 type: boolean
                 title: Enable token
@@ -22076,6 +22199,15 @@ components:
                     default: manual
                     description: Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate
                     x-speakeasy-unknown-values: allow
+                  authToken:
+                    type: string
+                    title: Auth token
+                    description: Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted.
+                    default: ""
+                  textSecret:
+                    type: string
+                    title: Auth token (text secret)
+                    description: Select or create a stored text secret
             authType:
               title: Authentication method
               type: string

@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: f1c5b868eba17867d20c401546aec187
-  docVersion: 4.16.0-alpha.1763161384714-3f229248
+  docChecksum: 2a45ff0f169a944da986fae2d62956b9
+  docVersion: 4.16.0-alpha.1763717483983-bf4ec3a8
   speakeasyVersion: 1.650.0
   generationVersion: 2.743.2
-  releaseVersion: 0.4.0b1
-  configChecksum: 7d570415e05eb0142110dd8e27088060
+  releaseVersion: 0.4.0b2
+  configChecksum: 39d10ecc4b959891dba53bda7af3cde7
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -979,6 +979,7 @@ generatedFiles:
   - docs/models/inputwizcompression.md
   - docs/models/inputwizconnection.md
   - docs/models/inputwizcontentconfig.md
+  - docs/models/inputwizloglevel.md
   - docs/models/inputwizmetadatum.md
   - docs/models/inputwizmode.md
   - docs/models/inputwizpq.md
@@ -1034,6 +1035,7 @@ generatedFiles:
   - docs/models/lokiauthoauthheader2.md
   - docs/models/lokiauthoauthparam1.md
   - docs/models/lokiauthoauthparam2.md
+  - docs/models/managestate.md
   - docs/models/mappingtype.md
   - docs/models/masterworkerentry.md
   - docs/models/masterworkerentrytype.md
@@ -1947,11 +1949,13 @@ generatedFiles:
   - docs/models/pipelinegroups.md
   - docs/models/podfilter.md
   - docs/models/prefixoptional.md
+  - docs/models/privacyprotocol.md
   - docs/models/productscore.md
   - docs/models/prometheusauthoauthheader1.md
   - docs/models/prometheusauthoauthheader2.md
   - docs/models/prometheusauthoauthparam1.md
   - docs/models/prometheusauthoauthparam2.md
+  - docs/models/query.md
   - docs/models/querybuildermode.md
   - docs/models/rbacresource.md
   - docs/models/readmode.md
@@ -3479,3 +3483,4 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
+releaseNotes: "## Python SDK Changes Detected:\n* `cribl_control_plane.sources.list()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.create()`: \n  *  `request` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.get()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.update()`: \n  *  `request.input` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.delete()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.hec_tokens.create()`:  `response.items.[].auth_tokens.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.hec_tokens.update()`:  `response.items.[].auth_tokens.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.list()`:  `response.items.[].[splunk_lb].indexer_discovery_configs.auth_tokens.[]` **Changed**\n* `cribl_control_plane.destinations.create()`: \n  *  `request.[splunk_lb].indexer_discovery_configs.auth_tokens.[]` **Changed**\n  *  `response.items.[].[splunk_lb].indexer_discovery_configs.auth_tokens.[]` **Changed**\n* `cribl_control_plane.destinations.get()`:  `response.items.[].[splunk_lb].indexer_discovery_configs.auth_tokens.[]` **Changed**\n* `cribl_control_plane.destinations.update()`: \n  *  `request.output.[splunk_lb].indexer_discovery_configs.auth_tokens.[]` **Changed**\n  *  `response.items.[].[splunk_lb].indexer_discovery_configs.auth_tokens.[]` **Changed**\n* `cribl_control_plane.destinations.delete()`:  `response.items.[].[splunk_lb].indexer_discovery_configs.auth_tokens.[]` **Changed**\n"

@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.16.0-alpha.1763717483983-bf4ec3a8
+  version: 4.16.0-alpha.1763766224234-f72e4308
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -31,6 +31,68 @@ components:
         message:
           type: string
           description: Error message
+    DiffLineDelete:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - delete
+        oldNumber:
+          type: number
+        content:
+          type: string
+      required:
+        - type
+        - oldNumber
+        - content
+    DiffLineInsert:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - insert
+        newNumber:
+          type: number
+        content:
+          type: string
+      required:
+        - type
+        - newNumber
+        - content
+    DiffLineContext:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - context
+        newNumber:
+          type: number
+        oldNumber:
+          type: number
+        content:
+          type: string
+      required:
+        - type
+        - newNumber
+        - oldNumber
+        - content
+    DiffLine:
+      description: Diff Line
+      type: array
+      items:
+        oneOf:
+          - $ref: "#/components/schemas/DiffLineDelete"
+          - $ref: "#/components/schemas/DiffLineInsert"
+          - $ref: "#/components/schemas/DiffLineContext"
+        discriminator:
+          propertyName: type
+          mapping:
+            delete: "#/components/schemas/DiffLineDelete"
+            insert: "#/components/schemas/DiffLineInsert"
+            context: "#/components/schemas/DiffLineContext"
     CloudProvider:
       type: string
       nullable: true
@@ -177,7 +239,7 @@ components:
           type: string
           enum:
             - lake_access
-            - riptide
+            - local_search
           x-speakeasy-unknown-values: allow
         upgradeVersion:
           type: string
@@ -343,7 +405,7 @@ components:
           type: string
           enum:
             - lake_access
-            - riptide
+            - local_search
           x-speakeasy-unknown-values: allow
         upgradeVersion:
           type: string
@@ -45381,39 +45443,7 @@ components:
                 header:
                   type: string
                 lines:
-                  type: array
-                  items:
-                    oneOf:
-                      - type: object
-                        properties:
-                          content:
-                            type: string
-                          oldNumber:
-                            type: number
-                        required:
-                          - content
-                          - oldNumber
-                      - type: object
-                        properties:
-                          content:
-                            type: string
-                          newNumber:
-                            type: number
-                        required:
-                          - content
-                          - newNumber
-                      - type: object
-                        properties:
-                          content:
-                            type: string
-                          newNumber:
-                            type: number
-                          oldNumber:
-                            type: number
-                        required:
-                          - content
-                          - newNumber
-                          - oldNumber
+                  $ref: "#/components/schemas/DiffLine"
                 newStartLine:
                   type: number
                 oldStartLine:

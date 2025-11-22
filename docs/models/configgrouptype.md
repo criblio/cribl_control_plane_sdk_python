@@ -3,7 +3,7 @@
 
 ## Values
 
-| Name          | Value         |
-| ------------- | ------------- |
-| `LAKE_ACCESS` | lake_access   |
-| `RIPTIDE`     | riptide       |
+| Name           | Value          |
+| -------------- | -------------- |
+| `LAKE_ACCESS`  | lake_access    |
+| `LOCAL_SEARCH` | local_search   |

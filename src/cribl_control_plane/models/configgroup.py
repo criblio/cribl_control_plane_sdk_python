@@ -56,7 +56,7 @@ class ConfigGroupGit(BaseModel):
 
 class ConfigGroupType(str, Enum, metaclass=utils.OpenEnumMeta):
     LAKE_ACCESS = "lake_access"
-    RIPTIDE = "riptide"
+    LOCAL_SEARCH = "local_search"
 
 
 class ConfigGroupTypedDict(TypedDict):

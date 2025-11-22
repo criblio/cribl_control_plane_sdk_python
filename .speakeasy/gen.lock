@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 2a45ff0f169a944da986fae2d62956b9
-  docVersion: 4.16.0-alpha.1763717483983-bf4ec3a8
+  docChecksum: 19ce623e2b8aa2eb25277025f22484d1
+  docVersion: 4.16.0-alpha.1763766224234-f72e4308
   speakeasyVersion: 1.659.0
   generationVersion: 2.755.9
-  releaseVersion: 0.4.0b3
-  configChecksum: fb81e00ccb81099106fa48c025cbc57d
+  releaseVersion: 0.4.0b4
+  configChecksum: 15c2c546a17feafdda15265f2a016b04
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -141,6 +141,13 @@ generatedFiles:
   - docs/models/deployrequestlookups.md
   - docs/models/deployrequestlookupslookup.md
   - docs/models/difffiles.md
+  - docs/models/diffline.md
+  - docs/models/difflinecontext.md
+  - docs/models/difflinecontexttype.md
+  - docs/models/difflinedelete.md
+  - docs/models/difflinedeletetype.md
+  - docs/models/difflineinsert.md
+  - docs/models/difflineinserttype.md
   - docs/models/disksandfilesystems.md
   - docs/models/distmode.md
   - docs/models/distributedsummary.md
@@ -1020,10 +1027,6 @@ generatedFiles:
   - docs/models/lakedatasetmetrics.md
   - docs/models/lakedatasetsearchconfig.md
   - docs/models/lakehouseconnectiontype.md
-  - docs/models/line1.md
-  - docs/models/line2.md
-  - docs/models/line3.md
-  - docs/models/lineunion.md
   - docs/models/listconfiggroupbyproductrequest.md
   - docs/models/listeningports.md
   - docs/models/listmasterworkerentryrequest.md
@@ -2169,6 +2172,10 @@ generatedFiles:
   - src/cribl_control_plane/models/deployrequest.py
   - src/cribl_control_plane/models/deployrequestlookups.py
   - src/cribl_control_plane/models/difffiles.py
+  - src/cribl_control_plane/models/diffline.py
+  - src/cribl_control_plane/models/difflinecontext.py
+  - src/cribl_control_plane/models/difflinedelete.py
+  - src/cribl_control_plane/models/difflineinsert.py
   - src/cribl_control_plane/models/distributedsummary.py
   - src/cribl_control_plane/models/getconfiggroupaclbyproductandidop.py
   - src/cribl_control_plane/models/getconfiggroupaclteamsbyproductandidop.py
@@ -2798,7 +2805,7 @@ examples:
           groupId: "<id>"
       responses:
         "200":
-          application/json: {"count": 969040, "items": [{"commitMessage": "<value>", "diffJson": [{"addedLines": 9690.4, "blocks": [{"header": "<value>", "lines": [{"content": "<value>", "oldNumber": 3887.81}], "newStartLine": 76.45, "oldStartLine": 9379.01, "oldStartLine2": 5511.01}], "changedPercentage": 2205.67, "checksumAfter": "<value>", "checksumBefore": "<value>", "deletedFileMode": "<value>", "deletedLines": 7460.36, "isBinary": true, "isCombined": true, "isCopy": false, "isDeleted": false, "isGitDiff": false, "isNew": true, "isRename": false, "isTooBig": false, "language": "<value>", "mode": "<value>", "newFileMode": "<value>", "newMode": "<value>", "newName": "<value>", "oldMode": ["<value 1>", "<value 2>"], "oldName": "<value>", "unchangedPercentage": 3722.48}]}, {"commitMessage": "<value>", "diffJson": [{"addedLines": 9690.4, "blocks": [{"header": "<value>", "lines": [{"content": "<value>", "oldNumber": 3887.81}], "newStartLine": 76.45, "oldStartLine": 9379.01, "oldStartLine2": 5511.01}], "changedPercentage": 2205.67, "checksumAfter": "<value>", "checksumBefore": "<value>", "deletedFileMode": "<value>", "deletedLines": 7460.36, "isBinary": true, "isCombined": true, "isCopy": false, "isDeleted": false, "isGitDiff": false, "isNew": true, "isRename": false, "isTooBig": false, "language": "<value>", "mode": "<value>", "newFileMode": "<value>", "newMode": "<value>", "newName": "<value>", "oldMode": ["<value 1>", "<value 2>"], "oldName": "<value>", "unchangedPercentage": 3722.48}]}]}
+          application/json: {"count": 969040, "items": [{"commitMessage": "<value>", "diffJson": [{"addedLines": 9690.4, "blocks": [{"header": "<value>", "lines": [{"type": "context", "newNumber": 9690.4, "oldNumber": 6372.82, "content": "<value>"}], "newStartLine": 76.45, "oldStartLine": 9379.01, "oldStartLine2": 5511.01}], "changedPercentage": 2205.67, "checksumAfter": "<value>", "checksumBefore": "<value>", "deletedFileMode": "<value>", "deletedLines": 7460.36, "isBinary": true, "isCombined": true, "isCopy": false, "isDeleted": false, "isGitDiff": false, "isNew": true, "isRename": false, "isTooBig": false, "language": "<value>", "mode": "<value>", "newFileMode": "<value>", "newMode": "<value>", "newName": "<value>", "oldMode": ["<value 1>", "<value 2>"], "oldName": "<value>", "unchangedPercentage": 3722.48}]}, {"commitMessage": "<value>", "diffJson": [{"addedLines": 9690.4, "blocks": [{"header": "<value>", "lines": [{"type": "context", "newNumber": 349.88, "oldNumber": 3887.81, "content": "<value>"}], "newStartLine": 76.45, "oldStartLine": 9379.01, "oldStartLine2": 5511.01}], "changedPercentage": 2205.67, "checksumAfter": "<value>", "checksumBefore": "<value>", "deletedFileMode": "<value>", "deletedLines": 7460.36, "isBinary": true, "isCombined": true, "isCopy": false, "isDeleted": false, "isGitDiff": false, "isNew": true, "isRename": false, "isTooBig": false, "language": "<value>", "mode": "<value>", "newFileMode": "<value>", "newMode": "<value>", "newName": "<value>", "oldMode": ["<value 1>", "<value 2>"], "oldName": "<value>", "unchangedPercentage": 3722.48}]}]}
         "500":
           application/json: {"message": "<value>"}
   getVersionStatus:
@@ -3483,3 +3490,7 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
+releaseNotes: |
+  ## Python SDK Changes Detected:
+  * `cribl_control_plane.versions.commits.diff()`:  `response.items.[].diff_json.[].blocks.[].lines.[]` **Changed**
+  * `cribl_control_plane.versions.commits.get()`:  `response.items.[].diff_json.[].blocks.[].lines.[]` **Changed**

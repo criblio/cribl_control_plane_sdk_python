@@ -11,8 +11,7 @@ from cribl_control_plane.utils import (
 )
 from pydantic import field_serializer
 from pydantic.functional_validators import PlainValidator
-from typing import List, Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing_extensions import Annotated, TypedDict
 
 
 class GetConfigGroupConfigVersionByProductAndIDRequestTypedDict(TypedDict):
@@ -42,20 +41,3 @@ class GetConfigGroupConfigVersionByProductAndIDRequest(BaseModel):
             except ValueError:
                 return value
         return value
-
-
-class GetConfigGroupConfigVersionByProductAndIDResponseTypedDict(TypedDict):
-    r"""a list of string objects"""
-
-    count: NotRequired[int]
-    r"""number of items present in the items array"""
-    items: NotRequired[List[str]]
-
-
-class GetConfigGroupConfigVersionByProductAndIDResponse(BaseModel):
-    r"""a list of string objects"""
-
-    count: Optional[int] = None
-    r"""number of items present in the items array"""
-
-    items: Optional[List[str]] = None

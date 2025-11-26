@@ -11,16 +11,8 @@ from enum import Enum
 import pydantic
 from pydantic import field_serializer
 from pydantic.functional_validators import PlainValidator
-from typing import Optional
+from typing import Any, Dict, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
-
-
-class LastMetricsTypedDict(TypedDict):
-    pass
-
-
-class LastMetrics(BaseModel):
-    pass
 
 
 class MasterWorkerEntryType(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -46,7 +38,7 @@ class MasterWorkerEntryTypedDict(TypedDict):
     worker_processes: float
     deployable: NotRequired[bool]
     disconnected: NotRequired[bool]
-    last_metrics: NotRequired[LastMetricsTypedDict]
+    last_metrics: NotRequired[Dict[str, Any]]
     metadata: NotRequired[HeartbeatMetadataTypedDict]
     node_upgrade_status: NotRequired[NodeUpgradeStatusTypedDict]
     status: NotRequired[str]
@@ -72,7 +64,7 @@ class MasterWorkerEntry(BaseModel):
     disconnected: Optional[bool] = None
 
     last_metrics: Annotated[
-        Optional[LastMetrics], pydantic.Field(alias="lastMetrics")
+        Optional[Dict[str, Any]], pydantic.Field(alias="lastMetrics")
     ] = None
 
     metadata: Optional[HeartbeatMetadata] = None

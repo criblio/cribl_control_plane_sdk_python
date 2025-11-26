@@ -29,7 +29,7 @@ generation:
     generateNewTests: false
     skipResponseBodyAssertions: false
 python:
-  version: 0.3.0
+  version: 0.4.0rc4
   additionalDependencies:
     dev: {}
     main: {}
@@ -59,8 +59,10 @@ python:
       operations: ""
       shared: ""
       webhooks: ""
+  inferUnionDiscriminators: true
   inputModelSuffix: input
   legacyPyright: true
+  license: ""
   maxMethodParams: 999
   methodArguments: infer-optional-args
   moduleName: ""

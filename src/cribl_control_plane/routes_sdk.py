@@ -19,7 +19,7 @@ class RoutesSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ListRoutesResponse:
+    ) -> models.CountedRoutes:
         r"""List all Routes
 
         Get a list of all Routes.
@@ -79,7 +79,7 @@ class RoutesSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.ListRoutesResponse, http_res)
+            return unmarshal_json_response(models.CountedRoutes, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -99,7 +99,7 @@ class RoutesSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ListRoutesResponse:
+    ) -> models.CountedRoutes:
         r"""List all Routes
 
         Get a list of all Routes.
@@ -159,7 +159,7 @@ class RoutesSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.ListRoutesResponse, http_res)
+            return unmarshal_json_response(models.CountedRoutes, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -180,7 +180,7 @@ class RoutesSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetRoutesByIDResponse:
+    ) -> models.CountedRoutes:
         r"""Get a Routing table
 
         Get the specified Routing table.
@@ -246,7 +246,7 @@ class RoutesSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.GetRoutesByIDResponse, http_res)
+            return unmarshal_json_response(models.CountedRoutes, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -267,7 +267,7 @@ class RoutesSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetRoutesByIDResponse:
+    ) -> models.CountedRoutes:
         r"""Get a Routing table
 
         Get the specified Routing table.
@@ -333,7 +333,7 @@ class RoutesSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.GetRoutesByIDResponse, http_res)
+            return unmarshal_json_response(models.CountedRoutes, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -364,7 +364,7 @@ class RoutesSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.UpdateRoutesByIDResponse:
+    ) -> models.CountedRoutes:
         r"""Update a Route
 
         Update a Route in the specified Routing table.</br></br>Provide a complete representation of the Routing table, including the Route that you want to update, in the request body. This endpoint does not support partial updates. Cribl removes any omitted Routes and fields when updating.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the Routing table might not function as expected.
@@ -447,7 +447,7 @@ class RoutesSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.UpdateRoutesByIDResponse, http_res)
+            return unmarshal_json_response(models.CountedRoutes, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -478,7 +478,7 @@ class RoutesSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.UpdateRoutesByIDResponse:
+    ) -> models.CountedRoutes:
         r"""Update a Route
 
         Update a Route in the specified Routing table.</br></br>Provide a complete representation of the Routing table, including the Route that you want to update, in the request body. This endpoint does not support partial updates. Cribl removes any omitted Routes and fields when updating.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the Routing table might not function as expected.
@@ -561,7 +561,7 @@ class RoutesSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.UpdateRoutesByIDResponse, http_res)
+            return unmarshal_json_response(models.CountedRoutes, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -583,7 +583,7 @@ class RoutesSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateRoutesAppendByIDResponse:
+    ) -> models.CountedRoutes:
         r"""Add a Route to the end of the Routing table
 
         Add a Route to the end of the specified Routing table.
@@ -654,9 +654,7 @@ class RoutesSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.CreateRoutesAppendByIDResponse, http_res
-            )
+            return unmarshal_json_response(models.CountedRoutes, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -678,7 +676,7 @@ class RoutesSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateRoutesAppendByIDResponse:
+    ) -> models.CountedRoutes:
         r"""Add a Route to the end of the Routing table
 
         Add a Route to the end of the specified Routing table.
@@ -749,9 +747,7 @@ class RoutesSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.CreateRoutesAppendByIDResponse, http_res
-            )
+            return unmarshal_json_response(models.CountedRoutes, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)

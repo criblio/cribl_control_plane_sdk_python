@@ -168,6 +168,8 @@ class InputWizContentConfigTypedDict(TypedDict):
     r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Units default to seconds if not specified. Enter 0 for unlimited time."""
     log_level: NotRequired[InputWizLogLevel]
     r"""Collector runtime log level"""
+    max_pages: NotRequired[float]
+    r"""Maximum number of pages to retrieve per collection task. Defaults to 0. Set to 0 to retrieve all pages."""
 
 
 class InputWizContentConfig(BaseModel):
@@ -223,6 +225,9 @@ class InputWizContentConfig(BaseModel):
         pydantic.Field(alias="logLevel"),
     ] = InputWizLogLevel.INFO
     r"""Collector runtime log level"""
+
+    max_pages: Annotated[Optional[float], pydantic.Field(alias="maxPages")] = 0
+    r"""Maximum number of pages to retrieve per collection task. Defaults to 0. Set to 0 to retrieve all pages."""
 
     @field_serializer("log_level")
     def serialize_log_level(self, value):

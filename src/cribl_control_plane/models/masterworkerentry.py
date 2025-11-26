@@ -38,7 +38,7 @@ class MasterWorkerEntryTypedDict(TypedDict):
     worker_processes: float
     deployable: NotRequired[bool]
     disconnected: NotRequired[bool]
-    last_metrics: NotRequired[Dict[str, Dict[str, Any]]]
+    last_metrics: NotRequired[Dict[str, Any]]
     metadata: NotRequired[HeartbeatMetadataTypedDict]
     node_upgrade_status: NotRequired[NodeUpgradeStatusTypedDict]
     status: NotRequired[str]
@@ -64,7 +64,7 @@ class MasterWorkerEntry(BaseModel):
     disconnected: Optional[bool] = None
 
     last_metrics: Annotated[
-        Optional[Dict[str, Dict[str, Any]]], pydantic.Field(alias="lastMetrics")
+        Optional[Dict[str, Any]], pydantic.Field(alias="lastMetrics")
     ] = None
 
     metadata: Optional[HeartbeatMetadata] = None

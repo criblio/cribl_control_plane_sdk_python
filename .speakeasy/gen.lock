@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 19ce623e2b8aa2eb25277025f22484d1
-  docVersion: 4.16.0-alpha.1763766224234-f72e4308
+  docChecksum: f38364f544e6fd9f60b609f0e9c3eefe
+  docVersion: 4.16.0-alpha.1764083963699-9bae55e4
   speakeasyVersion: 1.659.0
   generationVersion: 2.755.9
-  releaseVersion: 0.4.0b4
-  configChecksum: 15c2c546a17feafdda15265f2a016b04
+  releaseVersion: 0.4.0b5
+  configChecksum: 28ccf5c22626c16ba6c8ce8c1551cad7
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -3490,7 +3490,4 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: |
-  ## Python SDK Changes Detected:
-  * `cribl_control_plane.versions.commits.diff()`:  `response.items.[].diff_json.[].blocks.[].lines.[]` **Changed**
-  * `cribl_control_plane.versions.commits.get()`:  `response.items.[].diff_json.[].blocks.[].lines.[]` **Changed**
+releaseNotes: "## Python SDK Changes Detected:\n* `cribl_control_plane.nodes.list()`:  `response.items.[].last_metrics.{}` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.samples.create()`: \n  *  `request.events.[].additional_properties` **Added**\n"

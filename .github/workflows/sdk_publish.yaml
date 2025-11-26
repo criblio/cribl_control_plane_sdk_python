@@ -38,7 +38,7 @@ jobs:
           else
             echo "is-production=false" >> "$GITHUB_OUTPUT"
             echo "✅ Prerelease from ${GITHUB_REF_NAME} branch"
-            
+
             # For non-standard branches, check prerelease version
             VERSION=$(yq '.python.version' .speakeasy/gen.yaml)
             echo "Detected version: $VERSION"
@@ -63,3 +63,63 @@ jobs:
       github_access_token: ${{ secrets.GITHUB_TOKEN }}
       pypi_token: ${{ secrets.PYPI_TOKEN }}
       speakeasy_api_key: ${{ secrets.SPEAKEASY_API_KEY }}
+
+  restore-workflow-lock:
+    needs: [check-branch, publish]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Git user
+        run: |
+          git config user.name "SyncUpBot"
+          git config user.email "syncupbot@users.noreply.github.com"
+
+      - name: Install required tools
+        run: |
+          sudo apt-get update && sudo apt-get install -y jq
+          sudo curl -L https://github.com/mikefarah/yq/releases/download/v4.44.3/yq_linux_amd64 -o /usr/local/bin/yq
+          sudo chmod +x /usr/local/bin/yq
+
+      - name: Restore workflow.lock from GA tag
+        run: |
+          set -euo pipefail
+          
+          # Example: curl -s https://api.github.com/repos/criblio/cribl_control_plane_sdk_python/releases/latest | jq -r '.tag_name'
+          echo "Fetching latest GA release from GitHub..."
+          LAST_GA_TAG=$(curl -s https://api.github.com/repos/${{ github.repository }}/releases/latest | jq -r '.tag_name')
+          echo "✅ Latest GA tag: ${LAST_GA_TAG}"
+          
+          echo "Fetching tags from repository..."
+          git fetch --tags --quiet || true
+          
+          # Save current speakeasyVersion and inputs.location before restoring
+          echo "Saving current speakeasyVersion and inputs.location..."
+          CURRENT_SPEAKEASY_VERSION=$(yq '.speakeasyVersion' .speakeasy/workflow.lock)
+          CURRENT_INPUTS_LOCATION=$(yq '.workflow.sources["Cribl API Reference"].inputs[0].location' .speakeasy/workflow.lock)
+          echo "Current speakeasyVersion: ${CURRENT_SPEAKEASY_VERSION}"
+          echo "Current inputs.location: ${CURRENT_INPUTS_LOCATION}"
+          
+          echo "Restoring workflow.lock from tag: ${LAST_GA_TAG}"
+          git restore --source="${LAST_GA_TAG}" .speakeasy/workflow.lock
+          
+          # Restore speakeasyVersion (in both places) and inputs.location to current values
+          echo "Restoring speakeasyVersion and inputs.location to current values..."
+          yq -i --indent 4 ".speakeasyVersion = \"${CURRENT_SPEAKEASY_VERSION}\"" .speakeasy/workflow.lock
+          yq -i --indent 4 ".workflow.speakeasyVersion = \"${CURRENT_SPEAKEASY_VERSION}\"" .speakeasy/workflow.lock
+          yq -i --indent 4 ".workflow.sources[\"Cribl API Reference\"].inputs[0].location = \"${CURRENT_INPUTS_LOCATION}\"" .speakeasy/workflow.lock
+          
+          echo "Staging workflow.lock changes..."
+          git add .speakeasy/workflow.lock
+          
+          echo "Committing workflow.lock restoration..."
+          git commit -m "Revert workflow.lock to ${LAST_GA_TAG} for GA release" || echo "No changes to commit, workflow.lock already in sync"
+          
+          CURRENT_BRANCH="${{ needs.check-branch.outputs.branch }}"
+          echo "Pushing changes to ${CURRENT_BRANCH} branch..."
+          git push origin ${CURRENT_BRANCH}
+          echo "✅ Successfully restored workflow.lock from ${LAST_GA_TAG}"

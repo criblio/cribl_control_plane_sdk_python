@@ -29,7 +29,7 @@ generation:
     generateNewTests: false
     skipResponseBodyAssertions: false
 python:
-  version: 0.4.0a2
+  version: 0.4.0a3
   additionalDependencies:
     dev: {}
     main: {}
@@ -59,6 +59,7 @@ python:
       operations: ""
       shared: ""
       webhooks: ""
+  inferUnionDiscriminators: true
   inputModelSuffix: input
   legacyPyright: true
   license: ""

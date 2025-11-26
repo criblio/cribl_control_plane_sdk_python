@@ -2,11 +2,10 @@
 
 from __future__ import annotations
 from .gitrevertparams import GitRevertParams, GitRevertParamsTypedDict
-from .gitrevertresult import GitRevertResult, GitRevertResultTypedDict
 from cribl_control_plane.types import BaseModel
 from cribl_control_plane.utils import FieldMetadata, QueryParamMetadata, RequestMetadata
 import pydantic
-from typing import List, Optional
+from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -30,20 +29,3 @@ class CreateVersionRevertRequest(BaseModel):
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
     r"""The <code>id</code> of the Worker Group or Edge Fleet to revert the commit for. Required in Distributed deployments. Omit in Single-instance deployments."""
-
-
-class CreateVersionRevertResponseTypedDict(TypedDict):
-    r"""a list of GitRevertResult objects"""
-
-    count: NotRequired[int]
-    r"""number of items present in the items array"""
-    items: NotRequired[List[GitRevertResultTypedDict]]
-
-
-class CreateVersionRevertResponse(BaseModel):
-    r"""a list of GitRevertResult objects"""
-
-    count: Optional[int] = None
-    r"""number of items present in the items array"""
-
-    items: Optional[List[GitRevertResult]] = None

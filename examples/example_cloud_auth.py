@@ -44,7 +44,7 @@ async def main():
 
     security = Security(client_oauth=client_oauth)
     client = CriblControlPlane(server_url=base_url, security=security)
-    print(f"✅ Cribl SDK client created for Cribl.Cloud deployment")
+    print("✅ Cribl SDK client created for Cribl.Cloud deployment")
 
     # Validate connection, and list all git branches
     response = await client.versions.branches.list_async()
@@ -56,10 +56,10 @@ if __name__ == "__main__":
     try:
         asyncio.run(main())
     except Exception as error:
-        status_code = getattr(error, "status_code", None)
-        if status_code == 401:
+        error_status_code = getattr(error, "status_code", None)
+        if error_status_code == 401:
             print("⚠️ Authentication failed! Check your CLIENT_ID and CLIENT_SECRET.")
-        elif status_code == 429:
+        elif error_status_code == 429:
             print("⚠️ Uh oh, you've reached the rate limit! Try again in a few seconds.")
         else:
             print(f"❌ Something went wrong: {error}")

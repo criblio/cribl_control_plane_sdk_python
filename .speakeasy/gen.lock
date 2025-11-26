@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: f38364f544e6fd9f60b609f0e9c3eefe
-  docVersion: 4.16.0-alpha.1764083963699-9bae55e4
-  speakeasyVersion: 1.659.0
-  generationVersion: 2.755.9
-  releaseVersion: 0.4.0b5
-  configChecksum: 28ccf5c22626c16ba6c8ce8c1551cad7
+  docChecksum: 269dd486e3923036195f59ad1eba4fcf
+  docVersion: 4.16.0-alpha.1764154171060-22c638ae
+  speakeasyVersion: 1.661.2
+  generationVersion: 2.763.3
+  releaseVersion: 0.4.0b6
+  configChecksum: 7725d4dca1abf98cb609ba5a794ac936
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -15,7 +15,7 @@ features:
     additionalDependencies: 1.0.0
     additionalProperties: 1.0.1
     constsAndDefaults: 1.0.5
-    core: 5.23.9
+    core: 5.23.11
     defaultEnabledRetries: 0.2.0
     devContainers: 3.0.0
     enumUnions: 0.1.0
@@ -33,7 +33,7 @@ features:
     oauth2ClientCredentials: 2.1.0
     openEnums: 1.0.1
     responseFormat: 1.0.1
-    retries: 3.0.2
+    retries: 3.0.3
     sdkHooks: 1.1.0
     unions: 3.1.0
     uploadStreams: 1.0.0
@@ -3490,4 +3490,4 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: "## Python SDK Changes Detected:\n* `cribl_control_plane.nodes.list()`:  `response.items.[].last_metrics.{}` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.samples.create()`: \n  *  `request.events.[].additional_properties` **Added**\n"
+releaseNotes: "## Python SDK Changes Detected:\n* `cribl_control_plane.sources.list()`:  `response.items.[].[wiz].content_config.[].max_pages` **Added**\n* `cribl_control_plane.sources.create()`: \n  *  `request.[wiz].content_config.[].max_pages` **Added**\n  *  `response.items.[].[wiz].content_config.[].max_pages` **Added**\n* `cribl_control_plane.sources.get()`:  `response.items.[].[wiz].content_config.[].max_pages` **Added**\n* `cribl_control_plane.sources.update()`: \n  *  `request.input.[wiz].content_config.[].max_pages` **Added**\n  *  `response.items.[].[wiz].content_config.[].max_pages` **Added**\n* `cribl_control_plane.sources.delete()`:  `response.items.[].[wiz].content_config.[].max_pages` **Added**\n"

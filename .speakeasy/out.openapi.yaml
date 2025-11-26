@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.16.0-alpha.1764083963699-9bae55e4
+  version: 4.16.0-alpha.1764154171060-22c638ae
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -18318,6 +18318,12 @@ components:
                 default: info
                 description: Collector runtime log level
                 x-speakeasy-unknown-values: allow
+              maxPages:
+                type: number
+                title: Page limit
+                description: Maximum number of pages to retrieve per collection task. Defaults to 0. Set to 0 to retrieve all pages.
+                default: 0
+                minimum: 0
         requestTimeout:
           type: number
           title: Request timeout (seconds)

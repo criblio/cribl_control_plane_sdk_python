@@ -72,9 +72,9 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.destinations.samples.create(id="<id>", events=[
-        {
-            "raw": "<value>",
-        },
+        models.CriblEvent(
+            raw="<value>",
+        ),
     ])
 
     # Handle response

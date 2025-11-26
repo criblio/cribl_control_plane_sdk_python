@@ -169,7 +169,7 @@ class AuthOnprem(ICriblAuth):
                 username=self.username,
                 password=self.password
             )
-            token = response.token
+            token = response.result.token
 
             security = Security(bearer_auth=token)
             self.client = CriblControlPlane(

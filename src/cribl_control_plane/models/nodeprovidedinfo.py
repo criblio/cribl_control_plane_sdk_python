@@ -10,21 +10,13 @@ from typing import Dict, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
-class NodeProvidedInfoTagsTypedDict(TypedDict):
-    pass
-
-
-class NodeProvidedInfoTags(BaseModel):
-    pass
-
-
 class NodeProvidedInfoAwsTypedDict(TypedDict):
     enabled: bool
     instance_id: str
     region: str
     type: str
     zone: str
-    tags: NotRequired[NodeProvidedInfoTagsTypedDict]
+    tags: NotRequired[Dict[str, str]]
 
 
 class NodeProvidedInfoAws(BaseModel):
@@ -38,7 +30,7 @@ class NodeProvidedInfoAws(BaseModel):
 
     zone: str
 
-    tags: Optional[NodeProvidedInfoTags] = None
+    tags: Optional[Dict[str, str]] = None
 
 
 class NodeProvidedInfoHostOsTypedDict(TypedDict):

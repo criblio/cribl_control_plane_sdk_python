@@ -47,7 +47,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.ListPipelineResponse](../../models/listpipelineresponse.md)**
+**[models.CountedPipeline](../../models/countedpipeline.md)**
 
 ### Errors
 
@@ -115,7 +115,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.CreatePipelineResponse](../../models/createpipelineresponse.md)**
+**[models.CountedPipeline](../../models/countedpipeline.md)**
 
 ### Errors
 
@@ -159,7 +159,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.GetPipelineByIDResponse](../../models/getpipelinebyidresponse.md)**
+**[models.CountedPipeline](../../models/countedpipeline.md)**
 
 ### Errors
 
@@ -228,7 +228,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.UpdatePipelineByIDResponse](../../models/updatepipelinebyidresponse.md)**
+**[models.CountedPipeline](../../models/countedpipeline.md)**
 
 ### Errors
 
@@ -272,7 +272,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.DeletePipelineByIDResponse](../../models/deletepipelinebyidresponse.md)**
+**[models.CountedPipeline](../../models/countedpipeline.md)**
 
 ### Errors
 

@@ -626,7 +626,8 @@ class InputConfluentCloudTypedDict(TypedDict):
     sasl: NotRequired[InputConfluentCloudAuthenticationTypedDict]
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
     session_timeout: NotRequired[float]
-    r"""Timeout used to detect client failures when using Kafka's group-management facilities.
+    r"""
+    Timeout used to detect client failures when using Kafka's group-management facilities.
     If the client sends no heartbeats to the broker before the timeout expires,
     the broker will remove the client from the group and initiate a rebalance.
     Value must be between the broker's configured group.min.session.timeout.ms and group.max.session.timeout.ms.
@@ -748,7 +749,8 @@ class InputConfluentCloud(BaseModel):
     session_timeout: Annotated[
         Optional[float], pydantic.Field(alias="sessionTimeout")
     ] = 30000
-    r"""Timeout used to detect client failures when using Kafka's group-management facilities.
+    r"""
+    Timeout used to detect client failures when using Kafka's group-management facilities.
     If the client sends no heartbeats to the broker before the timeout expires,
     the broker will remove the client from the group and initiate a rebalance.
     Value must be between the broker's configured group.min.session.timeout.ms and group.max.session.timeout.ms.

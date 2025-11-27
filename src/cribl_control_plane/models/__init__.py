@@ -110,6 +110,10 @@ if TYPE_CHECKING:
         CountedUserAccessControlList,
         CountedUserAccessControlListTypedDict,
     )
+    from .createauthloginop import (
+        CreateAuthLoginResponse,
+        CreateAuthLoginResponseTypedDict,
+    )
     from .createconfiggroupbyproductop import (
         CreateConfigGroupByProductRequest,
         CreateConfigGroupByProductRequestTypedDict,
@@ -3500,6 +3504,8 @@ __all__ = [
     "CountedTeamAccessControlListTypedDict",
     "CountedUserAccessControlList",
     "CountedUserAccessControlListTypedDict",
+    "CreateAuthLoginResponse",
+    "CreateAuthLoginResponseTypedDict",
     "CreateConfigGroupByProductRequest",
     "CreateConfigGroupByProductRequestTypedDict",
     "CreateCriblLakeDatasetByLakeIDRequest",
@@ -6475,6 +6481,8 @@ _dynamic_imports: dict[str, str] = {
     "CountedTeamAccessControlListTypedDict": ".countedteamaccesscontrollist",
     "CountedUserAccessControlList": ".counteduseraccesscontrollist",
     "CountedUserAccessControlListTypedDict": ".counteduseraccesscontrollist",
+    "CreateAuthLoginResponse": ".createauthloginop",
+    "CreateAuthLoginResponseTypedDict": ".createauthloginop",
     "CreateConfigGroupByProductRequest": ".createconfiggroupbyproductop",
     "CreateConfigGroupByProductRequestTypedDict": ".createconfiggroupbyproductop",
     "CreateCriblLakeDatasetByLakeIDRequest": ".createcribllakedatasetbylakeidop",

@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 90171872a47fb36497680bb638644eef
-  docVersion: 4.15.0-alpha.1763072414698-97546d75
+  docChecksum: 822674f854529be29b12b4d31e509ad5
+  docVersion: 4.15.1-alpha.1764198138622-538bc24c
   speakeasyVersion: 1.661.2
   generationVersion: 2.763.3
-  releaseVersion: 0.4.0a7
-  configChecksum: 030d8ab04b9a22cd9553af0ecc562d8c
+  releaseVersion: 0.4.0a8
+  configChecksum: 263d89656db4985d3acf7b88cfd00394
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -2860,6 +2860,13 @@ examples:
       parameters:
         path:
           lakeId: "<id>"
+        query:
+          storageLocationId: "<id>"
+          format: "<value>"
+          excludeDDSS: "<value>"
+          excludeDeleted: "<value>"
+          excludeInternal: "<value>"
+          excludeBYOS: "<value>"
       responses:
         "200":
           application/json: {"count": 3101, "items": [{"acceleratedFields": ["<value 1>", "<value 2>"], "bucketName": "<value>", "cacheConnection": {"acceleratedFields": ["<value 1>", "<value 2>"], "backfillStatus": "finished", "cacheRef": "<value>", "createdAt": 6343.67, "lakehouseConnectionType": "cache", "migrationQueryId": "<id>", "retentionInDays": 6213}, "deletionStartedAt": 581.96, "description": "remarkable meh whoever ha crossly", "format": "json", "httpDAUsed": true, "id": "<id>", "metrics": {"currentSizeBytes": 31.01, "metricsDate": "<value>"}, "retentionPeriodInDays": 2829.32, "searchConfig": {"datatypes": ["<value 1>"], "metadata": {"earliest": "<value>", "enableAcceleration": true, "fieldList": ["<value 1>", "<value 2>"], "latestRunInfo": {"earliestScannedTime": 4800.7, "finishedAt": 8646.6, "latestScannedTime": 5697.01, "objectCount": 4527.63}, "scanMode": "quick"}}, "storageLocationId": "<id>", "viewName": "<value>"}]}
@@ -3496,3 +3503,6 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
+releaseNotes: |
+  ## Python SDK Changes Detected:
+  * `cribl_control_plane.lake_datasets.list()`:  `request` **Changed**

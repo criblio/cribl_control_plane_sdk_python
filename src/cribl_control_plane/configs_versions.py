@@ -19,7 +19,7 @@ class ConfigsVersions(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetConfigGroupConfigVersionByProductAndIDResponse:
+    ) -> models.CountedString:
         r"""Get the configuration version for a Worker Group or Edge Fleet
 
         Get the configuration version for the specified Worker Group or Edge Fleet.
@@ -65,10 +65,14 @@ class ConfigsVersions(BaseSDK):
         if retries == UNSET:
             if self.sdk_configuration.retry_config is not UNSET:
                 retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 60000, 1.5, 3600000), True
+                )
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["429", "500", "502", "503", "504"])
+            retry_config = (retries, ["429"])
 
         http_res = self.do_request(
             hook_ctx=HookContext(
@@ -87,9 +91,7 @@ class ConfigsVersions(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.GetConfigGroupConfigVersionByProductAndIDResponse, http_res
-            )
+            return unmarshal_json_response(models.CountedString, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -111,7 +113,7 @@ class ConfigsVersions(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetConfigGroupConfigVersionByProductAndIDResponse:
+    ) -> models.CountedString:
         r"""Get the configuration version for a Worker Group or Edge Fleet
 
         Get the configuration version for the specified Worker Group or Edge Fleet.
@@ -157,10 +159,14 @@ class ConfigsVersions(BaseSDK):
         if retries == UNSET:
             if self.sdk_configuration.retry_config is not UNSET:
                 retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 60000, 1.5, 3600000), True
+                )
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["429", "500", "502", "503", "504"])
+            retry_config = (retries, ["429"])
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
@@ -179,9 +185,7 @@ class ConfigsVersions(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.GetConfigGroupConfigVersionByProductAndIDResponse, http_res
-            )
+            return unmarshal_json_response(models.CountedString, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)

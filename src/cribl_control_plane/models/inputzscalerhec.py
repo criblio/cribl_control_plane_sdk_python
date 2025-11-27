@@ -147,10 +147,12 @@ class InputZscalerHecAuthTokenMetadatum(BaseModel):
 
 
 class InputZscalerHecAuthTokenTypedDict(TypedDict):
-    token: Any
+    token: str
+    r"""Shared secret to be provided by any client (Authorization: <token>)"""
     auth_type: NotRequired[InputZscalerHecAuthenticationMethod]
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
-    token_secret: NotRequired[Any]
+    token_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
     enabled: NotRequired[bool]
     description: NotRequired[str]
     allowed_indexes_at_token: NotRequired[List[str]]
@@ -160,7 +162,8 @@ class InputZscalerHecAuthTokenTypedDict(TypedDict):
 
 
 class InputZscalerHecAuthToken(BaseModel):
-    token: Any
+    token: str
+    r"""Shared secret to be provided by any client (Authorization: <token>)"""
 
     auth_type: Annotated[
         Annotated[
@@ -171,7 +174,8 @@ class InputZscalerHecAuthToken(BaseModel):
     ] = InputZscalerHecAuthenticationMethod.MANUAL
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
-    token_secret: Annotated[Optional[Any], pydantic.Field(alias="tokenSecret")] = None
+    token_secret: Annotated[Optional[str], pydantic.Field(alias="tokenSecret")] = None
+    r"""Select or create a stored text secret"""
 
     enabled: Optional[bool] = True
 

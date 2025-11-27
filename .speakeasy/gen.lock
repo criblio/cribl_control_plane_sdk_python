@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 269dd486e3923036195f59ad1eba4fcf
-  docVersion: 4.16.0-alpha.1764154171060-22c638ae
+  docChecksum: 414267989036b17bf3c2bd54f1864e83
+  docVersion: 4.16.0-alpha.1764237531086-29ee6265
   speakeasyVersion: 1.661.2
   generationVersion: 2.763.3
-  releaseVersion: 0.4.0b8
-  configChecksum: 9b0a9075d119527286ef9f0c029b6a53
+  releaseVersion: 0.4.0b9
+  configChecksum: 7b9213e312a3b29d987888f0e494497d
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -112,6 +112,7 @@ generatedFiles:
   - docs/models/countedstring.md
   - docs/models/countedteamaccesscontrollist.md
   - docs/models/counteduseraccesscontrollist.md
+  - docs/models/createauthloginresponse.md
   - docs/models/createconfiggroupbyproductrequest.md
   - docs/models/createcribllakedatasetbylakeidrequest.md
   - docs/models/createinputhectokenbyidrequest.md
@@ -2148,6 +2149,7 @@ generatedFiles:
   - src/cribl_control_plane/models/countedstring.py
   - src/cribl_control_plane/models/countedteamaccesscontrollist.py
   - src/cribl_control_plane/models/counteduseraccesscontrollist.py
+  - src/cribl_control_plane/models/createauthloginop.py
   - src/cribl_control_plane/models/createconfiggroupbyproductop.py
   - src/cribl_control_plane/models/createcribllakedatasetbylakeidop.py
   - src/cribl_control_plane/models/createinputhectokenbyidop.py

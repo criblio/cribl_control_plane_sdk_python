@@ -57,14 +57,15 @@ jobs:
           
           echo "GitHub API response for latest release: $LATEST_RELEASE"
           
+          # Fail if no latest release found
           if [[ "$LATEST_RELEASE" == "null" || -z "$LATEST_RELEASE" ]]; then
-            echo "⚠️  No stable releases found on GitHub, using default version 0.0.0"
-            BASE_OFFICIAL="0.0.0"
-          else
-            # Remove 'v' prefix if present (e.g., v0.0.3 -> 0.0.3)
-            BASE_OFFICIAL="${LATEST_RELEASE#v}"
-            echo "✅ Latest stable release from GitHub: ${BASE_OFFICIAL}"
+            echo "❌ Error: No stable releases found on GitHub"
+            exit 1
           fi
+          
+          # Remove 'v' prefix if present (e.g., v0.0.3 -> 0.0.3)
+          BASE_OFFICIAL="${LATEST_RELEASE#v}"
+          echo "✅ Latest stable release from GitHub: ${BASE_OFFICIAL}"
 
           # Parse version components
           IFS='.' read -r major minor _ <<< "${BASE_OFFICIAL}"

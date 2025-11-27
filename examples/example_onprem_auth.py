@@ -36,7 +36,7 @@ async def main():
         username=ONPREM_USERNAME,
         password=ONPREM_PASSWORD
     )
-    token = response.token
+    token = response.result.token
     print(f"✅ Authenticated with on-prem server, token: {token}")
 
     # Create authenticated SDK client

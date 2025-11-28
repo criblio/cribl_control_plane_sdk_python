@@ -27,7 +27,7 @@ async def main() -> None:
         username=ONPREM_USERNAME, password=ONPREM_PASSWORD
     )
 
-    token = response.token
+    token = response.result.token
     security = Security(bearer_auth=token)
     cribl = CriblControlPlane(server_url=base_url, security=security)
 

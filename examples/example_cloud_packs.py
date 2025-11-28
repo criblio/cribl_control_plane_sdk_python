@@ -4,7 +4,6 @@ WORKSPACE_NAME with your Organization ID, Client ID and Secret, and
 Workspace name. To get your CLIENT_ID and CLIENT_SECRET values, follow the steps
 at https://docs.cribl.io/cribl-as-code/sdks-auth/#sdks-auth-cloud.
 
-<<<<<<< HEAD:examples/example_cloud_search_packs_lake.py
 This example demonstrates how to install a Search Pack and create a Lake Dataset 
 using the Control Plane SDK with Cribl.Cloud authentication.
 
@@ -15,11 +14,9 @@ The example:
 Prerequisites: Replace the placeholder values for ORG_ID, CLIENT_ID, 
 CLIENT_SECRET, and WORKSPACE_NAME with your Organization ID, Client ID and 
 Secret, and Workspace name. To get your CLIENT_ID and CLIENT_SECRET values, 
-follow the steps at https://docs.cribl.io/api/#criblcloud. Your Client ID 
-and Secret are sensitive information and should be kept private.
-=======
+follow the steps at https://docs.cribl.io/api/#criblcloud.
+
 Your Client ID and Secret are sensitive information and should be kept private.
->>>>>>> b340df27 (PLAT-8458 - Rewrite example):examples/example_cloud_packs.py
 
 NOTE: This example is for Cribl.Cloud deployments only.
 """

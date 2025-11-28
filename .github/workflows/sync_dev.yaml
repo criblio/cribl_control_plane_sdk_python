@@ -1,4 +1,4 @@
-name: Sync Main into dev-local nad openapi-prerelease branches
+name: Sync Main to dev-local and Speakeasy versions to branches
 
 on:
   push:
@@ -14,31 +14,18 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install yq
-        run: |
-          sudo curl -L https://github.com/mikefarah/yq/releases/download/v4.44.3/yq_linux_amd64 -o /usr/local/bin/yq
-          sudo chmod +x /usr/local/bin/yq
-
       - name: Set up Git user
         run: |
           git config user.name "SyncUpBot"
           git config user.email "syncupbot@users.noreply.github.com"
 
-      - name: Merge main into dev-local & openapi-prerelease
+      - name: Merge main into dev-local
         run: |
-          git fetch origin main dev-local openapi-prerelease
+          git fetch origin main dev-local
 
           git checkout dev-local
           git merge origin/main -X theirs --no-edit
           git push origin dev-local
-
-          git checkout openapi-prerelease
-          git reset --hard origin/main
-
-          yq -i --indent 4 '.sources["Cribl API Reference"].inputs[0].location = "https://raw.githubusercontent.com/criblio/cribl-openapi-spec/main/specs/control-plane-prerelease.yml"' .speakeasy/workflow.yaml
-          git commit -am "openapi-prerelease: use local OpenAPI source (./openapi.yml) in workflow.yaml"
-
-          git push origin -f openapi-prerelease
 
   sync-speakeasy-version:
     runs-on: ubuntu-latest
@@ -65,7 +52,7 @@ jobs:
             echo "ℹ️  No Speakeasy version changes detected"
           fi
 
-      - name: Sync Speakeasy version to dev and stage branches
+      - name: Sync Speakeasy version to dev, stage, and openapi-prerelease branches
         if: steps.check-changes.outputs.speakeasy_version_changed == 'true'
         run: |
           # Get the speakeasyVersion from main branch
@@ -100,9 +87,23 @@ jobs:
             echo "⚠️  Stage branch does not exist, skipping"
           fi
 
+          # Sync to openapi-prerelease branch
+          echo "🔄 Syncing to openapi-prerelease branch..."
+          git fetch origin openapi-prerelease || echo "⚠️  OpenAPI-prerelease branch not found, skipping"
+          if git ls-remote --heads origin openapi-prerelease | grep -q openapi-prerelease; then
+            git checkout openapi-prerelease
+            sed -i "s/speakeasyVersion: .*/speakeasyVersion: $SPEAKEASY_VERSION/" .speakeasy/workflow.yaml
+            git add .speakeasy/workflow.yaml
+            git commit -m "sync: update Speakeasy version to $SPEAKEASY_VERSION from main" || echo "No changes to commit on openapi-prerelease"
+            git push origin openapi-prerelease
+            echo "✅ OpenAPI-prerelease branch updated"
+          else
+            echo "⚠️  OpenAPI-prerelease branch does not exist, skipping"
+          fi
+
       - name: Summary
         if: steps.check-changes.outputs.speakeasy_version_changed == 'true'
         run: |
           echo "🎉 Speakeasy version sync completed!"
-          echo "📋 Updated branches: dev, stage"
+          echo "📋 Updated branches: dev, stage, openapi-prerelease"
           echo "🔗 Changes pushed directly to branches"

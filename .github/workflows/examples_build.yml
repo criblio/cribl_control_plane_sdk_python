@@ -35,10 +35,30 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         poetry run pip install python-dotenv>=1.0.0
-        poetry run pip install -r examples/requirements.txt
+        poetry run pip install autoflake>=2.0.0
       
     - name: Install pyright for type checking
       run: npm install -g pyright
       
-    - name: Lint and type check examples directory
-      run: ./examples/lint-examples.sh
+    - name: Check for unused imports
+      run: |
+        echo "Checking for unused imports in examples..."
+        for example in examples/example_*.py; do
+          poetry run autoflake --check --remove-all-unused-imports --remove-unused-variables "$example" || exit 1
+        done
+        echo "✅ No unused imports found"
+      
+    - name: Verify examples can import SDK
+      run: |
+        poetry run python -c "from cribl_control_plane import CriblControlPlane; print('✅ SDK import successful')"
+        for example in examples/example_*.py; do
+          echo "Checking syntax for: $example"
+          poetry run python -m py_compile "$example" || exit 1
+        done
+        echo "✅ All examples have valid Python syntax"
+      
+    - name: Type check examples directory
+      run: |
+        # Type check all example files using pyright
+        # pyright will automatically use the venv configuration from pyproject.toml
+        pyright examples/example_*.py

@@ -49,6 +49,7 @@ class Cribl(BaseSDK):
             accept_header_value="application/json",
             http_headers=http_headers,
             security=self.sdk_configuration.security,
+            allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
 
@@ -133,6 +134,7 @@ class Cribl(BaseSDK):
             accept_header_value="application/json",
             http_headers=http_headers,
             security=self.sdk_configuration.security,
+            allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
 
@@ -182,40 +184,45 @@ class Cribl(BaseSDK):
         self,
         *,
         api: Union[models.SystemSettingsConfAPI, models.SystemSettingsConfAPITypedDict],
-        backups: Union[
-            models.SystemSettingsConfBackups, models.SystemSettingsConfBackupsTypedDict
-        ],
         pii: Union[models.SystemSettingsConfPii, models.SystemSettingsConfPiiTypedDict],
         proxy: Union[
             models.SystemSettingsConfProxy, models.SystemSettingsConfProxyTypedDict
         ],
-        rollback: Union[
-            models.SystemSettingsConfRollback,
-            models.SystemSettingsConfRollbackTypedDict,
-        ],
-        shutdown: Union[
-            models.SystemSettingsConfShutdown,
-            models.SystemSettingsConfShutdownTypedDict,
-        ],
-        sni: Union[models.SystemSettingsConfSni, models.SystemSettingsConfSniTypedDict],
         system: Union[
             models.SystemSettingsConfSystem, models.SystemSettingsConfSystemTypedDict
         ],
-        tls: Union[models.SystemSettingsConfTLS, models.SystemSettingsConfTLSTypedDict],
         upgrade_group_settings: Union[
             models.UpgradeGroupSettings, models.UpgradeGroupSettingsTypedDict
-        ],
-        upgrade_settings: Union[
-            models.UpgradeSettings, models.UpgradeSettingsTypedDict
         ],
         workers: Union[
             models.SystemSettingsConfWorkers, models.SystemSettingsConfWorkersTypedDict
         ],
+        backups: Optional[
+            Union[
+                models.SystemSettingsConfBackups,
+                models.SystemSettingsConfBackupsTypedDict,
+            ]
+        ] = None,
         custom_logo: Optional[
             Union[
                 models.SystemSettingsConfCustomLogo,
                 models.SystemSettingsConfCustomLogoTypedDict,
             ]
+        ] = None,
+        rollback: Optional[
+            Union[
+                models.SystemSettingsConfRollback,
+                models.SystemSettingsConfRollbackTypedDict,
+            ]
+        ] = None,
+        shutdown: Optional[
+            Union[
+                models.SystemSettingsConfShutdown,
+                models.SystemSettingsConfShutdownTypedDict,
+            ]
+        ] = None,
+        sni: Optional[
+            Union[models.SystemSettingsConfSni, models.SystemSettingsConfSniTypedDict]
         ] = None,
         sockets: Optional[
             Union[
@@ -229,6 +236,12 @@ class Cribl(BaseSDK):
                 models.SystemSettingsConfSupportTypedDict,
             ]
         ] = None,
+        tls: Optional[
+            Union[models.SystemSettingsConfTLS, models.SystemSettingsConfTLSTypedDict]
+        ] = None,
+        upgrade_settings: Optional[
+            Union[models.UpgradeSettings, models.UpgradeSettingsTypedDict]
+        ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -239,20 +252,20 @@ class Cribl(BaseSDK):
         Update Cribl system settings
 
         :param api:
-        :param backups:
         :param pii:
         :param proxy:
+        :param system:
+        :param upgrade_group_settings:
+        :param workers:
+        :param backups:
+        :param custom_logo:
         :param rollback:
         :param shutdown:
         :param sni:
-        :param system:
-        :param tls:
-        :param upgrade_group_settings:
-        :param upgrade_settings:
-        :param workers:
-        :param custom_logo:
         :param sockets:
         :param support:
+        :param tls:
+        :param upgrade_settings:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -270,19 +283,21 @@ class Cribl(BaseSDK):
 
         request = models.SystemSettingsConf(
             api=utils.get_pydantic_model(api, models.SystemSettingsConfAPI),
-            backups=utils.get_pydantic_model(backups, models.SystemSettingsConfBackups),
+            backups=utils.get_pydantic_model(
+                backups, Optional[models.SystemSettingsConfBackups]
+            ),
             custom_logo=utils.get_pydantic_model(
                 custom_logo, Optional[models.SystemSettingsConfCustomLogo]
             ),
             pii=utils.get_pydantic_model(pii, models.SystemSettingsConfPii),
             proxy=utils.get_pydantic_model(proxy, models.SystemSettingsConfProxy),
             rollback=utils.get_pydantic_model(
-                rollback, models.SystemSettingsConfRollback
+                rollback, Optional[models.SystemSettingsConfRollback]
             ),
             shutdown=utils.get_pydantic_model(
-                shutdown, models.SystemSettingsConfShutdown
+                shutdown, Optional[models.SystemSettingsConfShutdown]
             ),
-            sni=utils.get_pydantic_model(sni, models.SystemSettingsConfSni),
+            sni=utils.get_pydantic_model(sni, Optional[models.SystemSettingsConfSni]),
             sockets=utils.get_pydantic_model(
                 sockets, Optional[models.SystemSettingsConfSockets]
             ),
@@ -290,12 +305,12 @@ class Cribl(BaseSDK):
                 support, Optional[models.SystemSettingsConfSupport]
             ),
             system=utils.get_pydantic_model(system, models.SystemSettingsConfSystem),
-            tls=utils.get_pydantic_model(tls, models.SystemSettingsConfTLS),
+            tls=utils.get_pydantic_model(tls, Optional[models.SystemSettingsConfTLS]),
             upgrade_group_settings=utils.get_pydantic_model(
                 upgrade_group_settings, models.UpgradeGroupSettings
             ),
             upgrade_settings=utils.get_pydantic_model(
-                upgrade_settings, models.UpgradeSettings
+                upgrade_settings, Optional[models.UpgradeSettings]
             ),
             workers=utils.get_pydantic_model(workers, models.SystemSettingsConfWorkers),
         )
@@ -316,6 +331,7 @@ class Cribl(BaseSDK):
             get_serialized_body=lambda: utils.serialize_request_body(
                 request, False, False, "json", models.SystemSettingsConf
             ),
+            allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
 
@@ -365,40 +381,45 @@ class Cribl(BaseSDK):
         self,
         *,
         api: Union[models.SystemSettingsConfAPI, models.SystemSettingsConfAPITypedDict],
-        backups: Union[
-            models.SystemSettingsConfBackups, models.SystemSettingsConfBackupsTypedDict
-        ],
         pii: Union[models.SystemSettingsConfPii, models.SystemSettingsConfPiiTypedDict],
         proxy: Union[
             models.SystemSettingsConfProxy, models.SystemSettingsConfProxyTypedDict
         ],
-        rollback: Union[
-            models.SystemSettingsConfRollback,
-            models.SystemSettingsConfRollbackTypedDict,
-        ],
-        shutdown: Union[
-            models.SystemSettingsConfShutdown,
-            models.SystemSettingsConfShutdownTypedDict,
-        ],
-        sni: Union[models.SystemSettingsConfSni, models.SystemSettingsConfSniTypedDict],
         system: Union[
             models.SystemSettingsConfSystem, models.SystemSettingsConfSystemTypedDict
         ],
-        tls: Union[models.SystemSettingsConfTLS, models.SystemSettingsConfTLSTypedDict],
         upgrade_group_settings: Union[
             models.UpgradeGroupSettings, models.UpgradeGroupSettingsTypedDict
-        ],
-        upgrade_settings: Union[
-            models.UpgradeSettings, models.UpgradeSettingsTypedDict
         ],
         workers: Union[
             models.SystemSettingsConfWorkers, models.SystemSettingsConfWorkersTypedDict
         ],
+        backups: Optional[
+            Union[
+                models.SystemSettingsConfBackups,
+                models.SystemSettingsConfBackupsTypedDict,
+            ]
+        ] = None,
         custom_logo: Optional[
             Union[
                 models.SystemSettingsConfCustomLogo,
                 models.SystemSettingsConfCustomLogoTypedDict,
             ]
+        ] = None,
+        rollback: Optional[
+            Union[
+                models.SystemSettingsConfRollback,
+                models.SystemSettingsConfRollbackTypedDict,
+            ]
+        ] = None,
+        shutdown: Optional[
+            Union[
+                models.SystemSettingsConfShutdown,
+                models.SystemSettingsConfShutdownTypedDict,
+            ]
+        ] = None,
+        sni: Optional[
+            Union[models.SystemSettingsConfSni, models.SystemSettingsConfSniTypedDict]
         ] = None,
         sockets: Optional[
             Union[
@@ -412,6 +433,12 @@ class Cribl(BaseSDK):
                 models.SystemSettingsConfSupportTypedDict,
             ]
         ] = None,
+        tls: Optional[
+            Union[models.SystemSettingsConfTLS, models.SystemSettingsConfTLSTypedDict]
+        ] = None,
+        upgrade_settings: Optional[
+            Union[models.UpgradeSettings, models.UpgradeSettingsTypedDict]
+        ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -422,20 +449,20 @@ class Cribl(BaseSDK):
         Update Cribl system settings
 
         :param api:
-        :param backups:
         :param pii:
         :param proxy:
+        :param system:
+        :param upgrade_group_settings:
+        :param workers:
+        :param backups:
+        :param custom_logo:
         :param rollback:
         :param shutdown:
         :param sni:
-        :param system:
-        :param tls:
-        :param upgrade_group_settings:
-        :param upgrade_settings:
-        :param workers:
-        :param custom_logo:
         :param sockets:
         :param support:
+        :param tls:
+        :param upgrade_settings:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -453,19 +480,21 @@ class Cribl(BaseSDK):
 
         request = models.SystemSettingsConf(
             api=utils.get_pydantic_model(api, models.SystemSettingsConfAPI),
-            backups=utils.get_pydantic_model(backups, models.SystemSettingsConfBackups),
+            backups=utils.get_pydantic_model(
+                backups, Optional[models.SystemSettingsConfBackups]
+            ),
             custom_logo=utils.get_pydantic_model(
                 custom_logo, Optional[models.SystemSettingsConfCustomLogo]
             ),
             pii=utils.get_pydantic_model(pii, models.SystemSettingsConfPii),
             proxy=utils.get_pydantic_model(proxy, models.SystemSettingsConfProxy),
             rollback=utils.get_pydantic_model(
-                rollback, models.SystemSettingsConfRollback
+                rollback, Optional[models.SystemSettingsConfRollback]
             ),
             shutdown=utils.get_pydantic_model(
-                shutdown, models.SystemSettingsConfShutdown
+                shutdown, Optional[models.SystemSettingsConfShutdown]
             ),
-            sni=utils.get_pydantic_model(sni, models.SystemSettingsConfSni),
+            sni=utils.get_pydantic_model(sni, Optional[models.SystemSettingsConfSni]),
             sockets=utils.get_pydantic_model(
                 sockets, Optional[models.SystemSettingsConfSockets]
             ),
@@ -473,12 +502,12 @@ class Cribl(BaseSDK):
                 support, Optional[models.SystemSettingsConfSupport]
             ),
             system=utils.get_pydantic_model(system, models.SystemSettingsConfSystem),
-            tls=utils.get_pydantic_model(tls, models.SystemSettingsConfTLS),
+            tls=utils.get_pydantic_model(tls, Optional[models.SystemSettingsConfTLS]),
             upgrade_group_settings=utils.get_pydantic_model(
                 upgrade_group_settings, models.UpgradeGroupSettings
             ),
             upgrade_settings=utils.get_pydantic_model(
-                upgrade_settings, models.UpgradeSettings
+                upgrade_settings, Optional[models.UpgradeSettings]
             ),
             workers=utils.get_pydantic_model(workers, models.SystemSettingsConfWorkers),
         )
@@ -499,6 +528,7 @@ class Cribl(BaseSDK):
             get_serialized_body=lambda: utils.serialize_request_body(
                 request, False, False, "json", models.SystemSettingsConf
             ),
+            allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
 

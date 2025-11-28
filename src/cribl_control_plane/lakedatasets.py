@@ -118,6 +118,7 @@ class LakeDatasets(BaseSDK):
                 "json",
                 models.CriblLakeDataset,
             ),
+            allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
 
@@ -271,6 +272,7 @@ class LakeDatasets(BaseSDK):
                 "json",
                 models.CriblLakeDataset,
             ),
+            allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
 
@@ -362,6 +364,7 @@ class LakeDatasets(BaseSDK):
             accept_header_value="application/json",
             http_headers=http_headers,
             security=self.sdk_configuration.security,
+            allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
 
@@ -453,6 +456,7 @@ class LakeDatasets(BaseSDK):
             accept_header_value="application/json",
             http_headers=http_headers,
             security=self.sdk_configuration.security,
+            allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
 
@@ -547,6 +551,7 @@ class LakeDatasets(BaseSDK):
             accept_header_value="application/json",
             http_headers=http_headers,
             security=self.sdk_configuration.security,
+            allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
 
@@ -641,6 +646,7 @@ class LakeDatasets(BaseSDK):
             accept_header_value="application/json",
             http_headers=http_headers,
             security=self.sdk_configuration.security,
+            allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
 
@@ -735,6 +741,7 @@ class LakeDatasets(BaseSDK):
             accept_header_value="application/json",
             http_headers=http_headers,
             security=self.sdk_configuration.security,
+            allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
 
@@ -829,6 +836,7 @@ class LakeDatasets(BaseSDK):
             accept_header_value="application/json",
             http_headers=http_headers,
             security=self.sdk_configuration.security,
+            allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
 
@@ -985,6 +993,7 @@ class LakeDatasets(BaseSDK):
                 "json",
                 models.CriblLakeDatasetUpdate,
             ),
+            allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
 
@@ -1141,6 +1150,7 @@ class LakeDatasets(BaseSDK):
                 "json",
                 models.CriblLakeDatasetUpdate,
             ),
+            allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
 

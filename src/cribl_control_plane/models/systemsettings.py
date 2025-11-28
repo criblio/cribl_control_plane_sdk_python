@@ -325,7 +325,6 @@ class SystemSettingsWorkers(BaseModel):
 class SystemSettingsTypedDict(TypedDict):
     api: SystemSettingsAPITypedDict
     auth: AuthConfigTypedDict
-    backups: SystemSettingsBackupsTypedDict
     distributed: DistributedTypedDict
     fips: bool
     git: GitSettingsTypedDict
@@ -335,27 +334,26 @@ class SystemSettingsTypedDict(TypedDict):
     proxy: SystemSettingsProxyTypedDict
     redis_cache_limits: RedisCacheLimitsTypedDict
     redis_limits: RedisLimitsTypedDict
-    rollback: SystemSettingsRollbackTypedDict
     search_limits: SearchSettingsTypedDict
     services_limits: ServicesLimitsTypedDict
-    shutdown: SystemSettingsShutdownTypedDict
-    sni: SystemSettingsSniTypedDict
     system: SystemSettingsSystemTypedDict
-    tls: SystemSettingsTLSTypedDict
     upgrade_group_settings: UpgradeGroupSettingsTypedDict
-    upgrade_settings: UpgradeSettingsTypedDict
     workers: SystemSettingsWorkersTypedDict
+    backups: NotRequired[SystemSettingsBackupsTypedDict]
     custom_logo: NotRequired[SystemSettingsCustomLogoTypedDict]
+    rollback: NotRequired[SystemSettingsRollbackTypedDict]
+    shutdown: NotRequired[SystemSettingsShutdownTypedDict]
+    sni: NotRequired[SystemSettingsSniTypedDict]
     sockets: NotRequired[SystemSettingsSocketsTypedDict]
     support: NotRequired[SystemSettingsSupportTypedDict]
+    tls: NotRequired[SystemSettingsTLSTypedDict]
+    upgrade_settings: NotRequired[UpgradeSettingsTypedDict]
 
 
 class SystemSettings(BaseModel):
     api: SystemSettingsAPI
 
     auth: AuthConfig
-
-    backups: SystemSettingsBackups
 
     distributed: Distributed
 
@@ -377,34 +375,36 @@ class SystemSettings(BaseModel):
 
     redis_limits: Annotated[RedisLimits, pydantic.Field(alias="redisLimits")]
 
-    rollback: SystemSettingsRollback
-
     search_limits: Annotated[SearchSettings, pydantic.Field(alias="searchLimits")]
 
     services_limits: Annotated[ServicesLimits, pydantic.Field(alias="servicesLimits")]
 
-    shutdown: SystemSettingsShutdown
-
-    sni: SystemSettingsSni
-
     system: SystemSettingsSystem
-
-    tls: SystemSettingsTLS
 
     upgrade_group_settings: Annotated[
         UpgradeGroupSettings, pydantic.Field(alias="upgradeGroupSettings")
     ]
 
-    upgrade_settings: Annotated[
-        UpgradeSettings, pydantic.Field(alias="upgradeSettings")
-    ]
-
     workers: SystemSettingsWorkers
+
+    backups: Optional[SystemSettingsBackups] = None
 
     custom_logo: Annotated[
         Optional[SystemSettingsCustomLogo], pydantic.Field(alias="customLogo")
     ] = None
 
+    rollback: Optional[SystemSettingsRollback] = None
+
+    shutdown: Optional[SystemSettingsShutdown] = None
+
+    sni: Optional[SystemSettingsSni] = None
+
     sockets: Optional[SystemSettingsSockets] = None
 
     support: Optional[SystemSettingsSupport] = None
+
+    tls: Optional[SystemSettingsTLS] = None
+
+    upgrade_settings: Annotated[
+        Optional[UpgradeSettings], pydantic.Field(alias="upgradeSettings")
+    ] = None

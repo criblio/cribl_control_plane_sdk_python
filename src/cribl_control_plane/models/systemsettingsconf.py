@@ -291,55 +291,55 @@ class SystemSettingsConfWorkers(BaseModel):
 
 class SystemSettingsConfTypedDict(TypedDict):
     api: SystemSettingsConfAPITypedDict
-    backups: SystemSettingsConfBackupsTypedDict
     pii: SystemSettingsConfPiiTypedDict
     proxy: SystemSettingsConfProxyTypedDict
-    rollback: SystemSettingsConfRollbackTypedDict
-    shutdown: SystemSettingsConfShutdownTypedDict
-    sni: SystemSettingsConfSniTypedDict
     system: SystemSettingsConfSystemTypedDict
-    tls: SystemSettingsConfTLSTypedDict
     upgrade_group_settings: UpgradeGroupSettingsTypedDict
-    upgrade_settings: UpgradeSettingsTypedDict
     workers: SystemSettingsConfWorkersTypedDict
+    backups: NotRequired[SystemSettingsConfBackupsTypedDict]
     custom_logo: NotRequired[SystemSettingsConfCustomLogoTypedDict]
+    rollback: NotRequired[SystemSettingsConfRollbackTypedDict]
+    shutdown: NotRequired[SystemSettingsConfShutdownTypedDict]
+    sni: NotRequired[SystemSettingsConfSniTypedDict]
     sockets: NotRequired[SystemSettingsConfSocketsTypedDict]
     support: NotRequired[SystemSettingsConfSupportTypedDict]
+    tls: NotRequired[SystemSettingsConfTLSTypedDict]
+    upgrade_settings: NotRequired[UpgradeSettingsTypedDict]
 
 
 class SystemSettingsConf(BaseModel):
     api: SystemSettingsConfAPI
 
-    backups: SystemSettingsConfBackups
-
     pii: SystemSettingsConfPii
 
     proxy: SystemSettingsConfProxy
 
-    rollback: SystemSettingsConfRollback
-
-    shutdown: SystemSettingsConfShutdown
-
-    sni: SystemSettingsConfSni
-
     system: SystemSettingsConfSystem
-
-    tls: SystemSettingsConfTLS
 
     upgrade_group_settings: Annotated[
         UpgradeGroupSettings, pydantic.Field(alias="upgradeGroupSettings")
     ]
 
-    upgrade_settings: Annotated[
-        UpgradeSettings, pydantic.Field(alias="upgradeSettings")
-    ]
-
     workers: SystemSettingsConfWorkers
+
+    backups: Optional[SystemSettingsConfBackups] = None
 
     custom_logo: Annotated[
         Optional[SystemSettingsConfCustomLogo], pydantic.Field(alias="customLogo")
     ] = None
 
+    rollback: Optional[SystemSettingsConfRollback] = None
+
+    shutdown: Optional[SystemSettingsConfShutdown] = None
+
+    sni: Optional[SystemSettingsConfSni] = None
+
     sockets: Optional[SystemSettingsConfSockets] = None
 
     support: Optional[SystemSettingsConfSupport] = None
+
+    tls: Optional[SystemSettingsConfTLS] = None
+
+    upgrade_settings: Annotated[
+        Optional[UpgradeSettings], pydantic.Field(alias="upgradeSettings")
+    ] = None

@@ -84,6 +84,7 @@ class HecTokens(BaseSDK):
                 "json",
                 models.AddHecTokenRequest,
             ),
+            allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
 
@@ -203,6 +204,7 @@ class HecTokens(BaseSDK):
                 "json",
                 models.AddHecTokenRequest,
             ),
+            allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
 
@@ -322,6 +324,7 @@ class HecTokens(BaseSDK):
                 "json",
                 models.UpdateHecTokenRequest,
             ),
+            allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
 
@@ -441,6 +444,7 @@ class HecTokens(BaseSDK):
                 "json",
                 models.UpdateHecTokenRequest,
             ),
+            allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
 

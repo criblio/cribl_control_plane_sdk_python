@@ -97,13 +97,34 @@ with CriblControlPlane(
         },
         "sso_rate_limit": "<value>",
         "worker_remote_access": True,
-    }, backups={
-        "backup_persistence": "<value>",
-        "backups_directory": "<value>",
     }, pii={
         "enable_pii_detection": False,
     }, proxy={
         "use_env_vars": True,
+    }, system={
+        "intercom": False,
+        "upgrade": models.SystemSettingsConfUpgrade.API,
+    }, upgrade_group_settings={
+        "is_rolling": False,
+        "quantity": 7915.07,
+        "retry_count": 4414.66,
+        "retry_delay": 4374.4,
+    }, workers={
+        "count": 2124.14,
+        "enable_heap_snapshots": True,
+        "load_throttle_perc": 2538.71,
+        "memory": 20.53,
+        "minimum": 6157.83,
+        "startup_max_conns": 4731.29,
+        "startup_throttle_timeout": 1613.48,
+        "v8_single_thread": True,
+    }, backups={
+        "backup_persistence": "<value>",
+        "backups_directory": "<value>",
+    }, custom_logo={
+        "enabled": False,
+        "logo_description": "<value>",
+        "logo_image": "<value>",
     }, rollback={
         "rollback_enabled": False,
         "rollback_retries": 3174.73,
@@ -112,20 +133,21 @@ with CriblControlPlane(
         "drain_timeout": 3723.75,
     }, sni={
         "disable_sni_routing": False,
-    }, system={
-        "intercom": False,
-        "upgrade": models.SystemSettingsConfUpgrade.API,
+    }, sockets={
+        "directory": "/usr/ports",
+    }, support={
+        "feature_flag_overrides": [
+            {
+                "disabled": True,
+                "flag_id": "<id>",
+            },
+        ],
     }, tls={
         "default_cipher_list": "<value>",
         "default_ecdh_curve": "<value>",
         "max_version": "<value>",
         "min_version": "<value>",
         "reject_unauthorized": True,
-    }, upgrade_group_settings={
-        "is_rolling": False,
-        "quantity": 7915.07,
-        "retry_count": 4414.66,
-        "retry_delay": 4374.4,
     }, upgrade_settings={
         "automatic_upgrade_check_period": "<value>",
         "disable_automatic_upgrade": False,
@@ -137,28 +159,6 @@ with CriblControlPlane(
             },
         ],
         "upgrade_source": "<value>",
-    }, workers={
-        "count": 2124.14,
-        "enable_heap_snapshots": True,
-        "load_throttle_perc": 2538.71,
-        "memory": 20.53,
-        "minimum": 6157.83,
-        "startup_max_conns": 4731.29,
-        "startup_throttle_timeout": 1613.48,
-        "v8_single_thread": True,
-    }, custom_logo={
-        "enabled": False,
-        "logo_description": "<value>",
-        "logo_image": "<value>",
-    }, sockets={
-        "directory": "/usr/ports",
-    }, support={
-        "feature_flag_overrides": [
-            {
-                "disabled": True,
-                "flag_id": "<id>",
-            },
-        ],
     })
 
     # Handle response
@@ -171,20 +171,20 @@ with CriblControlPlane(
 | Parameter                                                                                     | Type                                                                                          | Required                                                                                      | Description                                                                                   |
 | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
 | `api`                                                                                         | [models.SystemSettingsConfAPI](../../models/systemsettingsconfapi.md)                         | :heavy_check_mark:                                                                            | N/A                                                                                           |
-| `backups`                                                                                     | [models.SystemSettingsConfBackups](../../models/systemsettingsconfbackups.md)                 | :heavy_check_mark:                                                                            | N/A                                                                                           |
 | `pii`                                                                                         | [models.SystemSettingsConfPii](../../models/systemsettingsconfpii.md)                         | :heavy_check_mark:                                                                            | N/A                                                                                           |
 | `proxy`                                                                                       | [models.SystemSettingsConfProxy](../../models/systemsettingsconfproxy.md)                     | :heavy_check_mark:                                                                            | N/A                                                                                           |
-| `rollback`                                                                                    | [models.SystemSettingsConfRollback](../../models/systemsettingsconfrollback.md)               | :heavy_check_mark:                                                                            | N/A                                                                                           |
-| `shutdown`                                                                                    | [models.SystemSettingsConfShutdown](../../models/systemsettingsconfshutdown.md)               | :heavy_check_mark:                                                                            | N/A                                                                                           |
-| `sni`                                                                                         | [models.SystemSettingsConfSni](../../models/systemsettingsconfsni.md)                         | :heavy_check_mark:                                                                            | N/A                                                                                           |
 | `system`                                                                                      | [models.SystemSettingsConfSystem](../../models/systemsettingsconfsystem.md)                   | :heavy_check_mark:                                                                            | N/A                                                                                           |
-| `tls`                                                                                         | [models.SystemSettingsConfTLS](../../models/systemsettingsconftls.md)                         | :heavy_check_mark:                                                                            | N/A                                                                                           |
 | `upgrade_group_settings`                                                                      | [models.UpgradeGroupSettings](../../models/upgradegroupsettings.md)                           | :heavy_check_mark:                                                                            | N/A                                                                                           |
-| `upgrade_settings`                                                                            | [models.UpgradeSettings](../../models/upgradesettings.md)                                     | :heavy_check_mark:                                                                            | N/A                                                                                           |
 | `workers`                                                                                     | [models.SystemSettingsConfWorkers](../../models/systemsettingsconfworkers.md)                 | :heavy_check_mark:                                                                            | N/A                                                                                           |
+| `backups`                                                                                     | [Optional[models.SystemSettingsConfBackups]](../../models/systemsettingsconfbackups.md)       | :heavy_minus_sign:                                                                            | N/A                                                                                           |
 | `custom_logo`                                                                                 | [Optional[models.SystemSettingsConfCustomLogo]](../../models/systemsettingsconfcustomlogo.md) | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `rollback`                                                                                    | [Optional[models.SystemSettingsConfRollback]](../../models/systemsettingsconfrollback.md)     | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `shutdown`                                                                                    | [Optional[models.SystemSettingsConfShutdown]](../../models/systemsettingsconfshutdown.md)     | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `sni`                                                                                         | [Optional[models.SystemSettingsConfSni]](../../models/systemsettingsconfsni.md)               | :heavy_minus_sign:                                                                            | N/A                                                                                           |
 | `sockets`                                                                                     | [Optional[models.SystemSettingsConfSockets]](../../models/systemsettingsconfsockets.md)       | :heavy_minus_sign:                                                                            | N/A                                                                                           |
 | `support`                                                                                     | [Optional[models.SystemSettingsConfSupport]](../../models/systemsettingsconfsupport.md)       | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `tls`                                                                                         | [Optional[models.SystemSettingsConfTLS]](../../models/systemsettingsconftls.md)               | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `upgrade_settings`                                                                            | [Optional[models.UpgradeSettings]](../../models/upgradesettings.md)                           | :heavy_minus_sign:                                                                            | N/A                                                                                           |
 | `retries`                                                                                     | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                              | :heavy_minus_sign:                                                                            | Configuration to override the default retry behavior of the client.                           |
 
 ### Response

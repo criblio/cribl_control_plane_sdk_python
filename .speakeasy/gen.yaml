@@ -29,7 +29,7 @@ generation:
     generateNewTests: false
     skipResponseBodyAssertions: false
 python:
-  version: 0.4.0b10
+  version: 0.4.0b11
   additionalDependencies:
     dev: {}
     main: {}
@@ -66,6 +66,7 @@ python:
   maxMethodParams: 999
   methodArguments: infer-optional-args
   moduleName: ""
+  multipartArrayFormat: legacy
   outputModelSuffix: output
   packageManager: poetry
   packageName: cribl-control-plane

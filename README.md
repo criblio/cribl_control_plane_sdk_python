@@ -286,10 +286,10 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 * [clear](docs/sdks/destinationspq/README.md#clear) - Clear the persistent queue for a Destination
 * [get](docs/sdks/destinationspq/README.md#get) - Get information about the latest job to clear the persistent queue for a Destination
 
-#### [destinations.samples](docs/sdks/samples/README.md)
+#### [destinations.samples](docs/sdks/destinationssamples/README.md)
 
-* [get](docs/sdks/samples/README.md#get) - Get sample event data for a Destination
-* [create](docs/sdks/samples/README.md#create) - Send sample event data to a Destination
+* [get](docs/sdks/destinationssamples/README.md#get) - Get sample event data for a Destination
+* [create](docs/sdks/destinationssamples/README.md#create) - Send sample event data to a Destination
 
 ### [groups](docs/sdks/groupssdk/README.md)
 
@@ -369,6 +369,11 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 * [create](docs/sdks/hectokens/README.md#create) - Add an HEC token and optional metadata to a Splunk HEC Source
 * [update](docs/sdks/hectokens/README.md#update) - Update metadata for an HEC token for a Splunk HEC Source
+
+#### [system.settings.cribl](docs/sdks/cribl/README.md)
+
+* [list](docs/sdks/cribl/README.md#list) - Get Cribl system settings
+* [update](docs/sdks/cribl/README.md#update) - Update Cribl system settings
 
 #### [versions.branches](docs/sdks/branches/README.md)
 
@@ -653,7 +658,7 @@ with CriblControlPlane(
 
 
 **Inherit from [`CriblControlPlaneError`](./src/cribl_control_plane/errors/criblcontrolplaneerror.py)**:
-* [`HealthServerStatusError`](./src/cribl_control_plane/errors/healthserverstatuserror.py): Healthy status. Status code `420`. Applicable to 1 of 63 methods.*
+* [`HealthServerStatusError`](./src/cribl_control_plane/errors/healthserverstatuserror.py): Healthy status. Status code `420`. Applicable to 1 of 65 methods.*
 * [`ResponseValidationError`](./src/cribl_control_plane/errors/responsevalidationerror.py): Type mismatch between the response data and the expected Pydantic model. Provides access to the Pydantic validation error via the `cause` attribute.
 
 </details>

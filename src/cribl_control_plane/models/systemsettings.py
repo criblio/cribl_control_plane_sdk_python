@@ -64,7 +64,6 @@ class SystemSettingsAPITypedDict(TypedDict):
     disabled: bool
     host: str
     port: float
-    ssl: SystemSettingsSslTypedDict
     base_url: NotRequired[str]
     disable_api_cache: NotRequired[bool]
     headers: NotRequired[Dict[str, str]]
@@ -74,6 +73,7 @@ class SystemSettingsAPITypedDict(TypedDict):
     protocol: NotRequired[str]
     scripts: NotRequired[bool]
     sensitive_fields: NotRequired[List[str]]
+    ssl: NotRequired[SystemSettingsSslTypedDict]
     sso_rate_limit: NotRequired[str]
     worker_remote_access: NotRequired[bool]
 
@@ -84,8 +84,6 @@ class SystemSettingsAPI(BaseModel):
     host: str
 
     port: float
-
-    ssl: SystemSettingsSsl
 
     base_url: Annotated[Optional[str], pydantic.Field(alias="baseUrl")] = None
 
@@ -114,6 +112,8 @@ class SystemSettingsAPI(BaseModel):
     sensitive_fields: Annotated[
         Optional[List[str]], pydantic.Field(alias="sensitiveFields")
     ] = None
+
+    ssl: Optional[SystemSettingsSsl] = None
 
     sso_rate_limit: Annotated[Optional[str], pydantic.Field(alias="ssoRateLimit")] = (
         None

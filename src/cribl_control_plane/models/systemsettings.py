@@ -64,18 +64,18 @@ class SystemSettingsAPITypedDict(TypedDict):
     disabled: bool
     host: str
     port: float
-    protocol: str
     ssl: SystemSettingsSslTypedDict
-    worker_remote_access: bool
     base_url: NotRequired[str]
     disable_api_cache: NotRequired[bool]
     headers: NotRequired[Dict[str, str]]
     idle_session_ttl: NotRequired[float]
     listen_on_port: NotRequired[bool]
     login_rate_limit: NotRequired[str]
+    protocol: NotRequired[str]
     scripts: NotRequired[bool]
     sensitive_fields: NotRequired[List[str]]
     sso_rate_limit: NotRequired[str]
+    worker_remote_access: NotRequired[bool]
 
 
 class SystemSettingsAPI(BaseModel):
@@ -85,11 +85,7 @@ class SystemSettingsAPI(BaseModel):
 
     port: float
 
-    protocol: str
-
     ssl: SystemSettingsSsl
-
-    worker_remote_access: Annotated[bool, pydantic.Field(alias="workerRemoteAccess")]
 
     base_url: Annotated[Optional[str], pydantic.Field(alias="baseUrl")] = None
 
@@ -111,6 +107,8 @@ class SystemSettingsAPI(BaseModel):
         Optional[str], pydantic.Field(alias="loginRateLimit")
     ] = None
 
+    protocol: Optional[str] = None
+
     scripts: Optional[bool] = None
 
     sensitive_fields: Annotated[
@@ -120,6 +118,10 @@ class SystemSettingsAPI(BaseModel):
     sso_rate_limit: Annotated[Optional[str], pydantic.Field(alias="ssoRateLimit")] = (
         None
     )
+
+    worker_remote_access: Annotated[
+        Optional[bool], pydantic.Field(alias="workerRemoteAccess")
+    ] = None
 
 
 class SystemSettingsMode(str, Enum, metaclass=utils.OpenEnumMeta):

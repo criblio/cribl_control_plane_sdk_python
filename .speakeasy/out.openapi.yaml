@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.16.0-alpha.1764354647110-900386f7
+  version: 4.16.0-alpha.1764405717066-349af032
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -45352,17 +45352,125 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/SystemSettingsConf"
+    BackupsSettings:
+      oneOf:
+        - type: object
+          properties:
+            backupPersistence:
+              type: string
+            backupsDirectory:
+              type: string
+          required:
+            - backupPersistence
+            - backupsDirectory
+        - type: object
+          additionalProperties: false
+    CustomLogo:
+      oneOf:
+        - type: object
+          properties:
+            enabled:
+              type: boolean
+            logoDescription:
+              type: string
+            logoImage:
+              type: string
+          required:
+            - enabled
+            - logoDescription
+            - logoImage
+        - type: object
+          additionalProperties: false
+    PiiSettings:
+      oneOf:
+        - type: object
+          properties:
+            enablePiiDetection:
+              type: boolean
+          required:
+            - enablePiiDetection
+        - type: object
+          additionalProperties: false
+    ProxySettings:
+      oneOf:
+        - type: object
+          properties:
+            useEnvVars:
+              type: boolean
+          required:
+            - useEnvVars
+        - type: object
+          additionalProperties: false
+    RollbackSettings:
+      oneOf:
+        - type: object
+          properties:
+            rollbackEnabled:
+              type: boolean
+            rollbackRetries:
+              type: number
+            rollbackTimeout:
+              type: number
+          required:
+            - rollbackEnabled
+        - type: object
+          additionalProperties: false
+    ShutdownSettings:
+      oneOf:
+        - type: object
+          properties:
+            drainTimeout:
+              type: number
+          required:
+            - drainTimeout
+        - type: object
+          additionalProperties: false
+    SniSettings:
+      oneOf:
+        - type: object
+          properties:
+            disableSNIRouting:
+              type: boolean
+          required:
+            - disableSNIRouting
+        - type: object
+          additionalProperties: false
+    TlsSettings:
+      oneOf:
+        - type: object
+          properties:
+            defaultCipherList:
+              type: string
+            defaultEcdhCurve:
+              type: string
+            maxVersion:
+              type: string
+            minVersion:
+              type: string
+            rejectUnauthorized:
+              type: boolean
+          required:
+            - defaultCipherList
+            - defaultEcdhCurve
+            - maxVersion
+            - minVersion
+            - rejectUnauthorized
+        - type: object
+          additionalProperties: false
     UpgradeGroupSettings:
-      type: object
-      properties:
-        isRolling:
-          type: boolean
-        quantity:
-          type: number
-        retryCount:
-          type: number
-        retryDelay:
-          type: number
+      oneOf:
+        - type: object
+          properties:
+            isRolling:
+              type: boolean
+            quantity:
+              type: number
+            retryCount:
+              type: number
+            retryDelay:
+              type: number
+        - type: object
+          additionalProperties: false
     UpgradePackageUrls:
       type: object
       properties:
@@ -45373,24 +45481,53 @@ components:
       required:
         - packageUrl
     UpgradeSettings:
-      type: object
-      properties:
-        automaticUpgradeCheckPeriod:
-          type: string
-        disableAutomaticUpgrade:
-          type: boolean
-        enableLegacyEdgeUpgrade:
-          type: boolean
-        packageUrls:
-          type: array
-          items:
-            $ref: "#/components/schemas/UpgradePackageUrls"
-        upgradeSource:
-          type: string
-      required:
-        - disableAutomaticUpgrade
-        - enableLegacyEdgeUpgrade
-        - upgradeSource
+      oneOf:
+        - type: object
+          properties:
+            automaticUpgradeCheckPeriod:
+              type: string
+            disableAutomaticUpgrade:
+              type: boolean
+            enableLegacyEdgeUpgrade:
+              type: boolean
+            packageUrls:
+              type: array
+              items:
+                $ref: "#/components/schemas/UpgradePackageUrls"
+            upgradeSource:
+              type: string
+          required:
+            - disableAutomaticUpgrade
+            - enableLegacyEdgeUpgrade
+            - upgradeSource
+        - type: object
+          additionalProperties: false
+    WorkersSettings:
+      oneOf:
+        - type: object
+          properties:
+            count:
+              type: number
+            enableHeapSnapshots:
+              type: boolean
+            loadThrottlePerc:
+              type: number
+            memory:
+              type: number
+            minimum:
+              type: number
+            startupMaxConns:
+              type: number
+            startupThrottleTimeout:
+              type: number
+            v8SingleThread:
+              type: boolean
+          required:
+            - count
+            - memory
+            - minimum
+        - type: object
+          additionalProperties: false
     SystemSettingsConf:
       type: object
       properties:
@@ -45455,67 +45592,19 @@ components:
             - ssl
             - workerRemoteAccess
         backups:
-          type: object
-          properties:
-            backupPersistence:
-              type: string
-            backupsDirectory:
-              type: string
-          required:
-            - backupPersistence
-            - backupsDirectory
+          $ref: "#/components/schemas/BackupsSettings"
         customLogo:
-          type: object
-          properties:
-            enabled:
-              type: boolean
-            logoDescription:
-              type: string
-            logoImage:
-              type: string
-          required:
-            - enabled
-            - logoDescription
-            - logoImage
+          $ref: "#/components/schemas/CustomLogo"
         pii:
-          type: object
-          properties:
-            enablePiiDetection:
-              type: boolean
-          required:
-            - enablePiiDetection
+          $ref: "#/components/schemas/PiiSettings"
         proxy:
-          type: object
-          properties:
-            useEnvVars:
-              type: boolean
-          required:
-            - useEnvVars
+          $ref: "#/components/schemas/ProxySettings"
         rollback:
-          type: object
-          properties:
-            rollbackEnabled:
-              type: boolean
-            rollbackRetries:
-              type: number
-            rollbackTimeout:
-              type: number
-          required:
-            - rollbackEnabled
+          $ref: "#/components/schemas/RollbackSettings"
         shutdown:
-          type: object
-          properties:
-            drainTimeout:
-              type: number
-          required:
-            - drainTimeout
+          $ref: "#/components/schemas/ShutdownSettings"
         sni:
-          type: object
-          properties:
-            disableSNIRouting:
-              type: boolean
-          required:
-            - disableSNIRouting
+          $ref: "#/components/schemas/SniSettings"
         sockets:
           type: object
           properties:
@@ -45550,57 +45639,25 @@ components:
             - intercom
             - upgrade
         tls:
-          type: object
-          properties:
-            defaultCipherList:
-              type: string
-            defaultEcdhCurve:
-              type: string
-            maxVersion:
-              type: string
-            minVersion:
-              type: string
-            rejectUnauthorized:
-              type: boolean
-          required:
-            - defaultCipherList
-            - defaultEcdhCurve
-            - maxVersion
-            - minVersion
-            - rejectUnauthorized
+          $ref: "#/components/schemas/TlsSettings"
         upgradeGroupSettings:
           $ref: "#/components/schemas/UpgradeGroupSettings"
         upgradeSettings:
           $ref: "#/components/schemas/UpgradeSettings"
         workers:
-          type: object
-          properties:
-            count:
-              type: number
-            enableHeapSnapshots:
-              type: boolean
-            loadThrottlePerc:
-              type: number
-            memory:
-              type: number
-            minimum:
-              type: number
-            startupMaxConns:
-              type: number
-            startupThrottleTimeout:
-              type: number
-            v8SingleThread:
-              type: boolean
-          required:
-            - count
-            - memory
-            - minimum
+          $ref: "#/components/schemas/WorkersSettings"
       required:
         - api
+        - backups
         - pii
         - proxy
+        - rollback
+        - shutdown
+        - sni
         - system
+        - tls
         - upgradeGroupSettings
+        - upgradeSettings
         - workers
     GitOpsType:
       type: string
@@ -45977,28 +46034,9 @@ components:
         auth:
           $ref: "#/components/schemas/AuthConfig"
         backups:
-          type: object
-          properties:
-            backupPersistence:
-              type: string
-            backupsDirectory:
-              type: string
-          required:
-            - backupPersistence
-            - backupsDirectory
+          $ref: "#/components/schemas/BackupsSettings"
         customLogo:
-          type: object
-          properties:
-            enabled:
-              type: boolean
-            logoDescription:
-              type: string
-            logoImage:
-              type: string
-          required:
-            - enabled
-            - logoDescription
-            - logoImage
+          $ref: "#/components/schemas/CustomLogo"
         distributed:
           type: object
           properties:
@@ -46024,52 +46062,23 @@ components:
         limits:
           $ref: "#/components/schemas/Limits"
         pii:
-          type: object
-          properties:
-            enablePiiDetection:
-              type: boolean
-          required:
-            - enablePiiDetection
+          $ref: "#/components/schemas/PiiSettings"
         proxy:
-          type: object
-          properties:
-            useEnvVars:
-              type: boolean
-          required:
-            - useEnvVars
+          $ref: "#/components/schemas/ProxySettings"
         redisCacheLimits:
           $ref: "#/components/schemas/RedisCacheLimits"
         redisLimits:
           $ref: "#/components/schemas/RedisLimits"
         rollback:
-          type: object
-          properties:
-            rollbackEnabled:
-              type: boolean
-            rollbackRetries:
-              type: number
-            rollbackTimeout:
-              type: number
-          required:
-            - rollbackEnabled
+          $ref: "#/components/schemas/RollbackSettings"
         searchLimits:
           $ref: "#/components/schemas/SearchSettings"
         servicesLimits:
           $ref: "#/components/schemas/ServicesLimits"
         shutdown:
-          type: object
-          properties:
-            drainTimeout:
-              type: number
-          required:
-            - drainTimeout
+          $ref: "#/components/schemas/ShutdownSettings"
         sni:
-          type: object
-          properties:
-            disableSNIRouting:
-              type: boolean
-          required:
-            - disableSNIRouting
+          $ref: "#/components/schemas/SniSettings"
         sockets:
           type: object
           properties:
@@ -46104,54 +46113,17 @@ components:
             - intercom
             - upgrade
         tls:
-          type: object
-          properties:
-            defaultCipherList:
-              type: string
-            defaultEcdhCurve:
-              type: string
-            maxVersion:
-              type: string
-            minVersion:
-              type: string
-            rejectUnauthorized:
-              type: boolean
-          required:
-            - defaultCipherList
-            - defaultEcdhCurve
-            - maxVersion
-            - minVersion
-            - rejectUnauthorized
+          $ref: "#/components/schemas/TlsSettings"
         upgradeGroupSettings:
           $ref: "#/components/schemas/UpgradeGroupSettings"
         upgradeSettings:
           $ref: "#/components/schemas/UpgradeSettings"
         workers:
-          type: object
-          properties:
-            count:
-              type: number
-            enableHeapSnapshots:
-              type: boolean
-            loadThrottlePerc:
-              type: number
-            memory:
-              type: number
-            minimum:
-              type: number
-            startupMaxConns:
-              type: number
-            startupThrottleTimeout:
-              type: number
-            v8SingleThread:
-              type: boolean
-          required:
-            - count
-            - memory
-            - minimum
+          $ref: "#/components/schemas/WorkersSettings"
       required:
         - api
         - auth
+        - backups
         - distributed
         - fips
         - git
@@ -46161,10 +46133,15 @@ components:
         - proxy
         - redisCacheLimits
         - redisLimits
+        - rollback
         - searchLimits
         - servicesLimits
+        - shutdown
+        - sni
         - system
+        - tls
         - upgradeGroupSettings
+        - upgradeSettings
         - workers
     CountedBranchInfo:
       type: object

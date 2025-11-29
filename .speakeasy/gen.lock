@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 1622281cfde502ea4b0d5bbf8137bb56
-  docVersion: 4.16.0-alpha.1764415638080-68f1b071
+  docChecksum: 3ff211a9efd4b4c068a3dd1ce83868ae
+  docVersion: 4.16.0-alpha.1764417066009-0840ca85
   speakeasyVersion: 1.665.0
   generationVersion: 2.767.2
-  releaseVersion: 0.4.0rc10
-  configChecksum: cc4fba4f1ee5cb41ffc403118051ba89
+  releaseVersion: 0.4.0rc11
+  configChecksum: da952a5328bf3c1287115f7ade8ff1da
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -3600,4 +3600,4 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: "## Python SDK Changes:\n* `cribl_control_plane.system.settings.cribl.list()`:  `response.items.[].api` **Changed**\n* `cribl_control_plane.system.settings.cribl.update()`: \n  *  `request.api` **Changed**\n  *  `response.items.[].api` **Changed**\n"
+releaseNotes: "## Python SDK Changes:\n* `cribl_control_plane.system.settings.cribl.list()`:  `response.items.[].api.ssl` **Changed**\n* `cribl_control_plane.system.settings.cribl.update()`: \n  *  `request.api.ssl` **Changed**\n  *  `response.items.[].api.ssl` **Changed**\n"

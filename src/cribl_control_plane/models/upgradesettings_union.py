@@ -4,11 +4,19 @@ from __future__ import annotations
 from .upgradepackageurls import UpgradePackageUrls, UpgradePackageUrlsTypedDict
 from cribl_control_plane.types import BaseModel
 import pydantic
-from typing import List, Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing import List, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
-class UpgradeSettingsTypedDict(TypedDict):
+class UpgradeSettings2TypedDict(TypedDict):
+    pass
+
+
+class UpgradeSettings2(BaseModel):
+    pass
+
+
+class UpgradeSettings1TypedDict(TypedDict):
     disable_automatic_upgrade: bool
     enable_legacy_edge_upgrade: bool
     upgrade_source: str
@@ -16,7 +24,7 @@ class UpgradeSettingsTypedDict(TypedDict):
     package_urls: NotRequired[List[UpgradePackageUrlsTypedDict]]
 
 
-class UpgradeSettings(BaseModel):
+class UpgradeSettings1(BaseModel):
     disable_automatic_upgrade: Annotated[
         bool, pydantic.Field(alias="disableAutomaticUpgrade")
     ]
@@ -34,3 +42,14 @@ class UpgradeSettings(BaseModel):
     package_urls: Annotated[
         Optional[List[UpgradePackageUrls]], pydantic.Field(alias="packageUrls")
     ] = None
+
+
+UpgradeSettingsUnionTypedDict = TypeAliasType(
+    "UpgradeSettingsUnionTypedDict",
+    Union[UpgradeSettings2TypedDict, UpgradeSettings1TypedDict],
+)
+
+
+UpgradeSettingsUnion = TypeAliasType(
+    "UpgradeSettingsUnion", Union[UpgradeSettings2, UpgradeSettings1]
+)

@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 78eec1d314df9dc939edec86d36a923f
-  docVersion: 4.16.0-alpha.1764354647110-900386f7
+  docChecksum: f44c800173163e62a4e33cc062b9fd74
+  docVersion: 4.16.0-alpha.1764405717066-349af032
   speakeasyVersion: 1.665.0
   generationVersion: 2.767.2
-  releaseVersion: 0.4.0rc8
-  configChecksum: 9c2575abcdbdfaa357d5bdb367efe6bc
+  releaseVersion: 0.4.0rc9
+  configChecksum: dcdeb81855343ec5b332593f44bb6e39
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -59,6 +59,9 @@ generatedFiles:
   - docs/models/authtoken.md
   - docs/models/authtype.md
   - docs/models/awsauthenticationmethod.md
+  - docs/models/backupssettings1.md
+  - docs/models/backupssettings2.md
+  - docs/models/backupssettingsunion.md
   - docs/models/blobaccesstier.md
   - docs/models/block.md
   - docs/models/branchinfo.md
@@ -132,6 +135,9 @@ generatedFiles:
   - docs/models/cribllakedatasetupdate.md
   - docs/models/cribllakedatasetupdateformat.md
   - docs/models/currentbranchresult.md
+  - docs/models/customlogo1.md
+  - docs/models/customlogo2.md
+  - docs/models/customlogounion.md
   - docs/models/datadogsite.md
   - docs/models/datasetmetadata.md
   - docs/models/datasetmetadataruninfo.md
@@ -1960,6 +1966,9 @@ generatedFiles:
   - docs/models/packrequestbodyunion.md
   - docs/models/packupgraderequest.md
   - docs/models/payloadformat.md
+  - docs/models/piisettings1.md
+  - docs/models/piisettings2.md
+  - docs/models/piisettingsunion.md
   - docs/models/pipeline.md
   - docs/models/pipelinefunctionconf.md
   - docs/models/pipelinegroups.md
@@ -1971,6 +1980,9 @@ generatedFiles:
   - docs/models/prometheusauthoauthheader2.md
   - docs/models/prometheusauthoauthparam1.md
   - docs/models/prometheusauthoauthparam2.md
+  - docs/models/proxysettings1.md
+  - docs/models/proxysettings2.md
+  - docs/models/proxysettingsunion.md
   - docs/models/query.md
   - docs/models/querybuildermode.md
   - docs/models/rbacresource.md
@@ -1986,6 +1998,9 @@ generatedFiles:
   - docs/models/resourcepolicy.md
   - docs/models/resourcetypelabel.md
   - docs/models/role.md
+  - docs/models/rollbacksettings1.md
+  - docs/models/rollbacksettings2.md
+  - docs/models/rollbacksettingsunion.md
   - docs/models/routeconf.md
   - docs/models/routes.md
   - docs/models/routesgroups.md
@@ -2038,6 +2053,12 @@ generatedFiles:
   - docs/models/serviceslimits.md
   - docs/models/sharditeratorstart.md
   - docs/models/shardloadbalancing.md
+  - docs/models/shutdownsettings1.md
+  - docs/models/shutdownsettings2.md
+  - docs/models/shutdownsettingsunion.md
+  - docs/models/snisettings1.md
+  - docs/models/snisettings2.md
+  - docs/models/snisettingsunion.md
   - docs/models/snmpv3authentication.md
   - docs/models/splunkhecmetadata.md
   - docs/models/state.md
@@ -2048,39 +2069,21 @@ generatedFiles:
   - docs/models/summary.md
   - docs/models/systemsettings.md
   - docs/models/systemsettingsapi.md
-  - docs/models/systemsettingsbackups.md
   - docs/models/systemsettingsconf.md
   - docs/models/systemsettingsconfapi.md
-  - docs/models/systemsettingsconfbackups.md
-  - docs/models/systemsettingsconfcustomlogo.md
   - docs/models/systemsettingsconffeatureflagoverride.md
-  - docs/models/systemsettingsconfpii.md
-  - docs/models/systemsettingsconfproxy.md
-  - docs/models/systemsettingsconfrollback.md
-  - docs/models/systemsettingsconfshutdown.md
-  - docs/models/systemsettingsconfsni.md
   - docs/models/systemsettingsconfsockets.md
   - docs/models/systemsettingsconfssl.md
   - docs/models/systemsettingsconfsupport.md
   - docs/models/systemsettingsconfsystem.md
-  - docs/models/systemsettingsconftls.md
   - docs/models/systemsettingsconfupgrade.md
-  - docs/models/systemsettingsconfworkers.md
-  - docs/models/systemsettingscustomlogo.md
   - docs/models/systemsettingsfeatureflagoverride.md
   - docs/models/systemsettingsmode.md
-  - docs/models/systemsettingspii.md
-  - docs/models/systemsettingsproxy.md
-  - docs/models/systemsettingsrollback.md
-  - docs/models/systemsettingsshutdown.md
-  - docs/models/systemsettingssni.md
   - docs/models/systemsettingssockets.md
   - docs/models/systemsettingsssl.md
   - docs/models/systemsettingssupport.md
   - docs/models/systemsettingssystem.md
-  - docs/models/systemsettingstls.md
   - docs/models/systemsettingsupgrade.md
-  - docs/models/systemsettingsworkers.md
   - docs/models/target.md
   - docs/models/targetprotocol.md
   - docs/models/teamaccesscontrollist.md
@@ -2088,6 +2091,9 @@ generatedFiles:
   - docs/models/timerange.md
   - docs/models/timestampformat.md
   - docs/models/timestampprecision.md
+  - docs/models/tlssettings1.md
+  - docs/models/tlssettings2.md
+  - docs/models/tlssettingsunion.md
   - docs/models/udmtype.md
   - docs/models/updateconfiggroupbyproductandidrequest.md
   - docs/models/updateconfiggroupdeploybyproductandidrequest.md
@@ -2101,9 +2107,13 @@ generatedFiles:
   - docs/models/updatepacksrequest.md
   - docs/models/updatepipelinebyidrequest.md
   - docs/models/updateroutesbyidrequest.md
-  - docs/models/upgradegroupsettings.md
+  - docs/models/upgradegroupsettings1.md
+  - docs/models/upgradegroupsettings2.md
+  - docs/models/upgradegroupsettingsunion.md
   - docs/models/upgradepackageurls.md
-  - docs/models/upgradesettings.md
+  - docs/models/upgradesettings1.md
+  - docs/models/upgradesettings2.md
+  - docs/models/upgradesettingsunion.md
   - docs/models/uploadpackresponse.md
   - docs/models/useraccesscontrollist.md
   - docs/models/usersandgroups.md
@@ -2112,6 +2122,9 @@ generatedFiles:
   - docs/models/warmpoolsize.md
   - docs/models/warmpoolsizeenum.md
   - docs/models/wheretocapture.md
+  - docs/models/workerssettings1.md
+  - docs/models/workerssettings2.md
+  - docs/models/workerssettingsunion.md
   - docs/models/workertypes.md
   - docs/models/writeaction.md
   - docs/sdks/acl/README.md
@@ -2177,6 +2190,7 @@ generatedFiles:
   - src/cribl_control_plane/models/addhectokenrequest.py
   - src/cribl_control_plane/models/authconfig.py
   - src/cribl_control_plane/models/authtoken.py
+  - src/cribl_control_plane/models/backupssettings_union.py
   - src/cribl_control_plane/models/branchinfo.py
   - src/cribl_control_plane/models/cacheconnection.py
   - src/cribl_control_plane/models/cacheconnectionbackfillstatus.py
@@ -2230,6 +2244,7 @@ generatedFiles:
   - src/cribl_control_plane/models/cribllakedataset.py
   - src/cribl_control_plane/models/cribllakedatasetupdate.py
   - src/cribl_control_plane/models/currentbranchresult.py
+  - src/cribl_control_plane/models/customlogo_union.py
   - src/cribl_control_plane/models/datasetmetadata.py
   - src/cribl_control_plane/models/datasetmetadataruninfo.py
   - src/cribl_control_plane/models/deleteconfiggroupbyproductandidop.py
@@ -2445,14 +2460,17 @@ generatedFiles:
   - src/cribl_control_plane/models/packinstallinfo.py
   - src/cribl_control_plane/models/packrequestbody_union.py
   - src/cribl_control_plane/models/packupgraderequest.py
+  - src/cribl_control_plane/models/piisettings_union.py
   - src/cribl_control_plane/models/pipeline.py
   - src/cribl_control_plane/models/pipelinefunctionconf.py
   - src/cribl_control_plane/models/productscore.py
+  - src/cribl_control_plane/models/proxysettings_union.py
   - src/cribl_control_plane/models/rbacresource.py
   - src/cribl_control_plane/models/rediscachelimits.py
   - src/cribl_control_plane/models/redisconnectionlimits.py
   - src/cribl_control_plane/models/redislimits.py
   - src/cribl_control_plane/models/resourcepolicy.py
+  - src/cribl_control_plane/models/rollbacksettings_union.py
   - src/cribl_control_plane/models/routeconf.py
   - src/cribl_control_plane/models/routes.py
   - src/cribl_control_plane/models/routesroute.py
@@ -2465,9 +2483,12 @@ generatedFiles:
   - src/cribl_control_plane/models/security.py
   - src/cribl_control_plane/models/serviceprocstype.py
   - src/cribl_control_plane/models/serviceslimits.py
+  - src/cribl_control_plane/models/shutdownsettings_union.py
+  - src/cribl_control_plane/models/snisettings_union.py
   - src/cribl_control_plane/models/systemsettings.py
   - src/cribl_control_plane/models/systemsettingsconf.py
   - src/cribl_control_plane/models/teamaccesscontrollist.py
+  - src/cribl_control_plane/models/tlssettings_union.py
   - src/cribl_control_plane/models/updateconfiggroupbyproductandidop.py
   - src/cribl_control_plane/models/updateconfiggroupdeploybyproductandidop.py
   - src/cribl_control_plane/models/updatecribllakedatasetbylakeidandidop.py
@@ -2479,11 +2500,12 @@ generatedFiles:
   - src/cribl_control_plane/models/updatepacksop.py
   - src/cribl_control_plane/models/updatepipelinebyidop.py
   - src/cribl_control_plane/models/updateroutesbyidop.py
-  - src/cribl_control_plane/models/upgradegroupsettings.py
+  - src/cribl_control_plane/models/upgradegroupsettings_union.py
   - src/cribl_control_plane/models/upgradepackageurls.py
-  - src/cribl_control_plane/models/upgradesettings.py
+  - src/cribl_control_plane/models/upgradesettings_union.py
   - src/cribl_control_plane/models/uploadpackresponse.py
   - src/cribl_control_plane/models/useraccesscontrollist.py
+  - src/cribl_control_plane/models/workerssettings_union.py
   - src/cribl_control_plane/models/workertypes.py
   - src/cribl_control_plane/nodes.py
   - src/cribl_control_plane/packs.py
@@ -3578,4 +3600,4 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: "## Python SDK Changes:\n* `cribl_control_plane.system.settings.cribl.list()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.system.settings.cribl.update()`: \n  *  `request` **Changed**\n  *  `response.items.[]` **Changed**\n"
+releaseNotes: "## Python SDK Changes:\n* `cribl_control_plane.system.settings.cribl.list()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.system.settings.cribl.update()`: \n  *  `request` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed** **Breaking** :warning:\n"

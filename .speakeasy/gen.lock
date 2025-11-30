@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 2f0243a76af2a0f95ffb2fcd2bb74c3a
-  docVersion: 4.16.0-alpha.1764537500966-708d4cad
+  docChecksum: e9f4b062a3a00c9e3b9d24bf5eb957e3
+  docVersion: 4.16.0-alpha.1764539522165-bd71c8bd
   speakeasyVersion: 1.665.0
   generationVersion: 2.767.2
-  releaseVersion: 0.4.0rc12
-  configChecksum: 4a95f2cf3a6e0b2f051a4e057e46d566
+  releaseVersion: 0.4.0rc13
+  configChecksum: 99bd6cac60f77b7ea6bd164a438f28bd
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -135,9 +135,6 @@ generatedFiles:
   - docs/models/cribllakedatasetupdate.md
   - docs/models/cribllakedatasetupdateformat.md
   - docs/models/currentbranchresult.md
-  - docs/models/customlogo1.md
-  - docs/models/customlogo2.md
-  - docs/models/customlogounion.md
   - docs/models/datadogsite.md
   - docs/models/datasetmetadata.md
   - docs/models/datasetmetadataruninfo.md
@@ -1980,9 +1977,6 @@ generatedFiles:
   - docs/models/prometheusauthoauthheader2.md
   - docs/models/prometheusauthoauthparam1.md
   - docs/models/prometheusauthoauthparam2.md
-  - docs/models/proxysettings1.md
-  - docs/models/proxysettings2.md
-  - docs/models/proxysettingsunion.md
   - docs/models/query.md
   - docs/models/querybuildermode.md
   - docs/models/rbacresource.md
@@ -2053,9 +2047,6 @@ generatedFiles:
   - docs/models/serviceslimits.md
   - docs/models/sharditeratorstart.md
   - docs/models/shardloadbalancing.md
-  - docs/models/shutdownsettings1.md
-  - docs/models/shutdownsettings2.md
-  - docs/models/shutdownsettingsunion.md
   - docs/models/snisettings1.md
   - docs/models/snisettings2.md
   - docs/models/snisettingsunion.md
@@ -2071,19 +2062,27 @@ generatedFiles:
   - docs/models/systemsettingsapi.md
   - docs/models/systemsettingsconf.md
   - docs/models/systemsettingsconfapi.md
+  - docs/models/systemsettingsconfcustomlogo.md
   - docs/models/systemsettingsconffeatureflagoverride.md
+  - docs/models/systemsettingsconfproxy.md
+  - docs/models/systemsettingsconfshutdown.md
   - docs/models/systemsettingsconfsockets.md
   - docs/models/systemsettingsconfssl.md
   - docs/models/systemsettingsconfsupport.md
   - docs/models/systemsettingsconfsystem.md
   - docs/models/systemsettingsconfupgrade.md
+  - docs/models/systemsettingsconfworkers.md
+  - docs/models/systemsettingscustomlogo.md
   - docs/models/systemsettingsfeatureflagoverride.md
   - docs/models/systemsettingsmode.md
+  - docs/models/systemsettingsproxy.md
+  - docs/models/systemsettingsshutdown.md
   - docs/models/systemsettingssockets.md
   - docs/models/systemsettingsssl.md
   - docs/models/systemsettingssupport.md
   - docs/models/systemsettingssystem.md
   - docs/models/systemsettingsupgrade.md
+  - docs/models/systemsettingsworkers.md
   - docs/models/target.md
   - docs/models/targetprotocol.md
   - docs/models/teamaccesscontrollist.md
@@ -2120,9 +2119,6 @@ generatedFiles:
   - docs/models/warmpoolsize.md
   - docs/models/warmpoolsizeenum.md
   - docs/models/wheretocapture.md
-  - docs/models/workerssettings1.md
-  - docs/models/workerssettings2.md
-  - docs/models/workerssettingsunion.md
   - docs/models/workertypes.md
   - docs/models/writeaction.md
   - docs/sdks/acl/README.md
@@ -2242,7 +2238,6 @@ generatedFiles:
   - src/cribl_control_plane/models/cribllakedataset.py
   - src/cribl_control_plane/models/cribllakedatasetupdate.py
   - src/cribl_control_plane/models/currentbranchresult.py
-  - src/cribl_control_plane/models/customlogo_union.py
   - src/cribl_control_plane/models/datasetmetadata.py
   - src/cribl_control_plane/models/datasetmetadataruninfo.py
   - src/cribl_control_plane/models/deleteconfiggroupbyproductandidop.py
@@ -2462,7 +2457,6 @@ generatedFiles:
   - src/cribl_control_plane/models/pipeline.py
   - src/cribl_control_plane/models/pipelinefunctionconf.py
   - src/cribl_control_plane/models/productscore.py
-  - src/cribl_control_plane/models/proxysettings_union.py
   - src/cribl_control_plane/models/rbacresource.py
   - src/cribl_control_plane/models/rediscachelimits.py
   - src/cribl_control_plane/models/redisconnectionlimits.py
@@ -2481,7 +2475,6 @@ generatedFiles:
   - src/cribl_control_plane/models/security.py
   - src/cribl_control_plane/models/serviceprocstype.py
   - src/cribl_control_plane/models/serviceslimits.py
-  - src/cribl_control_plane/models/shutdownsettings_union.py
   - src/cribl_control_plane/models/snisettings_union.py
   - src/cribl_control_plane/models/systemsettings.py
   - src/cribl_control_plane/models/systemsettingsconf.py
@@ -2503,7 +2496,6 @@ generatedFiles:
   - src/cribl_control_plane/models/upgradesettings.py
   - src/cribl_control_plane/models/uploadpackresponse.py
   - src/cribl_control_plane/models/useraccesscontrollist.py
-  - src/cribl_control_plane/models/workerssettings_union.py
   - src/cribl_control_plane/models/workertypes.py
   - src/cribl_control_plane/nodes.py
   - src/cribl_control_plane/packs.py

@@ -11,9 +11,9 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 class UpgradeSettingsTypedDict(TypedDict):
     disable_automatic_upgrade: bool
     enable_legacy_edge_upgrade: bool
-    upgrade_source: str
     automatic_upgrade_check_period: NotRequired[str]
     package_urls: NotRequired[List[UpgradePackageUrlsTypedDict]]
+    upgrade_source: NotRequired[str]
 
 
 class UpgradeSettings(BaseModel):
@@ -25,8 +25,6 @@ class UpgradeSettings(BaseModel):
         bool, pydantic.Field(alias="enableLegacyEdgeUpgrade")
     ]
 
-    upgrade_source: Annotated[str, pydantic.Field(alias="upgradeSource")]
-
     automatic_upgrade_check_period: Annotated[
         Optional[str], pydantic.Field(alias="automaticUpgradeCheckPeriod")
     ] = None
@@ -34,3 +32,7 @@ class UpgradeSettings(BaseModel):
     package_urls: Annotated[
         Optional[List[UpgradePackageUrls]], pydantic.Field(alias="packageUrls")
     ] = None
+
+    upgrade_source: Annotated[Optional[str], pydantic.Field(alias="upgradeSource")] = (
+        None
+    )

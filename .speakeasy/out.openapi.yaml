@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.16.0-alpha.1764537500966-708d4cad
+  version: 4.16.0-alpha.1764539522165-bd71c8bd
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -45365,22 +45365,6 @@ components:
             - backupsDirectory
         - type: object
           additionalProperties: false
-    CustomLogo:
-      oneOf:
-        - type: object
-          properties:
-            enabled:
-              type: boolean
-            logoDescription:
-              type: string
-            logoImage:
-              type: string
-          required:
-            - enabled
-            - logoDescription
-            - logoImage
-        - type: object
-          additionalProperties: false
     PiiSettings:
       oneOf:
         - type: object
@@ -45389,16 +45373,6 @@ components:
               type: boolean
           required:
             - enablePiiDetection
-        - type: object
-          additionalProperties: false
-    ProxySettings:
-      oneOf:
-        - type: object
-          properties:
-            useEnvVars:
-              type: boolean
-          required:
-            - useEnvVars
         - type: object
           additionalProperties: false
     RollbackSettings:
@@ -45413,16 +45387,6 @@ components:
               type: number
           required:
             - rollbackEnabled
-        - type: object
-          additionalProperties: false
-    ShutdownSettings:
-      oneOf:
-        - type: object
-          properties:
-            drainTimeout:
-              type: number
-          required:
-            - drainTimeout
         - type: object
           additionalProperties: false
     SniSettings:
@@ -45498,33 +45462,6 @@ components:
       required:
         - disableAutomaticUpgrade
         - enableLegacyEdgeUpgrade
-        - upgradeSource
-    WorkersSettings:
-      oneOf:
-        - type: object
-          properties:
-            count:
-              type: number
-            enableHeapSnapshots:
-              type: boolean
-            loadThrottlePerc:
-              type: number
-            memory:
-              type: number
-            minimum:
-              type: number
-            startupMaxConns:
-              type: number
-            startupThrottleTimeout:
-              type: number
-            v8SingleThread:
-              type: boolean
-          required:
-            - count
-            - memory
-            - minimum
-        - type: object
-          additionalProperties: false
     SystemSettingsConf:
       type: object
       properties:
@@ -45588,15 +45525,34 @@ components:
         backups:
           $ref: "#/components/schemas/BackupsSettings"
         customLogo:
-          $ref: "#/components/schemas/CustomLogo"
+          type: object
+          properties:
+            enabled:
+              type: boolean
+            logoDescription:
+              type: string
+            logoImage:
+              type: string
+          required:
+            - enabled
         pii:
           $ref: "#/components/schemas/PiiSettings"
         proxy:
-          $ref: "#/components/schemas/ProxySettings"
+          type: object
+          properties:
+            useEnvVars:
+              type: boolean
+          required:
+            - useEnvVars
         rollback:
           $ref: "#/components/schemas/RollbackSettings"
         shutdown:
-          $ref: "#/components/schemas/ShutdownSettings"
+          type: object
+          properties:
+            drainTimeout:
+              type: number
+          required:
+            - drainTimeout
         sni:
           $ref: "#/components/schemas/SniSettings"
         sockets:
@@ -45639,7 +45595,28 @@ components:
         upgradeSettings:
           $ref: "#/components/schemas/UpgradeSettings"
         workers:
-          $ref: "#/components/schemas/WorkersSettings"
+          type: object
+          properties:
+            count:
+              type: number
+            enableHeapSnapshots:
+              type: boolean
+            loadThrottlePerc:
+              type: number
+            memory:
+              type: number
+            minimum:
+              type: number
+            startupMaxConns:
+              type: number
+            startupThrottleTimeout:
+              type: number
+            v8SingleThread:
+              type: boolean
+          required:
+            - count
+            - memory
+            - minimum
       required:
         - api
         - backups
@@ -46028,7 +46005,16 @@ components:
         backups:
           $ref: "#/components/schemas/BackupsSettings"
         customLogo:
-          $ref: "#/components/schemas/CustomLogo"
+          type: object
+          properties:
+            enabled:
+              type: boolean
+            logoDescription:
+              type: string
+            logoImage:
+              type: string
+          required:
+            - enabled
         distributed:
           type: object
           properties:
@@ -46056,7 +46042,12 @@ components:
         pii:
           $ref: "#/components/schemas/PiiSettings"
         proxy:
-          $ref: "#/components/schemas/ProxySettings"
+          type: object
+          properties:
+            useEnvVars:
+              type: boolean
+          required:
+            - useEnvVars
         redisCacheLimits:
           $ref: "#/components/schemas/RedisCacheLimits"
         redisLimits:
@@ -46068,7 +46059,12 @@ components:
         servicesLimits:
           $ref: "#/components/schemas/ServicesLimits"
         shutdown:
-          $ref: "#/components/schemas/ShutdownSettings"
+          type: object
+          properties:
+            drainTimeout:
+              type: number
+          required:
+            - drainTimeout
         sni:
           $ref: "#/components/schemas/SniSettings"
         sockets:
@@ -46111,7 +46107,28 @@ components:
         upgradeSettings:
           $ref: "#/components/schemas/UpgradeSettings"
         workers:
-          $ref: "#/components/schemas/WorkersSettings"
+          type: object
+          properties:
+            count:
+              type: number
+            enableHeapSnapshots:
+              type: boolean
+            loadThrottlePerc:
+              type: number
+            memory:
+              type: number
+            minimum:
+              type: number
+            startupMaxConns:
+              type: number
+            startupThrottleTimeout:
+              type: number
+            v8SingleThread:
+              type: boolean
+          required:
+            - count
+            - memory
+            - minimum
       required:
         - api
         - auth

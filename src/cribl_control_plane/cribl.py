@@ -187,14 +187,20 @@ class Cribl(BaseSDK):
         backups: Union[
             models.BackupsSettingsUnion, models.BackupsSettingsUnionTypedDict
         ],
-        custom_logo: Union[models.CustomLogoUnion, models.CustomLogoUnionTypedDict],
+        custom_logo: Union[
+            models.SystemSettingsConfCustomLogo,
+            models.SystemSettingsConfCustomLogoTypedDict,
+        ],
         pii: Union[models.PiiSettingsUnion, models.PiiSettingsUnionTypedDict],
-        proxy: Union[models.ProxySettingsUnion, models.ProxySettingsUnionTypedDict],
+        proxy: Union[
+            models.SystemSettingsConfProxy, models.SystemSettingsConfProxyTypedDict
+        ],
         rollback: Union[
             models.RollbackSettingsUnion, models.RollbackSettingsUnionTypedDict
         ],
         shutdown: Union[
-            models.ShutdownSettingsUnion, models.ShutdownSettingsUnionTypedDict
+            models.SystemSettingsConfShutdown,
+            models.SystemSettingsConfShutdownTypedDict,
         ],
         sni: Union[models.SniSettingsUnion, models.SniSettingsUnionTypedDict],
         system: Union[
@@ -208,7 +214,7 @@ class Cribl(BaseSDK):
             models.UpgradeSettings, models.UpgradeSettingsTypedDict
         ],
         workers: Union[
-            models.WorkersSettingsUnion, models.WorkersSettingsUnionTypedDict
+            models.SystemSettingsConfWorkers, models.SystemSettingsConfWorkersTypedDict
         ],
         sockets: Optional[
             Union[
@@ -264,11 +270,15 @@ class Cribl(BaseSDK):
         request = models.SystemSettingsConf(
             api=utils.get_pydantic_model(api, models.SystemSettingsConfAPI),
             backups=utils.get_pydantic_model(backups, models.BackupsSettingsUnion),
-            custom_logo=utils.get_pydantic_model(custom_logo, models.CustomLogoUnion),
+            custom_logo=utils.get_pydantic_model(
+                custom_logo, models.SystemSettingsConfCustomLogo
+            ),
             pii=utils.get_pydantic_model(pii, models.PiiSettingsUnion),
-            proxy=utils.get_pydantic_model(proxy, models.ProxySettingsUnion),
+            proxy=utils.get_pydantic_model(proxy, models.SystemSettingsConfProxy),
             rollback=utils.get_pydantic_model(rollback, models.RollbackSettingsUnion),
-            shutdown=utils.get_pydantic_model(shutdown, models.ShutdownSettingsUnion),
+            shutdown=utils.get_pydantic_model(
+                shutdown, models.SystemSettingsConfShutdown
+            ),
             sni=utils.get_pydantic_model(sni, models.SniSettingsUnion),
             sockets=utils.get_pydantic_model(
                 sockets, Optional[models.SystemSettingsConfSockets]
@@ -284,7 +294,7 @@ class Cribl(BaseSDK):
             upgrade_settings=utils.get_pydantic_model(
                 upgrade_settings, models.UpgradeSettings
             ),
-            workers=utils.get_pydantic_model(workers, models.WorkersSettingsUnion),
+            workers=utils.get_pydantic_model(workers, models.SystemSettingsConfWorkers),
         )
 
         req = self._build_request(
@@ -356,14 +366,20 @@ class Cribl(BaseSDK):
         backups: Union[
             models.BackupsSettingsUnion, models.BackupsSettingsUnionTypedDict
         ],
-        custom_logo: Union[models.CustomLogoUnion, models.CustomLogoUnionTypedDict],
+        custom_logo: Union[
+            models.SystemSettingsConfCustomLogo,
+            models.SystemSettingsConfCustomLogoTypedDict,
+        ],
         pii: Union[models.PiiSettingsUnion, models.PiiSettingsUnionTypedDict],
-        proxy: Union[models.ProxySettingsUnion, models.ProxySettingsUnionTypedDict],
+        proxy: Union[
+            models.SystemSettingsConfProxy, models.SystemSettingsConfProxyTypedDict
+        ],
         rollback: Union[
             models.RollbackSettingsUnion, models.RollbackSettingsUnionTypedDict
         ],
         shutdown: Union[
-            models.ShutdownSettingsUnion, models.ShutdownSettingsUnionTypedDict
+            models.SystemSettingsConfShutdown,
+            models.SystemSettingsConfShutdownTypedDict,
         ],
         sni: Union[models.SniSettingsUnion, models.SniSettingsUnionTypedDict],
         system: Union[
@@ -377,7 +393,7 @@ class Cribl(BaseSDK):
             models.UpgradeSettings, models.UpgradeSettingsTypedDict
         ],
         workers: Union[
-            models.WorkersSettingsUnion, models.WorkersSettingsUnionTypedDict
+            models.SystemSettingsConfWorkers, models.SystemSettingsConfWorkersTypedDict
         ],
         sockets: Optional[
             Union[
@@ -433,11 +449,15 @@ class Cribl(BaseSDK):
         request = models.SystemSettingsConf(
             api=utils.get_pydantic_model(api, models.SystemSettingsConfAPI),
             backups=utils.get_pydantic_model(backups, models.BackupsSettingsUnion),
-            custom_logo=utils.get_pydantic_model(custom_logo, models.CustomLogoUnion),
+            custom_logo=utils.get_pydantic_model(
+                custom_logo, models.SystemSettingsConfCustomLogo
+            ),
             pii=utils.get_pydantic_model(pii, models.PiiSettingsUnion),
-            proxy=utils.get_pydantic_model(proxy, models.ProxySettingsUnion),
+            proxy=utils.get_pydantic_model(proxy, models.SystemSettingsConfProxy),
             rollback=utils.get_pydantic_model(rollback, models.RollbackSettingsUnion),
-            shutdown=utils.get_pydantic_model(shutdown, models.ShutdownSettingsUnion),
+            shutdown=utils.get_pydantic_model(
+                shutdown, models.SystemSettingsConfShutdown
+            ),
             sni=utils.get_pydantic_model(sni, models.SniSettingsUnion),
             sockets=utils.get_pydantic_model(
                 sockets, Optional[models.SystemSettingsConfSockets]
@@ -453,7 +473,7 @@ class Cribl(BaseSDK):
             upgrade_settings=utils.get_pydantic_model(
                 upgrade_settings, models.UpgradeSettings
             ),
-            workers=utils.get_pydantic_model(workers, models.WorkersSettingsUnion),
+            workers=utils.get_pydantic_model(workers, models.SystemSettingsConfWorkers),
         )
 
         req = self._build_request_async(

@@ -2,16 +2,10 @@
 
 from __future__ import annotations
 from .backupssettings_union import BackupsSettingsUnion, BackupsSettingsUnionTypedDict
-from .customlogo_union import CustomLogoUnion, CustomLogoUnionTypedDict
 from .piisettings_union import PiiSettingsUnion, PiiSettingsUnionTypedDict
-from .proxysettings_union import ProxySettingsUnion, ProxySettingsUnionTypedDict
 from .rollbacksettings_union import (
     RollbackSettingsUnion,
     RollbackSettingsUnionTypedDict,
-)
-from .shutdownsettings_union import (
-    ShutdownSettingsUnion,
-    ShutdownSettingsUnionTypedDict,
 )
 from .snisettings_union import SniSettingsUnion, SniSettingsUnionTypedDict
 from .tlssettings_union import TLSSettingsUnion, TLSSettingsUnionTypedDict
@@ -20,7 +14,6 @@ from .upgradegroupsettings_union import (
     UpgradeGroupSettingsUnionTypedDict,
 )
 from .upgradesettings import UpgradeSettings, UpgradeSettingsTypedDict
-from .workerssettings_union import WorkersSettingsUnion, WorkersSettingsUnionTypedDict
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
 from cribl_control_plane.utils import validate_open_enum
@@ -116,6 +109,38 @@ class SystemSettingsConfAPI(BaseModel):
     ] = None
 
 
+class SystemSettingsConfCustomLogoTypedDict(TypedDict):
+    enabled: bool
+    logo_description: NotRequired[str]
+    logo_image: NotRequired[str]
+
+
+class SystemSettingsConfCustomLogo(BaseModel):
+    enabled: bool
+
+    logo_description: Annotated[
+        Optional[str], pydantic.Field(alias="logoDescription")
+    ] = None
+
+    logo_image: Annotated[Optional[str], pydantic.Field(alias="logoImage")] = None
+
+
+class SystemSettingsConfProxyTypedDict(TypedDict):
+    use_env_vars: bool
+
+
+class SystemSettingsConfProxy(BaseModel):
+    use_env_vars: Annotated[bool, pydantic.Field(alias="useEnvVars")]
+
+
+class SystemSettingsConfShutdownTypedDict(TypedDict):
+    drain_timeout: float
+
+
+class SystemSettingsConfShutdown(BaseModel):
+    drain_timeout: Annotated[float, pydantic.Field(alias="drainTimeout")]
+
+
 class SystemSettingsConfSocketsTypedDict(TypedDict):
     directory: NotRequired[str]
 
@@ -175,20 +200,59 @@ class SystemSettingsConfSystem(BaseModel):
         return value
 
 
+class SystemSettingsConfWorkersTypedDict(TypedDict):
+    count: float
+    memory: float
+    minimum: float
+    enable_heap_snapshots: NotRequired[bool]
+    load_throttle_perc: NotRequired[float]
+    startup_max_conns: NotRequired[float]
+    startup_throttle_timeout: NotRequired[float]
+    v8_single_thread: NotRequired[bool]
+
+
+class SystemSettingsConfWorkers(BaseModel):
+    count: float
+
+    memory: float
+
+    minimum: float
+
+    enable_heap_snapshots: Annotated[
+        Optional[bool], pydantic.Field(alias="enableHeapSnapshots")
+    ] = None
+
+    load_throttle_perc: Annotated[
+        Optional[float], pydantic.Field(alias="loadThrottlePerc")
+    ] = None
+
+    startup_max_conns: Annotated[
+        Optional[float], pydantic.Field(alias="startupMaxConns")
+    ] = None
+
+    startup_throttle_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="startupThrottleTimeout")
+    ] = None
+
+    v8_single_thread: Annotated[
+        Optional[bool], pydantic.Field(alias="v8SingleThread")
+    ] = None
+
+
 class SystemSettingsConfTypedDict(TypedDict):
     api: SystemSettingsConfAPITypedDict
     backups: BackupsSettingsUnionTypedDict
-    custom_logo: CustomLogoUnionTypedDict
+    custom_logo: SystemSettingsConfCustomLogoTypedDict
     pii: PiiSettingsUnionTypedDict
-    proxy: ProxySettingsUnionTypedDict
+    proxy: SystemSettingsConfProxyTypedDict
     rollback: RollbackSettingsUnionTypedDict
-    shutdown: ShutdownSettingsUnionTypedDict
+    shutdown: SystemSettingsConfShutdownTypedDict
     sni: SniSettingsUnionTypedDict
     system: SystemSettingsConfSystemTypedDict
     tls: TLSSettingsUnionTypedDict
     upgrade_group_settings: UpgradeGroupSettingsUnionTypedDict
     upgrade_settings: UpgradeSettingsTypedDict
-    workers: WorkersSettingsUnionTypedDict
+    workers: SystemSettingsConfWorkersTypedDict
     sockets: NotRequired[SystemSettingsConfSocketsTypedDict]
     support: NotRequired[SystemSettingsConfSupportTypedDict]
 
@@ -198,15 +262,17 @@ class SystemSettingsConf(BaseModel):
 
     backups: BackupsSettingsUnion
 
-    custom_logo: Annotated[CustomLogoUnion, pydantic.Field(alias="customLogo")]
+    custom_logo: Annotated[
+        SystemSettingsConfCustomLogo, pydantic.Field(alias="customLogo")
+    ]
 
     pii: PiiSettingsUnion
 
-    proxy: ProxySettingsUnion
+    proxy: SystemSettingsConfProxy
 
     rollback: RollbackSettingsUnion
 
-    shutdown: ShutdownSettingsUnion
+    shutdown: SystemSettingsConfShutdown
 
     sni: SniSettingsUnion
 
@@ -222,7 +288,7 @@ class SystemSettingsConf(BaseModel):
         UpgradeSettings, pydantic.Field(alias="upgradeSettings")
     ]
 
-    workers: WorkersSettingsUnion
+    workers: SystemSettingsConfWorkers
 
     sockets: Optional[SystemSettingsConfSockets] = None
 

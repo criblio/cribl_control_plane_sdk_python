@@ -1,4 +1,4 @@
-# WorkersSettings1
+# SystemSettingsConfWorkers
 
 
 ## Fields

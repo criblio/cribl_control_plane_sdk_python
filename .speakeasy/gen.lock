@@ -5,8 +5,8 @@ management:
   docVersion: 4.16.0-alpha.1764266617076-fbe7ba42
   speakeasyVersion: 1.665.0
   generationVersion: 2.767.2
-  releaseVersion: 0.4.0b11
-  configChecksum: 6c715b44d6547a210266442817c24d82
+  releaseVersion: 0.4.0b12
+  configChecksum: d30a44a8ec81586e6393d65ba33186ef
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -3492,4 +3492,3 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: "## Python SDK Changes:\n* `cribl_control_plane.sources.list()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.create()`: \n  *  `request` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.get()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.update()`: \n  *  `request.input` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.delete()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.hec_tokens.create()`:  `response.items.[].auth_tokens.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.hec_tokens.update()`:  `response.items.[].auth_tokens.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.nodes.list()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.create()`: \n  *  `request.[splunk_lb].indexer_discovery_configs.auth_tokens.[]` **Changed**\n  *  `response.items.[].[splunk_lb].indexer_discovery_configs.auth_tokens.[]` **Changed**\n* `cribl_control_plane.destinations.get()`:  `response.items.[].[splunk_lb].indexer_discovery_configs.auth_tokens.[]` **Changed**\n* `cribl_control_plane.destinations.update()`: \n  *  `request.output.[splunk_lb].indexer_discovery_configs.auth_tokens.[]` **Changed**\n  *  `response.items.[].[splunk_lb].indexer_discovery_configs.auth_tokens.[]` **Changed**\n* `cribl_control_plane.destinations.delete()`:  `response.items.[].[splunk_lb].indexer_discovery_configs.auth_tokens.[]` **Changed**\n* `cribl_control_plane.destinations.samples.create()`: \n  *  `request.events.[].additional_properties` **Added**\n* `cribl_control_plane.versions.commits.diff()`:  `response.items.[].diff_json.[].blocks.[].lines.[]` **Changed**\n* `cribl_control_plane.versions.commits.get()`:  `response.items.[].diff_json.[].blocks.[].lines.[]` **Changed**\n* `cribl_control_plane.destinations.list()`:  `response.items.[].[splunk_lb].indexer_discovery_configs.auth_tokens.[]` **Changed**\n"

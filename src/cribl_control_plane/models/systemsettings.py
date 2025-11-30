@@ -27,7 +27,7 @@ from .upgradegroupsettings_union import (
     UpgradeGroupSettingsUnion,
     UpgradeGroupSettingsUnionTypedDict,
 )
-from .upgradesettings_union import UpgradeSettingsUnion, UpgradeSettingsUnionTypedDict
+from .upgradesettings import UpgradeSettings, UpgradeSettingsTypedDict
 from .workerssettings_union import WorkersSettingsUnion, WorkersSettingsUnionTypedDict
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
@@ -212,6 +212,7 @@ class SystemSettingsTypedDict(TypedDict):
     api: SystemSettingsAPITypedDict
     auth: AuthConfigTypedDict
     backups: BackupsSettingsUnionTypedDict
+    custom_logo: CustomLogoUnionTypedDict
     distributed: DistributedTypedDict
     fips: bool
     git: GitSettingsTypedDict
@@ -229,9 +230,8 @@ class SystemSettingsTypedDict(TypedDict):
     system: SystemSettingsSystemTypedDict
     tls: TLSSettingsUnionTypedDict
     upgrade_group_settings: UpgradeGroupSettingsUnionTypedDict
-    upgrade_settings: UpgradeSettingsUnionTypedDict
+    upgrade_settings: UpgradeSettingsTypedDict
     workers: WorkersSettingsUnionTypedDict
-    custom_logo: NotRequired[CustomLogoUnionTypedDict]
     sockets: NotRequired[SystemSettingsSocketsTypedDict]
     support: NotRequired[SystemSettingsSupportTypedDict]
 
@@ -242,6 +242,8 @@ class SystemSettings(BaseModel):
     auth: AuthConfig
 
     backups: BackupsSettingsUnion
+
+    custom_logo: Annotated[CustomLogoUnion, pydantic.Field(alias="customLogo")]
 
     distributed: Distributed
 
@@ -282,14 +284,10 @@ class SystemSettings(BaseModel):
     ]
 
     upgrade_settings: Annotated[
-        UpgradeSettingsUnion, pydantic.Field(alias="upgradeSettings")
+        UpgradeSettings, pydantic.Field(alias="upgradeSettings")
     ]
 
     workers: WorkersSettingsUnion
-
-    custom_logo: Annotated[
-        Optional[CustomLogoUnion], pydantic.Field(alias="customLogo")
-    ] = None
 
     sockets: Optional[SystemSettingsSockets] = None
 

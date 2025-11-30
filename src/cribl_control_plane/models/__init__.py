@@ -3527,14 +3527,7 @@ if TYPE_CHECKING:
         UpgradeGroupSettingsUnionTypedDict,
     )
     from .upgradepackageurls import UpgradePackageUrls, UpgradePackageUrlsTypedDict
-    from .upgradesettings_union import (
-        UpgradeSettings1,
-        UpgradeSettings1TypedDict,
-        UpgradeSettings2,
-        UpgradeSettings2TypedDict,
-        UpgradeSettingsUnion,
-        UpgradeSettingsUnionTypedDict,
-    )
+    from .upgradesettings import UpgradeSettings, UpgradeSettingsTypedDict
     from .uploadpackresponse import UploadPackResponse, UploadPackResponseTypedDict
     from .useraccesscontrollist import (
         UserAccessControlList,
@@ -6677,12 +6670,8 @@ __all__ = [
     "UpgradeGroupSettingsUnionTypedDict",
     "UpgradePackageUrls",
     "UpgradePackageUrlsTypedDict",
-    "UpgradeSettings1",
-    "UpgradeSettings1TypedDict",
-    "UpgradeSettings2",
-    "UpgradeSettings2TypedDict",
-    "UpgradeSettingsUnion",
-    "UpgradeSettingsUnionTypedDict",
+    "UpgradeSettings",
+    "UpgradeSettingsTypedDict",
     "UploadPackResponse",
     "UploadPackResponseTypedDict",
     "UserAccessControlList",
@@ -9841,12 +9830,8 @@ _dynamic_imports: dict[str, str] = {
     "UpgradeGroupSettingsUnionTypedDict": ".upgradegroupsettings_union",
     "UpgradePackageUrls": ".upgradepackageurls",
     "UpgradePackageUrlsTypedDict": ".upgradepackageurls",
-    "UpgradeSettings1": ".upgradesettings_union",
-    "UpgradeSettings1TypedDict": ".upgradesettings_union",
-    "UpgradeSettings2": ".upgradesettings_union",
-    "UpgradeSettings2TypedDict": ".upgradesettings_union",
-    "UpgradeSettingsUnion": ".upgradesettings_union",
-    "UpgradeSettingsUnionTypedDict": ".upgradesettings_union",
+    "UpgradeSettings": ".upgradesettings",
+    "UpgradeSettingsTypedDict": ".upgradesettings",
     "UploadPackResponse": ".uploadpackresponse",
     "UploadPackResponseTypedDict": ".uploadpackresponse",
     "UserAccessControlList": ".useraccesscontrollist",

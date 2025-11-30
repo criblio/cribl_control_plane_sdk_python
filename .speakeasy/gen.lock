@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 3ff211a9efd4b4c068a3dd1ce83868ae
-  docVersion: 4.16.0-alpha.1764417066009-0840ca85
+  docChecksum: 2f0243a76af2a0f95ffb2fcd2bb74c3a
+  docVersion: 4.16.0-alpha.1764537500966-708d4cad
   speakeasyVersion: 1.665.0
   generationVersion: 2.767.2
-  releaseVersion: 0.4.0rc11
-  configChecksum: da952a5328bf3c1287115f7ade8ff1da
+  releaseVersion: 0.4.0rc12
+  configChecksum: 4a95f2cf3a6e0b2f051a4e057e46d566
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -2111,9 +2111,7 @@ generatedFiles:
   - docs/models/upgradegroupsettings2.md
   - docs/models/upgradegroupsettingsunion.md
   - docs/models/upgradepackageurls.md
-  - docs/models/upgradesettings1.md
-  - docs/models/upgradesettings2.md
-  - docs/models/upgradesettingsunion.md
+  - docs/models/upgradesettings.md
   - docs/models/uploadpackresponse.md
   - docs/models/useraccesscontrollist.md
   - docs/models/usersandgroups.md
@@ -2502,7 +2500,7 @@ generatedFiles:
   - src/cribl_control_plane/models/updateroutesbyidop.py
   - src/cribl_control_plane/models/upgradegroupsettings_union.py
   - src/cribl_control_plane/models/upgradepackageurls.py
-  - src/cribl_control_plane/models/upgradesettings_union.py
+  - src/cribl_control_plane/models/upgradesettings.py
   - src/cribl_control_plane/models/uploadpackresponse.py
   - src/cribl_control_plane/models/useraccesscontrollist.py
   - src/cribl_control_plane/models/workerssettings_union.py
@@ -3600,4 +3598,4 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: "## Python SDK Changes:\n* `cribl_control_plane.system.settings.cribl.list()`:  `response.items.[].api.ssl` **Changed**\n* `cribl_control_plane.system.settings.cribl.update()`: \n  *  `request.api.ssl` **Changed**\n  *  `response.items.[].api.ssl` **Changed**\n"
+releaseNotes: "## Python SDK Changes:\n* `cribl_control_plane.system.settings.cribl.list()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.system.settings.cribl.update()`: \n  *  `request` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed** **Breaking** :warning:\n"

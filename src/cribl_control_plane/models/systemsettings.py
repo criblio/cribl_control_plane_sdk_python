@@ -3,12 +3,10 @@
 from __future__ import annotations
 from .authconfig import AuthConfig, AuthConfigTypedDict
 from .backupssettings_union import BackupsSettingsUnion, BackupsSettingsUnionTypedDict
-from .customlogo_union import CustomLogoUnion, CustomLogoUnionTypedDict
 from .gitsettings import GitSettings, GitSettingsTypedDict
 from .jobsettings import JobSettings, JobSettingsTypedDict
 from .limits import Limits, LimitsTypedDict
 from .piisettings_union import PiiSettingsUnion, PiiSettingsUnionTypedDict
-from .proxysettings_union import ProxySettingsUnion, ProxySettingsUnionTypedDict
 from .rediscachelimits import RedisCacheLimits, RedisCacheLimitsTypedDict
 from .redislimits import RedisLimits, RedisLimitsTypedDict
 from .rollbacksettings_union import (
@@ -17,10 +15,6 @@ from .rollbacksettings_union import (
 )
 from .searchsettings import SearchSettings, SearchSettingsTypedDict
 from .serviceslimits import ServicesLimits, ServicesLimitsTypedDict
-from .shutdownsettings_union import (
-    ShutdownSettingsUnion,
-    ShutdownSettingsUnionTypedDict,
-)
 from .snisettings_union import SniSettingsUnion, SniSettingsUnionTypedDict
 from .tlssettings_union import TLSSettingsUnion, TLSSettingsUnionTypedDict
 from .upgradegroupsettings_union import (
@@ -28,7 +22,6 @@ from .upgradegroupsettings_union import (
     UpgradeGroupSettingsUnionTypedDict,
 )
 from .upgradesettings import UpgradeSettings, UpgradeSettingsTypedDict
-from .workerssettings_union import WorkersSettingsUnion, WorkersSettingsUnionTypedDict
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
 from cribl_control_plane.utils import validate_open_enum
@@ -124,6 +117,22 @@ class SystemSettingsAPI(BaseModel):
     ] = None
 
 
+class SystemSettingsCustomLogoTypedDict(TypedDict):
+    enabled: bool
+    logo_description: NotRequired[str]
+    logo_image: NotRequired[str]
+
+
+class SystemSettingsCustomLogo(BaseModel):
+    enabled: bool
+
+    logo_description: Annotated[
+        Optional[str], pydantic.Field(alias="logoDescription")
+    ] = None
+
+    logo_image: Annotated[Optional[str], pydantic.Field(alias="logoImage")] = None
+
+
 class SystemSettingsMode(str, Enum, metaclass=utils.OpenEnumMeta):
     EDGE = "edge"
     WORKER = "worker"
@@ -149,6 +158,22 @@ class Distributed(BaseModel):
             except ValueError:
                 return value
         return value
+
+
+class SystemSettingsProxyTypedDict(TypedDict):
+    use_env_vars: bool
+
+
+class SystemSettingsProxy(BaseModel):
+    use_env_vars: Annotated[bool, pydantic.Field(alias="useEnvVars")]
+
+
+class SystemSettingsShutdownTypedDict(TypedDict):
+    drain_timeout: float
+
+
+class SystemSettingsShutdown(BaseModel):
+    drain_timeout: Annotated[float, pydantic.Field(alias="drainTimeout")]
 
 
 class SystemSettingsSocketsTypedDict(TypedDict):
@@ -208,30 +233,69 @@ class SystemSettingsSystem(BaseModel):
         return value
 
 
+class SystemSettingsWorkersTypedDict(TypedDict):
+    count: float
+    memory: float
+    minimum: float
+    enable_heap_snapshots: NotRequired[bool]
+    load_throttle_perc: NotRequired[float]
+    startup_max_conns: NotRequired[float]
+    startup_throttle_timeout: NotRequired[float]
+    v8_single_thread: NotRequired[bool]
+
+
+class SystemSettingsWorkers(BaseModel):
+    count: float
+
+    memory: float
+
+    minimum: float
+
+    enable_heap_snapshots: Annotated[
+        Optional[bool], pydantic.Field(alias="enableHeapSnapshots")
+    ] = None
+
+    load_throttle_perc: Annotated[
+        Optional[float], pydantic.Field(alias="loadThrottlePerc")
+    ] = None
+
+    startup_max_conns: Annotated[
+        Optional[float], pydantic.Field(alias="startupMaxConns")
+    ] = None
+
+    startup_throttle_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="startupThrottleTimeout")
+    ] = None
+
+    v8_single_thread: Annotated[
+        Optional[bool], pydantic.Field(alias="v8SingleThread")
+    ] = None
+
+
 class SystemSettingsTypedDict(TypedDict):
     api: SystemSettingsAPITypedDict
     auth: AuthConfigTypedDict
     backups: BackupsSettingsUnionTypedDict
-    custom_logo: CustomLogoUnionTypedDict
+    custom_logo: SystemSettingsCustomLogoTypedDict
     distributed: DistributedTypedDict
     fips: bool
     git: GitSettingsTypedDict
     job_limits: JobSettingsTypedDict
     limits: LimitsTypedDict
     pii: PiiSettingsUnionTypedDict
-    proxy: ProxySettingsUnionTypedDict
+    proxy: SystemSettingsProxyTypedDict
     redis_cache_limits: RedisCacheLimitsTypedDict
     redis_limits: RedisLimitsTypedDict
     rollback: RollbackSettingsUnionTypedDict
     search_limits: SearchSettingsTypedDict
     services_limits: ServicesLimitsTypedDict
-    shutdown: ShutdownSettingsUnionTypedDict
+    shutdown: SystemSettingsShutdownTypedDict
     sni: SniSettingsUnionTypedDict
     system: SystemSettingsSystemTypedDict
     tls: TLSSettingsUnionTypedDict
     upgrade_group_settings: UpgradeGroupSettingsUnionTypedDict
     upgrade_settings: UpgradeSettingsTypedDict
-    workers: WorkersSettingsUnionTypedDict
+    workers: SystemSettingsWorkersTypedDict
     sockets: NotRequired[SystemSettingsSocketsTypedDict]
     support: NotRequired[SystemSettingsSupportTypedDict]
 
@@ -243,7 +307,7 @@ class SystemSettings(BaseModel):
 
     backups: BackupsSettingsUnion
 
-    custom_logo: Annotated[CustomLogoUnion, pydantic.Field(alias="customLogo")]
+    custom_logo: Annotated[SystemSettingsCustomLogo, pydantic.Field(alias="customLogo")]
 
     distributed: Distributed
 
@@ -257,7 +321,7 @@ class SystemSettings(BaseModel):
 
     pii: PiiSettingsUnion
 
-    proxy: ProxySettingsUnion
+    proxy: SystemSettingsProxy
 
     redis_cache_limits: Annotated[
         RedisCacheLimits, pydantic.Field(alias="redisCacheLimits")
@@ -271,7 +335,7 @@ class SystemSettings(BaseModel):
 
     services_limits: Annotated[ServicesLimits, pydantic.Field(alias="servicesLimits")]
 
-    shutdown: ShutdownSettingsUnion
+    shutdown: SystemSettingsShutdown
 
     sni: SniSettingsUnion
 
@@ -287,7 +351,7 @@ class SystemSettings(BaseModel):
         UpgradeSettings, pydantic.Field(alias="upgradeSettings")
     ]
 
-    workers: WorkersSettingsUnion
+    workers: SystemSettingsWorkers
 
     sockets: Optional[SystemSettingsSockets] = None
 

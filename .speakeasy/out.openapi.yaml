@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.16.0-alpha.1764417066009-0840ca85
+  version: 4.16.0-alpha.1764537500966-708d4cad
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -45481,27 +45481,24 @@ components:
       required:
         - packageUrl
     UpgradeSettings:
-      oneOf:
-        - type: object
-          properties:
-            automaticUpgradeCheckPeriod:
-              type: string
-            disableAutomaticUpgrade:
-              type: boolean
-            enableLegacyEdgeUpgrade:
-              type: boolean
-            packageUrls:
-              type: array
-              items:
-                $ref: "#/components/schemas/UpgradePackageUrls"
-            upgradeSource:
-              type: string
-          required:
-            - disableAutomaticUpgrade
-            - enableLegacyEdgeUpgrade
-            - upgradeSource
-        - type: object
-          additionalProperties: false
+      type: object
+      properties:
+        automaticUpgradeCheckPeriod:
+          type: string
+        disableAutomaticUpgrade:
+          type: boolean
+        enableLegacyEdgeUpgrade:
+          type: boolean
+        packageUrls:
+          type: array
+          items:
+            $ref: "#/components/schemas/UpgradePackageUrls"
+        upgradeSource:
+          type: string
+      required:
+        - disableAutomaticUpgrade
+        - enableLegacyEdgeUpgrade
+        - upgradeSource
     WorkersSettings:
       oneOf:
         - type: object
@@ -45646,6 +45643,7 @@ components:
       required:
         - api
         - backups
+        - customLogo
         - pii
         - proxy
         - rollback
@@ -46118,6 +46116,7 @@ components:
         - api
         - auth
         - backups
+        - customLogo
         - distributed
         - fips
         - git

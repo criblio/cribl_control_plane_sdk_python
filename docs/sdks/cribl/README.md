@@ -100,6 +100,10 @@ with CriblControlPlane(
     }, backups={
         "backup_persistence": "<value>",
         "backups_directory": "<value>",
+    }, custom_logo={
+        "enabled": False,
+        "logo_description": "<value>",
+        "logo_image": "<value>",
     }, pii={
         "enable_pii_detection": False,
     }, proxy={
@@ -146,10 +150,6 @@ with CriblControlPlane(
         "startup_max_conns": 4731.29,
         "startup_throttle_timeout": 1613.48,
         "v8_single_thread": True,
-    }, custom_logo={
-        "enabled": False,
-        "logo_description": "<value>",
-        "logo_image": "<value>",
     }, sockets={
         "directory": "/usr/ports",
     }, support={
@@ -172,6 +172,7 @@ with CriblControlPlane(
 | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
 | `api`                                                                                   | [models.SystemSettingsConfAPI](../../models/systemsettingsconfapi.md)                   | :heavy_check_mark:                                                                      | N/A                                                                                     |
 | `backups`                                                                               | [models.BackupsSettingsUnion](../../models/backupssettingsunion.md)                     | :heavy_check_mark:                                                                      | N/A                                                                                     |
+| `custom_logo`                                                                           | [models.CustomLogoUnion](../../models/customlogounion.md)                               | :heavy_check_mark:                                                                      | N/A                                                                                     |
 | `pii`                                                                                   | [models.PiiSettingsUnion](../../models/piisettingsunion.md)                             | :heavy_check_mark:                                                                      | N/A                                                                                     |
 | `proxy`                                                                                 | [models.ProxySettingsUnion](../../models/proxysettingsunion.md)                         | :heavy_check_mark:                                                                      | N/A                                                                                     |
 | `rollback`                                                                              | [models.RollbackSettingsUnion](../../models/rollbacksettingsunion.md)                   | :heavy_check_mark:                                                                      | N/A                                                                                     |
@@ -180,9 +181,8 @@ with CriblControlPlane(
 | `system`                                                                                | [models.SystemSettingsConfSystem](../../models/systemsettingsconfsystem.md)             | :heavy_check_mark:                                                                      | N/A                                                                                     |
 | `tls`                                                                                   | [models.TLSSettingsUnion](../../models/tlssettingsunion.md)                             | :heavy_check_mark:                                                                      | N/A                                                                                     |
 | `upgrade_group_settings`                                                                | [models.UpgradeGroupSettingsUnion](../../models/upgradegroupsettingsunion.md)           | :heavy_check_mark:                                                                      | N/A                                                                                     |
-| `upgrade_settings`                                                                      | [models.UpgradeSettingsUnion](../../models/upgradesettingsunion.md)                     | :heavy_check_mark:                                                                      | N/A                                                                                     |
+| `upgrade_settings`                                                                      | [models.UpgradeSettings](../../models/upgradesettings.md)                               | :heavy_check_mark:                                                                      | N/A                                                                                     |
 | `workers`                                                                               | [models.WorkersSettingsUnion](../../models/workerssettingsunion.md)                     | :heavy_check_mark:                                                                      | N/A                                                                                     |
-| `custom_logo`                                                                           | [Optional[models.CustomLogoUnion]](../../models/customlogounion.md)                     | :heavy_minus_sign:                                                                      | N/A                                                                                     |
 | `sockets`                                                                               | [Optional[models.SystemSettingsConfSockets]](../../models/systemsettingsconfsockets.md) | :heavy_minus_sign:                                                                      | N/A                                                                                     |
 | `support`                                                                               | [Optional[models.SystemSettingsConfSupport]](../../models/systemsettingsconfsupport.md) | :heavy_minus_sign:                                                                      | N/A                                                                                     |
 | `retries`                                                                               | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                        | :heavy_minus_sign:                                                                      | Configuration to override the default retry behavior of the client.                     |

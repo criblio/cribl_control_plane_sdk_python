@@ -286,10 +286,10 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 * [clear](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinationspq/README.md#clear) - Clear the persistent queue for a Destination
 * [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinationspq/README.md#get) - Get information about the latest job to clear the persistent queue for a Destination
 
-#### [destinations.samples](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinationssamples/README.md)
+#### [destinations.samples](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/samples/README.md)
 
-* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinationssamples/README.md#get) - Get sample event data for a Destination
-* [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinationssamples/README.md#create) - Send sample event data to a Destination
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/samples/README.md#get) - Get sample event data for a Destination
+* [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/samples/README.md#create) - Send sample event data to a Destination
 
 ### [groups](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md)
 

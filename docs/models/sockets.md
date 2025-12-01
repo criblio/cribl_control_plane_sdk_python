@@ -1,8 +1,8 @@
-# Samples
+# Sockets
 
 
 ## Fields
 
 | Field              | Type               | Required           | Description        |
 | ------------------ | ------------------ | ------------------ | ------------------ |
-| `max_size`         | *str*              | :heavy_check_mark: | N/A                |
+| `directory`        | *Optional[str]*    | :heavy_minus_sign: | N/A                |

@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 08ee164226c235c8f88e54b174c8f7dd
-  docVersion: 4.16.0-TC777-03894bd6
+  docChecksum: e18c8be5f444f2a17df4438c15445c1f
+  docVersion: 4.16.0-alpha.1764596484764-d0a66001
   speakeasyVersion: 1.665.0
   generationVersion: 2.767.2
-  releaseVersion: 0.4.0rc14
-  configChecksum: 5e42b554ab6c93106444e0dbdc7a0949
+  releaseVersion: 0.4.0rc15
+  configChecksum: a829de290d5c8a9ee8579cf7eade4937
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -51,9 +51,8 @@ generatedFiles:
   - docs/models/additionalproperty.md
   - docs/models/aisiemendpointpath.md
   - docs/models/allow.md
+  - docs/models/api.md
   - docs/models/audit.md
-  - docs/models/authconfig.md
-  - docs/models/authconfigtype.md
   - docs/models/authenticationprotocol.md
   - docs/models/author.md
   - docs/models/authtoken.md
@@ -77,7 +76,6 @@ generatedFiles:
   - docs/models/columnmapping.md
   - docs/models/comment.md
   - docs/models/commit.md
-  - docs/models/commonservicelimitconfigs.md
   - docs/models/conf.md
   - docs/models/config.md
   - docs/models/configgroup.md
@@ -116,7 +114,6 @@ generatedFiles:
   - docs/models/countedpipeline.md
   - docs/models/countedroutes.md
   - docs/models/countedstring.md
-  - docs/models/countedsystemsettings.md
   - docs/models/countedsystemsettingsconf.md
   - docs/models/countedteamaccesscontrollist.md
   - docs/models/counteduseraccesscontrollist.md
@@ -135,6 +132,7 @@ generatedFiles:
   - docs/models/cribllakedatasetupdate.md
   - docs/models/cribllakedatasetupdateformat.md
   - docs/models/currentbranchresult.md
+  - docs/models/customlogo.md
   - docs/models/datadogsite.md
   - docs/models/datasetmetadata.md
   - docs/models/datasetmetadataruninfo.md
@@ -159,12 +157,10 @@ generatedFiles:
   - docs/models/difflineinserttype.md
   - docs/models/disksandfilesystems.md
   - docs/models/distmode.md
-  - docs/models/distributed.md
   - docs/models/distributedsummary.md
   - docs/models/distributedsummarygroups.md
   - docs/models/distributedsummaryworkers.md
   - docs/models/dns.md
-  - docs/models/edgeheartbeatmetricsmode.md
   - docs/models/elasticsearchmetadata.md
   - docs/models/elasticversion.md
   - docs/models/endpoint.md
@@ -178,6 +174,7 @@ generatedFiles:
   - docs/models/extenttag.md
   - docs/models/extralogtype.md
   - docs/models/facility.md
+  - docs/models/featureflagoverride.md
   - docs/models/fieldname.md
   - docs/models/file.md
   - docs/models/firewall.md
@@ -213,11 +210,9 @@ generatedFiles:
   - docs/models/gitfilesresponse.md
   - docs/models/gitinfo.md
   - docs/models/gitlogresult.md
-  - docs/models/gitopstype.md
   - docs/models/gitrevertparams.md
   - docs/models/gitrevertresult.md
   - docs/models/gitrevertresultfiles.md
-  - docs/models/gitsettings.md
   - docs/models/gitshowresult.md
   - docs/models/gitstatusresult.md
   - docs/models/groupcreaterequest.md
@@ -1036,12 +1031,10 @@ generatedFiles:
   - docs/models/inputzscalerhectype.md
   - docs/models/interfaces.md
   - docs/models/jobinfo.md
-  - docs/models/jobsettings.md
   - docs/models/jobstatus.md
   - docs/models/lakedatasetmetrics.md
   - docs/models/lakedatasetsearchconfig.md
   - docs/models/lakehouseconnectiontype.md
-  - docs/models/limits.md
   - docs/models/listconfiggroupbyproductrequest.md
   - docs/models/listeningports.md
   - docs/models/listmasterworkerentryrequest.md
@@ -1058,7 +1051,6 @@ generatedFiles:
   - docs/models/masterworkerentry.md
   - docs/models/masterworkerentrytype.md
   - docs/models/masterworkerentryworkers.md
-  - docs/models/maxconcurrentsearchestype.md
   - docs/models/metricsprotocol.md
   - docs/models/mtlssettings.md
   - docs/models/nodeactiveupgradestatus.md
@@ -1977,13 +1969,11 @@ generatedFiles:
   - docs/models/prometheusauthoauthheader2.md
   - docs/models/prometheusauthoauthparam1.md
   - docs/models/prometheusauthoauthparam2.md
+  - docs/models/proxy.md
   - docs/models/query.md
   - docs/models/querybuildermode.md
   - docs/models/rbacresource.md
   - docs/models/readmode.md
-  - docs/models/rediscachelimits.md
-  - docs/models/redisconnectionlimits.md
-  - docs/models/redislimits.md
   - docs/models/remote.md
   - docs/models/remoteenum.md
   - docs/models/renamed.md
@@ -2031,58 +2021,34 @@ generatedFiles:
   - docs/models/runnablejobscheduledsearchtimewarning.md
   - docs/models/runnablejobscheduledsearchtype.md
   - docs/models/sample.md
-  - docs/models/samples.md
   - docs/models/scanmode.md
   - docs/models/scheduletype.md
   - docs/models/schemeclientoauth.md
   - docs/models/scrapeprotocolprotocol.md
-  - docs/models/searchqueuelength.md
-  - docs/models/searchsettings.md
   - docs/models/security.md
   - docs/models/sendeventsas.md
   - docs/models/sendlogsas.md
-  - docs/models/serviceprocstype.md
-  - docs/models/serviceprocstypeenum.md
   - docs/models/services.md
-  - docs/models/serviceslimits.md
   - docs/models/sharditeratorstart.md
   - docs/models/shardloadbalancing.md
+  - docs/models/shutdown.md
   - docs/models/snisettings1.md
   - docs/models/snisettings2.md
   - docs/models/snisettingsunion.md
   - docs/models/snmpv3authentication.md
+  - docs/models/sockets.md
   - docs/models/splunkhecmetadata.md
+  - docs/models/ssl.md
   - docs/models/state.md
   - docs/models/stats.md
   - docs/models/status.md
   - docs/models/subscription.md
   - docs/models/subscriptionmetadatum.md
   - docs/models/summary.md
-  - docs/models/systemsettings.md
-  - docs/models/systemsettingsapi.md
+  - docs/models/support.md
   - docs/models/systemsettingsconf.md
-  - docs/models/systemsettingsconfapi.md
-  - docs/models/systemsettingsconfcustomlogo.md
-  - docs/models/systemsettingsconffeatureflagoverride.md
-  - docs/models/systemsettingsconfproxy.md
-  - docs/models/systemsettingsconfshutdown.md
-  - docs/models/systemsettingsconfsockets.md
-  - docs/models/systemsettingsconfssl.md
-  - docs/models/systemsettingsconfsupport.md
   - docs/models/systemsettingsconfsystem.md
-  - docs/models/systemsettingsconfupgrade.md
   - docs/models/systemsettingsconfworkers.md
-  - docs/models/systemsettingscustomlogo.md
-  - docs/models/systemsettingsfeatureflagoverride.md
-  - docs/models/systemsettingsmode.md
-  - docs/models/systemsettingsproxy.md
-  - docs/models/systemsettingsshutdown.md
-  - docs/models/systemsettingssockets.md
-  - docs/models/systemsettingsssl.md
-  - docs/models/systemsettingssupport.md
-  - docs/models/systemsettingssystem.md
-  - docs/models/systemsettingsupgrade.md
-  - docs/models/systemsettingsworkers.md
   - docs/models/target.md
   - docs/models/targetprotocol.md
   - docs/models/teamaccesscontrollist.md
@@ -2106,6 +2072,7 @@ generatedFiles:
   - docs/models/updatepacksrequest.md
   - docs/models/updatepipelinebyidrequest.md
   - docs/models/updateroutesbyidrequest.md
+  - docs/models/upgrade.md
   - docs/models/upgradegroupsettings1.md
   - docs/models/upgradegroupsettings2.md
   - docs/models/upgradegroupsettingsunion.md
@@ -2116,8 +2083,6 @@ generatedFiles:
   - docs/models/usersandgroups.md
   - docs/models/utils/retryconfig.md
   - docs/models/v3user.md
-  - docs/models/warmpoolsize.md
-  - docs/models/warmpoolsizeenum.md
   - docs/models/wheretocapture.md
   - docs/models/workertypes.md
   - docs/models/writeaction.md
@@ -2129,7 +2094,6 @@ generatedFiles:
   - docs/sdks/cribl/README.md
   - docs/sdks/destinations/README.md
   - docs/sdks/destinationspq/README.md
-  - docs/sdks/destinationssamples/README.md
   - docs/sdks/groupssdk/README.md
   - docs/sdks/health/README.md
   - docs/sdks/hectokens/README.md
@@ -2138,6 +2102,7 @@ generatedFiles:
   - docs/sdks/packs/README.md
   - docs/sdks/pipelines/README.md
   - docs/sdks/routessdk/README.md
+  - docs/sdks/samples/README.md
   - docs/sdks/sources/README.md
   - docs/sdks/statuses/README.md
   - docs/sdks/summaries/README.md
@@ -2166,7 +2131,6 @@ generatedFiles:
   - src/cribl_control_plane/cribl.py
   - src/cribl_control_plane/destinations.py
   - src/cribl_control_plane/destinations_pq.py
-  - src/cribl_control_plane/destinations_samples.py
   - src/cribl_control_plane/errors/__init__.py
   - src/cribl_control_plane/errors/apierror.py
   - src/cribl_control_plane/errors/criblcontrolplaneerror.py
@@ -2182,7 +2146,6 @@ generatedFiles:
   - src/cribl_control_plane/lakedatasets.py
   - src/cribl_control_plane/models/__init__.py
   - src/cribl_control_plane/models/addhectokenrequest.py
-  - src/cribl_control_plane/models/authconfig.py
   - src/cribl_control_plane/models/authtoken.py
   - src/cribl_control_plane/models/backupssettings_union.py
   - src/cribl_control_plane/models/branchinfo.py
@@ -2190,7 +2153,6 @@ generatedFiles:
   - src/cribl_control_plane/models/cacheconnectionbackfillstatus.py
   - src/cribl_control_plane/models/cloudprovider.py
   - src/cribl_control_plane/models/commit.py
-  - src/cribl_control_plane/models/commonservicelimitconfigs.py
   - src/cribl_control_plane/models/configgroup.py
   - src/cribl_control_plane/models/configgroupcloud.py
   - src/cribl_control_plane/models/configgrouplookups.py
@@ -2221,7 +2183,6 @@ generatedFiles:
   - src/cribl_control_plane/models/countedpipeline.py
   - src/cribl_control_plane/models/countedroutes.py
   - src/cribl_control_plane/models/countedstring.py
-  - src/cribl_control_plane/models/countedsystemsettings.py
   - src/cribl_control_plane/models/countedsystemsettingsconf.py
   - src/cribl_control_plane/models/countedteamaccesscontrollist.py
   - src/cribl_control_plane/models/counteduseraccesscontrollist.py
@@ -2255,7 +2216,6 @@ generatedFiles:
   - src/cribl_control_plane/models/difflinedelete.py
   - src/cribl_control_plane/models/difflineinsert.py
   - src/cribl_control_plane/models/distributedsummary.py
-  - src/cribl_control_plane/models/edgeheartbeatmetricsmode.py
   - src/cribl_control_plane/models/getconfiggroupaclbyproductandidop.py
   - src/cribl_control_plane/models/getconfiggroupaclteamsbyproductandidop.py
   - src/cribl_control_plane/models/getconfiggroupbyproductandidop.py
@@ -2286,10 +2246,8 @@ generatedFiles:
   - src/cribl_control_plane/models/gitfilesresponse.py
   - src/cribl_control_plane/models/gitinfo.py
   - src/cribl_control_plane/models/gitlogresult.py
-  - src/cribl_control_plane/models/gitopstype.py
   - src/cribl_control_plane/models/gitrevertparams.py
   - src/cribl_control_plane/models/gitrevertresult.py
-  - src/cribl_control_plane/models/gitsettings.py
   - src/cribl_control_plane/models/gitshowresult.py
   - src/cribl_control_plane/models/gitstatusresult.py
   - src/cribl_control_plane/models/groupcreaterequest.py
@@ -2359,17 +2317,14 @@ generatedFiles:
   - src/cribl_control_plane/models/inputwizwebhook.py
   - src/cribl_control_plane/models/inputzscalerhec.py
   - src/cribl_control_plane/models/jobinfo.py
-  - src/cribl_control_plane/models/jobsettings.py
   - src/cribl_control_plane/models/jobstatus.py
   - src/cribl_control_plane/models/lakedatasetmetrics.py
   - src/cribl_control_plane/models/lakedatasetsearchconfig.py
   - src/cribl_control_plane/models/lakehouseconnectiontype.py
-  - src/cribl_control_plane/models/limits.py
   - src/cribl_control_plane/models/listconfiggroupbyproductop.py
   - src/cribl_control_plane/models/listmasterworkerentryop.py
   - src/cribl_control_plane/models/logininfo.py
   - src/cribl_control_plane/models/masterworkerentry.py
-  - src/cribl_control_plane/models/maxconcurrentsearchestype.py
   - src/cribl_control_plane/models/nodeactiveupgradestatus.py
   - src/cribl_control_plane/models/nodefailedupgradestatus.py
   - src/cribl_control_plane/models/nodeprovidedinfo.py
@@ -2458,9 +2413,6 @@ generatedFiles:
   - src/cribl_control_plane/models/pipelinefunctionconf.py
   - src/cribl_control_plane/models/productscore.py
   - src/cribl_control_plane/models/rbacresource.py
-  - src/cribl_control_plane/models/rediscachelimits.py
-  - src/cribl_control_plane/models/redisconnectionlimits.py
-  - src/cribl_control_plane/models/redislimits.py
   - src/cribl_control_plane/models/resourcepolicy.py
   - src/cribl_control_plane/models/rollbacksettings_union.py
   - src/cribl_control_plane/models/routeconf.py
@@ -2471,12 +2423,8 @@ generatedFiles:
   - src/cribl_control_plane/models/runnablejobexecutor.py
   - src/cribl_control_plane/models/runnablejobscheduledsearch.py
   - src/cribl_control_plane/models/schemeclientoauth.py
-  - src/cribl_control_plane/models/searchsettings.py
   - src/cribl_control_plane/models/security.py
-  - src/cribl_control_plane/models/serviceprocstype.py
-  - src/cribl_control_plane/models/serviceslimits.py
   - src/cribl_control_plane/models/snisettings_union.py
-  - src/cribl_control_plane/models/systemsettings.py
   - src/cribl_control_plane/models/systemsettingsconf.py
   - src/cribl_control_plane/models/teamaccesscontrollist.py
   - src/cribl_control_plane/models/tlssettings_union.py
@@ -2502,6 +2450,7 @@ generatedFiles:
   - src/cribl_control_plane/pipelines.py
   - src/cribl_control_plane/py.typed
   - src/cribl_control_plane/routes_sdk.py
+  - src/cribl_control_plane/samples.py
   - src/cribl_control_plane/sdk.py
   - src/cribl_control_plane/sdkconfiguration.py
   - src/cribl_control_plane/settings.py
@@ -3480,7 +3429,7 @@ examples:
         application/json: {"api": {"baseUrl": "https://both-draw.com/", "disableApiCache": true, "disabled": false, "headers": {}, "host": "meaty-spring.biz", "idleSessionTTL": 89.27, "listenOnPort": true, "loginRateLimit": "<value>", "port": 2424.38, "protocol": "<value>", "scripts": true, "sensitiveFields": ["<value 1>", "<value 2>"], "ssl": {"caPath": "<value>", "certPath": "<value>", "disabled": true, "passphrase": "<value>", "privKeyPath": "<value>"}, "ssoRateLimit": "<value>", "workerRemoteAccess": true}, "backups": {"backupPersistence": "<value>", "backupsDirectory": "<value>"}, "customLogo": {"enabled": false, "logoDescription": "<value>", "logoImage": "<value>"}, "pii": {"enablePiiDetection": false}, "proxy": {"useEnvVars": true}, "rollback": {"rollbackEnabled": false, "rollbackRetries": 3174.73, "rollbackTimeout": 1506.54}, "shutdown": {"drainTimeout": 3723.75}, "sni": {"disableSNIRouting": false}, "sockets": {"directory": "/usr/ports"}, "support": {"featureFlagOverrides": [{"disabled": true, "flagId": "<id>"}]}, "system": {"intercom": false, "upgrade": "api"}, "tls": {"defaultCipherList": "<value>", "defaultEcdhCurve": "<value>", "maxVersion": "<value>", "minVersion": "<value>", "rejectUnauthorized": true}, "upgradeGroupSettings": {"isRolling": false, "quantity": 7915.07, "retryCount": 4414.66, "retryDelay": 4374.4}, "upgradeSettings": {"automaticUpgradeCheckPeriod": "<value>", "disableAutomaticUpgrade": false, "enableLegacyEdgeUpgrade": false, "packageUrls": [{"packageHashUrl": "https://thrifty-teammate.net/", "packageUrl": "https://skeletal-dwell.info/"}], "upgradeSource": "<value>"}, "workers": {"count": 2124.14, "enableHeapSnapshots": true, "loadThrottlePerc": 2538.71, "memory": 20.53, "minimum": 6157.83, "startupMaxConns": 4731.29, "startupThrottleTimeout": 1613.48, "v8SingleThread": true}}
       responses:
         "200":
-          application/json: {"count": 621984, "items": [{"api": {"baseUrl": "https://crafty-humidity.com/", "disableApiCache": false, "disabled": true, "headers": {}, "host": "unwelcome-gastropod.info", "idleSessionTTL": 5654.06, "listenOnPort": false, "loginRateLimit": "<value>", "port": 9260.96, "protocol": "<value>", "scripts": false, "sensitiveFields": ["<value 1>"], "ssl": {"caPath": "<value>", "certPath": "<value>", "disabled": true, "passphrase": "<value>", "privKeyPath": "<value>"}, "ssoRateLimit": "<value>", "workerRemoteAccess": false}, "auth": {"fallback": true, "fallbackBadLogin": true, "filter_type": "<value>", "host": "elementary-tectonics.com", "port": 5119.59, "ssl": false, "type": "saml"}, "backups": {"backupPersistence": "<value>", "backupsDirectory": "<value>"}, "customLogo": {"enabled": true, "logoDescription": "<value>", "logoImage": "<value>"}, "distributed": {"mode": "master"}, "fips": true, "git": {"authType": "<value>", "autoAction": "<value>", "autoActionMessage": "<value>", "autoActionSchedule": "<value>", "branch": "<value>", "commitDeploySingleAction": true, "copilotAutoGitCommitMessages": true, "defaultCommitMessage": "<value>", "gitOps": "pull", "password": "mx2vfxXQJD4Ybfr", "remote": "<value>", "sshKey": "<value>", "strictHostKeyChecking": true, "timeout": 1445.54, "user": "Ursula79"}, "jobLimits": {"concurrentJobLimit": 5261.7, "concurrentScheduledJobLimit": 8739.55, "concurrentSystemJobLimit": 7105.98, "concurrentSystemTaskLimit": 2659.8, "concurrentTaskLimit": 9028.78, "disableTasks": true, "finishedJobArtifactsLimit": 5997.68, "finishedTaskArtifactsLimit": 8338.08, "jobArtifactsReaperPeriod": "<value>", "jobTimeout": "<value>", "maxTaskPerc": 7246.27, "schedulingPolicy": "<value>", "taskHeartbeatPeriod": 7464.28, "taskManifestFlushPeriodMs": 2406.65, "taskManifestMaxBufferSize": 6473.61, "taskManifestReadBufferSize": "<value>", "taskPollTimeoutMs": 5365.61}, "limits": {"cpuProfileTTL": "<value>", "disableMetricsAccessorCache": false, "edgeMetricsCustomExpression": "<value>", "edgeMetricsMode": "all", "edgeNodesCount": 148.31, "enableMetricsPersistence": false, "enableWorkerPersistence": false, "eventsMetadataSources": ["<value 1>", "<value 2>"], "largeEventsThreshold": "<value>", "lookupMaxSize": "<value>", "lookupMaxTotalSize": "<value>", "maxDimensionValueSize": 821.15, "maxMetrics": 743.26, "maxPQSize": "<value>", "maxReconnectInterval": "<value>", "metricsDirectory": "<value>", "metricsDropList": ["<value 1>", "<value 2>"], "metricsFieldsBlacklist": [], "metricsGCPeriod": "<value>", "metricsMaxCardinality": 991.34, "metricsMaxDiskSpace": "<value>", "metricsNeverDropList": ["<value 1>", "<value 2>", "<value 3>"], "metricsWorkerIdBlacklist": ["<value 1>", "<value 2>"], "minFreeSpace": "<value>", "minReconnectInterval": "<value>", "netFlowTemplateFlushInterval": 2696.85, "randomReconnectInterval": "<value>", "samples": {"maxSize": "<value>"}, "workerMaxMetrics": 3440.42}, "pii": {"enablePiiDetection": false}, "proxy": {"useEnvVars": true}, "redisCacheLimits": {"clientTrackingMechanism": "<value>", "enableServerAssist": false, "keyTTLSecs": 1429.84, "maxCacheSize": 1900.2, "maxNumKeys": 8821.39, "servicePeriodSecs": 2756.18}, "redisLimits": {"connections": {"disabled": true, "maxConnections": 2244.47}}, "rollback": {"rollbackEnabled": false, "rollbackRetries": 251.18, "rollbackTimeout": 5753.48}, "searchLimits": {"compressObjectCacheArtifacts": false, "fieldSummaryMaxFields": 997.95, "fieldSummaryMaxNestedDepth": 6311.46, "maxConcurrentSearches": 9454.72, "maxExecutorsPerSearch": 8461.8, "maxResultsPerSearch": 1247.74, "maxSearchDuration": "<value>", "searchHistoryMaxJobs": 7581.99, "searchHistoryTTL": "<value>", "searchQueueLength": 4176.38, "warmPoolSize": "auto", "writeOnlyProviderSecrets": true}, "servicesLimits": {"connections": {"memoryLimit": "<value>", "procs": 3795.06}, "metrics": {"memoryLimit": "<value>", "procs": "auto"}, "notifications": {"memoryLimit": "<value>", "procs": "auto"}}, "shutdown": {"drainTimeout": 8291.44}, "sni": {"disableSNIRouting": true}, "sockets": {"directory": "/proc"}, "support": {"featureFlagOverrides": [{"disabled": false, "flagId": "<id>"}]}, "system": {"intercom": false, "upgrade": "api"}, "tls": {"defaultCipherList": "<value>", "defaultEcdhCurve": "<value>", "maxVersion": "<value>", "minVersion": "<value>", "rejectUnauthorized": true}, "upgradeGroupSettings": {"isRolling": false, "quantity": 7915.07, "retryCount": 4414.66, "retryDelay": 4374.4}, "upgradeSettings": {"automaticUpgradeCheckPeriod": "<value>", "disableAutomaticUpgrade": false, "enableLegacyEdgeUpgrade": false, "packageUrls": [{"packageHashUrl": "https://thrifty-teammate.net/", "packageUrl": "https://skeletal-dwell.info/"}], "upgradeSource": "<value>"}, "workers": {"count": 5732.34, "enableHeapSnapshots": false, "loadThrottlePerc": 580.39, "memory": 8722.5, "minimum": 1180.07, "startupMaxConns": 9534.79, "startupThrottleTimeout": 1509.67, "v8SingleThread": false}}]}
+          application/json: {"count": 621984, "items": [{"api": {"baseUrl": "https://crafty-humidity.com/", "disableApiCache": false, "disabled": true, "headers": {}, "host": "unwelcome-gastropod.info", "idleSessionTTL": 5654.06, "listenOnPort": false, "loginRateLimit": "<value>", "port": 9260.96, "protocol": "<value>", "scripts": false, "sensitiveFields": ["<value 1>"], "ssl": {"caPath": "<value>", "certPath": "<value>", "disabled": true, "passphrase": "<value>", "privKeyPath": "<value>"}, "ssoRateLimit": "<value>", "workerRemoteAccess": false}, "backups": {"backupPersistence": "<value>", "backupsDirectory": "<value>"}, "customLogo": {"enabled": true, "logoDescription": "<value>", "logoImage": "<value>"}, "pii": {"enablePiiDetection": false}, "proxy": {"useEnvVars": true}, "rollback": {"rollbackEnabled": false, "rollbackRetries": 251.18, "rollbackTimeout": 5753.48}, "shutdown": {"drainTimeout": 8291.44}, "sni": {"disableSNIRouting": true}, "sockets": {"directory": "/proc"}, "support": {"featureFlagOverrides": [{"disabled": false, "flagId": "<id>"}]}, "system": {"intercom": false, "upgrade": "api"}, "tls": {"defaultCipherList": "<value>", "defaultEcdhCurve": "<value>", "maxVersion": "<value>", "minVersion": "<value>", "rejectUnauthorized": true}, "upgradeGroupSettings": {"isRolling": false, "quantity": 7915.07, "retryCount": 4414.66, "retryDelay": 4374.4}, "upgradeSettings": {"automaticUpgradeCheckPeriod": "<value>", "disableAutomaticUpgrade": false, "enableLegacyEdgeUpgrade": false, "packageUrls": [{"packageHashUrl": "https://thrifty-teammate.net/", "packageUrl": "https://skeletal-dwell.info/"}], "upgradeSource": "<value>"}, "workers": {"count": 5732.34, "enableHeapSnapshots": false, "loadThrottlePerc": 580.39, "memory": 8722.5, "minimum": 1180.07, "startupMaxConns": 9534.79, "startupThrottleTimeout": 1509.67, "v8SingleThread": false}}]}
         "500":
           application/json: {"message": "<value>"}
   getSystemSettingsGitSettings:
@@ -3590,4 +3539,6 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: "## Python SDK Changes:\n* `cribl_control_plane.system.settings.cribl.update()`: \n  *  `request.upgrade_settings.upgrade_source` **Changed** **Breaking** :warning:\n  *  `response.items.[].upgrade_settings.upgrade_source` **Changed**\n* `cribl_control_plane.system.settings.cribl.list()`:  `response.items.[].upgrade_settings.upgrade_source` **Changed**\n"
+releaseNotes: |
+  ## Python SDK Changes:
+  * `cribl_control_plane.system.settings.cribl.update()`:  `response.items.[]` **Changed** **Breaking** :warning:

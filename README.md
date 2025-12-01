@@ -286,10 +286,10 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 * [clear](docs/sdks/destinationspq/README.md#clear) - Clear the persistent queue for a Destination
 * [get](docs/sdks/destinationspq/README.md#get) - Get information about the latest job to clear the persistent queue for a Destination
 
-#### [destinations.samples](docs/sdks/destinationssamples/README.md)
+#### [destinations.samples](docs/sdks/samples/README.md)
 
-* [get](docs/sdks/destinationssamples/README.md#get) - Get sample event data for a Destination
-* [create](docs/sdks/destinationssamples/README.md#create) - Send sample event data to a Destination
+* [get](docs/sdks/samples/README.md#get) - Get sample event data for a Destination
+* [create](docs/sdks/samples/README.md#create) - Send sample event data to a Destination
 
 ### [groups](docs/sdks/groupssdk/README.md)
 

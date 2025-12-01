@@ -25,7 +25,7 @@ from typing import Dict, List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class SystemSettingsConfSslTypedDict(TypedDict):
+class SslTypedDict(TypedDict):
     cert_path: str
     disabled: bool
     passphrase: str
@@ -33,7 +33,7 @@ class SystemSettingsConfSslTypedDict(TypedDict):
     ca_path: NotRequired[str]
 
 
-class SystemSettingsConfSsl(BaseModel):
+class Ssl(BaseModel):
     cert_path: Annotated[str, pydantic.Field(alias="certPath")]
 
     disabled: bool
@@ -45,7 +45,7 @@ class SystemSettingsConfSsl(BaseModel):
     ca_path: Annotated[Optional[str], pydantic.Field(alias="caPath")] = None
 
 
-class SystemSettingsConfAPITypedDict(TypedDict):
+class APITypedDict(TypedDict):
     disabled: bool
     host: str
     port: float
@@ -58,12 +58,12 @@ class SystemSettingsConfAPITypedDict(TypedDict):
     protocol: NotRequired[str]
     scripts: NotRequired[bool]
     sensitive_fields: NotRequired[List[str]]
-    ssl: NotRequired[SystemSettingsConfSslTypedDict]
+    ssl: NotRequired[SslTypedDict]
     sso_rate_limit: NotRequired[str]
     worker_remote_access: NotRequired[bool]
 
 
-class SystemSettingsConfAPI(BaseModel):
+class API(BaseModel):
     disabled: bool
 
     host: str
@@ -98,7 +98,7 @@ class SystemSettingsConfAPI(BaseModel):
         Optional[List[str]], pydantic.Field(alias="sensitiveFields")
     ] = None
 
-    ssl: Optional[SystemSettingsConfSsl] = None
+    ssl: Optional[Ssl] = None
 
     sso_rate_limit: Annotated[Optional[str], pydantic.Field(alias="ssoRateLimit")] = (
         None
@@ -109,13 +109,13 @@ class SystemSettingsConfAPI(BaseModel):
     ] = None
 
 
-class SystemSettingsConfCustomLogoTypedDict(TypedDict):
+class CustomLogoTypedDict(TypedDict):
     enabled: bool
     logo_description: NotRequired[str]
     logo_image: NotRequired[str]
 
 
-class SystemSettingsConfCustomLogo(BaseModel):
+class CustomLogo(BaseModel):
     enabled: bool
 
     logo_description: Annotated[
@@ -125,76 +125,72 @@ class SystemSettingsConfCustomLogo(BaseModel):
     logo_image: Annotated[Optional[str], pydantic.Field(alias="logoImage")] = None
 
 
-class SystemSettingsConfProxyTypedDict(TypedDict):
+class ProxyTypedDict(TypedDict):
     use_env_vars: bool
 
 
-class SystemSettingsConfProxy(BaseModel):
+class Proxy(BaseModel):
     use_env_vars: Annotated[bool, pydantic.Field(alias="useEnvVars")]
 
 
-class SystemSettingsConfShutdownTypedDict(TypedDict):
+class ShutdownTypedDict(TypedDict):
     drain_timeout: float
 
 
-class SystemSettingsConfShutdown(BaseModel):
+class Shutdown(BaseModel):
     drain_timeout: Annotated[float, pydantic.Field(alias="drainTimeout")]
 
 
-class SystemSettingsConfSocketsTypedDict(TypedDict):
+class SocketsTypedDict(TypedDict):
     directory: NotRequired[str]
 
 
-class SystemSettingsConfSockets(BaseModel):
+class Sockets(BaseModel):
     directory: Optional[str] = None
 
 
-class SystemSettingsConfFeatureFlagOverrideTypedDict(TypedDict):
+class FeatureFlagOverrideTypedDict(TypedDict):
     disabled: bool
     flag_id: str
 
 
-class SystemSettingsConfFeatureFlagOverride(BaseModel):
+class FeatureFlagOverride(BaseModel):
     disabled: bool
 
     flag_id: Annotated[str, pydantic.Field(alias="flagId")]
 
 
-class SystemSettingsConfSupportTypedDict(TypedDict):
-    feature_flag_overrides: NotRequired[
-        List[SystemSettingsConfFeatureFlagOverrideTypedDict]
-    ]
+class SupportTypedDict(TypedDict):
+    feature_flag_overrides: NotRequired[List[FeatureFlagOverrideTypedDict]]
 
 
-class SystemSettingsConfSupport(BaseModel):
+class Support(BaseModel):
     feature_flag_overrides: Annotated[
-        Optional[List[SystemSettingsConfFeatureFlagOverride]],
+        Optional[List[FeatureFlagOverride]],
         pydantic.Field(alias="featureFlagOverrides"),
     ] = None
 
 
-class SystemSettingsConfUpgrade(str, Enum, metaclass=utils.OpenEnumMeta):
+class Upgrade(str, Enum, metaclass=utils.OpenEnumMeta):
     FALSE = "false"
     API = "api"
 
 
 class SystemSettingsConfSystemTypedDict(TypedDict):
     intercom: bool
-    upgrade: SystemSettingsConfUpgrade
+    upgrade: Upgrade
 
 
 class SystemSettingsConfSystem(BaseModel):
     intercom: bool
 
-    upgrade: Annotated[
-        SystemSettingsConfUpgrade, PlainValidator(validate_open_enum(False))
-    ]
+    upgrade: Annotated[Upgrade, PlainValidator(validate_open_enum(False))]
 
     @field_serializer("upgrade")
     def serialize_upgrade(self, value):
         if isinstance(value, str):
             try:
-                return models.SystemSettingsConfUpgrade(value)
+                return models.Upgrade(value)
             except ValueError:
                 return value
         return value
@@ -240,39 +236,37 @@ class SystemSettingsConfWorkers(BaseModel):
 
 
 class SystemSettingsConfTypedDict(TypedDict):
-    api: SystemSettingsConfAPITypedDict
+    api: APITypedDict
     backups: BackupsSettingsUnionTypedDict
-    custom_logo: SystemSettingsConfCustomLogoTypedDict
+    custom_logo: CustomLogoTypedDict
     pii: PiiSettingsUnionTypedDict
-    proxy: SystemSettingsConfProxyTypedDict
+    proxy: ProxyTypedDict
     rollback: RollbackSettingsUnionTypedDict
-    shutdown: SystemSettingsConfShutdownTypedDict
+    shutdown: ShutdownTypedDict
     sni: SniSettingsUnionTypedDict
     system: SystemSettingsConfSystemTypedDict
     tls: TLSSettingsUnionTypedDict
     upgrade_group_settings: UpgradeGroupSettingsUnionTypedDict
     upgrade_settings: UpgradeSettingsTypedDict
     workers: SystemSettingsConfWorkersTypedDict
-    sockets: NotRequired[SystemSettingsConfSocketsTypedDict]
-    support: NotRequired[SystemSettingsConfSupportTypedDict]
+    sockets: NotRequired[SocketsTypedDict]
+    support: NotRequired[SupportTypedDict]
 
 
 class SystemSettingsConf(BaseModel):
-    api: SystemSettingsConfAPI
+    api: API
 
     backups: BackupsSettingsUnion
 
-    custom_logo: Annotated[
-        SystemSettingsConfCustomLogo, pydantic.Field(alias="customLogo")
-    ]
+    custom_logo: Annotated[CustomLogo, pydantic.Field(alias="customLogo")]
 
     pii: PiiSettingsUnion
 
-    proxy: SystemSettingsConfProxy
+    proxy: Proxy
 
     rollback: RollbackSettingsUnion
 
-    shutdown: SystemSettingsConfShutdown
+    shutdown: Shutdown
 
     sni: SniSettingsUnion
 
@@ -290,6 +284,6 @@ class SystemSettingsConf(BaseModel):
 
     workers: SystemSettingsConfWorkers
 
-    sockets: Optional[SystemSettingsConfSockets] = None
+    sockets: Optional[Sockets] = None
 
-    support: Optional[SystemSettingsConfSupport] = None
+    support: Optional[Support] = None

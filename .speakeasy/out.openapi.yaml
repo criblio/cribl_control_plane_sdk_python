@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.16.0-alpha.1764539522165-bd71c8bd
+  version: 4.16.0-TC777-03894bd6
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -45462,6 +45462,7 @@ components:
       required:
         - disableAutomaticUpgrade
         - enableLegacyEdgeUpgrade
+        - upgradeSource
     SystemSettingsConf:
       type: object
       properties:

@@ -187,7 +187,6 @@ class Cribl(BaseSDK):
         backups: Union[
             models.BackupsSettingsUnion, models.BackupsSettingsUnionTypedDict
         ],
-        custom_logo: Union[models.CustomLogo, models.CustomLogoTypedDict],
         pii: Union[models.PiiSettingsUnion, models.PiiSettingsUnionTypedDict],
         proxy: Union[models.Proxy, models.ProxyTypedDict],
         rollback: Union[
@@ -208,6 +207,9 @@ class Cribl(BaseSDK):
         workers: Union[
             models.SystemSettingsConfWorkers, models.SystemSettingsConfWorkersTypedDict
         ],
+        custom_logo: Optional[
+            Union[models.CustomLogo, models.CustomLogoTypedDict]
+        ] = None,
         sockets: Optional[Union[models.Sockets, models.SocketsTypedDict]] = None,
         support: Optional[Union[models.Support, models.SupportTypedDict]] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -221,7 +223,6 @@ class Cribl(BaseSDK):
 
         :param api:
         :param backups:
-        :param custom_logo:
         :param pii:
         :param proxy:
         :param rollback:
@@ -232,6 +233,7 @@ class Cribl(BaseSDK):
         :param upgrade_group_settings:
         :param upgrade_settings:
         :param workers:
+        :param custom_logo:
         :param sockets:
         :param support:
         :param retries: Override the default retry configuration for this method
@@ -252,7 +254,9 @@ class Cribl(BaseSDK):
         request = models.SystemSettingsConf(
             api=utils.get_pydantic_model(api, models.API),
             backups=utils.get_pydantic_model(backups, models.BackupsSettingsUnion),
-            custom_logo=utils.get_pydantic_model(custom_logo, models.CustomLogo),
+            custom_logo=utils.get_pydantic_model(
+                custom_logo, Optional[models.CustomLogo]
+            ),
             pii=utils.get_pydantic_model(pii, models.PiiSettingsUnion),
             proxy=utils.get_pydantic_model(proxy, models.Proxy),
             rollback=utils.get_pydantic_model(rollback, models.RollbackSettingsUnion),
@@ -340,7 +344,6 @@ class Cribl(BaseSDK):
         backups: Union[
             models.BackupsSettingsUnion, models.BackupsSettingsUnionTypedDict
         ],
-        custom_logo: Union[models.CustomLogo, models.CustomLogoTypedDict],
         pii: Union[models.PiiSettingsUnion, models.PiiSettingsUnionTypedDict],
         proxy: Union[models.Proxy, models.ProxyTypedDict],
         rollback: Union[
@@ -361,6 +364,9 @@ class Cribl(BaseSDK):
         workers: Union[
             models.SystemSettingsConfWorkers, models.SystemSettingsConfWorkersTypedDict
         ],
+        custom_logo: Optional[
+            Union[models.CustomLogo, models.CustomLogoTypedDict]
+        ] = None,
         sockets: Optional[Union[models.Sockets, models.SocketsTypedDict]] = None,
         support: Optional[Union[models.Support, models.SupportTypedDict]] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -374,7 +380,6 @@ class Cribl(BaseSDK):
 
         :param api:
         :param backups:
-        :param custom_logo:
         :param pii:
         :param proxy:
         :param rollback:
@@ -385,6 +390,7 @@ class Cribl(BaseSDK):
         :param upgrade_group_settings:
         :param upgrade_settings:
         :param workers:
+        :param custom_logo:
         :param sockets:
         :param support:
         :param retries: Override the default retry configuration for this method
@@ -405,7 +411,9 @@ class Cribl(BaseSDK):
         request = models.SystemSettingsConf(
             api=utils.get_pydantic_model(api, models.API),
             backups=utils.get_pydantic_model(backups, models.BackupsSettingsUnion),
-            custom_logo=utils.get_pydantic_model(custom_logo, models.CustomLogo),
+            custom_logo=utils.get_pydantic_model(
+                custom_logo, Optional[models.CustomLogo]
+            ),
             pii=utils.get_pydantic_model(pii, models.PiiSettingsUnion),
             proxy=utils.get_pydantic_model(proxy, models.Proxy),
             rollback=utils.get_pydantic_model(rollback, models.RollbackSettingsUnion),

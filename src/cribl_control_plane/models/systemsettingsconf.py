@@ -238,7 +238,6 @@ class SystemSettingsConfWorkers(BaseModel):
 class SystemSettingsConfTypedDict(TypedDict):
     api: APITypedDict
     backups: BackupsSettingsUnionTypedDict
-    custom_logo: CustomLogoTypedDict
     pii: PiiSettingsUnionTypedDict
     proxy: ProxyTypedDict
     rollback: RollbackSettingsUnionTypedDict
@@ -249,6 +248,7 @@ class SystemSettingsConfTypedDict(TypedDict):
     upgrade_group_settings: UpgradeGroupSettingsUnionTypedDict
     upgrade_settings: UpgradeSettingsTypedDict
     workers: SystemSettingsConfWorkersTypedDict
+    custom_logo: NotRequired[CustomLogoTypedDict]
     sockets: NotRequired[SocketsTypedDict]
     support: NotRequired[SupportTypedDict]
 
@@ -257,8 +257,6 @@ class SystemSettingsConf(BaseModel):
     api: API
 
     backups: BackupsSettingsUnion
-
-    custom_logo: Annotated[CustomLogo, pydantic.Field(alias="customLogo")]
 
     pii: PiiSettingsUnion
 
@@ -283,6 +281,10 @@ class SystemSettingsConf(BaseModel):
     ]
 
     workers: SystemSettingsConfWorkers
+
+    custom_logo: Annotated[Optional[CustomLogo], pydantic.Field(alias="customLogo")] = (
+        None
+    )
 
     sockets: Optional[Sockets] = None
 

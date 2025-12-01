@@ -126,22 +126,117 @@ class InputWizPq(BaseModel):
         return value
 
 
+class ManageStateTypedDict(TypedDict):
+    pass
+
+
+class ManageState(BaseModel):
+    pass
+
+
+class InputWizLogLevel(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Collector runtime log level"""
+
+    ERROR = "error"
+    WARN = "warn"
+    INFO = "info"
+    DEBUG = "debug"
+    SILLY = "silly"
+
+
 class InputWizContentConfigTypedDict(TypedDict):
     content_type: str
     r"""The name of the Wiz query"""
+    content_query: str
+    r"""Template for POST body to send with the Collect request. Reference global variables, or functions using template params: `${C.vars.myVar}`, or `${Date.now()}`, `${param}`."""
     content_description: NotRequired[str]
     enabled: NotRequired[bool]
+    state_tracking: NotRequired[bool]
+    r"""Track collection progress between consecutive scheduled executions"""
+    state_update_expression: NotRequired[str]
+    r"""JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information."""
+    state_merge_expression: NotRequired[str]
+    r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
+    manage_state: NotRequired[ManageStateTypedDict]
+    cron_schedule: NotRequired[str]
+    r"""A cron schedule on which to run this job"""
+    earliest: NotRequired[str]
+    r"""Earliest time, relative to now. Format supported: [+|-]<time_integer><time_unit>@<snap-to_time_unit> (ex: -1hr, -42m, -42m@h)"""
+    latest: NotRequired[str]
+    r"""Latest time, relative to now. Format supported: [+|-]<time_integer><time_unit>@<snap-to_time_unit> (ex: -1hr, -42m, -42m@h)"""
+    job_timeout: NotRequired[str]
+    r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Units default to seconds if not specified. Enter 0 for unlimited time."""
+    log_level: NotRequired[InputWizLogLevel]
+    r"""Collector runtime log level"""
+    max_pages: NotRequired[float]
+    r"""Maximum number of pages to retrieve per collection task. Defaults to 0. Set to 0 to retrieve all pages."""
 
 
 class InputWizContentConfig(BaseModel):
     content_type: Annotated[str, pydantic.Field(alias="contentType")]
     r"""The name of the Wiz query"""
 
+    content_query: Annotated[str, pydantic.Field(alias="contentQuery")]
+    r"""Template for POST body to send with the Collect request. Reference global variables, or functions using template params: `${C.vars.myVar}`, or `${Date.now()}`, `${param}`."""
+
     content_description: Annotated[
         Optional[str], pydantic.Field(alias="contentDescription")
     ] = None
 
     enabled: Optional[bool] = False
+
+    state_tracking: Annotated[Optional[bool], pydantic.Field(alias="stateTracking")] = (
+        False
+    )
+    r"""Track collection progress between consecutive scheduled executions"""
+
+    state_update_expression: Annotated[
+        Optional[str], pydantic.Field(alias="stateUpdateExpression")
+    ] = "__timestampExtracted !== false && {latestTime: (state.latestTime || 0) > _time ? state.latestTime : _time}"
+    r"""JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information."""
+
+    state_merge_expression: Annotated[
+        Optional[str], pydantic.Field(alias="stateMergeExpression")
+    ] = "prevState.latestTime > newState.latestTime ? prevState : newState"
+    r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
+
+    manage_state: Annotated[
+        Optional[ManageState], pydantic.Field(alias="manageState")
+    ] = None
+
+    cron_schedule: Annotated[Optional[str], pydantic.Field(alias="cronSchedule")] = (
+        "0 */12 * * *"
+    )
+    r"""A cron schedule on which to run this job"""
+
+    earliest: Optional[str] = "-12h@h"
+    r"""Earliest time, relative to now. Format supported: [+|-]<time_integer><time_unit>@<snap-to_time_unit> (ex: -1hr, -42m, -42m@h)"""
+
+    latest: Optional[str] = "now"
+    r"""Latest time, relative to now. Format supported: [+|-]<time_integer><time_unit>@<snap-to_time_unit> (ex: -1hr, -42m, -42m@h)"""
+
+    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = "0"
+    r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Units default to seconds if not specified. Enter 0 for unlimited time."""
+
+    log_level: Annotated[
+        Annotated[
+            Optional[InputWizLogLevel], PlainValidator(validate_open_enum(False))
+        ],
+        pydantic.Field(alias="logLevel"),
+    ] = InputWizLogLevel.INFO
+    r"""Collector runtime log level"""
+
+    max_pages: Annotated[Optional[float], pydantic.Field(alias="maxPages")] = 0
+    r"""Maximum number of pages to retrieve per collection task. Defaults to 0. Set to 0 to retrieve all pages."""
+
+    @field_serializer("log_level")
+    def serialize_log_level(self, value):
+        if isinstance(value, str):
+            try:
+                return models.InputWizLogLevel(value)
+            except ValueError:
+                return value
+        return value
 
 
 class InputWizMetadatumTypedDict(TypedDict):

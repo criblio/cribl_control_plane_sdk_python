@@ -8,3 +8,4 @@ Select Secret to use a text secret to authenticate
 | Name     | Value    |
 | -------- | -------- |
 | `SECRET` | secret   |
+| `MANUAL` | manual   |

@@ -284,6 +284,21 @@ class SubscriptionMetadatum(BaseModel):
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
+class QueryTypedDict(TypedDict):
+    path: str
+    r"""The Path attribute from the relevant XML Select element"""
+    query_expression: str
+    r"""The XPath query inside the relevant XML Select element"""
+
+
+class Query(BaseModel):
+    path: str
+    r"""The Path attribute from the relevant XML Select element"""
+
+    query_expression: Annotated[str, pydantic.Field(alias="queryExpression")]
+    r"""The XPath query inside the relevant XML Select element"""
+
+
 class SubscriptionTypedDict(TypedDict):
     subscription_name: str
     targets: List[str]
@@ -307,6 +322,9 @@ class SubscriptionTypedDict(TypedDict):
     query_selector: NotRequired[QueryBuilderMode]
     metadata: NotRequired[List[SubscriptionMetadatumTypedDict]]
     r"""Fields to add to events ingested under this subscription"""
+    queries: NotRequired[List[QueryTypedDict]]
+    xml_query: NotRequired[str]
+    r"""The XPath query to use for selecting events"""
 
 
 class Subscription(BaseModel):
@@ -357,6 +375,11 @@ class Subscription(BaseModel):
 
     metadata: Optional[List[SubscriptionMetadatum]] = None
     r"""Fields to add to events ingested under this subscription"""
+
+    queries: Optional[List[Query]] = None
+
+    xml_query: Annotated[Optional[str], pydantic.Field(alias="xmlQuery")] = None
+    r"""The XPath query to use for selecting events"""
 
     @field_serializer("content_format")
     def serialize_content_format(self, value):

@@ -18,11 +18,11 @@ class RunnableJobScheduledSearchJobType(str, Enum, metaclass=utils.OpenEnumMeta)
     SCHEDULED_SEARCH = "scheduledSearch"
 
 
-class RunnableJobScheduledSearchType(str, Enum):
+class RunnableJobScheduledSearchType(str, Enum, metaclass=utils.OpenEnumMeta):
     COLLECTION = "collection"
 
 
-class RunnableJobScheduledSearchLogLevel(str, Enum):
+class RunnableJobScheduledSearchLogLevel(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Level at which to set task logging"""
 
     ERROR = "error"
@@ -65,12 +65,10 @@ class RunnableJobScheduledSearchRunSettingsTypedDict(TypedDict):
     r"""Limits the bundle size for small tasks. For example,
 
 
-
     if your lower bundle size is 1MB, you can bundle up to five 200KB files into one task.
     """
     max_task_size: NotRequired[str]
     r"""Limits the bundle size for files above the lower task bundle size. For example, if your upper bundle size is 10MB,
-
 
 
     you can bundle up to five 2MB files into one task. Files greater than this size will be assigned to individual tasks.
@@ -78,7 +76,10 @@ class RunnableJobScheduledSearchRunSettingsTypedDict(TypedDict):
 
 
 class RunnableJobScheduledSearchRunSettings(BaseModel):
-    type: Optional[RunnableJobScheduledSearchType] = None
+    type: Annotated[
+        Optional[RunnableJobScheduledSearchType],
+        PlainValidator(validate_open_enum(False)),
+    ] = None
 
     reschedule_dropped_tasks: Annotated[
         Optional[bool], pydantic.Field(alias="rescheduleDroppedTasks")
@@ -91,7 +92,11 @@ class RunnableJobScheduledSearchRunSettings(BaseModel):
     r"""Maximum number of times a task can be rescheduled"""
 
     log_level: Annotated[
-        Optional[RunnableJobScheduledSearchLogLevel], pydantic.Field(alias="logLevel")
+        Annotated[
+            Optional[RunnableJobScheduledSearchLogLevel],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="logLevel"),
     ] = RunnableJobScheduledSearchLogLevel.INFO
     r"""Level at which to set task logging"""
 
@@ -127,7 +132,6 @@ class RunnableJobScheduledSearchRunSettings(BaseModel):
     r"""Limits the bundle size for small tasks. For example,
 
 
-
     if your lower bundle size is 1MB, you can bundle up to five 200KB files into one task.
     """
 
@@ -137,9 +141,26 @@ class RunnableJobScheduledSearchRunSettings(BaseModel):
     r"""Limits the bundle size for files above the lower task bundle size. For example, if your upper bundle size is 10MB,
 
 
-
     you can bundle up to five 2MB files into one task. Files greater than this size will be assigned to individual tasks.
     """
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RunnableJobScheduledSearchType(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("log_level")
+    def serialize_log_level(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RunnableJobScheduledSearchLogLevel(value)
+            except ValueError:
+                return value
+        return value
 
 
 class RunnableJobScheduledSearchScheduleTypedDict(TypedDict):

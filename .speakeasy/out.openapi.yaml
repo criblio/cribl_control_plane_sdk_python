@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.16.0-alpha.1764266617076-fbe7ba42
+  version: 4.16.0-alpha.1764668676578-5010762f
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -43896,6 +43896,177 @@ components:
             run:
               type: object
               title: Run settings
+              allOf:
+                - type: object
+                  properties:
+                    type:
+                      enum:
+                        - collection
+                      x-speakeasy-unknown-values: allow
+                - type: object
+                  required:
+                    - mode
+                  properties:
+                    rescheduleDroppedTasks:
+                      type: boolean
+                      title: Reschedule tasks
+                      description: Reschedule tasks that failed with non-fatal errors
+                      default: true
+                    maxTaskReschedule:
+                      type: number
+                      title: Task reschedule limit
+                      description: Maximum number of times a task can be rescheduled
+                      default: 1
+                      minimum: 1
+                    logLevel:
+                      type: string
+                      title: Log level
+                      description: Level at which to set task logging
+                      enum:
+                        - error
+                        - warn
+                        - info
+                        - debug
+                        - silly
+                      default: info
+                      x-speakeasy-unknown-values: allow
+                    jobTimeout:
+                      title: Job timeout
+                      type: string
+                      description: "Maximum time the job is allowed to run. Time unit defaults to seconds if not specified (examples: 30, 45s, 15m). Enter 0 for unlimited time."
+                      pattern: \d+[sm]?$
+                      default: "0"
+                    mode:
+                      type: string
+                      title: Mode
+                      description: Job run mode. Preview will either return up to N matching results, or will run until capture time T is reached. Discovery will gather the list of files to turn into streaming tasks, without running the data collection job. Full Run will run the collection job.
+                      default: list
+                    timeRangeType:
+                      type: string
+                      title: Time range
+                      default: relative
+                    earliest:
+                      type: number
+                      title: Earliest
+                      description: Earliest time to collect data for the selected timezone
+                    latest:
+                      type: number
+                      title: Latest
+                      description: Latest time to collect data for the selected timezone
+                    timestampTimezone: {}
+                    timeWarning:
+                      type: object
+                      properties: {}
+                    expression:
+                      type: string
+                      title: Filter
+                      description: A filter for tokens in the provided collect path and/or the events being collected
+                      default: "true"
+                    minTaskSize:
+                      type: string
+                      title: Lower task bundle size
+                      description: >-
+                        Limits the bundle size for small tasks. For example,
+
+
+                                if your lower bundle size is 1MB, you can bundle up to five 200KB files into one task.
+                      default: 1MB
+                      pattern: ^((\d*\.?\d+)((KB|MB|GB|TB|PB|EB|ZB|YB|kb|mb|gb|tb|pb|eb|zb|yb){1}))$
+                    maxTaskSize:
+                      type: string
+                      title: Upper task bundle size
+                      description: >-
+                        Limits the bundle size for files above the lower task bundle size. For example, if your upper bundle size is 10MB,
+
+
+                                you can bundle up to five 2MB files into one task. Files greater than this size will be assigned to individual tasks.
+                      default: 10MB
+                      pattern: ^((\d*\.?\d+)((KB|MB|GB|TB|PB|EB|ZB|YB|kb|mb|gb|tb|pb|eb|zb|yb){1}))$
+                - type: object
+                  properties:
+                    type:
+                      enum:
+                        - collection
+                      x-speakeasy-unknown-values: allow
+                - type: object
+                  required:
+                    - mode
+                  properties:
+                    rescheduleDroppedTasks:
+                      type: boolean
+                      title: Reschedule tasks
+                      description: Reschedule tasks that failed with non-fatal errors
+                      default: true
+                    maxTaskReschedule:
+                      type: number
+                      title: Task reschedule limit
+                      description: Maximum number of times a task can be rescheduled
+                      default: 1
+                      minimum: 1
+                    logLevel:
+                      type: string
+                      title: Log level
+                      description: Level at which to set task logging
+                      enum:
+                        - error
+                        - warn
+                        - info
+                        - debug
+                        - silly
+                      default: info
+                      x-speakeasy-unknown-values: allow
+                    jobTimeout:
+                      title: Job timeout
+                      type: string
+                      description: "Maximum time the job is allowed to run. Time unit defaults to seconds if not specified (examples: 30, 45s, 15m). Enter 0 for unlimited time."
+                      pattern: \d+[sm]?$
+                      default: "0"
+                    mode:
+                      type: string
+                      title: Mode
+                      description: Job run mode. Preview will either return up to N matching results, or will run until capture time T is reached. Discovery will gather the list of files to turn into streaming tasks, without running the data collection job. Full Run will run the collection job.
+                      default: list
+                    timeRangeType:
+                      type: string
+                      title: Time range
+                      default: relative
+                    earliest:
+                      type: number
+                      title: Earliest
+                      description: Earliest time to collect data for the selected timezone
+                    latest:
+                      type: number
+                      title: Latest
+                      description: Latest time to collect data for the selected timezone
+                    timestampTimezone: {}
+                    timeWarning:
+                      type: object
+                      properties: {}
+                    expression:
+                      type: string
+                      title: Filter
+                      description: A filter for tokens in the provided collect path and/or the events being collected
+                      default: "true"
+                    minTaskSize:
+                      type: string
+                      title: Lower task bundle size
+                      description: >-
+                        Limits the bundle size for small tasks. For example,
+
+
+                                if your lower bundle size is 1MB, you can bundle up to five 200KB files into one task.
+                      default: 1MB
+                      pattern: ^((\d*\.?\d+)((KB|MB|GB|TB|PB|EB|ZB|YB|kb|mb|gb|tb|pb|eb|zb|yb){1}))$
+                    maxTaskSize:
+                      type: string
+                      title: Upper task bundle size
+                      description: >-
+                        Limits the bundle size for files above the lower task bundle size. For example, if your upper bundle size is 10MB,
+
+
+                                you can bundle up to five 2MB files into one task. Files greater than this size will be assigned to individual tasks.
+                      default: 10MB
+                      pattern: ^((\d*\.?\d+)((KB|MB|GB|TB|PB|EB|ZB|YB|kb|mb|gb|tb|pb|eb|zb|yb){1}))$
               properties:
                 type:
                   enum:
@@ -44303,6 +44474,177 @@ components:
             run:
               type: object
               title: Run settings
+              allOf:
+                - type: object
+                  properties:
+                    type:
+                      enum:
+                        - collection
+                      x-speakeasy-unknown-values: allow
+                - type: object
+                  required:
+                    - mode
+                  properties:
+                    rescheduleDroppedTasks:
+                      type: boolean
+                      title: Reschedule tasks
+                      description: Reschedule tasks that failed with non-fatal errors
+                      default: true
+                    maxTaskReschedule:
+                      type: number
+                      title: Task reschedule limit
+                      description: Maximum number of times a task can be rescheduled
+                      default: 1
+                      minimum: 1
+                    logLevel:
+                      type: string
+                      title: Log level
+                      description: Level at which to set task logging
+                      enum:
+                        - error
+                        - warn
+                        - info
+                        - debug
+                        - silly
+                      default: info
+                      x-speakeasy-unknown-values: allow
+                    jobTimeout:
+                      title: Job timeout
+                      type: string
+                      description: "Maximum time the job is allowed to run. Time unit defaults to seconds if not specified (examples: 30, 45s, 15m). Enter 0 for unlimited time."
+                      pattern: \d+[sm]?$
+                      default: "0"
+                    mode:
+                      type: string
+                      title: Mode
+                      description: Job run mode. Preview will either return up to N matching results, or will run until capture time T is reached. Discovery will gather the list of files to turn into streaming tasks, without running the data collection job. Full Run will run the collection job.
+                      default: list
+                    timeRangeType:
+                      type: string
+                      title: Time range
+                      default: relative
+                    earliest:
+                      type: number
+                      title: Earliest
+                      description: Earliest time to collect data for the selected timezone
+                    latest:
+                      type: number
+                      title: Latest
+                      description: Latest time to collect data for the selected timezone
+                    timestampTimezone: {}
+                    timeWarning:
+                      type: object
+                      properties: {}
+                    expression:
+                      type: string
+                      title: Filter
+                      description: A filter for tokens in the provided collect path and/or the events being collected
+                      default: "true"
+                    minTaskSize:
+                      type: string
+                      title: Lower task bundle size
+                      description: >-
+                        Limits the bundle size for small tasks. For example,
+
+
+                                if your lower bundle size is 1MB, you can bundle up to five 200KB files into one task.
+                      default: 1MB
+                      pattern: ^((\d*\.?\d+)((KB|MB|GB|TB|PB|EB|ZB|YB|kb|mb|gb|tb|pb|eb|zb|yb){1}))$
+                    maxTaskSize:
+                      type: string
+                      title: Upper task bundle size
+                      description: >-
+                        Limits the bundle size for files above the lower task bundle size. For example, if your upper bundle size is 10MB,
+
+
+                                you can bundle up to five 2MB files into one task. Files greater than this size will be assigned to individual tasks.
+                      default: 10MB
+                      pattern: ^((\d*\.?\d+)((KB|MB|GB|TB|PB|EB|ZB|YB|kb|mb|gb|tb|pb|eb|zb|yb){1}))$
+                - type: object
+                  properties:
+                    type:
+                      enum:
+                        - collection
+                      x-speakeasy-unknown-values: allow
+                - type: object
+                  required:
+                    - mode
+                  properties:
+                    rescheduleDroppedTasks:
+                      type: boolean
+                      title: Reschedule tasks
+                      description: Reschedule tasks that failed with non-fatal errors
+                      default: true
+                    maxTaskReschedule:
+                      type: number
+                      title: Task reschedule limit
+                      description: Maximum number of times a task can be rescheduled
+                      default: 1
+                      minimum: 1
+                    logLevel:
+                      type: string
+                      title: Log level
+                      description: Level at which to set task logging
+                      enum:
+                        - error
+                        - warn
+                        - info
+                        - debug
+                        - silly
+                      default: info
+                      x-speakeasy-unknown-values: allow
+                    jobTimeout:
+                      title: Job timeout
+                      type: string
+                      description: "Maximum time the job is allowed to run. Time unit defaults to seconds if not specified (examples: 30, 45s, 15m). Enter 0 for unlimited time."
+                      pattern: \d+[sm]?$
+                      default: "0"
+                    mode:
+                      type: string
+                      title: Mode
+                      description: Job run mode. Preview will either return up to N matching results, or will run until capture time T is reached. Discovery will gather the list of files to turn into streaming tasks, without running the data collection job. Full Run will run the collection job.
+                      default: list
+                    timeRangeType:
+                      type: string
+                      title: Time range
+                      default: relative
+                    earliest:
+                      type: number
+                      title: Earliest
+                      description: Earliest time to collect data for the selected timezone
+                    latest:
+                      type: number
+                      title: Latest
+                      description: Latest time to collect data for the selected timezone
+                    timestampTimezone: {}
+                    timeWarning:
+                      type: object
+                      properties: {}
+                    expression:
+                      type: string
+                      title: Filter
+                      description: A filter for tokens in the provided collect path and/or the events being collected
+                      default: "true"
+                    minTaskSize:
+                      type: string
+                      title: Lower task bundle size
+                      description: >-
+                        Limits the bundle size for small tasks. For example,
+
+
+                                if your lower bundle size is 1MB, you can bundle up to five 200KB files into one task.
+                      default: 1MB
+                      pattern: ^((\d*\.?\d+)((KB|MB|GB|TB|PB|EB|ZB|YB|kb|mb|gb|tb|pb|eb|zb|yb){1}))$
+                    maxTaskSize:
+                      type: string
+                      title: Upper task bundle size
+                      description: >-
+                        Limits the bundle size for files above the lower task bundle size. For example, if your upper bundle size is 10MB,
+
+
+                                you can bundle up to five 2MB files into one task. Files greater than this size will be assigned to individual tasks.
+                      default: 10MB
+                      pattern: ^((\d*\.?\d+)((KB|MB|GB|TB|PB|EB|ZB|YB|kb|mb|gb|tb|pb|eb|zb|yb){1}))$
               properties:
                 type:
                   enum:
@@ -44525,6 +44867,177 @@ components:
             run:
               type: object
               title: Run settings
+              allOf:
+                - type: object
+                  properties:
+                    type:
+                      enum:
+                        - collection
+                      x-speakeasy-unknown-values: allow
+                - type: object
+                  required:
+                    - mode
+                  properties:
+                    rescheduleDroppedTasks:
+                      type: boolean
+                      title: Reschedule tasks
+                      description: Reschedule tasks that failed with non-fatal errors
+                      default: true
+                    maxTaskReschedule:
+                      type: number
+                      title: Task reschedule limit
+                      description: Maximum number of times a task can be rescheduled
+                      default: 1
+                      minimum: 1
+                    logLevel:
+                      type: string
+                      title: Log level
+                      description: Level at which to set task logging
+                      enum:
+                        - error
+                        - warn
+                        - info
+                        - debug
+                        - silly
+                      default: info
+                      x-speakeasy-unknown-values: allow
+                    jobTimeout:
+                      title: Job timeout
+                      type: string
+                      description: "Maximum time the job is allowed to run. Time unit defaults to seconds if not specified (examples: 30, 45s, 15m). Enter 0 for unlimited time."
+                      pattern: \d+[sm]?$
+                      default: "0"
+                    mode:
+                      type: string
+                      title: Mode
+                      description: Job run mode. Preview will either return up to N matching results, or will run until capture time T is reached. Discovery will gather the list of files to turn into streaming tasks, without running the data collection job. Full Run will run the collection job.
+                      default: list
+                    timeRangeType:
+                      type: string
+                      title: Time range
+                      default: relative
+                    earliest:
+                      type: number
+                      title: Earliest
+                      description: Earliest time to collect data for the selected timezone
+                    latest:
+                      type: number
+                      title: Latest
+                      description: Latest time to collect data for the selected timezone
+                    timestampTimezone: {}
+                    timeWarning:
+                      type: object
+                      properties: {}
+                    expression:
+                      type: string
+                      title: Filter
+                      description: A filter for tokens in the provided collect path and/or the events being collected
+                      default: "true"
+                    minTaskSize:
+                      type: string
+                      title: Lower task bundle size
+                      description: >-
+                        Limits the bundle size for small tasks. For example,
+
+
+                                if your lower bundle size is 1MB, you can bundle up to five 200KB files into one task.
+                      default: 1MB
+                      pattern: ^((\d*\.?\d+)((KB|MB|GB|TB|PB|EB|ZB|YB|kb|mb|gb|tb|pb|eb|zb|yb){1}))$
+                    maxTaskSize:
+                      type: string
+                      title: Upper task bundle size
+                      description: >-
+                        Limits the bundle size for files above the lower task bundle size. For example, if your upper bundle size is 10MB,
+
+
+                                you can bundle up to five 2MB files into one task. Files greater than this size will be assigned to individual tasks.
+                      default: 10MB
+                      pattern: ^((\d*\.?\d+)((KB|MB|GB|TB|PB|EB|ZB|YB|kb|mb|gb|tb|pb|eb|zb|yb){1}))$
+                - type: object
+                  properties:
+                    type:
+                      enum:
+                        - collection
+                      x-speakeasy-unknown-values: allow
+                - type: object
+                  required:
+                    - mode
+                  properties:
+                    rescheduleDroppedTasks:
+                      type: boolean
+                      title: Reschedule tasks
+                      description: Reschedule tasks that failed with non-fatal errors
+                      default: true
+                    maxTaskReschedule:
+                      type: number
+                      title: Task reschedule limit
+                      description: Maximum number of times a task can be rescheduled
+                      default: 1
+                      minimum: 1
+                    logLevel:
+                      type: string
+                      title: Log level
+                      description: Level at which to set task logging
+                      enum:
+                        - error
+                        - warn
+                        - info
+                        - debug
+                        - silly
+                      default: info
+                      x-speakeasy-unknown-values: allow
+                    jobTimeout:
+                      title: Job timeout
+                      type: string
+                      description: "Maximum time the job is allowed to run. Time unit defaults to seconds if not specified (examples: 30, 45s, 15m). Enter 0 for unlimited time."
+                      pattern: \d+[sm]?$
+                      default: "0"
+                    mode:
+                      type: string
+                      title: Mode
+                      description: Job run mode. Preview will either return up to N matching results, or will run until capture time T is reached. Discovery will gather the list of files to turn into streaming tasks, without running the data collection job. Full Run will run the collection job.
+                      default: list
+                    timeRangeType:
+                      type: string
+                      title: Time range
+                      default: relative
+                    earliest:
+                      type: number
+                      title: Earliest
+                      description: Earliest time to collect data for the selected timezone
+                    latest:
+                      type: number
+                      title: Latest
+                      description: Latest time to collect data for the selected timezone
+                    timestampTimezone: {}
+                    timeWarning:
+                      type: object
+                      properties: {}
+                    expression:
+                      type: string
+                      title: Filter
+                      description: A filter for tokens in the provided collect path and/or the events being collected
+                      default: "true"
+                    minTaskSize:
+                      type: string
+                      title: Lower task bundle size
+                      description: >-
+                        Limits the bundle size for small tasks. For example,
+
+
+                                if your lower bundle size is 1MB, you can bundle up to five 200KB files into one task.
+                      default: 1MB
+                      pattern: ^((\d*\.?\d+)((KB|MB|GB|TB|PB|EB|ZB|YB|kb|mb|gb|tb|pb|eb|zb|yb){1}))$
+                    maxTaskSize:
+                      type: string
+                      title: Upper task bundle size
+                      description: >-
+                        Limits the bundle size for files above the lower task bundle size. For example, if your upper bundle size is 10MB,
+
+
+                                you can bundle up to five 2MB files into one task. Files greater than this size will be assigned to individual tasks.
+                      default: 10MB
+                      pattern: ^((\d*\.?\d+)((KB|MB|GB|TB|PB|EB|ZB|YB|kb|mb|gb|tb|pb|eb|zb|yb){1}))$
               properties:
                 type:
                   enum:
@@ -45309,6 +45822,291 @@ components:
           type: string
       required:
         - commit
+    CountedSystemSettingsConf:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/SystemSettingsConf"
+    BackupsSettings:
+      oneOf:
+        - type: object
+          properties:
+            backupPersistence:
+              type: string
+            backupsDirectory:
+              type: string
+          required:
+            - backupPersistence
+            - backupsDirectory
+        - type: object
+          additionalProperties: false
+    PiiSettings:
+      oneOf:
+        - type: object
+          properties:
+            enablePiiDetection:
+              type: boolean
+          required:
+            - enablePiiDetection
+        - type: object
+          additionalProperties: false
+    RollbackSettings:
+      oneOf:
+        - type: object
+          properties:
+            rollbackEnabled:
+              type: boolean
+            rollbackRetries:
+              type: number
+            rollbackTimeout:
+              type: number
+          required:
+            - rollbackEnabled
+        - type: object
+          additionalProperties: false
+    SniSettings:
+      oneOf:
+        - type: object
+          properties:
+            disableSNIRouting:
+              type: boolean
+          required:
+            - disableSNIRouting
+        - type: object
+          additionalProperties: false
+    TlsSettings:
+      oneOf:
+        - type: object
+          properties:
+            defaultCipherList:
+              type: string
+            defaultEcdhCurve:
+              type: string
+            maxVersion:
+              type: string
+            minVersion:
+              type: string
+            rejectUnauthorized:
+              type: boolean
+          required:
+            - defaultCipherList
+            - defaultEcdhCurve
+            - maxVersion
+            - minVersion
+            - rejectUnauthorized
+        - type: object
+          additionalProperties: false
+    UpgradeGroupSettings:
+      oneOf:
+        - type: object
+          properties:
+            isRolling:
+              type: boolean
+            quantity:
+              type: number
+            retryCount:
+              type: number
+            retryDelay:
+              type: number
+        - type: object
+          additionalProperties: false
+    UpgradePackageUrls:
+      type: object
+      properties:
+        packageHashUrl:
+          type: string
+        packageUrl:
+          type: string
+      required:
+        - packageUrl
+    UpgradeSettings:
+      type: object
+      properties:
+        automaticUpgradeCheckPeriod:
+          type: string
+        disableAutomaticUpgrade:
+          type: boolean
+        enableLegacyEdgeUpgrade:
+          type: boolean
+        packageUrls:
+          type: array
+          items:
+            $ref: "#/components/schemas/UpgradePackageUrls"
+        upgradeSource:
+          type: string
+    SystemSettingsConf:
+      type: object
+      properties:
+        api:
+          type: object
+          properties:
+            baseUrl:
+              type: string
+            disableApiCache:
+              type: boolean
+            disabled:
+              type: boolean
+            headers:
+              type: object
+              additionalProperties:
+                type: string
+            host:
+              type: string
+            idleSessionTTL:
+              type: number
+            listenOnPort:
+              type: boolean
+            loginRateLimit:
+              type: string
+            port:
+              type: number
+            protocol:
+              type: string
+            scripts:
+              type: boolean
+            sensitiveFields:
+              type: array
+              items:
+                type: string
+            ssl:
+              type: object
+              properties:
+                caPath:
+                  type: string
+                certPath:
+                  type: string
+                disabled:
+                  type: boolean
+                passphrase:
+                  type: string
+                privKeyPath:
+                  type: string
+              required:
+                - certPath
+                - disabled
+                - passphrase
+                - privKeyPath
+            ssoRateLimit:
+              type: string
+            workerRemoteAccess:
+              type: boolean
+          required:
+            - disabled
+            - host
+            - port
+        backups:
+          $ref: "#/components/schemas/BackupsSettings"
+        customLogo:
+          type: object
+          properties:
+            enabled:
+              type: boolean
+            logoDescription:
+              type: string
+            logoImage:
+              type: string
+          required:
+            - enabled
+        pii:
+          $ref: "#/components/schemas/PiiSettings"
+        proxy:
+          type: object
+          properties:
+            useEnvVars:
+              type: boolean
+          required:
+            - useEnvVars
+        rollback:
+          $ref: "#/components/schemas/RollbackSettings"
+        shutdown:
+          type: object
+          properties:
+            drainTimeout:
+              type: number
+          required:
+            - drainTimeout
+        sni:
+          $ref: "#/components/schemas/SniSettings"
+        sockets:
+          type: object
+          properties:
+            directory:
+              type: string
+        support:
+          type: object
+          properties:
+            featureFlagOverrides:
+              type: array
+              items:
+                type: object
+                properties:
+                  disabled:
+                    type: boolean
+                  flagId:
+                    type: string
+                required:
+                  - disabled
+                  - flagId
+        system:
+          type: object
+          properties:
+            intercom:
+              type: boolean
+            upgrade:
+              enum:
+                - false
+                - api
+              x-speakeasy-unknown-values: allow
+          required:
+            - intercom
+            - upgrade
+        tls:
+          $ref: "#/components/schemas/TlsSettings"
+        upgradeGroupSettings:
+          $ref: "#/components/schemas/UpgradeGroupSettings"
+        upgradeSettings:
+          $ref: "#/components/schemas/UpgradeSettings"
+        workers:
+          type: object
+          properties:
+            count:
+              type: number
+            enableHeapSnapshots:
+              type: boolean
+            loadThrottlePerc:
+              type: number
+            memory:
+              type: number
+            minimum:
+              type: number
+            startupMaxConns:
+              type: number
+            startupThrottleTimeout:
+              type: number
+            v8SingleThread:
+              type: boolean
+          required:
+            - count
+            - memory
+            - minimum
+      required:
+        - api
+        - backups
+        - pii
+        - proxy
+        - rollback
+        - shutdown
+        - sni
+        - system
+        - tls
+        - upgradeGroupSettings
+        - upgradeSettings
+        - workers
     CountedBranchInfo:
       type: object
       properties:
@@ -46279,6 +47077,8 @@ tags:
     description: Actions related to Routes
   - name: sources
     description: Actions related to Sources
+  - name: system
+    description: Actions related to system settings
   - name: teams
     description: Actions related to Teams
   - name: versioning
@@ -47558,6 +48358,60 @@ paths:
           schema:
             type: string
           description: The <code>id</code> of the Pack to upgrade.
+  /system/settings/conf:
+    get:
+      operationId: getSystemSettingsConf
+      tags:
+        - system
+      x-speakeasy-group: system.settings.cribl
+      x-speakeasy-name-override: list
+      summary: Get Cribl system settings
+      description: Get Cribl system settings
+      responses:
+        "200":
+          description: a list of SystemSettingsConf objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedSystemSettingsConf"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    patch:
+      operationId: updateSystemSettingsConf
+      tags:
+        - system
+      x-speakeasy-group: system.settings.cribl
+      x-speakeasy-name-override: update
+      summary: Update Cribl system settings
+      description: Update Cribl system settings
+      responses:
+        "200":
+          description: a list of SystemSettingsConf objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedSystemSettingsConf"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      requestBody:
+        description: SystemSettingsConf object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SystemSettingsConf"
   /version/branch:
     get:
       operationId: getVersionBranch

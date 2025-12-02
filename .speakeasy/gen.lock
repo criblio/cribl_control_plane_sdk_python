@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 2d24f31fb71adb648dc2733910a76150
-  docVersion: 4.16.0-alpha.1764668676578-5010762f
+  docChecksum: 4049df36171be8e086dc727914fcffc0
+  docVersion: 4.16.0-alpha.1764671469967-9644b632
   speakeasyVersion: 1.665.0
   generationVersion: 2.767.2
-  releaseVersion: 0.4.0b13
-  configChecksum: 8615b8cc1fb95d143935d8dfffc706b7
+  releaseVersion: 0.4.0b14
+  configChecksum: 280194c584ca94139bc5f316f4dc429b
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -3539,7 +3539,3 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: |
-  ## Python SDK Changes:
-  * `cribl_control_plane.system.settings.cribl.list()`: **Added**
-  * `cribl_control_plane.system.settings.cribl.update()`: **Added**

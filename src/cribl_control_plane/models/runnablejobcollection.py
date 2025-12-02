@@ -18,11 +18,11 @@ class RunnableJobCollectionJobType(str, Enum, metaclass=utils.OpenEnumMeta):
     SCHEDULED_SEARCH = "scheduledSearch"
 
 
-class RunnableJobCollectionRunType(str, Enum):
+class RunnableJobCollectionRunType(str, Enum, metaclass=utils.OpenEnumMeta):
     COLLECTION = "collection"
 
 
-class RunnableJobCollectionScheduleLogLevel(str, Enum):
+class RunnableJobCollectionScheduleLogLevel(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Level at which to set task logging"""
 
     ERROR = "error"
@@ -65,12 +65,10 @@ class RunnableJobCollectionRunSettingsTypedDict(TypedDict):
     r"""Limits the bundle size for small tasks. For example,
 
 
-
     if your lower bundle size is 1MB, you can bundle up to five 200KB files into one task.
     """
     max_task_size: NotRequired[str]
     r"""Limits the bundle size for files above the lower task bundle size. For example, if your upper bundle size is 10MB,
-
 
 
     you can bundle up to five 2MB files into one task. Files greater than this size will be assigned to individual tasks.
@@ -78,7 +76,10 @@ class RunnableJobCollectionRunSettingsTypedDict(TypedDict):
 
 
 class RunnableJobCollectionRunSettings(BaseModel):
-    type: Optional[RunnableJobCollectionRunType] = None
+    type: Annotated[
+        Optional[RunnableJobCollectionRunType],
+        PlainValidator(validate_open_enum(False)),
+    ] = None
 
     reschedule_dropped_tasks: Annotated[
         Optional[bool], pydantic.Field(alias="rescheduleDroppedTasks")
@@ -91,7 +92,10 @@ class RunnableJobCollectionRunSettings(BaseModel):
     r"""Maximum number of times a task can be rescheduled"""
 
     log_level: Annotated[
-        Optional[RunnableJobCollectionScheduleLogLevel],
+        Annotated[
+            Optional[RunnableJobCollectionScheduleLogLevel],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="logLevel"),
     ] = RunnableJobCollectionScheduleLogLevel.INFO
     r"""Level at which to set task logging"""
@@ -128,7 +132,6 @@ class RunnableJobCollectionRunSettings(BaseModel):
     r"""Limits the bundle size for small tasks. For example,
 
 
-
     if your lower bundle size is 1MB, you can bundle up to five 200KB files into one task.
     """
 
@@ -138,9 +141,26 @@ class RunnableJobCollectionRunSettings(BaseModel):
     r"""Limits the bundle size for files above the lower task bundle size. For example, if your upper bundle size is 10MB,
 
 
-
     you can bundle up to five 2MB files into one task. Files greater than this size will be assigned to individual tasks.
     """
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RunnableJobCollectionRunType(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("log_level")
+    def serialize_log_level(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RunnableJobCollectionScheduleLogLevel(value)
+            except ValueError:
+                return value
+        return value
 
 
 class RunnableJobCollectionScheduleTypedDict(TypedDict):

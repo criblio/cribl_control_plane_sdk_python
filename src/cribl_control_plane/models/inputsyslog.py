@@ -28,7 +28,7 @@ class InputSyslogConnection2(BaseModel):
 
 
 class InputSyslogMode2(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     # Smart
     SMART = "smart"
@@ -55,7 +55,7 @@ class InputSyslogPqControls2(BaseModel):
 
 class InputSyslogPq2TypedDict(TypedDict):
     mode: NotRequired[InputSyslogMode2]
-    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
     commit_frequency: NotRequired[float]
@@ -75,7 +75,7 @@ class InputSyslogPq2(BaseModel):
     mode: Annotated[
         Optional[InputSyslogMode2], PlainValidator(validate_open_enum(False))
     ] = InputSyslogMode2.ALWAYS
-    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="maxBufferSize")
@@ -455,7 +455,7 @@ class InputSyslogConnection1(BaseModel):
 
 
 class InputSyslogMode1(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     # Smart
     SMART = "smart"
@@ -482,7 +482,7 @@ class InputSyslogPqControls1(BaseModel):
 
 class InputSyslogPq1TypedDict(TypedDict):
     mode: NotRequired[InputSyslogMode1]
-    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
     commit_frequency: NotRequired[float]
@@ -502,7 +502,7 @@ class InputSyslogPq1(BaseModel):
     mode: Annotated[
         Optional[InputSyslogMode1], PlainValidator(validate_open_enum(False))
     ] = InputSyslogMode1.ALWAYS
-    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="maxBufferSize")

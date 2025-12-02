@@ -28,7 +28,7 @@ class InputS3InventoryConnection(BaseModel):
 
 
 class InputS3InventoryMode(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     # Smart
     SMART = "smart"
@@ -55,7 +55,7 @@ class InputS3InventoryPqControls(BaseModel):
 
 class InputS3InventoryPqTypedDict(TypedDict):
     mode: NotRequired[InputS3InventoryMode]
-    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
     commit_frequency: NotRequired[float]
@@ -75,7 +75,7 @@ class InputS3InventoryPq(BaseModel):
     mode: Annotated[
         Optional[InputS3InventoryMode], PlainValidator(validate_open_enum(False))
     ] = InputS3InventoryMode.ALWAYS
-    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="maxBufferSize")

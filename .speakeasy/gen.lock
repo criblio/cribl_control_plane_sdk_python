@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: ae8c55091e5afdc7ade0ebab9dd4727b
+  docChecksum: 6c7f33616a5c6f3b22ba40c8a8859f13
   docVersion: 4.15.0-f275b803
-  speakeasyVersion: 1.650.0
-  generationVersion: 2.743.2
-  releaseVersion: 0.3.0
-  configChecksum: a757e862e6fd1ea3b9296a6e16738e42
+  speakeasyVersion: 1.665.0
+  generationVersion: 2.767.2
+  releaseVersion: 0.4.0
+  configChecksum: 184e0b318cd6037b88e64807755e4b81
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -15,7 +15,7 @@ features:
     additionalDependencies: 1.0.0
     additionalProperties: 1.0.1
     constsAndDefaults: 1.0.5
-    core: 5.23.5
+    core: 5.23.13
     defaultEnabledRetries: 0.2.0
     devContainers: 3.0.0
     enumUnions: 0.1.0
@@ -33,8 +33,8 @@ features:
     oauth2ClientCredentials: 2.1.0
     openEnums: 1.0.1
     responseFormat: 1.0.1
-    retries: 3.0.2
-    sdkHooks: 1.1.0
+    retries: 3.0.3
+    sdkHooks: 1.2.0
     unions: 3.1.0
     uploadStreams: 1.0.0
 generatedFiles:

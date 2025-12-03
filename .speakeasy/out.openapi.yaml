@@ -680,7 +680,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -857,7 +857,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -1416,7 +1416,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -1937,7 +1937,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -2267,7 +2267,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -2457,7 +2457,7 @@ components:
         authTokens:
           type: array
           title: Auth tokens
-          description: Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted.
+          description: Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted.
           items:
             type: object
             required:
@@ -2466,7 +2466,7 @@ components:
               token:
                 type: string
                 title: Token
-                description: Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted.
+                description: Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted.
               description:
                 type: string
                 title: Description
@@ -2581,7 +2581,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -2687,7 +2687,7 @@ components:
               value:
                 title: Value
                 type: string
-                description: JavaScript expression to compute the parameter's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings.
+                description: JavaScript expression to compute the parameter's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings.
         endpointHeaders:
           title: Endpoint headers
           description: Optional request headers to send to the endpoint
@@ -2704,7 +2704,7 @@ components:
               value:
                 type: string
                 title: Value
-                description: JavaScript expression to compute the header's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings.
+                description: JavaScript expression to compute the header's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings.
         logLevel:
           type: string
           title: Log level
@@ -3027,7 +3027,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -3408,7 +3408,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -3665,7 +3665,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -4077,7 +4077,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -4634,7 +4634,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -5119,7 +5119,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -5491,7 +5491,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -5862,7 +5862,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -6240,7 +6240,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -6690,7 +6690,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -7040,7 +7040,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -7364,7 +7364,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -7734,7 +7734,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -8128,7 +8128,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -8307,7 +8307,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -8582,7 +8582,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -8788,7 +8788,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -8928,7 +8928,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -9190,7 +9190,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -9480,7 +9480,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -9819,7 +9819,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -10079,7 +10079,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -10539,7 +10539,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -10824,7 +10824,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -11023,7 +11023,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -11241,7 +11241,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -11393,7 +11393,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -11786,7 +11786,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -12124,7 +12124,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -12412,7 +12412,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -12567,7 +12567,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -12906,7 +12906,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -13190,7 +13190,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -13337,7 +13337,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -13570,7 +13570,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -13921,7 +13921,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -14285,7 +14285,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -14514,7 +14514,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -14912,7 +14912,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -15132,7 +15132,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -15392,7 +15392,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -15698,7 +15698,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -15938,7 +15938,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -16232,7 +16232,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -16586,7 +16586,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -16990,7 +16990,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -17195,7 +17195,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -17367,7 +17367,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -17552,7 +17552,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -18282,7 +18282,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -18623,7 +18623,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -18812,7 +18812,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -19165,7 +19165,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -19519,7 +19519,7 @@ components:
             mode:
               type: string
               title: Mode
-              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+              description: With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
               default: always
               enum:
                 - smart
@@ -33735,11 +33735,11 @@ components:
         customSource:
           type: string
           title: Custom source name
-          description: Override the source name configured on the Sumo Logic HTTP collector. This can also be overridden at the event level with the __sourceName field.
+          description: Override the source name configured on the Sumo Logic HTTP collector. This can also be overridden at the event level with the __sourceName field.
         customCategory:
           type: string
           title: Custom source category
-          description: Override the source category configured on the Sumo Logic HTTP collector. This can also be overridden at the event level with the __sourceCategory field.
+          description: Override the source category configured on the Sumo Logic HTTP collector. This can also be overridden at the event level with the __sourceCategory field.
         format:
           type: string
           title: Data format

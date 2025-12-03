@@ -28,7 +28,7 @@ class InputSplunkConnection(BaseModel):
 
 
 class InputSplunkMode(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     # Smart
     SMART = "smart"
@@ -55,7 +55,7 @@ class InputSplunkPqControls(BaseModel):
 
 class InputSplunkPqTypedDict(TypedDict):
     mode: NotRequired[InputSplunkMode]
-    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size: NotRequired[float]
     r"""The maximum number of events to hold in memory before writing the events to disk"""
     commit_frequency: NotRequired[float]
@@ -75,7 +75,7 @@ class InputSplunkPq(BaseModel):
     mode: Annotated[
         Optional[InputSplunkMode], PlainValidator(validate_open_enum(False))
     ] = InputSplunkMode.ALWAYS
-    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="maxBufferSize")
@@ -245,13 +245,13 @@ class InputSplunkMetadatum(BaseModel):
 
 class InputSplunkAuthTokenTypedDict(TypedDict):
     token: str
-    r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
+    r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
     description: NotRequired[str]
 
 
 class InputSplunkAuthToken(BaseModel):
     token: str
-    r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
+    r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
 
     description: Optional[str] = None
 
@@ -318,7 +318,7 @@ class InputSplunkTypedDict(TypedDict):
     stale_channel_flush_ms: NotRequired[float]
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
     auth_tokens: NotRequired[List[InputSplunkAuthTokenTypedDict]]
-    r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
+    r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
     max_s2_sversion: NotRequired[InputSplunkMaxS2SVersion]
     r"""The highest S2S protocol version to advertise during handshake"""
     description: NotRequired[str]
@@ -416,7 +416,7 @@ class InputSplunk(BaseModel):
     auth_tokens: Annotated[
         Optional[List[InputSplunkAuthToken]], pydantic.Field(alias="authTokens")
     ] = None
-    r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
+    r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
 
     max_s2_sversion: Annotated[
         Annotated[

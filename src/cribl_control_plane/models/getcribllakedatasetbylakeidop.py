@@ -17,17 +17,17 @@ class GetCriblLakeDatasetByLakeIDRequestTypedDict(TypedDict):
     lake_id: str
     r"""The <code>id</code> of the Lake that contains the Lake Datasets to list."""
     storage_location_id: NotRequired[str]
-    r"""query string false Filter datasets by storage location ID. Use <code>default</code> for default storage location."""
+    r"""Filter datasets by storage location ID. Use <code>default</code> for default storage location."""
     format_: NotRequired[str]
-    r"""query string false Filter datasets by format. Set to <code>ddss</code> to return only DDSS datasets."""
-    exclude_ddss: NotRequired[str]
-    r"""query boolean false Exclude DDSS format datasets from the response."""
-    exclude_deleted: NotRequired[str]
-    r"""query boolean false Exclude deleted datasets from the response."""
-    exclude_internal: NotRequired[str]
-    r"""query boolean false Exclude internal datasets (those with IDs starting with <code>cribl_</code>) from the response."""
-    exclude_byos: NotRequired[str]
-    r"""query boolean false Exclude BYOS (Bring Your Own Storage) datasets from the response."""
+    r"""Filter datasets by format. Set to <code>ddss</code> to return only DDSS datasets."""
+    exclude_ddss: NotRequired[bool]
+    r"""Exclude DDSS format datasets from the response."""
+    exclude_deleted: NotRequired[bool]
+    r"""Exclude deleted datasets from the response."""
+    exclude_internal: NotRequired[bool]
+    r"""Exclude internal datasets (those with IDs starting with <code>cribl_</code>) from the response."""
+    exclude_byos: NotRequired[bool]
+    r"""Exclude BYOS (Bring Your Own Storage) datasets from the response."""
 
 
 class GetCriblLakeDatasetByLakeIDRequest(BaseModel):
@@ -43,42 +43,42 @@ class GetCriblLakeDatasetByLakeIDRequest(BaseModel):
         pydantic.Field(alias="storageLocationId"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""query string false Filter datasets by storage location ID. Use <code>default</code> for default storage location."""
+    r"""Filter datasets by storage location ID. Use <code>default</code> for default storage location."""
 
     format_: Annotated[
         Optional[str],
         pydantic.Field(alias="format"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""query string false Filter datasets by format. Set to <code>ddss</code> to return only DDSS datasets."""
+    r"""Filter datasets by format. Set to <code>ddss</code> to return only DDSS datasets."""
 
     exclude_ddss: Annotated[
-        Optional[str],
+        Optional[bool],
         pydantic.Field(alias="excludeDDSS"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""query boolean false Exclude DDSS format datasets from the response."""
+    r"""Exclude DDSS format datasets from the response."""
 
     exclude_deleted: Annotated[
-        Optional[str],
+        Optional[bool],
         pydantic.Field(alias="excludeDeleted"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""query boolean false Exclude deleted datasets from the response."""
+    r"""Exclude deleted datasets from the response."""
 
     exclude_internal: Annotated[
-        Optional[str],
+        Optional[bool],
         pydantic.Field(alias="excludeInternal"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""query boolean false Exclude internal datasets (those with IDs starting with <code>cribl_</code>) from the response."""
+    r"""Exclude internal datasets (those with IDs starting with <code>cribl_</code>) from the response."""
 
     exclude_byos: Annotated[
-        Optional[str],
+        Optional[bool],
         pydantic.Field(alias="excludeBYOS"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""query boolean false Exclude BYOS (Bring Your Own Storage) datasets from the response."""
+    r"""Exclude BYOS (Bring Your Own Storage) datasets from the response."""
 
 
 class GetCriblLakeDatasetByLakeIDResponseTypedDict(TypedDict):

@@ -320,10 +320,10 @@ class LakeDatasets(BaseSDK):
         lake_id: str,
         storage_location_id: Optional[str] = None,
         format_: Optional[str] = None,
-        exclude_ddss: Optional[str] = None,
-        exclude_deleted: Optional[str] = None,
-        exclude_internal: Optional[str] = None,
-        exclude_byos: Optional[str] = None,
+        exclude_ddss: Optional[bool] = None,
+        exclude_deleted: Optional[bool] = None,
+        exclude_internal: Optional[bool] = None,
+        exclude_byos: Optional[bool] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -334,12 +334,12 @@ class LakeDatasets(BaseSDK):
         Get a list of all Lake Datasets in the specified Lake.
 
         :param lake_id: The <code>id</code> of the Lake that contains the Lake Datasets to list.
-        :param storage_location_id: query string false Filter datasets by storage location ID. Use <code>default</code> for default storage location.
-        :param format_: query string false Filter datasets by format. Set to <code>ddss</code> to return only DDSS datasets.
-        :param exclude_ddss: query boolean false Exclude DDSS format datasets from the response.
-        :param exclude_deleted: query boolean false Exclude deleted datasets from the response.
-        :param exclude_internal: query boolean false Exclude internal datasets (those with IDs starting with <code>cribl_</code>) from the response.
-        :param exclude_byos: query boolean false Exclude BYOS (Bring Your Own Storage) datasets from the response.
+        :param storage_location_id: Filter datasets by storage location ID. Use <code>default</code> for default storage location.
+        :param format_: Filter datasets by format. Set to <code>ddss</code> to return only DDSS datasets.
+        :param exclude_ddss: Exclude DDSS format datasets from the response.
+        :param exclude_deleted: Exclude deleted datasets from the response.
+        :param exclude_internal: Exclude internal datasets (those with IDs starting with <code>cribl_</code>) from the response.
+        :param exclude_byos: Exclude BYOS (Bring Your Own Storage) datasets from the response.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -428,10 +428,10 @@ class LakeDatasets(BaseSDK):
         lake_id: str,
         storage_location_id: Optional[str] = None,
         format_: Optional[str] = None,
-        exclude_ddss: Optional[str] = None,
-        exclude_deleted: Optional[str] = None,
-        exclude_internal: Optional[str] = None,
-        exclude_byos: Optional[str] = None,
+        exclude_ddss: Optional[bool] = None,
+        exclude_deleted: Optional[bool] = None,
+        exclude_internal: Optional[bool] = None,
+        exclude_byos: Optional[bool] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -442,12 +442,12 @@ class LakeDatasets(BaseSDK):
         Get a list of all Lake Datasets in the specified Lake.
 
         :param lake_id: The <code>id</code> of the Lake that contains the Lake Datasets to list.
-        :param storage_location_id: query string false Filter datasets by storage location ID. Use <code>default</code> for default storage location.
-        :param format_: query string false Filter datasets by format. Set to <code>ddss</code> to return only DDSS datasets.
-        :param exclude_ddss: query boolean false Exclude DDSS format datasets from the response.
-        :param exclude_deleted: query boolean false Exclude deleted datasets from the response.
-        :param exclude_internal: query boolean false Exclude internal datasets (those with IDs starting with <code>cribl_</code>) from the response.
-        :param exclude_byos: query boolean false Exclude BYOS (Bring Your Own Storage) datasets from the response.
+        :param storage_location_id: Filter datasets by storage location ID. Use <code>default</code> for default storage location.
+        :param format_: Filter datasets by format. Set to <code>ddss</code> to return only DDSS datasets.
+        :param exclude_ddss: Exclude DDSS format datasets from the response.
+        :param exclude_deleted: Exclude deleted datasets from the response.
+        :param exclude_internal: Exclude internal datasets (those with IDs starting with <code>cribl_</code>) from the response.
+        :param exclude_byos: Exclude BYOS (Bring Your Own Storage) datasets from the response.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds

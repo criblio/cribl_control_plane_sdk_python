@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.15.1-alpha.1764198138622-538bc24c
+  version: 4.15.1-alpha.1764716546450-182517b2
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -46106,37 +46106,37 @@ paths:
           required: false
           schema:
             type: string
-          description: query string false Filter datasets by storage location ID. Use <code>default</code> for default storage location.
+          description: Filter datasets by storage location ID. Use <code>default</code> for default storage location.
         - name: format
           in: query
           required: false
           schema:
             type: string
-          description: query string false Filter datasets by format. Set to <code>ddss</code> to return only DDSS datasets.
+          description: Filter datasets by format. Set to <code>ddss</code> to return only DDSS datasets.
         - name: excludeDDSS
           in: query
           required: false
           schema:
-            type: string
-          description: query boolean false Exclude DDSS format datasets from the response.
+            type: boolean
+          description: Exclude DDSS format datasets from the response.
         - name: excludeDeleted
           in: query
           required: false
           schema:
-            type: string
-          description: query boolean false Exclude deleted datasets from the response.
+            type: boolean
+          description: Exclude deleted datasets from the response.
         - name: excludeInternal
           in: query
           required: false
           schema:
-            type: string
-          description: query boolean false Exclude internal datasets (those with IDs starting with <code>cribl_</code>) from the response.
+            type: boolean
+          description: Exclude internal datasets (those with IDs starting with <code>cribl_</code>) from the response.
         - name: excludeBYOS
           in: query
           required: false
           schema:
-            type: string
-          description: query boolean false Exclude BYOS (Bring Your Own Storage) datasets from the response.
+            type: boolean
+          description: Exclude BYOS (Bring Your Own Storage) datasets from the response.
   /products/lake/lakes/{lakeId}/datasets/{id}:
     delete:
       operationId: deleteCriblLakeDatasetByLakeIdAndId

@@ -1,3 +1,13 @@
+"""
+Replace the placeholder values for ORG_ID, CLIENT_ID, CLIENT_SECRET,
+and WORKSPACE_NAME with your Organization ID, Client ID and Secret, and
+Workspace name. To get your CLIENT_ID and CLIENT_SECRET values, follow
+the steps at https://docs.cribl.io/cribl-as-code/authentication/#cloud-auth.
+Your Client ID and Secret are sensitive information and should be kept private.
+
+NOTE: This example is for Cribl.Cloud deployments only.
+"""
+
 import asyncio
 
 from typing import Optional

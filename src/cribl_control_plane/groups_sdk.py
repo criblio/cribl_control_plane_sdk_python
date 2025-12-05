@@ -61,8 +61,8 @@ class GroupsSDK(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.ListConfigGroupByProductRequest(
-            fields=fields,
             product=product,
+            fields=fields,
         )
 
         req = self._build_request(
@@ -156,8 +156,8 @@ class GroupsSDK(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.ListConfigGroupByProductRequest(
-            fields=fields,
             product=product,
+            fields=fields,
         )
 
         req = self._build_request_async(
@@ -265,7 +265,7 @@ class GroupsSDK(BaseSDK):
 
         Create a new Worker Group or Edge Fleet for the specified Cribl product.
 
-        :param product: required Name of the Cribl product to add the Worker Group or Edge Fleet to.
+        :param product: Name of the Cribl product to add the Worker Group or Edge Fleet to.
         :param id:
         :param cloud:
         :param deploying_worker_count:
@@ -449,7 +449,7 @@ class GroupsSDK(BaseSDK):
 
         Create a new Worker Group or Edge Fleet for the specified Cribl product.
 
-        :param product: required Name of the Cribl product to add the Worker Group or Edge Fleet to.
+        :param product: Name of the Cribl product to add the Worker Group or Edge Fleet to.
         :param id:
         :param cloud:
         :param deploying_worker_count:

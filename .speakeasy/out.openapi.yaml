@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.16.0-alpha.1764748039259-a309bd85
+  version: 4.16.0-alpha.1764889340027-2fa875de
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -20997,7 +20997,35 @@ components:
           title: Settings for failed HTTP requests
           description: Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)
           minItems: 0
-          default: []
+          default:
+            - httpStatus: 408
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 429
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 500
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 502
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 503
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 504
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 509
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
           items:
             type: object
             required:
@@ -22626,7 +22654,43 @@ components:
           title: Settings for failed HTTP requests
           description: Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)
           minItems: 0
-          default: []
+          default:
+            - httpStatus: 401
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 20000
+            - httpStatus: 403
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 20000
+            - httpStatus: 408
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 429
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 500
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 502
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 503
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 504
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 509
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
           items:
             type: object
             required:
@@ -23323,7 +23387,43 @@ components:
           title: Settings for failed HTTP requests
           description: Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)
           minItems: 0
-          default: []
+          default:
+            - httpStatus: 401
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 20000
+            - httpStatus: 403
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 20000
+            - httpStatus: 408
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 429
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 500
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 502
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 503
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 504
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 509
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
           items:
             type: object
             required:
@@ -23637,7 +23737,43 @@ components:
           title: Settings for failed HTTP requests
           description: Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)
           minItems: 0
-          default: []
+          default:
+            - httpStatus: 401
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 20000
+            - httpStatus: 403
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 20000
+            - httpStatus: 408
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 429
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 500
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 502
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 503
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 504
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 509
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
           items:
             type: object
             required:
@@ -25753,7 +25889,43 @@ components:
           title: Settings for failed HTTP requests
           description: Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)
           minItems: 0
-          default: []
+          default:
+            - httpStatus: 401
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 20000
+            - httpStatus: 403
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 20000
+            - httpStatus: 408
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 429
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 500
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 502
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 503
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 504
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 509
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
           items:
             type: object
             required:
@@ -26333,7 +26505,43 @@ components:
           title: Settings for failed HTTP requests
           description: Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)
           minItems: 0
-          default: []
+          default:
+            - httpStatus: 401
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 20000
+            - httpStatus: 403
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 20000
+            - httpStatus: 408
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 429
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 500
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 502
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 503
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 504
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 509
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
           items:
             type: object
             required:
@@ -26943,18 +27151,42 @@ components:
           description: Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)
           minItems: 0
           default:
+            - httpStatus: 401
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 20000
+            - httpStatus: 403
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 20000
+            - httpStatus: 408
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
             - httpStatus: 429
               initialBackoff: 30000
               backoffRate: 1
               maxBackoff: 30000
             - httpStatus: 500
-              initialBackoff: 30000
-              backoffRate: 1
-              maxBackoff: 30000
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 502
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
             - httpStatus: 503
-              initialBackoff: 30000
-              backoffRate: 1
-              maxBackoff: 30000
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 504
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 509
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
           items:
             type: object
             required:
@@ -30314,7 +30546,43 @@ components:
           title: Settings for failed HTTP requests
           description: Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)
           minItems: 0
-          default: []
+          default:
+            - httpStatus: 401
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 20000
+            - httpStatus: 403
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 20000
+            - httpStatus: 408
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 429
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 500
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 502
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 503
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 504
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 509
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
           items:
             type: object
             required:
@@ -30819,7 +31087,43 @@ components:
           title: Settings for failed HTTP requests
           description: Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)
           minItems: 0
-          default: []
+          default:
+            - httpStatus: 401
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 20000
+            - httpStatus: 403
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 20000
+            - httpStatus: 408
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 429
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 500
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 502
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 503
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 504
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 509
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
           items:
             type: object
             required:
@@ -31156,7 +31460,35 @@ components:
           title: Settings for failed HTTP requests
           description: Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)
           minItems: 0
-          default: []
+          default:
+            - httpStatus: 408
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 429
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 500
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 502
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 503
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 504
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 509
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
           items:
             type: object
             required:
@@ -31494,7 +31826,35 @@ components:
           title: Settings for failed HTTP requests
           description: Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)
           minItems: 0
-          default: []
+          default:
+            - httpStatus: 408
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 429
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 500
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 502
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 503
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 504
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 509
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
           items:
             type: object
             required:
@@ -31850,7 +32210,43 @@ components:
           title: Settings for failed HTTP requests
           description: Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)
           minItems: 0
-          default: []
+          default:
+            - httpStatus: 401
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 20000
+            - httpStatus: 403
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 20000
+            - httpStatus: 408
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 429
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 500
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 502
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 503
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 504
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 509
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
           items:
             type: object
             required:
@@ -34125,7 +34521,43 @@ components:
           title: Settings for failed HTTP requests
           description: Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)
           minItems: 0
-          default: []
+          default:
+            - httpStatus: 401
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 20000
+            - httpStatus: 403
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 20000
+            - httpStatus: 408
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 429
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 500
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 502
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 503
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 504
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 509
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
           items:
             type: object
             required:
@@ -34514,7 +34946,35 @@ components:
           title: Settings for failed HTTP requests
           description: Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)
           minItems: 0
-          default: []
+          default:
+            - httpStatus: 408
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 429
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 500
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 502
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 503
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 504
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 509
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
           items:
             type: object
             required:
@@ -34954,7 +35414,35 @@ components:
           title: Settings for failed HTTP requests
           description: Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)
           minItems: 0
-          default: []
+          default:
+            - httpStatus: 408
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 429
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 500
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 502
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 503
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 504
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 509
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
           items:
             type: object
             required:
@@ -35310,7 +35798,35 @@ components:
           title: Settings for failed HTTP requests
           description: Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)
           minItems: 0
-          default: []
+          default:
+            - httpStatus: 408
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 429
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 500
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 502
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 503
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 504
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 509
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
           items:
             type: object
             required:
@@ -35648,7 +36164,43 @@ components:
           title: Settings for failed HTTP requests
           description: Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)
           minItems: 0
-          default: []
+          default:
+            - httpStatus: 401
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 20000
+            - httpStatus: 403
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 20000
+            - httpStatus: 408
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 429
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 500
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 502
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 503
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 504
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 509
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
           items:
             type: object
             required:
@@ -36331,7 +36883,43 @@ components:
           title: Settings for failed HTTP requests
           description: Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)
           minItems: 0
-          default: []
+          default:
+            - httpStatus: 401
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 20000
+            - httpStatus: 403
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 20000
+            - httpStatus: 408
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 429
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 500
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 502
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 503
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 504
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 509
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
           items:
             type: object
             required:
@@ -36773,7 +37361,43 @@ components:
           title: Settings for failed HTTP requests
           description: Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)
           minItems: 0
-          default: []
+          default:
+            - httpStatus: 401
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 20000
+            - httpStatus: 403
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 20000
+            - httpStatus: 408
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 429
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 500
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 502
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 503
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 504
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 509
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
           items:
             type: object
             required:
@@ -37896,37 +38520,41 @@ components:
           minItems: 0
           default:
             - httpStatus: 401
-              initialBackoff: 30000
+              initialBackoff: 1000
               backoffRate: 2
-              maxBackoff: 180000
+              maxBackoff: 20000
+            - httpStatus: 403
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 20000
             - httpStatus: 408
-              initialBackoff: 30000
+              initialBackoff: 250
               backoffRate: 2
-              maxBackoff: 180000
+              maxBackoff: 10000
             - httpStatus: 429
-              initialBackoff: 30000
+              initialBackoff: 1000
               backoffRate: 2
-              maxBackoff: 180000
+              maxBackoff: 10000
             - httpStatus: 500
-              initialBackoff: 30000
+              initialBackoff: 250
               backoffRate: 2
-              maxBackoff: 180000
+              maxBackoff: 10000
             - httpStatus: 502
-              initialBackoff: 30000
+              initialBackoff: 250
               backoffRate: 2
-              maxBackoff: 180000
+              maxBackoff: 10000
             - httpStatus: 503
-              initialBackoff: 30000
+              initialBackoff: 250
               backoffRate: 2
-              maxBackoff: 180000
+              maxBackoff: 10000
             - httpStatus: 504
-              initialBackoff: 30000
+              initialBackoff: 250
               backoffRate: 2
-              maxBackoff: 180000
+              maxBackoff: 10000
             - httpStatus: 509
-              initialBackoff: 30000
+              initialBackoff: 250
               backoffRate: 2
-              maxBackoff: 180000
+              maxBackoff: 10000
           items:
             type: object
             required:
@@ -37967,7 +38595,7 @@ components:
             timeoutRetry:
               type: boolean
               title: Retry timed-out HTTP requests
-              default: true
+              default: false
             initialBackoff:
               type: number
               title: Pre-backoff interval (ms)
@@ -38317,7 +38945,43 @@ components:
           title: Settings for failed HTTP requests
           description: Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)
           minItems: 0
-          default: []
+          default:
+            - httpStatus: 401
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 20000
+            - httpStatus: 403
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 20000
+            - httpStatus: 408
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 429
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 500
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 502
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 503
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 504
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 509
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
           items:
             type: object
             required:
@@ -38644,7 +39308,43 @@ components:
           title: Settings for failed HTTP requests
           description: Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)
           minItems: 0
-          default: []
+          default:
+            - httpStatus: 401
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 20000
+            - httpStatus: 403
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 20000
+            - httpStatus: 408
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 429
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 500
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 502
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 503
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 504
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 509
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
           items:
             type: object
             required:
@@ -40300,7 +41000,43 @@ components:
           title: Settings for failed HTTP requests
           description: Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)
           minItems: 0
-          default: []
+          default:
+            - httpStatus: 401
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 20000
+            - httpStatus: 403
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 20000
+            - httpStatus: 408
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 429
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 500
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 502
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 503
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 504
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 509
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
           items:
             type: object
             required:
@@ -40725,7 +41461,35 @@ components:
           title: Settings for failed HTTP requests
           description: Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)
           minItems: 0
-          default: []
+          default:
+            - httpStatus: 408
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 429
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 500
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 502
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 503
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 504
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 509
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
           items:
             type: object
             required:
@@ -41662,7 +42426,43 @@ components:
           title: Settings for failed HTTP requests
           description: Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)
           minItems: 0
-          default: []
+          default:
+            - httpStatus: 401
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 20000
+            - httpStatus: 403
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 20000
+            - httpStatus: 408
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 429
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 500
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 502
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 503
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 504
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 509
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
           items:
             type: object
             required:
@@ -41965,7 +42765,35 @@ components:
           title: Settings for failed HTTP requests
           description: Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)
           minItems: 0
-          default: []
+          default:
+            - httpStatus: 408
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 429
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 500
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 502
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 503
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 504
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 509
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
           items:
             type: object
             required:
@@ -42274,18 +43102,42 @@ components:
           description: Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)
           minItems: 0
           default:
+            - httpStatus: 401
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 20000
+            - httpStatus: 403
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 20000
+            - httpStatus: 408
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
             - httpStatus: 429
               initialBackoff: 30000
               backoffRate: 1
               maxBackoff: 30000
             - httpStatus: 500
-              initialBackoff: 30000
-              backoffRate: 1
-              maxBackoff: 30000
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 502
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
             - httpStatus: 503
-              initialBackoff: 30000
-              backoffRate: 1
-              maxBackoff: 30000
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 504
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 509
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
           items:
             type: object
             required:
@@ -46778,6 +47630,451 @@ components:
         onPrem: false
         estimatedIngestRate: 4096
         provisioned: true
+    InputCreateExamplesAppscope:
+      summary: AppScope
+      value:
+        id: appscope-source
+        type: appscope
+        host: 0.0.0.0
+        port: 9109
+    InputCreateExamplesAzureBlob:
+      summary: Azure Blob
+      value:
+        id: azure-blob-source
+        type: azure_blob
+        queueName: azure-blob-queue
+    InputCreateExamplesCloudflareHec:
+      summary: Cloudflare HEC
+      value:
+        id: cloudflare-hec-source
+        type: cloudflare_hec
+        host: 0.0.0.0
+        port: 8088
+        hecAPI: /services/collector
+    InputCreateExamplesConfluentCloud:
+      summary: Confluent Cloud
+      value:
+        id: confluent-cloud-source
+        type: confluent_cloud
+        brokers:
+          - pkc-xxxxx.us-east-1.aws.confluent.cloud:9092
+        topics:
+          - logs
+    InputCreateExamplesCollection:
+      summary: Collection
+      value:
+        id: collection-source
+        type: collection
+        sendToRoutes: true
+    InputCreateExamplesCriblHttp:
+      summary: Cribl HTTP
+      value:
+        id: cribl-http-source
+        type: cribl_http
+        host: 0.0.0.0
+        port: 10080
+    InputCreateExamplesCriblLakeHttp:
+      summary: Cribl Lake HTTP
+      value:
+        id: cribl-lake-http-source
+        type: cribl_lake_http
+        host: 0.0.0.0
+        port: 10080
+    InputCreateExamplesCriblTcp:
+      summary: Cribl TCP
+      value:
+        id: cribl-tcp-source
+        type: cribl_tcp
+        host: 0.0.0.0
+        port: 10090
+    InputCreateExamplesCrowdstrike:
+      summary: CrowdStrike FDR
+      value:
+        id: crowdstrike-source
+        type: crowdstrike
+        queueName: crowdstrike-queue
+        region: us-east-1
+    InputCreateExamplesDatadogAgent:
+      summary: Datadog Agent
+      value:
+        id: datadog-agent-source
+        type: datadog_agent
+        host: 0.0.0.0
+        port: 8126
+    InputCreateExamplesDatagen:
+      summary: Datagen
+      value:
+        id: datagen-source
+        type: datagen
+        samples:
+          - sample: sample.json
+            eventsPerSec: 10
+    InputCreateExamplesEdgePrometheus:
+      summary: Edge Prometheus
+      value:
+        id: edge-prometheus-source
+        type: edge_prometheus
+        interval: 60
+        discoveryType: static
+        targets:
+          - host: localhost
+            scrapeProtocol: http
+            scrapePort: 9090
+            scrapePath: /metrics
+    InputCreateExamplesElastic:
+      summary: Elasticsearch
+      value:
+        id: elastic-source
+        type: elastic
+        host: localhost
+        port: 9200
+        elasticAPI: /
+    InputCreateExamplesEventhub:
+      summary: Event Hubs
+      value:
+        id: eventhub-source
+        type: eventhub
+        brokers:
+          - myeventhub.servicebus.windows.net:9093
+        topics:
+          - logs
+    InputCreateExamplesExec:
+      summary: Exec
+      value:
+        id: exec-source
+        type: exec
+        command: echo "Hello World"
+        interval: 60
+    InputCreateExamplesFile:
+      summary: File Monitor
+      value:
+        id: file-source
+        type: file
+        mode: manual
+    InputCreateExamplesFirehose:
+      summary: Firehose
+      value:
+        id: firehose-source
+        type: firehose
+        host: 0.0.0.0
+        port: 10080
+    InputCreateExamplesGrafana:
+      summary: Grafana
+      value:
+        id: grafana-source
+        type: grafana
+        host: 0.0.0.0
+        port: 10080
+        prometheusAPI: /api/prom/push
+    InputCreateExamplesGooglePubsub:
+      summary: Google Pub/Sub
+      value:
+        id: google-pubsub-source
+        type: google_pubsub
+        subscriptionName: my-subscription
+        topicName: my-topic
+    InputCreateExamplesHttp:
+      summary: HTTP
+      value:
+        id: http-source
+        type: http
+        host: 0.0.0.0
+        port: 10080
+    InputCreateExamplesHttpRaw:
+      summary: HTTP Raw
+      value:
+        id: http-raw-source
+        type: http_raw
+        host: 0.0.0.0
+        port: 10080
+    InputCreateExamplesJournalFiles:
+      summary: Journal Files
+      value:
+        id: journal-files-source
+        type: journal_files
+        path: /var/log/journal
+        journals:
+          - system
+    InputCreateExamplesKafka:
+      summary: Kafka
+      value:
+        id: kafka-source
+        type: kafka
+        brokers:
+          - localhost:9092
+        topics:
+          - logs
+    InputCreateExamplesKinesis:
+      summary: Kinesis
+      value:
+        id: kinesis-source
+        type: kinesis
+        streamName: my-stream
+        region: us-east-1
+    InputCreateExamplesKubeEvents:
+      summary: Kubernetes Events
+      value:
+        id: kube-events-source
+        type: kube_events
+    InputCreateExamplesKubeLogs:
+      summary: Kubernetes Logs
+      value:
+        id: kube-logs-source
+        type: kube_logs
+    InputCreateExamplesKubeMetrics:
+      summary: Kubernetes Metrics
+      value:
+        id: kube-metrics-source
+        type: kube_metrics
+    InputCreateExamplesLoki:
+      summary: Loki
+      value:
+        id: loki-source
+        type: loki
+        host: 0.0.0.0
+        port: 10080
+        lokiAPI: /loki/api/v1/push
+    InputCreateExamplesMetrics:
+      summary: Metrics
+      value:
+        id: metrics-source
+        type: metrics
+        host: 0.0.0.0
+        udpPort: 8125
+    InputCreateExamplesModelDrivenTelemetry:
+      summary: Model Driven Telemetry
+      value:
+        id: mdt-source
+        type: model_driven_telemetry
+        host: 0.0.0.0
+        port: 57000
+    InputCreateExamplesMsk:
+      summary: MSK
+      value:
+        id: msk-source
+        type: msk
+        brokers:
+          - b-1.example.xxxxx.c2.kafka.us-east-1.amazonaws.com:9092
+        topics:
+          - logs
+        region: us-east-1
+        awsAuthenticationMethod: auto
+    InputCreateExamplesNetflow:
+      summary: Netflow
+      value:
+        id: netflow-source
+        type: netflow
+        host: 0.0.0.0
+        port: 2055
+    InputCreateExamplesOffice365Mgmt:
+      summary: Office 365 Management Activity
+      value:
+        id: office365-mgmt-source
+        type: office365_mgmt
+        tenantId: tenant-id
+        appId: app-id
+        planType: enterprise_gcc
+    InputCreateExamplesOffice365MsgTrace:
+      summary: Office 365 Message Trace
+      value:
+        id: office365-msg-trace-source
+        type: office365_msg_trace
+        url: https://reports.office365.com/ecp/reportingwebservice/reporting.svc/MessageTrace
+        interval: 15
+    InputCreateExamplesOffice365Service:
+      summary: Office 365 Services
+      value:
+        id: office365-service-source
+        type: office365_service
+        tenantId: tenant-id
+        appId: app-id
+    InputCreateExamplesOpenTelemetry:
+      summary: OpenTelemetry
+      value:
+        id: otel-source
+        type: open_telemetry
+        host: 0.0.0.0
+        port: 4317
+    InputCreateExamplesPrometheus:
+      summary: Prometheus Scraper
+      value:
+        id: prometheus-source
+        type: prometheus
+        interval: 60
+        logLevel: info
+        discoveryType: static
+        targetList:
+          - http://localhost:9090/metrics
+    InputCreateExamplesPrometheusRw:
+      summary: Prometheus Remote Write
+      value:
+        id: prometheus-rw-source
+        type: prometheus_rw
+        host: 0.0.0.0
+        port: 10080
+        prometheusAPI: /write
+    InputCreateExamplesRawUdp:
+      summary: Raw UDP
+      value:
+        id: raw-udp-source
+        type: raw_udp
+        host: 0.0.0.0
+        port: 514
+    InputCreateExamplesS3:
+      summary: S3
+      value:
+        id: s3-source
+        type: s3
+        queueName: s3-notifications-queue
+        region: us-east-1
+    InputCreateExamplesS3Inventory:
+      summary: S3 Inventory
+      value:
+        id: s3-inventory-source
+        type: s3_inventory
+        queueName: s3-inventory-queue
+        region: us-east-1
+    InputCreateExamplesSecurityLake:
+      summary: Security Lake
+      value:
+        id: security-lake-source
+        type: security_lake
+        queueName: security-lake-queue
+        region: us-east-1
+    InputCreateExamplesSnmp:
+      summary: SNMP
+      value:
+        id: snmp-source
+        type: snmp
+        host: 192.168.1.1
+        port: 161
+    InputCreateExamplesSplunk:
+      summary: Splunk TCP
+      value:
+        id: splunk-source
+        type: splunk
+        host: 0.0.0.0
+        port: 9997
+    InputCreateExamplesSplunkHec:
+      summary: Splunk HEC
+      value:
+        id: splunk-hec-source
+        type: splunk_hec
+        host: 0.0.0.0
+        port: 8088
+        splunkHecAPI: /services/collector
+    InputCreateExamplesSplunkSearch:
+      summary: Splunk Search
+      value:
+        id: splunk-search-source
+        type: splunk_search
+        searchHead: https://localhost:8089
+        search: index=main
+        cronSchedule: 0 * * * *
+        endpoint: /services/search/jobs/export
+        outputMode: json
+    InputCreateExamplesSqs:
+      summary: SQS
+      value:
+        id: sqs-source
+        type: sqs
+        queueName: my-queue
+        queueType: standard
+        region: us-east-1
+    InputCreateExamplesSyslog:
+      summary: Syslog
+      value:
+        id: syslog-source
+        type: syslog
+        host: 0.0.0.0
+        udpPort: 514
+    InputCreateExamplesSystemMetrics:
+      summary: System Metrics
+      value:
+        id: system-metrics-source
+        type: system_metrics
+    InputCreateExamplesSystemState:
+      summary: System State
+      value:
+        id: system-state-source
+        type: system_state
+    InputCreateExamplesTcp:
+      summary: TCP
+      value:
+        id: tcp-source
+        type: tcp
+        host: 0.0.0.0
+        port: 10090
+    InputCreateExamplesTcpjson:
+      summary: TCP JSON
+      value:
+        id: tcpjson-source
+        type: tcpjson
+        host: 0.0.0.0
+        port: 10090
+    InputCreateExamplesWef:
+      summary: Windows Event Forwarder
+      value:
+        id: wef-source
+        type: wef
+        host: 0.0.0.0
+        port: 5985
+        privKeyPath: /path/to/private.key
+        certPath: /path/to/certificate.crt
+        caPath: /path/to/ca.crt
+        subscriptions:
+          - subscriptionName: subscription-1
+            contentFormat: RenderedText
+            heartbeatInterval: 60
+            batchTimeout: 5
+            targets: []
+    InputCreateExamplesWinEventLogs:
+      summary: Windows Event Logs
+      value:
+        id: win-event-logs-source
+        type: win_event_logs
+        logNames:
+          - Application
+          - System
+    InputCreateExamplesWindowsMetrics:
+      summary: Windows Metrics
+      value:
+        id: windows-metrics-source
+        type: windows_metrics
+    InputCreateExamplesWiz:
+      summary: Wiz API
+      value:
+        id: wiz-source
+        type: wiz
+        endpoint: https://api.wiz.io
+        authUrl: https://auth.wiz.io/oauth/token
+        clientId: client-id
+        contentConfig: []
+    InputCreateExamplesWizWebhook:
+      summary: Wiz Webhook
+      value:
+        id: wiz-webhook-source
+        type: wiz_webhook
+        host: 0.0.0.0
+        port: 10080
+    InputCreateExamplesZscalerHec:
+      summary: Zscaler Cloud NSS
+      value:
+        id: zscaler-hec-source
+        type: zscaler_hec
+        host: 0.0.0.0
+        port: 8088
+        hecAPI: /services/collector
+    InputExamplesCribl:
+      summary: Cribl Internal
+      value:
+        id: cribl-source
+        type: cribl
+    InputExamplesCriblMetrics:
+      summary: Cribl Metrics
+      value:
+        id: cribl-metrics-source
+        type: criblmetrics
     PackInstallExamplesPackDispensary:
       summary: Install from the Pack Dispensary
       value:
@@ -47110,6 +48407,123 @@ paths:
                   required:
                     - id
               $ref: "#/components/schemas/Input"
+            examples:
+              InputCreateExamplesAppscope:
+                $ref: "#/components/examples/InputCreateExamplesAppscope"
+              InputCreateExamplesAzureBlob:
+                $ref: "#/components/examples/InputCreateExamplesAzureBlob"
+              InputCreateExamplesCloudflareHec:
+                $ref: "#/components/examples/InputCreateExamplesCloudflareHec"
+              InputCreateExamplesConfluentCloud:
+                $ref: "#/components/examples/InputCreateExamplesConfluentCloud"
+              InputCreateExamplesCollection:
+                $ref: "#/components/examples/InputCreateExamplesCollection"
+              InputCreateExamplesCriblHttp:
+                $ref: "#/components/examples/InputCreateExamplesCriblHttp"
+              InputCreateExamplesCriblLakeHttp:
+                $ref: "#/components/examples/InputCreateExamplesCriblLakeHttp"
+              InputCreateExamplesCriblTcp:
+                $ref: "#/components/examples/InputCreateExamplesCriblTcp"
+              InputCreateExamplesCrowdstrike:
+                $ref: "#/components/examples/InputCreateExamplesCrowdstrike"
+              InputCreateExamplesDatadogAgent:
+                $ref: "#/components/examples/InputCreateExamplesDatadogAgent"
+              InputCreateExamplesDatagen:
+                $ref: "#/components/examples/InputCreateExamplesDatagen"
+              InputCreateExamplesEdgePrometheus:
+                $ref: "#/components/examples/InputCreateExamplesEdgePrometheus"
+              InputCreateExamplesElastic:
+                $ref: "#/components/examples/InputCreateExamplesElastic"
+              InputCreateExamplesEventhub:
+                $ref: "#/components/examples/InputCreateExamplesEventhub"
+              InputCreateExamplesExec:
+                $ref: "#/components/examples/InputCreateExamplesExec"
+              InputCreateExamplesFile:
+                $ref: "#/components/examples/InputCreateExamplesFile"
+              InputCreateExamplesFirehose:
+                $ref: "#/components/examples/InputCreateExamplesFirehose"
+              InputCreateExamplesGrafana:
+                $ref: "#/components/examples/InputCreateExamplesGrafana"
+              InputCreateExamplesGooglePubsub:
+                $ref: "#/components/examples/InputCreateExamplesGooglePubsub"
+              InputCreateExamplesHttp:
+                $ref: "#/components/examples/InputCreateExamplesHttp"
+              InputCreateExamplesHttpRaw:
+                $ref: "#/components/examples/InputCreateExamplesHttpRaw"
+              InputCreateExamplesJournalFiles:
+                $ref: "#/components/examples/InputCreateExamplesJournalFiles"
+              InputCreateExamplesKafka:
+                $ref: "#/components/examples/InputCreateExamplesKafka"
+              InputCreateExamplesKinesis:
+                $ref: "#/components/examples/InputCreateExamplesKinesis"
+              InputCreateExamplesKubeEvents:
+                $ref: "#/components/examples/InputCreateExamplesKubeEvents"
+              InputCreateExamplesKubeLogs:
+                $ref: "#/components/examples/InputCreateExamplesKubeLogs"
+              InputCreateExamplesKubeMetrics:
+                $ref: "#/components/examples/InputCreateExamplesKubeMetrics"
+              InputCreateExamplesLoki:
+                $ref: "#/components/examples/InputCreateExamplesLoki"
+              InputCreateExamplesMetrics:
+                $ref: "#/components/examples/InputCreateExamplesMetrics"
+              InputCreateExamplesModelDrivenTelemetry:
+                $ref: "#/components/examples/InputCreateExamplesModelDrivenTelemetry"
+              InputCreateExamplesMsk:
+                $ref: "#/components/examples/InputCreateExamplesMsk"
+              InputCreateExamplesNetflow:
+                $ref: "#/components/examples/InputCreateExamplesNetflow"
+              InputCreateExamplesOffice365Mgmt:
+                $ref: "#/components/examples/InputCreateExamplesOffice365Mgmt"
+              InputCreateExamplesOffice365MsgTrace:
+                $ref: "#/components/examples/InputCreateExamplesOffice365MsgTrace"
+              InputCreateExamplesOffice365Service:
+                $ref: "#/components/examples/InputCreateExamplesOffice365Service"
+              InputCreateExamplesOpenTelemetry:
+                $ref: "#/components/examples/InputCreateExamplesOpenTelemetry"
+              InputCreateExamplesPrometheus:
+                $ref: "#/components/examples/InputCreateExamplesPrometheus"
+              InputCreateExamplesPrometheusRw:
+                $ref: "#/components/examples/InputCreateExamplesPrometheusRw"
+              InputCreateExamplesRawUdp:
+                $ref: "#/components/examples/InputCreateExamplesRawUdp"
+              InputCreateExamplesS3:
+                $ref: "#/components/examples/InputCreateExamplesS3"
+              InputCreateExamplesS3Inventory:
+                $ref: "#/components/examples/InputCreateExamplesS3Inventory"
+              InputCreateExamplesSecurityLake:
+                $ref: "#/components/examples/InputCreateExamplesSecurityLake"
+              InputCreateExamplesSnmp:
+                $ref: "#/components/examples/InputCreateExamplesSnmp"
+              InputCreateExamplesSplunk:
+                $ref: "#/components/examples/InputCreateExamplesSplunk"
+              InputCreateExamplesSplunkHec:
+                $ref: "#/components/examples/InputCreateExamplesSplunkHec"
+              InputCreateExamplesSplunkSearch:
+                $ref: "#/components/examples/InputCreateExamplesSplunkSearch"
+              InputCreateExamplesSqs:
+                $ref: "#/components/examples/InputCreateExamplesSqs"
+              InputCreateExamplesSyslog:
+                $ref: "#/components/examples/InputCreateExamplesSyslog"
+              InputCreateExamplesSystemMetrics:
+                $ref: "#/components/examples/InputCreateExamplesSystemMetrics"
+              InputCreateExamplesSystemState:
+                $ref: "#/components/examples/InputCreateExamplesSystemState"
+              InputCreateExamplesTcp:
+                $ref: "#/components/examples/InputCreateExamplesTcp"
+              InputCreateExamplesTcpjson:
+                $ref: "#/components/examples/InputCreateExamplesTcpjson"
+              InputCreateExamplesWef:
+                $ref: "#/components/examples/InputCreateExamplesWef"
+              InputCreateExamplesWinEventLogs:
+                $ref: "#/components/examples/InputCreateExamplesWinEventLogs"
+              InputCreateExamplesWindowsMetrics:
+                $ref: "#/components/examples/InputCreateExamplesWindowsMetrics"
+              InputCreateExamplesWiz:
+                $ref: "#/components/examples/InputCreateExamplesWiz"
+              InputCreateExamplesWizWebhook:
+                $ref: "#/components/examples/InputCreateExamplesWizWebhook"
+              InputCreateExamplesZscalerHec:
+                $ref: "#/components/examples/InputCreateExamplesZscalerHec"
       responses:
         "200":
           description: a list of Source objects
@@ -47178,6 +48592,127 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/Input"
+            examples:
+              InputCreateExamplesAppscope:
+                $ref: "#/components/examples/InputCreateExamplesAppscope"
+              InputCreateExamplesAzureBlob:
+                $ref: "#/components/examples/InputCreateExamplesAzureBlob"
+              InputCreateExamplesCloudflareHec:
+                $ref: "#/components/examples/InputCreateExamplesCloudflareHec"
+              InputCreateExamplesConfluentCloud:
+                $ref: "#/components/examples/InputCreateExamplesConfluentCloud"
+              InputCreateExamplesCollection:
+                $ref: "#/components/examples/InputCreateExamplesCollection"
+              InputExamplesCribl:
+                $ref: "#/components/examples/InputExamplesCribl"
+              InputCreateExamplesCriblHttp:
+                $ref: "#/components/examples/InputCreateExamplesCriblHttp"
+              InputCreateExamplesCriblLakeHttp:
+                $ref: "#/components/examples/InputCreateExamplesCriblLakeHttp"
+              InputExamplesCriblMetrics:
+                $ref: "#/components/examples/InputExamplesCriblMetrics"
+              InputCreateExamplesCriblTcp:
+                $ref: "#/components/examples/InputCreateExamplesCriblTcp"
+              InputCreateExamplesCrowdstrike:
+                $ref: "#/components/examples/InputCreateExamplesCrowdstrike"
+              InputCreateExamplesDatadogAgent:
+                $ref: "#/components/examples/InputCreateExamplesDatadogAgent"
+              InputCreateExamplesDatagen:
+                $ref: "#/components/examples/InputCreateExamplesDatagen"
+              InputCreateExamplesEdgePrometheus:
+                $ref: "#/components/examples/InputCreateExamplesEdgePrometheus"
+              InputCreateExamplesElastic:
+                $ref: "#/components/examples/InputCreateExamplesElastic"
+              InputCreateExamplesEventhub:
+                $ref: "#/components/examples/InputCreateExamplesEventhub"
+              InputCreateExamplesExec:
+                $ref: "#/components/examples/InputCreateExamplesExec"
+              InputCreateExamplesFile:
+                $ref: "#/components/examples/InputCreateExamplesFile"
+              InputCreateExamplesFirehose:
+                $ref: "#/components/examples/InputCreateExamplesFirehose"
+              InputCreateExamplesGrafana:
+                $ref: "#/components/examples/InputCreateExamplesGrafana"
+              InputCreateExamplesGooglePubsub:
+                $ref: "#/components/examples/InputCreateExamplesGooglePubsub"
+              InputCreateExamplesHttp:
+                $ref: "#/components/examples/InputCreateExamplesHttp"
+              InputCreateExamplesHttpRaw:
+                $ref: "#/components/examples/InputCreateExamplesHttpRaw"
+              InputCreateExamplesJournalFiles:
+                $ref: "#/components/examples/InputCreateExamplesJournalFiles"
+              InputCreateExamplesKafka:
+                $ref: "#/components/examples/InputCreateExamplesKafka"
+              InputCreateExamplesKinesis:
+                $ref: "#/components/examples/InputCreateExamplesKinesis"
+              InputCreateExamplesKubeEvents:
+                $ref: "#/components/examples/InputCreateExamplesKubeEvents"
+              InputCreateExamplesKubeLogs:
+                $ref: "#/components/examples/InputCreateExamplesKubeLogs"
+              InputCreateExamplesKubeMetrics:
+                $ref: "#/components/examples/InputCreateExamplesKubeMetrics"
+              InputCreateExamplesLoki:
+                $ref: "#/components/examples/InputCreateExamplesLoki"
+              InputCreateExamplesMetrics:
+                $ref: "#/components/examples/InputCreateExamplesMetrics"
+              InputCreateExamplesModelDrivenTelemetry:
+                $ref: "#/components/examples/InputCreateExamplesModelDrivenTelemetry"
+              InputCreateExamplesMsk:
+                $ref: "#/components/examples/InputCreateExamplesMsk"
+              InputCreateExamplesNetflow:
+                $ref: "#/components/examples/InputCreateExamplesNetflow"
+              InputCreateExamplesOffice365Mgmt:
+                $ref: "#/components/examples/InputCreateExamplesOffice365Mgmt"
+              InputCreateExamplesOffice365MsgTrace:
+                $ref: "#/components/examples/InputCreateExamplesOffice365MsgTrace"
+              InputCreateExamplesOffice365Service:
+                $ref: "#/components/examples/InputCreateExamplesOffice365Service"
+              InputCreateExamplesOpenTelemetry:
+                $ref: "#/components/examples/InputCreateExamplesOpenTelemetry"
+              InputCreateExamplesPrometheus:
+                $ref: "#/components/examples/InputCreateExamplesPrometheus"
+              InputCreateExamplesPrometheusRw:
+                $ref: "#/components/examples/InputCreateExamplesPrometheusRw"
+              InputCreateExamplesRawUdp:
+                $ref: "#/components/examples/InputCreateExamplesRawUdp"
+              InputCreateExamplesS3:
+                $ref: "#/components/examples/InputCreateExamplesS3"
+              InputCreateExamplesS3Inventory:
+                $ref: "#/components/examples/InputCreateExamplesS3Inventory"
+              InputCreateExamplesSecurityLake:
+                $ref: "#/components/examples/InputCreateExamplesSecurityLake"
+              InputCreateExamplesSnmp:
+                $ref: "#/components/examples/InputCreateExamplesSnmp"
+              InputCreateExamplesSplunk:
+                $ref: "#/components/examples/InputCreateExamplesSplunk"
+              InputCreateExamplesSplunkHec:
+                $ref: "#/components/examples/InputCreateExamplesSplunkHec"
+              InputCreateExamplesSplunkSearch:
+                $ref: "#/components/examples/InputCreateExamplesSplunkSearch"
+              InputCreateExamplesSqs:
+                $ref: "#/components/examples/InputCreateExamplesSqs"
+              InputCreateExamplesSyslog:
+                $ref: "#/components/examples/InputCreateExamplesSyslog"
+              InputCreateExamplesSystemMetrics:
+                $ref: "#/components/examples/InputCreateExamplesSystemMetrics"
+              InputCreateExamplesSystemState:
+                $ref: "#/components/examples/InputCreateExamplesSystemState"
+              InputCreateExamplesTcp:
+                $ref: "#/components/examples/InputCreateExamplesTcp"
+              InputCreateExamplesTcpjson:
+                $ref: "#/components/examples/InputCreateExamplesTcpjson"
+              InputCreateExamplesWef:
+                $ref: "#/components/examples/InputCreateExamplesWef"
+              InputCreateExamplesWinEventLogs:
+                $ref: "#/components/examples/InputCreateExamplesWinEventLogs"
+              InputCreateExamplesWindowsMetrics:
+                $ref: "#/components/examples/InputCreateExamplesWindowsMetrics"
+              InputCreateExamplesWiz:
+                $ref: "#/components/examples/InputCreateExamplesWiz"
+              InputCreateExamplesWizWebhook:
+                $ref: "#/components/examples/InputCreateExamplesWizWebhook"
+              InputCreateExamplesZscalerHec:
+                $ref: "#/components/examples/InputCreateExamplesZscalerHec"
       responses:
         "200":
           description: a list of Source objects
@@ -48301,7 +49836,7 @@ paths:
           schema:
             type: string
           description: The <code>id</code> of the Worker Group or Edge Fleet to get the count for.
-        - name: ID
+        - name: commit
           in: query
           required: false
           schema:
@@ -48411,7 +49946,7 @@ paths:
           schema:
             type: string
           description: The <code>id</code> of the Worker Group or Edge Fleet to get file names and status for.
-        - name: ID
+        - name: commit
           in: query
           required: false
           schema:
@@ -48768,18 +50303,18 @@ paths:
                 $ref: "#/components/schemas/Error"
       x-speakeasy-group: groups
       parameters:
-        - name: fields
-          in: query
-          required: false
-          schema:
-            type: string
-          description: Comma-separated list of additional properties to include in the response. Available values are <code>git.commit</code>, <code>git.localChanges</code>, and <code>git.log</code>.
         - name: product
           in: path
           required: true
           schema:
             $ref: "#/components/schemas/ProductsCore"
           description: Name of the Cribl product to get the Worker Groups or Edge Fleets for.
+        - name: fields
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Comma-separated list of additional properties to include in the response. Available values are <code>git.commit</code>, <code>git.localChanges</code>, and <code>git.log</code>.
     post:
       operationId: createConfigGroupByProduct
       x-speakeasy-name-override: create
@@ -48825,7 +50360,7 @@ paths:
           required: true
           schema:
             $ref: "#/components/schemas/ProductsCore"
-          description: required Name of the Cribl product to add the Worker Group or Edge Fleet to.
+          description: Name of the Cribl product to add the Worker Group or Edge Fleet to.
   /products/{product}/groups/{id}:
     get:
       operationId: getConfigGroupByProductAndId

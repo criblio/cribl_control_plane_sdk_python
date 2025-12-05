@@ -187,7 +187,7 @@ class OutputCriblHTTPTimeoutRetrySettingsTypedDict(TypedDict):
 
 class OutputCriblHTTPTimeoutRetrySettings(BaseModel):
     timeout_retry: Annotated[Optional[bool], pydantic.Field(alias="timeoutRetry")] = (
-        True
+        False
     )
 
     initial_backoff: Annotated[

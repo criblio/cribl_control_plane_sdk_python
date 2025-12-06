@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 0bb77970951bbd83bc380d31588be2cb
-  docVersion: 4.15.1-alpha.1764716546450-182517b2
+  docChecksum: 4433a39c37b725ea5385b4c6f881622c
+  docVersion: 4.15.1-alpha.1764975753193-67dd5070
   speakeasyVersion: 1.665.0
   generationVersion: 2.767.2
-  releaseVersion: 0.4.0a10
-  configChecksum: 0086c752dbbc1ca0c1864e9e3fe760e3
+  releaseVersion: 0.4.0a11
+  configChecksum: c1a7b26187950fee0e50e216a4453beb
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
@@ -2509,7 +2509,7 @@ examples:
         path:
           id: "<id>"
       requestBody:
-        application/json: {"description": "bah ick stingy", "enabled": false, "metadata": [{"name": "<value>", "value": "<value>"}], "token": "<value>"}
+        application/json: {"allowedIndexesAtToken": ["<value 1>"], "description": "bah ick stingy", "enabled": false, "metadata": [{"name": "<value>", "value": "<value>"}], "token": "<value>"}
       responses:
         "200":
           application/json: {"count": 827610, "items": [{"id": "<id>", "type": "splunk_hec", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "always", "maxBufferSize": 1000, "commitFrequency": 42, "maxFileSize": "1 MB", "maxSize": "5GB", "path": "$CRIBL_HOME/state/queues", "compress": "none", "pqControls": {}}, "host": "0.0.0.0", "port": 8836.4, "authTokens": [{"authType": "manual", "tokenSecret": "<value>", "token": "<value>", "enabled": true, "description": "awful functional sure-footed at", "allowedIndexesAtToken": ["<value 1>", "<value 2>", "<value 3>"], "metadata": [{"name": "<value>", "value": "<value>"}]}], "tls": {"disabled": true, "requestCert": false, "rejectUnauthorized": true, "commonNameRegex": "<value>", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1", "maxVersion": "TLSv1.1"}, "maxActiveReq": 256, "maxRequestsPerSocket": 0, "enableProxyHeader": false, "captureHeaders": false, "activityLogSampleRate": 100, "requestTimeout": 0, "socketTimeout": 0, "keepAliveTimeout": 5, "enableHealthCheck": "<value>", "ipAllowlistRegex": "/.*/", "ipDenylistRegex": "/^$/", "splunkHecAPI": "/services/collector", "metadata": [{"name": "<value>", "value": "<value>"}], "allowedIndexes": ["<value 1>", "<value 2>", "<value 3>"], "splunkHecAcks": false, "breakerRulesets": ["<value 1>", "<value 2>", "<value 3>"], "staleChannelFlushMs": 10000, "useFwdTimezone": true, "dropControlFields": true, "extractMetrics": false, "accessControlAllowOrigin": ["<value 1>"], "accessControlAllowHeaders": ["<value 1>"], "emitTokenMetrics": false, "description": "boohoo uh-huh buzzing"}, {"id": "<id>", "type": "splunk_hec", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "always", "maxBufferSize": 1000, "commitFrequency": 42, "maxFileSize": "1 MB", "maxSize": "5GB", "path": "$CRIBL_HOME/state/queues", "compress": "none", "pqControls": {}}, "host": "0.0.0.0", "port": 8957.05, "authTokens": [{"authType": "manual", "tokenSecret": "<value>", "token": "<value>", "enabled": true, "description": "awful functional sure-footed at", "allowedIndexesAtToken": ["<value 1>", "<value 2>", "<value 3>"], "metadata": [{"name": "<value>", "value": "<value>"}]}], "tls": {"disabled": true, "requestCert": false, "rejectUnauthorized": false, "commonNameRegex": "<value>", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1", "maxVersion": "TLSv1.1"}, "maxActiveReq": 256, "maxRequestsPerSocket": 0, "enableProxyHeader": false, "captureHeaders": false, "activityLogSampleRate": 100, "requestTimeout": 0, "socketTimeout": 0, "keepAliveTimeout": 5, "enableHealthCheck": "<value>", "ipAllowlistRegex": "/.*/", "ipDenylistRegex": "/^$/", "splunkHecAPI": "/services/collector", "metadata": [{"name": "<value>", "value": "<value>"}], "allowedIndexes": ["<value 1>", "<value 2>", "<value 3>"], "splunkHecAcks": false, "breakerRulesets": ["<value 1>"], "staleChannelFlushMs": 10000, "useFwdTimezone": true, "dropControlFields": true, "extractMetrics": false, "accessControlAllowOrigin": ["<value 1>", "<value 2>"], "accessControlAllowHeaders": ["<value 1>", "<value 2>", "<value 3>"], "emitTokenMetrics": false, "description": "beyond and whopping brief zowie icy meanwhile"}]}
@@ -2522,7 +2522,7 @@ examples:
           id: "<id>"
           token: "<value>"
       requestBody:
-        application/json: {"description": "by bleakly fortunately phew barring", "enabled": false, "metadata": [{"name": "<value>", "value": "<value>"}]}
+        application/json: {"allowedIndexesAtToken": ["<value 1>"], "description": "by bleakly fortunately phew barring", "enabled": false, "metadata": [{"name": "<value>", "value": "<value>"}]}
       responses:
         "200":
           application/json: {"count": 116091, "items": [{"id": "<id>", "type": "splunk_hec", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "always", "maxBufferSize": 1000, "commitFrequency": 42, "maxFileSize": "1 MB", "maxSize": "5GB", "path": "$CRIBL_HOME/state/queues", "compress": "none", "pqControls": {}}, "host": "0.0.0.0", "port": 9953.77, "authTokens": [{"authType": "manual", "tokenSecret": "<value>", "token": "<value>", "enabled": true, "description": "bowler reproachfully blossom junior whoa yuck", "allowedIndexesAtToken": ["<value 1>", "<value 2>", "<value 3>"], "metadata": [{"name": "<value>", "value": "<value>"}]}], "tls": {"disabled": true, "requestCert": false, "rejectUnauthorized": true, "commonNameRegex": "<value>", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.2", "maxVersion": "TLSv1.2"}, "maxActiveReq": 256, "maxRequestsPerSocket": 0, "enableProxyHeader": false, "captureHeaders": false, "activityLogSampleRate": 100, "requestTimeout": 0, "socketTimeout": 0, "keepAliveTimeout": 5, "enableHealthCheck": "<value>", "ipAllowlistRegex": "/.*/", "ipDenylistRegex": "/^$/", "splunkHecAPI": "/services/collector", "metadata": [{"name": "<value>", "value": "<value>"}], "allowedIndexes": ["<value 1>", "<value 2>"], "splunkHecAcks": false, "breakerRulesets": ["<value 1>", "<value 2>", "<value 3>"], "staleChannelFlushMs": 10000, "useFwdTimezone": true, "dropControlFields": true, "extractMetrics": false, "accessControlAllowOrigin": ["<value 1>"], "accessControlAllowHeaders": ["<value 1>", "<value 2>"], "emitTokenMetrics": false, "description": "sermon circulate grouper doing"}]}
@@ -3503,6 +3503,4 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: |
-  ## Python SDK Changes:
-  * `cribl_control_plane.lake_datasets.list()`:  `request` **Changed** **Breaking** :warning:
+releaseNotes: "## Python SDK Changes:\n* `cribl_control_plane.sources.hec_tokens.create()`:  `request.allowed_indexes_at_token` **Added**\n* `cribl_control_plane.sources.hec_tokens.update()`:  `request.allowed_indexes_at_token` **Added**\n* `cribl_control_plane.destinations.list()`:  `response.items.[].[netflow].enable_ip_spoofing` **Added**\n* `cribl_control_plane.destinations.create()`: \n  *  `request.[netflow].enable_ip_spoofing` **Added**\n  *  `response.items.[].[netflow].enable_ip_spoofing` **Added**\n* `cribl_control_plane.destinations.get()`:  `response.items.[].[netflow].enable_ip_spoofing` **Added**\n* `cribl_control_plane.destinations.update()`: \n  *  `request.output.[netflow].enable_ip_spoofing` **Added**\n  *  `response.items.[].[netflow].enable_ip_spoofing` **Added**\n* `cribl_control_plane.destinations.delete()`:  `response.items.[].[netflow].enable_ip_spoofing` **Added**\n"

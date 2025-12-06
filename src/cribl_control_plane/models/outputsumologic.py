@@ -164,9 +164,9 @@ class OutputSumoLogicTypedDict(TypedDict):
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
     custom_source: NotRequired[str]
-    r"""Override the source name configured on the Sumo Logic HTTP collector. This can also be overridden at the event level with the __sourceName field."""
+    r"""Override the source name configured on the Sumo Logic HTTP collector. This can also be overridden at the event level with the __sourceName field."""
     custom_category: NotRequired[str]
-    r"""Override the source category configured on the Sumo Logic HTTP collector. This can also be overridden at the event level with the __sourceCategory field."""
+    r"""Override the source category configured on the Sumo Logic HTTP collector. This can also be overridden at the event level with the __sourceCategory field."""
     format_: NotRequired[OutputSumoLogicDataFormat]
     r"""Preserve the raw event format instead of JSONifying it"""
     concurrency: NotRequired[float]
@@ -253,12 +253,12 @@ class OutputSumoLogic(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     custom_source: Annotated[Optional[str], pydantic.Field(alias="customSource")] = None
-    r"""Override the source name configured on the Sumo Logic HTTP collector. This can also be overridden at the event level with the __sourceName field."""
+    r"""Override the source name configured on the Sumo Logic HTTP collector. This can also be overridden at the event level with the __sourceName field."""
 
     custom_category: Annotated[
         Optional[str], pydantic.Field(alias="customCategory")
     ] = None
-    r"""Override the source category configured on the Sumo Logic HTTP collector. This can also be overridden at the event level with the __sourceCategory field."""
+    r"""Override the source category configured on the Sumo Logic HTTP collector. This can also be overridden at the event level with the __sourceCategory field."""
 
     format_: Annotated[
         Annotated[

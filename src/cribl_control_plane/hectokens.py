@@ -15,6 +15,7 @@ class HecTokens(BaseSDK):
         *,
         id: str,
         token: str,
+        allowed_indexes_at_token: Optional[List[str]] = None,
         description: Optional[str] = None,
         enabled: Optional[bool] = None,
         metadata: Optional[
@@ -34,6 +35,7 @@ class HecTokens(BaseSDK):
 
         :param id: The <code>id</code> of the Splunk HEC Source.
         :param token:
+        :param allowed_indexes_at_token:
         :param description:
         :param enabled:
         :param metadata:
@@ -55,6 +57,7 @@ class HecTokens(BaseSDK):
         request = models.CreateInputHecTokenByIDRequest(
             id=id,
             add_hec_token_request=models.AddHecTokenRequest(
+                allowed_indexes_at_token=allowed_indexes_at_token,
                 description=description,
                 enabled=enabled,
                 metadata=utils.get_pydantic_model(
@@ -135,6 +138,7 @@ class HecTokens(BaseSDK):
         *,
         id: str,
         token: str,
+        allowed_indexes_at_token: Optional[List[str]] = None,
         description: Optional[str] = None,
         enabled: Optional[bool] = None,
         metadata: Optional[
@@ -154,6 +158,7 @@ class HecTokens(BaseSDK):
 
         :param id: The <code>id</code> of the Splunk HEC Source.
         :param token:
+        :param allowed_indexes_at_token:
         :param description:
         :param enabled:
         :param metadata:
@@ -175,6 +180,7 @@ class HecTokens(BaseSDK):
         request = models.CreateInputHecTokenByIDRequest(
             id=id,
             add_hec_token_request=models.AddHecTokenRequest(
+                allowed_indexes_at_token=allowed_indexes_at_token,
                 description=description,
                 enabled=enabled,
                 metadata=utils.get_pydantic_model(
@@ -255,6 +261,7 @@ class HecTokens(BaseSDK):
         *,
         id: str,
         token: str,
+        allowed_indexes_at_token: Optional[List[str]] = None,
         description: Optional[str] = None,
         enabled: Optional[bool] = None,
         metadata: Optional[
@@ -274,6 +281,7 @@ class HecTokens(BaseSDK):
 
         :param id: The <code>id</code> of the Splunk HEC Source.
         :param token: The <code>id</code> of the HEC token to update.
+        :param allowed_indexes_at_token:
         :param description:
         :param enabled:
         :param metadata:
@@ -296,6 +304,7 @@ class HecTokens(BaseSDK):
             id=id,
             token=token,
             update_hec_token_request=models.UpdateHecTokenRequest(
+                allowed_indexes_at_token=allowed_indexes_at_token,
                 description=description,
                 enabled=enabled,
                 metadata=utils.get_pydantic_model(
@@ -375,6 +384,7 @@ class HecTokens(BaseSDK):
         *,
         id: str,
         token: str,
+        allowed_indexes_at_token: Optional[List[str]] = None,
         description: Optional[str] = None,
         enabled: Optional[bool] = None,
         metadata: Optional[
@@ -394,6 +404,7 @@ class HecTokens(BaseSDK):
 
         :param id: The <code>id</code> of the Splunk HEC Source.
         :param token: The <code>id</code> of the HEC token to update.
+        :param allowed_indexes_at_token:
         :param description:
         :param enabled:
         :param metadata:
@@ -416,6 +427,7 @@ class HecTokens(BaseSDK):
             id=id,
             token=token,
             update_hec_token_request=models.UpdateHecTokenRequest(
+                allowed_indexes_at_token=allowed_indexes_at_token,
                 description=description,
                 enabled=enabled,
                 metadata=utils.get_pydantic_model(

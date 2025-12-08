@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.16.0-alpha.1764889340027-2fa875de
+  version: 4.16.0-alpha.1764975751599-7ccfda93
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -20217,6 +20217,10 @@ components:
     AddHecTokenRequest:
       type: object
       properties:
+        allowedIndexesAtToken:
+          type: array
+          items:
+            type: string
         description:
           type: string
         enabled:
@@ -20240,6 +20244,10 @@ components:
     UpdateHecTokenRequest:
       type: object
       properties:
+        allowedIndexesAtToken:
+          type: array
+          items:
+            type: string
         description:
           type: string
         enabled:
@@ -41788,6 +41796,11 @@ components:
           maximum: 86400
           title: DNS resolution period (sec)
           description: How often to resolve the destination hostname to an IP address. Ignored if all destinations are IP addresses. A value of 0 means every datagram sent will incur a DNS lookup.
+        enableIpSpoofing:
+          title: Enable Source IP spoofing
+          description: Send NetFlow traffic using the original event's Source IP and port. To enable this, you must install the external `udp-sender` helper binary at `/usr/bin/udp-sender` on all Worker Nodes and grant it the `CAP_NET_RAW` capability.
+          type: boolean
+          default: false
         description:
           type: string
           title: Description

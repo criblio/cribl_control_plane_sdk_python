@@ -118,11 +118,22 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.routes.update(id_param="<value>", routes=[], id="<id>", groups={
+    res = ccp_client.routes.update(id_param="<value>", routes=[
+        models.RoutesRoute(
+            id="default",
+            name="my-route",
+            disabled=True,
+            filter_="source == \"access.log\"",
+            pipeline="main",
+            output="<value>",
+            output_expression="<value>",
+            description="Route access logs to main pipeline",
+        ),
+    ], id="default", groups={
         "key": {
             "name": "<value>",
-            "description": "where internationalize yesterday woefully tank underneath",
-            "disabled": True,
+            "description": "ugh eyeliner authorized even burgeon chime expansion boldly midst and",
+            "disabled": False,
         },
     }, comments=[
         models.Comment(
@@ -176,7 +187,30 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.routes.append(id="<id>", request_body=[])
+    res = ccp_client.routes.append(id="<id>", request_body=[
+        {
+            "clones": [
+                {
+                    "key": "<value>",
+                },
+                {
+
+                },
+            ],
+            "context": "<value>",
+            "description": "Route new logs to main pipeline",
+            "disabled": True,
+            "enable_output_expression": True,
+            "filter_": "source == \"new.log\"",
+            "final": True,
+            "group_id": "<id>",
+            "id": "route-new",
+            "name": "new-route",
+            "output": "<value>",
+            "output_expression": "<value>",
+            "pipeline": "main",
+        },
+    ])
 
     # Handle response
     print(res)

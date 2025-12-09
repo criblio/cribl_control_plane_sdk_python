@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.16.0-alpha.1764975751599-7ccfda93
+  version: 4.16.0-alpha.1765234963760-e3e85e6f
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -577,8 +577,8 @@ components:
           type: string
           enum:
             - json
-            - ddss
             - parquet
+            - ddss
           x-speakeasy-unknown-values: allow
         httpDAUsed:
           type: boolean
@@ -615,8 +615,8 @@ components:
           type: string
           enum:
             - json
-            - ddss
             - parquet
+            - ddss
           x-speakeasy-unknown-values: allow
         httpDAUsed:
           type: boolean
@@ -47087,10 +47087,10 @@ components:
         distMode:
           type: string
           enum:
-            - edge
-            - worker
             - single
             - master
+            - worker
+            - edge
             - managed-edge
             - outpost
             - search-supervisor
@@ -47643,6 +47643,21 @@ components:
         onPrem: false
         estimatedIngestRate: 4096
         provisioned: true
+    HecTokenExamplesHecToken:
+      summary: Basic Hec Token
+      value:
+        enabled: true
+        metadata:
+          - name: fieldX
+            value: valueX
+        token: "12345678901"
+    HecTokenExamplesHecTokenWithIndexAccess:
+      summary: Hec Token with allowed indexes
+      value:
+        enabled: true
+        allowedIndexesAtToken:
+          - myIndex6
+        token: "12345678901"
     InputCreateExamplesAppscope:
       summary: AppScope
       value:
@@ -48088,6 +48103,637 @@ components:
       value:
         id: cribl-metrics-source
         type: criblmetrics
+    OutputCreateExamplesTcpjson:
+      summary: TCP JSON
+      value:
+        id: tcpjson-output
+        type: tcpjson
+        host: localhost
+        port: 10090
+    OutputCreateExamplesSplunk:
+      summary: Splunk
+      value:
+        id: splunk-output
+        type: splunk
+        host: localhost
+        port: 9997
+    OutputCreateExamplesSplunkLb:
+      summary: Splunk Load Balanced
+      value:
+        id: splunk-lb-output
+        type: splunk_lb
+        hosts:
+          - host: localhost
+            port: 9997
+    OutputCreateExamplesSplunkHec:
+      summary: Splunk HEC
+      value:
+        id: splunk-hec-output
+        type: splunk_hec
+        host: localhost
+        port: 8088
+        hecToken: your-hec-token
+    OutputCreateExamplesSyslog:
+      summary: Syslog
+      value:
+        id: syslog-output
+        type: syslog
+        host: localhost
+        port: 514
+    OutputCreateExamplesFilesystem:
+      summary: Filesystem
+      value:
+        id: filesystem-output
+        type: filesystem
+        destPath: /var/log/output
+    OutputCreateExamplesS3:
+      summary: S3
+      value:
+        id: s3-output
+        type: s3
+        bucket: my-bucket
+        region: us-east-1
+        stagePath: /tmp/staging
+    OutputCreateExamplesAzureBlob:
+      summary: Azure Blob
+      value:
+        id: azure-blob-output
+        type: azure_blob
+        containerName: my-container
+        stagePath: /tmp/staging
+    OutputCreateExamplesAzureDataExplorer:
+      summary: Azure Data Explorer
+      value:
+        id: azure-data-explorer-output
+        type: azure_data_explorer
+        clusterUrl: https://mycluster.kusto.windows.net
+        database: mydatabase
+        table: mytable
+        oauthEndpoint: https://login.microsoftonline.com
+        tenantId: tenant-id
+        clientId: client-id
+        scope: https://mycluster.kusto.windows.net/.default
+        oauthType: clientSecret
+        clientSecret: client-secret
+        ingestMode: streaming
+        format: json
+        compress: gzip
+    OutputCreateExamplesSentinel:
+      summary: Azure Sentinel
+      value:
+        id: sentinel-output
+        type: sentinel
+        endpointURLConfiguration: url
+        url: https://your-workspace.ingest.monitor.azure.com
+        loginUrl: https://login.microsoftonline.com
+        secret: client-secret
+        client_id: client-id
+    OutputCreateExamplesAzureLogs:
+      summary: Azure Logs
+      value:
+        id: azure-logs-output
+        type: azure_logs
+        workspaceId: workspace-id
+        workspaceKey: workspace-key
+        logType: Cribl
+        authType: manual
+    OutputCreateExamplesKafka:
+      summary: Kafka
+      value:
+        id: kafka-output
+        type: kafka
+        brokers:
+          - localhost:9092
+        topic: logs
+    OutputCreateExamplesConfluentCloud:
+      summary: Confluent Cloud
+      value:
+        id: confluent-cloud-output
+        type: confluent_cloud
+        brokers:
+          - pkc-xxxxx.us-east-1.aws.confluent.cloud:9092
+        topic: logs
+    OutputCreateExamplesMsk:
+      summary: MSK
+      value:
+        id: msk-output
+        type: msk
+        brokers:
+          - b-1.example.xxxxx.c2.kafka.us-east-1.amazonaws.com:9092
+        topic: logs
+        region: us-east-1
+        awsAuthenticationMethod: auto
+    OutputCreateExamplesKinesis:
+      summary: Kinesis
+      value:
+        id: kinesis-output
+        type: kinesis
+        streamName: my-stream
+        region: us-east-1
+    OutputCreateExamplesElastic:
+      summary: Elasticsearch
+      value:
+        id: elastic-output
+        type: elastic
+        host: localhost
+        port: 9200
+        index: logs
+    OutputCreateExamplesElasticCloud:
+      summary: Elastic Cloud
+      value:
+        id: elastic-cloud-output
+        type: elastic_cloud
+        url: my-cloud-id
+        index: logs
+    OutputCreateExamplesMicrosoftFabric:
+      summary: Microsoft Fabric
+      value:
+        id: microsoft-fabric-output
+        type: microsoft_fabric
+        bootstrap_server: myeventstream.servicebus.windows.net:9093
+        topic: logs
+    OutputCreateExamplesCloudflareR2:
+      summary: Cloudflare R2
+      value:
+        id: cloudflare-r2-output
+        type: cloudflare_r2
+        bucket: my-bucket
+        endpoint: https://account-id.r2.cloudflarestorage.com
+        stagePath: /tmp/staging
+    OutputCreateExamplesHoneycomb:
+      summary: Honeycomb
+      value:
+        id: honeycomb-output
+        type: honeycomb
+        apiKey: your-api-key
+        dataset: my-dataset
+    OutputCreateExamplesNewrelic:
+      summary: New Relic
+      value:
+        id: newrelic-output
+        type: newrelic
+        apiKey: your-api-key
+        baseUrl: https://insights-collector.newrelic.com
+    OutputCreateExamplesNewrelicEvents:
+      summary: New Relic Events
+      value:
+        id: newrelic-events-output
+        type: newrelic_events
+        accountId: "123456"
+        eventType: CriblEvent
+        apiKey: your-api-key
+        baseUrl: https://insights-collector.newrelic.com
+    OutputCreateExamplesSnmp:
+      summary: SNMP
+      value:
+        id: snmp-output
+        type: snmp
+        hosts:
+          - host: 192.168.1.1
+            port: 161
+    OutputCreateExamplesInfluxdb:
+      summary: InfluxDB
+      value:
+        id: influxdb-output
+        type: influxdb
+        url: http://localhost:8086
+        database: mydb
+    OutputCreateExamplesMinio:
+      summary: MinIO
+      value:
+        id: minio-output
+        type: minio
+        bucket: my-bucket
+        stagePath: /tmp/staging
+        endpoint: http://localhost:9000
+    OutputCreateExamplesCloudwatch:
+      summary: CloudWatch
+      value:
+        id: cloudwatch-output
+        type: cloudwatch
+        logGroupName: my-log-group
+        logStreamName: my-log-stream
+        region: us-east-1
+    OutputCreateExamplesAzureEventhub:
+      summary: Azure Event Hub
+      value:
+        id: azure-eventhub-output
+        type: azure_eventhub
+        brokers:
+          - myeventhub.servicebus.windows.net:9093
+        topic: logs
+    OutputCreateExamplesStatsd:
+      summary: StatsD
+      value:
+        id: statsd-output
+        type: statsd
+        protocol: udp
+        host: localhost
+        port: 8125
+    OutputCreateExamplesStatsdExt:
+      summary: StatsD Extended
+      value:
+        id: statsd-ext-output
+        type: statsd_ext
+        protocol: udp
+        host: localhost
+        port: 8125
+    OutputCreateExamplesGraphite:
+      summary: Graphite
+      value:
+        id: graphite-output
+        type: graphite
+        protocol: tcp
+        host: localhost
+        port: 2003
+    OutputCreateExamplesWavefront:
+      summary: Wavefront
+      value:
+        id: wavefront-output
+        type: wavefront
+        domain: longboard
+        endpoint: https://your-instance.wavefront.com
+        token: your-token
+    OutputCreateExamplesSignalfx:
+      summary: SignalFx
+      value:
+        id: signalfx-output
+        type: signalfx
+        realm: us0
+        endpoint: https://ingest.signalfx.com
+        token: your-token
+    OutputCreateExamplesSqs:
+      summary: SQS
+      value:
+        id: sqs-output
+        type: sqs
+        queueName: my-queue
+        queueType: standard
+        region: us-east-1
+    OutputCreateExamplesGoogleCloudStorage:
+      summary: Google Cloud Storage
+      value:
+        id: google-cloud-storage-output
+        type: google_cloud_storage
+        bucket: my-bucket
+        endpoint: https://storage.googleapis.com
+        region: us-east1
+        stagePath: /tmp/staging
+        projectId: my-project
+    OutputCreateExamplesSumoLogic:
+      summary: Sumo Logic
+      value:
+        id: sumo-logic-output
+        type: sumo_logic
+        url: https://endpoint1.collection.us2.sumologic.com
+        sourceCategory: logs
+    OutputCreateExamplesDatadog:
+      summary: Datadog
+      value:
+        id: datadog-output
+        type: datadog
+        endpoint: https://http-intake.logs.datadoghq.com
+        apiKey: your-api-key
+    OutputCreateExamplesWebhook:
+      summary: Webhook
+      value:
+        id: webhook-output
+        type: webhook
+        url: https://example.com/webhook
+    OutputCreateExamplesPrometheus:
+      summary: Prometheus
+      value:
+        id: prometheus-output
+        type: prometheus
+        url: http://localhost:9091/api/v1/write
+    OutputCreateExamplesGooglePubsub:
+      summary: Google Pub/Sub
+      value:
+        id: google-pubsub-output
+        type: google_pubsub
+        projectId: my-project
+        topicName: my-topic
+    OutputCreateExamplesGoogleChronicle:
+      summary: Google Chronicle
+      value:
+        id: google-chronicle-output
+        type: google_chronicle
+        logFormatType: unstructured
+        region: us
+        customerId: customer-id
+    OutputCreateExamplesChronicle:
+      summary: Chronicle
+      value:
+        id: chronicle-output
+        type: chronicle
+        gcpProjectId: my-project
+        gcpInstance: customer-id
+        region: us
+        logType: UNKNOWN
+    OutputCreateExamplesGrafanaCloud:
+      summary: Grafana Cloud
+      value:
+        id: grafana-cloud-output
+        type: grafana_cloud
+        lokiUrl: https://logs-prod-us-central1.grafana.net
+    OutputCreateExamplesLoki:
+      summary: Loki
+      value:
+        id: loki-output
+        type: loki
+        url: http://localhost:3100/loki/api/v1/push
+    OutputCreateExamplesOpenTelemetry:
+      summary: OpenTelemetry
+      value:
+        id: opentelemetry-output
+        type: open_telemetry
+        endpoint: http://localhost:4317
+    OutputCreateExamplesServiceNow:
+      summary: ServiceNow
+      value:
+        id: servicenow-output
+        type: service_now
+        endpoint: ingest.lightstep.com:443
+        protocol: http
+        otlpVersion: 1.3.1
+        tokenSecret: your-token-secret
+    OutputCreateExamplesDynatraceOtlp:
+      summary: Dynatrace OTLP
+      value:
+        id: dynatrace-otlp-output
+        type: dynatrace_otlp
+        endpoint: https://your-environment.live.dynatrace.com/api/v2/otlp
+        endpointType: saas
+        protocol: http
+        otlpVersion: 1.3.1
+        tokenSecret: your-token-secret
+    OutputCreateExamplesSentinelOneAiSiem:
+      summary: SentinelOne AI SIEM
+      value:
+        id: sentinel-one-ai-siem-output
+        type: sentinel_one_ai_siem
+        region: US
+        endpoint: /services/collector/event
+    OutputCreateExamplesDataset:
+      summary: Dataset
+      value:
+        id: dataset-output
+        type: dataset
+        dataset: my-dataset
+    OutputCreateExamplesRing:
+      summary: Ring Buffer
+      value:
+        id: ring-output
+        type: ring
+    OutputCreateExamplesRouter:
+      summary: Output Router
+      value:
+        id: router-output
+        type: router
+        rules:
+          - filter: "true"
+            output: my-output
+    OutputCreateExamplesHumioHec:
+      summary: Humio HEC
+      value:
+        id: humio-hec-output
+        type: humio_hec
+        url: https://cloud.us.humio.com/api/v1/ingest/hec
+        format: JSON
+        authType: manual
+        token: your-token
+    OutputCreateExamplesCrowdstrikeNextGenSiem:
+      summary: CrowdStrike Next Gen SIEM
+      value:
+        id: crowdstrike-next-gen-siem-output
+        type: crowdstrike_next_gen_siem
+        url: https://ingest.us.crowdstrike.com/api/ingest/hec/connection-id/v1/services/collector
+        format: JSON
+        authType: manual
+        token: your-token
+    OutputCreateExamplesCriblHttp:
+      summary: Cribl HTTP
+      value:
+        id: cribl-http-output
+        type: cribl_http
+        host: localhost
+        port: 10080
+    OutputCreateExamplesCriblTcp:
+      summary: Cribl TCP
+      value:
+        id: cribl-tcp-output
+        type: cribl_tcp
+        host: localhost
+        port: 10090
+    OutputCreateExamplesGoogleCloudLogging:
+      summary: Google Cloud Logging
+      value:
+        id: google-cloud-logging-output
+        type: google_cloud_logging
+        logLocationType: project
+        logLocationExpression: my-project
+        logNameExpression: my-log
+        projectId: my-project
+    OutputCreateExamplesSns:
+      summary: SNS
+      value:
+        id: sns-output
+        type: sns
+        topicArn: arn:aws:sns:us-east-1:123456789012:my-topic
+        messageGroupId: my-message-group
+        region: us-east-1
+    OutputCreateExamplesDlS3:
+      summary: Data Lake S3
+      value:
+        id: dl-s3-output
+        type: dl_s3
+        bucket: my-bucket
+        stagePath: /tmp/staging
+        region: us-east-1
+    OutputCreateExamplesSecurityLake:
+      summary: Security Lake
+      value:
+        id: security-lake-output
+        type: security_lake
+        bucket: my-bucket
+        stagePath: /tmp/staging
+        region: us-east-1
+        accountId: "123456789012"
+        customSource: my-custom-source
+        assumeRoleArn: arn:aws:iam::123456789012:role/my-role
+    OutputCreateExamplesCriblLake:
+      summary: Cribl Lake
+      value:
+        id: cribl-lake-output
+        type: cribl_lake
+        dataset: my-dataset
+    OutputCreateExamplesExabeam:
+      summary: Exabeam
+      value:
+        id: exabeam-output
+        type: exabeam
+        bucket: my-bucket
+        region: us-east1
+        endpoint: https://storage.googleapis.com
+        stagePath: /tmp/staging
+        collectorInstanceId: 11112222-3333-4444-5555-666677778888
+    OutputCreateExamplesDiskSpool:
+      summary: Disk Spool
+      value:
+        id: disk-spool-output
+        type: disk_spool
+        path: /var/spool/cribl
+    OutputCreateExamplesClickHouse:
+      summary: ClickHouse
+      value:
+        id: clickhouse-output
+        type: click_house
+        url: http://localhost:8123/
+        database: mydb
+        tableName: mytable
+    OutputCreateExamplesXsiam:
+      summary: XSIAM
+      value:
+        id: xsiam-output
+        type: xsiam
+        endpoint: https://api.paloaltonetworks.com
+        apiKey: your-api-key
+    OutputCreateExamplesNetflow:
+      summary: Netflow
+      value:
+        id: netflow-output
+        type: netflow
+        hosts:
+          - host: localhost
+            port: 2055
+    OutputCreateExamplesDynatraceHttp:
+      summary: Dynatrace HTTP
+      value:
+        id: dynatrace-http-output
+        type: dynatrace_http
+        format: json_array
+        endpoint: cloud
+        telemetryType: logs
+        authType: token
+        token: your-api-key
+    OutputCreateExamplesDatabricks:
+      summary: Databricks
+      value:
+        id: databricks-output
+        type: databricks
+        workspaceId: your-workspace-id
+        scope: my-scope
+        clientId: your-client-id
+        clientTextSecret: your-client-secret
+        catalog: my-catalog
+        schema: my-schema
+        eventsVolumeName: my-volume
+    OutputExamplesDefault:
+      summary: Default
+      value:
+        id: default-output
+        type: default
+        defaultId: my-default-output
+    RoutesUpdateExamplesBasicRoute:
+      summary: Update Routes with a basic Route configuration
+      description: "Update the default Routes table (id: default) with a simple Route that filters access.log events and sends them to the main pipeline"
+      value:
+        id: default
+        routes:
+          - id: default
+            name: my-route
+            pipeline: main
+            filter: source == "access.log"
+            description: Route access logs to main pipeline
+            final: true
+    RoutesUpdateExamplesMultipleRoutes:
+      summary: Update Routes with multiple Routes and a catch-all
+      description: "Update the default Routes table (id: default) with multiple specific Routes evaluated in order, followed by a default catch-all Route"
+      value:
+        id: default
+        routes:
+          - id: route-speedtest
+            name: speedtest
+            pipeline: main
+            output: default
+            filter: source == "speedtest.log"
+            description: Route speedtest logs
+            final: false
+          - id: route-mtr
+            name: mtr
+            pipeline: passthru
+            output: default
+            filter: source == "mtr.log"
+            description: Route mtr logs
+            final: false
+          - id: route-statsd
+            name: statsd
+            pipeline: prometheus_metrics
+            output: devnull
+            filter: source == "statsd.log"
+            description: Route statsd metrics
+            final: false
+          - id: route-default
+            name: default
+            pipeline: main
+            output: default
+            filter: "true"
+            description: Catch-all Route for all other events
+            final: true
+    RoutesUpdateExamplesRouteWithOutputExpression:
+      summary: Update Routes with dynamic Destination expression
+      description: "Update the default Routes table (id: default) with a Route that uses a JavaScript expression to dynamically determine the Destination"
+      value:
+        id: default
+        routes:
+          - id: route-dynamic
+            name: dynamic-output
+            pipeline: main
+            enableOutputExpression: true
+            outputExpression: "`myDest_${C.logStreamEnv}`"
+            filter: source == "dynamic.log"
+            description: Route with dynamic Destination based on environment
+            final: true
+    RoutesAppendExamplesSingleRoute:
+      summary: Append a single Route to the Routing table
+      description: "Add a single Route to the end of the default Routes table (id: default)"
+      value:
+        - id: route-new
+          name: new-route
+          pipeline: main
+          filter: source == "new.log"
+          description: Route new logs to main pipeline
+          final: true
+    RoutesAppendExamplesMultipleRoutes:
+      summary: Append multiple Routes to the Routing table
+      description: "Add multiple Routes to the end of the default Routes table (id: default)"
+      value:
+        - id: route-audit
+          name: audit
+          pipeline: main
+          output: default
+          filter: source == "audit.log"
+          description: Route audit logs
+          final: false
+        - id: route-security
+          name: security
+          pipeline: passthru
+          output: devnull
+          filter: source == "security.log"
+          description: Route security logs
+          final: false
+    RoutesAppendExamplesRouteWithOutputExpression:
+      summary: Append a Route with dynamic Destination expression
+      description: "Add a Route to the end of the default Routes table (id: default) that uses a JavaScript expression to dynamically determine the Destination"
+      value:
+        - id: route-dynamic-append
+          name: dynamic-append
+          pipeline: main
+          enableOutputExpression: true
+          outputExpression: "`myDest_${C.logStreamEnv}`"
+          filter: source == "dynamic.log"
+          description: Route with dynamic Destination based on environment
+          final: true
     PackInstallExamplesPackDispensary:
       summary: Install from the Pack Dispensary
       value:
@@ -48802,6 +49448,11 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/AddHecTokenRequest"
+            examples:
+              HecTokenExamplesHecToken:
+                $ref: "#/components/examples/HecTokenExamplesHecToken"
+              HecTokenExamplesHecTokenWithIndexAccess:
+                $ref: "#/components/examples/HecTokenExamplesHecTokenWithIndexAccess"
       parameters:
         - name: id
           in: path
@@ -48840,6 +49491,11 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/UpdateHecTokenRequest"
+            examples:
+              HecTokenExamplesHecToken:
+                $ref: "#/components/examples/HecTokenExamplesHecToken"
+              HecTokenExamplesHecTokenWithIndexAccess:
+                $ref: "#/components/examples/HecTokenExamplesHecTokenWithIndexAccess"
       parameters:
         - name: id
           in: path
@@ -48897,6 +49553,139 @@ paths:
                   required:
                     - id
               $ref: "#/components/schemas/Output"
+            examples:
+              OutputCreateExamplesTcpjson:
+                $ref: "#/components/examples/OutputCreateExamplesTcpjson"
+              OutputCreateExamplesSplunk:
+                $ref: "#/components/examples/OutputCreateExamplesSplunk"
+              OutputCreateExamplesSplunkLb:
+                $ref: "#/components/examples/OutputCreateExamplesSplunkLb"
+              OutputCreateExamplesSplunkHec:
+                $ref: "#/components/examples/OutputCreateExamplesSplunkHec"
+              OutputCreateExamplesSyslog:
+                $ref: "#/components/examples/OutputCreateExamplesSyslog"
+              OutputCreateExamplesFilesystem:
+                $ref: "#/components/examples/OutputCreateExamplesFilesystem"
+              OutputCreateExamplesS3:
+                $ref: "#/components/examples/OutputCreateExamplesS3"
+              OutputCreateExamplesAzureBlob:
+                $ref: "#/components/examples/OutputCreateExamplesAzureBlob"
+              OutputCreateExamplesAzureDataExplorer:
+                $ref: "#/components/examples/OutputCreateExamplesAzureDataExplorer"
+              OutputCreateExamplesSentinel:
+                $ref: "#/components/examples/OutputCreateExamplesSentinel"
+              OutputCreateExamplesAzureLogs:
+                $ref: "#/components/examples/OutputCreateExamplesAzureLogs"
+              OutputCreateExamplesKafka:
+                $ref: "#/components/examples/OutputCreateExamplesKafka"
+              OutputCreateExamplesConfluentCloud:
+                $ref: "#/components/examples/OutputCreateExamplesConfluentCloud"
+              OutputCreateExamplesMsk:
+                $ref: "#/components/examples/OutputCreateExamplesMsk"
+              OutputCreateExamplesKinesis:
+                $ref: "#/components/examples/OutputCreateExamplesKinesis"
+              OutputCreateExamplesElastic:
+                $ref: "#/components/examples/OutputCreateExamplesElastic"
+              OutputCreateExamplesElasticCloud:
+                $ref: "#/components/examples/OutputCreateExamplesElasticCloud"
+              OutputCreateExamplesMicrosoftFabric:
+                $ref: "#/components/examples/OutputCreateExamplesMicrosoftFabric"
+              OutputCreateExamplesCloudflareR2:
+                $ref: "#/components/examples/OutputCreateExamplesCloudflareR2"
+              OutputCreateExamplesHoneycomb:
+                $ref: "#/components/examples/OutputCreateExamplesHoneycomb"
+              OutputCreateExamplesNewrelic:
+                $ref: "#/components/examples/OutputCreateExamplesNewrelic"
+              OutputCreateExamplesNewrelicEvents:
+                $ref: "#/components/examples/OutputCreateExamplesNewrelicEvents"
+              OutputCreateExamplesSnmp:
+                $ref: "#/components/examples/OutputCreateExamplesSnmp"
+              OutputCreateExamplesInfluxdb:
+                $ref: "#/components/examples/OutputCreateExamplesInfluxdb"
+              OutputCreateExamplesMinio:
+                $ref: "#/components/examples/OutputCreateExamplesMinio"
+              OutputCreateExamplesCloudwatch:
+                $ref: "#/components/examples/OutputCreateExamplesCloudwatch"
+              OutputCreateExamplesAzureEventhub:
+                $ref: "#/components/examples/OutputCreateExamplesAzureEventhub"
+              OutputCreateExamplesStatsd:
+                $ref: "#/components/examples/OutputCreateExamplesStatsd"
+              OutputCreateExamplesStatsdExt:
+                $ref: "#/components/examples/OutputCreateExamplesStatsdExt"
+              OutputCreateExamplesGraphite:
+                $ref: "#/components/examples/OutputCreateExamplesGraphite"
+              OutputCreateExamplesWavefront:
+                $ref: "#/components/examples/OutputCreateExamplesWavefront"
+              OutputCreateExamplesSignalfx:
+                $ref: "#/components/examples/OutputCreateExamplesSignalfx"
+              OutputCreateExamplesSqs:
+                $ref: "#/components/examples/OutputCreateExamplesSqs"
+              OutputCreateExamplesGoogleCloudStorage:
+                $ref: "#/components/examples/OutputCreateExamplesGoogleCloudStorage"
+              OutputCreateExamplesSumoLogic:
+                $ref: "#/components/examples/OutputCreateExamplesSumoLogic"
+              OutputCreateExamplesDatadog:
+                $ref: "#/components/examples/OutputCreateExamplesDatadog"
+              OutputCreateExamplesWebhook:
+                $ref: "#/components/examples/OutputCreateExamplesWebhook"
+              OutputCreateExamplesPrometheus:
+                $ref: "#/components/examples/OutputCreateExamplesPrometheus"
+              OutputCreateExamplesGooglePubsub:
+                $ref: "#/components/examples/OutputCreateExamplesGooglePubsub"
+              OutputCreateExamplesGoogleChronicle:
+                $ref: "#/components/examples/OutputCreateExamplesGoogleChronicle"
+              OutputCreateExamplesChronicle:
+                $ref: "#/components/examples/OutputCreateExamplesChronicle"
+              OutputCreateExamplesGrafanaCloud:
+                $ref: "#/components/examples/OutputCreateExamplesGrafanaCloud"
+              OutputCreateExamplesLoki:
+                $ref: "#/components/examples/OutputCreateExamplesLoki"
+              OutputCreateExamplesOpenTelemetry:
+                $ref: "#/components/examples/OutputCreateExamplesOpenTelemetry"
+              OutputCreateExamplesServiceNow:
+                $ref: "#/components/examples/OutputCreateExamplesServiceNow"
+              OutputCreateExamplesDynatraceOtlp:
+                $ref: "#/components/examples/OutputCreateExamplesDynatraceOtlp"
+              OutputCreateExamplesSentinelOneAiSiem:
+                $ref: "#/components/examples/OutputCreateExamplesSentinelOneAiSiem"
+              OutputCreateExamplesDataset:
+                $ref: "#/components/examples/OutputCreateExamplesDataset"
+              OutputCreateExamplesRing:
+                $ref: "#/components/examples/OutputCreateExamplesRing"
+              OutputCreateExamplesRouter:
+                $ref: "#/components/examples/OutputCreateExamplesRouter"
+              OutputCreateExamplesHumioHec:
+                $ref: "#/components/examples/OutputCreateExamplesHumioHec"
+              OutputCreateExamplesCrowdstrikeNextGenSiem:
+                $ref: "#/components/examples/OutputCreateExamplesCrowdstrikeNextGenSiem"
+              OutputCreateExamplesCriblHttp:
+                $ref: "#/components/examples/OutputCreateExamplesCriblHttp"
+              OutputCreateExamplesCriblTcp:
+                $ref: "#/components/examples/OutputCreateExamplesCriblTcp"
+              OutputCreateExamplesGoogleCloudLogging:
+                $ref: "#/components/examples/OutputCreateExamplesGoogleCloudLogging"
+              OutputCreateExamplesSns:
+                $ref: "#/components/examples/OutputCreateExamplesSns"
+              OutputCreateExamplesDlS3:
+                $ref: "#/components/examples/OutputCreateExamplesDlS3"
+              OutputCreateExamplesSecurityLake:
+                $ref: "#/components/examples/OutputCreateExamplesSecurityLake"
+              OutputCreateExamplesCriblLake:
+                $ref: "#/components/examples/OutputCreateExamplesCriblLake"
+              OutputCreateExamplesExabeam:
+                $ref: "#/components/examples/OutputCreateExamplesExabeam"
+              OutputCreateExamplesDiskSpool:
+                $ref: "#/components/examples/OutputCreateExamplesDiskSpool"
+              OutputCreateExamplesClickHouse:
+                $ref: "#/components/examples/OutputCreateExamplesClickHouse"
+              OutputCreateExamplesXsiam:
+                $ref: "#/components/examples/OutputCreateExamplesXsiam"
+              OutputCreateExamplesNetflow:
+                $ref: "#/components/examples/OutputCreateExamplesNetflow"
+              OutputCreateExamplesDynatraceHttp:
+                $ref: "#/components/examples/OutputCreateExamplesDynatraceHttp"
+              OutputCreateExamplesDatabricks:
+                $ref: "#/components/examples/OutputCreateExamplesDatabricks"
       responses:
         "200":
           description: a list of Destination objects
@@ -48965,6 +49754,141 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/Output"
+            examples:
+              OutputExamplesDefault:
+                $ref: "#/components/examples/OutputExamplesDefault"
+              OutputCreateExamplesTcpjson:
+                $ref: "#/components/examples/OutputCreateExamplesTcpjson"
+              OutputCreateExamplesSplunk:
+                $ref: "#/components/examples/OutputCreateExamplesSplunk"
+              OutputCreateExamplesSplunkLb:
+                $ref: "#/components/examples/OutputCreateExamplesSplunkLb"
+              OutputCreateExamplesSplunkHec:
+                $ref: "#/components/examples/OutputCreateExamplesSplunkHec"
+              OutputCreateExamplesSyslog:
+                $ref: "#/components/examples/OutputCreateExamplesSyslog"
+              OutputCreateExamplesFilesystem:
+                $ref: "#/components/examples/OutputCreateExamplesFilesystem"
+              OutputCreateExamplesS3:
+                $ref: "#/components/examples/OutputCreateExamplesS3"
+              OutputCreateExamplesAzureBlob:
+                $ref: "#/components/examples/OutputCreateExamplesAzureBlob"
+              OutputCreateExamplesAzureDataExplorer:
+                $ref: "#/components/examples/OutputCreateExamplesAzureDataExplorer"
+              OutputCreateExamplesSentinel:
+                $ref: "#/components/examples/OutputCreateExamplesSentinel"
+              OutputCreateExamplesAzureLogs:
+                $ref: "#/components/examples/OutputCreateExamplesAzureLogs"
+              OutputCreateExamplesKafka:
+                $ref: "#/components/examples/OutputCreateExamplesKafka"
+              OutputCreateExamplesConfluentCloud:
+                $ref: "#/components/examples/OutputCreateExamplesConfluentCloud"
+              OutputCreateExamplesMsk:
+                $ref: "#/components/examples/OutputCreateExamplesMsk"
+              OutputCreateExamplesKinesis:
+                $ref: "#/components/examples/OutputCreateExamplesKinesis"
+              OutputCreateExamplesElastic:
+                $ref: "#/components/examples/OutputCreateExamplesElastic"
+              OutputCreateExamplesElasticCloud:
+                $ref: "#/components/examples/OutputCreateExamplesElasticCloud"
+              OutputCreateExamplesMicrosoftFabric:
+                $ref: "#/components/examples/OutputCreateExamplesMicrosoftFabric"
+              OutputCreateExamplesCloudflareR2:
+                $ref: "#/components/examples/OutputCreateExamplesCloudflareR2"
+              OutputCreateExamplesHoneycomb:
+                $ref: "#/components/examples/OutputCreateExamplesHoneycomb"
+              OutputCreateExamplesNewrelic:
+                $ref: "#/components/examples/OutputCreateExamplesNewrelic"
+              OutputCreateExamplesNewrelicEvents:
+                $ref: "#/components/examples/OutputCreateExamplesNewrelicEvents"
+              OutputCreateExamplesSnmp:
+                $ref: "#/components/examples/OutputCreateExamplesSnmp"
+              OutputCreateExamplesInfluxdb:
+                $ref: "#/components/examples/OutputCreateExamplesInfluxdb"
+              OutputCreateExamplesMinio:
+                $ref: "#/components/examples/OutputCreateExamplesMinio"
+              OutputCreateExamplesCloudwatch:
+                $ref: "#/components/examples/OutputCreateExamplesCloudwatch"
+              OutputCreateExamplesAzureEventhub:
+                $ref: "#/components/examples/OutputCreateExamplesAzureEventhub"
+              OutputCreateExamplesStatsd:
+                $ref: "#/components/examples/OutputCreateExamplesStatsd"
+              OutputCreateExamplesStatsdExt:
+                $ref: "#/components/examples/OutputCreateExamplesStatsdExt"
+              OutputCreateExamplesGraphite:
+                $ref: "#/components/examples/OutputCreateExamplesGraphite"
+              OutputCreateExamplesWavefront:
+                $ref: "#/components/examples/OutputCreateExamplesWavefront"
+              OutputCreateExamplesSignalfx:
+                $ref: "#/components/examples/OutputCreateExamplesSignalfx"
+              OutputCreateExamplesSqs:
+                $ref: "#/components/examples/OutputCreateExamplesSqs"
+              OutputCreateExamplesGoogleCloudStorage:
+                $ref: "#/components/examples/OutputCreateExamplesGoogleCloudStorage"
+              OutputCreateExamplesSumoLogic:
+                $ref: "#/components/examples/OutputCreateExamplesSumoLogic"
+              OutputCreateExamplesDatadog:
+                $ref: "#/components/examples/OutputCreateExamplesDatadog"
+              OutputCreateExamplesWebhook:
+                $ref: "#/components/examples/OutputCreateExamplesWebhook"
+              OutputCreateExamplesPrometheus:
+                $ref: "#/components/examples/OutputCreateExamplesPrometheus"
+              OutputCreateExamplesGooglePubsub:
+                $ref: "#/components/examples/OutputCreateExamplesGooglePubsub"
+              OutputCreateExamplesGoogleChronicle:
+                $ref: "#/components/examples/OutputCreateExamplesGoogleChronicle"
+              OutputCreateExamplesChronicle:
+                $ref: "#/components/examples/OutputCreateExamplesChronicle"
+              OutputCreateExamplesGrafanaCloud:
+                $ref: "#/components/examples/OutputCreateExamplesGrafanaCloud"
+              OutputCreateExamplesLoki:
+                $ref: "#/components/examples/OutputCreateExamplesLoki"
+              OutputCreateExamplesOpenTelemetry:
+                $ref: "#/components/examples/OutputCreateExamplesOpenTelemetry"
+              OutputCreateExamplesServiceNow:
+                $ref: "#/components/examples/OutputCreateExamplesServiceNow"
+              OutputCreateExamplesDynatraceOtlp:
+                $ref: "#/components/examples/OutputCreateExamplesDynatraceOtlp"
+              OutputCreateExamplesSentinelOneAiSiem:
+                $ref: "#/components/examples/OutputCreateExamplesSentinelOneAiSiem"
+              OutputCreateExamplesDataset:
+                $ref: "#/components/examples/OutputCreateExamplesDataset"
+              OutputCreateExamplesRing:
+                $ref: "#/components/examples/OutputCreateExamplesRing"
+              OutputCreateExamplesRouter:
+                $ref: "#/components/examples/OutputCreateExamplesRouter"
+              OutputCreateExamplesHumioHec:
+                $ref: "#/components/examples/OutputCreateExamplesHumioHec"
+              OutputCreateExamplesCrowdstrikeNextGenSiem:
+                $ref: "#/components/examples/OutputCreateExamplesCrowdstrikeNextGenSiem"
+              OutputCreateExamplesCriblHttp:
+                $ref: "#/components/examples/OutputCreateExamplesCriblHttp"
+              OutputCreateExamplesCriblTcp:
+                $ref: "#/components/examples/OutputCreateExamplesCriblTcp"
+              OutputCreateExamplesGoogleCloudLogging:
+                $ref: "#/components/examples/OutputCreateExamplesGoogleCloudLogging"
+              OutputCreateExamplesSns:
+                $ref: "#/components/examples/OutputCreateExamplesSns"
+              OutputCreateExamplesDlS3:
+                $ref: "#/components/examples/OutputCreateExamplesDlS3"
+              OutputCreateExamplesSecurityLake:
+                $ref: "#/components/examples/OutputCreateExamplesSecurityLake"
+              OutputCreateExamplesCriblLake:
+                $ref: "#/components/examples/OutputCreateExamplesCriblLake"
+              OutputCreateExamplesExabeam:
+                $ref: "#/components/examples/OutputCreateExamplesExabeam"
+              OutputCreateExamplesDiskSpool:
+                $ref: "#/components/examples/OutputCreateExamplesDiskSpool"
+              OutputCreateExamplesClickHouse:
+                $ref: "#/components/examples/OutputCreateExamplesClickHouse"
+              OutputCreateExamplesXsiam:
+                $ref: "#/components/examples/OutputCreateExamplesXsiam"
+              OutputCreateExamplesNetflow:
+                $ref: "#/components/examples/OutputCreateExamplesNetflow"
+              OutputCreateExamplesDynatraceHttp:
+                $ref: "#/components/examples/OutputCreateExamplesDynatraceHttp"
+              OutputCreateExamplesDatabricks:
+                $ref: "#/components/examples/OutputCreateExamplesDatabricks"
       responses:
         "200":
           description: a list of Destination objects
@@ -49369,6 +50293,13 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/Routes"
+            examples:
+              RoutesUpdateExamplesBasicRoute:
+                $ref: "#/components/examples/RoutesUpdateExamplesBasicRoute"
+              RoutesUpdateExamplesMultipleRoutes:
+                $ref: "#/components/examples/RoutesUpdateExamplesMultipleRoutes"
+              RoutesUpdateExamplesRouteWithOutputExpression:
+                $ref: "#/components/examples/RoutesUpdateExamplesRouteWithOutputExpression"
       responses:
         "200":
           description: a list of Routes objects
@@ -49415,6 +50346,13 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/RouteDefinitions"
+            examples:
+              RoutesAppendExamplesSingleRoute:
+                $ref: "#/components/examples/RoutesAppendExamplesSingleRoute"
+              RoutesAppendExamplesMultipleRoutes:
+                $ref: "#/components/examples/RoutesAppendExamplesMultipleRoutes"
+              RoutesAppendExamplesRouteWithOutputExpression:
+                $ref: "#/components/examples/RoutesAppendExamplesRouteWithOutputExpression"
       parameters:
         - name: id
           in: path

@@ -27,12 +27,12 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.sources.hec_tokens.create(id="<id>", token="<value>", allowed_indexes_at_token=[
+    res = ccp_client.sources.hec_tokens.create(id="<id>", token="12345678901", allowed_indexes_at_token=[
         "<value 1>",
-    ], description="bah ick stingy", enabled=False, metadata=[
+    ], description="toward precedent merry vaguely across ha fooey ingratiate jealously outlying", enabled=True, metadata=[
         {
-            "name": "<value>",
-            "value": "<value>",
+            "name": "fieldX",
+            "value": "valueX",
         },
     ])
 
@@ -85,10 +85,10 @@ with CriblControlPlane(
 
     res = ccp_client.sources.hec_tokens.update(id="<id>", token="<value>", allowed_indexes_at_token=[
         "<value 1>",
-    ], description="by bleakly fortunately phew barring", enabled=False, metadata=[
+    ], description="once lively fooey who though while dampen please denitrify pish", enabled=True, metadata=[
         {
-            "name": "<value>",
-            "value": "<value>",
+            "name": "fieldX",
+            "value": "valueX",
         },
     ])
 

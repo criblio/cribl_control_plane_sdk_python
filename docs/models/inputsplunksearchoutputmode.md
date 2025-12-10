@@ -1,4 +1,4 @@
-# OutputMode
+# InputSplunkSearchOutputMode
 
 Format of the returned output
 

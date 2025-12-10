@@ -1,5 +1,4 @@
-# GroupsSDK
-(*groups*)
+# Groups
 
 ## Overview
 

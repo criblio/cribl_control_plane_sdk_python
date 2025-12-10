@@ -1,5 +1,4 @@
 # Sources
-(*sources*)
 
 ## Overview
 

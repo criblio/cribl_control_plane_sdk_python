@@ -1,5 +1,4 @@
 # Health
-(*health*)
 
 ## Overview
 

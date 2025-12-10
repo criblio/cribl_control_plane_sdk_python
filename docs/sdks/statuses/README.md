@@ -1,5 +1,4 @@
-# Statuses
-(*versions.statuses*)
+# Versions.Statuses
 
 ## Overview
 

@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.16.0-alpha.1765234963760-e3e85e6f
+  version: 4.16.0-alpha.1765321374704-65bfc569
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -97,6 +97,1004 @@ components:
             delete: "#/components/schemas/DiffLineDelete"
             insert: "#/components/schemas/DiffLineInsert"
             context: "#/components/schemas/DiffLineContext"
+    CollectorAzureBlob:
+      type: object
+      title: ""
+      required:
+        - containerName
+        - type
+      properties:
+        type:
+          type: string
+          enum:
+            - azure_blob
+          description: "Collector type: azure_blob"
+        outputName:
+          type: string
+          title: Auto-populate from
+          description: An optional predefined Destination that will be used to auto-populate Collector settings
+        authType:
+          title: Authentication method
+          type: string
+          enum:
+            - manual
+            - secret
+            - clientSecret
+            - clientCert
+          default: manual
+          description: Enter authentication data directly, or select a secret referencing your auth data
+          x-speakeasy-unknown-values: allow
+        containerName:
+          type: string
+          title: Container name
+          minLength: 1
+          description: Container to collect from. This value can be a constant, or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: myBucket-${C.vars.myVar}
+        path:
+          type: string
+          title: Path
+          description: The directory from which to collect data. Templating is supported, such as myDir/${datacenter}/${host}/${app}/. Time-based tokens are supported, such as myOtherDir/${_time:%Y}/${_time:%m}/${_time:%d}/.
+          minLength: 1
+        extractors:
+          type: array
+          title: Path extractors
+          additionalProperties: false
+          items:
+            type: object
+            required:
+              - key
+              - expression
+            properties:
+              key:
+                type: string
+                title: Token
+                description: A token from the template path, such as epoch
+              expression:
+                type: string
+                title: Extractor Expression
+                description: "A JavaScript expression that accesses a corresponding <token> through the value variable and evaluates the token to populate event fields. Example: {date: new Date(+value*1000)}"
+          description: 'Extractors allow use of template tokens as context for expressions that enrich discovery results. For example, given a template /path/${epoch}, an extractor under key "epoch" with an expression {date: new Date(+value*1000)} will enrich discovery results with a human-readable "date" field.'
+        recurse:
+          type: boolean
+          title: Recursive
+          description: Recurse through subdirectories
+          default: true
+        includeMetadata:
+          type: boolean
+          title: Include metadata
+          description: "Include Azure Blob metadata in collected events. In each event, metadata will be located at: __collectible.metadata."
+          default: true
+        includeTags:
+          type: boolean
+          title: Include tags
+          description: "Include Azure Blob tags in collected events. In each event, tags will be located at: __collectible.tags. Disable this feature when using a Shared Access Signature Connection String, to prevent errors."
+          default: true
+        maxBatchSize:
+          type: number
+          title: Batch size limit
+          description: Maximum number of metadata objects to batch before recording as results
+          minimum: 1
+          default: 10
+        parquetChunkSizeMB:
+          type: number
+          title: Parquet chunk size limit
+          description: Maximum file size for each Parquet chunk
+          default: 5
+          maximum: 100
+          minimum: 1
+        parquetChunkDownloadTimeout:
+          type: number
+          title: Parquet chunk download timeout (seconds)
+          description: The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified.
+          default: 600
+          maximum: 3600
+          minimum: 1
+    CollectorCriblLake:
+      type: object
+      title: ""
+      required:
+        - dataset
+        - type
+      properties:
+        type:
+          type: string
+          enum:
+            - cribl_lake
+          description: "Collector type: cribl_lake"
+        dataset:
+          type: string
+          title: Lake dataset
+          description: Lake dataset to collect data from.
+    CollectorDatabase:
+      type: object
+      title: ""
+      required:
+        - connectionId
+        - query
+        - type
+      properties:
+        type:
+          type: string
+          enum:
+            - database
+          description: "Collector type: database"
+        connectionId:
+          type: string
+          title: Connection
+          description: Select an existing Connection, or go to Knowledge > Database Connections to add one
+        query:
+          type: string
+          title: SQL Query
+          description: An expression that resolves to the query string for selecting data from the database. Has access to the special ${earliest} and ${latest} variables, which will resolve to the Collector run's start and end time.
+          minLength: 1
+        queryValidationEnabled:
+          type: boolean
+          title: Validate Query
+          description: "Enforces a basic query validation that allows only a single 'select' statement. Disable for more complex queries or when using semicolons. Caution: Disabling query validation allows DDL and DML statements to be executed, which could be destructive to your database."
+          default: true
+        defaultBreakers:
+          type: string
+          title: Hidden Default Breakers
+          enum:
+            - Cribl
+          x-speakeasy-unknown-values: allow
+        __scheduling:
+          type: object
+          properties:
+            stateTracking:
+              type: object
+              properties:
+                enabled:
+                  type: boolean
+                  title: Enabled
+                  description: Enable tracking of collection progress between consecutive scheduled executions.
+    CollectorFilesystem:
+      type: object
+      title: ""
+      required:
+        - path
+        - type
+      properties:
+        type:
+          type: string
+          enum:
+            - filesystem
+          description: "Collector type: filesystem"
+        outputName:
+          type: string
+          title: Auto-populate from
+          description: Select a predefined configuration (a Destination) to auto-populate Collector settings
+        path:
+          type: string
+          title: Directory
+          description: The directory from which to collect data. Templating is supported, such as /myDir/${datacenter}/${host}/${app}/. Time-based tokens are also supported, such as /myOtherDir/${_time:%Y}/${_time:%m}/${_time:%d}/.
+          minLength: 1
+        extractors:
+          type: array
+          title: Path extractors
+          additionalProperties: false
+          items:
+            type: object
+            required:
+              - key
+              - expression
+            properties:
+              key:
+                type: string
+                title: Token
+                description: A token from the template directory, such as epoch
+              expression:
+                type: string
+                title: Extractor expression
+                description: 'JavaScript expression that receives token under "value" variable, and evaluates to populate event fields, such as {date: new Date(+value*1000)}'
+          description: 'Allows using template tokens as context for expressions that enrich discovery results. For example, given a template /path/${epoch}, an extractor under key "epoch" with an expression {date: new Date(+value*1000)}, will enrich discovery results with a human readable "date" field.'
+        recurse:
+          type: boolean
+          title: Recursive
+          description: Recurse through subdirectories
+          default: true
+        maxBatchSize:
+          type: number
+          title: Batch size limit (files)
+          description: Maximum number of metadata files to batch before recording as results
+          minimum: 1
+          default: 10
+    CollectorGoogleCloudStorage:
+      type: object
+      title: ""
+      required:
+        - bucket
+        - type
+      properties:
+        type:
+          type: string
+          enum:
+            - google_cloud_storage
+          description: "Collector type: google_cloud_storage"
+        outputName:
+          type: string
+          title: Auto-populate from
+          description: Name of the predefined Destination that will be used to auto-populate Collector settings
+        bucket:
+          type: string
+          title: Bucket name
+          minLength: 1
+          description: "Name of the bucket to collect from. This value can be a constant or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`."
+        path:
+          type: string
+          title: Path
+          description: The directory from which to collect data. Templating is supported, such as myDir/${datacenter}/${host}/${app}/. Time-based tokens are also supported, such as myOtherDir/${_time:%Y}/${_time:%m}/${_time:%d}/.
+          minLength: 1
+        extractors:
+          type: array
+          title: Path extractors
+          additionalProperties: false
+          items:
+            type: object
+            required:
+              - key
+              - expression
+            properties:
+              key:
+                type: string
+                title: Token
+                description: A token from the template path, such as epoch
+              expression:
+                type: string
+                title: Extractor Expression
+                description: 'JavaScript expression that receives token under "value" variable, and evaluates to populate event fields, such as {date: new Date(+value*1000)}'
+          description: 'Allows using template tokens as context for expressions that enrich discovery results. For example, given a template /path/${epoch}, an extractor under key "epoch" with an expression {date: new Date(+value*1000)}, will enrich discovery results with a human readable "date" field.'
+        endpoint:
+          type: string
+          title: Endpoint
+          description: Google Cloud Storage service endpoint. If empty, the endpoint will default to https://storage.googleapis.com.
+        disableTimeFilter:
+          type: boolean
+          title: Disable time filter
+          description: Used to disable Collector event time filtering when a date range is specified
+          default: false
+        recurse:
+          type: boolean
+          title: Recursive
+          description: Recurse through subdirectories
+          default: true
+        maxBatchSize:
+          type: number
+          title: Batch size limit (objects)
+          description: Maximum number of metadata objects to batch before recording as results
+          minimum: 1
+          default: 10
+        authType:
+          title: Authentication method
+          type: string
+          enum:
+            - auto
+            - manual
+            - secret
+          default: manual
+          description: Enter account credentials manually, select a secret that references your credentials, or use Google Application Default Credentials
+          x-speakeasy-unknown-values: allow
+        parquetChunkSizeMB:
+          type: number
+          title: Parquet chunk size limit (MB)
+          description: Maximum file size for each Parquet chunk
+          default: 5
+          maximum: 100
+          minimum: 1
+        parquetChunkDownloadTimeout:
+          type: number
+          title: Parquet chunk download timeout (seconds)
+          description: The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified.
+          default: 600
+          maximum: 3600
+          minimum: 1
+    CollectorHealthCheck:
+      type: object
+      title: ""
+      required:
+        - collectUrl
+        - collectMethod
+        - authentication
+        - type
+      properties:
+        discovery:
+          type: object
+          required:
+            - discoverType
+          properties:
+            discoverType:
+              type: string
+              title: Discover Type
+              description: Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task.
+              enum:
+                - http
+                - json
+                - list
+                - none
+              x-speakeasy-enum-descriptions:
+                - HTTP Request
+                - JSON Response
+                - Item List
+                - None
+              default: none
+              x-speakeasy-unknown-values: allow
+        collectUrl:
+          type: string
+          title: Health check URL
+          description: Expression to derive URL to use for the health check operation (can be a constant).
+        collectMethod:
+          type: string
+          title: Health check method
+          description: Health check HTTP method.
+          enum:
+            - get
+            - post
+            - post_with_body
+          x-speakeasy-enum-descriptions:
+            - GET
+            - POST
+            - POST with Body
+          default: get
+          x-speakeasy-unknown-values: allow
+        collectRequestParams: {}
+        collectBody: {}
+        collectRequestHeaders:
+          title: Health check headers
+          description: Optional health check request headers.
+          type: array
+          items:
+            type: object
+            required:
+              - name
+              - value
+            properties:
+              name:
+                type: string
+                title: Name
+                description: Header Name
+              value:
+                type: string
+                title: Value
+                description: JavaScript expression to compute the header value (can be a constant).
+        authenticateCollect:
+          type: boolean
+          title: Authenticate health check
+          description: Enable to make auth health check call.
+          default: false
+        authentication:
+          type: string
+          title: Authentication
+          description: Authentication method for Discover and Collect REST calls. You can specify API Key–based authentication by adding the appropriate Collect headers.
+          enum:
+            - none
+            - basic
+            - basicSecret
+            - login
+            - loginSecret
+            - oauth
+            - oauthSecret
+          default: none
+          x-speakeasy-unknown-values: allow
+        timeout:
+          type: number
+          title: Request Timeout (secs)
+          description: HTTP request inactivity timeout, use 0 to disable
+          minimum: 0
+          maximum: 1800
+          default: 30
+        rejectUnauthorized:
+          type: boolean
+          title: Reject unauthorized certificates
+          description: Whether to reject certificates that cannot be verified against a valid CA (e.g., self-signed certificates).
+          default: false
+        defaultBreakers:
+          type: string
+          title: Hidden Default Breakers
+          enum:
+            - Cribl
+          x-speakeasy-unknown-values: allow
+        safeHeaders:
+          type: array
+          title: Safe headers
+          description: List of headers that are safe to log in plain text.
+          default: []
+          items:
+            type: string
+        retryRules:
+          type: object
+          required:
+            - type
+          properties:
+            type:
+              type: string
+              title: Retry type
+              description: The algorithm to use when performing HTTP retries
+              enum:
+                - none
+                - backoff
+                - static
+              x-speakeasy-enum-descriptions:
+                - Disabled
+                - Backoff
+                - Static
+              default: backoff
+              x-speakeasy-unknown-values: allow
+            interval: {}
+            limit: {}
+            multiplier: {}
+            codes: {}
+            enableHeader: {}
+        type:
+          type: string
+          enum:
+            - health_check
+          description: "Collector type: health_check"
+    CollectorRest:
+      type: object
+      title: ""
+      required:
+        - collectUrl
+        - collectMethod
+        - authentication
+        - type
+      properties:
+        type:
+          type: string
+          enum:
+            - rest
+          description: "Collector type: rest"
+        discovery:
+          type: object
+          required:
+            - discoverType
+          properties:
+            discoverType:
+              type: string
+              title: Discover type
+              description: Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task.
+              enum:
+                - http
+                - json
+                - list
+                - none
+              default: none
+              x-speakeasy-unknown-values: allow
+        collectUrl:
+          type: string
+          title: Collect URL
+          description: URL (constant or JavaScript expression) to use for the Collect operation
+        collectMethod:
+          type: string
+          title: Collect method
+          enum:
+            - get
+            - post
+            - post_with_body
+            - other
+          x-speakeasy-enum-descriptions:
+            - GET
+            - POST
+            - POST with Body
+            - Other
+          default: get
+          x-speakeasy-unknown-values: allow
+        collectVerb: {}
+        collectRequestParams: {}
+        collectBody: {}
+        collectRequestHeaders:
+          title: Collect headers
+          type: array
+          items:
+            type: object
+            required:
+              - name
+              - value
+            properties:
+              name:
+                type: string
+                title: Name
+              value:
+                type: string
+                title: Value
+                description: JavaScript expression to compute parameter value, usually enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values that aren't successfully evaluated as JavaScript expressions will be treated as string constants.
+        pagination:
+          type: object
+          required:
+            - type
+          properties:
+            type:
+              type: string
+              title: Pagination
+              enum:
+                - none
+                - response_body
+                - response_header
+                - response_header_link
+                - request_offset
+                - request_page
+              x-speakeasy-enum-descriptions:
+                - None
+                - Response Body Attribute
+                - Response Header Attribute
+                - RFC 5988 - Web Linking
+                - Offset/Limit
+                - Page/Size
+              default: none
+              x-speakeasy-unknown-values: allow
+        authentication:
+          type: string
+          title: Authentication
+          description: Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers.
+          enum:
+            - none
+            - basic
+            - basicSecret
+            - login
+            - loginSecret
+            - oauth
+            - oauthSecret
+            - google_oauth
+            - google_oauthSecret
+            - hmac
+          default: none
+          x-speakeasy-unknown-values: allow
+        timeout:
+          type: number
+          title: Request timeout (secs)
+          description: HTTP request inactivity timeout. Use 0 to disable.
+          minimum: 0
+          maximum: 1800
+          default: 0
+        useRoundRobinDns:
+          type: boolean
+          title: Round-robin DNS
+          description: Use round-robin DNS lookup. Suitable when DNS server returns multiple addresses in sort order.
+          default: false
+        disableTimeFilter:
+          type: boolean
+          title: Disable time filter
+          description: Disable Collector event time filtering when a date range is specified
+          default: false
+        decodeUrl:
+          type: boolean
+          title: Decode URL
+          description: Decode the URL before sending requests (including pagination requests)
+          default: true
+        rejectUnauthorized:
+          type: boolean
+          title: Reject unauthorized certificates
+          description: Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)
+          default: false
+        captureHeaders:
+          type: boolean
+          title: Capture response headers
+          description: Enable to add response headers to the resHeaders field under the __collectible object
+          default: false
+        stopOnEmptyResults:
+          type: boolean
+          title: Stop on empty results
+          description: Stop pagination when the Event Breaker produces no events
+          default: false
+        safeHeaders:
+          type: array
+          title: Safe headers
+          description: List of headers that are safe to log in plain text
+          default: []
+          items:
+            type: string
+        retryRules:
+          type: object
+          required:
+            - type
+          properties:
+            type:
+              type: string
+              title: Retry type
+              description: Algorithm to use when performing HTTP retries
+              enum:
+                - none
+                - backoff
+                - static
+              x-speakeasy-enum-descriptions:
+                - Disabled
+                - Backoff
+                - Static
+              default: backoff
+              x-speakeasy-unknown-values: allow
+            interval: {}
+            limit: {}
+            multiplier: {}
+            maxIntervalMs: {}
+            codes: {}
+            enableHeader: {}
+            retryConnectTimeout: {}
+            retryConnectReset: {}
+        __scheduling:
+          type: object
+          properties:
+            stateTracking:
+              type: object
+              properties:
+                enabled:
+                  type: boolean
+                  title: Enabled
+                  description: Track collection progress between consecutive scheduled executions
+    CollectorS3:
+      type: object
+      title: ""
+      required:
+        - bucket
+        - type
+      properties:
+        type:
+          type: string
+          enum:
+            - s3
+          description: "Collector type: s3"
+        outputName:
+          type: string
+          title: Auto-populate from
+          description: Name of the predefined Destination that will be used to auto-populate Collector settings
+        bucket:
+          type: string
+          title: S3 bucket
+          minLength: 1
+          description: S3 Bucket from which to collect data
+        parquetChunkSizeMB:
+          type: number
+          title: Parquet chunk size limit (MB)
+          description: Maximum file size for each Parquet chunk
+          default: 5
+          maximum: 100
+          minimum: 1
+        parquetChunkDownloadTimeout:
+          type: number
+          title: Parquet chunk download timeout (seconds)
+          description: Maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified.
+          default: 600
+          maximum: 3600
+          minimum: 1
+        region:
+          type: string
+          title: Region
+          description: Region from which to retrieve data
+        path:
+          type: string
+          title: Path
+          description: Directory where data will be collected. Templating (such as 'myDir/${datacenter}/${host}/${app}/') and time-based tokens (such as 'myOtherDir/${_time:%Y}/${_time:%m}/${_time:%d}/') are supported. Can be a constant (enclosed in quotes) or a JavaScript expression.
+          minLength: 1
+        partitioningScheme:
+          type: string
+          title: Partitioning scheme
+          description: Partitioning scheme used for this dataset. Using a known scheme like DDSS enables more efficient data reading and retrieval.
+          default: none
+          enum:
+            - none
+            - ddss
+          x-speakeasy-enum-descriptions:
+            - Defined in Path
+            - DDSS
+          x-speakeasy-unknown-values: allow
+        extractors:
+          type: array
+          title: Path extractors
+          additionalProperties: false
+          items:
+            type: object
+            required:
+              - key
+              - expression
+            properties:
+              key:
+                type: string
+                title: Token
+                description: A token from the template path, such as epoch
+              expression:
+                type: string
+                title: Extractor Expression
+                description: 'JavaScript expression that receives token under "value" variable, and evaluates to populate event fields. Example: {date: new Date(+value*1000)}'
+          description: 'Allows using template tokens as context for expressions that enrich discovery results. For example, given a template /path/${epoch}, an extractor under key "epoch" with an expression {date: new Date(+value*1000)}, will enrich discovery results with a human readable "date" field.'
+        awsAuthenticationMethod:
+          type: string
+          title: Authentication method
+          description: AWS authentication method. Choose Auto to use IAM roles.
+          default: auto
+          enum:
+            - auto
+            - manual
+            - secret
+          x-speakeasy-enum-descriptions:
+            - Auto
+            - Manual
+            - Secret Key pair
+          x-speakeasy-unknown-values: allow
+        endpoint:
+          type: string
+          title: Endpoint
+          description: "Must point to an S3-compatible endpoint. If empty, defaults to an AWS region-specific endpoint. "
+        signatureVersion:
+          type: string
+          title: Signature version
+          description: Signature version to use for signing S3 requests
+          default: v4
+          enum:
+            - v2
+            - v4
+          x-speakeasy-unknown-values: allow
+        enableAssumeRole:
+          type: boolean
+          title: Enable Assume Role
+          description: Use AssumeRole credentials
+          default: false
+        assumeRoleArn:
+          type: string
+          title: AssumeRole ARN
+          description: Amazon Resource Name (ARN) of the role to assume
+          pattern: "^arn:"
+          minLength: 20
+        assumeRoleExternalId:
+          type: string
+          title: External ID
+          description: External ID to use when assuming role
+        durationSeconds:
+          type: number
+          title: Duration (seconds)
+          description: Duration of the Assumed Role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours).
+          minimum: 900
+          maximum: 43200
+          default: 3600
+        maxBatchSize:
+          type: number
+          title: Batch size limit (objects)
+          description: Maximum number of metadata objects to batch before recording as results
+          minimum: 1
+          default: 10
+        recurse: {}
+        reuseConnections:
+          type: boolean
+          title: Reuse connections
+          description: Reuse connections between requests to improve performance
+          default: true
+        rejectUnauthorized:
+          type: boolean
+          title: Reject unauthorized certificates
+          description: Reject certificates that cannot be verified against a valid CA (such as a self-signed certificate)
+          default: true
+        verifyPermissions:
+          type: boolean
+          title: Verify bucket permissions
+          description: 'Disable if you can access files within the bucket but not the bucket itself. Resolves errors of the form "discover task initialization failed...error: Forbidden".'
+          default: true
+        disableTimeFilter:
+          type: boolean
+          title: Disable time filter
+          description: Disable Collector event time filtering when a date range is specified
+          default: false
+    CollectorScript:
+      type: object
+      title: ""
+      required:
+        - discoverScript
+        - collectScript
+        - type
+      properties:
+        type:
+          type: string
+          enum:
+            - script
+          description: "Collector type: script"
+        discoverScript:
+          type: string
+          title: Discover Script
+          minLength: 1
+          description: Script to discover what to collect. Should output one task per line in stdout.
+        collectScript:
+          type: string
+          title: Collect Script
+          minLength: 1
+          description: Script to run to perform data collections. Task passed in as $CRIBL_COLLECT_ARG. Should output results to stdout.
+        shell:
+          type: string
+          title: Shell
+          description: Shell to use to execute scripts.
+          default: /bin/bash
+        envVars:
+          type: array
+          title: Environment Variables
+          description: Environment variables to expose to the discover and collect scripts.
+          additionalProperties: false
+          items:
+            type: object
+            required:
+              - name
+              - value
+            properties:
+              name:
+                type: string
+                title: Name
+                description: Environment variable name
+                pattern: ^[a-zA-Z][a-zA-Z0-9_-]*$
+              value:
+                type: string
+                title: Value
+                description: JavaScript expression to compute environment variable's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
+    CollectorSplunk:
+      type: object
+      title: ""
+      required:
+        - search
+        - searchHead
+        - endpoint
+        - authentication
+        - outputMode
+        - type
+      properties:
+        type:
+          type: string
+          enum:
+            - splunk
+          description: "Collector type: splunk"
+        searchHead:
+          type: string
+          title: Search head
+          default: https://localhost:8089
+          description: Search head base URL. Can be an expression. Default is https://localhost:8089.
+        search:
+          type: string
+          title: Search
+          description: "Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'"
+        earliest:
+          title: Earliest
+          type: string
+          description: "The earliest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-16m@m'"
+        latest:
+          title: Latest
+          type: string
+          description: "The latest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-1m@m'"
+        endpoint:
+          type: string
+          title: Search endpoint
+          default: /services/search/v2/jobs/export
+          description: REST API used to create a search
+        outputMode:
+          type: string
+          title: Output mode
+          description: Format of the returned output
+          enum:
+            - csv
+            - json
+          default: json
+          x-speakeasy-unknown-values: allow
+        collectRequestParams:
+          title: Extra parameters
+          description: Optional collect request parameters
+          type: array
+          items:
+            type: object
+            required:
+              - name
+              - value
+            properties:
+              name:
+                title: Parameter Name
+                type: string
+              value:
+                title: Value
+                type: string
+                description: JavaScript expression to compute the parameter's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings.
+        collectRequestHeaders:
+          title: Extra headers
+          description: Optional collect request headers
+          type: array
+          items:
+            type: object
+            required:
+              - name
+              - value
+            properties:
+              name:
+                type: string
+                title: Header Name
+              value:
+                type: string
+                title: Value
+                description: JavaScript expression to compute the header's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings.
+        authentication:
+          type: string
+          title: Authentication
+          description: Authentication method for Discover and Collect REST calls
+          enum:
+            - none
+            - basic
+            - basicSecret
+            - token
+            - tokenSecret
+          x-speakeasy-enum-descriptions:
+            - None
+            - Basic
+            - Basic (credentials secret)
+            - Bearer Token
+            - Bearer Token (text secret)
+          default: basic
+          x-speakeasy-unknown-values: allow
+        timeout:
+          type: number
+          title: Request timeout (secs)
+          description: HTTP request inactivity timeout. Use 0 for no timeout.
+          minimum: 0
+          maximum: 1800
+          default: 0
+        useRoundRobinDns:
+          type: boolean
+          title: Round-robin DNS
+          description: Use round-robin DNS lookup. Suitable when DNS server returns multiple addresses in sort order.
+          default: false
+        disableTimeFilter:
+          type: boolean
+          title: Disable time filter
+          description: Disable collector event time filtering when a date range is specified
+          default: true
+        rejectUnauthorized:
+          type: boolean
+          title: Reject unauthorized certificates
+          description: Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)
+          default: false
+        handleEscapedChars:
+          type: boolean
+          title: Preserve escaped characters
+          description: Escape characters (\") in search queries will be passed directly to Splunk
+          default: false
+        retryRules:
+          type: object
+          required:
+            - type
+          properties:
+            type:
+              type: string
+              title: Retry type
+              description: Algorithm to use when performing HTTP retries
+              enum:
+                - none
+                - backoff
+                - static
+              x-speakeasy-enum-descriptions:
+                - Disabled
+                - Backoff
+                - Static
+              default: backoff
+              x-speakeasy-unknown-values: allow
+            interval: {}
+            limit: {}
+            multiplier: {}
+            codes: {}
+            enableHeader: {}
+            retryConnectTimeout: {}
+            retryConnectReset: {}
+    CollectorConf:
+      oneOf:
+        - $ref: "#/components/schemas/CollectorAzureBlob"
+        - $ref: "#/components/schemas/CollectorCriblLake"
+        - $ref: "#/components/schemas/CollectorDatabase"
+        - $ref: "#/components/schemas/CollectorFilesystem"
+        - $ref: "#/components/schemas/CollectorGoogleCloudStorage"
+        - $ref: "#/components/schemas/CollectorHealthCheck"
+        - $ref: "#/components/schemas/CollectorRest"
+        - $ref: "#/components/schemas/CollectorS3"
+        - $ref: "#/components/schemas/CollectorScript"
+        - $ref: "#/components/schemas/CollectorSplunk"
+      discriminator:
+        propertyName: type
+        mapping:
+          azure_blob: "#/components/schemas/CollectorAzureBlob"
+          cribl_lake: "#/components/schemas/CollectorCriblLake"
+          database: "#/components/schemas/CollectorDatabase"
+          filesystem: "#/components/schemas/CollectorFilesystem"
+          google_cloud_storage: "#/components/schemas/CollectorGoogleCloudStorage"
+          health_check: "#/components/schemas/CollectorHealthCheck"
+          rest: "#/components/schemas/CollectorRest"
+          s3: "#/components/schemas/CollectorS3"
+          script: "#/components/schemas/CollectorScript"
+          splunk: "#/components/schemas/CollectorSplunk"
+      description: Collector configuration
     CloudProvider:
       type: string
       nullable: true
@@ -44955,9 +45953,7 @@ components:
               title: Collector type
               description: The type of collector to run
             conf:
-              type: object
-              title: Collector-specific settings
-              properties: {}
+              $ref: "#/components/schemas/CollectorConf"
             destructive:
               type: boolean
               title: Destructive
@@ -48634,6 +49630,836 @@ components:
         id: default-output
         type: default
         defaultId: my-default-output
+    PipelineExamplesEmpty:
+      summary: New empty Pipeline
+      value:
+        id: empty-pipeline
+        conf:
+          output: default
+          streamtags: []
+          groups: {}
+          asyncFuncTimeout: 1000
+          functions: []
+          description: ""
+    PipelineExamplesAggregations:
+      summary: Pipeline with aggregation function summing rejected bytes grouped by source address
+      value:
+        id: aggregation-pipeline
+        conf:
+          output: default
+          streamtags: []
+          groups: {}
+          asyncFuncTimeout: 1000
+          description: Pipeline that aggregates rejected bytes grouped by source address every 10 seconds
+          functions:
+            - id: aggregation
+              filter: "true"
+              conf:
+                passthrough: false
+                preserveGroupBys: false
+                sufficientStatsOnly: false
+                metricsMode: false
+                timeWindow: 10s
+                aggregations:
+                  - sum(bytes).where(action=="REJECT").as(TotalBytes)
+                groupbys:
+                  - srcaddr
+                cumulative: false
+                shouldTreatDotsAsLiterals: false
+                flushOnInputClose: true
+    PipelineExamplesAggregateMetrics:
+      summary: Pipeline with aggregate metrics function computing statistics on process metrics
+      value:
+        id: aggregate-metrics-pipeline
+        conf:
+          output: default
+          streamtags: []
+          groups: {}
+          asyncFuncTimeout: 1000
+          description: "Pipeline that aggregates process metrics: CPU, memory, and bytes over time windows"
+          functions:
+            - id: aggregate_metrics
+              filter: (_metric == 'proc.cpu_perc' || __criblMetrics[0].nameExpr.includes("'proc.cpu_perc'")) || (_metric == 'proc.mem_perc' || __criblMetrics[0].nameExpr.includes("'proc.mem_perc'")) || (_metric == 'proc.bytes_in' || __criblMetrics[0].nameExpr.includes("'proc.bytes_in'"))
+              conf:
+                passthrough: false
+                preserveGroupBys: false
+                sufficientStatsOnly: false
+                timeWindow: 10s
+                aggregations:
+                  - metricType: gauge
+                    agg: avg(_value || proc.cpu_perc).as(proc.cpu_perc_avg)
+                  - metricType: gauge
+                    agg: sum(_value || proc.mem_perc).as(proc.mem_perc_sum)
+                  - metricType: counter
+                    agg: count(_value || proc.bytes_in).as(proc.bytes_in_count)
+                groupbys:
+                  - proc
+                cumulative: false
+                shouldTreatDotsAsLiterals: true
+                flushOnInputClose: true
+    PipelineExamplesAutoTimestamp:
+      summary: Pipeline with auto timestamp function extracting timestamps from event data
+      value:
+        id: auto-timestamp-pipeline
+        conf:
+          output: default
+          streamtags: []
+          groups: {}
+          asyncFuncTimeout: 1000
+          description: Pipeline that extracts timestamps from event data using auto timestamp function
+          functions:
+            - id: auto_timestamp
+              filter: "true"
+              conf:
+                srcField: _raw
+                dstField: _time
+                defaultTimezone: local
+                timeExpression: time.getTime() / 1000
+                offset: 0
+                maxLen: 150
+                defaultTime: now
+                latestDateAllowed: +1week
+                earliestDateAllowed: -420weeks
+                timestamps:
+                  - regex: /(\d{1,2}\/\d{2}\/\d{4}\s\d{1,2}:\d{2}:\d{2}\s\w{2})/
+                    strptime: "%Y-%m-%d %H:%M:%S"
+    PipelineExamplesCEFSerializer:
+      summary: Pipeline with CEF serializer function formatting events in Common Event Format
+      value:
+        id: cef-serializer-pipeline
+        conf:
+          output: default
+          streamtags: []
+          groups: {}
+          asyncFuncTimeout: 1000
+          description: Pipeline that formats events in CEF format with custom header and extension fields
+          functions:
+            - id: cef
+              filter: "true"
+              conf:
+                outputField: _raw
+                header:
+                  - name: cef_version
+                    value: "'CEF:0'"
+                  - name: device_vendor
+                    value: "'Cribl'"
+                  - name: device_product
+                    value: "'Cribl'"
+                  - name: device_version
+                    value: C.version
+                  - name: device_event_class_id
+                    value: "420"
+                  - name: name
+                    value: "'Cribl Event'"
+                  - name: severity
+                    value: "6"
+                extension:
+                  - name: c6a1Label
+                    value: "'Colorado_Ext_Bldg7'"
+    PipelineExamplesChain:
+      summary: Pipeline with chain function connecting to another pipeline for sequential processing
+      value:
+        id: chain-pipeline
+        conf:
+          output: default
+          streamtags: []
+          groups: {}
+          asyncFuncTimeout: 1000
+          description: Pipeline that chains to another pipeline for sequential data processing
+          functions:
+            - id: chain
+              filter: "true"
+              conf:
+                processor: prometheus_metrics
+    PipelineExamplesClone:
+      summary: Pipeline with clone function creating copies of events with additional fields
+      value:
+        id: clone-pipeline
+        conf:
+          output: default
+          streamtags: []
+          groups: {}
+          asyncFuncTimeout: 1000
+          description: Pipeline that creates cloned events with additional fields for comparison or routing
+          functions:
+            - id: clone
+              filter: "true"
+              conf:
+                clones:
+                  - env: staging
+                  - index: clones
+    PipelineExamplesComment:
+      summary: Pipeline with comment function adding documentation annotations
+      value:
+        id: comment-pipeline
+        conf:
+          output: default
+          streamtags: []
+          groups: {}
+          asyncFuncTimeout: 1000
+          description: Pipeline with comment function for documentation
+          functions:
+            - id: comment
+              filter: "true"
+              conf:
+                comment: This function processes security events and enriches them with DNS lookups
+    PipelineExamplesDNSLookup:
+      summary: Pipeline with DNS lookup function resolving hostnames and IP addresses
+      value:
+        id: dns-lookup-pipeline
+        conf:
+          output: default
+          streamtags: []
+          groups: {}
+          asyncFuncTimeout: 1000
+          description: Pipeline that performs DNS lookups to resolve hostnames and IP addresses
+          functions:
+            - id: dns_lookup
+              filter: "true"
+              conf:
+                dnsLookupFields:
+                  - inFieldName: hostname
+                    resourceRecordType: A
+                    outFieldName: hostname_ip
+                reverseLookupFields:
+                  - inFieldName: src_ip
+                    outFieldName: src_hostname
+                cacheTTL: 30
+                maxCacheSize: 5000
+                useResolvConf: false
+                lookupFallback: false
+                lookupFailLogLevel: error
+    PipelineExamplesDrop:
+      summary: Pipeline with drop function filtering out events matching specified criteria
+      value:
+        id: drop-pipeline
+        conf:
+          output: default
+          streamtags: []
+          groups: {}
+          asyncFuncTimeout: 1000
+          description: Pipeline that drops events containing success messages
+          functions:
+            - id: drop
+              filter: _raw.search(/success/i)>=0
+              conf: {}
+    PipelineExamplesDropDimensions:
+      summary: Pipeline with drop dimensions function reducing metric cardinality by removing dimensions
+      value:
+        id: drop-dimensions-pipeline
+        conf:
+          output: default
+          streamtags: []
+          groups: {}
+          asyncFuncTimeout: 1000
+          description: Pipeline that drops specified dimensions from metrics to reduce cardinality
+          functions:
+            - id: drop_dimensions
+              filter: (_metric == 'proc.cpu_perc' || __criblMetrics[0].nameExpr.includes("'proc.cpu_perc'")) && (__criblMetrics[0].dims.includes("proc"))
+              conf:
+                timeWindow: 10s
+                dropDimensions:
+                  - proc
+                  - pie
+                  - unit
+                flushOnInputClose: true
+    PipelineExamplesDynamicSampling:
+      summary: Pipeline with dynamic sampling function automatically adjusting sample rates based on event volume
+      value:
+        id: dynamic-sampling-pipeline
+        conf:
+          output: default
+          streamtags: []
+          groups: {}
+          asyncFuncTimeout: 1000
+          description: Pipeline that dynamically samples events based on volume using square root mode
+          functions:
+            - id: dynamic_sampling
+              filter: "true"
+              conf:
+                mode: sqrt
+                keyExpr: "`${domain}:${httpCode}`"
+                samplePeriod: 20
+                minEvents: 3
+                maxSampleRate: 3
+    PipelineExamplesEval:
+      summary: Pipeline with eval function adding, modifying, and removing event fields using JavaScript expressions
+      value:
+        id: eval-pipeline
+        conf:
+          output: default
+          streamtags: []
+          groups: {}
+          asyncFuncTimeout: 1000
+          description: Pipeline that evaluates JavaScript expressions to add, modify, and remove fields
+          functions:
+            - id: eval
+              filter: "true"
+              conf:
+                add:
+                  - name: action
+                    value: "login == 'error' ? 'blocked' : action"
+                  - name: myTags
+                    value: "login == 'error' ? [...myTags, 'error'] : myTags"
+                keep:
+                  - host
+                  - source
+                  - action
+                  - myTags
+                remove:
+                  - identification
+    PipelineExamplesEventBreaker:
+      summary: Pipeline with event breaker function splitting large blobs or streams into discrete events
+      value:
+        id: event-breaker-pipeline
+        conf:
+          output: default
+          streamtags: []
+          groups: {}
+          asyncFuncTimeout: 1000
+          description: Pipeline that breaks large event streams into discrete events using regex
+          functions:
+            - id: event_breaker
+              filter: "true"
+              conf:
+                existingOrNew: new
+                ruleType: regex
+                eventBreakerRegex: /[\n\r]+(?!\s)/
+                maxEventBytes: 51200
+                timestampAnchorRegex: /^/
+                timestamp:
+                  type: auto
+                  length: 150
+                timestampTimezone: local
+                timestampEarliest: -420weeks
+                timestampLatest: +1week
+                shouldMarkCriblBreaker: true
+    PipelineExamplesFlatten:
+      summary: Pipeline with flatten function pulling nested fields up to a higher level in the object
+      value:
+        id: flatten-pipeline
+        conf:
+          output: default
+          streamtags: []
+          groups: {}
+          asyncFuncTimeout: 1000
+          description: Pipeline that flattens nested JSON structures into top-level fields
+          functions:
+            - id: flatten
+              filter: "true"
+              conf:
+                fields: []
+                prefix: ""
+                depth: 5
+                delimiter: _
+    PipelineExamplesFoldKeys:
+      summary: Pipeline with fold keys function transforming flat field names into nested structures
+      value:
+        id: fold-keys-pipeline
+        conf:
+          output: default
+          streamtags: []
+          groups: {}
+          asyncFuncTimeout: 1000
+          description: Pipeline that transforms flat field names with separators into nested structures
+          functions:
+            - id: foldkeys
+              filter: "true"
+              conf:
+                deleteOriginal: true
+                separator: _
+                selectionRegExp: ^data
+    PipelineExamplesGeoIP:
+      summary: Pipeline with GeoIP function enriching events with geographic information based on IP addresses
+      value:
+        id: geoip-pipeline
+        conf:
+          output: default
+          streamtags: []
+          groups: {}
+          asyncFuncTimeout: 1000
+          description: Pipeline that enriches events with geolocation data from IP addresses
+          functions:
+            - id: geoip
+              filter: "true"
+              conf:
+                file: GeoLite2-City.mmdb
+                inField: ip
+                outField: geoip
+                additionalFields:
+                  - extraInField: src_ip
+                    extraOutField: src_geoip
+    PipelineExamplesGrok:
+      summary: Pipeline with grok function extracting structured fields from unstructured log data using patterns
+      value:
+        id: grok-pipeline
+        conf:
+          output: default
+          streamtags: []
+          groups: {}
+          asyncFuncTimeout: 1000
+          description: Pipeline that extracts structured fields from log data using Grok patterns
+          functions:
+            - id: grok
+              filter: "true"
+              conf:
+                pattern: "%{TIMESTAMP_ISO8601:event_time} %{LOGLEVEL:log_level} %{GREEDYDATA:log_message}"
+                source: _raw
+                patternList: []
+    PipelineExamplesGuard:
+      summary: Pipeline with guard function detecting and protecting sensitive data using AI-driven scanning rulesets
+      value:
+        id: guard-pipeline
+        conf:
+          output: default
+          streamtags: []
+          groups: {}
+          asyncFuncTimeout: 1000
+          description: Pipeline that scans for sensitive data and applies mitigation expressions
+          functions:
+            - id: sensitive_data_scanner
+              filter: "true"
+              conf:
+                rules:
+                  - rulesetId: Finance_Global
+                    replaceExpr: "'REDACTED'"
+                    disabled: false
+                fields:
+                  - _raw
+                excludeFields: []
+                flags:
+                  - name: _sensitive
+                    value: "true"
+                includeDetectedRules: true
+    PipelineExamplesJSONUnroll:
+      summary: Pipeline with JSON unroll function exploding arrays of objects into individual events
+      value:
+        id: json-unroll-pipeline
+        conf:
+          output: default
+          streamtags: []
+          groups: {}
+          asyncFuncTimeout: 1000
+          description: Pipeline that unrolls JSON arrays into individual events while retaining parent fields
+          functions:
+            - id: json_unroll
+              filter: "true"
+              conf:
+                path: allCars
+                name: cars
+    PipelineExamplesLookup:
+      summary: Pipeline with lookup function enriching events with external fields from lookup tables
+      value:
+        id: lookup-pipeline
+        conf:
+          output: default
+          streamtags: []
+          groups: {}
+          asyncFuncTimeout: 1000
+          description: Pipeline that enriches events with location data from IP address lookups
+          functions:
+            - id: lookup
+              filter: "true"
+              conf:
+                file: ip_locations.csv
+                dbLookup: false
+                matchMode: exact
+                reloadPeriodSec: -1
+                inFields:
+                  - eventField: destination_ip
+                    lookupField: ip
+                outFields:
+                  - lookupField: location
+                    eventField: location
+                    defaultValue: Unknown
+                addToEvent: false
+                ignoreCase: false
+    PipelineExamplesMask:
+      summary: Pipeline with mask function redacting sensitive data using pattern matching and replacement
+      value:
+        id: mask-pipeline
+        conf:
+          output: default
+          streamtags: []
+          groups: {}
+          asyncFuncTimeout: 1000
+          description: Pipeline that masks Social Security numbers and other sensitive data
+          functions:
+            - id: mask
+              filter: "true"
+              conf:
+                rules:
+                  - matchRegex: /(social=)(\d+)/
+                    replaceExpr: "`${g1}${C.Mask.md5(g2)}`"
+                    disabled: false
+                fields:
+                  - _raw
+                depth: 5
+    PipelineExamplesNumerify:
+      summary: Pipeline with numerify function converting string numbers to numeric type
+      value:
+        id: numerify-pipeline
+        conf:
+          output: default
+          streamtags: []
+          groups: {}
+          asyncFuncTimeout: 1000
+          description: Pipeline that converts string numbers to numeric type for mathematical operations
+          functions:
+            - id: numerify
+              filter: "true"
+              conf:
+                depth: 5
+                ignoreFields: []
+                filterExpr: ""
+                format: none
+    PipelineExamplesOTLPLogs:
+      summary: Pipeline with OTLP logs function normalizing and batching OpenTelemetry log events
+      value:
+        id: otlp-logs-pipeline
+        conf:
+          output: default
+          streamtags: []
+          groups: {}
+          asyncFuncTimeout: 1000
+          description: Pipeline that normalizes and batches OTLP log events from OpenTelemetry sources
+          functions:
+            - id: otlp_logs
+              filter: __inputId=='open_telemetry:open_telemetry'
+              conf:
+                dropNonLogEvents: false
+                batchOTLPLogs: true
+                sendBatchSize: 8192
+                timeout: 200
+                sendBatchMaxSize: 0
+                metadataKeys: []
+                metadataCardinalityLimit: 1000
+    PipelineExamplesOTLPMetrics:
+      summary: Pipeline with OTLP metrics function converting dimensional metrics to OpenTelemetry format
+      value:
+        id: otlp-metrics-pipeline
+        conf:
+          output: default
+          streamtags: []
+          groups: {}
+          asyncFuncTimeout: 1000
+          description: Pipeline that converts dimensional metrics to OTLP format and batches them by resource attributes
+          functions:
+            - id: otlp_metrics
+              filter: __inputId=='prometheus_rw:prom_rw_in'
+              conf:
+                resourceAttributePrefixes:
+                  - service
+                  - system
+                  - telemetry
+                  - k8s
+                  - cloud
+                  - host
+                  - process
+                dropNonMetricEvents: false
+                otlpVersion: 0.10.0
+                batchOTLPMetrics: true
+                sendBatchSize: 8192
+                timeout: 200
+                sendBatchMaxSize: 0
+                metadataKeys: []
+                metadataCardinalityLimit: 1000
+    PipelineExamplesOTLPTraces:
+      summary: Pipeline with OTLP traces function normalizing and batching OpenTelemetry trace events
+      value:
+        id: otlp-traces-pipeline
+        conf:
+          output: default
+          streamtags: []
+          groups: {}
+          asyncFuncTimeout: 1000
+          description: Pipeline that normalizes and batches OTLP trace events from OpenTelemetry sources
+          functions:
+            - id: otlp_traces
+              filter: __inputId=='open_telemetry:open_telemetry'
+              conf:
+                dropNonTraceEvents: false
+                otlpVersion: 0.10.0
+                batchOTLPTraces: true
+                sendBatchSize: 8192
+                timeout: 200
+                sendBatchMaxSize: 0
+                metadataKeys: []
+                metadataCardinalityLimit: 1000
+    PipelineExamplesParser:
+      summary: Pipeline with parser function extracting fields from key-value pairs
+      value:
+        id: parser-pipeline
+        conf:
+          output: default
+          streamtags: []
+          groups: {}
+          asyncFuncTimeout: 1000
+          description: Pipeline that extracts fields from key-value pair formatted data
+          functions:
+            - id: serde
+              filter: "true"
+              conf:
+                mode: extract
+                type: kvp
+                srcField: _raw
+                keep:
+                  - a
+                  - b
+                  - c
+                remove:
+                  - "*"
+                cleanFields: false
+    PipelineExamplesPublishMetrics:
+      summary: Pipeline with publish metrics function extracting and formatting metrics from events
+      value:
+        id: publish-metrics-pipeline
+        conf:
+          output: default
+          streamtags: []
+          groups: {}
+          asyncFuncTimeout: 1000
+          description: Pipeline that extracts metrics from events and formats them for metrics aggregation platforms
+          functions:
+            - id: publish_metrics
+              filter: "true"
+              conf:
+                fields:
+                  - inFieldName: bytes
+                    outFieldExpr: "'metric_name.bytes'"
+                    metricType: gauge
+                  - inFieldName: packets
+                    outFieldExpr: "'metric_name.packets'"
+                    metricType: gauge
+                overwrite: false
+                dimensions:
+                  - action
+                  - interface_id
+                  - dstaddr
+                removeMetrics: []
+                removeDimensions: []
+    PipelineExamplesRedis:
+      summary: Pipeline with Redis function interacting with Redis stores to set and get key-value pairs
+      value:
+        id: redis-pipeline
+        conf:
+          output: default
+          streamtags: []
+          groups: {}
+          asyncFuncTimeout: 1000
+          description: Pipeline that retrieves values from Redis using GET command
+          functions:
+            - id: redis
+              filter: "true"
+              conf:
+                commands:
+                  - outField: cached_value
+                    command: get
+                    keyExpr: "'user_session'"
+                    argsExpr: ""
+                deploymentType: standalone
+                url: "'redis://localhost:6379/0'"
+                authType: none
+                maxBlockSecs: 60
+    PipelineExamplesRegexExtract:
+      summary: Pipeline with regex extract function extracting fields from events using regular expressions with named capture groups
+      value:
+        id: regex-extract-pipeline
+        conf:
+          output: default
+          streamtags: []
+          groups: {}
+          asyncFuncTimeout: 1000
+          description: Pipeline that extracts structured fields from log data using regex patterns with named capture groups
+          functions:
+            - id: regex_extract
+              filter: "true"
+              conf:
+                regex: /metric1=(?<metric1>\d+)/
+                source: _raw
+                iterations: 100
+                overwrite: false
+    PipelineExamplesRegexFilter:
+      summary: Pipeline with regex filter function filtering out events based on regular expression matches
+      value:
+        id: regex-filter-pipeline
+        conf:
+          output: default
+          streamtags: []
+          groups: {}
+          asyncFuncTimeout: 1000
+          description: Pipeline that filters out events matching specific regex patterns
+          functions:
+            - id: regex_filter
+              filter: "true"
+              conf:
+                regex: /Opera/
+                field: _raw
+    PipelineExamplesRename:
+      summary: Pipeline with rename function changing or reformatting field names within events
+      value:
+        id: rename-pipeline
+        conf:
+          output: default
+          streamtags: []
+          groups: {}
+          asyncFuncTimeout: 1000
+          description: Pipeline that renames fields using key-value pairs and expressions
+          functions:
+            - id: rename
+              filter: "true"
+              conf:
+                rename:
+                  - currentName: level
+                    newName: LEVEL
+                renameExpr: "name.startsWith('out') ? name.toUpperCase() : name"
+                baseFields: []
+                wildcardDepth: 5
+    PipelineExamplesRollupMetrics:
+      summary: Pipeline with rollup metrics function consolidating high-frequency metrics into time windows
+      value:
+        id: rollup-metrics-pipeline
+        conf:
+          output: default
+          streamtags: []
+          groups: {}
+          asyncFuncTimeout: 1000
+          description: Pipeline that consolidates high-frequency metrics into manageable time windows
+          functions:
+            - id: rollup_metrics
+              filter: "true"
+              conf:
+                dimensions:
+                  - "*"
+                timeWindow: 30s
+                gaugeRollup: last
+    PipelineExamplesSampling:
+      summary: Pipeline with sampling function filtering events based on criteria and sampling rates
+      value:
+        id: sampling-pipeline
+        conf:
+          output: default
+          streamtags: []
+          groups: {}
+          asyncFuncTimeout: 1000
+          description: Pipeline that samples events at specified rates based on filter criteria
+          functions:
+            - id: sampling
+              filter: "true"
+              conf:
+                rules:
+                  - filter: __status == 200
+                    rate: 5
+    PipelineExamplesSerialize:
+      summary: Pipeline with serialize function converting event content into predefined formats
+      value:
+        id: serialize-pipeline
+        conf:
+          output: default
+          streamtags: []
+          groups: {}
+          asyncFuncTimeout: 1000
+          description: Pipeline that serializes event fields into JSON format
+          functions:
+            - id: serialize
+              filter: "true"
+              conf:
+                type: json
+                fields:
+                  - city
+                  - state
+                srcField: ""
+                dstField: _raw
+    PipelineExamplesSNMPTrapSerialize:
+      summary: Pipeline with SNMP trap serialize function converting compliant events into SNMP traps
+      value:
+        id: snmp-trap-serialize-pipeline
+        conf:
+          output: default
+          streamtags: []
+          groups: {}
+          asyncFuncTimeout: 1000
+          description: Pipeline that serializes events into SNMP trap format for SNMP trap destinations
+          functions:
+            - id: snmp_trap_serialize
+              filter: "true"
+              conf:
+                strict: true
+                dropFailedEvents: true
+    PipelineExamplesSuppress:
+      summary: Pipeline with suppress function suppressing duplicate events based on key expressions
+      value:
+        id: suppress-pipeline
+        conf:
+          output: default
+          streamtags: []
+          groups: {}
+          asyncFuncTimeout: 1000
+          description: Pipeline that suppresses duplicate events based on a key expression
+          functions:
+            - id: suppress
+              filter: "true"
+              conf:
+                keyExpr: "`${ip}:${port}`"
+                allow: 1
+                suppressPeriodSec: 30
+                dropEventsMode: true
+                maxCacheSize: 50000
+                cacheIdleTimeoutPeriods: 2
+                numEventsIdleTimeoutTrigger: 10000
+    PipelineExamplesTee:
+      summary: Pipeline with tee function sending events to a command via stdin for debugging and verification
+      value:
+        id: tee-pipeline
+        conf:
+          output: default
+          streamtags: []
+          groups: {}
+          asyncFuncTimeout: 1000
+          description: Pipeline that sends events to a command via stdin for debugging purposes
+          functions:
+            - id: tee
+              filter: "true"
+              conf:
+                command: tee
+                args:
+                  - /opt/cribl/foo.log
+                restartOnExit: true
+                env: {}
+    PipelineExamplesUnroll:
+      summary: Pipeline with unroll function breaking array fields into individual events
+      value:
+        id: unroll-pipeline
+        conf:
+          output: default
+          streamtags: []
+          groups: {}
+          asyncFuncTimeout: 1000
+          description: Pipeline that unrolls array fields into separate events
+          functions:
+            - id: unroll
+              filter: "true"
+              conf:
+                srcExpr: _raw.split(/\n/)
+                dstField: _raw
+    PipelineExamplesXMLUnroll:
+      summary: Pipeline with XML unroll function converting XML elements into individual events
+      value:
+        id: xml-unroll-pipeline
+        conf:
+          output: default
+          streamtags: []
+          groups: {}
+          asyncFuncTimeout: 1000
+          description: Pipeline that unrolls XML elements into separate events
+          functions:
+            - id: xml_unroll
+              filter: "true"
+              conf:
+                unroll: ^Parent\.Child$
+                inherit: ^Parent\.(myID|branchLocation)$
+                unrollIdxField: unroll_idx
+                pretty: false
     RoutesUpdateExamplesBasicRoute:
       summary: Update Routes with a basic Route configuration
       description: "Update the default Routes table (id: default) with a simple Route that filters access.log events and sends them to the main pipeline"
@@ -50103,6 +51929,87 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/Pipeline"
+            examples:
+              PipelineExamplesEmpty:
+                $ref: "#/components/examples/PipelineExamplesEmpty"
+              PipelineExamplesAggregations:
+                $ref: "#/components/examples/PipelineExamplesAggregations"
+              PipelineExamplesAggregateMetrics:
+                $ref: "#/components/examples/PipelineExamplesAggregateMetrics"
+              PipelineExamplesAutoTimestamp:
+                $ref: "#/components/examples/PipelineExamplesAutoTimestamp"
+              PipelineExamplesCEFSerializer:
+                $ref: "#/components/examples/PipelineExamplesCEFSerializer"
+              PipelineExamplesChain:
+                $ref: "#/components/examples/PipelineExamplesChain"
+              PipelineExamplesClone:
+                $ref: "#/components/examples/PipelineExamplesClone"
+              PipelineExamplesComment:
+                $ref: "#/components/examples/PipelineExamplesComment"
+              PipelineExamplesDNSLookup:
+                $ref: "#/components/examples/PipelineExamplesDNSLookup"
+              PipelineExamplesDrop:
+                $ref: "#/components/examples/PipelineExamplesDrop"
+              PipelineExamplesDropDimensions:
+                $ref: "#/components/examples/PipelineExamplesDropDimensions"
+              PipelineExamplesDynamicSampling:
+                $ref: "#/components/examples/PipelineExamplesDynamicSampling"
+              PipelineExamplesEval:
+                $ref: "#/components/examples/PipelineExamplesEval"
+              PipelineExamplesEventBreaker:
+                $ref: "#/components/examples/PipelineExamplesEventBreaker"
+              PipelineExamplesFlatten:
+                $ref: "#/components/examples/PipelineExamplesFlatten"
+              PipelineExamplesFoldKeys:
+                $ref: "#/components/examples/PipelineExamplesFoldKeys"
+              PipelineExamplesGeoIP:
+                $ref: "#/components/examples/PipelineExamplesGeoIP"
+              PipelineExamplesGrok:
+                $ref: "#/components/examples/PipelineExamplesGrok"
+              PipelineExamplesGuard:
+                $ref: "#/components/examples/PipelineExamplesGuard"
+              PipelineExamplesJSONUnroll:
+                $ref: "#/components/examples/PipelineExamplesJSONUnroll"
+              PipelineExamplesLookup:
+                $ref: "#/components/examples/PipelineExamplesLookup"
+              PipelineExamplesMask:
+                $ref: "#/components/examples/PipelineExamplesMask"
+              PipelineExamplesNumerify:
+                $ref: "#/components/examples/PipelineExamplesNumerify"
+              PipelineExamplesOTLPLogs:
+                $ref: "#/components/examples/PipelineExamplesOTLPLogs"
+              PipelineExamplesOTLPMetrics:
+                $ref: "#/components/examples/PipelineExamplesOTLPMetrics"
+              PipelineExamplesOTLPTraces:
+                $ref: "#/components/examples/PipelineExamplesOTLPTraces"
+              PipelineExamplesParser:
+                $ref: "#/components/examples/PipelineExamplesParser"
+              PipelineExamplesPublishMetrics:
+                $ref: "#/components/examples/PipelineExamplesPublishMetrics"
+              PipelineExamplesRedis:
+                $ref: "#/components/examples/PipelineExamplesRedis"
+              PipelineExamplesRegexExtract:
+                $ref: "#/components/examples/PipelineExamplesRegexExtract"
+              PipelineExamplesRegexFilter:
+                $ref: "#/components/examples/PipelineExamplesRegexFilter"
+              PipelineExamplesRename:
+                $ref: "#/components/examples/PipelineExamplesRename"
+              PipelineExamplesRollupMetrics:
+                $ref: "#/components/examples/PipelineExamplesRollupMetrics"
+              PipelineExamplesSampling:
+                $ref: "#/components/examples/PipelineExamplesSampling"
+              PipelineExamplesSerialize:
+                $ref: "#/components/examples/PipelineExamplesSerialize"
+              PipelineExamplesSNMPTrapSerialize:
+                $ref: "#/components/examples/PipelineExamplesSNMPTrapSerialize"
+              PipelineExamplesSuppress:
+                $ref: "#/components/examples/PipelineExamplesSuppress"
+              PipelineExamplesTee:
+                $ref: "#/components/examples/PipelineExamplesTee"
+              PipelineExamplesUnroll:
+                $ref: "#/components/examples/PipelineExamplesUnroll"
+              PipelineExamplesXMLUnroll:
+                $ref: "#/components/examples/PipelineExamplesXMLUnroll"
       responses:
         "200":
           description: a list of Pipelines objects
@@ -50171,6 +52078,87 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/Pipeline"
+            examples:
+              PipelineExamplesEmpty:
+                $ref: "#/components/examples/PipelineExamplesEmpty"
+              PipelineExamplesAggregations:
+                $ref: "#/components/examples/PipelineExamplesAggregations"
+              PipelineExamplesAggregateMetrics:
+                $ref: "#/components/examples/PipelineExamplesAggregateMetrics"
+              PipelineExamplesAutoTimestamp:
+                $ref: "#/components/examples/PipelineExamplesAutoTimestamp"
+              PipelineExamplesCEFSerializer:
+                $ref: "#/components/examples/PipelineExamplesCEFSerializer"
+              PipelineExamplesChain:
+                $ref: "#/components/examples/PipelineExamplesChain"
+              PipelineExamplesClone:
+                $ref: "#/components/examples/PipelineExamplesClone"
+              PipelineExamplesComment:
+                $ref: "#/components/examples/PipelineExamplesComment"
+              PipelineExamplesDNSLookup:
+                $ref: "#/components/examples/PipelineExamplesDNSLookup"
+              PipelineExamplesDrop:
+                $ref: "#/components/examples/PipelineExamplesDrop"
+              PipelineExamplesDropDimensions:
+                $ref: "#/components/examples/PipelineExamplesDropDimensions"
+              PipelineExamplesDynamicSampling:
+                $ref: "#/components/examples/PipelineExamplesDynamicSampling"
+              PipelineExamplesEval:
+                $ref: "#/components/examples/PipelineExamplesEval"
+              PipelineExamplesEventBreaker:
+                $ref: "#/components/examples/PipelineExamplesEventBreaker"
+              PipelineExamplesFlatten:
+                $ref: "#/components/examples/PipelineExamplesFlatten"
+              PipelineExamplesFoldKeys:
+                $ref: "#/components/examples/PipelineExamplesFoldKeys"
+              PipelineExamplesGeoIP:
+                $ref: "#/components/examples/PipelineExamplesGeoIP"
+              PipelineExamplesGrok:
+                $ref: "#/components/examples/PipelineExamplesGrok"
+              PipelineExamplesGuard:
+                $ref: "#/components/examples/PipelineExamplesGuard"
+              PipelineExamplesJSONUnroll:
+                $ref: "#/components/examples/PipelineExamplesJSONUnroll"
+              PipelineExamplesLookup:
+                $ref: "#/components/examples/PipelineExamplesLookup"
+              PipelineExamplesMask:
+                $ref: "#/components/examples/PipelineExamplesMask"
+              PipelineExamplesNumerify:
+                $ref: "#/components/examples/PipelineExamplesNumerify"
+              PipelineExamplesOTLPLogs:
+                $ref: "#/components/examples/PipelineExamplesOTLPLogs"
+              PipelineExamplesOTLPMetrics:
+                $ref: "#/components/examples/PipelineExamplesOTLPMetrics"
+              PipelineExamplesOTLPTraces:
+                $ref: "#/components/examples/PipelineExamplesOTLPTraces"
+              PipelineExamplesParser:
+                $ref: "#/components/examples/PipelineExamplesParser"
+              PipelineExamplesPublishMetrics:
+                $ref: "#/components/examples/PipelineExamplesPublishMetrics"
+              PipelineExamplesRedis:
+                $ref: "#/components/examples/PipelineExamplesRedis"
+              PipelineExamplesRegexExtract:
+                $ref: "#/components/examples/PipelineExamplesRegexExtract"
+              PipelineExamplesRegexFilter:
+                $ref: "#/components/examples/PipelineExamplesRegexFilter"
+              PipelineExamplesRename:
+                $ref: "#/components/examples/PipelineExamplesRename"
+              PipelineExamplesRollupMetrics:
+                $ref: "#/components/examples/PipelineExamplesRollupMetrics"
+              PipelineExamplesSampling:
+                $ref: "#/components/examples/PipelineExamplesSampling"
+              PipelineExamplesSerialize:
+                $ref: "#/components/examples/PipelineExamplesSerialize"
+              PipelineExamplesSNMPTrapSerialize:
+                $ref: "#/components/examples/PipelineExamplesSNMPTrapSerialize"
+              PipelineExamplesSuppress:
+                $ref: "#/components/examples/PipelineExamplesSuppress"
+              PipelineExamplesTee:
+                $ref: "#/components/examples/PipelineExamplesTee"
+              PipelineExamplesUnroll:
+                $ref: "#/components/examples/PipelineExamplesUnroll"
+              PipelineExamplesXMLUnroll:
+                $ref: "#/components/examples/PipelineExamplesXMLUnroll"
       responses:
         "200":
           description: a list of Pipeline objects

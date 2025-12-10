@@ -1,5 +1,4 @@
-# Teams
-(*groups.acl.teams*)
+# Groups.Acl.Teams
 
 ## Overview
 

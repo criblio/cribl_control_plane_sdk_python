@@ -1,5 +1,4 @@
-# ConfigsVersions
-(*groups.configs.versions*)
+# Groups.Configs.Versions
 
 ## Overview
 

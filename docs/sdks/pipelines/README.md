@@ -1,5 +1,4 @@
 # Pipelines
-(*pipelines*)
 
 ## Overview
 

@@ -1,5 +1,4 @@
 # LakeDatasets
-(*lake_datasets*)
 
 ## Overview
 

@@ -1,4 +1,4 @@
-speakeasyVersion: 1.665.0
+speakeasyVersion: 1.674.0
 sources:
     Cribl API Reference:
         sourceNamespace: cribl-api-reference
@@ -6,7 +6,7 @@ sources:
         sourceBlobDigest: sha256:1cc928a67fb6bf0d28b47efd99a42f9706b51253317b040c2da72ff3aa713076
         tags:
             - latest
-            - speakeasy-sdk-regen-dev-1765328543
+            - speakeasy-sdk-regen-dev-1765357238
             - 4.16.0-alpha.1765321374704-65bfc569
 targets:
     cribl-control-plane:
@@ -15,10 +15,10 @@ targets:
         sourceRevisionDigest: sha256:bb76de680289cefa9dcaef612308a2fb452203f8971098599f861b4b4e4472bc
         sourceBlobDigest: sha256:1cc928a67fb6bf0d28b47efd99a42f9706b51253317b040c2da72ff3aa713076
         codeSamplesNamespace: cribl-api-reference-python-code-samples
-        codeSamplesRevisionDigest: sha256:9305f8f54d636cd106761ab021f60ec265f7b88484743319372f84228a7bd97d
+        codeSamplesRevisionDigest: sha256:5bb15d35457aafcbe7991b472699647d9305e39e3741495931be5c965ef34db9
 workflow:
     workflowVersion: 1.0.0
-    speakeasyVersion: 1.665.0
+    speakeasyVersion: 1.674.0
     sources:
         Cribl API Reference:
             inputs:

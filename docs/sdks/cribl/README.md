@@ -1,5 +1,4 @@
-# Cribl
-(*system.settings.cribl*)
+# System.Settings.Cribl
 
 ## Overview
 

@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.16.0-alpha.1765446369054-b5828090
+  version: 4.16.0-alpha.1765487092497-ed578836
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -58325,18 +58325,18 @@ paths:
           schema:
             type: string
           description: The <code>id</code> of the Worker Group or Edge Fleet to undo the uncommited changes for.
-  /functions:
+  /functions/{id}:
     get:
-      operationId: listFunctionResponse
-      x-speakeasy-group: functions
-      x-speakeasy-name-override: list
+      operationId: getFunctionsById
       tags:
         - functions
-      summary: Get a list of FunctionResponse objects
-      description: Get a list of FunctionResponse objects
+      x-speakeasy-group: functions
+      x-speakeasy-name-override: get
+      summary: Get a Function
+      description: Get the specified Function.
       responses:
         "200":
-          description: a list of FunctionResponse objects
+          description: a list of Function objects
           content:
             application/json:
               schema:
@@ -58349,25 +58349,25 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /functions/{id}:
-    get:
-      operationId: getFunctionResponseById
-      x-speakeasy-group: functions
-      x-speakeasy-name-override: get
-      tags:
-        - functions
-      summary: Get FunctionResponse by ID
-      description: Get FunctionResponse by ID
       parameters:
         - name: id
           in: path
           required: true
           schema:
             type: string
-          description: Unique ID to GET
+          description: The <code>id</code> of the Function to get.
+  /functions:
+    get:
+      operationId: getFunctions
+      tags:
+        - functions
+      x-speakeasy-group: functions
+      x-speakeasy-name-override: list
+      summary: List all Functions
+      description: Get a list of all Functions.
       responses:
         "200":
-          description: a list of FunctionResponse objects
+          description: a list of Function objects
           content:
             application/json:
               schema:

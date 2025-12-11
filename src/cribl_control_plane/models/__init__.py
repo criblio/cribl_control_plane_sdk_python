@@ -918,9 +918,9 @@ if TYPE_CHECKING:
         GetCriblLakeDatasetByLakeIDRequest,
         GetCriblLakeDatasetByLakeIDRequestTypedDict,
     )
-    from .getfunctionresponsebyidop import (
-        GetFunctionResponseByIDRequest,
-        GetFunctionResponseByIDRequestTypedDict,
+    from .getfunctionsbyidop import (
+        GetFunctionsByIDRequest,
+        GetFunctionsByIDRequestTypedDict,
     )
     from .getinputbyidop import GetInputByIDRequest, GetInputByIDRequestTypedDict
     from .getmasterworkerentryop import (
@@ -4809,8 +4809,8 @@ __all__ = [
     "GetCriblLakeDatasetByLakeIDAndIDRequestTypedDict",
     "GetCriblLakeDatasetByLakeIDRequest",
     "GetCriblLakeDatasetByLakeIDRequestTypedDict",
-    "GetFunctionResponseByIDRequest",
-    "GetFunctionResponseByIDRequestTypedDict",
+    "GetFunctionsByIDRequest",
+    "GetFunctionsByIDRequestTypedDict",
     "GetInputByIDRequest",
     "GetInputByIDRequestTypedDict",
     "GetMasterWorkerEntryRequest",
@@ -8379,8 +8379,8 @@ _dynamic_imports: dict[str, str] = {
     "GetCriblLakeDatasetByLakeIDAndIDRequestTypedDict": ".getcribllakedatasetbylakeidandidop",
     "GetCriblLakeDatasetByLakeIDRequest": ".getcribllakedatasetbylakeidop",
     "GetCriblLakeDatasetByLakeIDRequestTypedDict": ".getcribllakedatasetbylakeidop",
-    "GetFunctionResponseByIDRequest": ".getfunctionresponsebyidop",
-    "GetFunctionResponseByIDRequestTypedDict": ".getfunctionresponsebyidop",
+    "GetFunctionsByIDRequest": ".getfunctionsbyidop",
+    "GetFunctionsByIDRequestTypedDict": ".getfunctionsbyidop",
     "GetInputByIDRequest": ".getinputbyidop",
     "GetInputByIDRequestTypedDict": ".getinputbyidop",
     "GetMasterWorkerEntryRequest": ".getmasterworkerentryop",

@@ -322,8 +322,8 @@ with CriblControlPlane(
 
 ### [Functions](docs/sdks/functions/README.md)
 
-* [list](docs/sdks/functions/README.md#list) - Get a list of FunctionResponse objects
-* [get](docs/sdks/functions/README.md#get) - Get FunctionResponse by ID
+* [get](docs/sdks/functions/README.md#get) - Get a Function
+* [list](docs/sdks/functions/README.md#list) - List all Functions
 
 ### [Groups](docs/sdks/groupssdk/README.md)
 

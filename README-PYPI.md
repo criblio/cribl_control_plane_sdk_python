@@ -322,8 +322,8 @@ with CriblControlPlane(
 
 ### [Functions](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/functions/README.md)
 
-* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/functions/README.md#list) - Get a list of FunctionResponse objects
-* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/functions/README.md#get) - Get FunctionResponse by ID
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/functions/README.md#get) - Get a Function
+* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/functions/README.md#list) - List all Functions
 
 ### [Groups](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md)
 

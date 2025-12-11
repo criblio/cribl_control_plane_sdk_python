@@ -6,13 +6,13 @@ from cribl_control_plane.utils import FieldMetadata, PathParamMetadata
 from typing_extensions import Annotated, TypedDict
 
 
-class GetFunctionResponseByIDRequestTypedDict(TypedDict):
+class GetFunctionsByIDRequestTypedDict(TypedDict):
     id: str
-    r"""Unique ID to GET"""
+    r"""The <code>id</code> of the Function to get."""
 
 
-class GetFunctionResponseByIDRequest(BaseModel):
+class GetFunctionsByIDRequest(BaseModel):
     id: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""Unique ID to GET"""
+    r"""The <code>id</code> of the Function to get."""

@@ -17,6 +17,7 @@ import weakref
 if TYPE_CHECKING:
     from cribl_control_plane.auth_sdk import AuthSDK
     from cribl_control_plane.destinations import Destinations
+    from cribl_control_plane.functions import Functions
     from cribl_control_plane.groups_sdk import GroupsSDK
     from cribl_control_plane.health import Health
     from cribl_control_plane.lakedatasets import LakeDatasets
@@ -48,6 +49,8 @@ class CriblControlPlane(BaseSDK):
     r"""Actions related to Packs"""
     system: "SystemSDK"
     versions: "Versions"
+    functions: "Functions"
+    r"""Actions related to functions"""
     nodes: "Nodes"
     groups: "GroupsSDK"
     r"""Actions related to Groups"""
@@ -62,6 +65,7 @@ class CriblControlPlane(BaseSDK):
         "packs": ("cribl_control_plane.packs", "Packs"),
         "system": ("cribl_control_plane.system_sdk", "SystemSDK"),
         "versions": ("cribl_control_plane.versions", "Versions"),
+        "functions": ("cribl_control_plane.functions", "Functions"),
         "nodes": ("cribl_control_plane.nodes", "Nodes"),
         "groups": ("cribl_control_plane.groups_sdk", "GroupsSDK"),
     }

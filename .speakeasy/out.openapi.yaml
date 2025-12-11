@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.16.0-alpha.1765321374704-65bfc569
+  version: 4.16.0-alpha.1765446369054-b5828090
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -97,6 +97,5199 @@ components:
             delete: "#/components/schemas/DiffLineDelete"
             insert: "#/components/schemas/DiffLineInsert"
             context: "#/components/schemas/DiffLineContext"
+    FunctionAggregateMetrics:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - aggregate_metrics
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: ""
+          required:
+            - timeWindow
+            - aggregations
+          properties:
+            passthrough:
+              type: boolean
+              title: Passthrough mode
+              description: Pass through the original events along with the aggregation events
+              default: false
+            preserveGroupBys:
+              type: boolean
+              title: Preserve group by fields
+              description: Preserve the structure of the original aggregation event's groupby fields
+              default: false
+            sufficientStatsOnly:
+              type: boolean
+              title: Sufficient stats mode
+              description: Output only statistics that are sufficient for the supplied aggregations
+              default: false
+            prefix:
+              type: string
+              title: Output prefix
+              description: A prefix that is prepended to all of the fields output by this Aggregations Function
+            timeWindow:
+              pattern: \d+[sm]$
+              type: string
+              title: Time window
+              description: The time span of the tumbling window for aggregating events. Must be a valid time string (such as 10s).
+              default: 10s
+            aggregations:
+              type: array
+              title: Aggregates
+              description: Combination of Aggregation function and output metric type
+              minItems: 1
+              items:
+                type: object
+                required:
+                  - agg
+                  - metricType
+                additionalProperties: false
+                properties:
+                  metricType:
+                    title: Metric type
+                    description: The output metric type
+                    type: string
+                    enum:
+                      - automatic
+                      - counter
+                      - distribution
+                      - gauge
+                      - histogram
+                      - summary
+                      - timer
+                    default: automatic
+                    x-speakeasy-unknown-values: allow
+                  agg:
+                    title: Aggregation
+                    type: string
+                    description: "Aggregate function to perform on events. Example: sum(bytes).where(action=='REJECT').as(TotalBytes)"
+            groupbys:
+              type: array
+              title: Group by dimensions
+              description: "Optional: One or more dimensions to group aggregates by. Supports wildcard expressions. Wrap dimension names in quotes if using literal identifiers, such as 'service.name'. Warning: Using wildcard '*' causes all dimensions in the event to be included, which can result in high cardinality and increased memory usage. Exclude dimensions that can result in high cardinality before using wildcards. Example: !_time, !_numericValue, *"
+              items:
+                type: string
+            flushEventLimit:
+              type: number
+              title: Aggregation event limit
+              description: The maximum number of events to include in any given aggregation event
+              minimum: 1
+            flushMemLimit:
+              type: string
+              title: Aggregation memory limit
+              description: "The memory usage limit to impose upon aggregations. Defaults to 80% of the process memory; value configured above default limit is ignored. Accepts numerals with units like KB and MB (example: 128MB)."
+              pattern: ^\d+\s*(?:\w{2})?$
+            cumulative:
+              type: boolean
+              title: Cumulative aggregations
+              description: Enable to retain aggregations for cumulative aggregations when flushing out an aggregation table event. When disabled (the default), aggregations are reset to 0 on flush.
+              default: false
+            shouldTreatDotsAsLiterals:
+              type: boolean
+              title: Treat dots as literals
+              description: Treat dots in dimension names as literals. This is useful for top-level dimensions that contain dots, such as 'service.name'.
+              default: true
+            add:
+              title: Evaluate fields
+              description: Set of key-value pairs to evaluate and add/set
+              type: array
+              items:
+                type: object
+                required:
+                  - value
+                properties:
+                  name:
+                    type: string
+                    title: Name
+                  value:
+                    type: string
+                    title: Value expression
+                    description: JavaScript expression to compute the value (can be constant)
+            flushOnInputClose:
+              type: boolean
+              title: Flush on stream close
+              description: Flush aggregations when an input stream is closed. If disabled, Time Window Settings control flush behavior.
+              default: true
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionAggregation:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - aggregation
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: ""
+          required:
+            - timeWindow
+            - aggregations
+          properties:
+            passthrough:
+              type: boolean
+              title: Passthrough mode
+              description: Pass through the original events along with the aggregation events
+              default: false
+            preserveGroupBys:
+              type: boolean
+              title: Preserve group by fields
+              description: Preserve the structure of the original aggregation event's groupby fields
+              default: false
+            sufficientStatsOnly:
+              type: boolean
+              title: Sufficient stats mode
+              description: Output only statistics that are sufficient for the supplied aggregations
+              default: false
+            metricsMode:
+              type: boolean
+              title: Metrics mode
+              description: Enable to output the aggregates as metrics. When disabled, aggregates are output as events.
+              default: false
+            prefix:
+              type: string
+              title: Output prefix
+              description: A prefix that is prepended to all of the fields output by this Aggregations Function
+            timeWindow:
+              pattern: \d+[sm]$
+              type: string
+              title: Time window
+              description: The time span of the tumbling window for aggregating events. Must be a valid time string (such as 10s).
+              default: 10s
+            aggregations:
+              type: array
+              title: Aggregates
+              description: "Aggregate function to perform on events. Example: sum(bytes).where(action=='REJECT').as(TotalBytes)"
+              minItems: 1
+              items:
+                type: string
+            groupbys:
+              type: array
+              title: Group by fields
+              description: "Optional: One or more fields to group aggregates by. Supports wildcard expressions. Warning: Using wildcard '*' causes all fields in the event to be included, which can result in high cardinality and increased memory usage. Exclude fields that can result in high cardinality before using wildcards. Example: !_time, !_numericValue, *"
+              items:
+                type: string
+            flushEventLimit:
+              type: number
+              title: Aggregation event limit
+              description: The maximum number of events to include in any given aggregation event
+              minimum: 1
+            flushMemLimit:
+              type: string
+              title: Aggregation memory limit
+              description: "The memory usage limit to impose upon aggregations. Defaults to 80% of the process memory; value configured above default limit is ignored. Accepts numerals with units like KB and MB (example: 128MB)."
+              pattern: ^\d+\s*(?:\w{2})?$
+            cumulative:
+              type: boolean
+              title: Cumulative aggregations
+              description: Enable to retain aggregations for cumulative aggregations when flushing out an aggregation table event. When disabled (the default), aggregations are reset to 0 on flush.
+              default: false
+            searchAggMode:
+              type: string
+              title: Search-specific aggregation mode
+              description: Allows Cribl Search-specific aggregation configuration
+            add:
+              title: Evaluate fields
+              description: Set of key-value pairs to evaluate and add/set
+              type: array
+              items:
+                type: object
+                required:
+                  - value
+                properties:
+                  name:
+                    type: string
+                    title: Name
+                  value:
+                    type: string
+                    title: Value Expression
+                    description: JavaScript expression to compute the value (can be constant)
+            shouldTreatDotsAsLiterals:
+              type: boolean
+              title: Treat dots as literals
+              description: Treat dots in dimension names as literals. This is useful for top-level dimensions that contain dots, such as 'service.name'.
+              default: false
+            flushOnInputClose:
+              type: boolean
+              title: Flush on stream close
+              description: Flush aggregations when an input stream is closed. If disabled, Time Window Settings control flush behavior.
+              default: true
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionAutoTimestamp:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - auto_timestamp
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: ""
+          additionalProperties: false
+          properties:
+            srcField:
+              title: Source field
+              description: Field to search for a timestamp
+              type: string
+              default: _raw
+            dstField:
+              title: Destination field
+              description: Field to place timestamp in
+              type: string
+              default: _time
+            defaultTimezone:
+              type: string
+              title: Default timezone
+              description: Timezone to assign to timestamps without timezone info
+              default: local
+            timeExpression:
+              title: Time expression
+              description: Expression to use to format time. Current time, as a JavaScript Date object, is in global `time`. You can access other fields' values via __e.<fieldName>.
+              type: string
+              default: time.getTime() / 1000
+            offset:
+              title: Start scan offset
+              description: The offset into the string from which to look for a timestamp
+              type: number
+              minimum: 0
+              default: 0
+            maxLen:
+              title: Max timestamp scan depth
+              description: Maximum string length at which to look for a timestamp
+              type: number
+              minimum: 1
+              default: 150
+            defaultTime:
+              title: Default time
+              description: How to set the time field if no timestamp is found
+              type: string
+              default: now
+              enum:
+                - now
+                - last
+                - none
+              x-speakeasy-enum-descriptions:
+                - Current Time
+                - Last Event's Time
+                - None
+              x-speakeasy-unknown-values: allow
+            latestDateAllowed:
+              title: Future timestamp allowed
+              description: The latest timestamp value allowed relative to now, such as +42days. Parsed values after this date will be set to the Default time.
+              type: string
+              default: +1week
+            spacer:
+              type: string
+            earliestDateAllowed:
+              title: Earliest timestamp allowed
+              description: The earliest timestamp value allowed relative to now, such as -42years. Parsed values prior to this date will be set to the Default time.
+              type: string
+              default: -420weeks
+            timestamps:
+              title: Additional timestamps
+              description: Add regex/strptime pairs to extract additional timestamp formats
+              type: array
+              items:
+                type: object
+                required:
+                  - regex
+                  - strptime
+                properties:
+                  regex:
+                    type: string
+                    title: Regex
+                    description: Regex with first capturing group matching the timestamp
+                  strptime:
+                    type: string
+                    title: Strptime format
+                    description: Select or enter strptime format for the captured timestamp
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionCef:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - cef
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: ""
+          additionalProperties: false
+          properties:
+            outputField:
+              title: Output field
+              description: The field to which the CEF formatted event will be output
+              type: string
+              default: _raw
+            header:
+              title: Header Fields
+              description: Set of header key/value pairs
+              type: array
+              items:
+                type: object
+                required:
+                  - value
+                properties:
+                  name:
+                    type: string
+                    title: Name
+                    readOnly: true
+                  value:
+                    type: string
+                    title: Value Expression
+                    description: JavaScript expression to compute the value (can be constant)
+              default:
+                - name: cef_version
+                  value: "'CEF:0'"
+                - name: device_vendor
+                  value: "'Cribl'"
+                - name: device_product
+                  value: "'Cribl'"
+                - name: device_version
+                  value: C.version
+                - name: device_event_class_id
+                  value: "420"
+                - name: name
+                  value: "'Cribl Event'"
+                - name: severity
+                  value: "6"
+            extension:
+              title: Extension Fields
+              description: Set of extension key-value pairs
+              type: array
+              items:
+                type: object
+                required:
+                  - name
+                  - value
+                properties:
+                  name:
+                    type: string
+                    title: Name
+                    pattern: ^[a-zA-Z0-9]+$
+                  value:
+                    type: string
+                    title: Value Expression
+                    description: JavaScript expression to compute the value (can be constant)
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionChain:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - chain
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: ""
+          required:
+            - processor
+          properties:
+            processor:
+              title: Processor
+              description: The data processor (Pack/Pipeline) to send events through
+              type: string
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionClone:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - clone
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: ""
+          properties:
+            clones:
+              type: array
+              title: Clones
+              description: Create clones with the following fields set
+              minItems: 1
+              items:
+                type: object
+                title: Fields
+                description: Key-value pairs to set or overwrite in the clone
+                additionalProperties:
+                  type: string
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionCode:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - code
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: ""
+          additionalProperties: false
+          properties:
+            code:
+              type: string
+              title: Code
+              description: "Caution: This Function will be evaluated in an unprotected context. This means that you will be able to execute almost any JavaScript code."
+            maxNumOfIterations:
+              type: number
+              title: Iteration limit
+              description: The maximum number of allowed iterations within this Function. Defaults to 5,000.
+              minimum: 1
+              maximum: 10000
+              default: 5000
+            activeLogSampleRate:
+              type: number
+              title: Error log sample rate
+              description: Rate at which this Function logs errors. For example, a value of 1 (the default) logs every error, a value of 10 logs every tenth error, and so on.
+              minimum: 1
+              maximum: 5000
+              default: 1
+            useUniqueLogChannel:
+              type: boolean
+              title: Use unique log channel
+              description: Logs from this Function will be sent to a unique channel in the form `func:code:${pipelineName}:${functionIndex}`. Disable to use the generic `func:code` log channel instead.
+              default: true
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionComment:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - comment
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: ""
+          properties:
+            comment:
+              type: string
+              title: Comment
+              description: Optional, short description of this Function's purpose in the Pipeline
+              maxLength: 1000
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionDistinct:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - distinct
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: distinct configuration
+          required:
+            - groupBy
+          properties:
+            groupBy:
+              type: array
+              title: Grouping properties
+              description: Defines the properties that are concatenated to produce distinct key
+              minItems: 1
+              items:
+                type: string
+            maxCombinations:
+              type: number
+              description: maximum number of tracked combinations
+              default: 10000
+            maxDepth:
+              type: number
+              description: maximum number of groupBy properties
+              default: 15
+            isFederated:
+              type: boolean
+              description: indicator that the operator runs on a federated executor
+              default: false
+            suppressPreviews:
+              type: boolean
+              title: Suppress preview results
+              description: Toggle this on to suppress generating previews of intermediate results
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionDnsLookup:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - dns_lookup
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: ""
+          additionalProperties: true
+          properties:
+            dnsLookupFields:
+              title: DNS lookup fields
+              description: List of field names on which to perform DNS lookup
+              type: array
+              items:
+                type: object
+                properties:
+                  inFieldName:
+                    type: string
+                    title: Lookup field name
+                  resourceRecordType:
+                    title: Resource record type
+                    description: The DNS record type (RR) to return. Defaults to 'A'.
+                    type: string
+                    enum:
+                      - A
+                      - AAAA
+                      - ANY
+                      - CNAME
+                      - MX
+                      - NAPTR
+                      - NS
+                      - PTR
+                      - SOA
+                      - SRV
+                      - TXT
+                    x-speakeasy-enum-descriptions:
+                      - A
+                      - AAAA
+                      - ANY
+                      - CNAME
+                      - MX
+                      - NAPTR
+                      - NS
+                      - PTR
+                      - SOA
+                      - SRV
+                      - TXT
+                    default: A
+                    x-speakeasy-unknown-values: allow
+                  outFieldName:
+                    type: string
+                    title: Output field name
+                    description: Name of field to add lookup results to. Leave blank to overwrite the lookup field.
+            reverseLookupFields:
+              title: Reverse DNS lookup fields
+              description: List of field names on which to perform reverse DNS lookup
+              type: array
+              items:
+                type: object
+                properties:
+                  inFieldName:
+                    type: string
+                    title: Lookup field name
+                    description: Name of the field containing the IP to look up. If the field value is not in IPv4 or IPv6 format, the lookup is skipped.
+                  outFieldName:
+                    type: string
+                    title: Output field name
+                    description: Name of field to add the resolved domain to. Leave blank to overwrite the lookup field.
+            dnsServers:
+              title: DNS server overrides
+              description: "IPs, in RFC 5952 format, of the DNS servers to use for resolution. Examples: IPv4 1.1.1.1, 4.2.2.2:53, or IPv6 [2001:4860:4860::8888], [2001:4860:4860::8888]:1053. If not specified, system's DNS will be used."
+              type: array
+              items:
+                type: string
+            cacheTTL:
+              type: number
+              title: Cache time to live (minutes)
+              description: How frequently to expire and refetch DNS cache. Use 0 to disable.
+              default: 30
+            maxCacheSize:
+              type: number
+              title: Cache size limit
+              default: 5000
+              description: The maximum number of DNS resolutions to be cached locally. Leave at default unless you understand the implications of changing.
+              maximum: 100000
+            useResolvConf:
+              title: Use /etc/resolv.conf
+              description: Attempt to resolve DNS short names using the search or domain directive from /etc/resolv.conf
+              type: boolean
+              default: false
+            lookupFallback:
+              title: Fall back to DNS.lookup()
+              description: "If unable to resolve a DNS short name, make a DNS.lookup() call to resolve it. Caution: This might degrade performance in unrelated areas of @{product}."
+              type: boolean
+              default: false
+            domainOverrides:
+              title: Use search or domain fallbacks
+              description: Specify fallback values for the DNS resolver to use when it cannot resolve a DNS short name
+              type: array
+              items:
+                type: string
+                properties:
+                  domainOverride:
+                    type: string
+                    title: fallback
+            lookupFailLogLevel:
+              title: Log level for failed lookups
+              type: string
+              enum:
+                - silly
+                - debug
+                - info
+                - warn
+                - error
+              x-speakeasy-enum-descriptions:
+                - silly
+                - debug
+                - info
+                - warn
+                - error
+              default: error
+              x-speakeasy-unknown-values: allow
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionDrop:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - drop
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionDropDimensions:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - drop_dimensions
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: ""
+          required:
+            - timeWindow
+            - dropDimensions
+          properties:
+            timeWindow:
+              pattern: \d+[sm]$
+              type: string
+              title: Aggregation time window
+              description: The time span of the tumbling window for aggregating events. Must be a valid time string (such as 10s).
+              default: 10s
+            dropDimensions:
+              type: array
+              title: Dimensions to drop
+              description: "One or more dimensions to be dropped. Supports wildcard expressions. Warning: Using wildcard '*' causes all dimensions in the event to be dropped."
+              default: []
+              minItems: 1
+              items:
+                type: string
+            flushOnInputClose:
+              type: boolean
+              title: Flush on stream close
+              description: Flush aggregations when an input stream is closed. If disabled, aggregations are flushed based on Time Window Settings instead.
+              default: true
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionDynamicSampling:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - dynamic_sampling
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: ""
+          additionalProperties: false
+          required:
+            - mode
+            - keyExpr
+          properties:
+            mode:
+              title: Sample mode
+              type: string
+              description: "Defines how sample rate will be derived: log(previousPeriodCount) or sqrt(previousPeriodCount)"
+              enum:
+                - log
+                - sqrt
+              x-speakeasy-enum-descriptions:
+                - Logarithmic
+                - Square Root
+              default: log
+              x-speakeasy-unknown-values: allow
+            keyExpr:
+              title: Sample group key
+              description: Expression used to derive sample group key. Example:`${domain}:${status}`. Each sample group will have its own derived sampling rate based on volume. Defaults to `${host}`.
+              type: string
+              default: "`${host}`"
+            samplePeriod:
+              title: Sample period
+              description: How often (in seconds) sample rates will be adjusted
+              type: number
+              default: 30
+            minEvents:
+              title: Minimum events
+              description: Minimum number of events that must be received in previous sample period for sampling mode to be applied to current period. If the number of events received for a sample group is less than this minimum, a sample rate of 1:1 is used.
+              type: number
+              default: 30
+            maxSampleRate:
+              title: Sampling rate limit
+              description: Maximum sampling rate. If computed sampling rate is above this value, it will be limited to this value.
+              type: number
+              minimum: 1
+              default: 100
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionEval:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - eval
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: ""
+          additionalProperties: false
+          properties:
+            add:
+              title: Evaluate fields
+              description: Set of key-value pairs to evaluate and add/set
+              type: array
+              items:
+                type: object
+                required:
+                  - value
+                properties:
+                  name:
+                    type: string
+                    title: Name
+                  value:
+                    type: string
+                    title: Value Expression
+                    description: JavaScript expression to compute the value (can be constant)
+                  disabled:
+                    type: boolean
+                    default: false
+                    description: Set to No to disable the evaluation of an individual expression
+            keep:
+              title: Keep fields
+              description: List of fields to keep. Supports * wildcards. Takes precedence over 'Remove fields'.
+              type: array
+              items:
+                type: string
+            remove:
+              title: Remove fields
+              description: List of fields to remove. Supports * wildcards. Fields that match 'Keep fields' will not be removed. Enclose field names containing special characters in single or double quotes.
+              type: array
+              items:
+                type: string
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionEventBreaker:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - event_breaker
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: ""
+          required:
+            - existingOrNew
+          properties:
+            existingOrNew:
+              title: Existing or new?
+              type: string
+              enum:
+                - existing
+                - new
+              x-speakeasy-enum-descriptions:
+                - Use Existing
+                - Create New
+              default: existing
+              x-speakeasy-unknown-values: allow
+            shouldMarkCriblBreaker:
+              type: boolean
+              title: Add to cribl_breaker
+              description: Add this Function name to the cribl_breaker field
+              default: true
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionEventstats:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - eventstats
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: eventstats configuration
+          required:
+            - aggregations
+          properties:
+            aggregations:
+              type: array
+              title: Aggregates
+              description: Aggregate function(s) to perform on events. E.g., sum(bytes).where(action=='REJECT').as(TotalBytes)
+              minItems: 1
+              items:
+                type: string
+            groupBys:
+              type: array
+              title: Group by fields
+              description: Fields to group aggregates by, supports wildcard expressions.
+              items:
+                type: string
+            maxEvents:
+              type: number
+              title: Maximum number of events
+              description: Specifies how many events are at max kept in memory to be enriched with aggregations
+              default: 50000
+            flushOnInputClose:
+              type: boolean
+              title: Flush on stream close
+              description: Determines if aggregations should flush when an input stream is closed. If disabled, time window settings will control flush behavior.
+              default: false
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionExternaldata:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - externaldata
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: ""
+          additionalProperties: false
+          properties: {}
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionFlatten:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - flatten
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: ""
+          properties:
+            fields:
+              type: array
+              title: Fields
+              description: List of top-level fields to include for flattening. Supports * wildcards, except when used on internal fields. Defaults to empty array, which means all fields.
+              items:
+                type: string
+                pattern: ^(?!__.*\*).*$
+              default: []
+            prefix:
+              type: string
+              title: Prefix
+              description: Prefix string for flattened field names. Defaults to empty.
+              default: ""
+            depth:
+              type: number
+              title: Depth
+              description: Number representing the nested levels to consider for flattening. Defaults to 5. Minimum should be 1.
+              default: 5
+              minimum: 1
+            delimiter:
+              type: string
+              title: Delimiter
+              description: Delimiter to be used for flattening. Defaults to underscore.
+              default: _
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionFoldkeys:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - foldkeys
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          properties:
+            deleteOriginal:
+              title: Delete original
+              description: When enabled (default), only the folded keys are kept. When disabled, the original entries are retained alongside the folded keys.
+              type: boolean
+              default: true
+            separator:
+              title: Separator string
+              description: Character or string used to separate key levels to be folded. Defaults to the dot (.) character.
+              type: string
+              default: .
+            selectionRegExp:
+              title: Selection regular expression
+              description: Optional regular expression to select a subset of the keys to fold.
+              type: string
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionGenStats:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - gen_stats
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: Gen stats configuration
+          additionalProperties: false
+          properties:
+            fields:
+              type: array
+              items:
+                type: string
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionGeoip:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - geoip
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: ""
+          additionalProperties: false
+          required:
+            - file
+          properties:
+            file:
+              type: string
+              title: GeoIP file (.mmdb)
+              description: Select an uploaded Maxmind database, or specify path to a Maxmind database with .mmdb extension
+              minLength: 1
+            inField:
+              type: string
+              title: IP field
+              description: Field name in which to find an IP to look up. Can be nested.
+              default: ip
+            outField:
+              type: string
+              title: Result field
+              description: Field name in which to store the GeoIP lookup results
+              default: geoip
+            additionalFields:
+              type: array
+              title: Additional fields
+              items:
+                type: object
+                required:
+                  - extraInField
+                  - extraOutField
+                properties:
+                  extraInField:
+                    type: string
+                    title: IP Field
+                    description: Field name in which to find an IP to look up. Can be nested.
+                  extraOutField:
+                    type: string
+                    title: Result Field
+                    description: Field name in which to store the GeoIP lookup results
+            outFieldMappings:
+              type: object
+              title: Output field mappings
+              description: Search-specific mappings for granular control over event enrichment
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionGrok:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - grok
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: ""
+          required:
+            - pattern
+          properties:
+            pattern:
+              type: string
+              title: Pattern
+              description: "Grok pattern to extract fields. Syntax supported: %{PATTERN_NAME:FIELD_NAME}"
+            patternList:
+              type: array
+              title: Additional Grok patterns
+              default: []
+              items:
+                type: object
+                required:
+                  - pattern
+                properties:
+                  pattern:
+                    type: string
+                    title: Pattern
+                    description: "Grok pattern to extract fields. Syntax supported: %{PATTERN_NAME:FIELD_NAME}"
+            source:
+              type: string
+              title: Source field
+              description: Field on which to perform Grok extractions
+              default: _raw
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionHandlebar:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - handlebar
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: ""
+          required:
+            - templates
+          properties:
+            templates:
+              type: object
+              title: Templates
+              description: Object with template_id as keys and template definitions as values. Uses event.__template_id to select template at runtime.
+              additionalProperties:
+                type: object
+                title: Template definition
+                required:
+                  - content
+                  - type
+                additionalProperties: false
+                properties:
+                  content:
+                    type: string
+                    title: Template content
+                    description: Handlebars template string
+                    minLength: 1
+                  description:
+                    type: string
+                    title: Description
+                    description: Optional description of what this template is used for
+                  type:
+                    type: string
+                    title: Template type
+                    description: Type categorization for the template (e.g., Universal, Email, Slack)
+                    default: Universal
+            targetField:
+              type: string
+              title: Target field
+              description: Field name to store the rendered template result. Defaults to _raw.
+              default: _raw
+            parseJson:
+              type: boolean
+              title: Parse as JSON
+              description: Parse the rendered template as JSON and store as an object instead of a string. Useful for building structured data like Slack blocks.
+              default: false
+            removeOnNull:
+              type: boolean
+              title: Remove field if empty
+              description: Remove the target field if the rendered result is empty or null.
+              default: true
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionJoin:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - join
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: Join Configuration
+          additionalProperties: false
+          required:
+            - fieldConditions
+          properties:
+            kind:
+              type: string
+              title: Kind
+              description: Join kind, e.g. inner
+            hints:
+              type: object
+              title: Hint
+              description: Hints passed to the join function
+              additionalProperties:
+                type: string
+            fieldConditions:
+              title: Join Conditions
+              description: Fields to use when joining
+              type: array
+              minItems: 1
+              items:
+                type: object
+                required:
+                  - leftFieldName
+                  - rightFieldName
+                properties:
+                  leftFieldName:
+                    title: Left Field Name
+                    description: The field name to join on, on the left side.
+                    type: string
+                  rightFieldName:
+                    title: Right Field Name
+                    description: The field name on the right side of the data, i.e. the stage results, that we are joining with
+                    type: string
+            searchJobId:
+              title: Search Job Id
+              description: The id for this search job.
+              type: string
+            stageId:
+              title: Stage Id
+              description: The stage we are joining with.
+              type: string
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionJsonUnroll:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - json_unroll
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: ""
+          required:
+            - path
+          properties:
+            path:
+              type: string
+              title: Path
+              description: Path to array to unroll, such as foo.0.bar
+            name:
+              type: string
+              title: New name
+              description: Name of each exploded array element in each new event. Leave empty to expand the array element with its original name.
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionLakeExport:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - lake_export
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: Lake export Configuration
+          additionalProperties: false
+          required:
+            - dataset
+            - searchJobId
+          properties:
+            searchJobId:
+              title: Search Job Id
+              description: Id of the search job this function is running on.
+              type: string
+            dataset:
+              title: Dataset Name
+              description: Name of the dataset
+              type: string
+            lake:
+              title: Lake Name
+              description: Name of the lake
+              type: string
+              default: default
+            tee:
+              title: Tee
+              description: Tee results to search. When set to true results will be shipped instead of stats
+              type: string
+              default: false
+            flushMs:
+              title: Flush period
+              description: How often are stats flushed in ms
+              type: number
+              default: 1000
+            suppressPreviews:
+              type: boolean
+              title: Suppress periodic stats
+              description: Disables generation of intermediate stats. When true stats will be emitted only on end
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionLimit:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - limit
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: ""
+          additionalProperties: false
+          properties:
+            limit:
+              title: Event limit
+              description: Number of qualifying events to pass through
+              type: integer
+              default: 100
+              minimum: 0
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionLocalSearchDatatypeParser:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - local_search_datatype_parser
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          title: ""
+          type: object
+          additionalProperties: false
+          required:
+            - rulesetId
+          properties:
+            rulesetId:
+              title: Ruleset ID
+              type: string
+              description: ID of the local search datatype ruleset
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionLocalSearchRulesetRunner:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - local_search_ruleset_runner
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: ""
+          additionalProperties: false
+          properties:
+            rulesetType:
+              type: string
+              enum:
+                - dataset
+                - datatype
+              title: Ruleset Type
+              x-speakeasy-unknown-values: allow
+            rulesetId:
+              type: string
+              title: Ruleset ID
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionLookup:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - lookup
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: ""
+          required:
+            - file
+          properties:
+            file:
+              type: string
+              title: Lookup file path (.csv, .csv.gz)
+              description: "Path to the lookup file. Reference environment variables via $. Example: $HOME/file.csv"
+              minLength: 1
+            dbLookup:
+              type: boolean
+              title: Use Disk-Based Lookup
+              description: Enable to use a disk-based lookup. This option displays only the settings relevant to disk-based mode and hides those for in-memory lookups.
+              default: false
+            matchMode: {}
+            matchType: {}
+            reloadPeriodSec: {}
+            inFields:
+              type: array
+              title: Lookup fields
+              description: Fields that should be used to key into the lookup table
+              minItems: 1
+              items:
+                type: object
+                required:
+                  - eventField
+                properties:
+                  eventField:
+                    type: string
+                    title: Lookup Field Name in Event
+                    description: Field name as it appears in events
+                    pattern: ^[a-zA-Z$_'"][a-zA-Z0-9$_\[\]\.'"]*$
+                  lookupField:
+                    type: string
+                    title: Corresponding Field Name in Lookup
+                    description: "Optional: The field name as it appears in the lookup file. Defaults to event field name"
+            outFields:
+              type: array
+              title: Output fields
+              description: Fields to add to events after matching lookup. Defaults to all if not specified.
+              items:
+                type: object
+                required:
+                  - lookupField
+                properties:
+                  lookupField:
+                    type: string
+                    title: Output Field Name from Lookup
+                    description: The field name as it appears in the lookup file
+                  eventField:
+                    type: string
+                    title: Lookup Field Name in Event
+                    description: "Optional: Field name to add to event. Defaults to lookup field name."
+                    pattern: ^[a-zA-Z$_][a-zA-Z0-9$_\[\]\.'"]*$
+                  defaultValue:
+                    type: string
+                    title: Default Value
+                    description: "Optional: Value to assign if lookup entry is not found"
+            addToEvent:
+              type: boolean
+              title: Add to raw event
+              description: Add the looked-up values to _raw, as key=value pairs
+              default: false
+            ignoreCase: {}
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionMask:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - mask
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: ""
+          required:
+            - rules
+          properties:
+            rules:
+              type: array
+              title: Masking rules
+              minItems: 1
+              items:
+                type: object
+                required:
+                  - matchRegex
+                  - replaceExpr
+                properties:
+                  matchRegex:
+                    type: string
+                    title: Match Regex
+                    description: Pattern to replace. Use /g to replace all matches.
+                    minLength: 1
+                  replaceExpr:
+                    type: string
+                    title: Replace Expression
+                    description: A JavaScript expression or literal to replace the matching content. Capturing groups can be referenced as g1, g2, and so on, and event fields as event.<fieldName>.
+                    default: "''"
+                  disabled:
+                    type: boolean
+                    default: false
+                    description: Set to No to disable the evaluation of an individual rule
+            fields:
+              type: array
+              title: Apply to fields
+              description: Fields on which to apply the masking rules. Supports * wildcards, except when used on internal fields.
+              items:
+                type: string
+                pattern: ^(?!__.*\*).*$
+              default:
+                - _raw
+            depth:
+              type: integer
+              title: Depth
+              description: Depth to which the Mask Function will search for fields to mask
+              default: 5
+              minimum: 1
+            flags:
+              title: Evaluate fields
+              description: Fields to evaluate if one or more masking rules are matched
+              type: array
+              items:
+                type: object
+                required:
+                  - value
+                properties:
+                  name:
+                    type: string
+                    title: Name
+                  value:
+                    type: string
+                    title: Value Expression
+                    description: JavaScript expression to compute the value (can be constant)
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionMvExpand:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - mv_expand
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: ""
+          additionalProperties: false
+          required:
+            - sourceFields
+          properties:
+            sourceFields:
+              title: Source fields
+              description: Array of property-/field-names to expand
+              type: array
+              minItems: 1
+              items:
+                type: string
+            targetNames:
+              title: Target field names
+              description: stores the value as new target field name
+              type: array
+              minItems: 1
+              items:
+                type: string
+            rowLimit:
+              title: Row limit
+              description: max. number of rows generated out of every source events
+              type: number
+              default: 9007199254740991
+            itemIndexName:
+              title: Item index name
+              description: name of an optional index property generated into the output
+              type: string
+            bagExpansionMode:
+              title: Bag expansion mode
+              description: decides if bag-values are expanded to bags or arrays
+              type: string
+              default: bag
+              enum:
+                - bag
+                - array
+              x-speakeasy-enum-descriptions:
+                - Store as object
+                - Store as array
+              x-speakeasy-unknown-values: allow
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionMvPull:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - mv_pull
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          additionalProperties: false
+          required:
+            - arrayPath
+            - relativeKeyPath
+            - relativeValuePath
+          properties:
+            arrayPath:
+              title: Field name of source array
+              description: Field name of the array within events that contains the data objects of interest. Can be a path.
+              type: string
+            relativeKeyPath:
+              title: Field name of key
+              description: Extract the K-V pair's key from this field, relative to the data object.
+              type: string
+            relativeValuePath:
+              title: Field name of value
+              description: Extract the K-V pair's value from this field, relative to the data object.
+              type: string
+            targetBagPath:
+              title: Field name for pulled fields
+              description: Optionally, specify a bag as the target for K-V entries. If not specified, these entries are stored on each top-level event.
+              type: string
+              default: null
+            deleteOriginal:
+              title: Delete source array after processing
+              description: Toggle this on to remove each original array of data objects after extraction. If toggled off, arrays are retained.
+              type: boolean
+              default: false
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionNotificationPolicies:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - notification_policies
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: Notification Policies Configuration
+          properties:
+            policies:
+              type: array
+              title: Policies
+              description: List of notification routing policies evaluated in order
+              items:
+                type: object
+                required:
+                  - id
+                  - templateTargetPairs
+                properties:
+                  id:
+                    type: string
+                    title: Policy ID
+                    description: Unique identifier for this policy
+                    minLength: 1
+                  disabled:
+                    type: boolean
+                    title: Disabled
+                    description: If true, this policy will be skipped during evaluation
+                    default: false
+                  waitToGroup:
+                    type: number
+                    title: Wait to Group (Minutes)
+                    description: Time to wait (in minutes) to group similar alerts before sending
+                    minimum: 0
+                  groupByLabels:
+                    type: array
+                    title: Group By Labels
+                    description: Event fields to use for grouping
+                    items:
+                      type: string
+                  conditions:
+                    type: array
+                    title: OR Conditions
+                    description: List of conditions. If ANY condition matches (OR), the policy applies. Each condition is a list of tags that must ALL match (AND).
+                    items:
+                      type: array
+                      title: AND Group
+                      items:
+                        type: object
+                        required:
+                          - key
+                          - operator
+                          - value
+                        properties:
+                          key:
+                            type: string
+                            title: Field Name
+                            description: Event field name to match against
+                            minLength: 1
+                          operator:
+                            type: string
+                            title: Operator
+                            description: Comparison operator
+                            enum:
+                              - =
+                              - "!="
+                              - =~
+                              - "!~"
+                            x-speakeasy-enums:
+                              - Equal
+                              - NotEqual
+                              - RegexMatch
+                              - RegexNotMatch
+                            x-speakeasy-unknown-values: allow
+                          value:
+                            title: Value
+                            description: Value to compare against (string, number, boolean)
+                            oneOf:
+                              - type: string
+                              - type: number
+                              - type: boolean
+                  templateTargetPairs:
+                    type: array
+                    title: Template & Target Pairs
+                    description: List of targets to route to and the templates to use
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - templateId
+                        - targetId
+                      properties:
+                        templateId:
+                          type: string
+                          title: Template ID
+                          description: ID of the notification template to use
+                        targetId:
+                          type: string
+                          title: Target ID
+                          description: ID of the notification target (output)
+                  final:
+                    type: boolean
+                    title: Final
+                    description: If true, stop evaluating further policies after this one matches
+                    default: false
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionNotifications:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - notifications
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: ""
+          additionalProperties: false
+          required:
+            - id
+            - field
+            - deduplicate
+          properties:
+            id:
+              type: string
+              title: ID
+              description: Notification ID
+            field:
+              type: string
+              title: Field
+              description: Notification event state field name
+            deduplicate:
+              type: boolean
+              title: Deduplicate
+              description: Toggle deduplication.
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionNotify:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - notify
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: Notify Configuration
+          additionalProperties: false
+          required:
+            - searchId
+            - notificationId
+            - savedQueryId
+            - group
+            - searchUrl
+            - messagesEndpoint
+            - authToken
+          properties:
+            group:
+              title: Group
+              description: Group the notification belongs to
+              type: string
+              default: default
+            notificationId:
+              title: Workspace
+              description: Workspace within the deployment to send the search results to.
+              type: string
+              default: main
+            searchId:
+              title: Search Id
+              description: Id of the search this function is running on.
+              type: string
+            savedQueryId:
+              title: Saved query Id
+              description: Id of the saved query
+              type: string
+            trigger:
+              title: Trigger condition expression
+              description: Js expression that filters events, a greater than 'Trigger Count' events will trigger the notification
+              type: string
+            triggerType:
+              type: string
+              title: Trigger type
+              description: Type of the trigger condition. custom applies a kusto expression over the results, and results count applies a comparison over results count
+              enum:
+                - custom
+                - resultsCount
+              x-speakeasy-enum-descriptions:
+                - Where
+                - Count of Results
+              x-speakeasy-unknown-values: allow
+            triggerComparator:
+              type: string
+              title: Count comparator
+              description: Operation to be applied over the results count
+              enum:
+                - ">"
+                - <
+                - ===
+                - "!=="
+                - ">="
+                - <=
+              x-speakeasy-enum-descriptions:
+                - greater than
+                - less than
+                - equals
+                - not equal to
+                - greater than or equal to
+                - less than or equal to
+              x-speakeasy-unknown-values: allow
+            triggerCount:
+              title: Trigger Count
+              description: How many results that match trigger the condition
+              type: number
+              default: 0
+            resultsLimit:
+              title: Top number results
+              description: Number of results to include in the notification event
+              type: number
+              default: 50
+            searchUrl:
+              title: Search url
+              description: Url of the search results
+              type: string
+            message:
+              title: Message content
+              description: "Message content template, available fields: searchId, resultSet, savedQueryId, notificationId, searchResultsUrl"
+              type: string
+            authToken:
+              title: Api Auth Token
+              description: Auth token for sending notification messages
+              type: string
+            messagesEndpoint:
+              title: Messages api endpoint
+              description: System messages api endpoint
+              type: string
+            tenantId:
+              title: Tenant Id
+              description: Current tenant id
+              type: string
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionNumerify:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - numerify
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          title: ""
+          type: object
+          properties:
+            depth:
+              type: integer
+              title: Depth
+              description: Depth to which the Numerify Function will search within a nested event. Depth greater than 5 (the default) could decrease performance.
+              default: 5
+              minimum: 0
+              maximum: 10
+            ignoreFields:
+              title: Ignore fields
+              description: "Fields to NOT numerify. Takes precedence over 'Include expression' when set. Supports wildcards. A '!' before field name(s) means: numerify all fields EXCEPT these. For syntax details, see [Wildcard Lists](https://docs.cribl.io/stream/introduction-reference/#wildcard-lists)."
+              type: array
+              items:
+                type: string
+                description: Field to ignore
+            filterExpr:
+              title: Include expression
+              description: "Optional JavaScript expression to determine whether a field should be numerified. If left blank, all fields will be numerified. Use the 'name' and 'value' global variables to access fields' names/values. Examples: `value != null`, `name=='fieldname'`. You can access other fields' values via `__e.<fieldName>`."
+              type: string
+            format:
+              title: Format
+              type: string
+              enum:
+                - none
+                - fix
+                - floor
+                - ceil
+              x-speakeasy-enum-descriptions:
+                - None
+                - Fix
+                - Floor
+                - Ceil
+              default: none
+              x-speakeasy-unknown-values: allow
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionOtlpLogs:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - otlp_logs
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: ""
+          properties:
+            dropNonLogEvents:
+              type: boolean
+              title: Drop non-log events
+              default: false
+            batchOTLPLogs:
+              type: boolean
+              title: Batch OTLP logs
+              description: Batch OTLP log records by shared top-level `resource` attributes
+              default: false
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionOtlpMetrics:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - otlp_metrics
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: ""
+          properties:
+            resourceAttributePrefixes:
+              type: array
+              title: Resource attribute prefixes
+              description: The prefixes of top-level attributes to add as resource attributes. Each attribute must match the regex pattern `^[a-zA-Z0-9_\.]+$`. Use Eval to copy nested attributes to the top level for matching.
+              items:
+                type: string
+                pattern: ^[a-zA-Z0-9_\.]+$
+              default:
+                - service
+                - system
+                - telemetry
+                - k8s
+                - cloud
+                - host
+                - process
+            dropNonMetricEvents:
+              type: boolean
+              title: Drop non-metric events
+              default: false
+            otlpVersion:
+              type: string
+              title: OTLP version
+              enum:
+                - 0.10.0
+                - 1.3.1
+              x-speakeasy-enum-descriptions:
+                - 0.10.0
+                - 1.3.1
+              default: 0.10.0
+              x-speakeasy-unknown-values: allow
+            batchOTLPMetrics:
+              type: boolean
+              title: Batch OTLP metrics
+              description: Batch OTLP metrics by shared top-level `resource` attributes
+              default: false
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionOtlpTraces:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - otlp_traces
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: ""
+          properties:
+            dropNonTraceEvents:
+              type: boolean
+              title: Drop non-trace events
+              default: false
+            otlpVersion:
+              type: string
+              title: OTLP version
+              enum:
+                - 0.10.0
+                - 1.3.1
+              x-speakeasy-enum-descriptions:
+                - 0.10.0
+                - 1.3.1
+              default: 0.10.0
+              x-speakeasy-unknown-values: allow
+            batchOTLPTraces:
+              type: boolean
+              title: Batch OTLP traces
+              description: Batch OTLP traces by shared top-level `resource` attributes
+              default: false
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionPack:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - pack
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: ""
+          required:
+            - unpackedFields
+          properties:
+            unpackedFields:
+              title: Unpacked fields
+              description: List of fields to keep, everything else will be packed
+              type: array
+              items:
+                type: string
+            target:
+              type: string
+              title: Packed target Field
+              description: Name of the (packed) target field
+              default: _pack
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionPivot:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - pivot
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: Simple Pivot Configuration
+          additionalProperties: false
+          required:
+            - labelField
+            - dataFields
+            - qualifierFields
+          properties:
+            labelField:
+              title: Labeling field
+              description: Fields to be used for the left-most column.
+              type: string
+            dataFields:
+              title: Data fields
+              description: Fields with the cell values (i.e. aggregates)
+              type: array
+              minItems: 1
+              items:
+                type: string
+            qualifierFields:
+              title: Qualifier fields
+              description: Fields to qualify or group data fields
+              type: array
+              minItems: 1
+              items:
+                type: string
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionPublishMetrics:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - publish_metrics
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: ""
+          additionalProperties: false
+          properties:
+            fields:
+              title: Add metrics
+              description: List of metrics from event to extract and format. Formatted metrics can be used by a destination to pass metrics to a metrics aggregation platform.
+              type: array
+              minItems: 0
+              items:
+                type: object
+                required:
+                  - inFieldName
+                  - metricType
+                properties:
+                  inFieldName:
+                    type: string
+                    title: Event Field Name
+                    description: The name of the field in the event that contains the metric value
+                  outFieldExpr:
+                    type: string
+                    title: Metric Name Expression
+                    description: JavaScript expression to evaluate the metric field name. Defaults to Event Field Name.
+                  metricType:
+                    type: string
+                    title: Metric Type
+                    enum:
+                      - counter
+                      - timer
+                      - gauge
+                      - distribution
+                      - summary
+                      - histogram
+                    x-speakeasy-enum-descriptions:
+                      - Counter
+                      - Timer
+                      - Gauge
+                      - Distribution
+                      - Summary
+                      - Histogram
+                    default: gauge
+                    x-speakeasy-unknown-values: allow
+            overwrite:
+              type: boolean
+              title: Overwrite
+              description: Overwrite previous metric specs. Leave disabled to append.
+              default: false
+            dimensions:
+              type: array
+              title: Add dimensions
+              description: Optional list of dimensions to include in events. Wildcards supported. If you don't specify metrics, values will be appended to every metric found in the event. When you add a new metric, dimensions will be present only in those new metrics.
+              default:
+                - "!_*"
+                - "*"
+              items:
+                type: string
+            removeMetrics:
+              title: Remove metrics
+              description: Optional list of metric field names to look for when removing metrics. When a metric's field name matches an element in this list, the metric will be removed from the event.
+              type: array
+              default: []
+              items:
+                type: string
+            removeDimensions:
+              type: array
+              title: Remove dimensions
+              description: Optional list of dimensions to remove from every metric found in the event. Wildcards supported.
+              default: []
+              items:
+                type: string
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionRedis:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - redis
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          required:
+            - commands
+          properties:
+            commands:
+              type: array
+              minItems: 1
+              title: Commands
+              items:
+                type: object
+                required:
+                  - keyExpr
+                  - command
+                properties:
+                  outField:
+                    title: Result field
+                    description: Name of the field in which to store the returned value. Leave blank to discard returned value.
+                    type: string
+                  command:
+                    title: Command
+                    description: "Redis command to perform. For a complete list visit: https://redis.io/commands"
+                    type: string
+                  keyExpr:
+                    title: Key
+                    description: A JavaScript expression to compute the value of the key to operate on. Can also be a constant such as 'username'.
+                    type: string
+                  argsExpr:
+                    title: Args
+                    description: A JavaScript expression to compute arguments to the operation. Can return an array.
+                    type: string
+            deploymentType:
+              title: Deployment type
+              type: string
+              description: How the Redis server is configured. Defaults to Standalone
+              enum:
+                - standalone
+                - cluster
+                - sentinel
+              x-speakeasy-enum-descriptions:
+                - Standalone
+                - Cluster
+                - Sentinel
+              default: standalone
+              x-speakeasy-unknown-values: allow
+            authType:
+              type: string
+              title: Authentication method
+              default: none
+              enum:
+                - none
+                - manual
+                - credentialsSecret
+                - textSecret
+              x-speakeasy-enum-descriptions:
+                - None
+                - Manual
+                - User Secret
+                - Admin Secret
+              x-speakeasy-unknown-values: allow
+            maxBlockSecs:
+              type: number
+              title: Blocking time limit
+              description: Maximum amount of time (seconds) to wait before assuming that Redis is down and passing events through. Use 0 to disable.
+              default: 60
+            enableClientSideCaching:
+              type: boolean
+              title: Client-side cache
+              description: Enable client-side cache. Redundant when using Redis write operations. See more options at Settings > General > Limits > Redis Cache.
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionRegexExtract:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - regex_extract
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: ""
+          required:
+            - regex
+          properties:
+            regex:
+              type: string
+              title: Regex
+              description: Regex literal with named capturing groups, such as (?<foo>bar), or _NAME_ and _VALUE_ capturing groups, such as (?<_NAME_0>[^ =]+)=(?<_VALUE_0>[^,]+)
+            regexList:
+              type: array
+              title: Additional regex
+              items:
+                type: object
+                required:
+                  - regex
+                properties:
+                  regex:
+                    type: string
+                    title: Regex
+                    description: Regex literal with named capturing groups, such as (?<foo>bar), or _NAME_ and _VALUE_ capturing groups, such as (?<_NAME_0>[^ =]+)=(?<_VALUE_0>[^,]+)
+                    minLength: 1
+            source:
+              type: string
+              title: Source field
+              description: Field on which to perform regex field extraction
+              default: _raw
+            iterations:
+              type: number
+              title: Max exec
+              description: The maximum number of times to apply regex to source field when the global flag is set, or when using _NAME_ and _VALUE_ capturing groups
+              default: 100
+              minimum: 1
+            fieldNameExpression:
+              title: Field name format expression
+              description: "JavaScript expression to format field names when _NAME_n and _VALUE_n capturing groups are used. Original field name is in global variable 'name'. Example: To append XX to all field names, use `${name}_XX` (backticks are literal). If empty, names will be sanitized using this regex: /^[_0-9]+|[^a-zA-Z0-9_]+/g. You can access other fields values via __e.<fieldName>."
+              type: string
+            overwrite:
+              type: boolean
+              title: Overwrite existing fields
+              description: Overwrite existing event fields with extracted values. If disabled, existing fields will be converted to an array.
+              default: false
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionRegexFilter:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - regex_filter
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: ""
+          properties:
+            regex:
+              title: Regex
+              description: Regex to test against
+              type: string
+            regexList:
+              type: array
+              title: Additional regex
+              items:
+                type: object
+                required:
+                  - regex
+                properties:
+                  regex:
+                    type: string
+                    title: Regex
+                    description: Regex to test against
+                    minLength: 1
+            field:
+              title: Field
+              description: Name of the field to apply the regex on (defaults to _raw)
+              type: string
+              default: _raw
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionRename:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - rename
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: ""
+          properties:
+            baseFields:
+              title: Parent fields
+              description: Fields whose children will inherit the Rename fields and Rename expression operations. Supports wildcards. If empty, only top-level fields will be renamed.
+              type: array
+              items:
+                type: string
+            rename:
+              title: Rename fields
+              description: Set of key-value pairs to rename fields, where key is the current name and value is the new name. Does not support internal fields.
+              type: array
+              items:
+                type: object
+                required:
+                  - currentName
+                  - newName
+                properties:
+                  currentName:
+                    type: string
+                    title: Current Name
+                    description: Name of the field to rename. Literal identifiers must be quoted.
+                    pattern: ^(?!__).+
+                  newName:
+                    type: string
+                    title: New Name
+                    description: The name the field will be renamed to. Literal identifiers must be quoted.
+                    pattern: ^(?!__).+
+            renameExpr:
+              title: Rename expression
+              description: "Optional JavaScript expression whose returned value will be used to rename fields. Use the 'name' and 'value' global variables to access field names/values. Example: `name.startsWith('data') ? name.toUpperCase() : name`. You can access other field values via __e.<fieldName>."
+              type: string
+            wildcardDepth:
+              type: integer
+              title: Parent field wildcard depth
+              description: For wildcards specified in Parent fields, sets the maximum depth within events to match and rename fields. Enter `0` to match only top-level fields. Defaults to `5` levels down.
+              default: 5
+              minimum: 0
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionRollupMetrics:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - rollup_metrics
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: ""
+          properties:
+            dimensions:
+              title: Dimensions
+              description: List of dimensions across which to perform rollups. Supports wildcards. Defaults to all original dimensions.
+              default:
+                - "*"
+              type: array
+              items:
+                type: string
+            timeWindow:
+              pattern: \d+[sm]$
+              type: string
+              title: Time window
+              description: The time span of the rollup window. Must be a valid time string (such as 10s).
+              default: 30s
+            gaugeRollup:
+              title: Gauge update
+              description: The operation to use when rolling up gauge metrics. Defaults to last.
+              default: last
+              type: string
+              enum:
+                - last
+                - max
+                - min
+                - avg
+              x-speakeasy-enum-descriptions:
+                - Last
+                - Maximum
+                - Minimum
+                - Average
+              x-speakeasy-unknown-values: allow
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionSampling:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - sampling
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: ""
+          properties:
+            rules:
+              type: array
+              title: Sampling rules
+              description: Events matching these rules will be sampled at the given rate
+              items:
+                type: object
+                required:
+                  - filter
+                  - rate
+                additionalProperties: false
+                properties:
+                  filter:
+                    title: Filter
+                    type: string
+                    description: JavaScript filter expression matching events to be sampled. Use true to match all.
+                    default: "true"
+                  rate:
+                    title: Sampling Rate
+                    type: integer
+                    description: Sampling rate; picks one out of N matching events
+                    default: 1
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionSend:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - send
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: Send Configuration
+          additionalProperties: false
+          required:
+            - searchId
+          properties:
+            url:
+              title: URL
+              description: Full URL to send search to.
+              type: string
+            group:
+              title: Group
+              description: Group within the workspace we're sending to.
+              type: string
+              default: default
+            workspace:
+              title: Workspace
+              description: Workspace within the deployment to send the search results to.
+              type: string
+              default: main
+            sendUrlTemplate:
+              title: URL Template
+              description: Template to build the URL to send from.
+              type: string
+            searchId:
+              title: Search Id
+              description: Id of the search this function is running on.
+              type: string
+            tee:
+              title: Tee
+              description: Tee results to search. When set to true results will be shipped instead of stats
+              type: string
+              default: false
+            flushMs:
+              title: Flush period
+              description: How often are stats flushed in ms
+              type: number
+              default: 1000
+            suppressPreviews:
+              type: boolean
+              title: Suppress periodic stats
+              description: Disables generation of intermediate stats. When true stats will be emitted only on end
+            mode:
+              type: string
+              title: Mode
+              description: In Sender mode, forwards search results directly to the destination. In Metrics mode, accumulates metrics from federated send operators, and forwards the aggregate metrics.
+              enum:
+                - sender
+                - metrics
+              x-speakeasy-unknown-values: allow
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionSensitiveDataScanner:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - sensitive_data_scanner
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: ""
+          required:
+            - rules
+          properties:
+            rules:
+              type: array
+              title: Scanning Rulesets
+              minItems: 1
+              items:
+                type: object
+                required:
+                  - rulesetId
+                  - replaceExpr
+                properties:
+                  rulesetId:
+                    type: string
+                    title: Ruleset ID
+                    description: The ID of the ruleset to use for the scan
+                  replaceExpr:
+                    type: string
+                    title: Mitigation Expression
+                    description: A JavaScript expression or literal to replace the matching content. Capturing groups can be referenced as g1, g2, and so on, and event fields as event.<fieldName>.
+                    default: "'REDACTED'"
+                  disabled:
+                    type: boolean
+                    default: false
+            fields:
+              type: array
+              title: Apply to fields
+              description: Rulesets act on the events contained in these fields. Mitigation expressions apply to the scan results. Supports wildcards (*).
+              items:
+                type: string
+                pattern: ^(?!__.*\*).*$
+              default:
+                - _raw
+            excludeFields:
+              type: array
+              title: Fields to ignore
+              description: Fields that the mitigation expression will not be applied to. Supports wildcards (*).
+              items:
+                type: string
+                pattern: ^(?!__.*\*).*$
+              default: []
+            flags:
+              title: Add fields
+              description: Fields to add when mitigation is applied to an event
+              type: array
+              items:
+                type: object
+                required:
+                  - value
+                properties:
+                  name:
+                    type: string
+                    title: Name
+                  value:
+                    type: string
+                    title: Value
+              default:
+                - name: _sensitive
+                  value: "true"
+            includeDetectedRules:
+              type: boolean
+              title: Include detected rules
+              description: If enabled, Add matching ruleset IDs to a field called "__detected"
+              default: true
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionSerde:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - serde
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          title: ""
+          type: object
+          required:
+            - mode
+            - type
+          properties:
+            mode:
+              title: Operation mode
+              type: string
+              description: Extract creates new fields. Reserialize extracts and filters fields, and then reserializes.
+              enum:
+                - extract
+                - reserialize
+              x-speakeasy-enum-descriptions:
+                - Extract
+                - Reserialize
+              default: extract
+              x-speakeasy-unknown-values: allow
+            type:
+              title: Type
+              description: Parser or formatter type to use
+              type: string
+              enum:
+                - csv
+                - elff
+                - clf
+                - kvp
+                - json
+                - delim
+                - regex
+                - grok
+              x-speakeasy-enum-descriptions:
+                - CSV
+                - Extended Log File Format
+                - Common Log Format
+                - Key=Value Pairs
+                - JSON Object
+                - Delimited values
+                - Regular Expression
+                - Grok
+              default: csv
+              x-speakeasy-unknown-values: allow
+            delimChar: {}
+            quoteChar: {}
+            escapeChar: {}
+            nullValue: {}
+            srcField:
+              title: Source field
+              description: Field containing text to be parsed
+              type: string
+              default: _raw
+            dstField:
+              title: Destination field
+              description: Name of the field to add fields to. Extract mode only.
+              type: string
+            cleanFields: {}
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionSerialize:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - serialize
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          title: ""
+          type: object
+          required:
+            - type
+          properties:
+            type:
+              title: Type
+              description: Data output format
+              type: string
+              enum:
+                - csv
+                - elff
+                - clf
+                - kvp
+                - json
+                - delim
+              x-speakeasy-enum-descriptions:
+                - CSV
+                - Extended Log File Format
+                - Common Log Format
+                - Key=Value Pairs
+                - JSON Object
+                - Delimited values
+              default: csv
+              x-speakeasy-unknown-values: allow
+            delimChar: {}
+            quoteChar: {}
+            escapeChar: {}
+            nullValue: {}
+            fields:
+              title: Fields to serialize
+              description: "Required for CSV, ELFF, CLF, and Delimited values. All other formats support wildcard field lists. Examples: host, array*, !host *"
+              type: array
+              items:
+                type: string
+            srcField:
+              title: Source field
+              description: Field containing object to serialize. Leave blank to serialize top-level event fields.
+              type: string
+            dstField:
+              title: Destination field
+              description: Field to serialize data to
+              type: string
+              default: _raw
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionSidlookup:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - sidlookup
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: ""
+          properties:
+            fields:
+              title: Lookup fields
+              description: Set of expressions matched to lookup responses
+              type: array
+              items:
+                type: object
+                required:
+                  - expr
+                properties:
+                  name:
+                    type: string
+                    title: Name
+                  expr:
+                    type: string
+                    title: Value Expression
+                    description: JavaScript expression to compute the value (can be constant)
+                  disabled:
+                    type: boolean
+                    default: false
+                    description: Set to No to disable the evaluation of an individual expression
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionSnmpTrapSerialize:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - snmp_trap_serialize
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          properties:
+            strict:
+              type: boolean
+              title: Enforce required fields
+              description: Prevent event serialization if any required fields are missing. When disabled, @{product} will attempt to serialize the event even if required fields are missing, which could cause unexpected behavior at the downstream receiver.
+              default: true
+            dropFailedEvents:
+              type: boolean
+              title: Drop failed events
+              description: When disabled, `snmpSerializeErrors` will be set on the event, and the `__snmpRaw` field will be removed to prevent @{product} from sending the event from the SNMP Trap Destination
+              default: true
+            v3User:
+              type: object
+              properties:
+                name:
+                  title: Username
+                  type: string
+                  minLength: 1
+                authProtocol:
+                  type: string
+                  default: none
+                  enum:
+                    - none
+                    - md5
+                    - sha
+                    - sha224
+                    - sha256
+                    - sha384
+                    - sha512
+                  x-speakeasy-enum-descriptions:
+                    - None
+                    - MD5
+                    - SHA1
+                    - SHA224
+                    - SHA256
+                    - SHA384
+                    - SHA512
+                  title: Authentication protocol
+                  x-speakeasy-unknown-values: allow
+                authKey: {}
+                privProtocol:
+                  type: string
+                  default: none
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionSort:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - sort
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: Sort Configuration
+          additionalProperties: false
+          required:
+            - comparisonExpression
+          properties:
+            sortId:
+              title: Identifier for the specific sort operation
+              description: Has to be unique if there are multiple sorts on the pipeline.
+              type: string
+            comparisonExpression:
+              title: Expression to compare two events
+              description: The expression can access the events via the 'left' and 'right' properties.
+              type: string
+            topN:
+              title: The amount of events to return sorted
+              description: Limits the output to N (highest/lowest) events
+              type: number
+            maxEvents:
+              title: The maximum number of events in input
+              description: Specifies the number of events that can flow into this function
+              type: number
+            suppressPreviews:
+              type: boolean
+              title: Disable intermediate results
+              description: Toggle this on to suppress generating previews of intermediate results
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionStore:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - store
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: Store Function Configuration
+          additionalProperties: false
+          required:
+            - type
+          properties:
+            type:
+              title: Output type
+              description: The type of knowledge object, generated by the function (i.e., 'lookup')
+              default: lookup
+              type: string
+            destination:
+              title: Configuration for store destination
+              description: Configures where and how the data should be stored
+              type: string
+            description:
+              title: Description for object
+              description: The knowledge object's description
+              type: string
+            fieldMapping:
+              title: Mapping of field names
+              description: Mapping event property names to output field names
+              type: object
+            separator:
+              title: Separator for CSV output
+              description: Character to be used as value delimiter in output
+              type: string
+              default: ","
+            overwrite:
+              title: Overwrite destination
+              description: For existing files, an error is thrown if overwrite is false or the file is replaced if overwrite is true
+              default: false
+              type: boolean
+            compress:
+              title: Compress the output
+              description: True will compress output, false leaves it as it is and auto decides based on size
+              default: auto
+              type: string
+            tee:
+              title: Tee Results
+              description: Tee results to the next operator
+              type: boolean
+              default: false
+            maxEvents:
+              title: Maximum number of events
+              description: Limits how many events can be stored
+              type: number
+              default: 10000
+            suppressPreviews:
+              title: Suppress previews
+              description: Suppresses the timer-based export stats generating
+              type: boolean
+              default: false
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionSuppress:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - suppress
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: ""
+          required:
+            - keyExpr
+            - allow
+            - suppressPeriodSec
+          properties:
+            keyExpr:
+              type: string
+              title: Key expression
+              description: Suppression key expression used to uniquely identify events to suppress. For example, `${ip}:${port}` will use fields ip and port from each event to generate the key.
+            allow:
+              type: number
+              title: Number to allow
+              default: 1
+              minimum: 1
+              description: The number of events to allow per time period
+            suppressPeriodSec:
+              type: number
+              title: Suppression period (sec)
+              default: 30
+              minimum: 0
+              description: The number of seconds to suppress events after 'Number to allow' events are received
+            dropEventsMode:
+              type: boolean
+              title: Drop suppressed events
+              default: true
+              description: If disabled, suppressed events will be tagged with suppress=1 but not dropped
+            maxCacheSize:
+              type: number
+              title: Cache size limit
+              default: 50000
+              description: The maximum number of keys that can be cached before idle entries are removed. Leave at default unless you understand the implications of changing.
+            cacheIdleTimeoutPeriods:
+              type: number
+              title: Suppression period timeout
+              default: 2
+              description: The number of suppression periods 'Suppression Period' of inactivity before a cache entry is considered idle. Leave at default unless you understand the implications of changing.
+            numEventsIdleTimeoutTrigger:
+              type: number
+              title: Num events to trigger cache clean-up
+              default: 10000
+              description: Check cache for idle sessions every N events when cache size is > 'Maximum Cache Size'. Leave at default unless you understand the implications of changing.
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionTee:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - tee
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: ""
+          required:
+            - command
+          properties:
+            command:
+              type: string
+              title: Command
+              description: Command to execute and feed events to, via stdin. One JSON-formatted event per line.
+            args:
+              type: array
+              title: Command arguments
+              items:
+                type: string
+            restartOnExit:
+              type: boolean
+              title: Restart on exit
+              description: Restart the process if it exits and/or we fail to write to it
+              default: true
+            env:
+              type: object
+              title: Environment variables
+              description: Environment variables to overwrite or set
+              additionalProperties:
+                type: string
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionTrimTimestamp:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - trim_timestamp
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: ""
+          properties:
+            field:
+              type: string
+              title: Field name
+              description: Name of field in which to save the timestamp. (If empty, timestamp will not be saved to a field.)
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionUnion:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - union
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: Union Configuration
+          additionalProperties: false
+          required:
+            - searchJobId
+            - stageIds
+          properties:
+            searchJobId:
+              title: Search Job Id
+              description: The id for this search job.
+              type: string
+            stageIds:
+              title: Stage Ids
+              description: The stages we are unioning with.
+              type: array
+              minItems: 1
+              items:
+                type: string
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionUnroll:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - unroll
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: ""
+          required:
+            - srcExpr
+            - dstField
+          properties:
+            srcExpr:
+              type: string
+              title: Source field expression
+              description: "Field in which to find/calculate the array to unroll. Example: _raw, _raw.split(/\\n/)"
+              default: _raw
+            dstField:
+              type: string
+              title: Destination field
+              description: Field in destination event in which to place the unrolled value
+              default: _raw
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionWindow:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - window
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: ""
+          additionalProperties: false
+          required:
+            - eventWindowId
+            - registeredFunctions
+          properties:
+            eventWindowId:
+              title: Unique Identifier
+              description: Identifies the unique ID, used for a event window
+              type: number
+            registeredFunctions:
+              title: Registered Window Functions
+              description: All window functions, tracked by this event window
+              type: array
+              minItems: 1
+              items:
+                type: string
+            tailEventCount:
+              title: Tail Event Count
+              description: Number of events to keep before the current event in the window
+              type: number
+              default: 0
+            headEventCount:
+              title: Head Event Count
+              description: Number of events to keep after the current event in the window
+              type: number
+              default: 0
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionXmlUnroll:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - xml_unroll
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          title: ""
+          required:
+            - unroll
+          properties:
+            unroll:
+              type: string
+              title: Unroll elements regex
+              description: "Path to array to unroll. Example: ^root\\.child\\.ElementToUnroll$"
+            inherit:
+              type: string
+              title: Copy elements regex
+              description: "Regex matching elements to copy into each unrolled event. Example: ^root\\.(childA|childB|childC)$"
+            unrollIdxField:
+              type: string
+              title: Unroll index field
+              description: Add a field with this name, containing the index at which the item was located, starting from 0
+              default: unroll_idx
+            pretty:
+              type: boolean
+              title: Pretty print
+              description: Pretty print the output XML
+              default: false
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionResponse:
+      oneOf:
+        - $ref: "#/components/schemas/FunctionAggregateMetrics"
+        - $ref: "#/components/schemas/FunctionAggregation"
+        - $ref: "#/components/schemas/FunctionAutoTimestamp"
+        - $ref: "#/components/schemas/FunctionCef"
+        - $ref: "#/components/schemas/FunctionChain"
+        - $ref: "#/components/schemas/FunctionClone"
+        - $ref: "#/components/schemas/FunctionCode"
+        - $ref: "#/components/schemas/FunctionComment"
+        - $ref: "#/components/schemas/FunctionDistinct"
+        - $ref: "#/components/schemas/FunctionDnsLookup"
+        - $ref: "#/components/schemas/FunctionDrop"
+        - $ref: "#/components/schemas/FunctionDropDimensions"
+        - $ref: "#/components/schemas/FunctionDynamicSampling"
+        - $ref: "#/components/schemas/FunctionEval"
+        - $ref: "#/components/schemas/FunctionEventBreaker"
+        - $ref: "#/components/schemas/FunctionEventstats"
+        - $ref: "#/components/schemas/FunctionExternaldata"
+        - $ref: "#/components/schemas/FunctionFlatten"
+        - $ref: "#/components/schemas/FunctionFoldkeys"
+        - $ref: "#/components/schemas/FunctionGenStats"
+        - $ref: "#/components/schemas/FunctionGeoip"
+        - $ref: "#/components/schemas/FunctionGrok"
+        - $ref: "#/components/schemas/FunctionHandlebar"
+        - $ref: "#/components/schemas/FunctionJoin"
+        - $ref: "#/components/schemas/FunctionJsonUnroll"
+        - $ref: "#/components/schemas/FunctionLakeExport"
+        - $ref: "#/components/schemas/FunctionLimit"
+        - $ref: "#/components/schemas/FunctionLocalSearchDatatypeParser"
+        - $ref: "#/components/schemas/FunctionLocalSearchRulesetRunner"
+        - $ref: "#/components/schemas/FunctionLookup"
+        - $ref: "#/components/schemas/FunctionMask"
+        - $ref: "#/components/schemas/FunctionMvExpand"
+        - $ref: "#/components/schemas/FunctionMvPull"
+        - $ref: "#/components/schemas/FunctionNotificationPolicies"
+        - $ref: "#/components/schemas/FunctionNotifications"
+        - $ref: "#/components/schemas/FunctionNotify"
+        - $ref: "#/components/schemas/FunctionNumerify"
+        - $ref: "#/components/schemas/FunctionOtlpLogs"
+        - $ref: "#/components/schemas/FunctionOtlpMetrics"
+        - $ref: "#/components/schemas/FunctionOtlpTraces"
+        - $ref: "#/components/schemas/FunctionPack"
+        - $ref: "#/components/schemas/FunctionPivot"
+        - $ref: "#/components/schemas/FunctionPublishMetrics"
+        - $ref: "#/components/schemas/FunctionRedis"
+        - $ref: "#/components/schemas/FunctionRegexExtract"
+        - $ref: "#/components/schemas/FunctionRegexFilter"
+        - $ref: "#/components/schemas/FunctionRename"
+        - $ref: "#/components/schemas/FunctionRollupMetrics"
+        - $ref: "#/components/schemas/FunctionSampling"
+        - $ref: "#/components/schemas/FunctionSend"
+        - $ref: "#/components/schemas/FunctionSensitiveDataScanner"
+        - $ref: "#/components/schemas/FunctionSerde"
+        - $ref: "#/components/schemas/FunctionSerialize"
+        - $ref: "#/components/schemas/FunctionSidlookup"
+        - $ref: "#/components/schemas/FunctionSnmpTrapSerialize"
+        - $ref: "#/components/schemas/FunctionSort"
+        - $ref: "#/components/schemas/FunctionStore"
+        - $ref: "#/components/schemas/FunctionSuppress"
+        - $ref: "#/components/schemas/FunctionTee"
+        - $ref: "#/components/schemas/FunctionTrimTimestamp"
+        - $ref: "#/components/schemas/FunctionUnion"
+        - $ref: "#/components/schemas/FunctionUnroll"
+        - $ref: "#/components/schemas/FunctionWindow"
+        - $ref: "#/components/schemas/FunctionXmlUnroll"
+      discriminator:
+        propertyName: id
+        mapping:
+          aggregate_metrics: "#/components/schemas/FunctionAggregateMetrics"
+          aggregation: "#/components/schemas/FunctionAggregation"
+          auto_timestamp: "#/components/schemas/FunctionAutoTimestamp"
+          cef: "#/components/schemas/FunctionCef"
+          chain: "#/components/schemas/FunctionChain"
+          clone: "#/components/schemas/FunctionClone"
+          code: "#/components/schemas/FunctionCode"
+          comment: "#/components/schemas/FunctionComment"
+          distinct: "#/components/schemas/FunctionDistinct"
+          dns_lookup: "#/components/schemas/FunctionDnsLookup"
+          drop: "#/components/schemas/FunctionDrop"
+          drop_dimensions: "#/components/schemas/FunctionDropDimensions"
+          dynamic_sampling: "#/components/schemas/FunctionDynamicSampling"
+          eval: "#/components/schemas/FunctionEval"
+          event_breaker: "#/components/schemas/FunctionEventBreaker"
+          eventstats: "#/components/schemas/FunctionEventstats"
+          externaldata: "#/components/schemas/FunctionExternaldata"
+          flatten: "#/components/schemas/FunctionFlatten"
+          foldkeys: "#/components/schemas/FunctionFoldkeys"
+          gen_stats: "#/components/schemas/FunctionGenStats"
+          geoip: "#/components/schemas/FunctionGeoip"
+          grok: "#/components/schemas/FunctionGrok"
+          handlebar: "#/components/schemas/FunctionHandlebar"
+          join: "#/components/schemas/FunctionJoin"
+          json_unroll: "#/components/schemas/FunctionJsonUnroll"
+          lake_export: "#/components/schemas/FunctionLakeExport"
+          limit: "#/components/schemas/FunctionLimit"
+          local_search_datatype_parser: "#/components/schemas/FunctionLocalSearchDatatypeParser"
+          local_search_ruleset_runner: "#/components/schemas/FunctionLocalSearchRulesetRunner"
+          lookup: "#/components/schemas/FunctionLookup"
+          mask: "#/components/schemas/FunctionMask"
+          mv_expand: "#/components/schemas/FunctionMvExpand"
+          mv_pull: "#/components/schemas/FunctionMvPull"
+          notification_policies: "#/components/schemas/FunctionNotificationPolicies"
+          notifications: "#/components/schemas/FunctionNotifications"
+          notify: "#/components/schemas/FunctionNotify"
+          numerify: "#/components/schemas/FunctionNumerify"
+          otlp_logs: "#/components/schemas/FunctionOtlpLogs"
+          otlp_metrics: "#/components/schemas/FunctionOtlpMetrics"
+          otlp_traces: "#/components/schemas/FunctionOtlpTraces"
+          pack: "#/components/schemas/FunctionPack"
+          pivot: "#/components/schemas/FunctionPivot"
+          publish_metrics: "#/components/schemas/FunctionPublishMetrics"
+          redis: "#/components/schemas/FunctionRedis"
+          regex_extract: "#/components/schemas/FunctionRegexExtract"
+          regex_filter: "#/components/schemas/FunctionRegexFilter"
+          rename: "#/components/schemas/FunctionRename"
+          rollup_metrics: "#/components/schemas/FunctionRollupMetrics"
+          sampling: "#/components/schemas/FunctionSampling"
+          send: "#/components/schemas/FunctionSend"
+          sensitive_data_scanner: "#/components/schemas/FunctionSensitiveDataScanner"
+          serde: "#/components/schemas/FunctionSerde"
+          serialize: "#/components/schemas/FunctionSerialize"
+          sidlookup: "#/components/schemas/FunctionSidlookup"
+          snmp_trap_serialize: "#/components/schemas/FunctionSnmpTrapSerialize"
+          sort: "#/components/schemas/FunctionSort"
+          store: "#/components/schemas/FunctionStore"
+          suppress: "#/components/schemas/FunctionSuppress"
+          tee: "#/components/schemas/FunctionTee"
+          trim_timestamp: "#/components/schemas/FunctionTrimTimestamp"
+          union: "#/components/schemas/FunctionUnion"
+          unroll: "#/components/schemas/FunctionUnroll"
+          window: "#/components/schemas/FunctionWindow"
+          xml_unroll: "#/components/schemas/FunctionXmlUnroll"
     CollectorAzureBlob:
       type: object
       title: ""
@@ -42794,11 +47987,6 @@ components:
           maximum: 86400
           title: DNS resolution period (sec)
           description: How often to resolve the destination hostname to an IP address. Ignored if all destinations are IP addresses. A value of 0 means every datagram sent will incur a DNS lookup.
-        enableIpSpoofing:
-          title: Enable Source IP spoofing
-          description: Send NetFlow traffic using the original event's Source IP and port. To enable this, you must install the external `udp-sender` helper binary at `/usr/bin/udp-sender` on all Worker Nodes and grant it the `CAP_NET_RAW` capability.
-          type: boolean
-          default: false
         description:
           type: string
           title: Description
@@ -48040,6 +53228,16 @@ components:
         - not_added
         - renamed
         - staged
+    CountedFunctionResponse:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/FunctionResponse"
     LookupVersions:
       type: object
       additionalProperties:
@@ -50605,6 +55803,8 @@ tags:
     description: Actions related to Destinations
   - name: distributed
     description: Actions related to Distributed
+  - name: functions
+    description: Actions related to functions
   - name: groups
     description: Actions related to Groups
   - name: health
@@ -53125,6 +58325,61 @@ paths:
           schema:
             type: string
           description: The <code>id</code> of the Worker Group or Edge Fleet to undo the uncommited changes for.
+  /functions:
+    get:
+      operationId: listFunctionResponse
+      x-speakeasy-group: functions
+      x-speakeasy-name-override: list
+      tags:
+        - functions
+      summary: Get a list of FunctionResponse objects
+      description: Get a list of FunctionResponse objects
+      responses:
+        "200":
+          description: a list of FunctionResponse objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedFunctionResponse"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /functions/{id}:
+    get:
+      operationId: getFunctionResponseById
+      x-speakeasy-group: functions
+      x-speakeasy-name-override: get
+      tags:
+        - functions
+      summary: Get FunctionResponse by ID
+      description: Get FunctionResponse by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Unique ID to GET
+      responses:
+        "200":
+          description: a list of FunctionResponse objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedFunctionResponse"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /master/workers:
     get:
       operationId: listMasterWorkerEntry

@@ -320,6 +320,11 @@ with CriblControlPlane(
 * [get](docs/sdks/samples/README.md#get) - Get sample event data for a Destination
 * [create](docs/sdks/samples/README.md#create) - Send sample event data to a Destination
 
+### [Functions](docs/sdks/functions/README.md)
+
+* [list](docs/sdks/functions/README.md#list) - Get a list of FunctionResponse objects
+* [get](docs/sdks/functions/README.md#get) - Get FunctionResponse by ID
+
 ### [Groups](docs/sdks/groupssdk/README.md)
 
 * [list](docs/sdks/groupssdk/README.md#list) - List all Worker Groups or Edge Fleets for the specified Cribl product
@@ -687,7 +692,7 @@ with CriblControlPlane(
 
 
 **Inherit from [`CriblControlPlaneError`](./src/cribl_control_plane/errors/criblcontrolplaneerror.py)**:
-* [`HealthServerStatusError`](./src/cribl_control_plane/errors/healthserverstatuserror.py): Healthy status. Status code `420`. Applicable to 1 of 65 methods.*
+* [`HealthServerStatusError`](./src/cribl_control_plane/errors/healthserverstatuserror.py): Healthy status. Status code `420`. Applicable to 1 of 67 methods.*
 * [`ResponseValidationError`](./src/cribl_control_plane/errors/responsevalidationerror.py): Type mismatch between the response data and the expected Pydantic model. Provides access to the Pydantic validation error via the `cause` attribute.
 
 </details>

@@ -1,19 +1,19 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 4433a39c37b725ea5385b4c6f881622c
-  docVersion: 4.15.1-alpha.1764975753193-67dd5070
+  docChecksum: 27ac652aefe9dc6d045a5fa30f346a4e
+  docVersion: 4.15.1-alpha.1765407756960-5c02a009
   speakeasyVersion: 1.674.0
   generationVersion: 2.778.0
-  releaseVersion: 0.4.0a12
-  configChecksum: c89dc78ff5f280c5e37f5aaa8e346879
+  releaseVersion: 0.4.0a13
+  configChecksum: b30999f2c6b17d0f257f780fecc80b5a
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
 persistentEdits:
-  generation_id: e85dd85c-f11d-44cb-b555-605dc5aa447e
-  pristine_commit_hash: 892eaceea68f031fb6d875553de04d2f54249af1
-  pristine_tree_hash: 9fd07a55eb2b7141711b7a144bb145d58b9d7147
+  generation_id: d8f00d2f-3b6a-4ba2-affe-a5931fc8e720
+  pristine_commit_hash: 7673e75f309b2669bdf0d1f9ff143a2a19cd8492
+  pristine_tree_hash: eb2f15294425a7f8ea9e27384b6fd81d534d51a0
 features:
   python:
     additionalDependencies: 1.0.0
@@ -4752,8 +4752,8 @@ trackedFiles:
     pristine_git_object: 20d37bc00fe8f2c62473a5783b3f06c29fb62ba7
   docs/models/outputcriblhttp.md:
     id: 689177ba3b47
-    last_write_checksum: sha1:70134cac08dd9969a33c9b041e2a561d47caddd4
-    pristine_git_object: 1a010395518730ca80fcde122d8cc67aae972e85
+    last_write_checksum: sha1:a9516f4aed40181f3d3a44a4e844051ef9b70955
+    pristine_git_object: 3c15d6bc8d3852cd144bcc9bacd08da184447366
   docs/models/outputcriblhttpauthtoken.md:
     id: 6003d98cee4d
     last_write_checksum: sha1:9ca7cfc0111b99b54e30ba256bd52202a5b2d97b
@@ -6392,8 +6392,8 @@ trackedFiles:
     pristine_git_object: 07951015b29f68f8b2f885a6a605444ba04b7967
   docs/models/outputnetflow.md:
     id: c2ca51aea7ca
-    last_write_checksum: sha1:df7c5b10ae74232707151b88607bcd9b083914d6
-    pristine_git_object: 1c5c407a760e257059d16a0241a4d5fba16b7a2d
+    last_write_checksum: sha1:2b2ccfba3f3a6a982d823032e084a6028d91026d
+    pristine_git_object: 4a3ab2fd0ef76f3213c0880f04965816e83d4ba2
   docs/models/outputnetflowhost.md:
     id: 73a9bc818a91
     last_write_checksum: sha1:018d1f0bdb6116f0bca5b974f17c50d53dde9ca9
@@ -8308,8 +8308,8 @@ trackedFiles:
     pristine_git_object: 0abbb4d34f2289987b92a4ee3cfe300da8a66143
   pyproject.toml:
     id: 5d07e7d72637
-    last_write_checksum: sha1:7f8e708aff8e19fc76a13f0e0890faf53fb2587b
-    pristine_git_object: 8ff33633ab2f4bfeec9ee2af913d53520c6f2b09
+    last_write_checksum: sha1:e2bb05765519cd28270d81cfae5c354c54746c0a
+    pristine_git_object: f4eba190f1f58607db9439734685d52fc218d00a
   scripts/prepare_readme.py:
     id: e0c5957a6035
     last_write_checksum: sha1:a2e0d08bb2b147a5bab939d676620d1686f3b024
@@ -8340,8 +8340,8 @@ trackedFiles:
     pristine_git_object: b4fad0525f29a586b91348c6d7c51c642d1e9790
   src/cribl_control_plane/_version.py:
     id: 9c8e5f14504b
-    last_write_checksum: sha1:ded029894e2e2c3087c6ec3f216e29a5dbeee75f
-    pristine_git_object: b588d4663fe86d50b7773c74285280e1dddf80d7
+    last_write_checksum: sha1:4fc2b280fe01319003091edd53f5ccc1eafbcc1c
+    pristine_git_object: 80bf25a0eaa7f525c112b9ac070fb57404dae783
   src/cribl_control_plane/acl.py:
     id: 0e865a719763
     last_write_checksum: sha1:7e5b4f0d51b6154a160d2ad4ee7c2791b7d46e22
@@ -9128,8 +9128,8 @@ trackedFiles:
     pristine_git_object: bcc186708ac02b6ba571dec35955236ec3ea1ba2
   src/cribl_control_plane/models/outputcriblhttp.py:
     id: 64352590a54d
-    last_write_checksum: sha1:9b61f27681eed383cefc6731a9a9aebfbb3ff47e
-    pristine_git_object: 98d8b21ae48e356803022c31c2fc62524fd7d22a
+    last_write_checksum: sha1:aa470d23d3d011118c32674023207e7a272082d2
+    pristine_git_object: 215153d00975a80718fd1effc8892b644d2e7e72
   src/cribl_control_plane/models/outputcribllake.py:
     id: 88401324e633
     last_write_checksum: sha1:d0411c9092279cbd18b7ab5333c8690474880a80
@@ -9256,8 +9256,8 @@ trackedFiles:
     pristine_git_object: ceabab49036a072b86df4ab510b84bdc134aaa6d
   src/cribl_control_plane/models/outputnetflow.py:
     id: 782b5754668c
-    last_write_checksum: sha1:91b0e9811d48a76ccc72d26b2459de5df0f25810
-    pristine_git_object: 553518c6381cafb3dca68f39a9bf7093199f80ee
+    last_write_checksum: sha1:9c0d8779cb1c084f1ddd0ec9b1e67a5dc305277a
+    pristine_git_object: a97492d6e2a1a3a696d3d472b2e81b188d952988
   src/cribl_control_plane/models/outputnewrelic.py:
     id: e2b66e23cfc4
     last_write_checksum: sha1:b31bffbc7dd7e85056767ee36a9ca4a717fa87c5
@@ -10707,6 +10707,7 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
+releaseNotes: "## Python SDK Changes:\n* `cribl_control_plane.destinations.list()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.create()`: \n  *  `request` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.get()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.update()`: \n  *  `request.output` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.delete()`:  `response.items.[]` **Changed** **Breaking** :warning:\n"
 generatedFiles:
   - .devcontainer/README.md
   - .devcontainer/devcontainer.json

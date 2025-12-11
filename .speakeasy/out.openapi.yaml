@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.15.1-alpha.1764975753193-67dd5070
+  version: 4.15.1-alpha.1765407756960-5c02a009
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -37626,6 +37626,12 @@ components:
           default: []
           items:
             type: string
+        throttleRatePerSec:
+          type: string
+          title: Throttling
+          description: "Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."
+          pattern: ^[\d.]+(\s[KMGTPEZYkmgtpezy][Bb])?$
+          default: "0"
         responseRetrySettings:
           type: array
           title: Settings for failed HTTP requests
@@ -40757,11 +40763,6 @@ components:
           maximum: 86400
           title: DNS resolution period (sec)
           description: How often to resolve the destination hostname to an IP address. Ignored if all destinations are IP addresses. A value of 0 means every datagram sent will incur a DNS lookup.
-        enableIpSpoofing:
-          title: Enable Source IP spoofing
-          description: Send NetFlow traffic using the original event's Source IP and port. To enable this, you must install the external `udp-sender` helper binary at `/usr/bin/udp-sender` on all Worker Nodes and grant it the `CAP_NET_RAW` capability.
-          type: boolean
-          default: false
         description:
           type: string
           title: Description

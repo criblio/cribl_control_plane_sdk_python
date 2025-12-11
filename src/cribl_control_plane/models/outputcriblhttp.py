@@ -323,6 +323,8 @@ class OutputCriblHTTPTypedDict(TypedDict):
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text"""
+    throttle_rate_per_sec: NotRequired[str]
+    r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
     response_retry_settings: NotRequired[
         List[OutputCriblHTTPResponseRetrySettingTypedDict]
     ]
@@ -459,6 +461,11 @@ class OutputCriblHTTP(BaseModel):
         Optional[List[str]], pydantic.Field(alias="safeHeaders")
     ] = None
     r"""List of headers that are safe to log in plain text"""
+
+    throttle_rate_per_sec: Annotated[
+        Optional[str], pydantic.Field(alias="throttleRatePerSec")
+    ] = "0"
+    r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
 
     response_retry_settings: Annotated[
         Optional[List[OutputCriblHTTPResponseRetrySetting]],

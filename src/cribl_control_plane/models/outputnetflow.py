@@ -43,8 +43,6 @@ class OutputNetflowTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     dns_resolve_period_sec: NotRequired[float]
     r"""How often to resolve the destination hostname to an IP address. Ignored if all destinations are IP addresses. A value of 0 means every datagram sent will incur a DNS lookup."""
-    enable_ip_spoofing: NotRequired[bool]
-    r"""Send NetFlow traffic using the original event's Source IP and port. To enable this, you must install the external `udp-sender` helper binary at `/usr/bin/udp-sender` on all Worker Nodes and grant it the `CAP_NET_RAW` capability."""
     description: NotRequired[str]
 
 
@@ -75,10 +73,5 @@ class OutputNetflow(BaseModel):
         Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
     ] = 0
     r"""How often to resolve the destination hostname to an IP address. Ignored if all destinations are IP addresses. A value of 0 means every datagram sent will incur a DNS lookup."""
-
-    enable_ip_spoofing: Annotated[
-        Optional[bool], pydantic.Field(alias="enableIpSpoofing")
-    ] = False
-    r"""Send NetFlow traffic using the original event's Source IP and port. To enable this, you must install the external `udp-sender` helper binary at `/usr/bin/udp-sender` on all Worker Nodes and grant it the `CAP_NET_RAW` capability."""
 
     description: Optional[str] = None

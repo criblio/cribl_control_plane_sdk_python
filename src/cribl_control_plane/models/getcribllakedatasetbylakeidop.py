@@ -3,7 +3,11 @@
 from __future__ import annotations
 from .cribllakedataset import CriblLakeDataset, CriblLakeDatasetTypedDict
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import FieldMetadata, PathParamMetadata
+from cribl_control_plane.utils import (
+    FieldMetadata,
+    PathParamMetadata,
+    QueryParamMetadata,
+)
 import pydantic
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
@@ -12,6 +16,18 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 class GetCriblLakeDatasetByLakeIDRequestTypedDict(TypedDict):
     lake_id: str
     r"""The <code>id</code> of the Lake that contains the Lake Datasets to list."""
+    storage_location_id: NotRequired[str]
+    r"""Filter datasets by storage location ID. Use <code>default</code> for default storage location."""
+    format_: NotRequired[str]
+    r"""Filter datasets by format. Set to <code>ddss</code> to return only DDSS datasets."""
+    exclude_ddss: NotRequired[bool]
+    r"""Exclude DDSS format datasets from the response."""
+    exclude_deleted: NotRequired[bool]
+    r"""Exclude deleted datasets from the response."""
+    exclude_internal: NotRequired[bool]
+    r"""Exclude internal datasets (those with IDs starting with <code>cribl_</code>) from the response."""
+    exclude_byos: NotRequired[bool]
+    r"""Exclude BYOS (Bring Your Own Storage) datasets from the response."""
 
 
 class GetCriblLakeDatasetByLakeIDRequest(BaseModel):
@@ -21,6 +37,48 @@ class GetCriblLakeDatasetByLakeIDRequest(BaseModel):
         FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
     ]
     r"""The <code>id</code> of the Lake that contains the Lake Datasets to list."""
+
+    storage_location_id: Annotated[
+        Optional[str],
+        pydantic.Field(alias="storageLocationId"),
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = None
+    r"""Filter datasets by storage location ID. Use <code>default</code> for default storage location."""
+
+    format_: Annotated[
+        Optional[str],
+        pydantic.Field(alias="format"),
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = None
+    r"""Filter datasets by format. Set to <code>ddss</code> to return only DDSS datasets."""
+
+    exclude_ddss: Annotated[
+        Optional[bool],
+        pydantic.Field(alias="excludeDDSS"),
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = None
+    r"""Exclude DDSS format datasets from the response."""
+
+    exclude_deleted: Annotated[
+        Optional[bool],
+        pydantic.Field(alias="excludeDeleted"),
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = None
+    r"""Exclude deleted datasets from the response."""
+
+    exclude_internal: Annotated[
+        Optional[bool],
+        pydantic.Field(alias="excludeInternal"),
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = None
+    r"""Exclude internal datasets (those with IDs starting with <code>cribl_</code>) from the response."""
+
+    exclude_byos: Annotated[
+        Optional[bool],
+        pydantic.Field(alias="excludeBYOS"),
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = None
+    r"""Exclude BYOS (Bring Your Own Storage) datasets from the response."""
 
 
 class GetCriblLakeDatasetByLakeIDResponseTypedDict(TypedDict):

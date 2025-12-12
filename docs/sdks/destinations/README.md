@@ -1,5 +1,4 @@
 # Destinations
-(*destinations*)
 
 ## Overview
 

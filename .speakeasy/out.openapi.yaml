@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.15.0-f275b803
+  version: 4.15.1-bbf1374d
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -19940,6 +19940,10 @@ components:
     AddHecTokenRequest:
       type: object
       properties:
+        allowedIndexesAtToken:
+          type: array
+          items:
+            type: string
         description:
           type: string
         enabled:
@@ -19963,6 +19967,10 @@ components:
     UpdateHecTokenRequest:
       type: object
       properties:
+        allowedIndexesAtToken:
+          type: array
+          items:
+            type: string
         description:
           type: string
         enabled:
@@ -37618,6 +37626,12 @@ components:
           default: []
           items:
             type: string
+        throttleRatePerSec:
+          type: string
+          title: Throttling
+          description: "Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."
+          pattern: ^[\d.]+(\s[KMGTPEZYkmgtpezy][Bb])?$
+          default: "0"
         responseRetrySettings:
           type: array
           title: Settings for failed HTTP requests
@@ -46101,6 +46115,42 @@ paths:
           schema:
             type: string
           description: The <code>id</code> of the Lake that contains the Lake Datasets to list.
+        - name: storageLocationId
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Filter datasets by storage location ID. Use <code>default</code> for default storage location.
+        - name: format
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Filter datasets by format. Set to <code>ddss</code> to return only DDSS datasets.
+        - name: excludeDDSS
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Exclude DDSS format datasets from the response.
+        - name: excludeDeleted
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Exclude deleted datasets from the response.
+        - name: excludeInternal
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Exclude internal datasets (those with IDs starting with <code>cribl_</code>) from the response.
+        - name: excludeBYOS
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Exclude BYOS (Bring Your Own Storage) datasets from the response.
   /products/lake/lakes/{lakeId}/datasets/{id}:
     delete:
       operationId: deleteCriblLakeDatasetByLakeIdAndId

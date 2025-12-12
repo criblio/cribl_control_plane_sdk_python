@@ -269,11 +269,11 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 <details open>
 <summary>Available methods</summary>
 
-#### [auth.tokens](docs/sdks/tokens/README.md)
+### [Auth.Tokens](docs/sdks/tokens/README.md)
 
 * [get](docs/sdks/tokens/README.md#get) - Log in and fetch an authentication token
 
-### [destinations](docs/sdks/destinations/README.md)
+### [Destinations](docs/sdks/destinations/README.md)
 
 * [list](docs/sdks/destinations/README.md#list) - List all Destinations
 * [create](docs/sdks/destinations/README.md#create) - Create a Destination
@@ -281,17 +281,17 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 * [update](docs/sdks/destinations/README.md#update) - Update a Destination
 * [delete](docs/sdks/destinations/README.md#delete) - Delete a Destination
 
-#### [destinations.pq](docs/sdks/destinationspq/README.md)
+#### [Destinations.Pq](docs/sdks/destinationspq/README.md)
 
 * [clear](docs/sdks/destinationspq/README.md#clear) - Clear the persistent queue for a Destination
 * [get](docs/sdks/destinationspq/README.md#get) - Get information about the latest job to clear the persistent queue for a Destination
 
-#### [destinations.samples](docs/sdks/samples/README.md)
+#### [Destinations.Samples](docs/sdks/samples/README.md)
 
 * [get](docs/sdks/samples/README.md#get) - Get sample event data for a Destination
 * [create](docs/sdks/samples/README.md#create) - Send sample event data to a Destination
 
-### [groups](docs/sdks/groupssdk/README.md)
+### [Groups](docs/sdks/groupssdk/README.md)
 
 * [list](docs/sdks/groupssdk/README.md#list) - List all Worker Groups or Edge Fleets for the specified Cribl product
 * [create](docs/sdks/groupssdk/README.md#create) - Create a Worker Group or Edge Fleet for the specified Cribl product
@@ -300,23 +300,23 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 * [delete](docs/sdks/groupssdk/README.md#delete) - Delete a Worker Group or Edge Fleet
 * [deploy](docs/sdks/groupssdk/README.md#deploy) - Deploy commits to a Worker Group or Edge Fleet
 
-#### [groups.acl](docs/sdks/acl/README.md)
+#### [Groups.Acl](docs/sdks/acl/README.md)
 
 * [get](docs/sdks/acl/README.md#get) - Get the Access Control List for a Worker Group or Edge Fleet
 
-#### [groups.acl.teams](docs/sdks/teams/README.md)
+##### [Groups.Acl.Teams](docs/sdks/teams/README.md)
 
 * [get](docs/sdks/teams/README.md#get) - Get the Access Control List for teams with permissions on a Worker Group or Edge Fleet for the specified Cribl product
 
-#### [groups.configs.versions](docs/sdks/configsversions/README.md)
+#### [Groups.Configs.Versions](docs/sdks/configsversions/README.md)
 
 * [get](docs/sdks/configsversions/README.md#get) - Get the configuration version for a Worker Group or Edge Fleet
 
-### [health](docs/sdks/health/README.md)
+### [Health](docs/sdks/health/README.md)
 
 * [get](docs/sdks/health/README.md#get) - Retrieve health status of the server
 
-### [lake_datasets](docs/sdks/lakedatasets/README.md)
+### [LakeDatasets](docs/sdks/lakedatasets/README.md)
 
 * [create](docs/sdks/lakedatasets/README.md#create) - Create a Lake Dataset
 * [list](docs/sdks/lakedatasets/README.md#list) - List all Lake Datasets
@@ -324,16 +324,16 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 * [get](docs/sdks/lakedatasets/README.md#get) - Get a Lake Dataset
 * [update](docs/sdks/lakedatasets/README.md#update) - Update a Lake Dataset
 
-### [nodes](docs/sdks/nodes/README.md)
+### [Nodes](docs/sdks/nodes/README.md)
 
 * [list](docs/sdks/nodes/README.md#list) - Get detailed metadata for Worker and Edge Nodes
 * [count](docs/sdks/nodes/README.md#count) - Get a count of Worker and Edge Nodes
 
-#### [nodes.summaries](docs/sdks/summaries/README.md)
+#### [Nodes.Summaries](docs/sdks/summaries/README.md)
 
 * [get](docs/sdks/summaries/README.md#get) - Get a summary of the Distributed deployment
 
-### [packs](docs/sdks/packs/README.md)
+### [Packs](docs/sdks/packs/README.md)
 
 * [install](docs/sdks/packs/README.md#install) - Install a Pack
 * [list](docs/sdks/packs/README.md#list) - List all Packs
@@ -342,7 +342,7 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 * [get](docs/sdks/packs/README.md#get) - Get a Pack
 * [update](docs/sdks/packs/README.md#update) - Upgrade a Pack
 
-### [pipelines](docs/sdks/pipelines/README.md)
+### [Pipelines](docs/sdks/pipelines/README.md)
 
 * [list](docs/sdks/pipelines/README.md#list) - List all Pipelines
 * [create](docs/sdks/pipelines/README.md#create) - Create a Pipeline
@@ -350,14 +350,14 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 * [update](docs/sdks/pipelines/README.md#update) - Update a Pipeline
 * [delete](docs/sdks/pipelines/README.md#delete) - Delete a Pipeline
 
-### [routes](docs/sdks/routessdk/README.md)
+### [Routes](docs/sdks/routessdk/README.md)
 
 * [list](docs/sdks/routessdk/README.md#list) - List all Routes
 * [get](docs/sdks/routessdk/README.md#get) - Get a Routing table
 * [update](docs/sdks/routessdk/README.md#update) - Update a Route
 * [append](docs/sdks/routessdk/README.md#append) - Add a Route to the end of the Routing table
 
-### [sources](docs/sdks/sources/README.md)
+### [Sources](docs/sdks/sources/README.md)
 
 * [list](docs/sdks/sources/README.md#list) - List all Sources
 * [create](docs/sdks/sources/README.md#create) - Create a Source
@@ -365,17 +365,17 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 * [update](docs/sdks/sources/README.md#update) - Update a Source
 * [delete](docs/sdks/sources/README.md#delete) - Delete a Source
 
-#### [sources.hec_tokens](docs/sdks/hectokens/README.md)
+#### [Sources.HecTokens](docs/sdks/hectokens/README.md)
 
 * [create](docs/sdks/hectokens/README.md#create) - Add an HEC token and optional metadata to a Splunk HEC Source
 * [update](docs/sdks/hectokens/README.md#update) - Update metadata for an HEC token for a Splunk HEC Source
 
-#### [versions.branches](docs/sdks/branches/README.md)
+### [Versions.Branches](docs/sdks/branches/README.md)
 
 * [list](docs/sdks/branches/README.md#list) - List all branches in the Git repository used for Cribl configuration
 * [get](docs/sdks/branches/README.md#get) - Get the name of the Git branch that the Cribl configuration is checked out to
 
-#### [versions.commits](docs/sdks/commits/README.md)
+### [Versions.Commits](docs/sdks/commits/README.md)
 
 * [create](docs/sdks/commits/README.md#create) - Create a new commit for pending changes to the Cribl configuration
 * [diff](docs/sdks/commits/README.md#diff) - Get the diff for a commit
@@ -385,16 +385,16 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 * [get](docs/sdks/commits/README.md#get) - Get the diff and log message for a commit
 * [undo](docs/sdks/commits/README.md#undo) - Discard uncommitted (staged) changes
 
-#### [versions.commits.files](docs/sdks/commitsfiles/README.md)
+#### [Versions.Commits.Files](docs/sdks/commitsfiles/README.md)
 
 * [count](docs/sdks/commitsfiles/README.md#count) - Get a count of files that changed since a commit
 * [list](docs/sdks/commitsfiles/README.md#list) - Get the names and statuses of files that changed since a commit
 
-#### [versions.configs](docs/sdks/versionsconfigs/README.md)
+### [Versions.Configs](docs/sdks/versionsconfigs/README.md)
 
 * [get](docs/sdks/versionsconfigs/README.md#get) - Get the configuration and status for the Git integration
 
-#### [versions.statuses](docs/sdks/statuses/README.md)
+### [Versions.Statuses](docs/sdks/statuses/README.md)
 
 * [get](docs/sdks/statuses/README.md#get) - Get the status of the current working tree
 

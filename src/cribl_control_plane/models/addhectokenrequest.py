@@ -2,8 +2,9 @@
 
 from __future__ import annotations
 from cribl_control_plane.types import BaseModel
+import pydantic
 from typing import List, Optional
-from typing_extensions import NotRequired, TypedDict
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class AddHecTokenRequestMetadatumTypedDict(TypedDict):
@@ -19,6 +20,7 @@ class AddHecTokenRequestMetadatum(BaseModel):
 
 class AddHecTokenRequestTypedDict(TypedDict):
     token: str
+    allowed_indexes_at_token: NotRequired[List[str]]
     description: NotRequired[str]
     enabled: NotRequired[bool]
     metadata: NotRequired[List[AddHecTokenRequestMetadatumTypedDict]]
@@ -26,6 +28,10 @@ class AddHecTokenRequestTypedDict(TypedDict):
 
 class AddHecTokenRequest(BaseModel):
     token: str
+
+    allowed_indexes_at_token: Annotated[
+        Optional[List[str]], pydantic.Field(alias="allowedIndexesAtToken")
+    ] = None
 
     description: Optional[str] = None
 

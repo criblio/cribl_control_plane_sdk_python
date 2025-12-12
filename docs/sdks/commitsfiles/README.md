@@ -1,5 +1,4 @@
-# CommitsFiles
-(*versions.commits.files*)
+# Versions.Commits.Files
 
 ## Overview
 

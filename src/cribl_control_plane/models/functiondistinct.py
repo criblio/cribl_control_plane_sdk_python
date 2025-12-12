@@ -13,7 +13,7 @@ class FunctionDistinctID(str, Enum):
 
 
 class DistinctConfigurationTypedDict(TypedDict):
-    group_by: List[str]
+    group_by: NotRequired[List[str]]
     r"""Defines the properties that are concatenated to produce distinct key"""
     max_combinations: NotRequired[float]
     r"""maximum number of tracked combinations"""
@@ -26,7 +26,7 @@ class DistinctConfigurationTypedDict(TypedDict):
 
 
 class DistinctConfiguration(BaseModel):
-    group_by: Annotated[List[str], pydantic.Field(alias="groupBy")]
+    group_by: Annotated[Optional[List[str]], pydantic.Field(alias="groupBy")] = None
     r"""Defines the properties that are concatenated to produce distinct key"""
 
     max_combinations: Annotated[

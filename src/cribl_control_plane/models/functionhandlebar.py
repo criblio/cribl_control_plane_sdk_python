@@ -33,7 +33,7 @@ class TemplateDefinition(BaseModel):
 
 
 class FunctionHandlebarSchemaTypedDict(TypedDict):
-    templates: Dict[str, TemplateDefinitionTypedDict]
+    templates: NotRequired[Dict[str, TemplateDefinitionTypedDict]]
     r"""Object with template_id as keys and template definitions as values. Uses event.__template_id to select template at runtime."""
     target_field: NotRequired[str]
     r"""Field name to store the rendered template result. Defaults to _raw."""
@@ -44,7 +44,7 @@ class FunctionHandlebarSchemaTypedDict(TypedDict):
 
 
 class FunctionHandlebarSchema(BaseModel):
-    templates: Dict[str, TemplateDefinition]
+    templates: Optional[Dict[str, TemplateDefinition]] = None
     r"""Object with template_id as keys and template definitions as values. Uses event.__template_id to select template at runtime."""
 
     target_field: Annotated[Optional[str], pydantic.Field(alias="targetField")] = "_raw"

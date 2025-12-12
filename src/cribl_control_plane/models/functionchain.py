@@ -13,12 +13,12 @@ class FunctionChainID(str, Enum):
 
 
 class FunctionChainSchemaTypedDict(TypedDict):
-    processor: str
+    processor: NotRequired[str]
     r"""The data processor (Pack/Pipeline) to send events through"""
 
 
 class FunctionChainSchema(BaseModel):
-    processor: str
+    processor: Optional[str] = None
     r"""The data processor (Pack/Pipeline) to send events through"""
 
 

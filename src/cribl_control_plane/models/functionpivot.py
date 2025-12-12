@@ -13,22 +13,26 @@ class FunctionPivotID(str, Enum):
 
 
 class SimplePivotConfigurationTypedDict(TypedDict):
-    label_field: str
+    label_field: NotRequired[str]
     r"""Fields to be used for the left-most column."""
-    data_fields: List[str]
+    data_fields: NotRequired[List[str]]
     r"""Fields with the cell values (i.e. aggregates)"""
-    qualifier_fields: List[str]
+    qualifier_fields: NotRequired[List[str]]
     r"""Fields to qualify or group data fields"""
 
 
 class SimplePivotConfiguration(BaseModel):
-    label_field: Annotated[str, pydantic.Field(alias="labelField")]
+    label_field: Annotated[Optional[str], pydantic.Field(alias="labelField")] = None
     r"""Fields to be used for the left-most column."""
 
-    data_fields: Annotated[List[str], pydantic.Field(alias="dataFields")]
+    data_fields: Annotated[Optional[List[str]], pydantic.Field(alias="dataFields")] = (
+        None
+    )
     r"""Fields with the cell values (i.e. aggregates)"""
 
-    qualifier_fields: Annotated[List[str], pydantic.Field(alias="qualifierFields")]
+    qualifier_fields: Annotated[
+        Optional[List[str]], pydantic.Field(alias="qualifierFields")
+    ] = None
     r"""Fields to qualify or group data fields"""
 
 

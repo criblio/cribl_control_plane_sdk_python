@@ -13,17 +13,17 @@ class FunctionUnionID(str, Enum):
 
 
 class UnionConfigurationTypedDict(TypedDict):
-    search_job_id: str
+    search_job_id: NotRequired[str]
     r"""The id for this search job."""
-    stage_ids: List[str]
+    stage_ids: NotRequired[List[str]]
     r"""The stages we are unioning with."""
 
 
 class UnionConfiguration(BaseModel):
-    search_job_id: Annotated[str, pydantic.Field(alias="searchJobId")]
+    search_job_id: Annotated[Optional[str], pydantic.Field(alias="searchJobId")] = None
     r"""The id for this search job."""
 
-    stage_ids: Annotated[List[str], pydantic.Field(alias="stageIds")]
+    stage_ids: Annotated[Optional[List[str]], pydantic.Field(alias="stageIds")] = None
     r"""The stages we are unioning with."""
 
 

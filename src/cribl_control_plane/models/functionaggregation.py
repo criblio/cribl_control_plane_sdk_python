@@ -26,8 +26,6 @@ class FunctionAggregationAdd(BaseModel):
 
 
 class FunctionAggregationSchemaTypedDict(TypedDict):
-    aggregations: List[str]
-    r"""Aggregate function to perform on events. Example: sum(bytes).where(action=='REJECT').as(TotalBytes)"""
     passthrough: NotRequired[bool]
     r"""Pass through the original events along with the aggregation events"""
     preserve_group_bys: NotRequired[bool]
@@ -40,6 +38,8 @@ class FunctionAggregationSchemaTypedDict(TypedDict):
     r"""A prefix that is prepended to all of the fields output by this Aggregations Function"""
     time_window: NotRequired[str]
     r"""The time span of the tumbling window for aggregating events. Must be a valid time string (such as 10s)."""
+    aggregations: NotRequired[List[str]]
+    r"""Aggregate function to perform on events. Example: sum(bytes).where(action=='REJECT').as(TotalBytes)"""
     groupbys: NotRequired[List[str]]
     r"""Optional: One or more fields to group aggregates by. Supports wildcard expressions. Warning: Using wildcard '*' causes all fields in the event to be included, which can result in high cardinality and increased memory usage. Exclude fields that can result in high cardinality before using wildcards. Example: !_time, !_numericValue, *"""
     flush_event_limit: NotRequired[float]
@@ -59,9 +59,6 @@ class FunctionAggregationSchemaTypedDict(TypedDict):
 
 
 class FunctionAggregationSchema(BaseModel):
-    aggregations: List[str]
-    r"""Aggregate function to perform on events. Example: sum(bytes).where(action=='REJECT').as(TotalBytes)"""
-
     passthrough: Optional[bool] = False
     r"""Pass through the original events along with the aggregation events"""
 
@@ -83,6 +80,9 @@ class FunctionAggregationSchema(BaseModel):
 
     time_window: Annotated[Optional[str], pydantic.Field(alias="timeWindow")] = "10s"
     r"""The time span of the tumbling window for aggregating events. Must be a valid time string (such as 10s)."""
+
+    aggregations: Optional[List[str]] = None
+    r"""Aggregate function to perform on events. Example: sum(bytes).where(action=='REJECT').as(TotalBytes)"""
 
     groupbys: Optional[List[str]] = None
     r"""Optional: One or more fields to group aggregates by. Supports wildcard expressions. Warning: Using wildcard '*' causes all fields in the event to be included, which can result in high cardinality and increased memory usage. Exclude fields that can result in high cardinality before using wildcards. Example: !_time, !_numericValue, *"""

@@ -13,7 +13,7 @@ class FunctionSuppressID(str, Enum):
 
 
 class FunctionSuppressSchemaTypedDict(TypedDict):
-    key_expr: str
+    key_expr: NotRequired[str]
     r"""Suppression key expression used to uniquely identify events to suppress. For example, `${ip}:${port}` will use fields ip and port from each event to generate the key."""
     allow: NotRequired[float]
     r"""The number of events to allow per time period"""
@@ -30,7 +30,7 @@ class FunctionSuppressSchemaTypedDict(TypedDict):
 
 
 class FunctionSuppressSchema(BaseModel):
-    key_expr: Annotated[str, pydantic.Field(alias="keyExpr")]
+    key_expr: Annotated[Optional[str], pydantic.Field(alias="keyExpr")] = None
     r"""Suppression key expression used to uniquely identify events to suppress. For example, `${ip}:${port}` will use fields ip and port from each event to generate the key."""
 
     allow: Optional[float] = 1

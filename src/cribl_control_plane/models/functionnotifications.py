@@ -13,22 +13,22 @@ class FunctionNotificationsID(str, Enum):
 
 
 class FunctionNotificationsSchemaTypedDict(TypedDict):
-    id: str
+    id: NotRequired[str]
     r"""Notification ID"""
-    field: str
+    field: NotRequired[str]
     r"""Notification event state field name"""
-    deduplicate: bool
+    deduplicate: NotRequired[bool]
     r"""Toggle deduplication."""
 
 
 class FunctionNotificationsSchema(BaseModel):
-    id: str
+    id: Optional[str] = None
     r"""Notification ID"""
 
-    field: str
+    field: Optional[str] = None
     r"""Notification event state field name"""
 
-    deduplicate: bool
+    deduplicate: Optional[bool] = None
     r"""Toggle deduplication."""
 
 

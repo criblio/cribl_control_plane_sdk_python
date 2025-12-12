@@ -13,14 +13,16 @@ class FunctionPackID(str, Enum):
 
 
 class FunctionPackSchemaTypedDict(TypedDict):
-    unpacked_fields: List[str]
+    unpacked_fields: NotRequired[List[str]]
     r"""List of fields to keep, everything else will be packed"""
     target: NotRequired[str]
     r"""Name of the (packed) target field"""
 
 
 class FunctionPackSchema(BaseModel):
-    unpacked_fields: Annotated[List[str], pydantic.Field(alias="unpackedFields")]
+    unpacked_fields: Annotated[
+        Optional[List[str]], pydantic.Field(alias="unpackedFields")
+    ] = None
     r"""List of fields to keep, everything else will be packed"""
 
     target: Optional[str] = "_pack"

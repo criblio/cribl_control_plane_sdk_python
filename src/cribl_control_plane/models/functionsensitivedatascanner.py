@@ -44,7 +44,7 @@ class FunctionSensitiveDataScannerFlag(BaseModel):
 
 
 class FunctionSensitiveDataScannerSchemaTypedDict(TypedDict):
-    rules: List[FunctionSensitiveDataScannerRuleTypedDict]
+    rules: NotRequired[List[FunctionSensitiveDataScannerRuleTypedDict]]
     fields: NotRequired[List[str]]
     r"""Rulesets act on the events contained in these fields. Mitigation expressions apply to the scan results. Supports wildcards (*)."""
     exclude_fields: NotRequired[List[str]]
@@ -56,7 +56,7 @@ class FunctionSensitiveDataScannerSchemaTypedDict(TypedDict):
 
 
 class FunctionSensitiveDataScannerSchema(BaseModel):
-    rules: List[FunctionSensitiveDataScannerRule]
+    rules: Optional[List[FunctionSensitiveDataScannerRule]] = None
 
     fields: Optional[List[str]] = None
     r"""Rulesets act on the events contained in these fields. Mitigation expressions apply to the scan results. Supports wildcards (*)."""

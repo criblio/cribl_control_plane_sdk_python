@@ -26,7 +26,7 @@ class BagExpansionMode(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class FunctionMvExpandSchemaTypedDict(TypedDict):
-    source_fields: List[str]
+    source_fields: NotRequired[List[str]]
     r"""Array of property-/field-names to expand"""
     target_names: NotRequired[List[str]]
     r"""stores the value as new target field name"""
@@ -39,7 +39,9 @@ class FunctionMvExpandSchemaTypedDict(TypedDict):
 
 
 class FunctionMvExpandSchema(BaseModel):
-    source_fields: Annotated[List[str], pydantic.Field(alias="sourceFields")]
+    source_fields: Annotated[
+        Optional[List[str]], pydantic.Field(alias="sourceFields")
+    ] = None
     r"""Array of property-/field-names to expand"""
 
     target_names: Annotated[

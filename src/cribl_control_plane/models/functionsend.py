@@ -24,8 +24,6 @@ class FunctionSendMode(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class SendConfigurationTypedDict(TypedDict):
-    search_id: str
-    r"""Id of the search this function is running on."""
     url: NotRequired[str]
     r"""Full URL to send search to."""
     group: NotRequired[str]
@@ -34,6 +32,8 @@ class SendConfigurationTypedDict(TypedDict):
     r"""Workspace within the deployment to send the search results to."""
     send_url_template: NotRequired[str]
     r"""Template to build the URL to send from."""
+    search_id: NotRequired[str]
+    r"""Id of the search this function is running on."""
     tee: NotRequired[str]
     r"""Tee results to search. When set to true results will be shipped instead of stats"""
     flush_ms: NotRequired[float]
@@ -45,9 +45,6 @@ class SendConfigurationTypedDict(TypedDict):
 
 
 class SendConfiguration(BaseModel):
-    search_id: Annotated[str, pydantic.Field(alias="searchId")]
-    r"""Id of the search this function is running on."""
-
     url: Optional[str] = None
     r"""Full URL to send search to."""
 
@@ -61,6 +58,9 @@ class SendConfiguration(BaseModel):
         Optional[str], pydantic.Field(alias="sendUrlTemplate")
     ] = None
     r"""Template to build the URL to send from."""
+
+    search_id: Annotated[Optional[str], pydantic.Field(alias="searchId")] = None
+    r"""Id of the search this function is running on."""
 
     tee: Optional[str] = "false"
     r"""Tee results to search. When set to true results will be shipped instead of stats"""

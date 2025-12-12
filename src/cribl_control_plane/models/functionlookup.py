@@ -48,7 +48,7 @@ class OutField(BaseModel):
 
 
 class FunctionLookupSchemaTypedDict(TypedDict):
-    file: str
+    file: NotRequired[str]
     r"""Path to the lookup file. Reference environment variables via $. Example: $HOME/file.csv"""
     db_lookup: NotRequired[bool]
     r"""Enable to use a disk-based lookup. This option displays only the settings relevant to disk-based mode and hides those for in-memory lookups."""
@@ -65,7 +65,7 @@ class FunctionLookupSchemaTypedDict(TypedDict):
 
 
 class FunctionLookupSchema(BaseModel):
-    file: str
+    file: Optional[str] = None
     r"""Path to the lookup file. Reference environment variables via $. Example: $HOME/file.csv"""
 
     db_lookup: Annotated[Optional[bool], pydantic.Field(alias="dbLookup")] = False

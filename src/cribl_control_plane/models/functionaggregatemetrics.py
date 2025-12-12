@@ -72,8 +72,6 @@ class FunctionAggregateMetricsAdd(BaseModel):
 
 
 class FunctionAggregateMetricsSchemaTypedDict(TypedDict):
-    aggregations: List[AggregationTypedDict]
-    r"""Combination of Aggregation function and output metric type"""
     passthrough: NotRequired[bool]
     r"""Pass through the original events along with the aggregation events"""
     preserve_group_bys: NotRequired[bool]
@@ -84,6 +82,8 @@ class FunctionAggregateMetricsSchemaTypedDict(TypedDict):
     r"""A prefix that is prepended to all of the fields output by this Aggregations Function"""
     time_window: NotRequired[str]
     r"""The time span of the tumbling window for aggregating events. Must be a valid time string (such as 10s)."""
+    aggregations: NotRequired[List[AggregationTypedDict]]
+    r"""Combination of Aggregation function and output metric type"""
     groupbys: NotRequired[List[str]]
     r"""Optional: One or more dimensions to group aggregates by. Supports wildcard expressions. Wrap dimension names in quotes if using literal identifiers, such as 'service.name'. Warning: Using wildcard '*' causes all dimensions in the event to be included, which can result in high cardinality and increased memory usage. Exclude dimensions that can result in high cardinality before using wildcards. Example: !_time, !_numericValue, *"""
     flush_event_limit: NotRequired[float]
@@ -101,9 +101,6 @@ class FunctionAggregateMetricsSchemaTypedDict(TypedDict):
 
 
 class FunctionAggregateMetricsSchema(BaseModel):
-    aggregations: List[Aggregation]
-    r"""Combination of Aggregation function and output metric type"""
-
     passthrough: Optional[bool] = False
     r"""Pass through the original events along with the aggregation events"""
 
@@ -122,6 +119,9 @@ class FunctionAggregateMetricsSchema(BaseModel):
 
     time_window: Annotated[Optional[str], pydantic.Field(alias="timeWindow")] = "10s"
     r"""The time span of the tumbling window for aggregating events. Must be a valid time string (such as 10s)."""
+
+    aggregations: Optional[List[Aggregation]] = None
+    r"""Combination of Aggregation function and output metric type"""
 
     groupbys: Optional[List[str]] = None
     r"""Optional: One or more dimensions to group aggregates by. Supports wildcard expressions. Wrap dimension names in quotes if using literal identifiers, such as 'service.name'. Warning: Using wildcard '*' causes all dimensions in the event to be included, which can result in high cardinality and increased memory usage. Exclude dimensions that can result in high cardinality before using wildcards. Example: !_time, !_numericValue, *"""

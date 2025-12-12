@@ -13,7 +13,7 @@ class FunctionXMLUnrollID(str, Enum):
 
 
 class FunctionXMLUnrollSchemaTypedDict(TypedDict):
-    unroll: str
+    unroll: NotRequired[str]
     r"""Path to array to unroll. Example: ^root\.child\.ElementToUnroll$"""
     inherit: NotRequired[str]
     r"""Regex matching elements to copy into each unrolled event. Example: ^root\.(childA|childB|childC)$"""
@@ -24,7 +24,7 @@ class FunctionXMLUnrollSchemaTypedDict(TypedDict):
 
 
 class FunctionXMLUnrollSchema(BaseModel):
-    unroll: str
+    unroll: Optional[str] = None
     r"""Path to array to unroll. Example: ^root\.child\.ElementToUnroll$"""
 
     inherit: Optional[str] = None

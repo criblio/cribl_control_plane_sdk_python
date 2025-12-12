@@ -5,6 +5,6 @@
 
 | Field                               | Type                                | Required                            | Description                         |
 | ----------------------------------- | ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| `id`                                | *str*                               | :heavy_check_mark:                  | Notification ID                     |
-| `field`                             | *str*                               | :heavy_check_mark:                  | Notification event state field name |
-| `deduplicate`                       | *bool*                              | :heavy_check_mark:                  | Toggle deduplication.               |
+| `id`                                | *Optional[str]*                     | :heavy_minus_sign:                  | Notification ID                     |
+| `field`                             | *Optional[str]*                     | :heavy_minus_sign:                  | Notification event state field name |
+| `deduplicate`                       | *Optional[bool]*                    | :heavy_minus_sign:                  | Toggle deduplication.               |

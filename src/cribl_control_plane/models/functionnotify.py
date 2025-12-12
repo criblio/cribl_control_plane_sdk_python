@@ -43,20 +43,14 @@ class CountComparator(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class NotifyConfigurationTypedDict(TypedDict):
-    search_id: str
-    r"""Id of the search this function is running on."""
-    saved_query_id: str
-    r"""Id of the saved query"""
-    search_url: str
-    r"""Url of the search results"""
-    auth_token: str
-    r"""Auth token for sending notification messages"""
-    messages_endpoint: str
-    r"""System messages api endpoint"""
     group: NotRequired[str]
     r"""Group the notification belongs to"""
     notification_id: NotRequired[str]
     r"""Workspace within the deployment to send the search results to."""
+    search_id: NotRequired[str]
+    r"""Id of the search this function is running on."""
+    saved_query_id: NotRequired[str]
+    r"""Id of the saved query"""
     trigger: NotRequired[str]
     r"""Js expression that filters events, a greater than 'Trigger Count' events will trigger the notification"""
     trigger_type: NotRequired[TriggerType]
@@ -67,28 +61,19 @@ class NotifyConfigurationTypedDict(TypedDict):
     r"""How many results that match trigger the condition"""
     results_limit: NotRequired[float]
     r"""Number of results to include in the notification event"""
+    search_url: NotRequired[str]
+    r"""Url of the search results"""
     message: NotRequired[str]
     r"""Message content template, available fields: searchId, resultSet, savedQueryId, notificationId, searchResultsUrl"""
+    auth_token: NotRequired[str]
+    r"""Auth token for sending notification messages"""
+    messages_endpoint: NotRequired[str]
+    r"""System messages api endpoint"""
     tenant_id: NotRequired[str]
     r"""Current tenant id"""
 
 
 class NotifyConfiguration(BaseModel):
-    search_id: Annotated[str, pydantic.Field(alias="searchId")]
-    r"""Id of the search this function is running on."""
-
-    saved_query_id: Annotated[str, pydantic.Field(alias="savedQueryId")]
-    r"""Id of the saved query"""
-
-    search_url: Annotated[str, pydantic.Field(alias="searchUrl")]
-    r"""Url of the search results"""
-
-    auth_token: Annotated[str, pydantic.Field(alias="authToken")]
-    r"""Auth token for sending notification messages"""
-
-    messages_endpoint: Annotated[str, pydantic.Field(alias="messagesEndpoint")]
-    r"""System messages api endpoint"""
-
     group: Optional[str] = "default"
     r"""Group the notification belongs to"""
 
@@ -96,6 +81,14 @@ class NotifyConfiguration(BaseModel):
         Optional[str], pydantic.Field(alias="notificationId")
     ] = "main"
     r"""Workspace within the deployment to send the search results to."""
+
+    search_id: Annotated[Optional[str], pydantic.Field(alias="searchId")] = None
+    r"""Id of the search this function is running on."""
+
+    saved_query_id: Annotated[Optional[str], pydantic.Field(alias="savedQueryId")] = (
+        None
+    )
+    r"""Id of the saved query"""
 
     trigger: Optional[str] = None
     r"""Js expression that filters events, a greater than 'Trigger Count' events will trigger the notification"""
@@ -118,8 +111,19 @@ class NotifyConfiguration(BaseModel):
     results_limit: Annotated[Optional[float], pydantic.Field(alias="resultsLimit")] = 50
     r"""Number of results to include in the notification event"""
 
+    search_url: Annotated[Optional[str], pydantic.Field(alias="searchUrl")] = None
+    r"""Url of the search results"""
+
     message: Optional[str] = None
     r"""Message content template, available fields: searchId, resultSet, savedQueryId, notificationId, searchResultsUrl"""
+
+    auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = None
+    r"""Auth token for sending notification messages"""
+
+    messages_endpoint: Annotated[
+        Optional[str], pydantic.Field(alias="messagesEndpoint")
+    ] = None
+    r"""System messages api endpoint"""
 
     tenant_id: Annotated[Optional[str], pydantic.Field(alias="tenantId")] = None
     r"""Current tenant id"""

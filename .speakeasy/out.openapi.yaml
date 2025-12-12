@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.16.0-alpha.1765487092497-ed578836
+  version: 4.16.0-alpha.1765563517298-e5356002
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -132,9 +132,6 @@ components:
         schema:
           type: object
           title: ""
-          required:
-            - timeWindow
-            - aggregations
           properties:
             passthrough:
               type: boolean
@@ -282,9 +279,6 @@ components:
         schema:
           type: object
           title: ""
-          required:
-            - timeWindow
-            - aggregations
           properties:
             passthrough:
               type: boolean
@@ -641,8 +635,6 @@ components:
         schema:
           type: object
           title: ""
-          required:
-            - processor
           properties:
             processor:
               title: Processor
@@ -867,8 +859,6 @@ components:
         schema:
           type: object
           title: distinct configuration
-          required:
-            - groupBy
           properties:
             groupBy:
               type: array
@@ -1139,9 +1129,6 @@ components:
         schema:
           type: object
           title: ""
-          required:
-            - timeWindow
-            - dropDimensions
           properties:
             timeWindow:
               pattern: \d+[sm]$
@@ -1207,9 +1194,6 @@ components:
           type: object
           title: ""
           additionalProperties: false
-          required:
-            - mode
-            - keyExpr
           properties:
             mode:
               title: Sample mode
@@ -1366,8 +1350,6 @@ components:
         schema:
           type: object
           title: ""
-          required:
-            - existingOrNew
           properties:
             existingOrNew:
               title: Existing or new?
@@ -1429,8 +1411,6 @@ components:
         schema:
           type: object
           title: eventstats configuration
-          required:
-            - aggregations
           properties:
             aggregations:
               type: array
@@ -1723,8 +1703,6 @@ components:
           type: object
           title: ""
           additionalProperties: false
-          required:
-            - file
           properties:
             file:
               type: string
@@ -1806,8 +1784,6 @@ components:
         schema:
           type: object
           title: ""
-          required:
-            - pattern
           properties:
             pattern:
               type: string
@@ -1875,8 +1851,6 @@ components:
         schema:
           type: object
           title: ""
-          required:
-            - templates
           properties:
             templates:
               type: object
@@ -1964,8 +1938,6 @@ components:
           type: object
           title: Join Configuration
           additionalProperties: false
-          required:
-            - fieldConditions
           properties:
             kind:
               type: string
@@ -2048,8 +2020,6 @@ components:
         schema:
           type: object
           title: ""
-          required:
-            - path
           properties:
             path:
               type: string
@@ -2104,9 +2074,6 @@ components:
           type: object
           title: Lake export Configuration
           additionalProperties: false
-          required:
-            - dataset
-            - searchJobId
           properties:
             searchJobId:
               title: Search Job Id
@@ -2232,8 +2199,6 @@ components:
           title: ""
           type: object
           additionalProperties: false
-          required:
-            - rulesetId
           properties:
             rulesetId:
               title: Ruleset ID
@@ -2339,8 +2304,6 @@ components:
         schema:
           type: object
           title: ""
-          required:
-            - file
           properties:
             file:
               type: string
@@ -2446,8 +2409,6 @@ components:
         schema:
           type: object
           title: ""
-          required:
-            - rules
           properties:
             rules:
               type: array
@@ -2549,8 +2510,6 @@ components:
           type: object
           title: ""
           additionalProperties: false
-          required:
-            - sourceFields
           properties:
             sourceFields:
               title: Source fields
@@ -2631,10 +2590,6 @@ components:
         schema:
           type: object
           additionalProperties: false
-          required:
-            - arrayPath
-            - relativeKeyPath
-            - relativeValuePath
           properties:
             arrayPath:
               title: Field name of source array
@@ -2844,10 +2799,6 @@ components:
           type: object
           title: ""
           additionalProperties: false
-          required:
-            - id
-            - field
-            - deduplicate
           properties:
             id:
               type: string
@@ -2906,14 +2857,6 @@ components:
           type: object
           title: Notify Configuration
           additionalProperties: false
-          required:
-            - searchId
-            - notificationId
-            - savedQueryId
-            - group
-            - searchUrl
-            - messagesEndpoint
-            - authToken
           properties:
             group:
               title: Group
@@ -3318,8 +3261,6 @@ components:
         schema:
           type: object
           title: ""
-          required:
-            - unpackedFields
           properties:
             unpackedFields:
               title: Unpacked fields
@@ -3377,10 +3318,6 @@ components:
           type: object
           title: Simple Pivot Configuration
           additionalProperties: false
-          required:
-            - labelField
-            - dataFields
-            - qualifierFields
           properties:
             labelField:
               title: Labeling field
@@ -3555,8 +3492,6 @@ components:
           type: string
         schema:
           type: object
-          required:
-            - commands
           properties:
             commands:
               type: array
@@ -3666,8 +3601,6 @@ components:
         schema:
           type: object
           title: ""
-          required:
-            - regex
           properties:
             regex:
               type: string
@@ -4040,8 +3973,6 @@ components:
           type: object
           title: Send Configuration
           additionalProperties: false
-          required:
-            - searchId
           properties:
             url:
               title: URL
@@ -4131,8 +4062,6 @@ components:
         schema:
           type: object
           title: ""
-          required:
-            - rules
           properties:
             rules:
               type: array
@@ -4240,9 +4169,6 @@ components:
         schema:
           title: ""
           type: object
-          required:
-            - mode
-            - type
           properties:
             mode:
               title: Operation mode
@@ -4338,8 +4264,6 @@ components:
         schema:
           title: ""
           type: object
-          required:
-            - type
           properties:
             type:
               title: Type
@@ -4576,8 +4500,6 @@ components:
           type: object
           title: Sort Configuration
           additionalProperties: false
-          required:
-            - comparisonExpression
           properties:
             sortId:
               title: Identifier for the specific sort operation
@@ -4644,8 +4566,6 @@ components:
           type: object
           title: Store Function Configuration
           additionalProperties: false
-          required:
-            - type
           properties:
             type:
               title: Output type
@@ -4738,10 +4658,6 @@ components:
         schema:
           type: object
           title: ""
-          required:
-            - keyExpr
-            - allow
-            - suppressPeriodSec
           properties:
             keyExpr:
               type: string
@@ -4823,8 +4739,6 @@ components:
         schema:
           type: object
           title: ""
-          required:
-            - command
           properties:
             command:
               type: string
@@ -4940,9 +4854,6 @@ components:
           type: object
           title: Union Configuration
           additionalProperties: false
-          required:
-            - searchJobId
-            - stageIds
           properties:
             searchJobId:
               title: Search Job Id
@@ -4999,9 +4910,6 @@ components:
         schema:
           type: object
           title: ""
-          required:
-            - srcExpr
-            - dstField
           properties:
             srcExpr:
               type: string
@@ -5058,9 +4966,6 @@ components:
           type: object
           title: ""
           additionalProperties: false
-          required:
-            - eventWindowId
-            - registeredFunctions
           properties:
             eventWindowId:
               title: Unique Identifier
@@ -5127,8 +5032,6 @@ components:
         schema:
           type: object
           title: ""
-          required:
-            - unroll
           properties:
             unroll:
               type: string
@@ -6433,6 +6336,9 @@ components:
         type:
           type: string
           enum:
+            - edge
+            - stream
+            - search
             - lake_access
             - local_search
           x-speakeasy-unknown-values: allow
@@ -6599,6 +6505,9 @@ components:
         type:
           type: string
           enum:
+            - edge
+            - stream
+            - search
             - lake_access
             - local_search
           x-speakeasy-unknown-values: allow
@@ -44712,6 +44621,12 @@ components:
           default: []
           items:
             type: string
+        throttleRatePerSec:
+          type: string
+          title: Throttling
+          description: "Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."
+          pattern: ^[\d.]+(\s[KMGTPEZYkmgtpezy][Bb])?$
+          default: "0"
         responseRetrySettings:
           type: array
           title: Settings for failed HTTP requests

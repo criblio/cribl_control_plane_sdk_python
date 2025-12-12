@@ -13,9 +13,9 @@ class FunctionWindowID(str, Enum):
 
 
 class FunctionWindowSchemaTypedDict(TypedDict):
-    event_window_id: float
+    event_window_id: NotRequired[float]
     r"""Identifies the unique ID, used for a event window"""
-    registered_functions: List[str]
+    registered_functions: NotRequired[List[str]]
     r"""All window functions, tracked by this event window"""
     tail_event_count: NotRequired[float]
     r"""Number of events to keep before the current event in the window"""
@@ -24,12 +24,14 @@ class FunctionWindowSchemaTypedDict(TypedDict):
 
 
 class FunctionWindowSchema(BaseModel):
-    event_window_id: Annotated[float, pydantic.Field(alias="eventWindowId")]
+    event_window_id: Annotated[
+        Optional[float], pydantic.Field(alias="eventWindowId")
+    ] = None
     r"""Identifies the unique ID, used for a event window"""
 
     registered_functions: Annotated[
-        List[str], pydantic.Field(alias="registeredFunctions")
-    ]
+        Optional[List[str]], pydantic.Field(alias="registeredFunctions")
+    ] = None
     r"""All window functions, tracked by this event window"""
 
     tail_event_count: Annotated[

@@ -13,7 +13,7 @@ class FunctionTeeID(str, Enum):
 
 
 class FunctionTeeSchemaTypedDict(TypedDict):
-    command: str
+    command: NotRequired[str]
     r"""Command to execute and feed events to, via stdin. One JSON-formatted event per line."""
     args: NotRequired[List[str]]
     restart_on_exit: NotRequired[bool]
@@ -23,7 +23,7 @@ class FunctionTeeSchemaTypedDict(TypedDict):
 
 
 class FunctionTeeSchema(BaseModel):
-    command: str
+    command: Optional[str] = None
     r"""Command to execute and feed events to, via stdin. One JSON-formatted event per line."""
 
     args: Optional[List[str]] = None

@@ -55,6 +55,9 @@ class GroupCreateRequestGit(BaseModel):
 
 
 class GroupCreateRequestType(str, Enum, metaclass=utils.OpenEnumMeta):
+    EDGE = "edge"
+    STREAM = "stream"
+    SEARCH = "search"
     LAKE_ACCESS = "lake_access"
     LOCAL_SEARCH = "local_search"
 

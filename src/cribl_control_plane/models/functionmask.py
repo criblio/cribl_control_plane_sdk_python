@@ -46,7 +46,7 @@ class FunctionMaskFlag(BaseModel):
 
 
 class FunctionMaskSchemaTypedDict(TypedDict):
-    rules: List[FunctionMaskRuleTypedDict]
+    rules: NotRequired[List[FunctionMaskRuleTypedDict]]
     fields: NotRequired[List[str]]
     r"""Fields on which to apply the masking rules. Supports * wildcards, except when used on internal fields."""
     depth: NotRequired[int]
@@ -56,7 +56,7 @@ class FunctionMaskSchemaTypedDict(TypedDict):
 
 
 class FunctionMaskSchema(BaseModel):
-    rules: List[FunctionMaskRule]
+    rules: Optional[List[FunctionMaskRule]] = None
 
     fields: Optional[List[str]] = None
     r"""Fields on which to apply the masking rules. Supports * wildcards, except when used on internal fields."""

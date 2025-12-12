@@ -13,14 +13,14 @@ class FunctionJSONUnrollID(str, Enum):
 
 
 class FunctionJSONUnrollSchemaTypedDict(TypedDict):
-    path: str
+    path: NotRequired[str]
     r"""Path to array to unroll, such as foo.0.bar"""
     name: NotRequired[str]
     r"""Name of each exploded array element in each new event. Leave empty to expand the array element with its original name."""
 
 
 class FunctionJSONUnrollSchema(BaseModel):
-    path: str
+    path: Optional[str] = None
     r"""Path to array to unroll, such as foo.0.bar"""
 
     name: Optional[str] = None

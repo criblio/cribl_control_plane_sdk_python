@@ -23,7 +23,7 @@ class PatternList(BaseModel):
 
 
 class FunctionGrokSchemaTypedDict(TypedDict):
-    pattern: str
+    pattern: NotRequired[str]
     r"""Grok pattern to extract fields. Syntax supported: %{PATTERN_NAME:FIELD_NAME}"""
     pattern_list: NotRequired[List[PatternListTypedDict]]
     source: NotRequired[str]
@@ -31,7 +31,7 @@ class FunctionGrokSchemaTypedDict(TypedDict):
 
 
 class FunctionGrokSchema(BaseModel):
-    pattern: str
+    pattern: Optional[str] = None
     r"""Grok pattern to extract fields. Syntax supported: %{PATTERN_NAME:FIELD_NAME}"""
 
     pattern_list: Annotated[

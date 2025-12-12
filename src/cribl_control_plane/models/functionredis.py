@@ -64,7 +64,7 @@ class FunctionRedisAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta)
 
 
 class FunctionRedisSchemaTypedDict(TypedDict):
-    commands: List[CommandTypedDict]
+    commands: NotRequired[List[CommandTypedDict]]
     deployment_type: NotRequired[DeploymentType]
     r"""How the Redis server is configured. Defaults to Standalone"""
     auth_type: NotRequired[FunctionRedisAuthenticationMethod]
@@ -75,7 +75,7 @@ class FunctionRedisSchemaTypedDict(TypedDict):
 
 
 class FunctionRedisSchema(BaseModel):
-    commands: List[Command]
+    commands: Optional[List[Command]] = None
 
     deployment_type: Annotated[
         Annotated[Optional[DeploymentType], PlainValidator(validate_open_enum(False))],

@@ -13,12 +13,12 @@ class FunctionLocalSearchDatatypeParserID(str, Enum):
 
 
 class FunctionLocalSearchDatatypeParserSchemaTypedDict(TypedDict):
-    ruleset_id: str
+    ruleset_id: NotRequired[str]
     r"""ID of the local search datatype ruleset"""
 
 
 class FunctionLocalSearchDatatypeParserSchema(BaseModel):
-    ruleset_id: Annotated[str, pydantic.Field(alias="rulesetId")]
+    ruleset_id: Annotated[Optional[str], pydantic.Field(alias="rulesetId")] = None
     r"""ID of the local search datatype ruleset"""
 
 

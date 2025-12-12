@@ -13,20 +13,22 @@ class FunctionDropDimensionsID(str, Enum):
 
 
 class FunctionDropDimensionsSchemaTypedDict(TypedDict):
-    drop_dimensions: List[str]
-    r"""One or more dimensions to be dropped. Supports wildcard expressions. Warning: Using wildcard '*' causes all dimensions in the event to be dropped."""
     time_window: NotRequired[str]
     r"""The time span of the tumbling window for aggregating events. Must be a valid time string (such as 10s)."""
+    drop_dimensions: NotRequired[List[str]]
+    r"""One or more dimensions to be dropped. Supports wildcard expressions. Warning: Using wildcard '*' causes all dimensions in the event to be dropped."""
     flush_on_input_close: NotRequired[bool]
     r"""Flush aggregations when an input stream is closed. If disabled, aggregations are flushed based on Time Window Settings instead."""
 
 
 class FunctionDropDimensionsSchema(BaseModel):
-    drop_dimensions: Annotated[List[str], pydantic.Field(alias="dropDimensions")]
-    r"""One or more dimensions to be dropped. Supports wildcard expressions. Warning: Using wildcard '*' causes all dimensions in the event to be dropped."""
-
     time_window: Annotated[Optional[str], pydantic.Field(alias="timeWindow")] = "10s"
     r"""The time span of the tumbling window for aggregating events. Must be a valid time string (such as 10s)."""
+
+    drop_dimensions: Annotated[
+        Optional[List[str]], pydantic.Field(alias="dropDimensions")
+    ] = None
+    r"""One or more dimensions to be dropped. Supports wildcard expressions. Warning: Using wildcard '*' causes all dimensions in the event to be dropped."""
 
     flush_on_input_close: Annotated[
         Optional[bool], pydantic.Field(alias="flushOnInputClose")

@@ -13,10 +13,10 @@ class FunctionSortID(str, Enum):
 
 
 class SortConfigurationTypedDict(TypedDict):
-    comparison_expression: str
-    r"""The expression can access the events via the 'left' and 'right' properties."""
     sort_id: NotRequired[str]
     r"""Has to be unique if there are multiple sorts on the pipeline."""
+    comparison_expression: NotRequired[str]
+    r"""The expression can access the events via the 'left' and 'right' properties."""
     top_n: NotRequired[float]
     r"""Limits the output to N (highest/lowest) events"""
     max_events: NotRequired[float]
@@ -26,11 +26,13 @@ class SortConfigurationTypedDict(TypedDict):
 
 
 class SortConfiguration(BaseModel):
-    comparison_expression: Annotated[str, pydantic.Field(alias="comparisonExpression")]
-    r"""The expression can access the events via the 'left' and 'right' properties."""
-
     sort_id: Annotated[Optional[str], pydantic.Field(alias="sortId")] = None
     r"""Has to be unique if there are multiple sorts on the pipeline."""
+
+    comparison_expression: Annotated[
+        Optional[str], pydantic.Field(alias="comparisonExpression")
+    ] = None
+    r"""The expression can access the events via the 'left' and 'right' properties."""
 
     top_n: Annotated[Optional[float], pydantic.Field(alias="topN")] = None
     r"""Limits the output to N (highest/lowest) events"""

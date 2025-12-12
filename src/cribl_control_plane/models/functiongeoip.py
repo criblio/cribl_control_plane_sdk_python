@@ -36,7 +36,7 @@ class OutputFieldMappings(BaseModel):
 
 
 class FunctionGeoipSchemaTypedDict(TypedDict):
-    file: str
+    file: NotRequired[str]
     r"""Select an uploaded Maxmind database, or specify path to a Maxmind database with .mmdb extension"""
     in_field: NotRequired[str]
     r"""Field name in which to find an IP to look up. Can be nested."""
@@ -48,7 +48,7 @@ class FunctionGeoipSchemaTypedDict(TypedDict):
 
 
 class FunctionGeoipSchema(BaseModel):
-    file: str
+    file: Optional[str] = None
     r"""Select an uploaded Maxmind database, or specify path to a Maxmind database with .mmdb extension"""
 
     in_field: Annotated[Optional[str], pydantic.Field(alias="inField")] = "ip"

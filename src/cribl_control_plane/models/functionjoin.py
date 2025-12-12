@@ -28,12 +28,12 @@ class FieldCondition(BaseModel):
 
 
 class JoinConfigurationTypedDict(TypedDict):
-    field_conditions: List[FieldConditionTypedDict]
-    r"""Fields to use when joining"""
     kind: NotRequired[str]
     r"""Join kind, e.g. inner"""
     hints: NotRequired[Dict[str, str]]
     r"""Hints passed to the join function"""
+    field_conditions: NotRequired[List[FieldConditionTypedDict]]
+    r"""Fields to use when joining"""
     search_job_id: NotRequired[str]
     r"""The id for this search job."""
     stage_id: NotRequired[str]
@@ -41,16 +41,16 @@ class JoinConfigurationTypedDict(TypedDict):
 
 
 class JoinConfiguration(BaseModel):
-    field_conditions: Annotated[
-        List[FieldCondition], pydantic.Field(alias="fieldConditions")
-    ]
-    r"""Fields to use when joining"""
-
     kind: Optional[str] = None
     r"""Join kind, e.g. inner"""
 
     hints: Optional[Dict[str, str]] = None
     r"""Hints passed to the join function"""
+
+    field_conditions: Annotated[
+        Optional[List[FieldCondition]], pydantic.Field(alias="fieldConditions")
+    ] = None
+    r"""Fields to use when joining"""
 
     search_job_id: Annotated[Optional[str], pydantic.Field(alias="searchJobId")] = None
     r"""The id for this search job."""

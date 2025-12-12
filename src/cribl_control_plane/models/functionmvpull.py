@@ -13,11 +13,11 @@ class FunctionMvPullID(str, Enum):
 
 
 class FunctionMvPullSchemaTypedDict(TypedDict):
-    array_path: str
+    array_path: NotRequired[str]
     r"""Field name of the array within events that contains the data objects of interest. Can be a path."""
-    relative_key_path: str
+    relative_key_path: NotRequired[str]
     r"""Extract the K-V pair's key from this field, relative to the data object."""
-    relative_value_path: str
+    relative_value_path: NotRequired[str]
     r"""Extract the K-V pair's value from this field, relative to the data object."""
     target_bag_path: NotRequired[str]
     r"""Optionally, specify a bag as the target for K-V entries. If not specified, these entries are stored on each top-level event."""
@@ -26,13 +26,17 @@ class FunctionMvPullSchemaTypedDict(TypedDict):
 
 
 class FunctionMvPullSchema(BaseModel):
-    array_path: Annotated[str, pydantic.Field(alias="arrayPath")]
+    array_path: Annotated[Optional[str], pydantic.Field(alias="arrayPath")] = None
     r"""Field name of the array within events that contains the data objects of interest. Can be a path."""
 
-    relative_key_path: Annotated[str, pydantic.Field(alias="relativeKeyPath")]
+    relative_key_path: Annotated[
+        Optional[str], pydantic.Field(alias="relativeKeyPath")
+    ] = None
     r"""Extract the K-V pair's key from this field, relative to the data object."""
 
-    relative_value_path: Annotated[str, pydantic.Field(alias="relativeValuePath")]
+    relative_value_path: Annotated[
+        Optional[str], pydantic.Field(alias="relativeValuePath")
+    ] = None
     r"""Extract the K-V pair's value from this field, relative to the data object."""
 
     target_bag_path: Annotated[Optional[str], pydantic.Field(alias="targetBagPath")] = (

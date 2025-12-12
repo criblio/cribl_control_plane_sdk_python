@@ -13,9 +13,9 @@ class FunctionLakeExportID(str, Enum):
 
 
 class LakeExportConfigurationTypedDict(TypedDict):
-    search_job_id: str
+    search_job_id: NotRequired[str]
     r"""Id of the search job this function is running on."""
-    dataset: str
+    dataset: NotRequired[str]
     r"""Name of the dataset"""
     lake: NotRequired[str]
     r"""Name of the lake"""
@@ -28,10 +28,10 @@ class LakeExportConfigurationTypedDict(TypedDict):
 
 
 class LakeExportConfiguration(BaseModel):
-    search_job_id: Annotated[str, pydantic.Field(alias="searchJobId")]
+    search_job_id: Annotated[Optional[str], pydantic.Field(alias="searchJobId")] = None
     r"""Id of the search job this function is running on."""
 
-    dataset: str
+    dataset: Optional[str] = None
     r"""Name of the dataset"""
 
     lake: Optional[str] = "default"

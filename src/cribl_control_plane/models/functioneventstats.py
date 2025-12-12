@@ -13,7 +13,7 @@ class FunctionEventstatsID(str, Enum):
 
 
 class EventstatsConfigurationTypedDict(TypedDict):
-    aggregations: List[str]
+    aggregations: NotRequired[List[str]]
     r"""Aggregate function(s) to perform on events. E.g., sum(bytes).where(action=='REJECT').as(TotalBytes)"""
     group_bys: NotRequired[List[str]]
     r"""Fields to group aggregates by, supports wildcard expressions."""
@@ -24,7 +24,7 @@ class EventstatsConfigurationTypedDict(TypedDict):
 
 
 class EventstatsConfiguration(BaseModel):
-    aggregations: List[str]
+    aggregations: Optional[List[str]] = None
     r"""Aggregate function(s) to perform on events. E.g., sum(bytes).where(action=='REJECT').as(TotalBytes)"""
 
     group_bys: Annotated[Optional[List[str]], pydantic.Field(alias="groupBys")] = None

@@ -23,7 +23,7 @@ class FunctionRegexExtractRegexList(BaseModel):
 
 
 class FunctionRegexExtractSchemaTypedDict(TypedDict):
-    regex: str
+    regex: NotRequired[str]
     r"""Regex literal with named capturing groups, such as (?<foo>bar), or _NAME_ and _VALUE_ capturing groups, such as (?<_NAME_0>[^ =]+)=(?<_VALUE_0>[^,]+)"""
     regex_list: NotRequired[List[FunctionRegexExtractRegexListTypedDict]]
     source: NotRequired[str]
@@ -37,7 +37,7 @@ class FunctionRegexExtractSchemaTypedDict(TypedDict):
 
 
 class FunctionRegexExtractSchema(BaseModel):
-    regex: str
+    regex: Optional[str] = None
     r"""Regex literal with named capturing groups, such as (?<foo>bar), or _NAME_ and _VALUE_ capturing groups, such as (?<_NAME_0>[^ =]+)=(?<_VALUE_0>[^,]+)"""
 
     regex_list: Annotated[

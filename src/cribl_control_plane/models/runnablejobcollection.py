@@ -207,7 +207,7 @@ class RunnableJobCollectionSchedule(BaseModel):
     run: Optional[RunnableJobCollectionRunSettings] = None
 
 
-class CollectorTypedDict(TypedDict):
+class RunnableJobCollectionCollectorTypedDict(TypedDict):
     type: str
     r"""The type of collector to run"""
     conf: CollectorConfTypedDict
@@ -218,7 +218,7 @@ class CollectorTypedDict(TypedDict):
     r"""Character encoding to use when parsing ingested data. When not set, @{product} will default to UTF-8 but may incorrectly interpret multi-byte characters."""
 
 
-class Collector(BaseModel):
+class RunnableJobCollectionCollector(BaseModel):
     type: str
     r"""The type of collector to run"""
 
@@ -232,7 +232,7 @@ class Collector(BaseModel):
     r"""Character encoding to use when parsing ingested data. When not set, @{product} will default to UTF-8 but may incorrectly interpret multi-byte characters."""
 
 
-class InputType(str, Enum, metaclass=utils.OpenEnumMeta):
+class RunnableJobCollectionInputType(str, Enum, metaclass=utils.OpenEnumMeta):
     COLLECTION = "collection"
 
 
@@ -268,7 +268,7 @@ class RunnableJobCollectionMetadatum(BaseModel):
 
 
 class RunnableJobCollectionInputTypedDict(TypedDict):
-    type: NotRequired[InputType]
+    type: NotRequired[RunnableJobCollectionInputType]
     breaker_rulesets: NotRequired[List[str]]
     r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
     stale_channel_flush_ms: NotRequired[float]
@@ -287,9 +287,10 @@ class RunnableJobCollectionInputTypedDict(TypedDict):
 
 
 class RunnableJobCollectionInput(BaseModel):
-    type: Annotated[Optional[InputType], PlainValidator(validate_open_enum(False))] = (
-        InputType.COLLECTION
-    )
+    type: Annotated[
+        Optional[RunnableJobCollectionInputType],
+        PlainValidator(validate_open_enum(False)),
+    ] = RunnableJobCollectionInputType.COLLECTION
 
     breaker_rulesets: Annotated[
         Optional[List[str]], pydantic.Field(alias="breakerRulesets")
@@ -326,7 +327,7 @@ class RunnableJobCollectionInput(BaseModel):
     def serialize_type(self, value):
         if isinstance(value, str):
             try:
-                return models.InputType(value)
+                return models.RunnableJobCollectionInputType(value)
             except ValueError:
                 return value
         return value
@@ -544,7 +545,7 @@ class RunnableJobCollectionRun(BaseModel):
 
 
 class RunnableJobCollectionTypedDict(TypedDict):
-    collector: CollectorTypedDict
+    collector: RunnableJobCollectionCollectorTypedDict
     run: RunnableJobCollectionRunTypedDict
     id: NotRequired[str]
     r"""Unique ID for this Job"""
@@ -570,7 +571,7 @@ class RunnableJobCollectionTypedDict(TypedDict):
 
 
 class RunnableJobCollection(BaseModel):
-    collector: Collector
+    collector: RunnableJobCollectionCollector
 
     run: RunnableJobCollectionRun
 

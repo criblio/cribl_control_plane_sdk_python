@@ -302,6 +302,14 @@ with CriblControlPlane(
 
 * [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/tokens/README.md#get) - Log in and fetch an authentication token
 
+### [Collectors](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/collectorssdk/README.md)
+
+* [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/collectorssdk/README.md#create) - Create a Collector
+* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/collectorssdk/README.md#list) - List all Collectors
+* [delete](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/collectorssdk/README.md#delete) - Delete a Collector
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/collectorssdk/README.md#get) - Get a Collector
+* [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/collectorssdk/README.md#update) - Update a Collector
+
 ### [Destinations](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinations/README.md)
 
 * [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinations/README.md#list) - List all Destinations
@@ -692,7 +700,7 @@ with CriblControlPlane(
 
 
 **Inherit from [`CriblControlPlaneError`](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/./src/cribl_control_plane/errors/criblcontrolplaneerror.py)**:
-* [`HealthServerStatusError`](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/./src/cribl_control_plane/errors/healthserverstatuserror.py): Healthy status. Status code `420`. Applicable to 1 of 67 methods.*
+* [`HealthServerStatusError`](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/./src/cribl_control_plane/errors/healthserverstatuserror.py): Healthy status. Status code `420`. Applicable to 1 of 72 methods.*
 * [`ResponseValidationError`](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/./src/cribl_control_plane/errors/responsevalidationerror.py): Type mismatch between the response data and the expected Pydantic model. Provides access to the Pydantic validation error via the `cause` attribute.
 
 </details>

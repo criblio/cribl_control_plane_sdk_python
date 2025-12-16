@@ -302,6 +302,14 @@ with CriblControlPlane(
 
 * [get](docs/sdks/tokens/README.md#get) - Log in and fetch an authentication token
 
+### [Collectors](docs/sdks/collectorssdk/README.md)
+
+* [create](docs/sdks/collectorssdk/README.md#create) - Create a Collector
+* [list](docs/sdks/collectorssdk/README.md#list) - List all Collectors
+* [delete](docs/sdks/collectorssdk/README.md#delete) - Delete a Collector
+* [get](docs/sdks/collectorssdk/README.md#get) - Get a Collector
+* [update](docs/sdks/collectorssdk/README.md#update) - Update a Collector
+
 ### [Destinations](docs/sdks/destinations/README.md)
 
 * [list](docs/sdks/destinations/README.md#list) - List all Destinations
@@ -692,7 +700,7 @@ with CriblControlPlane(
 
 
 **Inherit from [`CriblControlPlaneError`](./src/cribl_control_plane/errors/criblcontrolplaneerror.py)**:
-* [`HealthServerStatusError`](./src/cribl_control_plane/errors/healthserverstatuserror.py): Healthy status. Status code `420`. Applicable to 1 of 67 methods.*
+* [`HealthServerStatusError`](./src/cribl_control_plane/errors/healthserverstatuserror.py): Healthy status. Status code `420`. Applicable to 1 of 72 methods.*
 * [`ResponseValidationError`](./src/cribl_control_plane/errors/responsevalidationerror.py): Type mismatch between the response data and the expected Pydantic model. Provides access to the Pydantic validation error via the `cause` attribute.
 
 </details>

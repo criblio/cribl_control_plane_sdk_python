@@ -204,23 +204,23 @@ class RunnableJobExecutorSchedule(BaseModel):
     run: Optional[RunnableJobExecutorRunSettings] = None
 
 
-class ExecutorSpecificSettingsTypedDict(TypedDict):
+class RunnableJobExecutorExecutorSpecificSettingsTypedDict(TypedDict):
     pass
 
 
-class ExecutorSpecificSettings(BaseModel):
+class RunnableJobExecutorExecutorSpecificSettings(BaseModel):
     pass
 
 
-class ExecutorTypedDict(TypedDict):
+class RunnableJobExecutorExecutorTypedDict(TypedDict):
     type: str
     r"""The type of executor to run"""
     store_task_results: NotRequired[bool]
     r"""Determines whether or not to write task results to disk"""
-    conf: NotRequired[ExecutorSpecificSettingsTypedDict]
+    conf: NotRequired[RunnableJobExecutorExecutorSpecificSettingsTypedDict]
 
 
-class Executor(BaseModel):
+class RunnableJobExecutorExecutor(BaseModel):
     type: str
     r"""The type of executor to run"""
 
@@ -229,7 +229,7 @@ class Executor(BaseModel):
     ] = True
     r"""Determines whether or not to write task results to disk"""
 
-    conf: Optional[ExecutorSpecificSettings] = None
+    conf: Optional[RunnableJobExecutorExecutorSpecificSettings] = None
 
 
 class RunnableJobExecutorLogLevel(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -287,7 +287,7 @@ class RunnableJobExecutorRun(BaseModel):
 
 
 class RunnableJobExecutorTypedDict(TypedDict):
-    executor: ExecutorTypedDict
+    executor: RunnableJobExecutorExecutorTypedDict
     run: RunnableJobExecutorRunTypedDict
     id: NotRequired[str]
     r"""Unique ID for this Job"""
@@ -310,7 +310,7 @@ class RunnableJobExecutorTypedDict(TypedDict):
 
 
 class RunnableJobExecutor(BaseModel):
-    executor: Executor
+    executor: RunnableJobExecutorExecutor
 
     run: RunnableJobExecutorRun
 

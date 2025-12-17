@@ -260,7 +260,7 @@ class Target(BaseModel):
 
 
 class InputEdgePrometheusRecordType(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""DNS Record type to resolve"""
+    r"""DNS record type to resolve"""
 
     SRV = "SRV"
     A = "A"
@@ -289,17 +289,17 @@ class InputEdgePrometheusAwsAuthenticationMethodAuthenticationMethod(
 
 class InputEdgePrometheusSearchFilterTypedDict(TypedDict):
     name: str
-    r"""Search filter attribute name, see: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html for more information. Attributes can be manually entered if not present in the drop down list"""
+    r"""See https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html for information. Attributes can be manually entered if not present in the list."""
     values: List[str]
-    r"""Search Filter Values, if empty only \"running\" EC2 instances will be returned"""
+    r"""Values to match within this row's attribute. If empty, search will return only running EC2 instances."""
 
 
 class InputEdgePrometheusSearchFilter(BaseModel):
     name: Annotated[str, pydantic.Field(alias="Name")]
-    r"""Search filter attribute name, see: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html for more information. Attributes can be manually entered if not present in the drop down list"""
+    r"""See https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html for information. Attributes can be manually entered if not present in the list."""
 
     values: Annotated[List[str], pydantic.Field(alias="Values")]
-    r"""Search Filter Values, if empty only \"running\" EC2 instances will be returned"""
+    r"""Values to match within this row's attribute. If empty, search will return only running EC2 instances."""
 
 
 class InputEdgePrometheusSignatureVersion(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -358,7 +358,7 @@ class InputEdgePrometheusTypedDict(TypedDict):
     description: NotRequired[str]
     targets: NotRequired[List[TargetTypedDict]]
     record_type: NotRequired[InputEdgePrometheusRecordType]
-    r"""DNS Record type to resolve"""
+    r"""DNS record type to resolve"""
     scrape_port: NotRequired[float]
     r"""The port number in the metrics URL for discovered targets."""
     name_list: NotRequired[List[str]]
@@ -375,9 +375,9 @@ class InputEdgePrometheusTypedDict(TypedDict):
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     use_public_ip: NotRequired[bool]
-    r"""Use public IP address for discovered targets. Set to false if the private IP address should be used."""
+    r"""Use public IP address for discovered targets. Disable to use the private IP address."""
     search_filter: NotRequired[List[InputEdgePrometheusSearchFilterTypedDict]]
-    r"""EC2 Instance Search Filter"""
+    r"""Filter to apply when searching for EC2 instances"""
     aws_secret_key: NotRequired[str]
     region: NotRequired[str]
     r"""Region where the EC2 is located"""
@@ -492,7 +492,7 @@ class InputEdgePrometheus(BaseModel):
         ],
         pydantic.Field(alias="recordType"),
     ] = InputEdgePrometheusRecordType.SRV
-    r"""DNS Record type to resolve"""
+    r"""DNS record type to resolve"""
 
     scrape_port: Annotated[Optional[float], pydantic.Field(alias="scrapePort")] = 9090
     r"""The port number in the metrics URL for discovered targets."""
@@ -528,13 +528,13 @@ class InputEdgePrometheus(BaseModel):
     r"""Select or create a stored secret that references your access key and secret key"""
 
     use_public_ip: Annotated[Optional[bool], pydantic.Field(alias="usePublicIp")] = True
-    r"""Use public IP address for discovered targets. Set to false if the private IP address should be used."""
+    r"""Use public IP address for discovered targets. Disable to use the private IP address."""
 
     search_filter: Annotated[
         Optional[List[InputEdgePrometheusSearchFilter]],
         pydantic.Field(alias="searchFilter"),
     ] = None
-    r"""EC2 Instance Search Filter"""
+    r"""Filter to apply when searching for EC2 instances"""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
         None

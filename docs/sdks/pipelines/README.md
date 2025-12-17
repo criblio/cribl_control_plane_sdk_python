@@ -1,5 +1,4 @@
 # Pipelines
-(*pipelines*)
 
 ## Overview
 
@@ -75,28 +74,13 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.pipelines.create(id="<id>", conf={
-        "async_func_timeout": 905091,
-        "description": "next tightly positively",
-        "streamtags": [
-            "<value 1>",
-        ],
-        "functions": [
-            {
-                "id": "<id>",
-                "description": "academics woot finally woot queasy bah",
-                "disabled": False,
-                "final": False,
-                "conf": {},
-                "group_id": "<id>",
-            },
-        ],
+    res = ccp_client.pipelines.create(id="empty-pipeline", conf={
+        "async_func_timeout": 1000,
+        "description": "",
+        "streamtags": [],
+        "functions": [],
         "groups": {
-            "key": {
-                "name": "<value>",
-                "description": "yuck terribly ostrich enhance sentimental strictly whereas before reboot sleet",
-                "disabled": True,
-            },
+
         },
     })
 
@@ -110,7 +94,7 @@ with CriblControlPlane(
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
 | `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | N/A                                                                 |
-| `conf`                                                              | [models.Conf](../../models/conf.md)                                 | :heavy_check_mark:                                                  | N/A                                                                 |
+| `conf`                                                              | [models.ConfInput](../../models/confinput.md)                       | :heavy_check_mark:                                                  | N/A                                                                 |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
@@ -187,28 +171,13 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.pipelines.update(id_param="<value>", id="<id>", conf={
-        "async_func_timeout": 430119,
-        "description": "reflecting for productive extroverted instead upwardly",
-        "streamtags": [
-            "<value 1>",
-        ],
-        "functions": [
-            {
-                "id": "<id>",
-                "description": "mozzarella boohoo possession as grok",
-                "disabled": False,
-                "final": False,
-                "conf": {},
-                "group_id": "<id>",
-            },
-        ],
+    res = ccp_client.pipelines.update(id_param="<value>", id="empty-pipeline", conf={
+        "async_func_timeout": 1000,
+        "description": "",
+        "streamtags": [],
+        "functions": [],
         "groups": {
-            "key": {
-                "name": "<value>",
-                "description": "definitive ew but busily freely scaly indeed",
-                "disabled": True,
-            },
+
         },
     })
 
@@ -223,7 +192,7 @@ with CriblControlPlane(
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
 | `id_param`                                                          | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Pipeline to update.                      |
 | `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | N/A                                                                 |
-| `conf`                                                              | [models.Conf](../../models/conf.md)                                 | :heavy_check_mark:                                                  | N/A                                                                 |
+| `conf`                                                              | [models.ConfInput](../../models/confinput.md)                       | :heavy_check_mark:                                                  | N/A                                                                 |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response

@@ -1,6 +1,6 @@
 # InputEdgePrometheusRecordType
 
-DNS Record type to resolve
+DNS record type to resolve
 
 
 ## Values

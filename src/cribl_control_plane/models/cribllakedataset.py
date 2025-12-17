@@ -20,8 +20,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class CriblLakeDatasetFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     JSON = "json"
-    DDSS = "ddss"
     PARQUET = "parquet"
+    DDSS = "ddss"
 
 
 class CriblLakeDatasetTypedDict(TypedDict):

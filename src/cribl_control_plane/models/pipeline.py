@@ -2,6 +2,10 @@
 
 from __future__ import annotations
 from .pipelinefunctionconf import PipelineFunctionConf, PipelineFunctionConfTypedDict
+from .pipelinefunctionconf_input import (
+    PipelineFunctionConfInput,
+    PipelineFunctionConfInputTypedDict,
+)
 from cribl_control_plane.types import BaseModel
 import pydantic
 from typing import Dict, List, Optional
@@ -26,7 +30,7 @@ class PipelineGroups(BaseModel):
     r"""Whether this group is disabled"""
 
 
-class ConfTypedDict(TypedDict):
+class PipelineConfTypedDict(TypedDict):
     async_func_timeout: NotRequired[int]
     r"""Time (in ms) to wait for an async function to complete processing of a data item"""
     output: NotRequired[str]
@@ -39,7 +43,7 @@ class ConfTypedDict(TypedDict):
     groups: NotRequired[Dict[str, PipelineGroupsTypedDict]]
 
 
-class Conf(BaseModel):
+class PipelineConf(BaseModel):
     async_func_timeout: Annotated[
         Optional[int], pydantic.Field(alias="asyncFuncTimeout")
     ] = None
@@ -61,10 +65,54 @@ class Conf(BaseModel):
 
 class PipelineTypedDict(TypedDict):
     id: str
-    conf: ConfTypedDict
+    conf: PipelineConfTypedDict
 
 
 class Pipeline(BaseModel):
     id: str
 
-    conf: Conf
+    conf: PipelineConf
+
+
+class ConfInputTypedDict(TypedDict):
+    async_func_timeout: NotRequired[int]
+    r"""Time (in ms) to wait for an async function to complete processing of a data item"""
+    output: NotRequired[str]
+    r"""The output destination for events processed by this Pipeline"""
+    description: NotRequired[str]
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    functions: NotRequired[List[PipelineFunctionConfInputTypedDict]]
+    r"""List of Functions to pass data through"""
+    groups: NotRequired[Dict[str, PipelineGroupsTypedDict]]
+
+
+class ConfInput(BaseModel):
+    async_func_timeout: Annotated[
+        Optional[int], pydantic.Field(alias="asyncFuncTimeout")
+    ] = None
+    r"""Time (in ms) to wait for an async function to complete processing of a data item"""
+
+    output: Optional[str] = "default"
+    r"""The output destination for events processed by this Pipeline"""
+
+    description: Optional[str] = None
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    functions: Optional[List[PipelineFunctionConfInput]] = None
+    r"""List of Functions to pass data through"""
+
+    groups: Optional[Dict[str, PipelineGroups]] = None
+
+
+class PipelineInputTypedDict(TypedDict):
+    id: str
+    conf: ConfInputTypedDict
+
+
+class PipelineInput(BaseModel):
+    id: str
+
+    conf: ConfInput

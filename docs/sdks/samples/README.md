@@ -1,5 +1,4 @@
-# Samples
-(*destinations.samples*)
+# Destinations.Samples
 
 ## Overview
 

@@ -1,5 +1,4 @@
-# HecTokens
-(*sources.hec_tokens*)
+# Sources.HecTokens
 
 ## Overview
 
@@ -27,10 +26,12 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.sources.hec_tokens.create(id="<id>", token="<value>", description="bah ick stingy", enabled=False, metadata=[
+    res = ccp_client.sources.hec_tokens.create(id="<id>", token="12345678901", allowed_indexes_at_token=[
+        "<value 1>",
+    ], description="toward precedent merry vaguely across ha fooey ingratiate jealously outlying", enabled=True, metadata=[
         {
-            "name": "<value>",
-            "value": "<value>",
+            "name": "fieldX",
+            "value": "valueX",
         },
     ])
 
@@ -45,6 +46,7 @@ with CriblControlPlane(
 | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
 | `id`                                                                                    | *str*                                                                                   | :heavy_check_mark:                                                                      | The <code>id</code> of the Splunk HEC Source.                                           |
 | `token`                                                                                 | *str*                                                                                   | :heavy_check_mark:                                                                      | N/A                                                                                     |
+| `allowed_indexes_at_token`                                                              | List[*str*]                                                                             | :heavy_minus_sign:                                                                      | N/A                                                                                     |
 | `description`                                                                           | *Optional[str]*                                                                         | :heavy_minus_sign:                                                                      | N/A                                                                                     |
 | `enabled`                                                                               | *Optional[bool]*                                                                        | :heavy_minus_sign:                                                                      | N/A                                                                                     |
 | `metadata`                                                                              | List[[models.AddHecTokenRequestMetadatum](../../models/addhectokenrequestmetadatum.md)] | :heavy_minus_sign:                                                                      | N/A                                                                                     |
@@ -80,10 +82,12 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.sources.hec_tokens.update(id="<id>", token="<value>", description="by bleakly fortunately phew barring", enabled=False, metadata=[
+    res = ccp_client.sources.hec_tokens.update(id="<id>", token="<value>", allowed_indexes_at_token=[
+        "<value 1>",
+    ], description="once lively fooey who though while dampen please denitrify pish", enabled=True, metadata=[
         {
-            "name": "<value>",
-            "value": "<value>",
+            "name": "fieldX",
+            "value": "valueX",
         },
     ])
 
@@ -98,6 +102,7 @@ with CriblControlPlane(
 | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
 | `id`                                                                                          | *str*                                                                                         | :heavy_check_mark:                                                                            | The <code>id</code> of the Splunk HEC Source.                                                 |
 | `token`                                                                                       | *str*                                                                                         | :heavy_check_mark:                                                                            | The <code>id</code> of the HEC token to update.                                               |
+| `allowed_indexes_at_token`                                                                    | List[*str*]                                                                                   | :heavy_minus_sign:                                                                            | N/A                                                                                           |
 | `description`                                                                                 | *Optional[str]*                                                                               | :heavy_minus_sign:                                                                            | N/A                                                                                           |
 | `enabled`                                                                                     | *Optional[bool]*                                                                              | :heavy_minus_sign:                                                                            | N/A                                                                                           |
 | `metadata`                                                                                    | List[[models.UpdateHecTokenRequestMetadatum](../../models/updatehectokenrequestmetadatum.md)] | :heavy_minus_sign:                                                                            | N/A                                                                                           |

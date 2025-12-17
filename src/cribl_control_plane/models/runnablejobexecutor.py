@@ -18,11 +18,11 @@ class RunnableJobExecutorJobType(str, Enum, metaclass=utils.OpenEnumMeta):
     SCHEDULED_SEARCH = "scheduledSearch"
 
 
-class RunnableJobExecutorType(str, Enum):
+class RunnableJobExecutorType(str, Enum, metaclass=utils.OpenEnumMeta):
     COLLECTION = "collection"
 
 
-class RunnableJobExecutorScheduleLogLevel(str, Enum):
+class RunnableJobExecutorScheduleLogLevel(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Level at which to set task logging"""
 
     ERROR = "error"
@@ -65,12 +65,10 @@ class RunnableJobExecutorRunSettingsTypedDict(TypedDict):
     r"""Limits the bundle size for small tasks. For example,
 
 
-
     if your lower bundle size is 1MB, you can bundle up to five 200KB files into one task.
     """
     max_task_size: NotRequired[str]
     r"""Limits the bundle size for files above the lower task bundle size. For example, if your upper bundle size is 10MB,
-
 
 
     you can bundle up to five 2MB files into one task. Files greater than this size will be assigned to individual tasks.
@@ -78,7 +76,9 @@ class RunnableJobExecutorRunSettingsTypedDict(TypedDict):
 
 
 class RunnableJobExecutorRunSettings(BaseModel):
-    type: Optional[RunnableJobExecutorType] = None
+    type: Annotated[
+        Optional[RunnableJobExecutorType], PlainValidator(validate_open_enum(False))
+    ] = None
 
     reschedule_dropped_tasks: Annotated[
         Optional[bool], pydantic.Field(alias="rescheduleDroppedTasks")
@@ -91,7 +91,11 @@ class RunnableJobExecutorRunSettings(BaseModel):
     r"""Maximum number of times a task can be rescheduled"""
 
     log_level: Annotated[
-        Optional[RunnableJobExecutorScheduleLogLevel], pydantic.Field(alias="logLevel")
+        Annotated[
+            Optional[RunnableJobExecutorScheduleLogLevel],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="logLevel"),
     ] = RunnableJobExecutorScheduleLogLevel.INFO
     r"""Level at which to set task logging"""
 
@@ -126,7 +130,6 @@ class RunnableJobExecutorRunSettings(BaseModel):
     r"""Limits the bundle size for small tasks. For example,
 
 
-
     if your lower bundle size is 1MB, you can bundle up to five 200KB files into one task.
     """
 
@@ -136,9 +139,26 @@ class RunnableJobExecutorRunSettings(BaseModel):
     r"""Limits the bundle size for files above the lower task bundle size. For example, if your upper bundle size is 10MB,
 
 
-
     you can bundle up to five 2MB files into one task. Files greater than this size will be assigned to individual tasks.
     """
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RunnableJobExecutorType(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("log_level")
+    def serialize_log_level(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RunnableJobExecutorScheduleLogLevel(value)
+            except ValueError:
+                return value
+        return value
 
 
 class RunnableJobExecutorScheduleTypedDict(TypedDict):
@@ -184,23 +204,23 @@ class RunnableJobExecutorSchedule(BaseModel):
     run: Optional[RunnableJobExecutorRunSettings] = None
 
 
-class ExecutorSpecificSettingsTypedDict(TypedDict):
+class RunnableJobExecutorExecutorSpecificSettingsTypedDict(TypedDict):
     pass
 
 
-class ExecutorSpecificSettings(BaseModel):
+class RunnableJobExecutorExecutorSpecificSettings(BaseModel):
     pass
 
 
-class ExecutorTypedDict(TypedDict):
+class RunnableJobExecutorExecutorTypedDict(TypedDict):
     type: str
     r"""The type of executor to run"""
     store_task_results: NotRequired[bool]
     r"""Determines whether or not to write task results to disk"""
-    conf: NotRequired[ExecutorSpecificSettingsTypedDict]
+    conf: NotRequired[RunnableJobExecutorExecutorSpecificSettingsTypedDict]
 
 
-class Executor(BaseModel):
+class RunnableJobExecutorExecutor(BaseModel):
     type: str
     r"""The type of executor to run"""
 
@@ -209,7 +229,7 @@ class Executor(BaseModel):
     ] = True
     r"""Determines whether or not to write task results to disk"""
 
-    conf: Optional[ExecutorSpecificSettings] = None
+    conf: Optional[RunnableJobExecutorExecutorSpecificSettings] = None
 
 
 class RunnableJobExecutorLogLevel(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -267,7 +287,7 @@ class RunnableJobExecutorRun(BaseModel):
 
 
 class RunnableJobExecutorTypedDict(TypedDict):
-    executor: ExecutorTypedDict
+    executor: RunnableJobExecutorExecutorTypedDict
     run: RunnableJobExecutorRunTypedDict
     id: NotRequired[str]
     r"""Unique ID for this Job"""
@@ -290,7 +310,7 @@ class RunnableJobExecutorTypedDict(TypedDict):
 
 
 class RunnableJobExecutor(BaseModel):
-    executor: Executor
+    executor: RunnableJobExecutorExecutor
 
     run: RunnableJobExecutorRun
 

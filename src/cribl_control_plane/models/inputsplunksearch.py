@@ -127,7 +127,7 @@ class InputSplunkSearchPq(BaseModel):
         return value
 
 
-class OutputMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class InputSplunkSearchOutputMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Format of the returned output"""
 
     CSV = "csv"
@@ -326,7 +326,7 @@ class InputSplunkSearchTypedDict(TypedDict):
     r"""A cron schedule on which to run this job"""
     endpoint: NotRequired[str]
     r"""REST API used to create a search"""
-    output_mode: NotRequired[OutputMode]
+    output_mode: NotRequired[InputSplunkSearchOutputMode]
     r"""Format of the returned output"""
     endpoint_params: NotRequired[List[EndpointParamTypedDict]]
     r"""Optional request parameters to send to the endpoint"""
@@ -441,9 +441,12 @@ class InputSplunkSearch(BaseModel):
     r"""REST API used to create a search"""
 
     output_mode: Annotated[
-        Annotated[Optional[OutputMode], PlainValidator(validate_open_enum(False))],
+        Annotated[
+            Optional[InputSplunkSearchOutputMode],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="outputMode"),
-    ] = OutputMode.JSON
+    ] = InputSplunkSearchOutputMode.JSON
     r"""Format of the returned output"""
 
     endpoint_params: Annotated[
@@ -588,7 +591,7 @@ class InputSplunkSearch(BaseModel):
     def serialize_output_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputMode(value)
+                return models.InputSplunkSearchOutputMode(value)
             except ValueError:
                 return value
         return value

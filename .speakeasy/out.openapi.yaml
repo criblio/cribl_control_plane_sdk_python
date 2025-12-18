@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.16.0-alpha.1765839774603-a1e0544b
+  version: 4.16.0-alpha.1765926175585-d2ea3637
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -12810,7 +12810,7 @@ components:
               title: ""
         dimensionList:
           type: array
-          title: Extra Dimensions
+          title: Extra dimensions
           minItems: 0
           default:
             - host
@@ -12820,7 +12820,7 @@ components:
             type: string
             title: dimension
         discoveryType:
-          title: Discovery Type
+          title: Discovery type
           type: string
           enum:
             - static
@@ -12835,20 +12835,20 @@ components:
           x-speakeasy-unknown-values: allow
         interval:
           type: number
-          title: Poll Interval
-          description: How often in minutes to scrape targets for metrics, 60 must be evenly divisible by the value or save will fail.
+          title: Poll interval
+          description: How often, in minutes, to scrape targets for metrics. Maximum of 60 minutes. 60 must be evenly divisible by the value you enter.
           minimum: 1
           maximum: 60
           default: 15
         logLevel:
           type: string
-          title: Log Level
+          title: Log level
           enum:
             - error
             - warn
             - info
             - debug
-          description: Collector runtime Log Level
+          description: Collector runtime log level
           default: info
           x-speakeasy-unknown-values: allow
         rejectUnauthorized:
@@ -12856,6 +12856,12 @@ components:
           title: Reject unauthorized certificates
           description: Reject certificates that cannot be verified against a valid CA, such as self-signed certificates
           default: true
+        timeout:
+          type: number
+          title: HTTP connection timeout
+          description: Time, in seconds, before aborting HTTP connection attempts; use 0 for no timeout
+          minimum: 0
+          default: 0
         keepAliveTime:
           type: number
           title: Keep alive time (seconds)
@@ -12929,29 +12935,29 @@ components:
             - A
             - AAAA
           type: string
-          title: Record Type
-          description: DNS Record type to resolve
+          title: Record type
+          description: DNS record type to resolve
           default: SRV
           x-speakeasy-unknown-values: allow
         scrapePort:
           type: number
-          title: Metrics Port
-          description: The port number in the metrics URL for discovered targets.
+          title: Metrics port
+          description: The port number in the metrics URL for discovered targets
           minimum: 1
           maximum: 65535
           default: 9090
         nameList:
           type: array
-          title: DNS Names
+          title: DNS names
           minItems: 1
           default: []
           description: List of DNS names to resolve
           items:
             type: string
-            title: DNS Names
+            title: DNS names
         scrapeProtocol:
           type: string
-          title: Metrics Protocol
+          title: Metrics protocol
           enum:
             - http
             - https
@@ -12960,7 +12966,7 @@ components:
           x-speakeasy-unknown-values: allow
         scrapePath:
           type: string
-          title: Metrics Path
+          title: Metrics path
           description: Path to use when collecting metrics from discovered targets
           default: /metrics
           pattern: ^/.*
@@ -12988,12 +12994,12 @@ components:
           description: Select or create a stored secret that references your access key and secret key
         usePublicIp:
           type: boolean
-          title: Use Public IP
-          description: Use public IP address for discovered targets. Set to false if the private IP address should be used.
+          title: Use public IP
+          description: Use public IP address for discovered targets. Disable to use the private IP address.
           default: true
         searchFilter:
-          title: Search Filter
-          description: EC2 Instance Search Filter
+          title: Search filter
+          description: Filter to apply when searching for EC2 instances
           type: array
           items:
             type: object
@@ -13003,12 +13009,12 @@ components:
             properties:
               Name:
                 type: string
-                title: Filter Name
-                description: "Search filter attribute name, see: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html for more information. Attributes can be manually entered if not present in the drop down list"
+                title: Filter name
+                description: See https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html for information. Attributes can be manually entered if not present in the list.
               Values:
                 type: array
-                title: Filter Values
-                description: Search Filter Values, if empty only "running" EC2 instances will be returned
+                title: Filter values
+                description: Values to match within this row's attribute. If empty, search will return only running EC2 instances.
                 minItems: 0
                 default: []
                 items:
@@ -13339,8 +13345,8 @@ components:
             - A
             - AAAA
           type: string
-          title: Record Type
-          description: DNS Record type to resolve
+          title: Record type
+          description: DNS record type to resolve
           default: SRV
           x-speakeasy-unknown-values: allow
         scrapePort:
@@ -13352,13 +13358,13 @@ components:
           default: 9090
         nameList:
           type: array
-          title: DNS Names
+          title: DNS names
           minItems: 1
           default: []
           description: List of DNS names to resolve
           items:
             type: string
-            title: DNS Names
+            title: DNS names
         scrapeProtocol:
           type: string
           title: Protocol
@@ -13398,12 +13404,12 @@ components:
           description: Select or create a stored secret that references your access key and secret key
         usePublicIp:
           type: boolean
-          title: Use Public IP
-          description: Use public IP address for discovered targets. Set to false if the private IP address should be used.
+          title: Use public IP
+          description: Use public IP address for discovered targets. Disable to use the private IP address.
           default: true
         searchFilter:
-          title: Search Filter
-          description: EC2 Instance Search Filter
+          title: Search filter
+          description: Filter to apply when searching for EC2 instances
           type: array
           items:
             type: object
@@ -13413,12 +13419,12 @@ components:
             properties:
               Name:
                 type: string
-                title: Filter Name
-                description: "Search filter attribute name, see: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html for more information. Attributes can be manually entered if not present in the drop down list"
+                title: Filter name
+                description: See https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html for information. Attributes can be manually entered if not present in the list.
               Values:
                 type: array
-                title: Filter Values
-                description: Search Filter Values, if empty only "running" EC2 instances will be returned
+                title: Filter values
+                description: Values to match within this row's attribute. If empty, search will return only running EC2 instances.
                 minItems: 0
                 default: []
                 items:
@@ -48568,7 +48574,7 @@ components:
         hosts:
           type: array
           title: NetFlow Destinations
-          description: One or more NetFlow destinations to forward events to
+          description: One or more NetFlow Destinations to forward events to
           minItems: 1
           items:
             type: object
@@ -48601,6 +48607,12 @@ components:
         description:
           type: string
           title: Description
+        maxRecordSize:
+          type: number
+          title: Maximum transmission unit (MTU)
+          default: 1500
+          minimum: 1
+          description: MTU in bytes. The actual maximum NetFlow payload size will be MTU minus IP and UDP headers (28 bytes for IPv4, 48 bytes for IPv6). For example, with the default MTU of 1500, the max payload is 1472 bytes for IPv4. Payloads exceeding this limit will be dropped.
     OutputDynatraceHttp:
       type: object
       required:

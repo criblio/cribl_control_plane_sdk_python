@@ -138,7 +138,7 @@ class InputPrometheusDiscoveryType(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class InputPrometheusLogLevel(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Collector runtime Log Level"""
+    r"""Collector runtime log level"""
 
     ERROR = "error"
     WARN = "warn"
@@ -169,7 +169,7 @@ class InputPrometheusAuthTypeAuthenticationMethod(
 
 
 class InputPrometheusRecordType(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""DNS Record type to resolve"""
+    r"""DNS record type to resolve"""
 
     SRV = "SRV"
     A = "A"
@@ -198,17 +198,17 @@ class InputPrometheusAwsAuthenticationMethodAuthenticationMethod(
 
 class InputPrometheusSearchFilterTypedDict(TypedDict):
     name: str
-    r"""Search filter attribute name, see: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html for more information. Attributes can be manually entered if not present in the drop down list"""
+    r"""See https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html for information. Attributes can be manually entered if not present in the list."""
     values: List[str]
-    r"""Search Filter Values, if empty only \"running\" EC2 instances will be returned"""
+    r"""Values to match within this row's attribute. If empty, search will return only running EC2 instances."""
 
 
 class InputPrometheusSearchFilter(BaseModel):
     name: Annotated[str, pydantic.Field(alias="Name")]
-    r"""Search filter attribute name, see: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html for more information. Attributes can be manually entered if not present in the drop down list"""
+    r"""See https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html for information. Attributes can be manually entered if not present in the list."""
 
     values: Annotated[List[str], pydantic.Field(alias="Values")]
-    r"""Search Filter Values, if empty only \"running\" EC2 instances will be returned"""
+    r"""Values to match within this row's attribute. If empty, search will return only running EC2 instances."""
 
 
 class InputPrometheusSignatureVersion(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -241,11 +241,13 @@ class InputPrometheusTypedDict(TypedDict):
     discovery_type: NotRequired[InputPrometheusDiscoveryType]
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
     interval: NotRequired[float]
-    r"""How often in minutes to scrape targets for metrics, 60 must be evenly divisible by the value or save will fail."""
+    r"""How often, in minutes, to scrape targets for metrics. Maximum of 60 minutes. 60 must be evenly divisible by the value you enter."""
     log_level: NotRequired[InputPrometheusLogLevel]
-    r"""Collector runtime Log Level"""
+    r"""Collector runtime log level"""
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+    timeout: NotRequired[float]
+    r"""Time, in seconds, before aborting HTTP connection attempts; use 0 for no timeout"""
     keep_alive_time: NotRequired[float]
     r"""How often workers should check in with the scheduler to keep job subscription alive"""
     job_timeout: NotRequired[str]
@@ -264,9 +266,9 @@ class InputPrometheusTypedDict(TypedDict):
     target_list: NotRequired[List[str]]
     r"""List of Prometheus targets to pull metrics from. Values can be in URL or host[:port] format. For example: http://localhost:9090/metrics, localhost:9090, or localhost. In cases where just host[:port] is specified, the endpoint will resolve to 'http://host[:port]/metrics'."""
     record_type: NotRequired[InputPrometheusRecordType]
-    r"""DNS Record type to resolve"""
+    r"""DNS record type to resolve"""
     scrape_port: NotRequired[float]
-    r"""The port number in the metrics URL for discovered targets."""
+    r"""The port number in the metrics URL for discovered targets"""
     name_list: NotRequired[List[str]]
     r"""List of DNS names to resolve"""
     scrape_protocol: NotRequired[MetricsProtocol]
@@ -281,9 +283,9 @@ class InputPrometheusTypedDict(TypedDict):
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     use_public_ip: NotRequired[bool]
-    r"""Use public IP address for discovered targets. Set to false if the private IP address should be used."""
+    r"""Use public IP address for discovered targets. Disable to use the private IP address."""
     search_filter: NotRequired[List[InputPrometheusSearchFilterTypedDict]]
-    r"""EC2 Instance Search Filter"""
+    r"""Filter to apply when searching for EC2 instances"""
     aws_secret_key: NotRequired[str]
     region: NotRequired[str]
     r"""Region where the EC2 is located"""
@@ -354,7 +356,7 @@ class InputPrometheus(BaseModel):
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
 
     interval: Optional[float] = 15
-    r"""How often in minutes to scrape targets for metrics, 60 must be evenly divisible by the value or save will fail."""
+    r"""How often, in minutes, to scrape targets for metrics. Maximum of 60 minutes. 60 must be evenly divisible by the value you enter."""
 
     log_level: Annotated[
         Annotated[
@@ -362,12 +364,15 @@ class InputPrometheus(BaseModel):
         ],
         pydantic.Field(alias="logLevel"),
     ] = InputPrometheusLogLevel.INFO
-    r"""Collector runtime Log Level"""
+    r"""Collector runtime log level"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
     ] = True
     r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+
+    timeout: Optional[float] = 0
+    r"""Time, in seconds, before aborting HTTP connection attempts; use 0 for no timeout"""
 
     keep_alive_time: Annotated[
         Optional[float], pydantic.Field(alias="keepAliveTime")
@@ -416,10 +421,10 @@ class InputPrometheus(BaseModel):
         ],
         pydantic.Field(alias="recordType"),
     ] = InputPrometheusRecordType.SRV
-    r"""DNS Record type to resolve"""
+    r"""DNS record type to resolve"""
 
     scrape_port: Annotated[Optional[float], pydantic.Field(alias="scrapePort")] = 9090
-    r"""The port number in the metrics URL for discovered targets."""
+    r"""The port number in the metrics URL for discovered targets"""
 
     name_list: Annotated[Optional[List[str]], pydantic.Field(alias="nameList")] = None
     r"""List of DNS names to resolve"""
@@ -450,13 +455,13 @@ class InputPrometheus(BaseModel):
     r"""Select or create a stored secret that references your access key and secret key"""
 
     use_public_ip: Annotated[Optional[bool], pydantic.Field(alias="usePublicIp")] = True
-    r"""Use public IP address for discovered targets. Set to false if the private IP address should be used."""
+    r"""Use public IP address for discovered targets. Disable to use the private IP address."""
 
     search_filter: Annotated[
         Optional[List[InputPrometheusSearchFilter]],
         pydantic.Field(alias="searchFilter"),
     ] = None
-    r"""EC2 Instance Search Filter"""
+    r"""Filter to apply when searching for EC2 instances"""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
         None

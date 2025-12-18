@@ -26,11 +26,15 @@ from cribl_control_plane.models import (
     OutputS3CompressionLevel,
     Pipeline,
     RoutesRoute,
-    Conf,
+    PipelineConf,
+    ConfInput,
+    PipelineFunctionEval,
+    PipelineFunctionEvalID,
     PipelineFunctionConf,
-    FunctionSpecificConfigs,
+    FunctionConfSchemaEval,
     InputSyslogTLSSettingsServerSide2,
 )
+from typing import List, cast
 
 ONPREM_SERVER_URL = "http://localhost:9000"  # Replace with your server URL
 ONPREM_USERNAME = "admin"  # Replace with your username
@@ -73,21 +77,22 @@ s3_destination = OutputS3(
 # Pipeline configuration: filter events and keep only data in the "eventSource" and "eventID" fields
 pipeline = Pipeline(
     id="my_pipeline",
-    conf=Conf(
+    conf=PipelineConf(
         async_func_timeout=1000,
-        functions=[
-            PipelineFunctionConf(
-                filter_="true",
-                conf=FunctionSpecificConfigs.model_validate(
-                    {  # type: ignore
-                        "remove": ["*"],
-                        "keep": ["eventSource", "eventID"],
-                    }
-                ),
-                id="eval",
-                final=True,
-            )
-        ],
+        functions=cast(
+            List[PipelineFunctionConf],
+            [
+                PipelineFunctionEval(
+                    filter_="true",
+                    conf=FunctionConfSchemaEval(
+                        remove=["*"],
+                        keep=["eventSource", "eventID"],
+                    ),
+                    id=PipelineFunctionEvalID.EVAL,
+                    final=True,
+                )
+            ],
+        ),
     ),
 )
 
@@ -142,7 +147,7 @@ async def main():
     print(f"✅ S3 Destination created: {s3_destination.id}")
 
     # Create Pipeline
-    cribl.pipelines.create(id=pipeline.id, conf=pipeline.conf, server_url=group_url)
+    cribl.pipelines.create(id=pipeline.id, conf=ConfInput.model_validate(pipeline.conf.model_dump()), server_url=group_url)
     print(f"✅ Pipeline created: {pipeline.id}")
 
     # Add Route to Routing table

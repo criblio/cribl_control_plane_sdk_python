@@ -186,7 +186,7 @@ class Pipelines(BaseSDK):
         self,
         *,
         id: str,
-        conf: Union[models.Conf, models.ConfTypedDict],
+        conf: Union[models.ConfInput, models.ConfInputTypedDict],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -213,9 +213,9 @@ class Pipelines(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.Pipeline(
+        request = models.PipelineInput(
             id=id,
-            conf=utils.get_pydantic_model(conf, models.Conf),
+            conf=utils.get_pydantic_model(conf, models.ConfInput),
         )
 
         req = self._build_request(
@@ -232,7 +232,7 @@ class Pipelines(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, False, "json", models.Pipeline
+                request, False, False, "json", models.PipelineInput
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,
@@ -284,7 +284,7 @@ class Pipelines(BaseSDK):
         self,
         *,
         id: str,
-        conf: Union[models.Conf, models.ConfTypedDict],
+        conf: Union[models.ConfInput, models.ConfInputTypedDict],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -311,9 +311,9 @@ class Pipelines(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.Pipeline(
+        request = models.PipelineInput(
             id=id,
-            conf=utils.get_pydantic_model(conf, models.Conf),
+            conf=utils.get_pydantic_model(conf, models.ConfInput),
         )
 
         req = self._build_request_async(
@@ -330,7 +330,7 @@ class Pipelines(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, False, "json", models.Pipeline
+                request, False, False, "json", models.PipelineInput
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,
@@ -567,7 +567,7 @@ class Pipelines(BaseSDK):
         *,
         id_param: str,
         id: str,
-        conf: Union[models.Conf, models.ConfTypedDict],
+        conf: Union[models.ConfInput, models.ConfInputTypedDict],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -597,9 +597,9 @@ class Pipelines(BaseSDK):
 
         request = models.UpdatePipelineByIDRequest(
             id_param=id_param,
-            pipeline=models.Pipeline(
+            pipeline=models.PipelineInput(
                 id=id,
-                conf=utils.get_pydantic_model(conf, models.Conf),
+                conf=utils.get_pydantic_model(conf, models.ConfInput),
             ),
         )
 
@@ -617,7 +617,7 @@ class Pipelines(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.pipeline, False, False, "json", models.Pipeline
+                request.pipeline, False, False, "json", models.PipelineInput
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,
@@ -670,7 +670,7 @@ class Pipelines(BaseSDK):
         *,
         id_param: str,
         id: str,
-        conf: Union[models.Conf, models.ConfTypedDict],
+        conf: Union[models.ConfInput, models.ConfInputTypedDict],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -700,9 +700,9 @@ class Pipelines(BaseSDK):
 
         request = models.UpdatePipelineByIDRequest(
             id_param=id_param,
-            pipeline=models.Pipeline(
+            pipeline=models.PipelineInput(
                 id=id,
-                conf=utils.get_pydantic_model(conf, models.Conf),
+                conf=utils.get_pydantic_model(conf, models.ConfInput),
             ),
         )
 
@@ -720,7 +720,7 @@ class Pipelines(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.pipeline, False, False, "json", models.Pipeline
+                request.pipeline, False, False, "json", models.PipelineInput
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,

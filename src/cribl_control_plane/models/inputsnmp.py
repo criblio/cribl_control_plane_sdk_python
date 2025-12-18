@@ -126,7 +126,7 @@ class InputSnmpPq(BaseModel):
         return value
 
 
-class AuthenticationProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
+class InputSnmpAuthenticationProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
     # None
     NONE = "none"
     # MD5
@@ -156,23 +156,24 @@ class PrivacyProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
     AES256R = "aes256r"
 
 
-class V3UserTypedDict(TypedDict):
+class InputSnmpV3UserTypedDict(TypedDict):
     name: str
-    auth_protocol: NotRequired[AuthenticationProtocol]
+    auth_protocol: NotRequired[InputSnmpAuthenticationProtocol]
     auth_key: NotRequired[str]
     priv_protocol: NotRequired[PrivacyProtocol]
     priv_key: NotRequired[str]
 
 
-class V3User(BaseModel):
+class InputSnmpV3User(BaseModel):
     name: str
 
     auth_protocol: Annotated[
         Annotated[
-            Optional[AuthenticationProtocol], PlainValidator(validate_open_enum(False))
+            Optional[InputSnmpAuthenticationProtocol],
+            PlainValidator(validate_open_enum(False)),
         ],
         pydantic.Field(alias="authProtocol"),
-    ] = AuthenticationProtocol.NONE
+    ] = InputSnmpAuthenticationProtocol.NONE
 
     auth_key: Annotated[Optional[str], pydantic.Field(alias="authKey")] = None
 
@@ -187,7 +188,7 @@ class V3User(BaseModel):
     def serialize_auth_protocol(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationProtocol(value)
+                return models.InputSnmpAuthenticationProtocol(value)
             except ValueError:
                 return value
         return value
@@ -208,7 +209,7 @@ class SNMPv3AuthenticationTypedDict(TypedDict):
     v3_auth_enabled: NotRequired[bool]
     allow_unmatched_trap: NotRequired[bool]
     r"""Pass through traps that don't match any of the configured users. @{product} will not attempt to decrypt these traps."""
-    v3_users: NotRequired[List[V3UserTypedDict]]
+    v3_users: NotRequired[List[InputSnmpV3UserTypedDict]]
     r"""User credentials for receiving v3 traps"""
 
 
@@ -224,7 +225,9 @@ class SNMPv3Authentication(BaseModel):
     ] = False
     r"""Pass through traps that don't match any of the configured users. @{product} will not attempt to decrypt these traps."""
 
-    v3_users: Annotated[Optional[List[V3User]], pydantic.Field(alias="v3Users")] = None
+    v3_users: Annotated[
+        Optional[List[InputSnmpV3User]], pydantic.Field(alias="v3Users")
+    ] = None
     r"""User credentials for receiving v3 traps"""
 
 

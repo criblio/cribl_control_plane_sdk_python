@@ -30,6 +30,45 @@ class HeartbeatMetadataAws(BaseModel):
     tags: Optional[Dict[str, str]] = None
 
 
+class HeartbeatMetadataAzureTypedDict(TypedDict):
+    enabled: bool
+    hostname: NotRequired[str]
+    instance_id: NotRequired[str]
+    name: NotRequired[str]
+    region: NotRequired[str]
+    resource_group: NotRequired[str]
+    subscription_id: NotRequired[str]
+    tags: NotRequired[Dict[str, str]]
+    type: NotRequired[str]
+    zone: NotRequired[str]
+
+
+class HeartbeatMetadataAzure(BaseModel):
+    enabled: bool
+
+    hostname: Optional[str] = None
+
+    instance_id: Annotated[Optional[str], pydantic.Field(alias="instanceId")] = None
+
+    name: Optional[str] = None
+
+    region: Optional[str] = None
+
+    resource_group: Annotated[Optional[str], pydantic.Field(alias="resourceGroup")] = (
+        None
+    )
+
+    subscription_id: Annotated[
+        Optional[str], pydantic.Field(alias="subscriptionId")
+    ] = None
+
+    tags: Optional[Dict[str, str]] = None
+
+    type: Optional[str] = None
+
+    zone: Optional[str] = None
+
+
 class HeartbeatMetadataHostOsTypedDict(TypedDict):
     addresses: List[str]
     enabled: bool
@@ -100,6 +139,7 @@ class HeartbeatMetadataOs(BaseModel):
 
 class HeartbeatMetadataTypedDict(TypedDict):
     aws: NotRequired[HeartbeatMetadataAwsTypedDict]
+    azure: NotRequired[HeartbeatMetadataAzureTypedDict]
     host_os: NotRequired[HeartbeatMetadataHostOsTypedDict]
     kube: NotRequired[HeartbeatMetadataKubeTypedDict]
     os: NotRequired[HeartbeatMetadataOsTypedDict]
@@ -107,6 +147,8 @@ class HeartbeatMetadataTypedDict(TypedDict):
 
 class HeartbeatMetadata(BaseModel):
     aws: Optional[HeartbeatMetadataAws] = None
+
+    azure: Optional[HeartbeatMetadataAzure] = None
 
     host_os: Annotated[
         Optional[HeartbeatMetadataHostOs], pydantic.Field(alias="hostOs")

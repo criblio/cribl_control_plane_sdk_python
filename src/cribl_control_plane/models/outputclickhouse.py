@@ -210,6 +210,32 @@ class OutputClickHouseTimeoutRetrySettings(BaseModel):
     r"""The maximum backoff interval, in milliseconds, Cribl Stream should apply. Default (and minimum) is 10,000 ms (10 seconds); maximum is 180,000 ms (180 seconds)."""
 
 
+class StatsDestinationTypedDict(TypedDict):
+    url: NotRequired[str]
+    database: NotRequired[str]
+    table_name: NotRequired[str]
+    auth_type: NotRequired[str]
+    username: NotRequired[str]
+    sql_username: NotRequired[str]
+    password: NotRequired[str]
+
+
+class StatsDestination(BaseModel):
+    url: Optional[str] = None
+
+    database: Optional[str] = None
+
+    table_name: Annotated[Optional[str], pydantic.Field(alias="tableName")] = None
+
+    auth_type: Annotated[Optional[str], pydantic.Field(alias="authType")] = None
+
+    username: Optional[str] = None
+
+    sql_username: Annotated[Optional[str], pydantic.Field(alias="sqlUsername")] = None
+
+    password: Optional[str] = None
+
+
 class OutputClickHouseBackpressureBehavior(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -369,6 +395,7 @@ class OutputClickHouseTypedDict(TypedDict):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     dump_format_errors_to_disk: NotRequired[bool]
     r"""Log the most recent event that fails to match the table schema"""
+    stats_destination: NotRequired[StatsDestinationTypedDict]
     on_backpressure: NotRequired[OutputClickHouseBackpressureBehavior]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
@@ -562,6 +589,10 @@ class OutputClickHouse(BaseModel):
         Optional[bool], pydantic.Field(alias="dumpFormatErrorsToDisk")
     ] = False
     r"""Log the most recent event that fails to match the table schema"""
+
+    stats_destination: Annotated[
+        Optional[StatsDestination], pydantic.Field(alias="statsDestination")
+    ] = None
 
     on_backpressure: Annotated[
         Annotated[

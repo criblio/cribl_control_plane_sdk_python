@@ -33,6 +33,45 @@ class NodeProvidedInfoAws(BaseModel):
     tags: Optional[Dict[str, str]] = None
 
 
+class NodeProvidedInfoAzureTypedDict(TypedDict):
+    enabled: bool
+    hostname: NotRequired[str]
+    instance_id: NotRequired[str]
+    name: NotRequired[str]
+    region: NotRequired[str]
+    resource_group: NotRequired[str]
+    subscription_id: NotRequired[str]
+    tags: NotRequired[Dict[str, str]]
+    type: NotRequired[str]
+    zone: NotRequired[str]
+
+
+class NodeProvidedInfoAzure(BaseModel):
+    enabled: bool
+
+    hostname: Optional[str] = None
+
+    instance_id: Annotated[Optional[str], pydantic.Field(alias="instanceId")] = None
+
+    name: Optional[str] = None
+
+    region: Optional[str] = None
+
+    resource_group: Annotated[Optional[str], pydantic.Field(alias="resourceGroup")] = (
+        None
+    )
+
+    subscription_id: Annotated[
+        Optional[str], pydantic.Field(alias="subscriptionId")
+    ] = None
+
+    tags: Optional[Dict[str, str]] = None
+
+    type: Optional[str] = None
+
+    zone: Optional[str] = None
+
+
 class NodeProvidedInfoHostOsTypedDict(TypedDict):
     addresses: List[str]
     enabled: bool
@@ -130,6 +169,7 @@ class NodeProvidedInfoTypedDict(TypedDict):
     total_disk_space: float
     totalmem: float
     aws: NotRequired[NodeProvidedInfoAwsTypedDict]
+    azure: NotRequired[NodeProvidedInfoAzureTypedDict]
     conn_ip: NotRequired[str]
     host_os: NotRequired[NodeProvidedInfoHostOsTypedDict]
     is_saas_worker: NotRequired[bool]
@@ -164,6 +204,8 @@ class NodeProvidedInfo(BaseModel):
     totalmem: float
 
     aws: Optional[NodeProvidedInfoAws] = None
+
+    azure: Optional[NodeProvidedInfoAzure] = None
 
     conn_ip: Optional[str] = None
 

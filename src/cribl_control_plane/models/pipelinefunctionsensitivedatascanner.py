@@ -54,7 +54,8 @@ class PipelineFunctionSensitiveDataScannerConfTypedDict(TypedDict):
     flags: NotRequired[List[PipelineFunctionSensitiveDataScannerFlagTypedDict]]
     r"""Fields to add when mitigation is applied to an event"""
     include_detected_rules: NotRequired[bool]
-    r"""If enabled, Add matching ruleset IDs to a field called \"__detected\" """
+    r"""Add matching ruleset IDs to a field called \"__detected\" """
+    background_detection: NotRequired[bool]
 
 
 class PipelineFunctionSensitiveDataScannerConf(BaseModel):
@@ -74,7 +75,11 @@ class PipelineFunctionSensitiveDataScannerConf(BaseModel):
     include_detected_rules: Annotated[
         Optional[bool], pydantic.Field(alias="includeDetectedRules")
     ] = True
-    r"""If enabled, Add matching ruleset IDs to a field called \"__detected\" """
+    r"""Add matching ruleset IDs to a field called \"__detected\" """
+
+    background_detection: Annotated[
+        Optional[bool], pydantic.Field(alias="backgroundDetection")
+    ] = False
 
 
 class PipelineFunctionSensitiveDataScannerTypedDict(TypedDict):

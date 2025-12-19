@@ -149,7 +149,7 @@ class InputWefMaximumTLSVersion(str, Enum, metaclass=utils.OpenEnumMeta):
     TL_SV1_3 = "TLSv1.3"
 
 
-class MTLSSettingsTypedDict(TypedDict):
+class InputWefMTLSSettingsTypedDict(TypedDict):
     priv_key_path: str
     r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
     cert_path: str
@@ -178,7 +178,7 @@ class MTLSSettingsTypedDict(TypedDict):
     r"""If enabled, checks will fail on any OCSP error. Otherwise, checks will fail only when a certificate is revoked, ignoring other errors."""
 
 
-class MTLSSettings(BaseModel):
+class InputWefMTLSSettings(BaseModel):
     priv_key_path: Annotated[str, pydantic.Field(alias="privKeyPath")]
     r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
 
@@ -266,32 +266,32 @@ class InputWefFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     RENDERED_TEXT = "RenderedText"
 
 
-class QueryBuilderMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class InputWefQueryBuilderMode(str, Enum, metaclass=utils.OpenEnumMeta):
     SIMPLE = "simple"
     XML = "xml"
 
 
-class SubscriptionMetadatumTypedDict(TypedDict):
+class InputWefSubscriptionMetadatumTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class SubscriptionMetadatum(BaseModel):
+class InputWefSubscriptionMetadatum(BaseModel):
     name: str
 
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class QueryTypedDict(TypedDict):
+class InputWefQueryTypedDict(TypedDict):
     path: str
     r"""The Path attribute from the relevant XML Select element"""
     query_expression: str
     r"""The XPath query inside the relevant XML Select element"""
 
 
-class Query(BaseModel):
+class InputWefQuery(BaseModel):
     path: str
     r"""The Path attribute from the relevant XML Select element"""
 
@@ -299,7 +299,7 @@ class Query(BaseModel):
     r"""The XPath query inside the relevant XML Select element"""
 
 
-class SubscriptionTypedDict(TypedDict):
+class InputWefSubscriptionTypedDict(TypedDict):
     subscription_name: str
     targets: List[str]
     r"""The DNS names of the endpoints that should forward these events. You may use wildcards, such as *.mydomain.com"""
@@ -319,15 +319,15 @@ class SubscriptionTypedDict(TypedDict):
     r"""Receive compressed events from the source"""
     locale: NotRequired[str]
     r"""The RFC-3066 locale the Windows clients should use when sending events. Defaults to \"en-US\"."""
-    query_selector: NotRequired[QueryBuilderMode]
-    metadata: NotRequired[List[SubscriptionMetadatumTypedDict]]
+    query_selector: NotRequired[InputWefQueryBuilderMode]
+    metadata: NotRequired[List[InputWefSubscriptionMetadatumTypedDict]]
     r"""Fields to add to events ingested under this subscription"""
-    queries: NotRequired[List[QueryTypedDict]]
+    queries: NotRequired[List[InputWefQueryTypedDict]]
     xml_query: NotRequired[str]
     r"""The XPath query to use for selecting events"""
 
 
-class Subscription(BaseModel):
+class InputWefSubscription(BaseModel):
     subscription_name: Annotated[str, pydantic.Field(alias="subscriptionName")]
 
     targets: List[str]
@@ -368,15 +368,16 @@ class Subscription(BaseModel):
 
     query_selector: Annotated[
         Annotated[
-            Optional[QueryBuilderMode], PlainValidator(validate_open_enum(False))
+            Optional[InputWefQueryBuilderMode],
+            PlainValidator(validate_open_enum(False)),
         ],
         pydantic.Field(alias="querySelector"),
-    ] = QueryBuilderMode.SIMPLE
+    ] = InputWefQueryBuilderMode.SIMPLE
 
-    metadata: Optional[List[SubscriptionMetadatum]] = None
+    metadata: Optional[List[InputWefSubscriptionMetadatum]] = None
     r"""Fields to add to events ingested under this subscription"""
 
-    queries: Optional[List[Query]] = None
+    queries: Optional[List[InputWefQuery]] = None
 
     xml_query: Annotated[Optional[str], pydantic.Field(alias="xmlQuery")] = None
     r"""The XPath query to use for selecting events"""
@@ -394,7 +395,7 @@ class Subscription(BaseModel):
     def serialize_query_selector(self, value):
         if isinstance(value, str):
             try:
-                return models.QueryBuilderMode(value)
+                return models.InputWefQueryBuilderMode(value)
             except ValueError:
                 return value
         return value
@@ -415,7 +416,7 @@ class InputWefMetadatum(BaseModel):
 
 class InputWefTypedDict(TypedDict):
     type: InputWefType
-    subscriptions: List[SubscriptionTypedDict]
+    subscriptions: List[InputWefSubscriptionTypedDict]
     r"""Subscriptions to events on forwarding endpoints"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -439,7 +440,7 @@ class InputWefTypedDict(TypedDict):
     r"""Port to listen on"""
     auth_method: NotRequired[InputWefAuthenticationMethod]
     r"""How to authenticate incoming client connections"""
-    tls: NotRequired[MTLSSettingsTypedDict]
+    tls: NotRequired[InputWefMTLSSettingsTypedDict]
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -476,7 +477,7 @@ class InputWefTypedDict(TypedDict):
 class InputWef(BaseModel):
     type: InputWefType
 
-    subscriptions: List[Subscription]
+    subscriptions: List[InputWefSubscription]
     r"""Subscriptions to events on forwarding endpoints"""
 
     id: Optional[str] = None
@@ -521,7 +522,7 @@ class InputWef(BaseModel):
     ] = InputWefAuthenticationMethod.CLIENT_CERT
     r"""How to authenticate incoming client connections"""
 
-    tls: Optional[MTLSSettings] = None
+    tls: Optional[InputWefMTLSSettings] = None
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         256

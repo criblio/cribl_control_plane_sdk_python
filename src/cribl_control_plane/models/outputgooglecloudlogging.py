@@ -16,7 +16,7 @@ class OutputGoogleCloudLoggingType(str, Enum):
     GOOGLE_CLOUD_LOGGING = "google_cloud_logging"
 
 
-class LogLocationType(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputGoogleCloudLoggingLogLocationType(str, Enum, metaclass=utils.OpenEnumMeta):
     # Project
     PROJECT = "project"
     # Organization
@@ -27,7 +27,7 @@ class LogLocationType(str, Enum, metaclass=utils.OpenEnumMeta):
     FOLDER = "folder"
 
 
-class PayloadFormat(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputGoogleCloudLoggingPayloadFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Format to use when sending payload. Defaults to Text."""
 
     # Text
@@ -36,14 +36,14 @@ class PayloadFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     JSON = "json"
 
 
-class LogLabelTypedDict(TypedDict):
+class OutputGoogleCloudLoggingLogLabelTypedDict(TypedDict):
     label: str
     r"""Label name"""
     value_expression: str
     r"""JavaScript expression to compute the label's value."""
 
 
-class LogLabel(BaseModel):
+class OutputGoogleCloudLoggingLogLabel(BaseModel):
     label: str
     r"""Label name"""
 
@@ -51,14 +51,14 @@ class LogLabel(BaseModel):
     r"""JavaScript expression to compute the label's value."""
 
 
-class ResourceTypeLabelTypedDict(TypedDict):
+class OutputGoogleCloudLoggingResourceTypeLabelTypedDict(TypedDict):
     label: str
     r"""Label name"""
     value_expression: str
     r"""JavaScript expression to compute the label's value."""
 
 
-class ResourceTypeLabel(BaseModel):
+class OutputGoogleCloudLoggingResourceTypeLabel(BaseModel):
     label: str
     r"""Label name"""
 
@@ -133,7 +133,7 @@ class OutputGoogleCloudLoggingPqControls(BaseModel):
 
 class OutputGoogleCloudLoggingTypedDict(TypedDict):
     type: OutputGoogleCloudLoggingType
-    log_location_type: LogLocationType
+    log_location_type: OutputGoogleCloudLoggingLogLocationType
     log_name_expression: str
     r"""JavaScript expression to compute the value of the log name. If Validate and correct log name is enabled, invalid characters (characters other than alphanumerics, forward-slashes, underscores, hyphens, and periods) will be replaced with an underscore."""
     log_location_expression: str
@@ -149,13 +149,15 @@ class OutputGoogleCloudLoggingTypedDict(TypedDict):
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
     sanitize_log_names: NotRequired[bool]
-    payload_format: NotRequired[PayloadFormat]
+    payload_format: NotRequired[OutputGoogleCloudLoggingPayloadFormat]
     r"""Format to use when sending payload. Defaults to Text."""
-    log_labels: NotRequired[List[LogLabelTypedDict]]
+    log_labels: NotRequired[List[OutputGoogleCloudLoggingLogLabelTypedDict]]
     r"""Labels to apply to the log entry"""
     resource_type_expression: NotRequired[str]
     r"""JavaScript expression to compute the value of the managed resource type field. Must evaluate to one of the valid values [here](https://cloud.google.com/logging/docs/api/v2/resource-list#resource-types). Defaults to \"global\"."""
-    resource_type_labels: NotRequired[List[ResourceTypeLabelTypedDict]]
+    resource_type_labels: NotRequired[
+        List[OutputGoogleCloudLoggingResourceTypeLabelTypedDict]
+    ]
     r"""Labels to apply to the managed resource. These must correspond to the valid labels for the specified resource type (see [here](https://cloud.google.com/logging/docs/api/v2/resource-list#resource-types)). Otherwise, they will be dropped by Google Cloud Logging."""
     severity_expression: NotRequired[str]
     r"""JavaScript expression to compute the value of the severity field. Must evaluate to one of the severity values supported by Google Cloud Logging [here](https://cloud.google.com/logging/docs/reference/v2/rest/v2/LogEntry#logseverity) (case insensitive). Defaults to \"DEFAULT\"."""
@@ -271,7 +273,10 @@ class OutputGoogleCloudLogging(BaseModel):
     type: OutputGoogleCloudLoggingType
 
     log_location_type: Annotated[
-        Annotated[LogLocationType, PlainValidator(validate_open_enum(False))],
+        Annotated[
+            OutputGoogleCloudLoggingLogLocationType,
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="logLocationType"),
     ]
 
@@ -305,13 +310,17 @@ class OutputGoogleCloudLogging(BaseModel):
     ] = False
 
     payload_format: Annotated[
-        Annotated[Optional[PayloadFormat], PlainValidator(validate_open_enum(False))],
+        Annotated[
+            Optional[OutputGoogleCloudLoggingPayloadFormat],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="payloadFormat"),
-    ] = PayloadFormat.TEXT
+    ] = OutputGoogleCloudLoggingPayloadFormat.TEXT
     r"""Format to use when sending payload. Defaults to Text."""
 
     log_labels: Annotated[
-        Optional[List[LogLabel]], pydantic.Field(alias="logLabels")
+        Optional[List[OutputGoogleCloudLoggingLogLabel]],
+        pydantic.Field(alias="logLabels"),
     ] = None
     r"""Labels to apply to the log entry"""
 
@@ -321,7 +330,8 @@ class OutputGoogleCloudLogging(BaseModel):
     r"""JavaScript expression to compute the value of the managed resource type field. Must evaluate to one of the valid values [here](https://cloud.google.com/logging/docs/api/v2/resource-list#resource-types). Defaults to \"global\"."""
 
     resource_type_labels: Annotated[
-        Optional[List[ResourceTypeLabel]], pydantic.Field(alias="resourceTypeLabels")
+        Optional[List[OutputGoogleCloudLoggingResourceTypeLabel]],
+        pydantic.Field(alias="resourceTypeLabels"),
     ] = None
     r"""Labels to apply to the managed resource. These must correspond to the valid labels for the specified resource type (see [here](https://cloud.google.com/logging/docs/api/v2/resource-list#resource-types)). Otherwise, they will be dropped by Google Cloud Logging."""
 
@@ -610,7 +620,7 @@ class OutputGoogleCloudLogging(BaseModel):
     def serialize_log_location_type(self, value):
         if isinstance(value, str):
             try:
-                return models.LogLocationType(value)
+                return models.OutputGoogleCloudLoggingLogLocationType(value)
             except ValueError:
                 return value
         return value
@@ -619,7 +629,7 @@ class OutputGoogleCloudLogging(BaseModel):
     def serialize_payload_format(self, value):
         if isinstance(value, str):
             try:
-                return models.PayloadFormat(value)
+                return models.OutputGoogleCloudLoggingPayloadFormat(value)
             except ValueError:
                 return value
         return value

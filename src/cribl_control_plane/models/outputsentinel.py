@@ -103,11 +103,11 @@ class OutputSentinelBackpressureBehavior(str, Enum, metaclass=utils.OpenEnumMeta
     QUEUE = "queue"
 
 
-class AuthType(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputSentinelAuthType(str, Enum, metaclass=utils.OpenEnumMeta):
     OAUTH = "oauth"
 
 
-class EndpointConfiguration(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputSentinelEndpointConfiguration(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Enter the data collection endpoint URL or the individual ID"""
 
     # URL
@@ -214,10 +214,10 @@ class OutputSentinelTypedDict(TypedDict):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     on_backpressure: NotRequired[OutputSentinelBackpressureBehavior]
     r"""How to handle events when all receivers are exerting backpressure"""
-    auth_type: NotRequired[AuthType]
+    auth_type: NotRequired[OutputSentinelAuthType]
     scope: NotRequired[str]
     r"""Scope to pass in the OAuth request"""
-    endpoint_url_configuration: NotRequired[EndpointConfiguration]
+    endpoint_url_configuration: NotRequired[OutputSentinelEndpointConfiguration]
     r"""Enter the data collection endpoint URL or the individual ID"""
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
@@ -385,7 +385,9 @@ class OutputSentinel(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
-        Annotated[Optional[AuthType], PlainValidator(validate_open_enum(False))],
+        Annotated[
+            Optional[OutputSentinelAuthType], PlainValidator(validate_open_enum(False))
+        ],
         pydantic.Field(alias="authType"),
     ] = None
 
@@ -394,10 +396,11 @@ class OutputSentinel(BaseModel):
 
     endpoint_url_configuration: Annotated[
         Annotated[
-            Optional[EndpointConfiguration], PlainValidator(validate_open_enum(False))
+            Optional[OutputSentinelEndpointConfiguration],
+            PlainValidator(validate_open_enum(False)),
         ],
         pydantic.Field(alias="endpointURLConfiguration"),
-    ] = EndpointConfiguration.URL
+    ] = OutputSentinelEndpointConfiguration.URL
     r"""Enter the data collection endpoint URL or the individual ID"""
 
     total_memory_limit_kb: Annotated[
@@ -551,7 +554,7 @@ class OutputSentinel(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthType(value)
+                return models.OutputSentinelAuthType(value)
             except ValueError:
                 return value
         return value
@@ -560,7 +563,7 @@ class OutputSentinel(BaseModel):
     def serialize_endpoint_url_configuration(self, value):
         if isinstance(value, str):
             try:
-                return models.EndpointConfiguration(value)
+                return models.OutputSentinelEndpointConfiguration(value)
             except ValueError:
                 return value
         return value

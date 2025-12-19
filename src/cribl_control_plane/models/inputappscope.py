@@ -139,7 +139,7 @@ class InputAppscopeMetadatum(BaseModel):
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class AllowTypedDict(TypedDict):
+class InputAppscopeAllowTypedDict(TypedDict):
     procname: str
     r"""Specify the name of a process or family of processes."""
     config: str
@@ -148,7 +148,7 @@ class AllowTypedDict(TypedDict):
     r"""Specify a string to substring-match against process command-line."""
 
 
-class Allow(BaseModel):
+class InputAppscopeAllow(BaseModel):
     procname: str
     r"""Specify the name of a process or family of processes."""
 
@@ -160,14 +160,14 @@ class Allow(BaseModel):
 
 
 class InputAppscopeFilterTypedDict(TypedDict):
-    allow: NotRequired[List[AllowTypedDict]]
+    allow: NotRequired[List[InputAppscopeAllowTypedDict]]
     r"""Specify processes that AppScope should be loaded into, and the config to use."""
     transport_url: NotRequired[str]
     r"""To override the UNIX domain socket or address/port specified in General Settings (while leaving Authentication settings as is), enter a URL."""
 
 
 class InputAppscopeFilter(BaseModel):
-    allow: Optional[List[Allow]] = None
+    allow: Optional[List[InputAppscopeAllow]] = None
     r"""Specify processes that AppScope should be loaded into, and the config to use."""
 
     transport_url: Annotated[Optional[str], pydantic.Field(alias="transportURL")] = None

@@ -52,7 +52,7 @@ class OutputAzureBlobAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMet
     CLIENT_CERT = "clientCert"
 
 
-class BlobAccessTier(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputAzureBlobBlobAccessTier(str, Enum, metaclass=utils.OpenEnumMeta):
     # Default account access tier
     INFERRED = "Inferred"
     # Hot tier
@@ -179,7 +179,7 @@ class OutputAzureBlobTypedDict(TypedDict):
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     auth_type: NotRequired[OutputAzureBlobAuthenticationMethod]
-    storage_class: NotRequired[BlobAccessTier]
+    storage_class: NotRequired[OutputAzureBlobBlobAccessTier]
     description: NotRequired[str]
     compress: NotRequired[OutputAzureBlobCompression]
     r"""Data compression format to apply to HTTP content before it is delivered"""
@@ -374,9 +374,12 @@ class OutputAzureBlob(BaseModel):
     ] = OutputAzureBlobAuthenticationMethod.MANUAL
 
     storage_class: Annotated[
-        Annotated[Optional[BlobAccessTier], PlainValidator(validate_open_enum(False))],
+        Annotated[
+            Optional[OutputAzureBlobBlobAccessTier],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="storageClass"),
-    ] = BlobAccessTier.INFERRED
+    ] = OutputAzureBlobBlobAccessTier.INFERRED
 
     description: Optional[str] = None
 
@@ -550,7 +553,7 @@ class OutputAzureBlob(BaseModel):
     def serialize_storage_class(self, value):
         if isinstance(value, str):
             try:
-                return models.BlobAccessTier(value)
+                return models.OutputAzureBlobBlobAccessTier(value)
             except ValueError:
                 return value
         return value

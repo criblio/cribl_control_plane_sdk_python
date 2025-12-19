@@ -126,13 +126,13 @@ class InputDatagenPq(BaseModel):
         return value
 
 
-class SampleTypedDict(TypedDict):
+class InputDatagenSampleTypedDict(TypedDict):
     sample: str
     events_per_sec: NotRequired[float]
     r"""Maximum number of events to generate per second per Worker Node. Defaults to 10."""
 
 
-class Sample(BaseModel):
+class InputDatagenSample(BaseModel):
     sample: str
 
     events_per_sec: Annotated[Optional[float], pydantic.Field(alias="eventsPerSec")] = (
@@ -156,7 +156,7 @@ class InputDatagenMetadatum(BaseModel):
 
 class InputDatagenTypedDict(TypedDict):
     type: InputDatagenType
-    samples: List[SampleTypedDict]
+    samples: List[InputDatagenSampleTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -181,7 +181,7 @@ class InputDatagenTypedDict(TypedDict):
 class InputDatagen(BaseModel):
     type: InputDatagenType
 
-    samples: List[Sample]
+    samples: List[InputDatagenSample]
 
     id: Optional[str] = None
     r"""Unique ID for this input"""

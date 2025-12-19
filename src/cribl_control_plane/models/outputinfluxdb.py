@@ -16,7 +16,7 @@ class OutputInfluxdbType(str, Enum):
     INFLUXDB = "influxdb"
 
 
-class TimestampPrecision(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputInfluxdbTimestampPrecision(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Sets the precision for the supplied Unix time values. Defaults to milliseconds."""
 
     # Nanoseconds
@@ -214,7 +214,7 @@ class OutputInfluxdbTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     use_v2_api: NotRequired[bool]
     r"""The v2 API can be enabled with InfluxDB versions 1.8 and later."""
-    timestamp_precision: NotRequired[TimestampPrecision]
+    timestamp_precision: NotRequired[OutputInfluxdbTimestampPrecision]
     r"""Sets the precision for the supplied Unix time values. Defaults to milliseconds."""
     dynamic_value_field_name: NotRequired[bool]
     r"""Enabling this will pull the value field from the metric name. E,g, 'db.query.user' will use 'db.query' as the measurement and 'user' as the value field."""
@@ -338,10 +338,11 @@ class OutputInfluxdb(BaseModel):
 
     timestamp_precision: Annotated[
         Annotated[
-            Optional[TimestampPrecision], PlainValidator(validate_open_enum(False))
+            Optional[OutputInfluxdbTimestampPrecision],
+            PlainValidator(validate_open_enum(False)),
         ],
         pydantic.Field(alias="timestampPrecision"),
-    ] = TimestampPrecision.MS
+    ] = OutputInfluxdbTimestampPrecision.MS
     r"""Sets the precision for the supplied Unix time values. Defaults to milliseconds."""
 
     dynamic_value_field_name: Annotated[
@@ -574,7 +575,7 @@ class OutputInfluxdb(BaseModel):
     def serialize_timestamp_precision(self, value):
         if isinstance(value, str):
             try:
-                return models.TimestampPrecision(value)
+                return models.OutputInfluxdbTimestampPrecision(value)
             except ValueError:
                 return value
         return value

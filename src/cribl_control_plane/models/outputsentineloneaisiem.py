@@ -28,7 +28,9 @@ class OutputSentinelOneAiSiemRegion(str, Enum, metaclass=utils.OpenEnumMeta):
     CUSTOM = "Custom"
 
 
-class AISIEMEndpointPath(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputSentinelOneAISIEMAISIEMEndpointPath(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Endpoint to send events to. Use /services/collector/event for structured JSON payloads with standard HEC top-level fields. Use /services/collector/raw for unstructured log lines (plain text)."""
 
     ROOT_SERVICES_COLLECTOR_EVENT = "/services/collector/event"
@@ -186,7 +188,7 @@ class OutputSentinelOneAiSiemTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     region: NotRequired[OutputSentinelOneAiSiemRegion]
     r"""The SentinelOne region to send events to. In most cases you can find the region by either looking at your SentinelOne URL or knowing what geographic region your SentinelOne instance is contained in."""
-    endpoint: NotRequired[AISIEMEndpointPath]
+    endpoint: NotRequired[OutputSentinelOneAISIEMAISIEMEndpointPath]
     r"""Endpoint to send events to. Use /services/collector/event for structured JSON payloads with standard HEC top-level fields. Use /services/collector/raw for unstructured log lines (plain text)."""
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
@@ -313,8 +315,9 @@ class OutputSentinelOneAiSiem(BaseModel):
     r"""The SentinelOne region to send events to. In most cases you can find the region by either looking at your SentinelOne URL or knowing what geographic region your SentinelOne instance is contained in."""
 
     endpoint: Annotated[
-        Optional[AISIEMEndpointPath], PlainValidator(validate_open_enum(False))
-    ] = AISIEMEndpointPath.ROOT_SERVICES_COLLECTOR_EVENT
+        Optional[OutputSentinelOneAISIEMAISIEMEndpointPath],
+        PlainValidator(validate_open_enum(False)),
+    ] = OutputSentinelOneAISIEMAISIEMEndpointPath.ROOT_SERVICES_COLLECTOR_EVENT
     r"""Endpoint to send events to. Use /services/collector/event for structured JSON payloads with standard HEC top-level fields. Use /services/collector/raw for unstructured log lines (plain text)."""
 
     concurrency: Optional[float] = 5
@@ -557,7 +560,7 @@ class OutputSentinelOneAiSiem(BaseModel):
     def serialize_endpoint(self, value):
         if isinstance(value, str):
             try:
-                return models.AISIEMEndpointPath(value)
+                return models.OutputSentinelOneAISIEMAISIEMEndpointPath(value)
             except ValueError:
                 return value
         return value

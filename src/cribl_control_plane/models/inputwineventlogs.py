@@ -127,7 +127,7 @@ class InputWinEventLogsPq(BaseModel):
         return value
 
 
-class ReadMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class InputWinEventLogsReadMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Read all stored and future event logs, or only future events"""
 
     # Entire log
@@ -136,7 +136,7 @@ class ReadMode(str, Enum, metaclass=utils.OpenEnumMeta):
     NEWEST = "newest"
 
 
-class EventFormat(str, Enum, metaclass=utils.OpenEnumMeta):
+class InputWinEventLogsEventFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Format of individual events"""
 
     # JSON
@@ -178,9 +178,9 @@ class InputWinEventLogsTypedDict(TypedDict):
     connections: NotRequired[List[InputWinEventLogsConnectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[InputWinEventLogsPqTypedDict]
-    read_mode: NotRequired[ReadMode]
+    read_mode: NotRequired[InputWinEventLogsReadMode]
     r"""Read all stored and future event logs, or only future events"""
-    event_format: NotRequired[EventFormat]
+    event_format: NotRequired[InputWinEventLogsEventFormat]
     r"""Format of individual events"""
     disable_native_module: NotRequired[bool]
     r"""Enable to use built-in tools (PowerShell for JSON, wevtutil for XML) to collect event logs instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-windows-event-logs/#advanced-settings)"""
@@ -233,15 +233,21 @@ class InputWinEventLogs(BaseModel):
     pq: Optional[InputWinEventLogsPq] = None
 
     read_mode: Annotated[
-        Annotated[Optional[ReadMode], PlainValidator(validate_open_enum(False))],
+        Annotated[
+            Optional[InputWinEventLogsReadMode],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="readMode"),
-    ] = ReadMode.NEWEST
+    ] = InputWinEventLogsReadMode.NEWEST
     r"""Read all stored and future event logs, or only future events"""
 
     event_format: Annotated[
-        Annotated[Optional[EventFormat], PlainValidator(validate_open_enum(False))],
+        Annotated[
+            Optional[InputWinEventLogsEventFormat],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="eventFormat"),
-    ] = EventFormat.JSON
+    ] = InputWinEventLogsEventFormat.JSON
     r"""Format of individual events"""
 
     disable_native_module: Annotated[
@@ -279,7 +285,7 @@ class InputWinEventLogs(BaseModel):
     def serialize_read_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.ReadMode(value)
+                return models.InputWinEventLogsReadMode(value)
             except ValueError:
                 return value
         return value
@@ -288,7 +294,7 @@ class InputWinEventLogs(BaseModel):
     def serialize_event_format(self, value):
         if isinstance(value, str):
             try:
-                return models.EventFormat(value)
+                return models.InputWinEventLogsEventFormat(value)
             except ValueError:
                 return value
         return value

@@ -27,7 +27,7 @@ class OutputNewrelicRegion(str, Enum, metaclass=utils.OpenEnumMeta):
     CUSTOM = "Custom"
 
 
-class FieldName(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputNewrelicFieldName(str, Enum, metaclass=utils.OpenEnumMeta):
     SERVICE = "service"
     HOSTNAME = "hostname"
     TIMESTAMP = "timestamp"
@@ -35,13 +35,13 @@ class FieldName(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class OutputNewrelicMetadatumTypedDict(TypedDict):
-    name: FieldName
+    name: OutputNewrelicFieldName
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
 class OutputNewrelicMetadatum(BaseModel):
-    name: Annotated[FieldName, PlainValidator(validate_open_enum(False))]
+    name: Annotated[OutputNewrelicFieldName, PlainValidator(validate_open_enum(False))]
 
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
@@ -50,7 +50,7 @@ class OutputNewrelicMetadatum(BaseModel):
     def serialize_name(self, value):
         if isinstance(value, str):
             try:
-                return models.FieldName(value)
+                return models.OutputNewrelicFieldName(value)
             except ValueError:
                 return value
         return value

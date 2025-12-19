@@ -90,7 +90,7 @@ class OutputCriblLakeDiskSpaceProtection(str, Enum, metaclass=utils.OpenEnumMeta
     DROP = "drop"
 
 
-class AwsAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputCriblLakeAwsAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
     AUTO = "auto"
     AUTO_RPC = "auto_rpc"
     MANUAL = "manual"
@@ -181,7 +181,7 @@ class OutputCriblLakeTypedDict(TypedDict):
     r"""Disable if you can access files within the bucket but not the bucket itself"""
     max_closing_files_to_backpressure: NotRequired[float]
     r"""Maximum number of files that can be waiting for upload before backpressure is applied"""
-    aws_authentication_method: NotRequired[AwsAuthenticationMethod]
+    aws_authentication_method: NotRequired[OutputCriblLakeAwsAuthenticationMethod]
     format_: NotRequired[OutputCriblLakeFormat]
     max_concurrent_file_parts: NotRequired[float]
     r"""Maximum number of parts to upload in parallel per file. Minimum part size is 5MB."""
@@ -394,10 +394,11 @@ class OutputCriblLake(BaseModel):
 
     aws_authentication_method: Annotated[
         Annotated[
-            Optional[AwsAuthenticationMethod], PlainValidator(validate_open_enum(False))
+            Optional[OutputCriblLakeAwsAuthenticationMethod],
+            PlainValidator(validate_open_enum(False)),
         ],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AwsAuthenticationMethod.AUTO
+    ] = OutputCriblLakeAwsAuthenticationMethod.AUTO
 
     format_: Annotated[
         Annotated[
@@ -491,7 +492,7 @@ class OutputCriblLake(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AwsAuthenticationMethod(value)
+                return models.OutputCriblLakeAwsAuthenticationMethod(value)
             except ValueError:
                 return value
         return value

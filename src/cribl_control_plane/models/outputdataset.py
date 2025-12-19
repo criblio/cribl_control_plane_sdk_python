@@ -89,7 +89,7 @@ class OutputDatasetTimeoutRetrySettings(BaseModel):
     r"""The maximum backoff interval, in milliseconds, Cribl Stream should apply. Default (and minimum) is 10,000 ms (10 seconds); maximum is 180,000 ms (180 seconds)."""
 
 
-class DataSetSite(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputDatasetDataSetSite(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""DataSet site to which events should be sent"""
 
     # US
@@ -206,7 +206,7 @@ class OutputDatasetTypedDict(TypedDict):
     timeout_retry_settings: NotRequired[OutputDatasetTimeoutRetrySettingsTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
-    site: NotRequired[DataSetSite]
+    site: NotRequired[OutputDatasetDataSetSite]
     r"""DataSet site to which events should be sent"""
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
@@ -331,8 +331,8 @@ class OutputDataset(BaseModel):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     site: Annotated[
-        Optional[DataSetSite], PlainValidator(validate_open_enum(False))
-    ] = DataSetSite.US
+        Optional[OutputDatasetDataSetSite], PlainValidator(validate_open_enum(False))
+    ] = OutputDatasetDataSetSite.US
     r"""DataSet site to which events should be sent"""
 
     concurrency: Optional[float] = 5
@@ -501,7 +501,7 @@ class OutputDataset(BaseModel):
     def serialize_site(self, value):
         if isinstance(value, str):
             try:
-                return models.DataSetSite(value)
+                return models.OutputDatasetDataSetSite(value)
             except ValueError:
                 return value
         return value

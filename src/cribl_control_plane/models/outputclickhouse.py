@@ -35,7 +35,7 @@ class OutputClickHouseFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     JSON_EACH_ROW = "json-each-row"
 
 
-class MappingType(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputClickHouseMappingType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How event fields are mapped to ClickHouse columns."""
 
     # Automatic
@@ -210,7 +210,7 @@ class OutputClickHouseTimeoutRetrySettings(BaseModel):
     r"""The maximum backoff interval, in milliseconds, Cribl Stream should apply. Default (and minimum) is 10,000 ms (10 seconds); maximum is 180,000 ms (180 seconds)."""
 
 
-class StatsDestinationTypedDict(TypedDict):
+class OutputClickHouseStatsDestinationTypedDict(TypedDict):
     url: NotRequired[str]
     database: NotRequired[str]
     table_name: NotRequired[str]
@@ -220,7 +220,7 @@ class StatsDestinationTypedDict(TypedDict):
     password: NotRequired[str]
 
 
-class StatsDestination(BaseModel):
+class OutputClickHouseStatsDestination(BaseModel):
     url: Optional[str] = None
 
     database: Optional[str] = None
@@ -277,7 +277,7 @@ class OutputClickHouseOauthHeader(BaseModel):
     r"""OAuth header value"""
 
 
-class ColumnMappingTypedDict(TypedDict):
+class OutputClickHouseColumnMappingTypedDict(TypedDict):
     column_name: str
     r"""Name of the column in ClickHouse that will store field value"""
     column_value_expression: str
@@ -286,7 +286,7 @@ class ColumnMappingTypedDict(TypedDict):
     r"""Type of the column in the ClickHouse database"""
 
 
-class ColumnMapping(BaseModel):
+class OutputClickHouseColumnMapping(BaseModel):
     column_name: Annotated[str, pydantic.Field(alias="columnName")]
     r"""Name of the column in ClickHouse that will store field value"""
 
@@ -356,7 +356,7 @@ class OutputClickHouseTypedDict(TypedDict):
     auth_type: NotRequired[OutputClickHouseAuthenticationType]
     format_: NotRequired[OutputClickHouseFormat]
     r"""Data format to use when sending data to ClickHouse. Defaults to JSON Compact."""
-    mapping_type: NotRequired[MappingType]
+    mapping_type: NotRequired[OutputClickHouseMappingType]
     r"""How event fields are mapped to ClickHouse columns."""
     async_inserts: NotRequired[bool]
     r"""Collect data into batches for later processing. Disable to write to a ClickHouse table immediately."""
@@ -395,7 +395,7 @@ class OutputClickHouseTypedDict(TypedDict):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     dump_format_errors_to_disk: NotRequired[bool]
     r"""Log the most recent event that fails to match the table schema"""
-    stats_destination: NotRequired[StatsDestinationTypedDict]
+    stats_destination: NotRequired[OutputClickHouseStatsDestinationTypedDict]
     on_backpressure: NotRequired[OutputClickHouseBackpressureBehavior]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
@@ -431,7 +431,7 @@ class OutputClickHouseTypedDict(TypedDict):
     r"""Fields to exclude from sending to ClickHouse"""
     describe_table: NotRequired[str]
     r"""Retrieves the table schema from ClickHouse and populates the Column Mapping table"""
-    column_mappings: NotRequired[List[ColumnMappingTypedDict]]
+    column_mappings: NotRequired[List[OutputClickHouseColumnMappingTypedDict]]
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
     pq_rate_per_sec: NotRequired[float]
@@ -500,9 +500,12 @@ class OutputClickHouse(BaseModel):
     r"""Data format to use when sending data to ClickHouse. Defaults to JSON Compact."""
 
     mapping_type: Annotated[
-        Annotated[Optional[MappingType], PlainValidator(validate_open_enum(False))],
+        Annotated[
+            Optional[OutputClickHouseMappingType],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="mappingType"),
-    ] = MappingType.AUTOMATIC
+    ] = OutputClickHouseMappingType.AUTOMATIC
     r"""How event fields are mapped to ClickHouse columns."""
 
     async_inserts: Annotated[Optional[bool], pydantic.Field(alias="asyncInserts")] = (
@@ -591,7 +594,8 @@ class OutputClickHouse(BaseModel):
     r"""Log the most recent event that fails to match the table schema"""
 
     stats_destination: Annotated[
-        Optional[StatsDestination], pydantic.Field(alias="statsDestination")
+        Optional[OutputClickHouseStatsDestination],
+        pydantic.Field(alias="statsDestination"),
     ] = None
 
     on_backpressure: Annotated[
@@ -676,7 +680,8 @@ class OutputClickHouse(BaseModel):
     r"""Retrieves the table schema from ClickHouse and populates the Column Mapping table"""
 
     column_mappings: Annotated[
-        Optional[List[ColumnMapping]], pydantic.Field(alias="columnMappings")
+        Optional[List[OutputClickHouseColumnMapping]],
+        pydantic.Field(alias="columnMappings"),
     ] = None
 
     pq_strict_ordering: Annotated[
@@ -764,7 +769,7 @@ class OutputClickHouse(BaseModel):
     def serialize_mapping_type(self, value):
         if isinstance(value, str):
             try:
-                return models.MappingType(value)
+                return models.OutputClickHouseMappingType(value)
             except ValueError:
                 return value
         return value

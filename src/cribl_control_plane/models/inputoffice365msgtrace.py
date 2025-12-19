@@ -249,7 +249,7 @@ class InputOffice365MsgTraceSubscriptionPlan(str, Enum, metaclass=utils.OpenEnum
     DOD = "dod"
 
 
-class CertOptionsTypedDict(TypedDict):
+class InputOffice365MsgTraceCertOptionsTypedDict(TypedDict):
     priv_key_path: str
     r"""Path to the private key to use. Key should be in PEM format. Can reference $ENV_VARS."""
     cert_path: str
@@ -260,7 +260,7 @@ class CertOptionsTypedDict(TypedDict):
     r"""Passphrase to use to decrypt the private key."""
 
 
-class CertOptions(BaseModel):
+class InputOffice365MsgTraceCertOptions(BaseModel):
     priv_key_path: Annotated[str, pydantic.Field(alias="privKeyPath")]
     r"""Path to the private key to use. Key should be in PEM format. Can reference $ENV_VARS."""
 
@@ -346,7 +346,7 @@ class InputOffice365MsgTraceTypedDict(TypedDict):
     r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
     text_secret: NotRequired[str]
     r"""Select or create a secret that references your client_secret to pass in the OAuth request parameter."""
-    cert_options: NotRequired[CertOptionsTypedDict]
+    cert_options: NotRequired[InputOffice365MsgTraceCertOptionsTypedDict]
 
 
 class InputOffice365MsgTrace(BaseModel):
@@ -495,7 +495,7 @@ class InputOffice365MsgTrace(BaseModel):
     r"""Select or create a secret that references your client_secret to pass in the OAuth request parameter."""
 
     cert_options: Annotated[
-        Optional[CertOptions], pydantic.Field(alias="certOptions")
+        Optional[InputOffice365MsgTraceCertOptions], pydantic.Field(alias="certOptions")
     ] = None
 
     @field_serializer("auth_type")

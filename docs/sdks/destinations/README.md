@@ -76,7 +76,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.create(request={
         "id": "tcpjson-output",
-        "type": models.OutputTcpjsonType.TCPJSON,
+        "type": models.CreateOutputTypeTcpjson.TCPJSON,
         "pipeline": "<value>",
         "system_fields": [
             "<value 1>",
@@ -87,7 +87,7 @@ with CriblControlPlane(
             "<value 1>",
         ],
         "load_balanced": True,
-        "compression": models.OutputTcpjsonCompression.GZIP,
+        "compression": models.CreateOutputCompressionTcpjson.GZIP,
         "log_failed_requests": False,
         "throttle_rate_per_sec": "0",
         "tls": {
@@ -99,15 +99,15 @@ with CriblControlPlane(
             "priv_key_path": "<value>",
             "cert_path": "<value>",
             "passphrase": "<value>",
-            "min_version": models.OutputTcpjsonMinimumTLSVersion.TL_SV1_2,
-            "max_version": models.OutputTcpjsonMaximumTLSVersion.TL_SV1_2,
+            "min_version": models.CreateOutputMinimumTLSVersionTcpjson.TL_SV1_2,
+            "max_version": models.CreateOutputMaximumTLSVersionTcpjson.TL_SV1_2,
         },
         "connection_timeout": 10000,
         "write_timeout": 60000,
         "token_ttl_minutes": 60,
         "send_header": True,
-        "on_backpressure": models.OutputTcpjsonBackpressureBehavior.BLOCK,
-        "auth_type": models.OutputTcpjsonAuthenticationMethod.MANUAL,
+        "on_backpressure": models.BackpressureBehaviorTcpjson.BLOCK,
+        "auth_type": models.CreateOutputAuthenticationMethodTcpjson.MANUAL,
         "description": "hourly about into",
         "host": "localhost",
         "port": 10090,
@@ -116,7 +116,7 @@ with CriblControlPlane(
             {
                 "host": "chilly-exterior.net",
                 "port": 6458.17,
-                "tls": models.OutputTcpjsonTLS.INHERIT,
+                "tls": models.TLSTcpjson.INHERIT,
                 "servername": "<value>",
                 "weight": 1,
             },
@@ -126,14 +126,14 @@ with CriblControlPlane(
         "max_concurrent_senders": 0,
         "pq_strict_ordering": True,
         "pq_rate_per_sec": 0,
-        "pq_mode": models.OutputTcpjsonMode.ERROR,
+        "pq_mode": models.CreateOutputModeTcpjson.ERROR,
         "pq_max_buffer_size": 42,
         "pq_max_backpressure_sec": 30,
         "pq_max_file_size": "1 MB",
         "pq_max_size": "5GB",
         "pq_path": "$CRIBL_HOME/state/queues",
-        "pq_compress": models.OutputTcpjsonPqCompressCompression.NONE,
-        "pq_on_backpressure": models.OutputTcpjsonQueueFullBehavior.BLOCK,
+        "pq_compress": models.PqCompressCompressionTcpjson.NONE,
+        "pq_on_backpressure": models.QueueFullBehaviorTcpjson.BLOCK,
         "pq_controls": {},
         "auth_token": "",
         "text_secret": "<value>",
@@ -148,7 +148,7 @@ with CriblControlPlane(
 
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `request`                                                           | [models.Output](../../models/output.md)                             | :heavy_check_mark:                                                  | The request object to use for the request.                          |
+| `request`                                                           | [models.CreateOutput](../../models/createoutput.md)                 | :heavy_check_mark:                                                  | The request object to use for the request.                          |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response

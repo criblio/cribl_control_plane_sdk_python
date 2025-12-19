@@ -134,26 +134,26 @@ class InputSplunkSearchOutputMode(str, Enum, metaclass=utils.OpenEnumMeta):
     JSON = "json"
 
 
-class EndpointParamTypedDict(TypedDict):
+class InputSplunkSearchEndpointParamTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute the parameter's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings."""
 
 
-class EndpointParam(BaseModel):
+class InputSplunkSearchEndpointParam(BaseModel):
     name: str
 
     value: str
     r"""JavaScript expression to compute the parameter's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings."""
 
 
-class EndpointHeaderTypedDict(TypedDict):
+class InputSplunkSearchEndpointHeaderTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute the header's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings."""
 
 
-class EndpointHeader(BaseModel):
+class InputSplunkSearchEndpointHeader(BaseModel):
     name: str
 
     value: str
@@ -328,9 +328,9 @@ class InputSplunkSearchTypedDict(TypedDict):
     r"""REST API used to create a search"""
     output_mode: NotRequired[InputSplunkSearchOutputMode]
     r"""Format of the returned output"""
-    endpoint_params: NotRequired[List[EndpointParamTypedDict]]
+    endpoint_params: NotRequired[List[InputSplunkSearchEndpointParamTypedDict]]
     r"""Optional request parameters to send to the endpoint"""
-    endpoint_headers: NotRequired[List[EndpointHeaderTypedDict]]
+    endpoint_headers: NotRequired[List[InputSplunkSearchEndpointHeaderTypedDict]]
     r"""Optional request headers to send to the endpoint"""
     log_level: NotRequired[InputSplunkSearchLogLevel]
     r"""Collector runtime log level (verbosity)"""
@@ -450,12 +450,14 @@ class InputSplunkSearch(BaseModel):
     r"""Format of the returned output"""
 
     endpoint_params: Annotated[
-        Optional[List[EndpointParam]], pydantic.Field(alias="endpointParams")
+        Optional[List[InputSplunkSearchEndpointParam]],
+        pydantic.Field(alias="endpointParams"),
     ] = None
     r"""Optional request parameters to send to the endpoint"""
 
     endpoint_headers: Annotated[
-        Optional[List[EndpointHeader]], pydantic.Field(alias="endpointHeaders")
+        Optional[List[InputSplunkSearchEndpointHeader]],
+        pydantic.Field(alias="endpointHeaders"),
     ] = None
     r"""Optional request headers to send to the endpoint"""
 

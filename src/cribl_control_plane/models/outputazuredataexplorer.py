@@ -16,7 +16,7 @@ class OutputAzureDataExplorerType(str, Enum):
     AZURE_DATA_EXPLORER = "azure_data_explorer"
 
 
-class IngestionMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputAzureDataExplorerIngestionMode(str, Enum, metaclass=utils.OpenEnumMeta):
     # Batching
     BATCHING = "batching"
     # Streaming
@@ -144,44 +144,45 @@ class OutputAzureDataExplorerDiskSpaceProtection(
     DROP = "drop"
 
 
-class PrefixOptional(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputAzureDataExplorerPrefixOptional(str, Enum, metaclass=utils.OpenEnumMeta):
     # drop-by
     DROP_BY = "dropBy"
     # ingest-by
     INGEST_BY = "ingestBy"
 
 
-class ExtentTagTypedDict(TypedDict):
+class OutputAzureDataExplorerExtentTagTypedDict(TypedDict):
     value: str
-    prefix: NotRequired[PrefixOptional]
+    prefix: NotRequired[OutputAzureDataExplorerPrefixOptional]
 
 
-class ExtentTag(BaseModel):
+class OutputAzureDataExplorerExtentTag(BaseModel):
     value: str
 
     prefix: Annotated[
-        Optional[PrefixOptional], PlainValidator(validate_open_enum(False))
+        Optional[OutputAzureDataExplorerPrefixOptional],
+        PlainValidator(validate_open_enum(False)),
     ] = None
 
     @field_serializer("prefix")
     def serialize_prefix(self, value):
         if isinstance(value, str):
             try:
-                return models.PrefixOptional(value)
+                return models.OutputAzureDataExplorerPrefixOptional(value)
             except ValueError:
                 return value
         return value
 
 
-class IngestIfNotExistTypedDict(TypedDict):
+class OutputAzureDataExplorerIngestIfNotExistTypedDict(TypedDict):
     value: str
 
 
-class IngestIfNotExist(BaseModel):
+class OutputAzureDataExplorerIngestIfNotExist(BaseModel):
     value: str
 
 
-class ReportLevel(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputAzureDataExplorerReportLevel(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Level of ingestion status reporting. Defaults to FailuresOnly."""
 
     # FailuresOnly
@@ -192,7 +193,7 @@ class ReportLevel(str, Enum, metaclass=utils.OpenEnumMeta):
     FAILURES_AND_SUCCESSES = "failuresAndSuccesses"
 
 
-class ReportMethod(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputAzureDataExplorerReportMethod(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Target of the ingestion status reporting. Defaults to Queue."""
 
     # Queue
@@ -203,12 +204,12 @@ class ReportMethod(str, Enum, metaclass=utils.OpenEnumMeta):
     QUEUE_AND_TABLE = "queueAndTable"
 
 
-class AdditionalPropertyTypedDict(TypedDict):
+class OutputAzureDataExplorerAdditionalPropertyTypedDict(TypedDict):
     key: str
     value: str
 
 
-class AdditionalProperty(BaseModel):
+class OutputAzureDataExplorerAdditionalProperty(BaseModel):
     key: str
 
     value: str
@@ -333,7 +334,7 @@ class OutputAzureDataExplorerTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     validate_database_settings: NotRequired[bool]
     r"""When saving or starting the Destination, validate the database name and credentials; also validate table name, except when creating a new table. Disable if your Azure app does not have both the Database Viewer and the Table Viewer role."""
-    ingest_mode: NotRequired[IngestionMode]
+    ingest_mode: NotRequired[OutputAzureDataExplorerIngestionMode]
     oauth_endpoint: NotRequired[
         OutputAzureDataExplorerMicrosoftEntraIDAuthenticationEndpoint
     ]
@@ -422,15 +423,19 @@ class OutputAzureDataExplorerTypedDict(TypedDict):
     r"""Bypass the data management service's aggregation mechanism"""
     retain_blob_on_success: NotRequired[bool]
     r"""Prevent blob deletion after ingestion is complete"""
-    extent_tags: NotRequired[List[ExtentTagTypedDict]]
+    extent_tags: NotRequired[List[OutputAzureDataExplorerExtentTagTypedDict]]
     r"""Strings or tags associated with the extent (ingested data shard)"""
-    ingest_if_not_exists: NotRequired[List[IngestIfNotExistTypedDict]]
+    ingest_if_not_exists: NotRequired[
+        List[OutputAzureDataExplorerIngestIfNotExistTypedDict]
+    ]
     r"""Prevents duplicate ingestion by verifying whether an extent with the specified ingest-by tag already exists"""
-    report_level: NotRequired[ReportLevel]
+    report_level: NotRequired[OutputAzureDataExplorerReportLevel]
     r"""Level of ingestion status reporting. Defaults to FailuresOnly."""
-    report_method: NotRequired[ReportMethod]
+    report_method: NotRequired[OutputAzureDataExplorerReportMethod]
     r"""Target of the ingestion status reporting. Defaults to Queue."""
-    additional_properties: NotRequired[List[AdditionalPropertyTypedDict]]
+    additional_properties: NotRequired[
+        List[OutputAzureDataExplorerAdditionalPropertyTypedDict]
+    ]
     r"""Optionally, enter additional configuration properties to send to the ingestion service"""
     response_retry_settings: NotRequired[
         List[OutputAzureDataExplorerResponseRetrySettingTypedDict]
@@ -525,9 +530,12 @@ class OutputAzureDataExplorer(BaseModel):
     r"""When saving or starting the Destination, validate the database name and credentials; also validate table name, except when creating a new table. Disable if your Azure app does not have both the Database Viewer and the Table Viewer role."""
 
     ingest_mode: Annotated[
-        Annotated[Optional[IngestionMode], PlainValidator(validate_open_enum(False))],
+        Annotated[
+            Optional[OutputAzureDataExplorerIngestionMode],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="ingestMode"),
-    ] = IngestionMode.BATCHING
+    ] = OutputAzureDataExplorerIngestionMode.BATCHING
 
     oauth_endpoint: Annotated[
         Annotated[
@@ -759,29 +767,38 @@ class OutputAzureDataExplorer(BaseModel):
     r"""Prevent blob deletion after ingestion is complete"""
 
     extent_tags: Annotated[
-        Optional[List[ExtentTag]], pydantic.Field(alias="extentTags")
+        Optional[List[OutputAzureDataExplorerExtentTag]],
+        pydantic.Field(alias="extentTags"),
     ] = None
     r"""Strings or tags associated with the extent (ingested data shard)"""
 
     ingest_if_not_exists: Annotated[
-        Optional[List[IngestIfNotExist]], pydantic.Field(alias="ingestIfNotExists")
+        Optional[List[OutputAzureDataExplorerIngestIfNotExist]],
+        pydantic.Field(alias="ingestIfNotExists"),
     ] = None
     r"""Prevents duplicate ingestion by verifying whether an extent with the specified ingest-by tag already exists"""
 
     report_level: Annotated[
-        Annotated[Optional[ReportLevel], PlainValidator(validate_open_enum(False))],
+        Annotated[
+            Optional[OutputAzureDataExplorerReportLevel],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="reportLevel"),
-    ] = ReportLevel.FAILURES_ONLY
+    ] = OutputAzureDataExplorerReportLevel.FAILURES_ONLY
     r"""Level of ingestion status reporting. Defaults to FailuresOnly."""
 
     report_method: Annotated[
-        Annotated[Optional[ReportMethod], PlainValidator(validate_open_enum(False))],
+        Annotated[
+            Optional[OutputAzureDataExplorerReportMethod],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="reportMethod"),
-    ] = ReportMethod.QUEUE
+    ] = OutputAzureDataExplorerReportMethod.QUEUE
     r"""Target of the ingestion status reporting. Defaults to Queue."""
 
     additional_properties: Annotated[
-        Optional[List[AdditionalProperty]], pydantic.Field(alias="additionalProperties")
+        Optional[List[OutputAzureDataExplorerAdditionalProperty]],
+        pydantic.Field(alias="additionalProperties"),
     ] = None
     r"""Optionally, enter additional configuration properties to send to the ingestion service"""
 
@@ -903,7 +920,7 @@ class OutputAzureDataExplorer(BaseModel):
     def serialize_ingest_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.IngestionMode(value)
+                return models.OutputAzureDataExplorerIngestionMode(value)
             except ValueError:
                 return value
         return value
@@ -995,7 +1012,7 @@ class OutputAzureDataExplorer(BaseModel):
     def serialize_report_level(self, value):
         if isinstance(value, str):
             try:
-                return models.ReportLevel(value)
+                return models.OutputAzureDataExplorerReportLevel(value)
             except ValueError:
                 return value
         return value
@@ -1004,7 +1021,7 @@ class OutputAzureDataExplorer(BaseModel):
     def serialize_report_method(self, value):
         if isinstance(value, str):
             try:
-                return models.ReportMethod(value)
+                return models.OutputAzureDataExplorerReportMethod(value)
             except ValueError:
                 return value
         return value

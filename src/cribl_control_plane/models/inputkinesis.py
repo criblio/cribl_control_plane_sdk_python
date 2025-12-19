@@ -126,7 +126,7 @@ class InputKinesisPq(BaseModel):
         return value
 
 
-class ShardIteratorStart(str, Enum, metaclass=utils.OpenEnumMeta):
+class InputKinesisShardIteratorStart(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Location at which to start reading a shard for the first time"""
 
     # Earliest record
@@ -148,7 +148,7 @@ class InputKinesisRecordDataFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     LINE = "line"
 
 
-class ShardLoadBalancing(str, Enum, metaclass=utils.OpenEnumMeta):
+class InputKinesisShardLoadBalancing(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The load-balancing algorithm to use for spreading out shards across Workers and Worker Processes"""
 
     # Consistent Hashing
@@ -214,7 +214,7 @@ class InputKinesisTypedDict(TypedDict):
     r"""Time interval in minutes between consecutive service calls"""
     shard_expr: NotRequired[str]
     r"""A JavaScript expression to be called with each shardId for the stream. If the expression evaluates to a truthy value, the shard will be processed."""
-    shard_iterator_type: NotRequired[ShardIteratorStart]
+    shard_iterator_type: NotRequired[InputKinesisShardIteratorStart]
     r"""Location at which to start reading a shard for the first time"""
     payload_format: NotRequired[InputKinesisRecordDataFormat]
     r"""Format of data inside the Kinesis Stream records. Gzip compression is automatically detected."""
@@ -222,7 +222,7 @@ class InputKinesisTypedDict(TypedDict):
     r"""Maximum number of records per getRecords call"""
     get_records_limit_total: NotRequired[float]
     r"""Maximum number of records, across all shards, to pull down at once per Worker Process"""
-    load_balancing_algorithm: NotRequired[ShardLoadBalancing]
+    load_balancing_algorithm: NotRequired[InputKinesisShardLoadBalancing]
     r"""The load-balancing algorithm to use for spreading out shards across Workers and Worker Processes"""
     aws_authentication_method: NotRequired[InputKinesisAuthenticationMethod]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
@@ -301,10 +301,11 @@ class InputKinesis(BaseModel):
 
     shard_iterator_type: Annotated[
         Annotated[
-            Optional[ShardIteratorStart], PlainValidator(validate_open_enum(False))
+            Optional[InputKinesisShardIteratorStart],
+            PlainValidator(validate_open_enum(False)),
         ],
         pydantic.Field(alias="shardIteratorType"),
-    ] = ShardIteratorStart.TRIM_HORIZON
+    ] = InputKinesisShardIteratorStart.TRIM_HORIZON
     r"""Location at which to start reading a shard for the first time"""
 
     payload_format: Annotated[
@@ -328,10 +329,11 @@ class InputKinesis(BaseModel):
 
     load_balancing_algorithm: Annotated[
         Annotated[
-            Optional[ShardLoadBalancing], PlainValidator(validate_open_enum(False))
+            Optional[InputKinesisShardLoadBalancing],
+            PlainValidator(validate_open_enum(False)),
         ],
         pydantic.Field(alias="loadBalancingAlgorithm"),
-    ] = ShardLoadBalancing.CONSISTENT_HASHING
+    ] = InputKinesisShardLoadBalancing.CONSISTENT_HASHING
     r"""The load-balancing algorithm to use for spreading out shards across Workers and Worker Processes"""
 
     aws_authentication_method: Annotated[
@@ -413,7 +415,7 @@ class InputKinesis(BaseModel):
     def serialize_shard_iterator_type(self, value):
         if isinstance(value, str):
             try:
-                return models.ShardIteratorStart(value)
+                return models.InputKinesisShardIteratorStart(value)
             except ValueError:
                 return value
         return value
@@ -431,7 +433,7 @@ class InputKinesis(BaseModel):
     def serialize_load_balancing_algorithm(self, value):
         if isinstance(value, str):
             try:
-                return models.ShardLoadBalancing(value)
+                return models.InputKinesisShardLoadBalancing(value)
             except ValueError:
                 return value
         return value

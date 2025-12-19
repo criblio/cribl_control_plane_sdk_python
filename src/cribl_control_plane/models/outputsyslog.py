@@ -25,7 +25,7 @@ class OutputSyslogProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
     UDP = "udp"
 
 
-class Facility(int, Enum, metaclass=utils.OpenEnumMeta):
+class OutputSyslogFacility(int, Enum, metaclass=utils.OpenEnumMeta):
     r"""Default value for message facility. Will be overwritten by value of __facility if set. Defaults to user."""
 
     ZERO = 0
@@ -82,7 +82,7 @@ class OutputSyslogMessageFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     RFC5424 = "rfc5424"
 
 
-class TimestampFormat(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputSyslogTimestampFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Timestamp format to use when serializing event's time field"""
 
     # Syslog
@@ -302,7 +302,7 @@ class OutputSyslogTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     protocol: NotRequired[OutputSyslogProtocol]
     r"""The network protocol to use for sending out syslog messages"""
-    facility: NotRequired[Facility]
+    facility: NotRequired[OutputSyslogFacility]
     r"""Default value for message facility. Will be overwritten by value of __facility if set. Defaults to user."""
     severity: NotRequired[OutputSyslogSeverity]
     r"""Default value for message severity. Will be overwritten by value of __severity if set. Defaults to notice."""
@@ -310,7 +310,7 @@ class OutputSyslogTypedDict(TypedDict):
     r"""Default name for device or application that originated the message. Defaults to Cribl, but will be overwritten by value of __appname if set."""
     message_format: NotRequired[OutputSyslogMessageFormat]
     r"""The syslog message format depending on the receiver's support"""
-    timestamp_format: NotRequired[TimestampFormat]
+    timestamp_format: NotRequired[OutputSyslogTimestampFormat]
     r"""Timestamp format to use when serializing event's time field"""
     throttle_rate_per_sec: NotRequired[str]
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
@@ -397,8 +397,8 @@ class OutputSyslog(BaseModel):
     r"""The network protocol to use for sending out syslog messages"""
 
     facility: Annotated[
-        Optional[Facility], PlainValidator(validate_open_enum(True))
-    ] = Facility.ONE
+        Optional[OutputSyslogFacility], PlainValidator(validate_open_enum(True))
+    ] = OutputSyslogFacility.ONE
     r"""Default value for message facility. Will be overwritten by value of __facility if set. Defaults to user."""
 
     severity: Annotated[
@@ -419,9 +419,12 @@ class OutputSyslog(BaseModel):
     r"""The syslog message format depending on the receiver's support"""
 
     timestamp_format: Annotated[
-        Annotated[Optional[TimestampFormat], PlainValidator(validate_open_enum(False))],
+        Annotated[
+            Optional[OutputSyslogTimestampFormat],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="timestampFormat"),
-    ] = TimestampFormat.SYSLOG
+    ] = OutputSyslogTimestampFormat.SYSLOG
     r"""Timestamp format to use when serializing event's time field"""
 
     throttle_rate_per_sec: Annotated[
@@ -584,7 +587,7 @@ class OutputSyslog(BaseModel):
     def serialize_facility(self, value):
         if isinstance(value, str):
             try:
-                return models.Facility(value)
+                return models.OutputSyslogFacility(value)
             except ValueError:
                 return value
         return value
@@ -611,7 +614,7 @@ class OutputSyslog(BaseModel):
     def serialize_timestamp_format(self, value):
         if isinstance(value, str):
             try:
-                return models.TimestampFormat(value)
+                return models.OutputSyslogTimestampFormat(value)
             except ValueError:
                 return value
         return value

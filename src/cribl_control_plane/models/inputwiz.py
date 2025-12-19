@@ -126,11 +126,11 @@ class InputWizPq(BaseModel):
         return value
 
 
-class ManageStateTypedDict(TypedDict):
+class InputWizManageStateTypedDict(TypedDict):
     pass
 
 
-class ManageState(BaseModel):
+class InputWizManageState(BaseModel):
     pass
 
 
@@ -157,7 +157,7 @@ class InputWizContentConfigTypedDict(TypedDict):
     r"""JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information."""
     state_merge_expression: NotRequired[str]
     r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
-    manage_state: NotRequired[ManageStateTypedDict]
+    manage_state: NotRequired[InputWizManageStateTypedDict]
     cron_schedule: NotRequired[str]
     r"""A cron schedule on which to run this job"""
     earliest: NotRequired[str]
@@ -201,7 +201,7 @@ class InputWizContentConfig(BaseModel):
     r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
 
     manage_state: Annotated[
-        Optional[ManageState], pydantic.Field(alias="manageState")
+        Optional[InputWizManageState], pydantic.Field(alias="manageState")
     ] = None
 
     cron_schedule: Annotated[Optional[str], pydantic.Field(alias="cronSchedule")] = (

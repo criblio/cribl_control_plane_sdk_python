@@ -165,7 +165,7 @@ class OutputElasticAuth(BaseModel):
         return value
 
 
-class ElasticVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputElasticElasticVersion(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Optional Elasticsearch version, used to format events. If not specified, will auto-discover version."""
 
     # Auto
@@ -176,7 +176,7 @@ class ElasticVersion(str, Enum, metaclass=utils.OpenEnumMeta):
     SEVEN = "7"
 
 
-class WriteAction(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputElasticWriteAction(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Action to use when writing events. Must be set to `Create` when writing to a data stream."""
 
     # Index
@@ -298,13 +298,13 @@ class OutputElasticTypedDict(TypedDict):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     extra_params: NotRequired[List[OutputElasticExtraParamTypedDict]]
     auth: NotRequired[OutputElasticAuthTypedDict]
-    elastic_version: NotRequired[ElasticVersion]
+    elastic_version: NotRequired[OutputElasticElasticVersion]
     r"""Optional Elasticsearch version, used to format events. If not specified, will auto-discover version."""
     elastic_pipeline: NotRequired[str]
     r"""Optional Elasticsearch destination pipeline"""
     include_doc_id: NotRequired[bool]
     r"""Include the `document_id` field when sending events to an Elastic TSDS (time series data stream)"""
-    write_action: NotRequired[WriteAction]
+    write_action: NotRequired[OutputElasticWriteAction]
     r"""Action to use when writing events. Must be set to `Create` when writing to a data stream."""
     retry_partial_errors: NotRequired[bool]
     r"""Retry failed events when a bulk request to Elastic is successful, but the response body returns an error for one or more events in the batch"""
@@ -451,9 +451,12 @@ class OutputElastic(BaseModel):
     auth: Optional[OutputElasticAuth] = None
 
     elastic_version: Annotated[
-        Annotated[Optional[ElasticVersion], PlainValidator(validate_open_enum(False))],
+        Annotated[
+            Optional[OutputElasticElasticVersion],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="elasticVersion"),
-    ] = ElasticVersion.AUTO
+    ] = OutputElasticElasticVersion.AUTO
     r"""Optional Elasticsearch version, used to format events. If not specified, will auto-discover version."""
 
     elastic_pipeline: Annotated[
@@ -467,9 +470,12 @@ class OutputElastic(BaseModel):
     r"""Include the `document_id` field when sending events to an Elastic TSDS (time series data stream)"""
 
     write_action: Annotated[
-        Annotated[Optional[WriteAction], PlainValidator(validate_open_enum(False))],
+        Annotated[
+            Optional[OutputElasticWriteAction],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="writeAction"),
-    ] = WriteAction.CREATE
+    ] = OutputElasticWriteAction.CREATE
     r"""Action to use when writing events. Must be set to `Create` when writing to a data stream."""
 
     retry_partial_errors: Annotated[
@@ -587,7 +593,7 @@ class OutputElastic(BaseModel):
     def serialize_elastic_version(self, value):
         if isinstance(value, str):
             try:
-                return models.ElasticVersion(value)
+                return models.OutputElasticElasticVersion(value)
             except ValueError:
                 return value
         return value
@@ -596,7 +602,7 @@ class OutputElastic(BaseModel):
     def serialize_write_action(self, value):
         if isinstance(value, str):
             try:
-                return models.WriteAction(value)
+                return models.OutputElasticWriteAction(value)
             except ValueError:
                 return value
         return value

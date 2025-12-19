@@ -176,7 +176,7 @@ class InputPrometheusRecordType(str, Enum, metaclass=utils.OpenEnumMeta):
     AAAA = "AAAA"
 
 
-class MetricsProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
+class InputPrometheusMetricsProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Protocol to use when collecting metrics"""
 
     HTTP = "http"
@@ -271,7 +271,7 @@ class InputPrometheusTypedDict(TypedDict):
     r"""The port number in the metrics URL for discovered targets"""
     name_list: NotRequired[List[str]]
     r"""List of DNS names to resolve"""
-    scrape_protocol: NotRequired[MetricsProtocol]
+    scrape_protocol: NotRequired[InputPrometheusMetricsProtocol]
     r"""Protocol to use when collecting metrics"""
     scrape_path: NotRequired[str]
     r"""Path to use when collecting metrics from discovered targets"""
@@ -430,9 +430,12 @@ class InputPrometheus(BaseModel):
     r"""List of DNS names to resolve"""
 
     scrape_protocol: Annotated[
-        Annotated[Optional[MetricsProtocol], PlainValidator(validate_open_enum(False))],
+        Annotated[
+            Optional[InputPrometheusMetricsProtocol],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="scrapeProtocol"),
-    ] = MetricsProtocol.HTTP
+    ] = InputPrometheusMetricsProtocol.HTTP
     r"""Protocol to use when collecting metrics"""
 
     scrape_path: Annotated[Optional[str], pydantic.Field(alias="scrapePath")] = (
@@ -558,7 +561,7 @@ class InputPrometheus(BaseModel):
     def serialize_scrape_protocol(self, value):
         if isinstance(value, str):
             try:
-                return models.MetricsProtocol(value)
+                return models.InputPrometheusMetricsProtocol(value)
             except ValueError:
                 return value
         return value

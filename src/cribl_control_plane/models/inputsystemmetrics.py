@@ -460,7 +460,7 @@ class InputSystemMetricsProcess(BaseModel):
     r"""Configure sets to collect process metrics"""
 
 
-class ContainerMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class InputSystemMetricsContainerMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of detail for container metrics"""
 
     # Basic
@@ -481,8 +481,8 @@ class InputSystemMetricsFilter(BaseModel):
     expr: str
 
 
-class ContainerTypedDict(TypedDict):
-    mode: NotRequired[ContainerMode]
+class InputSystemMetricsContainerTypedDict(TypedDict):
+    mode: NotRequired[InputSystemMetricsContainerMode]
     r"""Select the level of detail for container metrics"""
     docker_socket: NotRequired[List[str]]
     r"""Full paths for Docker's UNIX-domain socket"""
@@ -498,10 +498,11 @@ class ContainerTypedDict(TypedDict):
     r"""Generate full container metrics"""
 
 
-class Container(BaseModel):
+class InputSystemMetricsContainer(BaseModel):
     mode: Annotated[
-        Optional[ContainerMode], PlainValidator(validate_open_enum(False))
-    ] = ContainerMode.BASIC
+        Optional[InputSystemMetricsContainerMode],
+        PlainValidator(validate_open_enum(False)),
+    ] = InputSystemMetricsContainerMode.BASIC
     r"""Select the level of detail for container metrics"""
 
     docker_socket: Annotated[
@@ -532,7 +533,7 @@ class Container(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.ContainerMode(value)
+                return models.InputSystemMetricsContainerMode(value)
             except ValueError:
                 return value
         return value
@@ -625,7 +626,7 @@ class InputSystemMetricsTypedDict(TypedDict):
     r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
     host: NotRequired[InputSystemMetricsHostTypedDict]
     process: NotRequired[InputSystemMetricsProcessTypedDict]
-    container: NotRequired[ContainerTypedDict]
+    container: NotRequired[InputSystemMetricsContainerTypedDict]
     metadata: NotRequired[List[InputSystemMetricsMetadatumTypedDict]]
     r"""Fields to add to events from this input"""
     persistence: NotRequired[InputSystemMetricsPersistenceTypedDict]
@@ -669,7 +670,7 @@ class InputSystemMetrics(BaseModel):
 
     process: Optional[InputSystemMetricsProcess] = None
 
-    container: Optional[Container] = None
+    container: Optional[InputSystemMetricsContainer] = None
 
     metadata: Optional[List[InputSystemMetricsMetadatum]] = None
     r"""Fields to add to events from this input"""

@@ -143,7 +143,7 @@ class InputSnmpAuthenticationProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
     SHA512 = "sha512"
 
 
-class PrivacyProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
+class InputSnmpPrivacyProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
     # None
     NONE = "none"
     # DES
@@ -160,7 +160,7 @@ class InputSnmpV3UserTypedDict(TypedDict):
     name: str
     auth_protocol: NotRequired[InputSnmpAuthenticationProtocol]
     auth_key: NotRequired[str]
-    priv_protocol: NotRequired[PrivacyProtocol]
+    priv_protocol: NotRequired[InputSnmpPrivacyProtocol]
     priv_key: NotRequired[str]
 
 
@@ -178,9 +178,12 @@ class InputSnmpV3User(BaseModel):
     auth_key: Annotated[Optional[str], pydantic.Field(alias="authKey")] = None
 
     priv_protocol: Annotated[
-        Annotated[Optional[PrivacyProtocol], PlainValidator(validate_open_enum(False))],
+        Annotated[
+            Optional[InputSnmpPrivacyProtocol],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="privProtocol"),
-    ] = PrivacyProtocol.NONE
+    ] = InputSnmpPrivacyProtocol.NONE
 
     priv_key: Annotated[Optional[str], pydantic.Field(alias="privKey")] = None
 
@@ -197,13 +200,13 @@ class InputSnmpV3User(BaseModel):
     def serialize_priv_protocol(self, value):
         if isinstance(value, str):
             try:
-                return models.PrivacyProtocol(value)
+                return models.InputSnmpPrivacyProtocol(value)
             except ValueError:
                 return value
         return value
 
 
-class SNMPv3AuthenticationTypedDict(TypedDict):
+class InputSnmpSNMPv3AuthenticationTypedDict(TypedDict):
     r"""Authentication parameters for SNMPv3 trap. Set the log level to debug if you are experiencing authentication or decryption issues."""
 
     v3_auth_enabled: NotRequired[bool]
@@ -213,7 +216,7 @@ class SNMPv3AuthenticationTypedDict(TypedDict):
     r"""User credentials for receiving v3 traps"""
 
 
-class SNMPv3Authentication(BaseModel):
+class InputSnmpSNMPv3Authentication(BaseModel):
     r"""Authentication parameters for SNMPv3 trap. Set the log level to debug if you are experiencing authentication or decryption issues."""
 
     v3_auth_enabled: Annotated[
@@ -266,7 +269,7 @@ class InputSnmpTypedDict(TypedDict):
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
     port: NotRequired[float]
     r"""UDP port to receive SNMP traps on. Defaults to 162."""
-    snmp_v3_auth: NotRequired[SNMPv3AuthenticationTypedDict]
+    snmp_v3_auth: NotRequired[InputSnmpSNMPv3AuthenticationTypedDict]
     r"""Authentication parameters for SNMPv3 trap. Set the log level to debug if you are experiencing authentication or decryption issues."""
     max_buffer_size: NotRequired[float]
     r"""Maximum number of events to buffer when downstream is blocking."""
@@ -320,7 +323,7 @@ class InputSnmp(BaseModel):
     r"""UDP port to receive SNMP traps on. Defaults to 162."""
 
     snmp_v3_auth: Annotated[
-        Optional[SNMPv3Authentication], pydantic.Field(alias="snmpV3Auth")
+        Optional[InputSnmpSNMPv3Authentication], pydantic.Field(alias="snmpV3Auth")
     ] = None
     r"""Authentication parameters for SNMPv3 trap. Set the log level to debug if you are experiencing authentication or decryption issues."""
 

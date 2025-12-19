@@ -76,7 +76,7 @@ class OutputDynatraceOtlpFailedRequestLoggingMode(
     NONE = "none"
 
 
-class EndpointType(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputDynatraceOtlpEndpointType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the type of Dynatrace endpoint configured"""
 
     # SaaS
@@ -248,7 +248,7 @@ class OutputDynatraceOtlpTypedDict(TypedDict):
     r"""How often the sender should ping the peer to keep the connection open"""
     keep_alive: NotRequired[bool]
     r"""Disable to close the connection immediately after sending the outgoing request"""
-    endpoint_type: NotRequired[EndpointType]
+    endpoint_type: NotRequired[OutputDynatraceOtlpEndpointType]
     r"""Select the type of Dynatrace endpoint configured"""
     auth_token_name: NotRequired[str]
     on_backpressure: NotRequired[OutputDynatraceOtlpBackpressureBehavior]
@@ -411,9 +411,12 @@ class OutputDynatraceOtlp(BaseModel):
     r"""Disable to close the connection immediately after sending the outgoing request"""
 
     endpoint_type: Annotated[
-        Annotated[Optional[EndpointType], PlainValidator(validate_open_enum(False))],
+        Annotated[
+            Optional[OutputDynatraceOtlpEndpointType],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="endpointType"),
-    ] = EndpointType.SAAS
+    ] = OutputDynatraceOtlpEndpointType.SAAS
     r"""Select the type of Dynatrace endpoint configured"""
 
     auth_token_name: Annotated[Optional[str], pydantic.Field(alias="authTokenName")] = (
@@ -583,7 +586,7 @@ class OutputDynatraceOtlp(BaseModel):
     def serialize_endpoint_type(self, value):
         if isinstance(value, str):
             try:
-                return models.EndpointType(value)
+                return models.OutputDynatraceOtlpEndpointType(value)
             except ValueError:
                 return value
         return value

@@ -76,7 +76,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "appscope-source",
-        "type": models.InputAppscopeType.APPSCOPE,
+        "type": models.CreateInputTypeAppscope.APPSCOPE,
         "disabled": False,
         "pipeline": "<value>",
         "send_to_routes": True,
@@ -94,13 +94,13 @@ with CriblControlPlane(
             },
         ],
         "pq": {
-            "mode": models.InputAppscopeMode.ALWAYS,
+            "mode": models.ModeAppscope.ALWAYS,
             "max_buffer_size": 1000,
             "commit_frequency": 42,
             "max_file_size": "1 MB",
             "max_size": "5GB",
             "path": "$CRIBL_HOME/state/queues",
-            "compress": models.InputAppscopeCompression.NONE,
+            "compress": models.CompressionAppscope.NONE,
             "pq_controls": {},
         },
         "ip_whitelist_regex": "/.*/",
@@ -135,10 +135,10 @@ with CriblControlPlane(
             "time_window": "10m",
             "max_data_size": "1GB",
             "max_data_time": "24h",
-            "compress": models.InputAppscopeDataCompressionFormat.GZIP,
+            "compress": models.DataCompressionFormatAppscope.GZIP,
             "dest_path": "$CRIBL_HOME/state/appscope",
         },
-        "auth_type": models.InputAppscopeAuthenticationMethod.MANUAL,
+        "auth_type": models.AuthenticationMethodAppscope.MANUAL,
         "description": "if deserted boohoo red chops excepting know stay bah",
         "host": "0.0.0.0",
         "port": 9109,
@@ -152,8 +152,8 @@ with CriblControlPlane(
             "passphrase": "<value>",
             "cert_path": "<value>",
             "ca_path": "<value>",
-            "min_version": models.InputAppscopeMinimumTLSVersion.TL_SV1_1,
-            "max_version": models.InputAppscopeMaximumTLSVersion.TL_SV1,
+            "min_version": models.MinimumTLSVersionAppscope.TL_SV1_1,
+            "max_version": models.MaximumTLSVersionAppscope.TL_SV1,
         },
         "unix_socket_path": "$CRIBL_HOME/state/appscope.sock",
         "unix_socket_perms": "<value>",
@@ -170,7 +170,7 @@ with CriblControlPlane(
 
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `request`                                                           | [models.Input](../../models/input.md)                               | :heavy_check_mark:                                                  | The request object to use for the request.                          |
+| `request`                                                           | [models.CreateInput](../../models/createinput.md)                   | :heavy_check_mark:                                                  | The request object to use for the request.                          |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response

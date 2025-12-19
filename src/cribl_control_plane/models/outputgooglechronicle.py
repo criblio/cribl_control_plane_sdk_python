@@ -90,7 +90,7 @@ class OutputGoogleChronicleTimeoutRetrySettings(BaseModel):
     r"""The maximum backoff interval, in milliseconds, Cribl Stream should apply. Default (and minimum) is 10,000 ms (10 seconds); maximum is 180,000 ms (180 seconds)."""
 
 
-class SendEventsAs(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputGoogleChronicleSendEventsAs(str, Enum, metaclass=utils.OpenEnumMeta):
     # Unstructured
     UNSTRUCTURED = "unstructured"
     # UDM
@@ -134,12 +134,12 @@ class OutputGoogleChronicleBackpressureBehavior(
     QUEUE = "queue"
 
 
-class ExtraLogTypeTypedDict(TypedDict):
+class OutputGoogleChronicleExtraLogTypeTypedDict(TypedDict):
     log_type: str
     description: NotRequired[str]
 
 
-class ExtraLogType(BaseModel):
+class OutputGoogleChronicleExtraLogType(BaseModel):
     log_type: Annotated[str, pydantic.Field(alias="logType")]
 
     description: Optional[str] = None
@@ -156,7 +156,7 @@ class OutputGoogleChronicleCustomLabel(BaseModel):
     value: str
 
 
-class UDMType(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputGoogleChronicleUDMType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Defines the specific format for UDM events sent to Google SecOps. This must match the type of UDM data being sent."""
 
     ENTITIES = "entities"
@@ -223,7 +223,7 @@ class OutputGoogleChronicleTypedDict(TypedDict):
     ]
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
-    log_format_type: NotRequired[SendEventsAs]
+    log_format_type: NotRequired[OutputGoogleChronicleSendEventsAs]
     region: NotRequired[str]
     r"""Regional endpoint to send events to"""
     concurrency: NotRequired[float]
@@ -258,7 +258,7 @@ class OutputGoogleChronicleTypedDict(TypedDict):
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
     description: NotRequired[str]
-    extra_log_types: NotRequired[List[ExtraLogTypeTypedDict]]
+    extra_log_types: NotRequired[List[OutputGoogleChronicleExtraLogTypeTypedDict]]
     r"""Custom log types. If the value \"Custom\" is selected in the setting \"Default log type\" above, the first custom log type in this table will be automatically selected as default log type."""
     log_type: NotRequired[str]
     r"""Default log type value to send to SecOps. Can be overwritten by event field __logType."""
@@ -270,7 +270,7 @@ class OutputGoogleChronicleTypedDict(TypedDict):
     r"""User-configured environment namespace to identify the data domain the logs originated from. Use namespace as a tag to identify the appropriate data domain for indexing and enrichment functionality. Can be overwritten by event field __namespace."""
     custom_labels: NotRequired[List[OutputGoogleChronicleCustomLabelTypedDict]]
     r"""Custom labels to be added to every batch"""
-    udm_type: NotRequired[UDMType]
+    udm_type: NotRequired[OutputGoogleChronicleUDMType]
     r"""Defines the specific format for UDM events sent to Google SecOps. This must match the type of UDM data being sent."""
     api_key: NotRequired[str]
     r"""Organization's API key in Google SecOps"""
@@ -356,9 +356,12 @@ class OutputGoogleChronicle(BaseModel):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     log_format_type: Annotated[
-        Annotated[Optional[SendEventsAs], PlainValidator(validate_open_enum(False))],
+        Annotated[
+            Optional[OutputGoogleChronicleSendEventsAs],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="logFormatType"),
-    ] = SendEventsAs.UNSTRUCTURED
+    ] = OutputGoogleChronicleSendEventsAs.UNSTRUCTURED
 
     region: Optional[str] = None
     r"""Regional endpoint to send events to"""
@@ -437,7 +440,8 @@ class OutputGoogleChronicle(BaseModel):
     description: Optional[str] = None
 
     extra_log_types: Annotated[
-        Optional[List[ExtraLogType]], pydantic.Field(alias="extraLogTypes")
+        Optional[List[OutputGoogleChronicleExtraLogType]],
+        pydantic.Field(alias="extraLogTypes"),
     ] = None
     r"""Custom log types. If the value \"Custom\" is selected in the setting \"Default log type\" above, the first custom log type in this table will be automatically selected as default log type."""
 
@@ -462,9 +466,12 @@ class OutputGoogleChronicle(BaseModel):
     r"""Custom labels to be added to every batch"""
 
     udm_type: Annotated[
-        Annotated[Optional[UDMType], PlainValidator(validate_open_enum(False))],
+        Annotated[
+            Optional[OutputGoogleChronicleUDMType],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="udmType"),
-    ] = UDMType.LOGS
+    ] = OutputGoogleChronicleUDMType.LOGS
     r"""Defines the specific format for UDM events sent to Google SecOps. This must match the type of UDM data being sent."""
 
     api_key: Annotated[Optional[str], pydantic.Field(alias="apiKey")] = None
@@ -571,7 +578,7 @@ class OutputGoogleChronicle(BaseModel):
     def serialize_log_format_type(self, value):
         if isinstance(value, str):
             try:
-                return models.SendEventsAs(value)
+                return models.OutputGoogleChronicleSendEventsAs(value)
             except ValueError:
                 return value
         return value
@@ -598,7 +605,7 @@ class OutputGoogleChronicle(BaseModel):
     def serialize_udm_type(self, value):
         if isinstance(value, str):
             try:
-                return models.UDMType(value)
+                return models.OutputGoogleChronicleUDMType(value)
             except ValueError:
                 return value
         return value

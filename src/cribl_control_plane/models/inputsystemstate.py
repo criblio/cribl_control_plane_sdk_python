@@ -139,49 +139,49 @@ class InputSystemStateMetadatum(BaseModel):
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class HostsFileTypedDict(TypedDict):
+class InputSystemStateHostsFileTypedDict(TypedDict):
     r"""Creates events based on entries collected from the hosts file"""
 
     enable: NotRequired[bool]
 
 
-class HostsFile(BaseModel):
+class InputSystemStateHostsFile(BaseModel):
     r"""Creates events based on entries collected from the hosts file"""
 
     enable: Optional[bool] = True
 
 
-class InterfacesTypedDict(TypedDict):
+class InputSystemStateInterfacesTypedDict(TypedDict):
     r"""Creates events for each of the host’s network interfaces"""
 
     enable: NotRequired[bool]
 
 
-class Interfaces(BaseModel):
+class InputSystemStateInterfaces(BaseModel):
     r"""Creates events for each of the host’s network interfaces"""
 
     enable: Optional[bool] = True
 
 
-class DisksAndFileSystemsTypedDict(TypedDict):
+class InputSystemStateDisksAndFileSystemsTypedDict(TypedDict):
     r"""Creates events for physical disks, partitions, and file systems"""
 
     enable: NotRequired[bool]
 
 
-class DisksAndFileSystems(BaseModel):
+class InputSystemStateDisksAndFileSystems(BaseModel):
     r"""Creates events for physical disks, partitions, and file systems"""
 
     enable: Optional[bool] = True
 
 
-class HostInfoTypedDict(TypedDict):
+class InputSystemStateHostInfoTypedDict(TypedDict):
     r"""Creates events based on the host system’s current state"""
 
     enable: NotRequired[bool]
 
 
-class HostInfo(BaseModel):
+class InputSystemStateHostInfo(BaseModel):
     r"""Creates events based on the host system’s current state"""
 
     enable: Optional[bool] = True
@@ -199,136 +199,136 @@ class InputSystemStateRoutes(BaseModel):
     enable: Optional[bool] = True
 
 
-class DNSTypedDict(TypedDict):
+class InputSystemStateDNSTypedDict(TypedDict):
     r"""Creates events for DNS resolvers and search entries"""
 
     enable: NotRequired[bool]
 
 
-class DNS(BaseModel):
+class InputSystemStateDNS(BaseModel):
     r"""Creates events for DNS resolvers and search entries"""
 
     enable: Optional[bool] = True
 
 
-class UsersAndGroupsTypedDict(TypedDict):
+class InputSystemStateUsersAndGroupsTypedDict(TypedDict):
     r"""Creates events for local users and groups"""
 
     enable: NotRequired[bool]
 
 
-class UsersAndGroups(BaseModel):
+class InputSystemStateUsersAndGroups(BaseModel):
     r"""Creates events for local users and groups"""
 
     enable: Optional[bool] = True
 
 
-class FirewallTypedDict(TypedDict):
+class InputSystemStateFirewallTypedDict(TypedDict):
     r"""Creates events for Firewall rules entries"""
 
     enable: NotRequired[bool]
 
 
-class Firewall(BaseModel):
+class InputSystemStateFirewall(BaseModel):
     r"""Creates events for Firewall rules entries"""
 
     enable: Optional[bool] = True
 
 
-class ServicesTypedDict(TypedDict):
+class InputSystemStateServicesTypedDict(TypedDict):
     r"""Creates events from the list of services"""
 
     enable: NotRequired[bool]
 
 
-class Services(BaseModel):
+class InputSystemStateServices(BaseModel):
     r"""Creates events from the list of services"""
 
     enable: Optional[bool] = True
 
 
-class ListeningPortsTypedDict(TypedDict):
+class InputSystemStateListeningPortsTypedDict(TypedDict):
     r"""Creates events from list of listening ports"""
 
     enable: NotRequired[bool]
 
 
-class ListeningPorts(BaseModel):
+class InputSystemStateListeningPorts(BaseModel):
     r"""Creates events from list of listening ports"""
 
     enable: Optional[bool] = True
 
 
-class LoggedInUsersTypedDict(TypedDict):
+class InputSystemStateLoggedInUsersTypedDict(TypedDict):
     r"""Creates events from list of logged-in users"""
 
     enable: NotRequired[bool]
 
 
-class LoggedInUsers(BaseModel):
+class InputSystemStateLoggedInUsers(BaseModel):
     r"""Creates events from list of logged-in users"""
 
     enable: Optional[bool] = True
 
 
-class CollectorsTypedDict(TypedDict):
-    hostsfile: NotRequired[HostsFileTypedDict]
+class InputSystemStateCollectorsTypedDict(TypedDict):
+    hostsfile: NotRequired[InputSystemStateHostsFileTypedDict]
     r"""Creates events based on entries collected from the hosts file"""
-    interfaces: NotRequired[InterfacesTypedDict]
+    interfaces: NotRequired[InputSystemStateInterfacesTypedDict]
     r"""Creates events for each of the host’s network interfaces"""
-    disk: NotRequired[DisksAndFileSystemsTypedDict]
+    disk: NotRequired[InputSystemStateDisksAndFileSystemsTypedDict]
     r"""Creates events for physical disks, partitions, and file systems"""
-    metadata: NotRequired[HostInfoTypedDict]
+    metadata: NotRequired[InputSystemStateHostInfoTypedDict]
     r"""Creates events based on the host system’s current state"""
     routes: NotRequired[InputSystemStateRoutesTypedDict]
     r"""Creates events based on entries collected from the host’s network routes"""
-    dns: NotRequired[DNSTypedDict]
+    dns: NotRequired[InputSystemStateDNSTypedDict]
     r"""Creates events for DNS resolvers and search entries"""
-    user: NotRequired[UsersAndGroupsTypedDict]
+    user: NotRequired[InputSystemStateUsersAndGroupsTypedDict]
     r"""Creates events for local users and groups"""
-    firewall: NotRequired[FirewallTypedDict]
+    firewall: NotRequired[InputSystemStateFirewallTypedDict]
     r"""Creates events for Firewall rules entries"""
-    services: NotRequired[ServicesTypedDict]
+    services: NotRequired[InputSystemStateServicesTypedDict]
     r"""Creates events from the list of services"""
-    ports: NotRequired[ListeningPortsTypedDict]
+    ports: NotRequired[InputSystemStateListeningPortsTypedDict]
     r"""Creates events from list of listening ports"""
-    login_users: NotRequired[LoggedInUsersTypedDict]
+    login_users: NotRequired[InputSystemStateLoggedInUsersTypedDict]
     r"""Creates events from list of logged-in users"""
 
 
-class Collectors(BaseModel):
-    hostsfile: Optional[HostsFile] = None
+class InputSystemStateCollectors(BaseModel):
+    hostsfile: Optional[InputSystemStateHostsFile] = None
     r"""Creates events based on entries collected from the hosts file"""
 
-    interfaces: Optional[Interfaces] = None
+    interfaces: Optional[InputSystemStateInterfaces] = None
     r"""Creates events for each of the host’s network interfaces"""
 
-    disk: Optional[DisksAndFileSystems] = None
+    disk: Optional[InputSystemStateDisksAndFileSystems] = None
     r"""Creates events for physical disks, partitions, and file systems"""
 
-    metadata: Optional[HostInfo] = None
+    metadata: Optional[InputSystemStateHostInfo] = None
     r"""Creates events based on the host system’s current state"""
 
     routes: Optional[InputSystemStateRoutes] = None
     r"""Creates events based on entries collected from the host’s network routes"""
 
-    dns: Optional[DNS] = None
+    dns: Optional[InputSystemStateDNS] = None
     r"""Creates events for DNS resolvers and search entries"""
 
-    user: Optional[UsersAndGroups] = None
+    user: Optional[InputSystemStateUsersAndGroups] = None
     r"""Creates events for local users and groups"""
 
-    firewall: Optional[Firewall] = None
+    firewall: Optional[InputSystemStateFirewall] = None
     r"""Creates events for Firewall rules entries"""
 
-    services: Optional[Services] = None
+    services: Optional[InputSystemStateServices] = None
     r"""Creates events from the list of services"""
 
-    ports: Optional[ListeningPorts] = None
+    ports: Optional[InputSystemStateListeningPorts] = None
     r"""Creates events from list of listening ports"""
 
     login_users: Annotated[
-        Optional[LoggedInUsers], pydantic.Field(alias="loginUsers")
+        Optional[InputSystemStateLoggedInUsers], pydantic.Field(alias="loginUsers")
     ] = None
     r"""Creates events from list of logged-in users"""
 
@@ -407,7 +407,7 @@ class InputSystemStateTypedDict(TypedDict):
     r"""Time, in seconds, between consecutive state collections. Default is 300 seconds (5 minutes)."""
     metadata: NotRequired[List[InputSystemStateMetadatumTypedDict]]
     r"""Fields to add to events from this input"""
-    collectors: NotRequired[CollectorsTypedDict]
+    collectors: NotRequired[InputSystemStateCollectorsTypedDict]
     persistence: NotRequired[InputSystemStatePersistenceTypedDict]
     disable_native_module: NotRequired[bool]
     r"""Enable to use built-in tools (PowerShell) to collect events instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)"""
@@ -450,7 +450,7 @@ class InputSystemState(BaseModel):
     metadata: Optional[List[InputSystemStateMetadatum]] = None
     r"""Fields to add to events from this input"""
 
-    collectors: Optional[Collectors] = None
+    collectors: Optional[InputSystemStateCollectors] = None
 
     persistence: Optional[InputSystemStatePersistence] = None
 

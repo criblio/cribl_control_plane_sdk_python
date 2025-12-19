@@ -257,13 +257,13 @@ class InputCriblLakeHTTPAuthTokensExtMetadatum(BaseModel):
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class SplunkHecMetadataTypedDict(TypedDict):
+class InputCriblLakeHTTPSplunkHecMetadataTypedDict(TypedDict):
     enabled: NotRequired[bool]
     default_dataset: NotRequired[str]
     allowed_indexes_at_token: NotRequired[List[str]]
 
 
-class SplunkHecMetadata(BaseModel):
+class InputCriblLakeHTTPSplunkHecMetadata(BaseModel):
     enabled: Optional[bool] = None
 
     default_dataset: Annotated[
@@ -275,12 +275,12 @@ class SplunkHecMetadata(BaseModel):
     ] = None
 
 
-class ElasticsearchMetadataTypedDict(TypedDict):
+class InputCriblLakeHTTPElasticsearchMetadataTypedDict(TypedDict):
     enabled: NotRequired[bool]
     default_dataset: NotRequired[str]
 
 
-class ElasticsearchMetadata(BaseModel):
+class InputCriblLakeHTTPElasticsearchMetadata(BaseModel):
     enabled: Optional[bool] = None
 
     default_dataset: Annotated[
@@ -293,8 +293,10 @@ class InputCriblLakeHTTPAuthTokensExtTypedDict(TypedDict):
     description: NotRequired[str]
     metadata: NotRequired[List[InputCriblLakeHTTPAuthTokensExtMetadatumTypedDict]]
     r"""Fields to add to events referencing this token"""
-    splunk_hec_metadata: NotRequired[SplunkHecMetadataTypedDict]
-    elasticsearch_metadata: NotRequired[ElasticsearchMetadataTypedDict]
+    splunk_hec_metadata: NotRequired[InputCriblLakeHTTPSplunkHecMetadataTypedDict]
+    elasticsearch_metadata: NotRequired[
+        InputCriblLakeHTTPElasticsearchMetadataTypedDict
+    ]
 
 
 class InputCriblLakeHTTPAuthTokensExt(BaseModel):
@@ -306,11 +308,13 @@ class InputCriblLakeHTTPAuthTokensExt(BaseModel):
     r"""Fields to add to events referencing this token"""
 
     splunk_hec_metadata: Annotated[
-        Optional[SplunkHecMetadata], pydantic.Field(alias="splunkHecMetadata")
+        Optional[InputCriblLakeHTTPSplunkHecMetadata],
+        pydantic.Field(alias="splunkHecMetadata"),
     ] = None
 
     elasticsearch_metadata: Annotated[
-        Optional[ElasticsearchMetadata], pydantic.Field(alias="elasticsearchMetadata")
+        Optional[InputCriblLakeHTTPElasticsearchMetadata],
+        pydantic.Field(alias="elasticsearchMetadata"),
     ] = None
 
 

@@ -129,7 +129,7 @@ class OutputDynatraceHTTPFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     PLAINTEXT = "plaintext"
 
 
-class Endpoint(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputDynatraceHTTPEndpoint(str, Enum, metaclass=utils.OpenEnumMeta):
     # Cloud
     CLOUD = "cloud"
     # ActiveGate
@@ -138,7 +138,7 @@ class Endpoint(str, Enum, metaclass=utils.OpenEnumMeta):
     MANUAL = "manual"
 
 
-class TelemetryType(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputDynatraceHTTPTelemetryType(str, Enum, metaclass=utils.OpenEnumMeta):
     # Logs
     LOGS = "logs"
     # Metrics
@@ -239,8 +239,8 @@ class OutputDynatraceHTTPTypedDict(TypedDict):
     auth_type: NotRequired[OutputDynatraceHTTPAuthenticationType]
     format_: NotRequired[OutputDynatraceHTTPFormat]
     r"""How to format events before sending. Defaults to JSON. Plaintext is not currently supported."""
-    endpoint: NotRequired[Endpoint]
-    telemetry_type: NotRequired[TelemetryType]
+    endpoint: NotRequired[OutputDynatraceHTTPEndpoint]
+    telemetry_type: NotRequired[OutputDynatraceHTTPTelemetryType]
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
     description: NotRequired[str]
@@ -405,13 +405,16 @@ class OutputDynatraceHTTP(BaseModel):
     r"""How to format events before sending. Defaults to JSON. Plaintext is not currently supported."""
 
     endpoint: Annotated[
-        Optional[Endpoint], PlainValidator(validate_open_enum(False))
-    ] = Endpoint.CLOUD
+        Optional[OutputDynatraceHTTPEndpoint], PlainValidator(validate_open_enum(False))
+    ] = OutputDynatraceHTTPEndpoint.CLOUD
 
     telemetry_type: Annotated[
-        Annotated[Optional[TelemetryType], PlainValidator(validate_open_enum(False))],
+        Annotated[
+            Optional[OutputDynatraceHTTPTelemetryType],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="telemetryType"),
-    ] = TelemetryType.LOGS
+    ] = OutputDynatraceHTTPTelemetryType.LOGS
 
     total_memory_limit_kb: Annotated[
         Optional[float], pydantic.Field(alias="totalMemoryLimitKB")
@@ -551,7 +554,7 @@ class OutputDynatraceHTTP(BaseModel):
     def serialize_endpoint(self, value):
         if isinstance(value, str):
             try:
-                return models.Endpoint(value)
+                return models.OutputDynatraceHTTPEndpoint(value)
             except ValueError:
                 return value
         return value
@@ -560,7 +563,7 @@ class OutputDynatraceHTTP(BaseModel):
     def serialize_telemetry_type(self, value):
         if isinstance(value, str):
             try:
-                return models.TelemetryType(value)
+                return models.OutputDynatraceHTTPTelemetryType(value)
             except ValueError:
                 return value
         return value

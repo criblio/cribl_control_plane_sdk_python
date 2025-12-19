@@ -337,13 +337,18 @@ with CriblControlPlane(
         "collector": {
             "type": "<value>",
             "conf": {
+                "collect_method": models.HealthCheckMethod1.GET,
+                "collect_request_params": [
+                    {
+                        "name": "<value>",
+                        "value": "<value>",
+                    },
+                ],
                 "discovery": {
-                    "discover_type": models.CollectorHealthCheckDiscoverType.NONE,
+                    "discover_type": models.CollectorHealthCheckDiscoverType1.NONE,
                 },
                 "collect_url": "https://shameful-vicinity.com/",
-                "collect_method": models.HealthCheckMethod.GET,
-                "collect_request_params": "<value>",
-                "collect_body": "<value>",
+                "collect_body": "`{ }`",
                 "collect_request_headers": [
                     {
                         "name": "<value>",
@@ -351,24 +356,46 @@ with CriblControlPlane(
                     },
                 ],
                 "authenticate_collect": False,
-                "authentication": models.CollectorHealthCheckAuthentication.NONE,
+                "authentication": models.CollectorHealthCheckAuthentication1.NONE,
                 "timeout": 30,
                 "reject_unauthorized": False,
-                "default_breakers": models.CollectorHealthCheckHiddenDefaultBreakers.CRIBL,
+                "default_breakers": models.CollectorHealthCheckHiddenDefaultBreakers1.CRIBL,
                 "safe_headers": [
                     "<value 1>",
                     "<value 2>",
                     "<value 3>",
                 ],
                 "retry_rules": {
-                    "type": models.CollectorHealthCheckRetryType.BACKOFF,
+                    "type": models.CollectorHealthCheckRetryType1.BACKOFF,
                     "interval": "<value>",
                     "limit": "<value>",
                     "multiplier": "<value>",
                     "codes": "<value>",
                     "enable_header": "<value>",
                 },
-                "type": models.CollectorHealthCheckType.HEALTH_CHECK,
+                "username": "Daphnee_Schimmel-Wolf26",
+                "password": "qwZ927mZOVqnV8W",
+                "credentials_secret": "<value>",
+                "login_url": "",
+                "login_body": "`{ \"username\": \"${username}\", \"password\": \"${password}\" }`",
+                "token_resp_attribute": "<value>",
+                "auth_header_expr": "`Bearer ${token}`",
+                "auth_request_headers": [
+                    {
+                        "name": "<value>",
+                        "value": "<value>",
+                    },
+                ],
+                "client_secret_param_name": "client_secret",
+                "client_secret_param_value": "<value>",
+                "auth_request_params": [
+                    {
+                        "name": "<value>",
+                        "value": "<value>",
+                    },
+                ],
+                "text_secret": "<value>",
+                "type": models.CollectorHealthCheckType1.HEALTH_CHECK,
             },
             "destructive": False,
             "encoding": "<value>",

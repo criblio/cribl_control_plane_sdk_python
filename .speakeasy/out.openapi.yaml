@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.16.0-alpha.1766009482375-5da8fbaa
+  version: 4.16.0-alpha.1766106021338-503d0e0d
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -4191,8 +4191,12 @@ components:
         includeDetectedRules:
           type: boolean
           title: Include detected rules
-          description: If enabled, Add matching ruleset IDs to a field called "__detected"
+          description: Add matching ruleset IDs to a field called "__detected"
           default: true
+        backgroundDetection:
+          type: boolean
+          title: Background detection
+          default: false
     FunctionSensitiveDataScanner:
       type: object
       properties:
@@ -48249,6 +48253,487 @@ components:
           title: ""
       required:
         - type
+    OutputCriblSearchEngine:
+      type: object
+      properties:
+        id:
+          type: string
+          title: Output ID
+          description: Unique ID for this output
+        type:
+          type: string
+          enum:
+            - cribl_search_engine
+        pipeline:
+          type: string
+          title: Pipeline
+          description: Pipeline to process data before sending out to this output
+        systemFields:
+          type: array
+          title: System fields
+          description: Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
+          default:
+            - cribl_pipe
+          items:
+            type: string
+        environment:
+          type: string
+          title: Environment
+          description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
+        streamtags:
+          type: array
+          title: Tags
+          description: Tags for filtering and grouping in @{product}
+          default: []
+          items:
+            type: string
+        loadBalanced:
+          type: boolean
+          title: Load balancing
+          description: For optimal performance, enable load balancing even if you have one hostname, as it can expand to multiple IPs. If this setting is disabled, consider enabling round-robin DNS.
+          default: false
+        tls:
+          type: object
+          title: TLS settings (client side)
+          properties:
+            disabled:
+              type: boolean
+              title: Disabled
+              default: true
+            rejectUnauthorized:
+              type: boolean
+              title: Validate server certs
+              description: "Reject certificates that are not authorized by a CA in the CA certificate path, or by another \n                    trusted CA (such as the system's). Defaults to Enabled. Overrides the toggle from Advanced Settings, when also present."
+              default: true
+            servername:
+              type: string
+              title: Server name (SNI)
+              description: Server name for the SNI (Server Name Indication) TLS extension. It must be a host name, and not an IP address.
+            certificateName:
+              type: string
+              title: Certificate
+              description: The name of the predefined certificate
+            caPath:
+              type: string
+              title: CA certificate path
+              description: Path on client in which to find CA certificates to verify the server's cert. PEM format. Can reference $ENV_VARS.
+            privKeyPath:
+              type: string
+              title: Private key path (mutual auth)
+              description: Path on client in which to find the private key to use. PEM format. Can reference $ENV_VARS.
+            certPath:
+              type: string
+              title: Certificate path (mutual auth)
+              description: Path on client in which to find certificates to use. PEM format. Can reference $ENV_VARS.
+            passphrase:
+              type: string
+              title: Passphrase
+              description: Passphrase to use to decrypt private key
+            minVersion:
+              type: string
+              title: Minimum TLS version
+              enum:
+                - TLSv1
+                - TLSv1.1
+                - TLSv1.2
+                - TLSv1.3
+              x-speakeasy-unknown-values: allow
+            maxVersion:
+              type: string
+              title: Maximum TLS version
+              enum:
+                - TLSv1
+                - TLSv1.1
+                - TLSv1.2
+                - TLSv1.3
+              x-speakeasy-unknown-values: allow
+        tokenTTLMinutes:
+          type: number
+          title: Auth Token TTL minutes
+          default: 60
+          minimum: 1
+          maximum: 60
+          description: The number of minutes before the internally generated authentication token expires. Valid values are between 1 and 60.
+        excludeFields:
+          type: array
+          title: Exclude fields
+          description: "Fields to exclude from the event. By default, all internal fields except `__output` are sent. Example: `cribl_pipe`, `c*`. Wildcards supported."
+          default:
+            - __kube_*
+            - __metadata
+            - __winEvent
+          items:
+            type: string
+        compression:
+          type: string
+          default: gzip
+          enum:
+            - none
+            - gzip
+          title: Compression
+          description: Codec to use to compress the data before sending
+          x-speakeasy-enum-descriptions:
+            - None
+            - Gzip
+          x-speakeasy-unknown-values: allow
+        concurrency:
+          type: number
+          title: Request concurrency
+          description: Maximum number of ongoing requests before blocking
+          default: 5
+          minimum: 1
+          maximum: 32
+        maxPayloadSizeKB:
+          type: number
+          title: Body size limit (KB)
+          description: Maximum size, in KB, of the request body
+          default: 4096
+          minimum: 1024
+          maximum: 10240
+        maxPayloadEvents:
+          type: number
+          title: Events-per-request limit
+          description: Maximum number of events to include in the request body. Default is 0 (unlimited).
+          default: 0
+          minimum: 0
+        rejectUnauthorized:
+          type: boolean
+          default: true
+          title: Validate server certs
+          description: "Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's). \n        Enabled by default. When this setting is also present in TLS Settings (Client Side), \n        that value will take precedence."
+        timeoutSec:
+          type: number
+          default: 30
+          minimum: 1
+          maximum: 9.007199254740991e+15
+          title: Request timeout
+          description: Amount of time, in seconds, to wait for a request to complete before canceling it
+        flushPeriodSec:
+          type: number
+          default: 1
+          title: Flush period (sec)
+          description: Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit.
+        extraHttpHeaders:
+          type: array
+          title: Extra HTTP headers
+          description: Headers to add to all events
+          items:
+            type: object
+            required:
+              - value
+            properties:
+              name:
+                type: string
+                title: Field Name
+              value:
+                type: string
+                title: Field Value
+        failedRequestLoggingMode:
+          type: string
+          title: Failed request logging mode
+          description: Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below.
+          enum:
+            - payload
+            - payloadAndHeaders
+            - none
+          x-speakeasy-enum-descriptions:
+            - Payload
+            - Payload + Headers
+            - None
+          default: none
+          x-speakeasy-unknown-values: allow
+        safeHeaders:
+          type: array
+          title: Safe headers
+          description: List of headers that are safe to log in plain text
+          default: []
+          items:
+            type: string
+        throttleRatePerSec:
+          type: string
+          title: Throttling
+          description: "Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."
+          pattern: ^[\d.]+(\s[KMGTPEZYkmgtpezy][Bb])?$
+          default: "0"
+        responseRetrySettings:
+          type: array
+          title: Settings for failed HTTP requests
+          description: Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)
+          minItems: 0
+          default:
+            - httpStatus: 401
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 20000
+            - httpStatus: 403
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 20000
+            - httpStatus: 408
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 429
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 500
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 502
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 503
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 504
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 509
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+          items:
+            type: object
+            required:
+              - httpStatus
+            properties:
+              httpStatus:
+                type: number
+                title: HTTP status code
+                description: The HTTP response status code that will trigger retries
+                minimum: 100
+                maximum: 599
+              initialBackoff:
+                type: number
+                title: Pre-backoff interval (ms)
+                description: How long, in milliseconds, Cribl Stream should wait before initiating backoff. Maximum interval is 600,000 ms (10 minutes).
+                minimum: 0
+                maximum: 600000
+                default: 1000
+              backoffRate:
+                type: number
+                title: Backoff multiplier
+                description: Base for exponential backoff. A value of 2 (default) means Cribl Stream will retry after 2 seconds, then 4 seconds, then 8 seconds, etc.
+                minimum: 1
+                maximum: 20
+                default: 2
+              maxBackoff:
+                type: number
+                title: Backoff limit (ms)
+                description: The maximum backoff interval, in milliseconds, Cribl Stream should apply. Default (and minimum) is 10,000 ms (10 seconds); maximum is 180,000 ms (180 seconds).
+                minimum: 10000
+                maximum: 180000
+                default: 10000
+        timeoutRetrySettings:
+          type: object
+          required:
+            - timeoutRetry
+          properties:
+            timeoutRetry:
+              type: boolean
+              title: Retry timed-out HTTP requests
+              default: false
+            initialBackoff:
+              type: number
+              title: Pre-backoff interval (ms)
+              description: How long, in milliseconds, Cribl Stream should wait before initiating backoff. Maximum interval is 600,000 ms (10 minutes).
+              minimum: 0
+              maximum: 600000
+              default: 1000
+            backoffRate:
+              type: number
+              title: Backoff multiplier
+              description: Base for exponential backoff. A value of 2 (default) means Cribl Stream will retry after 2 seconds, then 4 seconds, then 8 seconds, etc.
+              minimum: 1
+              maximum: 20
+              default: 2
+            maxBackoff:
+              type: number
+              title: Backoff limit (ms)
+              description: The maximum backoff interval, in milliseconds, Cribl Stream should apply. Default (and minimum) is 10,000 ms (10 seconds); maximum is 180,000 ms (180 seconds).
+              minimum: 10000
+              maximum: 180000
+              default: 10000
+        responseHonorRetryAfterHeader:
+          type: boolean
+          title: Honor Retry-After header
+          description: Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored.
+          default: true
+        authTokens:
+          type: array
+          title: Connected environment tokens
+          description: Shared secrets to be used by connected environments to authorize connections. These tokens should also be installed in Cribl HTTP Source in Cribl.Cloud.
+          items:
+            type: object
+            required:
+              - tokenSecret
+            properties:
+              tokenSecret:
+                type: string
+                title: Token secret (text secret)
+                description: Select or create a stored text secret
+              enabled:
+                type: boolean
+                title: Enable token
+                default: true
+              description:
+                type: string
+                title: Description
+        onBackpressure:
+          type: string
+          title: Backpressure behavior
+          description: How to handle events when all receivers are exerting backpressure
+          enum:
+            - block
+            - drop
+            - queue
+          x-speakeasy-enum-descriptions:
+            - Block
+            - Drop
+            - Persistent Queue
+          default: block
+          x-speakeasy-unknown-values: allow
+        useRoundRobinDns:
+          type: boolean
+          title: Round-robin DNS
+          description: Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations.
+          default: false
+        description:
+          type: string
+          title: Description
+        url:
+          type: string
+          title: Cribl endpoint
+          description: URL of a Cribl Worker to send events to, such as http://localhost:10200
+          pattern: ^https?://.*
+        excludeSelf:
+          type: boolean
+          default: false
+          title: Exclude current host IPs
+          description: Exclude all IPs of the current host from the list of any resolved hostnames
+        urls:
+          type: array
+          title: Cribl Worker endpoints
+          description: ""
+          minItems: 1
+          items:
+            type: object
+            required:
+              - url
+            properties:
+              url:
+                type: string
+                title: Cribl Endpoint
+                description: URL of a Cribl Worker to send events to, such as http://localhost:10200
+                pattern: ^https?://.*
+              weight:
+                type: number
+                title: Load Weight
+                description: Assign a weight (>0) to each endpoint to indicate its traffic-handling capability
+                minimum: 0
+                default: 1
+        dnsResolvePeriodSec:
+          type: number
+          default: 600
+          minimum: 0
+          maximum: 86400
+          title: DNS resolution period (seconds)
+          description: The interval in which to re-resolve any hostnames and pick up destinations from A records
+        loadBalanceStatsPeriodSec:
+          type: number
+          default: 300
+          minimum: 10
+          title: Load balance stats period (seconds)
+          description: How far back in time to keep traffic stats for load balancing purposes
+        pqStrictOrdering:
+          title: Strict ordering
+          description: Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed.
+          type: boolean
+          default: true
+        pqRatePerSec:
+          type: number
+          title: Drain rate limit (EPS)
+          description: Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling.
+          minimum: 0
+          default: 0
+        pqMode:
+          enum:
+            - error
+            - always
+            - backpressure
+          title: Mode
+          description: In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem.
+          type: string
+          default: error
+          x-speakeasy-enum-descriptions:
+            - Error
+            - Backpressure
+            - Always On
+          x-speakeasy-unknown-values: allow
+        pqMaxBufferSize:
+          type: number
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
+          default: 42
+          minimum: 42
+          maximum: 1000
+        pqMaxBackpressureSec:
+          type: number
+          title: Backpressure duration limit
+          description: How long (in seconds) to wait for backpressure to resolve before engaging the queue
+          minimum: 0
+          default: 30
+        pqMaxFileSize:
+          type: string
+          title: File size limit
+          description: The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)
+          pattern: ^\d+\s*(?:\w{2})?$
+          default: 1 MB
+        pqMaxSize:
+          type: string
+          title: Queue size limit
+          description: The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc.
+          pattern: ^\d+\s*(?:\w{2})?$
+          default: 5GB
+        pqPath:
+          type: string
+          default: $CRIBL_HOME/state/queues
+          title: Queue file path
+          description: "The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."
+        pqCompress:
+          type: string
+          default: none
+          enum:
+            - none
+            - gzip
+          x-speakeasy-enum-descriptions:
+            - None
+            - Gzip
+          title: Compression
+          description: Codec to use to compress the persisted data
+          x-speakeasy-unknown-values: allow
+        pqOnBackpressure:
+          type: string
+          default: block
+          enum:
+            - block
+            - drop
+          x-speakeasy-enum-descriptions:
+            - Block
+            - Drop new data
+          title: Queue-full behavior
+          description: How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged.
+          x-speakeasy-unknown-values: allow
+        pqControls:
+          type: object
+          title: ""
+      required:
+        - type
     OutputHumioHec:
       type: object
       required:
@@ -54042,6 +54527,7 @@ components:
         - $ref: "#/components/schemas/OutputDataset"
         - $ref: "#/components/schemas/OutputCriblTcp"
         - $ref: "#/components/schemas/OutputCriblHttp"
+        - $ref: "#/components/schemas/OutputCriblSearchEngine"
         - $ref: "#/components/schemas/OutputHumioHec"
         - $ref: "#/components/schemas/OutputCrowdstrikeNextGenSiem"
         - $ref: "#/components/schemas/OutputDlS3"
@@ -54113,6 +54599,7 @@ components:
           dataset: "#/components/schemas/OutputDataset"
           cribl_tcp: "#/components/schemas/OutputCriblTcp"
           cribl_http: "#/components/schemas/OutputCriblHttp"
+          cribl_search_engine: "#/components/schemas/OutputCriblSearchEngine"
           humio_hec: "#/components/schemas/OutputHumioHec"
           crowdstrike_next_gen_siem: "#/components/schemas/OutputCrowdstrikeNextGenSiem"
           dl_s3: "#/components/schemas/OutputDlS3"
@@ -57231,6 +57718,8 @@ components:
             bucket: "'my-data-bucket'"
             region: us-east-1
             pattern: "*.json"
+            awsAuthenticationMethod: auto
+            partitioningScheme: ddss
         pipelines:
           - data-processing
         destinations:
@@ -57285,6 +57774,8 @@ components:
             accountName: "'mystorageaccount'"
             containerName: "'data-container'"
             pattern: "'*.json'"
+            authType: manual
+            connectionString: "'DefaultEndpointsProtocol=https;AccountName=mystorageaccount;AccountKey=...'"
         pipelines:
           - data-pipeline
         destinations:
@@ -57313,6 +57804,7 @@ components:
             bucket: "'my-gcs-bucket'"
             projectId: "'my-project'"
             pattern: "'*.csv'"
+            authType: auto
         pipelines:
           - csv-processing
         destinations:
@@ -58315,6 +58807,75 @@ components:
         type: cribl_tcp
         host: localhost
         port: 10090
+    OutputCreateExamplesCriblSearchEngine:
+      summary: Cribl Search Engine
+      value:
+        id: cribl-search-engine-output
+        systemFields:
+          - cribl_pipe
+        streamtags: []
+        loadBalanced: false
+        tls:
+          disabled: true
+        tokenTTLMinutes: 60
+        excludeFields:
+          - __kube_*
+          - __metadata
+          - __winEvent
+        compression: gzip
+        concurrency: 5
+        maxPayloadSizeKB: 4096
+        maxPayloadEvents: 0
+        rejectUnauthorized: true
+        timeoutSec: 30
+        flushPeriodSec: 1
+        failedRequestLoggingMode: none
+        safeHeaders: []
+        throttleRatePerSec: "0"
+        responseRetrySettings:
+          - httpStatus: 401
+            initialBackoff: 1000
+            backoffRate: 2
+            maxBackoff: 20000
+          - httpStatus: 403
+            initialBackoff: 1000
+            backoffRate: 2
+            maxBackoff: 20000
+          - httpStatus: 408
+            initialBackoff: 250
+            backoffRate: 2
+            maxBackoff: 10000
+          - httpStatus: 429
+            initialBackoff: 1000
+            backoffRate: 2
+            maxBackoff: 10000
+          - httpStatus: 500
+            initialBackoff: 250
+            backoffRate: 2
+            maxBackoff: 10000
+          - httpStatus: 502
+            initialBackoff: 250
+            backoffRate: 2
+            maxBackoff: 10000
+          - httpStatus: 503
+            initialBackoff: 250
+            backoffRate: 2
+            maxBackoff: 10000
+          - httpStatus: 504
+            initialBackoff: 250
+            backoffRate: 2
+            maxBackoff: 10000
+          - httpStatus: 509
+            initialBackoff: 250
+            backoffRate: 2
+            maxBackoff: 10000
+        timeoutRetrySettings:
+          timeoutRetry: false
+        responseHonorRetryAfterHeader: true
+        onBackpressure: block
+        useRoundRobinDns: true
+        type: cribl_search_engine
+        url: https://0.0.0.0:10200
     OutputCreateExamplesGoogleCloudLogging:
       summary: Google Cloud Logging
       value:
@@ -60526,6 +61087,8 @@ paths:
                 $ref: "#/components/examples/OutputCreateExamplesCriblHttp"
               OutputCreateExamplesCriblTcp:
                 $ref: "#/components/examples/OutputCreateExamplesCriblTcp"
+              OutputCreateExamplesCriblSearchEngine:
+                $ref: "#/components/examples/OutputCreateExamplesCriblSearchEngine"
               OutputCreateExamplesGoogleCloudLogging:
                 $ref: "#/components/examples/OutputCreateExamplesGoogleCloudLogging"
               OutputCreateExamplesSns:
@@ -60729,6 +61292,8 @@ paths:
                 $ref: "#/components/examples/OutputCreateExamplesCriblHttp"
               OutputCreateExamplesCriblTcp:
                 $ref: "#/components/examples/OutputCreateExamplesCriblTcp"
+              OutputCreateExamplesCriblSearchEngine:
+                $ref: "#/components/examples/OutputCreateExamplesCriblSearchEngine"
               OutputCreateExamplesGoogleCloudLogging:
                 $ref: "#/components/examples/OutputCreateExamplesGoogleCloudLogging"
               OutputCreateExamplesSns:

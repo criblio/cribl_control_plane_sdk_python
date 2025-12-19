@@ -20,12 +20,12 @@ from cribl_control_plane import CriblControlPlane
 
 from cribl_control_plane.models import (
     ProductsCore,
-    InputSyslogSyslog2,
-    InputSyslogType2,
-    OutputS3,
-    OutputS3Type,
-    OutputS3Compression,
-    OutputS3CompressionLevel,
+    CreateInputInputSyslogSyslog2,
+    CreateInputInputSyslogType2,
+    CreateOutputOutputS3,
+    CreateOutputTypeS3,
+    CreateOutputCompressionS3,
+    CompressionLevelS3,
     Pipeline,
     RoutesRoute,
     PipelineConf,
@@ -34,7 +34,7 @@ from cribl_control_plane.models import (
     PipelineFunctionEvalID,
     PipelineFunctionConf,
     FunctionConfSchemaEval,
-    InputSyslogTLSSettingsServerSide2,
+    CreateInputInputSyslogTLSSettingsServerSide2,
     Security,
     SchemeClientOauth,
     ConfigGroupCloud,
@@ -62,23 +62,23 @@ AWS_BUCKET_NAME = "your-aws-bucket-name"  # Replace with your S3 bucket name
 AWS_REGION = "us-east-2"  # Replace with your S3 bucket region
 
 # Syslog Source configuration
-syslog_source = InputSyslogSyslog2(
+syslog_source = CreateInputInputSyslogSyslog2(
     id="in-syslog-9021",
-    type=InputSyslogType2.SYSLOG,
+    type=CreateInputInputSyslogType2.SYSLOG,
     tcp_port=SYSLOG_PORT,
-    tls=InputSyslogTLSSettingsServerSide2(disabled=True),
+    tls=CreateInputInputSyslogTLSSettingsServerSide2(disabled=True),
 )
 
 # S3 Destination configuration
-s3_destination = OutputS3(
+s3_destination = CreateOutputOutputS3(
     id="out_s3",
-    type=OutputS3Type.S3,
+    type=CreateOutputTypeS3.S3,
     bucket=AWS_BUCKET_NAME,
     region=AWS_REGION,
     aws_secret_key=AWS_SECRET_KEY,
     aws_api_key=AWS_API_KEY,
-    compress=OutputS3Compression.GZIP,
-    compression_level=OutputS3CompressionLevel.BEST_SPEED,
+    compress=CreateOutputCompressionS3.GZIP,
+    compression_level=CompressionLevelS3.BEST_SPEED,
     empty_dir_cleanup_sec=300,
 )
 

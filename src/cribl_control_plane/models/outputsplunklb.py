@@ -162,7 +162,7 @@ class OutputSplunkLbCompressCompression(str, Enum, metaclass=utils.OpenEnumMeta)
     ALWAYS = "always"
 
 
-class IndexerDiscoveryConfigsAuthTokenAuthenticationMethod(
+class OutputSplunkLbAuthTokenAuthenticationMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
@@ -172,7 +172,7 @@ class IndexerDiscoveryConfigsAuthTokenAuthenticationMethod(
 
 
 class OutputSplunkLbAuthTokenTypedDict(TypedDict):
-    auth_type: NotRequired[IndexerDiscoveryConfigsAuthTokenAuthenticationMethod]
+    auth_type: NotRequired[OutputSplunkLbAuthTokenAuthenticationMethod]
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
     auth_token: NotRequired[str]
     r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
@@ -183,11 +183,11 @@ class OutputSplunkLbAuthTokenTypedDict(TypedDict):
 class OutputSplunkLbAuthToken(BaseModel):
     auth_type: Annotated[
         Annotated[
-            Optional[IndexerDiscoveryConfigsAuthTokenAuthenticationMethod],
+            Optional[OutputSplunkLbAuthTokenAuthenticationMethod],
             PlainValidator(validate_open_enum(False)),
         ],
         pydantic.Field(alias="authType"),
-    ] = IndexerDiscoveryConfigsAuthTokenAuthenticationMethod.MANUAL
+    ] = OutputSplunkLbAuthTokenAuthenticationMethod.MANUAL
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
     auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = ""
@@ -200,15 +200,13 @@ class OutputSplunkLbAuthToken(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.IndexerDiscoveryConfigsAuthTokenAuthenticationMethod(
-                    value
-                )
+                return models.OutputSplunkLbAuthTokenAuthenticationMethod(value)
             except ValueError:
                 return value
         return value
 
 
-class IndexerDiscoveryConfigsAuthenticationMethod(
+class OutputSplunkLbIndexerDiscoveryConfigsAuthenticationMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
@@ -230,7 +228,7 @@ class IndexerDiscoveryConfigsTypedDict(TypedDict):
     r"""During indexer discovery, reject cluster manager certificates that are not authorized by the system's CA. Disable to allow untrusted (for example, self-signed) certificates."""
     auth_tokens: NotRequired[List[OutputSplunkLbAuthTokenTypedDict]]
     r"""Tokens required to authenticate to cluster manager for indexer discovery"""
-    auth_type: NotRequired[IndexerDiscoveryConfigsAuthenticationMethod]
+    auth_type: NotRequired[OutputSplunkLbIndexerDiscoveryConfigsAuthenticationMethod]
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
     auth_token: NotRequired[str]
     r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
@@ -264,11 +262,11 @@ class IndexerDiscoveryConfigs(BaseModel):
 
     auth_type: Annotated[
         Annotated[
-            Optional[IndexerDiscoveryConfigsAuthenticationMethod],
+            Optional[OutputSplunkLbIndexerDiscoveryConfigsAuthenticationMethod],
             PlainValidator(validate_open_enum(False)),
         ],
         pydantic.Field(alias="authType"),
-    ] = IndexerDiscoveryConfigsAuthenticationMethod.MANUAL
+    ] = OutputSplunkLbIndexerDiscoveryConfigsAuthenticationMethod.MANUAL
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
     auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = ""
@@ -281,7 +279,9 @@ class IndexerDiscoveryConfigs(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.IndexerDiscoveryConfigsAuthenticationMethod(value)
+                return models.OutputSplunkLbIndexerDiscoveryConfigsAuthenticationMethod(
+                    value
+                )
             except ValueError:
                 return value
         return value

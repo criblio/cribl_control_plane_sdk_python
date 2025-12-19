@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.16.0-alpha.1766093766014-6100b10e
+  version: 4.16.0-alpha.1766137736071-87576667
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -2221,11 +2221,7 @@ components:
       title: ""
       type: object
       additionalProperties: false
-      properties:
-        rulesetId:
-          title: Ruleset ID
-          type: string
-          description: ID of the local search datatype ruleset
+      properties: {}
     FunctionLocalSearchDatatypeParser:
       type: object
       properties:
@@ -2284,6 +2280,14 @@ components:
         rulesetId:
           type: string
           title: Ruleset ID
+        ruleset:
+          type: object
+          title: Full ruleset, i.e. for use with live data capture, which uses draft/unsaved rulesets
+        markAndIncludeDroppedEvents:
+          type: boolean
+          title: Mark and include dropped events
+          description: Only for use with live data capture. Mark events that were dropped by dataset rules and still include them for capture
+          default: false
     FunctionLocalSearchRulesetRunner:
       type: object
       properties:
@@ -6375,10 +6379,7 @@ components:
           description: If enabled, stops the results of this Function from being passed to the downstream Functions
           type: boolean
         conf:
-          allOf:
-            - $ref: "#/components/schemas/FunctionConfSchemaLocalSearchDatatypeParser"
-          required:
-            - rulesetId
+          $ref: "#/components/schemas/FunctionConfSchemaLocalSearchDatatypeParser"
         groupId:
           title: Group ID
           description: Group ID
@@ -60485,7 +60486,6 @@ paths:
                 - type: object
                   required:
                     - id
-              $ref: "#/components/schemas/Input"
             examples:
               InputCreateExamplesAppscope:
                 $ref: "#/components/examples/InputCreateExamplesAppscope"
@@ -60972,7 +60972,6 @@ paths:
                 - type: object
                   required:
                     - id
-              $ref: "#/components/schemas/Output"
             examples:
               OutputCreateExamplesTcpjson:
                 $ref: "#/components/examples/OutputCreateExamplesTcpjson"

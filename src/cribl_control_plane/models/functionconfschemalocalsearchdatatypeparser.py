@@ -2,16 +2,12 @@
 
 from __future__ import annotations
 from cribl_control_plane.types import BaseModel
-import pydantic
-from typing import Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing_extensions import TypedDict
 
 
 class FunctionConfSchemaLocalSearchDatatypeParserTypedDict(TypedDict):
-    ruleset_id: NotRequired[str]
-    r"""ID of the local search datatype ruleset"""
+    pass
 
 
 class FunctionConfSchemaLocalSearchDatatypeParser(BaseModel):
-    ruleset_id: Annotated[Optional[str], pydantic.Field(alias="rulesetId")] = None
-    r"""ID of the local search datatype ruleset"""
+    pass

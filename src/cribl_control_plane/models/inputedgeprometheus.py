@@ -216,7 +216,7 @@ class InputEdgePrometheusAuthTypeAuthenticationMethod(
     KUBERNETES = "kubernetes"
 
 
-class TargetProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
+class InputEdgePrometheusTargetProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Protocol to use when collecting metrics"""
 
     HTTP = "http"
@@ -226,7 +226,7 @@ class TargetProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
 class TargetTypedDict(TypedDict):
     host: str
     r"""Name of host from which to pull metrics."""
-    protocol: NotRequired[TargetProtocol]
+    protocol: NotRequired[InputEdgePrometheusTargetProtocol]
     r"""Protocol to use when collecting metrics"""
     port: NotRequired[float]
     r"""The port number in the metrics URL for discovered targets."""
@@ -239,8 +239,9 @@ class Target(BaseModel):
     r"""Name of host from which to pull metrics."""
 
     protocol: Annotated[
-        Optional[TargetProtocol], PlainValidator(validate_open_enum(False))
-    ] = TargetProtocol.HTTP
+        Optional[InputEdgePrometheusTargetProtocol],
+        PlainValidator(validate_open_enum(False)),
+    ] = InputEdgePrometheusTargetProtocol.HTTP
     r"""Protocol to use when collecting metrics"""
 
     port: Optional[float] = 9090
@@ -253,7 +254,7 @@ class Target(BaseModel):
     def serialize_protocol(self, value):
         if isinstance(value, str):
             try:
-                return models.TargetProtocol(value)
+                return models.InputEdgePrometheusTargetProtocol(value)
             except ValueError:
                 return value
         return value
@@ -267,7 +268,9 @@ class InputEdgePrometheusRecordType(str, Enum, metaclass=utils.OpenEnumMeta):
     AAAA = "AAAA"
 
 
-class ScrapeProtocolProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
+class InputEdgePrometheusScrapeProtocolProtocol(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Protocol to use when collecting metrics"""
 
     HTTP = "http"
@@ -363,7 +366,7 @@ class InputEdgePrometheusTypedDict(TypedDict):
     r"""The port number in the metrics URL for discovered targets."""
     name_list: NotRequired[List[str]]
     r"""List of DNS names to resolve"""
-    scrape_protocol: NotRequired[ScrapeProtocolProtocol]
+    scrape_protocol: NotRequired[InputEdgePrometheusScrapeProtocolProtocol]
     r"""Protocol to use when collecting metrics"""
     scrape_path: NotRequired[str]
     r"""Path to use when collecting metrics from discovered targets"""
@@ -502,10 +505,11 @@ class InputEdgePrometheus(BaseModel):
 
     scrape_protocol: Annotated[
         Annotated[
-            Optional[ScrapeProtocolProtocol], PlainValidator(validate_open_enum(False))
+            Optional[InputEdgePrometheusScrapeProtocolProtocol],
+            PlainValidator(validate_open_enum(False)),
         ],
         pydantic.Field(alias="scrapeProtocol"),
-    ] = ScrapeProtocolProtocol.HTTP
+    ] = InputEdgePrometheusScrapeProtocolProtocol.HTTP
     r"""Protocol to use when collecting metrics"""
 
     scrape_path: Annotated[Optional[str], pydantic.Field(alias="scrapePath")] = (
@@ -651,7 +655,7 @@ class InputEdgePrometheus(BaseModel):
     def serialize_scrape_protocol(self, value):
         if isinstance(value, str):
             try:
-                return models.ScrapeProtocolProtocol(value)
+                return models.InputEdgePrometheusScrapeProtocolProtocol(value)
             except ValueError:
                 return value
         return value

@@ -1,0 +1,10 @@
+# AuthTokensExtHTTPRaw
+
+
+## Fields
+
+| Field                                                                                    | Type                                                                                     | Required                                                                                 | Description                                                                              |
+| ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `token`                                                                                  | *str*                                                                                    | :heavy_check_mark:                                                                       | Shared secret to be provided by any client (Authorization: <token>)                      |
+| `description`                                                                            | *Optional[str]*                                                                          | :heavy_minus_sign:                                                                       | N/A                                                                                      |
+| `metadata`                                                                               | List[[models.AuthTokensExtMetadatumHTTPRaw](../models/authtokensextmetadatumhttpraw.md)] | :heavy_minus_sign:                                                                       | Fields to add to events referencing this token                                           |

@@ -17,9 +17,24 @@ class RulesetType(str, Enum, metaclass=utils.OpenEnumMeta):
     DATATYPE = "datatype"
 
 
+class FullRulesetIEForUseWithLiveDataCaptureWhichUsesDraftUnsavedRulesetsTypedDict(
+    TypedDict
+):
+    pass
+
+
+class FullRulesetIEForUseWithLiveDataCaptureWhichUsesDraftUnsavedRulesets(BaseModel):
+    pass
+
+
 class FunctionConfSchemaLocalSearchRulesetRunnerTypedDict(TypedDict):
     ruleset_type: NotRequired[RulesetType]
     ruleset_id: NotRequired[str]
+    ruleset: NotRequired[
+        FullRulesetIEForUseWithLiveDataCaptureWhichUsesDraftUnsavedRulesetsTypedDict
+    ]
+    mark_and_include_dropped_events: NotRequired[bool]
+    r"""Only for use with live data capture. Mark events that were dropped by dataset rules and still include them for capture"""
 
 
 class FunctionConfSchemaLocalSearchRulesetRunner(BaseModel):
@@ -29,6 +44,15 @@ class FunctionConfSchemaLocalSearchRulesetRunner(BaseModel):
     ] = None
 
     ruleset_id: Annotated[Optional[str], pydantic.Field(alias="rulesetId")] = None
+
+    ruleset: Optional[
+        FullRulesetIEForUseWithLiveDataCaptureWhichUsesDraftUnsavedRulesets
+    ] = None
+
+    mark_and_include_dropped_events: Annotated[
+        Optional[bool], pydantic.Field(alias="markAndIncludeDroppedEvents")
+    ] = False
+    r"""Only for use with live data capture. Mark events that were dropped by dataset rules and still include them for capture"""
 
     @field_serializer("ruleset_type")
     def serialize_ruleset_type(self, value):

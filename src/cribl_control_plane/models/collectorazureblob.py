@@ -8,17 +8,11 @@ from enum import Enum
 import pydantic
 from pydantic import field_serializer
 from pydantic.functional_validators import PlainValidator
-from typing import List, Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing import List, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
-class CollectorAzureBlobType(str, Enum):
-    r"""Collector type: azure_blob"""
-
-    AZURE_BLOB = "azure_blob"
-
-
-class CollectorAzureBlobAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
+class CollectorAzureBlobAuthenticationMethod4(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Enter authentication data directly, or select a secret referencing your auth data"""
 
     MANUAL = "manual"
@@ -27,14 +21,30 @@ class CollectorAzureBlobAuthenticationMethod(str, Enum, metaclass=utils.OpenEnum
     CLIENT_CERT = "clientCert"
 
 
-class CollectorAzureBlobExtractorTypedDict(TypedDict):
+class CollectorAzureBlobCertificate4TypedDict(TypedDict):
+    certificate_name: str
+    r"""The certificate you registered as credentials for your app in the Azure portal"""
+
+
+class CollectorAzureBlobCertificate4(BaseModel):
+    certificate_name: Annotated[str, pydantic.Field(alias="certificateName")]
+    r"""The certificate you registered as credentials for your app in the Azure portal"""
+
+
+class CollectorAzureBlobType4(str, Enum):
+    r"""Collector type: azure_blob"""
+
+    AZURE_BLOB = "azure_blob"
+
+
+class CollectorAzureBlobExtractor4TypedDict(TypedDict):
     key: str
     r"""A token from the template path, such as epoch"""
     expression: str
     r"""A JavaScript expression that accesses a corresponding <token> through the value variable and evaluates the token to populate event fields. Example: {date: new Date(+value*1000)}"""
 
 
-class CollectorAzureBlobExtractor(BaseModel):
+class CollectorAzureBlobExtractor4(BaseModel):
     key: str
     r"""A token from the template path, such as epoch"""
 
@@ -42,18 +52,29 @@ class CollectorAzureBlobExtractor(BaseModel):
     r"""A JavaScript expression that accesses a corresponding <token> through the value variable and evaluates the token to populate event fields. Example: {date: new Date(+value*1000)}"""
 
 
-class CollectorAzureBlobTypedDict(TypedDict):
-    type: CollectorAzureBlobType
+class CollectorAzureBlobAzureBlob4TypedDict(TypedDict):
+    storage_account_name: str
+    r"""The name of your Azure storage account"""
+    tenant_id: str
+    r"""The service principal's tenant ID"""
+    client_id: str
+    r"""The service principal's client ID"""
+    certificate: CollectorAzureBlobCertificate4TypedDict
+    type: CollectorAzureBlobType4
     r"""Collector type: azure_blob"""
     container_name: str
     r"""Container to collect from. This value can be a constant, or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: myBucket-${C.vars.myVar}"""
+    auth_type: NotRequired[CollectorAzureBlobAuthenticationMethod4]
+    r"""Enter authentication data directly, or select a secret referencing your auth data"""
+    azure_cloud: NotRequired[str]
+    r"""The Azure cloud to use. Defaults to Azure Public Cloud."""
+    endpoint_suffix: NotRequired[str]
+    r"""The endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net."""
     output_name: NotRequired[str]
     r"""An optional predefined Destination that will be used to auto-populate Collector settings"""
-    auth_type: NotRequired[CollectorAzureBlobAuthenticationMethod]
-    r"""Enter authentication data directly, or select a secret referencing your auth data"""
     path: NotRequired[str]
     r"""The directory from which to collect data. Templating is supported, such as myDir/${datacenter}/${host}/${app}/. Time-based tokens are supported, such as myOtherDir/${_time:%Y}/${_time:%m}/${_time:%d}/."""
-    extractors: NotRequired[List[CollectorAzureBlobExtractorTypedDict]]
+    extractors: NotRequired[List[CollectorAzureBlobExtractor4TypedDict]]
     r"""Extractors allow use of template tokens as context for expressions that enrich discovery results. For example, given a template /path/${epoch}, an extractor under key \"epoch\" with an expression {date: new Date(+value*1000)} will enrich discovery results with a human-readable \"date\" field."""
     recurse: NotRequired[bool]
     r"""Recurse through subdirectories"""
@@ -67,31 +88,56 @@ class CollectorAzureBlobTypedDict(TypedDict):
     r"""Maximum file size for each Parquet chunk"""
     parquet_chunk_download_timeout: NotRequired[float]
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
+    connection_string: NotRequired[str]
+    r"""Enter your Azure storage account Connection String. If left blank, Cribl Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING."""
+    text_secret: NotRequired[str]
+    r"""Text secret"""
+    client_text_secret: NotRequired[str]
+    r"""Text secret containing the client secret"""
 
 
-class CollectorAzureBlob(BaseModel):
-    type: CollectorAzureBlobType
+class CollectorAzureBlobAzureBlob4(BaseModel):
+    storage_account_name: Annotated[str, pydantic.Field(alias="storageAccountName")]
+    r"""The name of your Azure storage account"""
+
+    tenant_id: Annotated[str, pydantic.Field(alias="tenantId")]
+    r"""The service principal's tenant ID"""
+
+    client_id: Annotated[str, pydantic.Field(alias="clientId")]
+    r"""The service principal's client ID"""
+
+    certificate: CollectorAzureBlobCertificate4
+
+    type: CollectorAzureBlobType4
     r"""Collector type: azure_blob"""
 
     container_name: Annotated[str, pydantic.Field(alias="containerName")]
     r"""Container to collect from. This value can be a constant, or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: myBucket-${C.vars.myVar}"""
 
-    output_name: Annotated[Optional[str], pydantic.Field(alias="outputName")] = None
-    r"""An optional predefined Destination that will be used to auto-populate Collector settings"""
-
     auth_type: Annotated[
         Annotated[
-            Optional[CollectorAzureBlobAuthenticationMethod],
+            Optional[CollectorAzureBlobAuthenticationMethod4],
             PlainValidator(validate_open_enum(False)),
         ],
         pydantic.Field(alias="authType"),
-    ] = CollectorAzureBlobAuthenticationMethod.MANUAL
+    ] = CollectorAzureBlobAuthenticationMethod4.MANUAL
     r"""Enter authentication data directly, or select a secret referencing your auth data"""
+
+    azure_cloud: Annotated[Optional[str], pydantic.Field(alias="azureCloud")] = None
+    r"""The Azure cloud to use. Defaults to Azure Public Cloud."""
+
+    endpoint_suffix: Annotated[
+        Optional[str], pydantic.Field(alias="endpointSuffix")
+    ] = None
+    r"""The endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net."""
+
+    output_name: Annotated[Optional[str], pydantic.Field(alias="outputName")] = None
+    r"""An optional predefined Destination that will be used to auto-populate Collector settings"""
 
     path: Optional[str] = None
     r"""The directory from which to collect data. Templating is supported, such as myDir/${datacenter}/${host}/${app}/. Time-based tokens are supported, such as myOtherDir/${_time:%Y}/${_time:%m}/${_time:%d}/."""
 
-    extractors: Optional[List[CollectorAzureBlobExtractor]] = None
+    extractors: Optional[List[CollectorAzureBlobExtractor4]] = None
     r"""Extractors allow use of template tokens as context for expressions that enrich discovery results. For example, given a template /path/${epoch}, an extractor under key \"epoch\" with an expression {date: new Date(+value*1000)} will enrich discovery results with a human-readable \"date\" field."""
 
     recurse: Optional[bool] = True
@@ -120,11 +166,577 @@ class CollectorAzureBlob(BaseModel):
     ] = 600
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
 
+    connection_string: Annotated[
+        Optional[str], pydantic.Field(alias="connectionString")
+    ] = None
+    r"""Enter your Azure storage account Connection String. If left blank, Cribl Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING."""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Text secret"""
+
+    client_text_secret: Annotated[
+        Optional[str], pydantic.Field(alias="clientTextSecret")
+    ] = None
+    r"""Text secret containing the client secret"""
+
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.CollectorAzureBlobAuthenticationMethod(value)
+                return models.CollectorAzureBlobAuthenticationMethod4(value)
             except ValueError:
                 return value
         return value
+
+
+class CollectorAzureBlobAuthenticationMethod3(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Enter authentication data directly, or select a secret referencing your auth data"""
+
+    MANUAL = "manual"
+    SECRET = "secret"
+    CLIENT_SECRET = "clientSecret"
+    CLIENT_CERT = "clientCert"
+
+
+class CollectorAzureBlobType3(str, Enum):
+    r"""Collector type: azure_blob"""
+
+    AZURE_BLOB = "azure_blob"
+
+
+class CollectorAzureBlobExtractor3TypedDict(TypedDict):
+    key: str
+    r"""A token from the template path, such as epoch"""
+    expression: str
+    r"""A JavaScript expression that accesses a corresponding <token> through the value variable and evaluates the token to populate event fields. Example: {date: new Date(+value*1000)}"""
+
+
+class CollectorAzureBlobExtractor3(BaseModel):
+    key: str
+    r"""A token from the template path, such as epoch"""
+
+    expression: str
+    r"""A JavaScript expression that accesses a corresponding <token> through the value variable and evaluates the token to populate event fields. Example: {date: new Date(+value*1000)}"""
+
+
+class CollectorAzureBlobCertificate3TypedDict(TypedDict):
+    certificate_name: str
+    r"""The certificate you registered as credentials for your app in the Azure portal"""
+
+
+class CollectorAzureBlobCertificate3(BaseModel):
+    certificate_name: Annotated[str, pydantic.Field(alias="certificateName")]
+    r"""The certificate you registered as credentials for your app in the Azure portal"""
+
+
+class CollectorAzureBlobAzureBlob3TypedDict(TypedDict):
+    storage_account_name: str
+    r"""The name of your Azure storage account"""
+    tenant_id: str
+    r"""The service principal's tenant ID"""
+    client_id: str
+    r"""The service principal's client ID"""
+    client_text_secret: str
+    r"""Text secret containing the client secret"""
+    type: CollectorAzureBlobType3
+    r"""Collector type: azure_blob"""
+    container_name: str
+    r"""Container to collect from. This value can be a constant, or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: myBucket-${C.vars.myVar}"""
+    auth_type: NotRequired[CollectorAzureBlobAuthenticationMethod3]
+    r"""Enter authentication data directly, or select a secret referencing your auth data"""
+    endpoint_suffix: NotRequired[str]
+    r"""The endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net."""
+    azure_cloud: NotRequired[str]
+    r"""The Azure cloud to use. Defaults to Azure Public Cloud."""
+    output_name: NotRequired[str]
+    r"""An optional predefined Destination that will be used to auto-populate Collector settings"""
+    path: NotRequired[str]
+    r"""The directory from which to collect data. Templating is supported, such as myDir/${datacenter}/${host}/${app}/. Time-based tokens are supported, such as myOtherDir/${_time:%Y}/${_time:%m}/${_time:%d}/."""
+    extractors: NotRequired[List[CollectorAzureBlobExtractor3TypedDict]]
+    r"""Extractors allow use of template tokens as context for expressions that enrich discovery results. For example, given a template /path/${epoch}, an extractor under key \"epoch\" with an expression {date: new Date(+value*1000)} will enrich discovery results with a human-readable \"date\" field."""
+    recurse: NotRequired[bool]
+    r"""Recurse through subdirectories"""
+    include_metadata: NotRequired[bool]
+    r"""Include Azure Blob metadata in collected events. In each event, metadata will be located at: __collectible.metadata."""
+    include_tags: NotRequired[bool]
+    r"""Include Azure Blob tags in collected events. In each event, tags will be located at: __collectible.tags. Disable this feature when using a Shared Access Signature Connection String, to prevent errors."""
+    max_batch_size: NotRequired[float]
+    r"""Maximum number of metadata objects to batch before recording as results"""
+    parquet_chunk_size_mb: NotRequired[float]
+    r"""Maximum file size for each Parquet chunk"""
+    parquet_chunk_download_timeout: NotRequired[float]
+    r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
+    connection_string: NotRequired[str]
+    r"""Enter your Azure storage account Connection String. If left blank, Cribl Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING."""
+    text_secret: NotRequired[str]
+    r"""Text secret"""
+    certificate: NotRequired[CollectorAzureBlobCertificate3TypedDict]
+
+
+class CollectorAzureBlobAzureBlob3(BaseModel):
+    storage_account_name: Annotated[str, pydantic.Field(alias="storageAccountName")]
+    r"""The name of your Azure storage account"""
+
+    tenant_id: Annotated[str, pydantic.Field(alias="tenantId")]
+    r"""The service principal's tenant ID"""
+
+    client_id: Annotated[str, pydantic.Field(alias="clientId")]
+    r"""The service principal's client ID"""
+
+    client_text_secret: Annotated[str, pydantic.Field(alias="clientTextSecret")]
+    r"""Text secret containing the client secret"""
+
+    type: CollectorAzureBlobType3
+    r"""Collector type: azure_blob"""
+
+    container_name: Annotated[str, pydantic.Field(alias="containerName")]
+    r"""Container to collect from. This value can be a constant, or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: myBucket-${C.vars.myVar}"""
+
+    auth_type: Annotated[
+        Annotated[
+            Optional[CollectorAzureBlobAuthenticationMethod3],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="authType"),
+    ] = CollectorAzureBlobAuthenticationMethod3.MANUAL
+    r"""Enter authentication data directly, or select a secret referencing your auth data"""
+
+    endpoint_suffix: Annotated[
+        Optional[str], pydantic.Field(alias="endpointSuffix")
+    ] = None
+    r"""The endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net."""
+
+    azure_cloud: Annotated[Optional[str], pydantic.Field(alias="azureCloud")] = None
+    r"""The Azure cloud to use. Defaults to Azure Public Cloud."""
+
+    output_name: Annotated[Optional[str], pydantic.Field(alias="outputName")] = None
+    r"""An optional predefined Destination that will be used to auto-populate Collector settings"""
+
+    path: Optional[str] = None
+    r"""The directory from which to collect data. Templating is supported, such as myDir/${datacenter}/${host}/${app}/. Time-based tokens are supported, such as myOtherDir/${_time:%Y}/${_time:%m}/${_time:%d}/."""
+
+    extractors: Optional[List[CollectorAzureBlobExtractor3]] = None
+    r"""Extractors allow use of template tokens as context for expressions that enrich discovery results. For example, given a template /path/${epoch}, an extractor under key \"epoch\" with an expression {date: new Date(+value*1000)} will enrich discovery results with a human-readable \"date\" field."""
+
+    recurse: Optional[bool] = True
+    r"""Recurse through subdirectories"""
+
+    include_metadata: Annotated[
+        Optional[bool], pydantic.Field(alias="includeMetadata")
+    ] = True
+    r"""Include Azure Blob metadata in collected events. In each event, metadata will be located at: __collectible.metadata."""
+
+    include_tags: Annotated[Optional[bool], pydantic.Field(alias="includeTags")] = True
+    r"""Include Azure Blob tags in collected events. In each event, tags will be located at: __collectible.tags. Disable this feature when using a Shared Access Signature Connection String, to prevent errors."""
+
+    max_batch_size: Annotated[Optional[float], pydantic.Field(alias="maxBatchSize")] = (
+        10
+    )
+    r"""Maximum number of metadata objects to batch before recording as results"""
+
+    parquet_chunk_size_mb: Annotated[
+        Optional[float], pydantic.Field(alias="parquetChunkSizeMB")
+    ] = 5
+    r"""Maximum file size for each Parquet chunk"""
+
+    parquet_chunk_download_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="parquetChunkDownloadTimeout")
+    ] = 600
+    r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
+
+    connection_string: Annotated[
+        Optional[str], pydantic.Field(alias="connectionString")
+    ] = None
+    r"""Enter your Azure storage account Connection String. If left blank, Cribl Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING."""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Text secret"""
+
+    certificate: Optional[CollectorAzureBlobCertificate3] = None
+
+    @field_serializer("auth_type")
+    def serialize_auth_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.CollectorAzureBlobAuthenticationMethod3(value)
+            except ValueError:
+                return value
+        return value
+
+
+class CollectorAzureBlobAuthenticationMethod2(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Enter authentication data directly, or select a secret referencing your auth data"""
+
+    MANUAL = "manual"
+    SECRET = "secret"
+    CLIENT_SECRET = "clientSecret"
+    CLIENT_CERT = "clientCert"
+
+
+class CollectorAzureBlobType2(str, Enum):
+    r"""Collector type: azure_blob"""
+
+    AZURE_BLOB = "azure_blob"
+
+
+class CollectorAzureBlobExtractor2TypedDict(TypedDict):
+    key: str
+    r"""A token from the template path, such as epoch"""
+    expression: str
+    r"""A JavaScript expression that accesses a corresponding <token> through the value variable and evaluates the token to populate event fields. Example: {date: new Date(+value*1000)}"""
+
+
+class CollectorAzureBlobExtractor2(BaseModel):
+    key: str
+    r"""A token from the template path, such as epoch"""
+
+    expression: str
+    r"""A JavaScript expression that accesses a corresponding <token> through the value variable and evaluates the token to populate event fields. Example: {date: new Date(+value*1000)}"""
+
+
+class CollectorAzureBlobCertificate2TypedDict(TypedDict):
+    certificate_name: str
+    r"""The certificate you registered as credentials for your app in the Azure portal"""
+
+
+class CollectorAzureBlobCertificate2(BaseModel):
+    certificate_name: Annotated[str, pydantic.Field(alias="certificateName")]
+    r"""The certificate you registered as credentials for your app in the Azure portal"""
+
+
+class CollectorAzureBlobAzureBlob2TypedDict(TypedDict):
+    text_secret: str
+    r"""Text secret"""
+    type: CollectorAzureBlobType2
+    r"""Collector type: azure_blob"""
+    container_name: str
+    r"""Container to collect from. This value can be a constant, or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: myBucket-${C.vars.myVar}"""
+    auth_type: NotRequired[CollectorAzureBlobAuthenticationMethod2]
+    r"""Enter authentication data directly, or select a secret referencing your auth data"""
+    output_name: NotRequired[str]
+    r"""An optional predefined Destination that will be used to auto-populate Collector settings"""
+    path: NotRequired[str]
+    r"""The directory from which to collect data. Templating is supported, such as myDir/${datacenter}/${host}/${app}/. Time-based tokens are supported, such as myOtherDir/${_time:%Y}/${_time:%m}/${_time:%d}/."""
+    extractors: NotRequired[List[CollectorAzureBlobExtractor2TypedDict]]
+    r"""Extractors allow use of template tokens as context for expressions that enrich discovery results. For example, given a template /path/${epoch}, an extractor under key \"epoch\" with an expression {date: new Date(+value*1000)} will enrich discovery results with a human-readable \"date\" field."""
+    recurse: NotRequired[bool]
+    r"""Recurse through subdirectories"""
+    include_metadata: NotRequired[bool]
+    r"""Include Azure Blob metadata in collected events. In each event, metadata will be located at: __collectible.metadata."""
+    include_tags: NotRequired[bool]
+    r"""Include Azure Blob tags in collected events. In each event, tags will be located at: __collectible.tags. Disable this feature when using a Shared Access Signature Connection String, to prevent errors."""
+    max_batch_size: NotRequired[float]
+    r"""Maximum number of metadata objects to batch before recording as results"""
+    parquet_chunk_size_mb: NotRequired[float]
+    r"""Maximum file size for each Parquet chunk"""
+    parquet_chunk_download_timeout: NotRequired[float]
+    r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
+    connection_string: NotRequired[str]
+    r"""Enter your Azure storage account Connection String. If left blank, Cribl Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING."""
+    storage_account_name: NotRequired[str]
+    r"""The name of your Azure storage account"""
+    tenant_id: NotRequired[str]
+    r"""The service principal's tenant ID"""
+    client_id: NotRequired[str]
+    r"""The service principal's client ID"""
+    client_text_secret: NotRequired[str]
+    r"""Text secret containing the client secret"""
+    endpoint_suffix: NotRequired[str]
+    r"""The endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net."""
+    azure_cloud: NotRequired[str]
+    r"""The Azure cloud to use. Defaults to Azure Public Cloud."""
+    certificate: NotRequired[CollectorAzureBlobCertificate2TypedDict]
+
+
+class CollectorAzureBlobAzureBlob2(BaseModel):
+    text_secret: Annotated[str, pydantic.Field(alias="textSecret")]
+    r"""Text secret"""
+
+    type: CollectorAzureBlobType2
+    r"""Collector type: azure_blob"""
+
+    container_name: Annotated[str, pydantic.Field(alias="containerName")]
+    r"""Container to collect from. This value can be a constant, or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: myBucket-${C.vars.myVar}"""
+
+    auth_type: Annotated[
+        Annotated[
+            Optional[CollectorAzureBlobAuthenticationMethod2],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="authType"),
+    ] = CollectorAzureBlobAuthenticationMethod2.MANUAL
+    r"""Enter authentication data directly, or select a secret referencing your auth data"""
+
+    output_name: Annotated[Optional[str], pydantic.Field(alias="outputName")] = None
+    r"""An optional predefined Destination that will be used to auto-populate Collector settings"""
+
+    path: Optional[str] = None
+    r"""The directory from which to collect data. Templating is supported, such as myDir/${datacenter}/${host}/${app}/. Time-based tokens are supported, such as myOtherDir/${_time:%Y}/${_time:%m}/${_time:%d}/."""
+
+    extractors: Optional[List[CollectorAzureBlobExtractor2]] = None
+    r"""Extractors allow use of template tokens as context for expressions that enrich discovery results. For example, given a template /path/${epoch}, an extractor under key \"epoch\" with an expression {date: new Date(+value*1000)} will enrich discovery results with a human-readable \"date\" field."""
+
+    recurse: Optional[bool] = True
+    r"""Recurse through subdirectories"""
+
+    include_metadata: Annotated[
+        Optional[bool], pydantic.Field(alias="includeMetadata")
+    ] = True
+    r"""Include Azure Blob metadata in collected events. In each event, metadata will be located at: __collectible.metadata."""
+
+    include_tags: Annotated[Optional[bool], pydantic.Field(alias="includeTags")] = True
+    r"""Include Azure Blob tags in collected events. In each event, tags will be located at: __collectible.tags. Disable this feature when using a Shared Access Signature Connection String, to prevent errors."""
+
+    max_batch_size: Annotated[Optional[float], pydantic.Field(alias="maxBatchSize")] = (
+        10
+    )
+    r"""Maximum number of metadata objects to batch before recording as results"""
+
+    parquet_chunk_size_mb: Annotated[
+        Optional[float], pydantic.Field(alias="parquetChunkSizeMB")
+    ] = 5
+    r"""Maximum file size for each Parquet chunk"""
+
+    parquet_chunk_download_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="parquetChunkDownloadTimeout")
+    ] = 600
+    r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
+
+    connection_string: Annotated[
+        Optional[str], pydantic.Field(alias="connectionString")
+    ] = None
+    r"""Enter your Azure storage account Connection String. If left blank, Cribl Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING."""
+
+    storage_account_name: Annotated[
+        Optional[str], pydantic.Field(alias="storageAccountName")
+    ] = None
+    r"""The name of your Azure storage account"""
+
+    tenant_id: Annotated[Optional[str], pydantic.Field(alias="tenantId")] = None
+    r"""The service principal's tenant ID"""
+
+    client_id: Annotated[Optional[str], pydantic.Field(alias="clientId")] = None
+    r"""The service principal's client ID"""
+
+    client_text_secret: Annotated[
+        Optional[str], pydantic.Field(alias="clientTextSecret")
+    ] = None
+    r"""Text secret containing the client secret"""
+
+    endpoint_suffix: Annotated[
+        Optional[str], pydantic.Field(alias="endpointSuffix")
+    ] = None
+    r"""The endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net."""
+
+    azure_cloud: Annotated[Optional[str], pydantic.Field(alias="azureCloud")] = None
+    r"""The Azure cloud to use. Defaults to Azure Public Cloud."""
+
+    certificate: Optional[CollectorAzureBlobCertificate2] = None
+
+    @field_serializer("auth_type")
+    def serialize_auth_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.CollectorAzureBlobAuthenticationMethod2(value)
+            except ValueError:
+                return value
+        return value
+
+
+class CollectorAzureBlobAuthenticationMethod1(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Enter authentication data directly, or select a secret referencing your auth data"""
+
+    MANUAL = "manual"
+    SECRET = "secret"
+    CLIENT_SECRET = "clientSecret"
+    CLIENT_CERT = "clientCert"
+
+
+class CollectorAzureBlobType1(str, Enum):
+    r"""Collector type: azure_blob"""
+
+    AZURE_BLOB = "azure_blob"
+
+
+class CollectorAzureBlobExtractor1TypedDict(TypedDict):
+    key: str
+    r"""A token from the template path, such as epoch"""
+    expression: str
+    r"""A JavaScript expression that accesses a corresponding <token> through the value variable and evaluates the token to populate event fields. Example: {date: new Date(+value*1000)}"""
+
+
+class CollectorAzureBlobExtractor1(BaseModel):
+    key: str
+    r"""A token from the template path, such as epoch"""
+
+    expression: str
+    r"""A JavaScript expression that accesses a corresponding <token> through the value variable and evaluates the token to populate event fields. Example: {date: new Date(+value*1000)}"""
+
+
+class CollectorAzureBlobCertificate1TypedDict(TypedDict):
+    certificate_name: str
+    r"""The certificate you registered as credentials for your app in the Azure portal"""
+
+
+class CollectorAzureBlobCertificate1(BaseModel):
+    certificate_name: Annotated[str, pydantic.Field(alias="certificateName")]
+    r"""The certificate you registered as credentials for your app in the Azure portal"""
+
+
+class CollectorAzureBlobAzureBlob1TypedDict(TypedDict):
+    connection_string: str
+    r"""Enter your Azure storage account Connection String. If left blank, Cribl Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING."""
+    type: CollectorAzureBlobType1
+    r"""Collector type: azure_blob"""
+    container_name: str
+    r"""Container to collect from. This value can be a constant, or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: myBucket-${C.vars.myVar}"""
+    auth_type: NotRequired[CollectorAzureBlobAuthenticationMethod1]
+    r"""Enter authentication data directly, or select a secret referencing your auth data"""
+    output_name: NotRequired[str]
+    r"""An optional predefined Destination that will be used to auto-populate Collector settings"""
+    path: NotRequired[str]
+    r"""The directory from which to collect data. Templating is supported, such as myDir/${datacenter}/${host}/${app}/. Time-based tokens are supported, such as myOtherDir/${_time:%Y}/${_time:%m}/${_time:%d}/."""
+    extractors: NotRequired[List[CollectorAzureBlobExtractor1TypedDict]]
+    r"""Extractors allow use of template tokens as context for expressions that enrich discovery results. For example, given a template /path/${epoch}, an extractor under key \"epoch\" with an expression {date: new Date(+value*1000)} will enrich discovery results with a human-readable \"date\" field."""
+    recurse: NotRequired[bool]
+    r"""Recurse through subdirectories"""
+    include_metadata: NotRequired[bool]
+    r"""Include Azure Blob metadata in collected events. In each event, metadata will be located at: __collectible.metadata."""
+    include_tags: NotRequired[bool]
+    r"""Include Azure Blob tags in collected events. In each event, tags will be located at: __collectible.tags. Disable this feature when using a Shared Access Signature Connection String, to prevent errors."""
+    max_batch_size: NotRequired[float]
+    r"""Maximum number of metadata objects to batch before recording as results"""
+    parquet_chunk_size_mb: NotRequired[float]
+    r"""Maximum file size for each Parquet chunk"""
+    parquet_chunk_download_timeout: NotRequired[float]
+    r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
+    text_secret: NotRequired[str]
+    r"""Text secret"""
+    storage_account_name: NotRequired[str]
+    r"""The name of your Azure storage account"""
+    tenant_id: NotRequired[str]
+    r"""The service principal's tenant ID"""
+    client_id: NotRequired[str]
+    r"""The service principal's client ID"""
+    client_text_secret: NotRequired[str]
+    r"""Text secret containing the client secret"""
+    endpoint_suffix: NotRequired[str]
+    r"""The endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net."""
+    azure_cloud: NotRequired[str]
+    r"""The Azure cloud to use. Defaults to Azure Public Cloud."""
+    certificate: NotRequired[CollectorAzureBlobCertificate1TypedDict]
+
+
+class CollectorAzureBlobAzureBlob1(BaseModel):
+    connection_string: Annotated[str, pydantic.Field(alias="connectionString")]
+    r"""Enter your Azure storage account Connection String. If left blank, Cribl Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING."""
+
+    type: CollectorAzureBlobType1
+    r"""Collector type: azure_blob"""
+
+    container_name: Annotated[str, pydantic.Field(alias="containerName")]
+    r"""Container to collect from. This value can be a constant, or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: myBucket-${C.vars.myVar}"""
+
+    auth_type: Annotated[
+        Annotated[
+            Optional[CollectorAzureBlobAuthenticationMethod1],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="authType"),
+    ] = CollectorAzureBlobAuthenticationMethod1.MANUAL
+    r"""Enter authentication data directly, or select a secret referencing your auth data"""
+
+    output_name: Annotated[Optional[str], pydantic.Field(alias="outputName")] = None
+    r"""An optional predefined Destination that will be used to auto-populate Collector settings"""
+
+    path: Optional[str] = None
+    r"""The directory from which to collect data. Templating is supported, such as myDir/${datacenter}/${host}/${app}/. Time-based tokens are supported, such as myOtherDir/${_time:%Y}/${_time:%m}/${_time:%d}/."""
+
+    extractors: Optional[List[CollectorAzureBlobExtractor1]] = None
+    r"""Extractors allow use of template tokens as context for expressions that enrich discovery results. For example, given a template /path/${epoch}, an extractor under key \"epoch\" with an expression {date: new Date(+value*1000)} will enrich discovery results with a human-readable \"date\" field."""
+
+    recurse: Optional[bool] = True
+    r"""Recurse through subdirectories"""
+
+    include_metadata: Annotated[
+        Optional[bool], pydantic.Field(alias="includeMetadata")
+    ] = True
+    r"""Include Azure Blob metadata in collected events. In each event, metadata will be located at: __collectible.metadata."""
+
+    include_tags: Annotated[Optional[bool], pydantic.Field(alias="includeTags")] = True
+    r"""Include Azure Blob tags in collected events. In each event, tags will be located at: __collectible.tags. Disable this feature when using a Shared Access Signature Connection String, to prevent errors."""
+
+    max_batch_size: Annotated[Optional[float], pydantic.Field(alias="maxBatchSize")] = (
+        10
+    )
+    r"""Maximum number of metadata objects to batch before recording as results"""
+
+    parquet_chunk_size_mb: Annotated[
+        Optional[float], pydantic.Field(alias="parquetChunkSizeMB")
+    ] = 5
+    r"""Maximum file size for each Parquet chunk"""
+
+    parquet_chunk_download_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="parquetChunkDownloadTimeout")
+    ] = 600
+    r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Text secret"""
+
+    storage_account_name: Annotated[
+        Optional[str], pydantic.Field(alias="storageAccountName")
+    ] = None
+    r"""The name of your Azure storage account"""
+
+    tenant_id: Annotated[Optional[str], pydantic.Field(alias="tenantId")] = None
+    r"""The service principal's tenant ID"""
+
+    client_id: Annotated[Optional[str], pydantic.Field(alias="clientId")] = None
+    r"""The service principal's client ID"""
+
+    client_text_secret: Annotated[
+        Optional[str], pydantic.Field(alias="clientTextSecret")
+    ] = None
+    r"""Text secret containing the client secret"""
+
+    endpoint_suffix: Annotated[
+        Optional[str], pydantic.Field(alias="endpointSuffix")
+    ] = None
+    r"""The endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net."""
+
+    azure_cloud: Annotated[Optional[str], pydantic.Field(alias="azureCloud")] = None
+    r"""The Azure cloud to use. Defaults to Azure Public Cloud."""
+
+    certificate: Optional[CollectorAzureBlobCertificate1] = None
+
+    @field_serializer("auth_type")
+    def serialize_auth_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.CollectorAzureBlobAuthenticationMethod1(value)
+            except ValueError:
+                return value
+        return value
+
+
+CollectorAzureBlobTypedDict = TypeAliasType(
+    "CollectorAzureBlobTypedDict",
+    Union[
+        CollectorAzureBlobAzureBlob1TypedDict,
+        CollectorAzureBlobAzureBlob2TypedDict,
+        CollectorAzureBlobAzureBlob3TypedDict,
+        CollectorAzureBlobAzureBlob4TypedDict,
+    ],
+)
+
+
+CollectorAzureBlob = TypeAliasType(
+    "CollectorAzureBlob",
+    Union[
+        CollectorAzureBlobAzureBlob1,
+        CollectorAzureBlobAzureBlob2,
+        CollectorAzureBlobAzureBlob3,
+        CollectorAzureBlobAzureBlob4,
+    ],
+)

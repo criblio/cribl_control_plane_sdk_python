@@ -460,7 +460,7 @@ class InputSystemMetricsProcess(BaseModel):
     r"""Configure sets to collect process metrics"""
 
 
-class ContainerMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class InputSystemMetricsContainerMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of detail for container metrics"""
 
     # Basic
@@ -482,7 +482,7 @@ class InputSystemMetricsFilter(BaseModel):
 
 
 class ContainerTypedDict(TypedDict):
-    mode: NotRequired[ContainerMode]
+    mode: NotRequired[InputSystemMetricsContainerMode]
     r"""Select the level of detail for container metrics"""
     docker_socket: NotRequired[List[str]]
     r"""Full paths for Docker's UNIX-domain socket"""
@@ -500,8 +500,9 @@ class ContainerTypedDict(TypedDict):
 
 class Container(BaseModel):
     mode: Annotated[
-        Optional[ContainerMode], PlainValidator(validate_open_enum(False))
-    ] = ContainerMode.BASIC
+        Optional[InputSystemMetricsContainerMode],
+        PlainValidator(validate_open_enum(False)),
+    ] = InputSystemMetricsContainerMode.BASIC
     r"""Select the level of detail for container metrics"""
 
     docker_socket: Annotated[
@@ -532,7 +533,7 @@ class Container(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.ContainerMode(value)
+                return models.InputSystemMetricsContainerMode(value)
             except ValueError:
                 return value
         return value

@@ -47,7 +47,10 @@ from .outputgooglecloudstorage import (
     OutputGoogleCloudStorageTypedDict,
 )
 from .outputgooglepubsub import OutputGooglePubsub, OutputGooglePubsubTypedDict
-from .outputgrafanacloud import OutputGrafanaCloud, OutputGrafanaCloudTypedDict
+from .outputgrafanacloud_union import (
+    OutputGrafanaCloudUnion,
+    OutputGrafanaCloudUnionTypedDict,
+)
 from .outputgraphite import OutputGraphite, OutputGraphiteTypedDict
 from .outputhoneycomb import OutputHoneycomb, OutputHoneycombTypedDict
 from .outputhumiohec import OutputHumioHec, OutputHumioHecTypedDict
@@ -165,7 +168,7 @@ OutputTypedDict = TypeAliasType(
         OutputWebhookTypedDict,
         OutputGoogleCloudLoggingTypedDict,
         OutputAzureDataExplorerTypedDict,
-        OutputGrafanaCloudTypedDict,
+        OutputGrafanaCloudUnionTypedDict,
     ],
 )
 
@@ -215,7 +218,7 @@ Output = Annotated[
         Annotated[OutputSnmp, Tag("snmp")],
         Annotated[OutputSumoLogic, Tag("sumo_logic")],
         Annotated[OutputDatadog, Tag("datadog")],
-        Annotated[OutputGrafanaCloud, Tag("grafana_cloud")],
+        Annotated[OutputGrafanaCloudUnion, Tag("grafana_cloud")],
         Annotated[OutputLoki, Tag("loki")],
         Annotated[OutputPrometheus, Tag("prometheus")],
         Annotated[OutputRing, Tag("ring")],

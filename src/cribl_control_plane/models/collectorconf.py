@@ -30,9 +30,9 @@ CollectorConfTypedDict = TypeAliasType(
         CollectorAzureBlobTypedDict,
         CollectorGoogleCloudStorageTypedDict,
         CollectorHealthCheckTypedDict,
-        CollectorSplunkTypedDict,
         CollectorRestTypedDict,
         CollectorS3TypedDict,
+        CollectorSplunkTypedDict,
     ],
 )
 r"""Collector configuration"""

@@ -1,27 +1,89 @@
 # CollectorRest
 
 
-## Fields
+## Supported Types
 
-| Field                                                                                                                                              | Type                                                                                                                                               | Required                                                                                                                                           | Description                                                                                                                                        |
-| -------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `type`                                                                                                                                             | [models.CollectorRestType](../models/collectorresttype.md)                                                                                         | :heavy_check_mark:                                                                                                                                 | Collector type: rest                                                                                                                               |
-| `discovery`                                                                                                                                        | [Optional[models.CollectorRestDiscovery]](../models/collectorrestdiscovery.md)                                                                     | :heavy_minus_sign:                                                                                                                                 | N/A                                                                                                                                                |
-| `collect_url`                                                                                                                                      | *str*                                                                                                                                              | :heavy_check_mark:                                                                                                                                 | URL (constant or JavaScript expression) to use for the Collect operation                                                                           |
-| `collect_method`                                                                                                                                   | [Optional[models.CollectMethod]](../models/collectmethod.md)                                                                                       | :heavy_minus_sign:                                                                                                                                 | N/A                                                                                                                                                |
-| `collect_verb`                                                                                                                                     | *Optional[Any]*                                                                                                                                    | :heavy_minus_sign:                                                                                                                                 | N/A                                                                                                                                                |
-| `collect_request_params`                                                                                                                           | *Optional[Any]*                                                                                                                                    | :heavy_minus_sign:                                                                                                                                 | N/A                                                                                                                                                |
-| `collect_body`                                                                                                                                     | *Optional[Any]*                                                                                                                                    | :heavy_minus_sign:                                                                                                                                 | N/A                                                                                                                                                |
-| `collect_request_headers`                                                                                                                          | List[[models.CollectorRestCollectRequestHeader](../models/collectorrestcollectrequestheader.md)]                                                   | :heavy_minus_sign:                                                                                                                                 | N/A                                                                                                                                                |
-| `pagination`                                                                                                                                       | [Optional[models.Pagination]](../models/pagination.md)                                                                                             | :heavy_minus_sign:                                                                                                                                 | N/A                                                                                                                                                |
-| `authentication`                                                                                                                                   | [Optional[models.CollectorRestAuthentication]](../models/collectorrestauthentication.md)                                                           | :heavy_minus_sign:                                                                                                                                 | Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers. |
-| `timeout`                                                                                                                                          | *Optional[float]*                                                                                                                                  | :heavy_minus_sign:                                                                                                                                 | HTTP request inactivity timeout. Use 0 to disable.                                                                                                 |
-| `use_round_robin_dns`                                                                                                                              | *Optional[bool]*                                                                                                                                   | :heavy_minus_sign:                                                                                                                                 | Use round-robin DNS lookup. Suitable when DNS server returns multiple addresses in sort order.                                                     |
-| `disable_time_filter`                                                                                                                              | *Optional[bool]*                                                                                                                                   | :heavy_minus_sign:                                                                                                                                 | Disable Collector event time filtering when a date range is specified                                                                              |
-| `decode_url`                                                                                                                                       | *Optional[bool]*                                                                                                                                   | :heavy_minus_sign:                                                                                                                                 | Decode the URL before sending requests (including pagination requests)                                                                             |
-| `reject_unauthorized`                                                                                                                              | *Optional[bool]*                                                                                                                                   | :heavy_minus_sign:                                                                                                                                 | Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)                                                  |
-| `capture_headers`                                                                                                                                  | *Optional[bool]*                                                                                                                                   | :heavy_minus_sign:                                                                                                                                 | Enable to add response headers to the resHeaders field under the __collectible object                                                              |
-| `stop_on_empty_results`                                                                                                                            | *Optional[bool]*                                                                                                                                   | :heavy_minus_sign:                                                                                                                                 | Stop pagination when the Event Breaker produces no events                                                                                          |
-| `safe_headers`                                                                                                                                     | List[*str*]                                                                                                                                        | :heavy_minus_sign:                                                                                                                                 | List of headers that are safe to log in plain text                                                                                                 |
-| `retry_rules`                                                                                                                                      | [Optional[models.CollectorRestRetryRules]](../models/collectorrestretryrules.md)                                                                   | :heavy_minus_sign:                                                                                                                                 | N/A                                                                                                                                                |
-| `scheduling`                                                                                                                                       | [Optional[models.CollectorRestScheduling]](../models/collectorrestscheduling.md)                                                                   | :heavy_minus_sign:                                                                                                                                 | N/A                                                                                                                                                |
+### `models.CollectorRestRest1`
+
+```python
+value: models.CollectorRestRest1 = /* values here */
+```
+
+### `models.CollectorRestRest2`
+
+```python
+value: models.CollectorRestRest2 = /* values here */
+```
+
+### `models.CollectorRestRest3`
+
+```python
+value: models.CollectorRestRest3 = /* values here */
+```
+
+### `models.CollectorRestRest4`
+
+```python
+value: models.CollectorRestRest4 = /* values here */
+```
+
+### `models.CollectorRestRest5`
+
+```python
+value: models.CollectorRestRest5 = /* values here */
+```
+
+### `models.CollectorRestRest6`
+
+```python
+value: models.CollectorRestRest6 = /* values here */
+```
+
+### `models.CollectorRestRest7`
+
+```python
+value: models.CollectorRestRest7 = /* values here */
+```
+
+### `models.CollectorRestRest8`
+
+```python
+value: models.CollectorRestRest8 = /* values here */
+```
+
+### `models.CollectorRestRest9`
+
+```python
+value: models.CollectorRestRest9 = /* values here */
+```
+
+### `models.CollectorRestRest10`
+
+```python
+value: models.CollectorRestRest10 = /* values here */
+```
+
+### `models.CollectorRestRest11`
+
+```python
+value: models.CollectorRestRest11 = /* values here */
+```
+
+### `models.CollectorRestRest12`
+
+```python
+value: models.CollectorRestRest12 = /* values here */
+```
+
+### `models.CollectorRestRest13`
+
+```python
+value: models.CollectorRestRest13 = /* values here */
+```
+
+### `models.CollectorRestRest14`
+
+```python
+value: models.CollectorRestRest14 = /* values here */
+```
+

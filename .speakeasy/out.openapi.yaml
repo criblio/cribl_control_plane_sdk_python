@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.16.0-alpha.1766137736071-87576667
+  version: 4.16.0-alpha.1766185381911-cd685784
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -1860,22 +1860,28 @@ components:
         - name
         - uischema
         - version
-    FunctionConfSchemaHandlebar:
+    FunctionConfSchemaHandlebars:
       type: object
       title: ""
       properties:
         templates:
-          type: object
+          type: array
           title: Templates
-          description: Object with template_id as keys and template definitions as values. Uses event.__template_id to select template at runtime.
-          additionalProperties:
+          description: Array of template definitions. Uses event.__template_id to select template at runtime.
+          items:
             type: object
             title: Template definition
             required:
+              - id
               - content
               - type
             additionalProperties: false
             properties:
+              id:
+                type: string
+                title: Template ID
+                description: Unique identifier for this template
+                minLength: 1
               content:
                 type: string
                 title: Template content
@@ -1905,7 +1911,7 @@ components:
           title: Remove field if empty
           description: Remove the target field if the rendered result is empty or null.
           default: true
-    FunctionHandlebar:
+    FunctionHandlebars:
       type: object
       properties:
         __filename:
@@ -1923,7 +1929,7 @@ components:
         id:
           type: string
           enum:
-            - handlebar
+            - handlebars
         loadTime:
           type: number
         modTime:
@@ -1938,7 +1944,7 @@ components:
         version:
           type: string
         schema:
-          $ref: "#/components/schemas/FunctionConfSchemaHandlebar"
+          $ref: "#/components/schemas/FunctionConfSchemaHandlebars"
       required:
         - __filename
         - group
@@ -2705,6 +2711,7 @@ components:
             required:
               - id
               - templateTargetPairs
+              - order
             properties:
               id:
                 type: string
@@ -2792,6 +2799,11 @@ components:
                 title: Final
                 description: If true, stop evaluating further policies after this one matches
                 default: false
+              order:
+                type: number
+                title: Order
+                description: Evaluation order of this policy (lower numbers evaluated first)
+                minimum: 0
     FunctionNotificationPolicies:
       type: object
       properties:
@@ -5220,7 +5232,7 @@ components:
         - $ref: "#/components/schemas/FunctionGenStats"
         - $ref: "#/components/schemas/FunctionGeoip"
         - $ref: "#/components/schemas/FunctionGrok"
-        - $ref: "#/components/schemas/FunctionHandlebar"
+        - $ref: "#/components/schemas/FunctionHandlebars"
         - $ref: "#/components/schemas/FunctionJoin"
         - $ref: "#/components/schemas/FunctionJsonUnroll"
         - $ref: "#/components/schemas/FunctionLakeExport"
@@ -5287,7 +5299,7 @@ components:
           gen_stats: "#/components/schemas/FunctionGenStats"
           geoip: "#/components/schemas/FunctionGeoip"
           grok: "#/components/schemas/FunctionGrok"
-          handlebar: "#/components/schemas/FunctionHandlebar"
+          handlebars: "#/components/schemas/FunctionHandlebars"
           join: "#/components/schemas/FunctionJoin"
           json_unroll: "#/components/schemas/FunctionJsonUnroll"
           lake_export: "#/components/schemas/FunctionLakeExport"
@@ -6155,7 +6167,7 @@ components:
           title: Group ID
           description: Group ID
           type: string
-    PipelineFunctionHandlebar:
+    PipelineFunctionHandlebars:
       type: object
       required:
         - id
@@ -6172,7 +6184,7 @@ components:
           description: Function ID
           type: string
           enum:
-            - handlebar
+            - handlebars
         description:
           title: Description
           description: Simple description of this step
@@ -6187,7 +6199,7 @@ components:
           type: boolean
         conf:
           allOf:
-            - $ref: "#/components/schemas/FunctionConfSchemaHandlebar"
+            - $ref: "#/components/schemas/FunctionConfSchemaHandlebars"
           required:
             - templates
         groupId:
@@ -7788,7 +7800,7 @@ components:
         - $ref: "#/components/schemas/PipelineFunctionGenStats"
         - $ref: "#/components/schemas/PipelineFunctionGeoip"
         - $ref: "#/components/schemas/PipelineFunctionGrok"
-        - $ref: "#/components/schemas/PipelineFunctionHandlebar"
+        - $ref: "#/components/schemas/PipelineFunctionHandlebars"
         - $ref: "#/components/schemas/PipelineFunctionJoin"
         - $ref: "#/components/schemas/PipelineFunctionJsonUnroll"
         - $ref: "#/components/schemas/PipelineFunctionLakeExport"
@@ -7855,7 +7867,7 @@ components:
           gen_stats: "#/components/schemas/PipelineFunctionGenStats"
           geoip: "#/components/schemas/PipelineFunctionGeoip"
           grok: "#/components/schemas/PipelineFunctionGrok"
-          handlebar: "#/components/schemas/PipelineFunctionHandlebar"
+          handlebars: "#/components/schemas/PipelineFunctionHandlebars"
           join: "#/components/schemas/PipelineFunctionJoin"
           json_unroll: "#/components/schemas/PipelineFunctionJsonUnroll"
           lake_export: "#/components/schemas/PipelineFunctionLakeExport"
@@ -7988,6 +8000,145 @@ components:
           default: 600
           maximum: 3600
           minimum: 1
+        connectionString:
+          type: string
+          title: Connection string
+          description: Enter your Azure storage account Connection String. If left blank, Cribl Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING.
+        textSecret:
+          type: string
+          title: Connection string (text secret)
+          description: Text secret
+        storageAccountName:
+          type: string
+          title: Storage account name
+          description: The name of your Azure storage account
+        tenantId:
+          type: string
+          title: Tenant ID
+          description: The service principal's tenant ID
+        clientId:
+          type: string
+          title: Client ID
+          description: The service principal's client ID
+        clientTextSecret:
+          type: string
+          title: Client secret (text secret)
+          description: Text secret containing the client secret
+        endpointSuffix:
+          type: string
+          title: Endpoint suffix
+          description: The endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net.
+        azureCloud:
+          type: string
+          title: Azure Cloud
+          description: The Azure cloud to use. Defaults to Azure Public Cloud.
+        certificate:
+          type: object
+          required:
+            - certificateName
+          properties:
+            certificateName:
+              type: string
+              title: Certificate
+              description: The certificate you registered as credentials for your app in the Azure portal
+      allOf:
+        - oneOf:
+            - properties:
+                authType:
+                  enum:
+                    - manual
+                connectionString:
+                  type: string
+                  title: Connection string
+                  description: Enter your Azure storage account Connection String. If left blank, Cribl Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING.
+              required:
+                - authType
+                - connectionString
+            - properties:
+                authType:
+                  enum:
+                    - secret
+                textSecret:
+                  type: string
+                  title: Connection string (text secret)
+                  description: Text secret
+              required:
+                - authType
+                - textSecret
+            - properties:
+                authType:
+                  enum:
+                    - clientSecret
+                storageAccountName:
+                  type: string
+                  title: Storage account name
+                  description: The name of your Azure storage account
+                tenantId:
+                  type: string
+                  title: Tenant ID
+                  description: The service principal's tenant ID
+                clientId:
+                  type: string
+                  title: Client ID
+                  description: The service principal's client ID
+                clientTextSecret:
+                  type: string
+                  title: Client secret (text secret)
+                  description: Text secret containing the client secret
+                endpointSuffix:
+                  type: string
+                  title: Endpoint suffix
+                  description: The endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net.
+                azureCloud:
+                  type: string
+                  title: Azure Cloud
+                  description: The Azure cloud to use. Defaults to Azure Public Cloud.
+                  default: azure
+              required:
+                - authType
+                - storageAccountName
+                - tenantId
+                - clientId
+                - clientTextSecret
+            - properties:
+                authType:
+                  enum:
+                    - clientCert
+                storageAccountName:
+                  type: string
+                  title: Storage account name
+                  description: The name of your Azure storage account
+                tenantId:
+                  type: string
+                  title: Tenant ID
+                  description: The service principal's tenant ID
+                clientId:
+                  type: string
+                  title: Client ID
+                  description: The service principal's client ID
+                certificate:
+                  type: object
+                  required:
+                    - certificateName
+                  properties:
+                    certificateName:
+                      type: string
+                      title: Certificate
+                      description: The certificate you registered as credentials for your app in the Azure portal
+                azureCloud:
+                  type: string
+                  title: Azure Cloud
+                  description: The Azure cloud to use. Defaults to Azure Public Cloud.
+                endpointSuffix:
+                  type: string
+                  title: Endpoint suffix
+                  description: The endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net.
+              required:
+                - authType
+                - storageAccountName
+                - tenantId
+                - clientId
+                - certificate
     CollectorCriblLake:
       type: object
       title: ""
@@ -8187,6 +8338,44 @@ components:
           default: 600
           maximum: 3600
           minimum: 1
+        serviceAccountCredentials:
+          type: string
+          title: Service account credentials
+          description: Contents of Google Cloud service account credentials (JSON keys) file. To upload a file, click the upload button at this field's upper right.
+        textSecret:
+          type: string
+          title: Service account credentials (text secret)
+          description: Select or create a stored text secret that references your credentials
+      allOf:
+        - oneOf:
+            - properties:
+                authType:
+                  enum:
+                    - auto
+              required:
+                - authType
+            - properties:
+                authType:
+                  enum:
+                    - manual
+                serviceAccountCredentials:
+                  type: string
+                  title: Service account credentials
+                  description: Contents of Google Cloud service account credentials (JSON keys) file. To upload a file, click the upload button at this field's upper right.
+              required:
+                - authType
+                - serviceAccountCredentials
+            - properties:
+                authType:
+                  enum:
+                    - secret
+                textSecret:
+                  type: string
+                  title: Service account credentials (text secret)
+                  description: Select or create a stored text secret that references your credentials
+              required:
+                - authType
+                - textSecret
     CollectorHealthCheck:
       type: object
       title: ""
@@ -8235,8 +8424,29 @@ components:
             - POST with Body
           default: get
           x-speakeasy-unknown-values: allow
-        collectRequestParams: {}
-        collectBody: {}
+        collectRequestParams:
+          title: Health check parameters
+          description: Optional health check request parameters.
+          type: array
+          items:
+            type: object
+            required:
+              - name
+              - value
+            properties:
+              name:
+                title: Name
+                type: string
+                description: Parameter name.
+              value:
+                title: Value
+                type: string
+                description: JavaScript expression to compute the parameter value (can be a constant).
+        collectBody:
+          type: string
+          title: Health check POST Body
+          description: "Template for POST body to send with the health check request. You can reference parameters from the Discover response, using template params of the form: ${variable}."
+          default: "`{ }`"
         collectRequestHeaders:
           title: Health check headers
           description: Optional health check request headers.
@@ -8323,11 +8533,435 @@ components:
             multiplier: {}
             codes: {}
             enableHeader: {}
+        username:
+          type: string
+          title: Username
+          description: Login username
+          minLength: 1
+        password:
+          type: string
+          title: Password
+          description: Login password
+          minLength: 1
+        credentialsSecret:
+          type: string
+          title: Credentials secret
+          description: Select or create a stored secret that references your login credentials
+        loginUrl:
+          type: string
+          title: Login URL
+          description: URL to use for the OAuth API call. This call is expected to be a POST.
+          default: ""
+        loginBody:
+          type: string
+          title: POST body
+          description: Template for POST body to send with login request, ${username} and ${password} are used to specify location of these attributes in the message
+          default: '`{ "username": "${username}", "password": "${password}" }`'
+        tokenRespAttribute:
+          type: string
+          title: Token attribute
+          description: Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header.
+        authHeaderExpr:
+          type: string
+          title: Authorize expression
+          description: JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login.
+          default: "`Bearer ${token}`"
+        authRequestHeaders:
+          title: Authentication headers
+          description: Optional authentication request headers.
+          type: array
+          items:
+            type: object
+            required:
+              - name
+              - value
+            properties:
+              name:
+                type: string
+                title: Name
+                description: Header name.
+              value:
+                type: string
+                title: Value
+                description: JavaScript expression to compute the header's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings.
+        clientSecretParamName:
+          type: string
+          title: Client secret parameter
+          description: Parameter name that contains client secret. Defaults to 'client_secret', and is automatically added to request parameters.
+          default: client_secret
+        clientSecretParamValue:
+          type: string
+          title: Client secret value
+          description: Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters
+        authRequestParams:
+          title: Extra authentication parameters
+          description: OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded.
+          type: array
+          items:
+            type: object
+            required:
+              - name
+              - value
+            properties:
+              name:
+                title: Name
+                type: string
+                description: Parameter name.
+              value:
+                title: Value
+                type: string
+                description: JavaScript expression to compute the parameter's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings.
+        textSecret:
+          type: string
+          title: Client secret value (text secret)
+          description: Select or create a text secret that contains the client secret's value.
         type:
           type: string
           enum:
             - health_check
           description: "Collector type: health_check"
+      allOf:
+        - oneOf:
+            - properties:
+                collectMethod:
+                  enum:
+                    - get
+                collectRequestParams:
+                  title: Health check parameters
+                  description: Optional health check request parameters.
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - name
+                      - value
+                    properties:
+                      name:
+                        title: Name
+                        type: string
+                        description: Parameter name
+                      value:
+                        title: Value
+                        type: string
+                        description: JavaScript expression to compute the parameter value (can be a constant).
+              required:
+                - collectMethod
+            - properties:
+                collectMethod:
+                  enum:
+                    - post
+                collectRequestParams:
+                  title: Health check parameters
+                  description: Optional health check request parameters.
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - name
+                      - value
+                    properties:
+                      name:
+                        title: Name
+                        type: string
+                        description: Parameter name.
+                      value:
+                        title: Value
+                        type: string
+                        description: JavaScript expression to compute the parameter value (can be a constant).
+              required:
+                - collectMethod
+            - properties:
+                collectMethod:
+                  enum:
+                    - post_with_body
+                collectBody:
+                  type: string
+                  title: Health check POST Body
+                  description: "Template for POST body to send with the health check request. You can reference parameters from the Discover response, using template params of the form: ${variable}."
+                  default: "`{ }`"
+              required:
+                - collectMethod
+        - oneOf:
+            - properties:
+                authentication:
+                  enum:
+                    - none
+              required:
+                - authentication
+            - properties:
+                authentication:
+                  enum:
+                    - basic
+                username:
+                  type: string
+                  title: Username
+                  description: Basic authentication username
+                password:
+                  type: string
+                  title: Password
+                  description: Basic authentication password
+              required:
+                - authentication
+                - username
+                - password
+            - properties:
+                authentication:
+                  enum:
+                    - basicSecret
+                credentialsSecret:
+                  type: string
+                  title: Credentials secret
+                  description: Select or create a stored secret that references your credentials
+              required:
+                - authentication
+                - credentialsSecret
+            - properties:
+                authentication:
+                  enum:
+                    - login
+                loginUrl:
+                  type: string
+                  title: Login URL
+                  description: URL to use for login API call. This call is expected to be a POST.
+                  default: "`https://localhost:9000/api/v1/auth/login`"
+                username:
+                  type: string
+                  title: Username
+                  description: Login username
+                  minLength: 1
+                password:
+                  type: string
+                  title: Password
+                  description: Login password
+                  minLength: 1
+                loginBody:
+                  type: string
+                  title: POST body
+                  description: Template for POST body to send with login request, ${username} and ${password} are used to specify location of these attributes in the message
+                  default: '`{ "username": "${username}", "password": "${password}" }`'
+                tokenRespAttribute:
+                  type: string
+                  title: Token attribute
+                  description: Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header.
+                authHeaderExpr:
+                  type: string
+                  title: Authorize Expression
+                  description: JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login.
+                  default: "`Bearer ${token}`"
+                authRequestHeaders:
+                  title: Authentication Headers
+                  description: Optional authentication request headers.
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - name
+                      - value
+                    properties:
+                      name:
+                        type: string
+                        title: Name
+                        description: Header name.
+                      value:
+                        type: string
+                        title: Value
+                        description: JavaScript expression to compute the header value (can be a constant).
+              required:
+                - authentication
+                - loginUrl
+                - username
+                - password
+                - loginBody
+                - authHeaderExpr
+            - properties:
+                authentication:
+                  enum:
+                    - loginSecret
+                loginUrl:
+                  type: string
+                  title: Login URL
+                  description: URL to use for login API call, this call is expected to be a POST.
+                  default: "`https://localhost:9000/api/v1/auth/login`"
+                credentialsSecret:
+                  type: string
+                  title: Credentials secret
+                  description: Select or create a stored secret that references your login credentials
+                loginBody:
+                  type: string
+                  title: POST body
+                  description: Template for POST body to send with login request, ${username} and ${password} are used to specify location of these attributes in the message
+                  default: '`{ "username": "${username}", "password": "${password}" }`'
+                tokenRespAttribute:
+                  type: string
+                  title: Token attribute
+                  description: Path to token attribute in login response body. Nested attributes are OK. If left blank, the entire response body will be used to derive the authorization header.
+                authHeaderExpr:
+                  type: string
+                  title: Authorize Expression
+                  description: JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login.
+                  default: "`Bearer ${token}`"
+                authRequestHeaders:
+                  title: Authentication Headers
+                  description: Optional authentication request headers.
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - name
+                      - value
+                    properties:
+                      name:
+                        type: string
+                        title: Name
+                        description: Header name.
+                      value:
+                        type: string
+                        title: Value
+                        description: JavaScript expression to compute the header value (can be a constant).
+              required:
+                - authentication
+                - loginUrl
+                - credentialsSecret
+                - loginBody
+                - authHeaderExpr
+            - properties:
+                authentication:
+                  enum:
+                    - oauth
+                loginUrl:
+                  type: string
+                  title: Login URL
+                  description: URL to use for the OAuth API call. This call is expected to be a POST.
+                  default: ""
+                tokenRespAttribute:
+                  type: string
+                  title: Token attribute
+                  description: Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header.
+                authHeaderExpr:
+                  type: string
+                  title: Authorize expression
+                  description: JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login.
+                  default: "`Bearer ${token}`"
+                clientSecretParamName:
+                  type: string
+                  title: Client secret parameter
+                  description: Parameter name that contains client secret. Defaults to 'client_secret', and is automatically added to request parameters.
+                  default: client_secret
+                clientSecretParamValue:
+                  type: string
+                  title: Client secret value
+                  description: Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters
+                authRequestParams:
+                  title: Extra authentication parameters
+                  description: OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded.
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - name
+                      - value
+                    properties:
+                      name:
+                        title: Name
+                        type: string
+                        description: Parameter name.
+                      value:
+                        title: Value
+                        type: string
+                        description: JavaScript expression to compute the parameter's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings.
+                authRequestHeaders:
+                  title: Authentication headers
+                  description: Optional authentication request headers.
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - name
+                      - value
+                    properties:
+                      name:
+                        type: string
+                        title: Name
+                        description: Header name.
+                      value:
+                        type: string
+                        title: Value
+                        description: JavaScript expression to compute the header's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings.
+              required:
+                - authentication
+                - loginUrl
+                - clientSecretParamName
+                - clientSecretParamValue
+                - authHeaderExpr
+            - properties:
+                authentication:
+                  enum:
+                    - oauthSecret
+                loginUrl:
+                  type: string
+                  title: Login URL
+                  description: URL to use for the OAuth API call. This call is expected to be a POST.
+                  default: ""
+                tokenRespAttribute:
+                  type: string
+                  title: Token attribute
+                  description: Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header.
+                authHeaderExpr:
+                  type: string
+                  title: Authorize expression
+                  description: JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login.
+                  default: "`Bearer ${token}`"
+                clientSecretParamName:
+                  type: string
+                  title: Client secret parameter
+                  description: Parameter name that contains client secret. Defaults to 'client_secret', and is automatically added to request parameters.
+                  default: client_secret
+                textSecret:
+                  type: string
+                  title: Client secret value (text secret)
+                  description: Select or create a text secret that contains the client secret's value.
+                authRequestParams:
+                  title: Extra authentication parameters
+                  description: OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded.
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - name
+                      - value
+                    properties:
+                      name:
+                        title: Name
+                        type: string
+                        description: Parameter name.
+                      value:
+                        title: Value
+                        type: string
+                        description: JavaScript expression to compute the parameter's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings.
+                authRequestHeaders:
+                  title: Authentication headers
+                  description: Optional authentication request headers.
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - name
+                      - value
+                    properties:
+                      name:
+                        type: string
+                        title: Name
+                        description: Header name.
+                      value:
+                        type: string
+                        title: Value
+                        description: JavaScript expression to compute the header's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings.
+              required:
+                - authentication
+                - loginUrl
+                - clientSecretParamName
+                - textSecret
+                - authHeaderExpr
     CollectorRest:
       type: object
       title: ""
@@ -8377,9 +9011,30 @@ components:
             - Other
           default: get
           x-speakeasy-unknown-values: allow
-        collectVerb: {}
-        collectRequestParams: {}
-        collectBody: {}
+        collectVerb:
+          type: string
+          title: Collect verb
+          description: Custom HTTP method to use for the Collect operation
+        collectRequestParams:
+          title: Collect parameters
+          type: array
+          items:
+            type: object
+            required:
+              - name
+              - value
+            properties:
+              name:
+                title: Name
+                type: string
+              value:
+                title: Value
+                type: string
+                description: JavaScript expression to compute parameter value, usually enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values that aren't successfully evaluated as JavaScript expressions will be treated as string constants.
+        collectBody:
+          type: string
+          title: Collect body
+          description: "Template for body to send with the Collect request. Reference global variables, functions, or parameters from the Discover response using template parameters: `${C.vars.myVar}`, or `${Date.now()}`, `${param}`"
         collectRequestHeaders:
           title: Collect headers
           type: array
@@ -8518,6 +9173,559 @@ components:
                   type: boolean
                   title: Enabled
                   description: Track collection progress between consecutive scheduled executions
+        username:
+          type: string
+          title: Login username
+          minLength: 1
+        password:
+          type: string
+          title: Login password
+          minLength: 1
+        credentialsSecret:
+          type: string
+          title: Credentials secret
+          description: Select or create a stored secret that references your login credentials
+        loginUrl:
+          type: string
+          title: Login URL
+          description: URL to use for the OAuth API call. This call is expected to be a POST.
+          default: ""
+        loginBody:
+          type: string
+          title: POST body
+          description: Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message.
+          default: '`{ "username": "${username}", "password": "${password}" }`'
+        getAuthTokenFromHeader:
+          type: boolean
+          title: Get auth token from header
+          description: Extract the auth token from the HTTP 'Authorization' response header instead of the standard JSON body of the login response
+          default: false
+        authHeaderKey:
+          type: string
+          title: Authorization header
+          description: Authorization header key to pass in Discover and Collect calls. Defaults to the literal name 'Authorization'.
+          default: Authorization
+        authHeaderExpr:
+          type: string
+          title: Authorize expression
+          description: JavaScript expression to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login.
+          default: "`Bearer ${token}`"
+        authRequestHeaders:
+          title: Authentication headers
+          type: array
+          items:
+            type: object
+            required:
+              - name
+              - value
+            properties:
+              name:
+                type: string
+                title: Name
+              value:
+                type: string
+                title: Value
+                description: JavaScript expression to compute parameter value, usually enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values that aren't successfully evaluated as JavaScript expressions will be treated as string constants.
+        tokenRespAttribute:
+          type: string
+          title: Token attribute
+          description: Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header.
+        clientSecretParamName:
+          type: string
+          title: Client secret parameter
+          description: Defaults to 'client_secret'. Automatically added to request parameters using the value specified.
+          default: client_secret
+        clientSecretParamValue:
+          type: string
+          title: Client secret value
+          description: Secret value to add to HTTP requests as the 'client secret' parameter. Value is stored encrypted on disk and automatically added to request parameters.
+        authRequestParams:
+          title: Extra authentication parameters
+          description: OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded.
+          type: array
+          items:
+            type: object
+            required:
+              - name
+              - value
+            properties:
+              name:
+                title: Name
+                type: string
+              value:
+                title: Value
+                type: string
+                description: JavaScript expression to compute parameter value, usually enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values that aren't successfully evaluated as JavaScript expressions will be treated as string constants.
+        textSecret:
+          type: string
+          title: Service account credentials (text secret)
+          description: Select or create a text secret that contains the Google service account credentials value
+        scopes:
+          type: array
+          title: Scopes
+          description: Scopes to use during authentication. See [Google's docs](https://developers.google.com/identity/protocols/oauth2/scopes) for more information.
+          minItems: 1
+          default:
+            - https://www.googleapis.com/auth/admin.reports.audit.readonly
+          items:
+            type: string
+            minLength: 1
+        serviceAccountCredentials:
+          type: string
+          title: Service account credentials
+          description: Contents of Google Cloud service account credentials (JSON keys) file. To upload a file, click the upload icon in this field's upper right.
+          minLength: 1
+        subject:
+          type: string
+          title: Impersonated account's email address
+          description: Email address of a user account with Super Admin permissions to the resources the collector will retrieve
+        hmacFunctionId:
+          type: string
+          title: HMAC Function
+          description: Select or create an HMAC Function to use with authentication
+      allOf:
+        - oneOf:
+            - properties:
+                collectMethod:
+                  enum:
+                    - get
+                collectRequestParams:
+                  title: Collect parameters
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - name
+                      - value
+                    properties:
+                      name:
+                        title: Name
+                        type: string
+                      value:
+                        title: Value
+                        type: string
+                        description: JavaScript expression to compute parameter value, usually enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values that aren't successfully evaluated as JavaScript expressions will be treated as string constants.
+              required:
+                - collectMethod
+            - properties:
+                collectMethod:
+                  enum:
+                    - post
+                collectRequestParams:
+                  title: Collect parameters
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - name
+                      - value
+                    properties:
+                      name:
+                        title: Name
+                        type: string
+                      value:
+                        title: Value
+                        type: string
+                        description: JavaScript expression to compute parameter value, usually enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values that aren't successfully evaluated as JavaScript expressions will be treated as string constants.
+              required:
+                - collectMethod
+            - properties:
+                collectMethod:
+                  enum:
+                    - post_with_body
+                collectBody:
+                  type: string
+                  title: Collect POST body
+                  description: "Template for POST body to send with the Collect request. Reference global variables, functions, or parameters from the Discover response using template params: `${C.vars.myVar}`, or `${Date.now()}`, `${param}`"
+              required:
+                - collectMethod
+                - collectBody
+            - properties:
+                collectMethod:
+                  enum:
+                    - other
+                collectVerb:
+                  type: string
+                  title: Collect verb
+                  description: Custom HTTP method to use for the Collect operation
+                collectBody:
+                  type: string
+                  title: Collect body
+                  description: "Template for body to send with the Collect request. Reference global variables, functions, or parameters from the Discover response using template parameters: `${C.vars.myVar}`, or `${Date.now()}`, `${param}`"
+                collectRequestParams:
+                  title: Collect parameters
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - name
+                      - value
+                    properties:
+                      name:
+                        title: Name
+                        type: string
+                      value:
+                        title: Value
+                        type: string
+                        description: JavaScript expression to compute parameter value, usually enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values that aren't successfully evaluated as JavaScript expressions will be treated as string constants.
+              required:
+                - collectMethod
+                - collectVerb
+        - oneOf:
+            - properties:
+                authentication:
+                  enum:
+                    - none
+              required:
+                - authentication
+            - properties:
+                authentication:
+                  enum:
+                    - basic
+                username:
+                  type: string
+                  title: Username
+                password:
+                  type: string
+                  title: Password
+              required:
+                - authentication
+                - username
+                - password
+            - properties:
+                authentication:
+                  enum:
+                    - basicSecret
+                credentialsSecret:
+                  type: string
+                  title: Credentials secret
+                  description: Select or create a stored secret that references your credentials
+              required:
+                - authentication
+                - credentialsSecret
+            - properties:
+                authentication:
+                  enum:
+                    - login
+                loginUrl:
+                  type: string
+                  title: Login URL
+                  description: URL to use for login API call. This call is expected to be a POST.
+                  default: "`https://localhost:9000/api/v1/auth/login`"
+                username:
+                  type: string
+                  title: Login username
+                  minLength: 1
+                password:
+                  type: string
+                  title: Login password
+                  minLength: 1
+                loginBody:
+                  type: string
+                  title: POST body
+                  description: Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message.
+                  default: '`{ "username": "${username}", "password": "${password}" }`'
+                getAuthTokenFromHeader:
+                  type: boolean
+                  title: Get auth token from header
+                  description: Extract the auth token from the HTTP 'Authorization' response header instead of the standard JSON body of the login response
+                  default: false
+                authHeaderKey:
+                  type: string
+                  title: Authorization header
+                  description: Authorization header key to pass in Discover and Collect calls. Defaults to the literal name 'Authorization'.
+                  default: Authorization
+                authHeaderExpr:
+                  type: string
+                  title: Authorize expression
+                  description: JavaScript expression used to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login.
+                  default: "`Bearer ${token}`"
+                authRequestHeaders:
+                  title: Authentication headers
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - name
+                      - value
+                    properties:
+                      name:
+                        type: string
+                        title: Name
+                      value:
+                        type: string
+                        title: Value
+                        description: JavaScript expression to compute parameter value, usually enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values that aren't successfully evaluated as JavaScript expressions will be treated as string constants.
+              required:
+                - authentication
+                - loginUrl
+                - username
+                - password
+                - loginBody
+                - authHeaderExpr
+            - properties:
+                authentication:
+                  enum:
+                    - loginSecret
+                loginUrl:
+                  type: string
+                  title: Login URL
+                  description: URL to use for login API call. This call is expected to be a POST.
+                  default: "`https://localhost:9000/api/v1/auth/login`"
+                credentialsSecret:
+                  type: string
+                  title: Credentials secret
+                  description: Select or create a stored secret that references your login credentials
+                loginBody:
+                  type: string
+                  title: POST body
+                  description: Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message.
+                  default: '`{ "username": "${username}", "password": "${password}" }`'
+                getAuthTokenFromHeader:
+                  type: boolean
+                  title: Get auth token from header
+                  description: Extract the auth token from the HTTP 'Authorization' response header instead of the standard JSON body of the login response
+                  default: false
+                authHeaderKey:
+                  type: string
+                  title: Authorization header
+                  description: Authorization header key to pass in Discover and Collect calls. Defaults to the literal name 'Authorization'.
+                  default: Authorization
+                authHeaderExpr:
+                  type: string
+                  title: Authorize expression
+                  description: JavaScript expression to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login.
+                  default: "`Bearer ${token}`"
+                authRequestHeaders:
+                  title: Authentication headers
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - name
+                      - value
+                    properties:
+                      name:
+                        type: string
+                        title: Name
+                      value:
+                        type: string
+                        title: Value
+                        description: JavaScript expression to compute parameter value, usually enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values that aren't successfully evaluated as JavaScript expressions will be treated as string constants.
+              required:
+                - authentication
+                - loginUrl
+                - credentialsSecret
+                - loginBody
+                - authHeaderExpr
+            - properties:
+                authentication:
+                  enum:
+                    - oauth
+                loginUrl:
+                  type: string
+                  title: Login URL
+                  description: URL to use for the OAuth API call. This call is expected to be a POST.
+                  default: ""
+                tokenRespAttribute:
+                  type: string
+                  title: Token attribute
+                  description: Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header.
+                authHeaderKey:
+                  type: string
+                  title: Authorization header
+                  description: Authorization header key to pass in Discover and Collect calls. Defaults to the literal name 'Authorization'.
+                  default: Authorization
+                authHeaderExpr:
+                  type: string
+                  title: Authorize expression
+                  description: JavaScript expression to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login.
+                  default: "`Bearer ${token}`"
+                clientSecretParamName:
+                  type: string
+                  title: Client secret parameter
+                  description: Defaults to 'client_secret'. Automatically added to request parameters using the value specified.
+                  default: client_secret
+                clientSecretParamValue:
+                  type: string
+                  title: Client secret value
+                  description: Secret value to add to HTTP requests as the 'client secret' parameter. Value is stored encrypted on disk and automatically added to request parameters.
+                authRequestParams:
+                  title: Extra authentication parameters
+                  description: OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded.
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - name
+                      - value
+                    properties:
+                      name:
+                        title: Name
+                        type: string
+                      value:
+                        title: Value
+                        type: string
+                        description: JavaScript expression to compute parameter value, usually enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values that aren't successfully evaluated as JavaScript expressions will be treated as string constants.
+                authRequestHeaders:
+                  title: Authentication headers
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - name
+                      - value
+                    properties:
+                      name:
+                        type: string
+                        title: Name
+                      value:
+                        type: string
+                        title: Value
+                        description: JavaScript expression to compute parameter value, usually enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values that aren't successfully evaluated as JavaScript expressions will be treated as string constants.
+              required:
+                - authentication
+                - loginUrl
+                - clientSecretParamName
+                - clientSecretParamValue
+                - authHeaderExpr
+            - properties:
+                authentication:
+                  enum:
+                    - oauthSecret
+                loginUrl:
+                  type: string
+                  title: Login URL
+                  description: URL to use for the OAuth API call. This call is expected to be a POST.
+                  default: ""
+                tokenRespAttribute:
+                  type: string
+                  title: Token attribute
+                  description: Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header.
+                authHeaderKey:
+                  type: string
+                  title: Authorization header
+                  description: Authorization header key to pass in Discover and Collect calls. Defaults to the literal name 'Authorization'.
+                  default: Authorization
+                authHeaderExpr:
+                  type: string
+                  title: Authorize expression
+                  description: JavaScript expression to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login.
+                  default: "`Bearer ${token}`"
+                clientSecretParamName:
+                  type: string
+                  title: Client secret parameter
+                  description: Defaults to 'client_secret'. Automatically added to request parameters using the value specified.
+                  default: client_secret
+                textSecret:
+                  type: string
+                  title: Client secret value (text secret)
+                  description: Select or create a text secret that contains the client secret's value
+                authRequestParams:
+                  title: Extra authentication parameters
+                  description: OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded.
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - name
+                      - value
+                    properties:
+                      name:
+                        title: Name
+                        type: string
+                      value:
+                        title: Value
+                        type: string
+                        description: JavaScript expression to compute parameter value, usually enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values that aren't successfully evaluated as JavaScript expressions will be treated as string constants.
+                authRequestHeaders:
+                  title: Authentication headers
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - name
+                      - value
+                    properties:
+                      name:
+                        type: string
+                        title: Name
+                      value:
+                        type: string
+                        title: Value
+                        description: JavaScript expression to compute parameter value, usually enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values that aren't successfully evaluated as JavaScript expressions will be treated as string constants.
+              required:
+                - authentication
+                - loginUrl
+                - clientSecretParamName
+                - textSecret
+                - authHeaderExpr
+            - properties:
+                authentication:
+                  enum:
+                    - google_oauth
+                scopes:
+                  type: array
+                  title: Scopes
+                  description: Scopes to use during authentication. See [Google's docs](https://developers.google.com/identity/protocols/oauth2/scopes) for more information.
+                  minItems: 1
+                  default:
+                    - https://www.googleapis.com/auth/admin.reports.audit.readonly
+                  items:
+                    type: string
+                    minLength: 1
+                serviceAccountCredentials:
+                  type: string
+                  title: Service account credentials
+                  description: Contents of Google Cloud service account credentials (JSON keys) file. To upload a file, click the upload icon in this field's upper right.
+                  minLength: 1
+                subject:
+                  type: string
+                  title: Impersonated account's email address
+                  description: Email address of a user account with Super Admin permissions to the resources the collector will retrieve
+              required:
+                - authentication
+                - scopes
+                - serviceAccountCredentials
+                - subject
+            - properties:
+                authentication:
+                  enum:
+                    - google_oauthSecret
+                scopes:
+                  type: array
+                  title: Scopes
+                  description: Scopes to use during authentication. See [Google's docs](https://developers.google.com/identity/protocols/oauth2/scopes) for more information.
+                  minItems: 1
+                  default:
+                    - https://www.googleapis.com/auth/admin.reports.audit.readonly
+                  items:
+                    type: string
+                    minLength: 1
+                textSecret:
+                  type: string
+                  title: Service account credentials (text secret)
+                  description: Select or create a text secret that contains the Google service account credentials value
+                subject:
+                  type: string
+                  title: Impersonated account's email address
+                  description: Email address of a user account with Super Admin permissions to the resources the collector will retrieve
+              required:
+                - authentication
+                - scopes
+                - textSecret
+                - subject
+            - properties:
+                authentication:
+                  enum:
+                    - hmac
+                hmacFunctionId:
+                  type: string
+                  title: HMAC Function
+                  description: Select or create an HMAC Function to use with authentication
+              required:
+                - authentication
+                - hmacFunctionId
     CollectorS3:
       type: object
       title: ""
@@ -8648,7 +9856,11 @@ components:
           description: Maximum number of metadata objects to batch before recording as results
           minimum: 1
           default: 10
-        recurse: {}
+        recurse:
+          type: boolean
+          title: Recursive
+          description: Traverse and include files from subdirectories. Leave this option enabled to ensure that all nested directories are searched and their contents collected.
+          default: true
         reuseConnections:
           type: boolean
           title: Reuse connections
@@ -8669,6 +9881,68 @@ components:
           title: Disable time filter
           description: Disable Collector event time filtering when a date range is specified
           default: false
+        awsApiKey:
+          type: string
+          title: Access key
+          description: Access key. If not present, will fall back to env.AWS_ACCESS_KEY_ID, or to the metadata endpoint for IAM creds. Optional when running on AWS. This value can be a constant or a JavaScript expression.
+        awsSecretKey:
+          type: string
+          title: Secret key
+          description: Secret key. If not present, will fall back to env.AWS_SECRET_ACCESS_KEY, or to the metadata endpoint for IAM creds. Optional when running on AWS. This value can be a constant or a JavaScript expression.
+        awsSecret:
+          type: string
+          title: Secret key pair
+          description: Select or create a stored secret that references AWS access key and secret key.
+      allOf:
+        - oneOf:
+            - properties:
+                partitioningScheme:
+                  enum:
+                    - ddss
+              required:
+                - partitioningScheme
+            - properties:
+                partitioningScheme:
+                  enum:
+                    - none
+                recurse:
+                  type: boolean
+                  title: Recursive
+                  description: Traverse and include files from subdirectories. Leave this option enabled to ensure that all nested directories are searched and their contents collected.
+                  default: true
+              required:
+                - partitioningScheme
+        - oneOf:
+            - properties:
+                awsAuthenticationMethod:
+                  enum:
+                    - auto
+              required:
+                - awsAuthenticationMethod
+            - properties:
+                awsAuthenticationMethod:
+                  enum:
+                    - manual
+                awsApiKey:
+                  type: string
+                  title: Access key
+                  description: Access key. If not present, will fall back to env.AWS_ACCESS_KEY_ID, or to the metadata endpoint for IAM creds. Optional when running on AWS. This value can be a constant or a JavaScript expression.
+                awsSecretKey:
+                  type: string
+                  title: Secret key
+                  description: Secret key. If not present, will fall back to env.AWS_SECRET_ACCESS_KEY, or to the metadata endpoint for IAM creds. Optional when running on AWS. This value can be a constant or a JavaScript expression.
+              required:
+                - awsAuthenticationMethod
+            - properties:
+                awsAuthenticationMethod:
+                  enum:
+                    - secret
+                awsSecret:
+                  type: string
+                  title: Secret key pair
+                  description: Select or create a stored secret that references AWS access key and secret key.
+              required:
+                - awsAuthenticationMethod
     CollectorScript:
       type: object
       title: ""
@@ -8869,6 +10143,176 @@ components:
             enableHeader: {}
             retryConnectTimeout: {}
             retryConnectReset: {}
+        username:
+          type: string
+          title: Username
+          minLength: 1
+        password:
+          type: string
+          title: Password
+          minLength: 1
+        credentialsSecret:
+          type: string
+          title: Credentials secret
+          description: Select or create a stored secret that references your login credentials
+        token:
+          type: string
+          title: Bearer token
+        tokenSecret:
+          type: string
+          title: Bearer token secret
+          description: Select or create a stored secret that references your Bearer token
+        loginUrl:
+          type: string
+          title: Login URL
+          description: URL to use for login API call, this call is expected to be a POST.
+          default: "`https://localhost:9000/api/v1/auth/login`"
+        loginBody:
+          type: string
+          title: POST Body
+          description: Template for POST body to send with login request, ${username} and ${password} are used to specify location of these attributes in the message
+          default: '`{ "username": "${username}", "password": "${password}" }`'
+        tokenRespAttribute:
+          type: string
+          title: Token Attribute
+          description: Path to token attribute in login response body. Nested attributes are allowed.
+          default: token
+        authHeaderExpr:
+          type: string
+          title: Authorize expression
+          description: JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login.
+          default: "`Bearer ${token}`"
+      allOf:
+        - oneOf:
+            - properties:
+                authentication:
+                  enum:
+                    - none
+              required:
+                - authentication
+            - properties:
+                authentication:
+                  enum:
+                    - basic
+                username:
+                  type: string
+                  title: Username
+                  description: Basic authentication username
+                password:
+                  type: string
+                  title: Password
+                  description: Basic authentication password
+              required:
+                - authentication
+                - username
+                - password
+            - properties:
+                authentication:
+                  enum:
+                    - basicSecret
+                credentialsSecret:
+                  type: string
+                  title: Credentials secret
+                  description: Select or create a stored secret that references your credentials
+              required:
+                - authentication
+                - credentialsSecret
+            - properties:
+                authentication:
+                  enum:
+                    - token
+                token:
+                  type: string
+                  title: Bearer token
+              required:
+                - authentication
+                - token
+            - properties:
+                authentication:
+                  enum:
+                    - tokenSecret
+                tokenSecret:
+                  type: string
+                  title: Bearer token secret
+                  description: Select or create a stored secret that references your Bearer token
+              required:
+                - authentication
+                - tokenSecret
+            - properties:
+                authentication:
+                  enum:
+                    - login
+                loginUrl:
+                  type: string
+                  title: Login URL
+                  description: URL to use for login API call. This call is expected to be a POST.
+                  default: "`https://localhost:9000/api/v1/auth/login`"
+                username:
+                  type: string
+                  title: Username
+                  minLength: 1
+                password:
+                  type: string
+                  title: Password
+                  minLength: 1
+                loginBody:
+                  type: string
+                  title: POST body
+                  description: Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message.
+                  default: '`{ "username": "${username}", "password": "${password}" }`'
+                tokenRespAttribute:
+                  type: string
+                  title: Token attribute
+                  description: Path to token attribute in login response body. Nested attributes are allowed.
+                  default: token
+                authHeaderExpr:
+                  type: string
+                  title: Authorize Expression
+                  description: JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login.
+                  default: "`Bearer ${token}`"
+              required:
+                - authentication
+                - loginUrl
+                - username
+                - password
+                - loginBody
+                - tokenRespAttribute
+                - authHeaderExpr
+            - properties:
+                authentication:
+                  enum:
+                    - loginSecret
+                loginUrl:
+                  type: string
+                  title: Login URL
+                  description: URL to use for login API call, this call is expected to be a POST.
+                  default: "`https://localhost:9000/api/v1/auth/login`"
+                credentialsSecret:
+                  type: string
+                  title: Credentials secret
+                  description: Select or create a stored secret that references your login credentials
+                loginBody:
+                  type: string
+                  title: POST Body
+                  description: Template for POST body to send with login request, ${username} and ${password} are used to specify location of these attributes in the message
+                  default: '`{ "username": "${username}", "password": "${password}" }`'
+                tokenRespAttribute:
+                  type: string
+                  title: Token Attribute
+                  description: Path to token attribute in login response body. Nested attributes are allowed.
+                  default: token
+                authHeaderExpr:
+                  type: string
+                  title: Authorize expression
+                  description: JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login.
+                  default: "`Bearer ${token}`"
+              required:
+                - authentication
+                - loginUrl
+                - credentialsSecret
+                - loginBody
+                - tokenRespAttribute
+                - authHeaderExpr
     CollectorConf:
       oneOf:
         - $ref: "#/components/schemas/CollectorAzureBlob"
@@ -57719,6 +59163,8 @@ components:
             bucket: "'my-data-bucket'"
             region: us-east-1
             pattern: "*.json"
+            awsAuthenticationMethod: auto
+            partitioningScheme: ddss
         pipelines:
           - data-processing
         destinations:
@@ -57773,6 +59219,8 @@ components:
             accountName: "'mystorageaccount'"
             containerName: "'data-container'"
             pattern: "'*.json'"
+            authType: manual
+            connectionString: "'DefaultEndpointsProtocol=https;AccountName=mystorageaccount;AccountKey=...'"
         pipelines:
           - data-pipeline
         destinations:
@@ -57801,6 +59249,7 @@ components:
             bucket: "'my-gcs-bucket'"
             projectId: "'my-project'"
             pattern: "'*.csv'"
+            authType: auto
         pipelines:
           - csv-processing
         destinations:

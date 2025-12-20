@@ -135,10 +135,10 @@ value: models.PipelineFunctionGeoip = /* values here */
 value: models.PipelineFunctionGrok = /* values here */
 ```
 
-### `models.PipelineFunctionHandlebar`
+### `models.PipelineFunctionHandlebars`
 
 ```python
-value: models.PipelineFunctionHandlebar = /* values here */
+value: models.PipelineFunctionHandlebars = /* values here */
 ```
 
 ### `models.PipelineFunctionJoin`

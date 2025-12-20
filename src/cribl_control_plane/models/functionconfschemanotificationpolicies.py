@@ -78,6 +78,8 @@ class PolicyTypedDict(TypedDict):
     r"""Unique identifier for this policy"""
     template_target_pairs: List[TemplateTargetPairTypedDict]
     r"""List of targets to route to and the templates to use"""
+    order: float
+    r"""Evaluation order of this policy (lower numbers evaluated first)"""
     disabled: NotRequired[bool]
     r"""If true, this policy will be skipped during evaluation"""
     wait_to_group: NotRequired[float]
@@ -98,6 +100,9 @@ class Policy(BaseModel):
         List[TemplateTargetPair], pydantic.Field(alias="templateTargetPairs")
     ]
     r"""List of targets to route to and the templates to use"""
+
+    order: float
+    r"""Evaluation order of this policy (lower numbers evaluated first)"""
 
     disabled: Optional[bool] = False
     r"""If true, this policy will be skipped during evaluation"""

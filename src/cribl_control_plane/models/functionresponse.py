@@ -32,7 +32,7 @@ from .functionfoldkeys import FunctionFoldkeys, FunctionFoldkeysTypedDict
 from .functiongenstats import FunctionGenStats, FunctionGenStatsTypedDict
 from .functiongeoip import FunctionGeoip, FunctionGeoipTypedDict
 from .functiongrok import FunctionGrok, FunctionGrokTypedDict
-from .functionhandlebar import FunctionHandlebar, FunctionHandlebarTypedDict
+from .functionhandlebars import FunctionHandlebars, FunctionHandlebarsTypedDict
 from .functionjoin import FunctionJoin, FunctionJoinTypedDict
 from .functionjsonunroll import FunctionJSONUnroll, FunctionJSONUnrollTypedDict
 from .functionlakeexport import FunctionLakeExport, FunctionLakeExportTypedDict
@@ -123,7 +123,7 @@ FunctionResponseTypedDict = TypeAliasType(
         FunctionGenStatsTypedDict,
         FunctionGeoipTypedDict,
         FunctionGrokTypedDict,
-        FunctionHandlebarTypedDict,
+        FunctionHandlebarsTypedDict,
         FunctionJoinTypedDict,
         FunctionJSONUnrollTypedDict,
         FunctionLakeExportTypedDict,
@@ -193,7 +193,7 @@ FunctionResponse = Annotated[
         Annotated[FunctionGenStats, Tag("gen_stats")],
         Annotated[FunctionGeoip, Tag("geoip")],
         Annotated[FunctionGrok, Tag("grok")],
-        Annotated[FunctionHandlebar, Tag("handlebar")],
+        Annotated[FunctionHandlebars, Tag("handlebars")],
         Annotated[FunctionJoin, Tag("join")],
         Annotated[FunctionJSONUnroll, Tag("json_unroll")],
         Annotated[FunctionLakeExport, Tag("lake_export")],

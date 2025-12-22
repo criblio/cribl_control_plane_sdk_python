@@ -50,13 +50,13 @@ with CriblControlPlane(
                 "delectable-transom.com",
                 "radiant-sightseeing.info",
             ],
-            "technology": [
-                "<value 1>",
-            ],
             "streamtags": [
                 "<value 1>",
                 "<value 2>",
                 "<value 3>",
+            ],
+            "technology": [
+                "<value 1>",
             ],
         },
         "allow_custom_functions": True,

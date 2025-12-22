@@ -3,6 +3,24 @@
 
 ## Supported Types
 
+### `models.CollectorSplunkCollectorHealthCheckPart0Type`
+
+```python
+value: models.CollectorSplunkCollectorHealthCheckPart0Type = /* values here */
+```
+
+### `models.CollectorSplunkCollectorHealthCheckPart1Type`
+
+```python
+value: models.CollectorSplunkCollectorHealthCheckPart1Type = /* values here */
+```
+
+### `models.CollectorSplunkCollectorHealthCheckPart2Type`
+
+```python
+value: models.CollectorSplunkCollectorHealthCheckPart2Type = /* values here */
+```
+
 ### `models.CollectorSplunkSplunk1`
 
 ```python
@@ -25,23 +43,5 @@ value: models.CollectorSplunkSplunk3 = /* values here */
 
 ```python
 value: models.CollectorSplunkSplunk4 = /* values here */
-```
-
-### `models.CollectorSplunkSplunk5`
-
-```python
-value: models.CollectorSplunkSplunk5 = /* values here */
-```
-
-### `models.CollectorSplunkSplunk6`
-
-```python
-value: models.CollectorSplunkSplunk6 = /* values here */
-```
-
-### `models.CollectorSplunkSplunk7`
-
-```python
-value: models.CollectorSplunkSplunk7 = /* values here */
 ```
 

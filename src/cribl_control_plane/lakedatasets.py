@@ -22,7 +22,7 @@ class LakeDatasets(BaseSDK):
         ] = None,
         deletion_started_at: Optional[float] = None,
         description: Optional[str] = None,
-        format_: Optional[models.CriblLakeDatasetFormat] = None,
+        format_: Optional[models.FormatOptionsCriblLakeDataset] = None,
         http_da_used: Optional[bool] = None,
         metrics: Optional[
             Union[models.LakeDatasetMetrics, models.LakeDatasetMetricsTypedDict]
@@ -176,7 +176,7 @@ class LakeDatasets(BaseSDK):
         ] = None,
         deletion_started_at: Optional[float] = None,
         description: Optional[str] = None,
-        format_: Optional[models.CriblLakeDatasetFormat] = None,
+        format_: Optional[models.FormatOptionsCriblLakeDataset] = None,
         http_da_used: Optional[bool] = None,
         metrics: Optional[
             Union[models.LakeDatasetMetrics, models.LakeDatasetMetricsTypedDict]
@@ -930,7 +930,7 @@ class LakeDatasets(BaseSDK):
         ] = None,
         deletion_started_at: Optional[float] = None,
         description: Optional[str] = None,
-        format_: Optional[models.CriblLakeDatasetUpdateFormat] = None,
+        format_: Optional[models.FormatOptionsCriblLakeDataset] = None,
         http_da_used: Optional[bool] = None,
         id: Optional[str] = None,
         metrics: Optional[
@@ -1087,7 +1087,7 @@ class LakeDatasets(BaseSDK):
         ] = None,
         deletion_started_at: Optional[float] = None,
         description: Optional[str] = None,
-        format_: Optional[models.CriblLakeDatasetUpdateFormat] = None,
+        format_: Optional[models.FormatOptionsCriblLakeDataset] = None,
         http_da_used: Optional[bool] = None,
         id: Optional[str] = None,
         metrics: Optional[

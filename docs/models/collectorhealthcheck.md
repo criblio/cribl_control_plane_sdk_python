@@ -21,6 +21,24 @@ value: models.CollectorHealthCheckHealthCheck2 = /* values here */
 value: models.CollectorHealthCheckHealthCheck3 = /* values here */
 ```
 
+### `models.CollectorHealthCheckCollectorHealthCheckPart0Type`
+
+```python
+value: models.CollectorHealthCheckCollectorHealthCheckPart0Type = /* values here */
+```
+
+### `models.CollectorHealthCheckCollectorHealthCheckPart1Type`
+
+```python
+value: models.CollectorHealthCheckCollectorHealthCheckPart1Type = /* values here */
+```
+
+### `models.CollectorHealthCheckCollectorHealthCheckPart2Type`
+
+```python
+value: models.CollectorHealthCheckCollectorHealthCheckPart2Type = /* values here */
+```
+
 ### `models.CollectorHealthCheckHealthCheck4`
 
 ```python
@@ -43,23 +61,5 @@ value: models.CollectorHealthCheckHealthCheck6 = /* values here */
 
 ```python
 value: models.CollectorHealthCheckHealthCheck7 = /* values here */
-```
-
-### `models.CollectorHealthCheckHealthCheck8`
-
-```python
-value: models.CollectorHealthCheckHealthCheck8 = /* values here */
-```
-
-### `models.CollectorHealthCheckHealthCheck9`
-
-```python
-value: models.CollectorHealthCheckHealthCheck9 = /* values here */
-```
-
-### `models.CollectorHealthCheckHealthCheck10`
-
-```python
-value: models.CollectorHealthCheckHealthCheck10 = /* values here */
 ```
 

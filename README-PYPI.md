@@ -140,7 +140,7 @@ with CriblControlPlane(
         "lakehouse_connection_type": models.LakehouseConnectionType.CACHE,
         "migration_query_id": "<id>",
         "retention_in_days": 1466.58,
-    }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.CriblLakeDatasetFormat.DDSS, http_da_used=True, metrics={
+    }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.FormatOptionsCriblLakeDataset.DDSS, http_da_used=True, metrics={
         "current_size_bytes": 6170.04,
         "metrics_date": "<value>",
     }, retention_period_in_days=456.37, search_config={
@@ -201,7 +201,7 @@ async def main():
             "lakehouse_connection_type": models.LakehouseConnectionType.CACHE,
             "migration_query_id": "<id>",
             "retention_in_days": 1466.58,
-        }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.CriblLakeDatasetFormat.DDSS, http_da_used=True, metrics={
+        }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.FormatOptionsCriblLakeDataset.DDSS, http_da_used=True, metrics={
             "current_size_bytes": 6170.04,
             "metrics_date": "<value>",
         }, retention_period_in_days=456.37, search_config={
@@ -289,10 +289,10 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 * [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinations/README.md#update) - Update a Destination
 * [delete](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinations/README.md#delete) - Delete a Destination
 
-#### [Destinations.Pq](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinationspq/README.md)
+#### [Destinations.Pq](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/pq/README.md)
 
-* [clear](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinationspq/README.md#clear) - Clear the persistent queue for a Destination
-* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinationspq/README.md#get) - Get information about the latest job to clear the persistent queue for a Destination
+* [clear](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/pq/README.md#clear) - Clear the persistent queue for a Destination
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/pq/README.md#get) - Get information about the latest job to clear the persistent queue for a Destination
 
 #### [Destinations.Samples](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/samples/README.md)
 
@@ -403,10 +403,10 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 * [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/commits/README.md#get) - Get the diff and log message for a commit
 * [undo](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/commits/README.md#undo) - Discard uncommitted (staged) changes
 
-#### [Versions.Commits.Files](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/commitsfiles/README.md)
+#### [Versions.Commits.Files](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/files/README.md)
 
-* [count](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/commitsfiles/README.md#count) - Get a count of files that changed since a commit
-* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/commitsfiles/README.md#list) - Get the names and statuses of files that changed since a commit
+* [count](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/files/README.md#count) - Get a count of files that changed since a commit
+* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/files/README.md#list) - Get the names and statuses of files that changed since a commit
 
 ### [Versions.Configs](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/versionsconfigs/README.md)
 
@@ -482,7 +482,7 @@ with CriblControlPlane(
         "lakehouse_connection_type": models.LakehouseConnectionType.CACHE,
         "migration_query_id": "<id>",
         "retention_in_days": 1466.58,
-    }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.CriblLakeDatasetFormat.DDSS, http_da_used=True, metrics={
+    }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.FormatOptionsCriblLakeDataset.DDSS, http_da_used=True, metrics={
         "current_size_bytes": 6170.04,
         "metrics_date": "<value>",
     }, retention_period_in_days=456.37, search_config={
@@ -541,7 +541,7 @@ with CriblControlPlane(
         "lakehouse_connection_type": models.LakehouseConnectionType.CACHE,
         "migration_query_id": "<id>",
         "retention_in_days": 1466.58,
-    }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.CriblLakeDatasetFormat.DDSS, http_da_used=True, metrics={
+    }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.FormatOptionsCriblLakeDataset.DDSS, http_da_used=True, metrics={
         "current_size_bytes": 6170.04,
         "metrics_date": "<value>",
     }, retention_period_in_days=456.37, search_config={
@@ -614,7 +614,7 @@ with CriblControlPlane(
             "lakehouse_connection_type": models.LakehouseConnectionType.CACHE,
             "migration_query_id": "<id>",
             "retention_in_days": 1466.58,
-        }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.CriblLakeDatasetFormat.DDSS, http_da_used=True, metrics={
+        }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.FormatOptionsCriblLakeDataset.DDSS, http_da_used=True, metrics={
             "current_size_bytes": 6170.04,
             "metrics_date": "<value>",
         }, retention_period_in_days=456.37, search_config={

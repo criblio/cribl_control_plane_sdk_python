@@ -1,8 +1,17 @@
 # Os
 
 
-## Fields
+## Supported Types
 
-| Field              | Type               | Required           | Description        |
-| ------------------ | ------------------ | ------------------ | ------------------ |
-| `addresses`        | List[*str*]        | :heavy_check_mark: | N/A                |
+### `models.NodeProvidedInfoOs1`
+
+```python
+value: models.NodeProvidedInfoOs1 = /* values here */
+```
+
+### `models.NodeProvidedInfoOs2`
+
+```python
+value: models.NodeProvidedInfoOs2 = /* values here */
+```
+

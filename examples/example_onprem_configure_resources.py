@@ -22,8 +22,8 @@ from cribl_control_plane.models import (
     CreateInputInputSyslogType2,
     CreateOutputOutputS3,
     CreateOutputTypeS3,
-    CreateOutputCompressionS3,
-    CompressionLevelS3,
+    CompressionOptions2,
+    CompressionLevelOptions,
     Pipeline,
     RoutesRoute,
     PipelineConf,
@@ -32,7 +32,7 @@ from cribl_control_plane.models import (
     PipelineFunctionEvalID,
     PipelineFunctionConf,
     FunctionConfSchemaEval,
-    CreateInputInputSyslogTLSSettingsServerSide2,
+    TLSSettingsServerSideType,
 )
 from typing import List, cast
 
@@ -58,7 +58,7 @@ syslog_source = CreateInputInputSyslogSyslog2(
     id="in-syslog-9021",
     type=CreateInputInputSyslogType2.SYSLOG,
     tcp_port=SYSLOG_PORT,
-    tls=CreateInputInputSyslogTLSSettingsServerSide2(disabled=True),
+    tls=TLSSettingsServerSideType(disabled=True),
 )
 
 # S3 Destination configuration
@@ -69,8 +69,8 @@ s3_destination = CreateOutputOutputS3(
     region=AWS_REGION,
     aws_secret_key=AWS_SECRET_KEY,
     aws_api_key=AWS_API_KEY,
-    compress=CreateOutputCompressionS3.GZIP,
-    compression_level=CompressionLevelS3.BEST_SPEED,
+    compress=CompressionOptions2.GZIP,
+    compression_level=CompressionLevelOptions.BEST_SPEED,
     empty_dir_cleanup_sec=300,
 )
 

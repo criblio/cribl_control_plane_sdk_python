@@ -20,7 +20,7 @@ from cribl_control_plane.models import (
     Security,
     SchemeClientOauth,
     ProductsCore,
-    EstimatedIngestRateOptionsConfigGroup,
+    GroupCreateRequestEstimatedIngestRate,
 )
 
 ORG_ID = "your-org-id"
@@ -32,7 +32,7 @@ WORKER_GROUP_ID = "your-cloud-worker-group-id"
 base_url = f"https://{WORKSPACE_NAME}-{ORG_ID}.cribl.cloud/api/v1"
 
 # Equivalent to 24 MB/s maximum estimated ingest rate with 9 Worker Processes
-ESTIMATED_INGEST_RATE = EstimatedIngestRateOptionsConfigGroup.RATE24_MB_PER_SEC
+ESTIMATED_INGEST_RATE = GroupCreateRequestEstimatedIngestRate.RATE24_MB_PER_SEC
 
 group = ConfigGroup(
     id=WORKER_GROUP_ID,

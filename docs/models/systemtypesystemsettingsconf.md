@@ -1,9 +1,0 @@
-# SystemTypeSystemSettingsConf
-
-
-## Fields
-
-| Field                                                                                                | Type                                                                                                 | Required                                                                                             | Description                                                                                          |
-| ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| `intercom`                                                                                           | *bool*                                                                                               | :heavy_check_mark:                                                                                   | N/A                                                                                                  |
-| `upgrade`                                                                                            | [models.UpgradeOptionsSystemSettingsConfSystem](../models/upgradeoptionssystemsettingsconfsystem.md) | :heavy_check_mark:                                                                                   | N/A                                                                                                  |

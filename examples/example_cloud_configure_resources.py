@@ -24,8 +24,8 @@ from cribl_control_plane.models import (
     CreateInputInputSyslogType2,
     CreateOutputOutputS3,
     CreateOutputTypeS3,
-    CompressionOptions2,
-    CompressionLevelOptions,
+    CreateOutputCompressionS3,
+    CompressionLevelS3,
     Pipeline,
     RoutesRoute,
     PipelineConf,
@@ -34,12 +34,12 @@ from cribl_control_plane.models import (
     PipelineFunctionEvalID,
     PipelineFunctionConf,
     FunctionConfSchemaEval,
-    TLSSettingsServerSideType,
+    CreateInputInputSyslogTLSSettingsServerSide2,
     Security,
     SchemeClientOauth,
     ConfigGroupCloud,
     CloudProvider,
-    EstimatedIngestRateOptionsConfigGroup
+    GroupCreateRequestEstimatedIngestRate
 )
 from typing import List, cast
 
@@ -66,7 +66,7 @@ syslog_source = CreateInputInputSyslogSyslog2(
     id="in-syslog-9021",
     type=CreateInputInputSyslogType2.SYSLOG,
     tcp_port=SYSLOG_PORT,
-    tls=TLSSettingsServerSideType(disabled=True),
+    tls=CreateInputInputSyslogTLSSettingsServerSide2(disabled=True),
 )
 
 # S3 Destination configuration
@@ -77,8 +77,8 @@ s3_destination = CreateOutputOutputS3(
     region=AWS_REGION,
     aws_secret_key=AWS_SECRET_KEY,
     aws_api_key=AWS_API_KEY,
-    compress=CompressionOptions2.GZIP,
-    compression_level=CompressionLevelOptions.BEST_SPEED,
+    compress=CreateOutputCompressionS3.GZIP,
+    compression_level=CompressionLevelS3.BEST_SPEED,
     empty_dir_cleanup_sec=300,
 )
 
@@ -144,7 +144,7 @@ async def main():
         is_fleet=False,
         is_search=False,
         name=WORKER_GROUP_ID,
-        estimated_ingest_rate=EstimatedIngestRateOptionsConfigGroup.RATE12_MB_PER_SEC,
+        estimated_ingest_rate=GroupCreateRequestEstimatedIngestRate.RATE12_MB_PER_SEC,
         cloud=ConfigGroupCloud(
             provider=CloudProvider.AWS,
             region="us-east-1"

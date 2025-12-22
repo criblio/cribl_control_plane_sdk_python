@@ -27,10 +27,22 @@ value: models.CollectorRestRest3 = /* values here */
 value: models.CollectorRestRest4 = /* values here */
 ```
 
+### `models.CollectorRestCollectorHealthCheckPart0Type`
+
+```python
+value: models.CollectorRestCollectorHealthCheckPart0Type = /* values here */
+```
+
 ### `models.CollectorRestRest5`
 
 ```python
 value: models.CollectorRestRest5 = /* values here */
+```
+
+### `models.CollectorRestCollectorHealthCheckPart2Type`
+
+```python
+value: models.CollectorRestCollectorHealthCheckPart2Type = /* values here */
 ```
 
 ### `models.CollectorRestRest6`
@@ -73,17 +85,5 @@ value: models.CollectorRestRest11 = /* values here */
 
 ```python
 value: models.CollectorRestRest12 = /* values here */
-```
-
-### `models.CollectorRestRest13`
-
-```python
-value: models.CollectorRestRest13 = /* values here */
-```
-
-### `models.CollectorRestRest14`
-
-```python
-value: models.CollectorRestRest14 = /* values here */
 ```
 

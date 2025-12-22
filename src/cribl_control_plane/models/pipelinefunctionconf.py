@@ -65,9 +65,9 @@ from .pipelinefunctiongenstats import (
 )
 from .pipelinefunctiongeoip import PipelineFunctionGeoip, PipelineFunctionGeoipTypedDict
 from .pipelinefunctiongrok import PipelineFunctionGrok, PipelineFunctionGrokTypedDict
-from .pipelinefunctionhandlebar import (
-    PipelineFunctionHandlebar,
-    PipelineFunctionHandlebarTypedDict,
+from .pipelinefunctionhandlebars import (
+    PipelineFunctionHandlebars,
+    PipelineFunctionHandlebarsTypedDict,
 )
 from .pipelinefunctionjoin import PipelineFunctionJoin, PipelineFunctionJoinTypedDict
 from .pipelinefunctionjsonunroll import (
@@ -228,7 +228,7 @@ PipelineFunctionConfTypedDict = TypeAliasType(
         PipelineFunctionGenStatsTypedDict,
         PipelineFunctionGeoipTypedDict,
         PipelineFunctionGrokTypedDict,
-        PipelineFunctionHandlebarTypedDict,
+        PipelineFunctionHandlebarsTypedDict,
         PipelineFunctionJoinTypedDict,
         PipelineFunctionJSONUnrollTypedDict,
         PipelineFunctionLakeExportTypedDict,
@@ -298,7 +298,7 @@ PipelineFunctionConf = Annotated[
         Annotated[PipelineFunctionGenStats, Tag("gen_stats")],
         Annotated[PipelineFunctionGeoip, Tag("geoip")],
         Annotated[PipelineFunctionGrok, Tag("grok")],
-        Annotated[PipelineFunctionHandlebar, Tag("handlebar")],
+        Annotated[PipelineFunctionHandlebars, Tag("handlebars")],
         Annotated[PipelineFunctionJoin, Tag("join")],
         Annotated[PipelineFunctionJSONUnroll, Tag("json_unroll")],
         Annotated[PipelineFunctionLakeExport, Tag("lake_export")],

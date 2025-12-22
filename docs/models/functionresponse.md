@@ -135,10 +135,10 @@ value: models.FunctionGeoip = /* values here */
 value: models.FunctionGrok = /* values here */
 ```
 
-### `models.FunctionHandlebar`
+### `models.FunctionHandlebars`
 
 ```python
-value: models.FunctionHandlebar = /* values here */
+value: models.FunctionHandlebars = /* values here */
 ```
 
 ### `models.FunctionJoin`

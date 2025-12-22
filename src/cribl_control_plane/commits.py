@@ -4,7 +4,7 @@ from .basesdk import BaseSDK
 from .sdkconfiguration import SDKConfiguration
 from cribl_control_plane import errors, models, utils
 from cribl_control_plane._hooks import HookContext
-from cribl_control_plane.commits_files import CommitsFiles
+from cribl_control_plane.files import Files
 from cribl_control_plane.types import OptionalNullable, UNSET
 from cribl_control_plane.utils import get_security_from_env
 from cribl_control_plane.utils.unmarshal_json_response import unmarshal_json_response
@@ -12,7 +12,7 @@ from typing import Any, List, Mapping, Optional
 
 
 class Commits(BaseSDK):
-    files: CommitsFiles
+    files: Files
 
     def __init__(
         self, sdk_config: SDKConfiguration, parent_ref: Optional[object] = None
@@ -22,7 +22,7 @@ class Commits(BaseSDK):
         self._init_sdks()
 
     def _init_sdks(self):
-        self.files = CommitsFiles(self.sdk_configuration, parent_ref=self.parent_ref)
+        self.files = Files(self.sdk_configuration, parent_ref=self.parent_ref)
 
     def create(
         self,

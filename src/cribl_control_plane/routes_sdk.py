@@ -374,7 +374,8 @@ class RoutesSDK(BaseSDK):
         id: Optional[str] = None,
         groups: Optional[
             Union[
-                Dict[str, models.RoutesGroups], Dict[str, models.RoutesGroupsTypedDict]
+                Dict[str, models.AdditionalPropertiesTypePipelineConfGroups],
+                Dict[str, models.AdditionalPropertiesTypePipelineConfGroupsTypedDict],
             ]
         ] = None,
         comments: Optional[
@@ -415,7 +416,10 @@ class RoutesSDK(BaseSDK):
                 id=id,
                 routes=utils.get_pydantic_model(routes, List[models.RoutesRoute]),
                 groups=utils.get_pydantic_model(
-                    groups, Optional[Dict[str, models.RoutesGroups]]
+                    groups,
+                    Optional[
+                        Dict[str, models.AdditionalPropertiesTypePipelineConfGroups]
+                    ],
                 ),
                 comments=utils.get_pydantic_model(
                     comments, Optional[List[models.Comment]]
@@ -493,7 +497,8 @@ class RoutesSDK(BaseSDK):
         id: Optional[str] = None,
         groups: Optional[
             Union[
-                Dict[str, models.RoutesGroups], Dict[str, models.RoutesGroupsTypedDict]
+                Dict[str, models.AdditionalPropertiesTypePipelineConfGroups],
+                Dict[str, models.AdditionalPropertiesTypePipelineConfGroupsTypedDict],
             ]
         ] = None,
         comments: Optional[
@@ -534,7 +539,10 @@ class RoutesSDK(BaseSDK):
                 id=id,
                 routes=utils.get_pydantic_model(routes, List[models.RoutesRoute]),
                 groups=utils.get_pydantic_model(
-                    groups, Optional[Dict[str, models.RoutesGroups]]
+                    groups,
+                    Optional[
+                        Dict[str, models.AdditionalPropertiesTypePipelineConfGroups]
+                    ],
                 ),
                 comments=utils.get_pydantic_model(
                     comments, Optional[List[models.Comment]]

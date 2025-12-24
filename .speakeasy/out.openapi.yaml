@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.16.0-alpha.1766185381911-cd685784
+  version: 4.16.0-alpha.1766530959387-065f6dfe
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -57602,6 +57602,26 @@ components:
             - id
         - required:
             - source
+    CountedPackUninstallInfo:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/PackUninstallInfo"
+    PackUninstallInfo:
+      type: object
+      properties:
+        id:
+          type: string
+        source:
+          type: string
+      required:
+        - id
+        - source
     CountedPackInfo:
       type: object
       properties:
@@ -58832,12 +58852,10 @@ components:
         - cpus
         - cribl
         - env
-        - freeDiskSpace
         - hostname
         - node
         - platform
         - release
-        - totalDiskSpace
         - totalmem
     NodeActiveUpgradeStatus:
       type: integer
@@ -63584,11 +63602,11 @@ paths:
       description: Uninstall the specified Pack.
       responses:
         "200":
-          description: a list of PackInstallInfo objects
+          description: a list of PackUninstallInfo objects
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CountedPackInstallInfo"
+                $ref: "#/components/schemas/CountedPackUninstallInfo"
         "401":
           description: Unauthorized
         "500":

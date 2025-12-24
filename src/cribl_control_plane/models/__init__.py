@@ -903,6 +903,10 @@ if TYPE_CHECKING:
         CountedPackInstallInfo,
         CountedPackInstallInfoTypedDict,
     )
+    from .countedpackuninstallinfo import (
+        CountedPackUninstallInfo,
+        CountedPackUninstallInfoTypedDict,
+    )
     from .countedpipeline import CountedPipeline, CountedPipelineTypedDict
     from .countedroutes import CountedRoutes, CountedRoutesTypedDict
     from .countedsavedjob import CountedSavedJob, CountedSavedJobTypedDict
@@ -7249,6 +7253,7 @@ if TYPE_CHECKING:
         PackRequestBodyUnion,
         PackRequestBodyUnionTypedDict,
     )
+    from .packuninstallinfo import PackUninstallInfo, PackUninstallInfoTypedDict
     from .packupgraderequest import PackUpgradeRequest, PackUpgradeRequestTypedDict
     from .piisettings_union import (
         PiiSettings1,
@@ -9188,6 +9193,8 @@ __all__ = [
     "CountedPackInfoTypedDict",
     "CountedPackInstallInfo",
     "CountedPackInstallInfoTypedDict",
+    "CountedPackUninstallInfo",
+    "CountedPackUninstallInfoTypedDict",
     "CountedPipeline",
     "CountedPipelineTypedDict",
     "CountedRoutes",
@@ -13895,6 +13902,8 @@ __all__ = [
     "PackRequestBodyTags2TypedDict",
     "PackRequestBodyUnion",
     "PackRequestBodyUnionTypedDict",
+    "PackUninstallInfo",
+    "PackUninstallInfoTypedDict",
     "PackUpgradeRequest",
     "PackUpgradeRequestTypedDict",
     "Pagination1",
@@ -16072,6 +16081,8 @@ _dynamic_imports: dict[str, str] = {
     "CountedPackInfoTypedDict": ".countedpackinfo",
     "CountedPackInstallInfo": ".countedpackinstallinfo",
     "CountedPackInstallInfoTypedDict": ".countedpackinstallinfo",
+    "CountedPackUninstallInfo": ".countedpackuninstallinfo",
+    "CountedPackUninstallInfoTypedDict": ".countedpackuninstallinfo",
     "CountedPipeline": ".countedpipeline",
     "CountedPipelineTypedDict": ".countedpipeline",
     "CountedRoutes": ".countedroutes",
@@ -21916,6 +21927,8 @@ _dynamic_imports: dict[str, str] = {
     "PackRequestBodyTags2TypedDict": ".packrequestbody_union",
     "PackRequestBodyUnion": ".packrequestbody_union",
     "PackRequestBodyUnionTypedDict": ".packrequestbody_union",
+    "PackUninstallInfo": ".packuninstallinfo",
+    "PackUninstallInfoTypedDict": ".packuninstallinfo",
     "PackUpgradeRequest": ".packupgraderequest",
     "PackUpgradeRequestTypedDict": ".packupgraderequest",
     "PiiSettings1": ".piisettings_union",

@@ -210,7 +210,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.CountedPackInstallInfo](../../models/countedpackinstallinfo.md)**
+**[models.CountedPackUninstallInfo](../../models/countedpackuninstallinfo.md)**
 
 ### Errors
 

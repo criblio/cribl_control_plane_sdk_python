@@ -5,16 +5,12 @@ from .filesystemcollectorconf import (
     FilesystemCollectorConf,
     FilesystemCollectorConfTypedDict,
 )
-from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
-from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
-from typing_extensions import Annotated, TypedDict
+from typing_extensions import TypedDict
 
 
-class CollectorFilesystemType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CollectorFilesystemType(str, Enum):
     r"""Collector type: filesystem"""
 
     FILESYSTEM = "filesystem"
@@ -31,16 +27,7 @@ class CollectorFilesystemTypedDict(TypedDict):
 class CollectorFilesystem(BaseModel):
     r"""Filesystem collector configuration"""
 
-    type: Annotated[CollectorFilesystemType, PlainValidator(validate_open_enum(False))]
+    type: CollectorFilesystemType
     r"""Collector type: filesystem"""
 
     conf: FilesystemCollectorConf
-
-    @field_serializer("type")
-    def serialize_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.CollectorFilesystemType(value)
-            except ValueError:
-                return value
-        return value

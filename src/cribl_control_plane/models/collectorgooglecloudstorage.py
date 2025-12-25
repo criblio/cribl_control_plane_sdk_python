@@ -5,16 +5,12 @@ from .googlecloudstoragecollectorconf import (
     GoogleCloudStorageCollectorConf,
     GoogleCloudStorageCollectorConfTypedDict,
 )
-from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
-from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
-from typing_extensions import Annotated, TypedDict
+from typing_extensions import TypedDict
 
 
-class CollectorGoogleCloudStorageType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CollectorGoogleCloudStorageType(str, Enum):
     r"""Collector type: google_cloud_storage"""
 
     GOOGLE_CLOUD_STORAGE = "google_cloud_storage"
@@ -31,18 +27,7 @@ class CollectorGoogleCloudStorageTypedDict(TypedDict):
 class CollectorGoogleCloudStorage(BaseModel):
     r"""GoogleCloudStorage collector configuration"""
 
-    type: Annotated[
-        CollectorGoogleCloudStorageType, PlainValidator(validate_open_enum(False))
-    ]
+    type: CollectorGoogleCloudStorageType
     r"""Collector type: google_cloud_storage"""
 
     conf: GoogleCloudStorageCollectorConf
-
-    @field_serializer("type")
-    def serialize_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.CollectorGoogleCloudStorageType(value)
-            except ValueError:
-                return value
-        return value

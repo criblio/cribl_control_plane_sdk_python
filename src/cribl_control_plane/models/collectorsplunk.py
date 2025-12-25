@@ -2,16 +2,12 @@
 
 from __future__ import annotations
 from .splunkcollectorconf import SplunkCollectorConf, SplunkCollectorConfTypedDict
-from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
-from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
-from typing_extensions import Annotated, TypedDict
+from typing_extensions import TypedDict
 
 
-class CollectorSplunkType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CollectorSplunkType(str, Enum):
     r"""Collector type: splunk"""
 
     SPLUNK = "splunk"
@@ -28,16 +24,7 @@ class CollectorSplunkTypedDict(TypedDict):
 class CollectorSplunk(BaseModel):
     r"""Splunk collector configuration"""
 
-    type: Annotated[CollectorSplunkType, PlainValidator(validate_open_enum(False))]
+    type: CollectorSplunkType
     r"""Collector type: splunk"""
 
     conf: SplunkCollectorConf
-
-    @field_serializer("type")
-    def serialize_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.CollectorSplunkType(value)
-            except ValueError:
-                return value
-        return value

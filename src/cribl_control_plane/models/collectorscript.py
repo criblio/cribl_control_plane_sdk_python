@@ -2,16 +2,12 @@
 
 from __future__ import annotations
 from .scriptcollectorconf import ScriptCollectorConf, ScriptCollectorConfTypedDict
-from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
-from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
-from typing_extensions import Annotated, TypedDict
+from typing_extensions import TypedDict
 
 
-class CollectorScriptType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CollectorScriptType(str, Enum):
     r"""Collector type: script"""
 
     SCRIPT = "script"
@@ -28,16 +24,7 @@ class CollectorScriptTypedDict(TypedDict):
 class CollectorScript(BaseModel):
     r"""Script collector configuration"""
 
-    type: Annotated[CollectorScriptType, PlainValidator(validate_open_enum(False))]
+    type: CollectorScriptType
     r"""Collector type: script"""
 
     conf: ScriptCollectorConf
-
-    @field_serializer("type")
-    def serialize_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.CollectorScriptType(value)
-            except ValueError:
-                return value
-        return value

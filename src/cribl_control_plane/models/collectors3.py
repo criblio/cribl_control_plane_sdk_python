@@ -2,16 +2,12 @@
 
 from __future__ import annotations
 from .s3collectorconf import S3CollectorConf, S3CollectorConfTypedDict
-from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
-from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
-from typing_extensions import Annotated, TypedDict
+from typing_extensions import TypedDict
 
 
-class CollectorS3Type(str, Enum, metaclass=utils.OpenEnumMeta):
+class CollectorS3Type(str, Enum):
     r"""Collector type: s3"""
 
     S3 = "s3"
@@ -28,16 +24,7 @@ class CollectorS3TypedDict(TypedDict):
 class CollectorS3(BaseModel):
     r"""S3 collector configuration"""
 
-    type: Annotated[CollectorS3Type, PlainValidator(validate_open_enum(False))]
+    type: CollectorS3Type
     r"""Collector type: s3"""
 
     conf: S3CollectorConf
-
-    @field_serializer("type")
-    def serialize_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.CollectorS3Type(value)
-            except ValueError:
-                return value
-        return value

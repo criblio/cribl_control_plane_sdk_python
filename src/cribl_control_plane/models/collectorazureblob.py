@@ -5,16 +5,12 @@ from .azureblobcollectorconf import (
     AzureBlobCollectorConf,
     AzureBlobCollectorConfTypedDict,
 )
-from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
-from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
-from typing_extensions import Annotated, TypedDict
+from typing_extensions import TypedDict
 
 
-class CollectorAzureBlobType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CollectorAzureBlobType(str, Enum):
     r"""Collector type: azure_blob"""
 
     AZURE_BLOB = "azure_blob"
@@ -31,16 +27,7 @@ class CollectorAzureBlobTypedDict(TypedDict):
 class CollectorAzureBlob(BaseModel):
     r"""AzureBlob collector configuration"""
 
-    type: Annotated[CollectorAzureBlobType, PlainValidator(validate_open_enum(False))]
+    type: CollectorAzureBlobType
     r"""Collector type: azure_blob"""
 
     conf: AzureBlobCollectorConf
-
-    @field_serializer("type")
-    def serialize_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.CollectorAzureBlobType(value)
-            except ValueError:
-                return value
-        return value

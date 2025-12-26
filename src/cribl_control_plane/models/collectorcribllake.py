@@ -5,16 +5,12 @@ from .cribllakecollectorconf import (
     CriblLakeCollectorConf,
     CriblLakeCollectorConfTypedDict,
 )
-from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
-from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
-from typing_extensions import Annotated, TypedDict
+from typing_extensions import TypedDict
 
 
-class CollectorCriblLakeType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CollectorCriblLakeType(str, Enum):
     r"""Collector type: cribl_lake"""
 
     CRIBL_LAKE = "cribl_lake"
@@ -31,16 +27,7 @@ class CollectorCriblLakeTypedDict(TypedDict):
 class CollectorCriblLake(BaseModel):
     r"""CriblLake collector configuration"""
 
-    type: Annotated[CollectorCriblLakeType, PlainValidator(validate_open_enum(False))]
+    type: CollectorCriblLakeType
     r"""Collector type: cribl_lake"""
 
     conf: CriblLakeCollectorConf
-
-    @field_serializer("type")
-    def serialize_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.CollectorCriblLakeType(value)
-            except ValueError:
-                return value
-        return value

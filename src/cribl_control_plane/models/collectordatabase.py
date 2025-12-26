@@ -2,16 +2,12 @@
 
 from __future__ import annotations
 from .databasecollectorconf import DatabaseCollectorConf, DatabaseCollectorConfTypedDict
-from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
-from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
-from typing_extensions import Annotated, TypedDict
+from typing_extensions import TypedDict
 
 
-class CollectorDatabaseType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CollectorDatabaseType(str, Enum):
     r"""Collector type: database"""
 
     DATABASE = "database"
@@ -28,16 +24,7 @@ class CollectorDatabaseTypedDict(TypedDict):
 class CollectorDatabase(BaseModel):
     r"""Database collector configuration"""
 
-    type: Annotated[CollectorDatabaseType, PlainValidator(validate_open_enum(False))]
+    type: CollectorDatabaseType
     r"""Collector type: database"""
 
     conf: DatabaseCollectorConf
-
-    @field_serializer("type")
-    def serialize_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.CollectorDatabaseType(value)
-            except ValueError:
-                return value
-        return value

@@ -2,16 +2,12 @@
 
 from __future__ import annotations
 from .restcollectorconf import RestCollectorConf, RestCollectorConfTypedDict
-from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
-from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
-from typing_extensions import Annotated, TypedDict
+from typing_extensions import TypedDict
 
 
-class CollectorRestType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CollectorRestType(str, Enum):
     r"""Collector type: rest"""
 
     REST = "rest"
@@ -28,16 +24,7 @@ class CollectorRestTypedDict(TypedDict):
 class CollectorRest(BaseModel):
     r"""Rest collector configuration"""
 
-    type: Annotated[CollectorRestType, PlainValidator(validate_open_enum(False))]
+    type: CollectorRestType
     r"""Collector type: rest"""
 
     conf: RestCollectorConf
-
-    @field_serializer("type")
-    def serialize_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.CollectorRestType(value)
-            except ValueError:
-                return value
-        return value

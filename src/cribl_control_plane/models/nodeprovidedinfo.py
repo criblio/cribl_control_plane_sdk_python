@@ -161,16 +161,15 @@ class NodeProvidedInfoTypedDict(TypedDict):
     cpus: float
     cribl: HBCriblInfoTypedDict
     env: Dict[str, str]
-    free_disk_space: float
     hostname: str
     node: str
     platform: str
     release: str
-    total_disk_space: float
     totalmem: float
     aws: NotRequired[NodeProvidedInfoAwsTypedDict]
     azure: NotRequired[NodeProvidedInfoAzureTypedDict]
     conn_ip: NotRequired[str]
+    free_disk_space: NotRequired[float]
     host_os: NotRequired[NodeProvidedInfoHostOsTypedDict]
     is_saas_worker: NotRequired[bool]
     kube: NotRequired[NodeProvidedInfoKubeTypedDict]
@@ -178,6 +177,7 @@ class NodeProvidedInfoTypedDict(TypedDict):
     metadata: NotRequired[HeartbeatMetadataTypedDict]
     os: NotRequired[OsTypedDict]
     outpost: NotRequired[OutpostNodeInfoTypedDict]
+    total_disk_space: NotRequired[float]
 
 
 class NodeProvidedInfo(BaseModel):
@@ -189,8 +189,6 @@ class NodeProvidedInfo(BaseModel):
 
     env: Dict[str, str]
 
-    free_disk_space: Annotated[float, pydantic.Field(alias="freeDiskSpace")]
-
     hostname: str
 
     node: str
@@ -199,8 +197,6 @@ class NodeProvidedInfo(BaseModel):
 
     release: str
 
-    total_disk_space: Annotated[float, pydantic.Field(alias="totalDiskSpace")]
-
     totalmem: float
 
     aws: Optional[NodeProvidedInfoAws] = None
@@ -208,6 +204,10 @@ class NodeProvidedInfo(BaseModel):
     azure: Optional[NodeProvidedInfoAzure] = None
 
     conn_ip: Optional[str] = None
+
+    free_disk_space: Annotated[
+        Optional[float], pydantic.Field(alias="freeDiskSpace")
+    ] = None
 
     host_os: Annotated[
         Optional[NodeProvidedInfoHostOs], pydantic.Field(alias="hostOs")
@@ -226,3 +226,7 @@ class NodeProvidedInfo(BaseModel):
     os: Optional[Os] = None
 
     outpost: Optional[OutpostNodeInfo] = None
+
+    total_disk_space: Annotated[
+        Optional[float], pydantic.Field(alias="totalDiskSpace")
+    ] = None

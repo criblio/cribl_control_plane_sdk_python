@@ -5,16 +5,12 @@ from .healthcheckcollectorconf import (
     HealthCheckCollectorConf,
     HealthCheckCollectorConfTypedDict,
 )
-from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
-from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
-from typing_extensions import Annotated, TypedDict
+from typing_extensions import TypedDict
 
 
-class CollectorHealthCheckType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CollectorHealthCheckType(str, Enum):
     r"""Collector type: health_check"""
 
     HEALTH_CHECK = "health_check"
@@ -31,16 +27,7 @@ class CollectorHealthCheckTypedDict(TypedDict):
 class CollectorHealthCheck(BaseModel):
     r"""HealthCheck collector configuration"""
 
-    type: Annotated[CollectorHealthCheckType, PlainValidator(validate_open_enum(False))]
+    type: CollectorHealthCheckType
     r"""Collector type: health_check"""
 
     conf: HealthCheckCollectorConf
-
-    @field_serializer("type")
-    def serialize_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.CollectorHealthCheckType(value)
-            except ValueError:
-                return value
-        return value

@@ -23447,24 +23447,7 @@ class CreateInputInputElastic(BaseModel):
 
     custom_api_version: Annotated[
         Optional[str], pydantic.Field(alias="customAPIVersion")
-    ] = (
-        "{\n"
-        '    "name": "AzU84iL",\n'
-        '    "cluster_name": "cribl",\n'
-        '    "cluster_uuid": "Js6_Z2VKS3KbfRSxPmPbaw",\n'
-        '    "version": {\n'
-        '        "number": "8.3.2",\n'
-        '        "build_type": "tar",\n'
-        '        "build_hash": "bca0c8d",\n'
-        '        "build_date": "2019-10-16T06:19:49.319352Z",\n'
-        '        "build_snapshot": false,\n'
-        '        "lucene_version": "9.7.2",\n'
-        '        "minimum_wire_compatibility_version": "7.17.0",\n'
-        '        "minimum_index_compatibility_version": "7.0.0"\n'
-        "    },\n"
-        '    "tagline": "You Know, for Search"\n'
-        "}"
-    )
+    ] = '{\n    "name": "AzU84iL",\n    "cluster_name": "cribl",\n    "cluster_uuid": "Js6_Z2VKS3KbfRSxPmPbaw",\n    "version": {\n        "number": "8.3.2",\n        "build_type": "tar",\n        "build_hash": "bca0c8d",\n        "build_date": "2019-10-16T06:19:49.319352Z",\n        "build_snapshot": false,\n        "lucene_version": "9.7.2",\n        "minimum_wire_compatibility_version": "7.17.0",\n        "minimum_index_compatibility_version": "7.0.0"\n    },\n    "tagline": "You Know, for Search"\n}'
     r"""Custom version information to respond to requests"""
 
     @field_serializer("auth_type")

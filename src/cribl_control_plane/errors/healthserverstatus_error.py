@@ -15,11 +15,9 @@ from typing_extensions import Annotated
 
 class HealthServerStatusErrorData(BaseModel):
     start_time: Annotated[float, pydantic.Field(alias="startTime")]
-
     status: Annotated[
         models_healthserverstatus.Status, PlainValidator(validate_open_enum(False))
     ]
-
     role: Annotated[
         Optional[models_healthserverstatus.Role],
         PlainValidator(validate_open_enum(False)),

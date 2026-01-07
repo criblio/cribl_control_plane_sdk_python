@@ -51,9 +51,9 @@ class Summary(BaseModel):
 class GitCommitSummaryTypedDict(TypedDict):
     branch: str
     commit: str
-    files: GitCommitSummaryFilesTypedDict
     summary: SummaryTypedDict
     author: NotRequired[AuthorTypedDict]
+    files: NotRequired[GitCommitSummaryFilesTypedDict]
 
 
 class GitCommitSummary(BaseModel):
@@ -61,8 +61,8 @@ class GitCommitSummary(BaseModel):
 
     commit: str
 
-    files: GitCommitSummaryFiles
-
     summary: Summary
 
     author: Optional[Author] = None
+
+    files: Optional[GitCommitSummaryFiles] = None

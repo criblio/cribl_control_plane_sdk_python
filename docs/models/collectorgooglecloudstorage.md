@@ -1,11 +1,23 @@
 # CollectorGoogleCloudStorage
 
-GoogleCloudStorage collector configuration
 
+## Supported Types
 
-## Fields
+### `models.CollectorGoogleCloudStorageGoogleCloudStorage1`
 
-| Field                                                                                  | Type                                                                                   | Required                                                                               | Description                                                                            |
-| -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| `type`                                                                                 | [models.CollectorGoogleCloudStorageType](../models/collectorgooglecloudstoragetype.md) | :heavy_check_mark:                                                                     | Collector type: google_cloud_storage                                                   |
-| `conf`                                                                                 | [models.GoogleCloudStorageCollectorConf](../models/googlecloudstoragecollectorconf.md) | :heavy_check_mark:                                                                     | N/A                                                                                    |
+```python
+value: models.CollectorGoogleCloudStorageGoogleCloudStorage1 = /* values here */
+```
+
+### `models.CollectorGoogleCloudStorageGoogleCloudStorage2`
+
+```python
+value: models.CollectorGoogleCloudStorageGoogleCloudStorage2 = /* values here */
+```
+
+### `models.CollectorGoogleCloudStorageGoogleCloudStorage3`
+
+```python
+value: models.CollectorGoogleCloudStorageGoogleCloudStorage3 = /* values here */
+```
+

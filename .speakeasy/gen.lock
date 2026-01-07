@@ -3,23 +3,23 @@ id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
   docChecksum: 27ac652aefe9dc6d045a5fa30f346a4e
   docVersion: 4.15.1-alpha.1765407756960-5c02a009
-  speakeasyVersion: 1.674.0
-  generationVersion: 2.778.0
-  releaseVersion: 0.4.0a13
-  configChecksum: b30999f2c6b17d0f257f780fecc80b5a
+  speakeasyVersion: 1.682.0
+  generationVersion: 2.791.1
+  releaseVersion: 0.5.0a1
+  configChecksum: d877f2a26dc4b32eeea8e16fe977f0e7
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
 persistentEdits:
-  generation_id: d8f00d2f-3b6a-4ba2-affe-a5931fc8e720
-  pristine_commit_hash: 7673e75f309b2669bdf0d1f9ff143a2a19cd8492
-  pristine_tree_hash: eb2f15294425a7f8ea9e27384b6fd81d534d51a0
+  generation_id: 7815c3f9-fed3-4c5c-a441-61b35631be42
+  pristine_commit_hash: 47ff196b82301a25042a1a3c81f6a5cca759ed40
+  pristine_tree_hash: 5e8f01b440269ca0062469ada3aaf800f1df8af2
 features:
   python:
     additionalDependencies: 1.0.0
     additionalProperties: 1.0.1
     constsAndDefaults: 1.0.5
-    core: 5.23.13
+    core: 5.23.16
     defaultEnabledRetries: 0.2.0
     devContainers: 3.0.0
     enumUnions: 0.1.0
@@ -35,7 +35,7 @@ features:
     nameOverrides: 3.0.1
     nullables: 1.0.1
     oauth2ClientCredentials: 2.1.0
-    openEnums: 1.0.1
+    openEnums: 1.0.2
     responseFormat: 1.0.1
     retries: 3.0.3
     sdkHooks: 1.2.0
@@ -8308,8 +8308,8 @@ trackedFiles:
     pristine_git_object: 0abbb4d34f2289987b92a4ee3cfe300da8a66143
   pyproject.toml:
     id: 5d07e7d72637
-    last_write_checksum: sha1:e2bb05765519cd28270d81cfae5c354c54746c0a
-    pristine_git_object: f4eba190f1f58607db9439734685d52fc218d00a
+    last_write_checksum: sha1:cd32de3f64d3313ba1975f0a5cea7e8c23249052
+    pristine_git_object: 2c7c3d35b1370b35ed3796e3e3ec2ed1d985a2a6
   scripts/prepare_readme.py:
     id: e0c5957a6035
     last_write_checksum: sha1:a2e0d08bb2b147a5bab939d676620d1686f3b024
@@ -8340,8 +8340,8 @@ trackedFiles:
     pristine_git_object: b4fad0525f29a586b91348c6d7c51c642d1e9790
   src/cribl_control_plane/_version.py:
     id: 9c8e5f14504b
-    last_write_checksum: sha1:4fc2b280fe01319003091edd53f5ccc1eafbcc1c
-    pristine_git_object: 80bf25a0eaa7f525c112b9ac070fb57404dae783
+    last_write_checksum: sha1:8d1a64120830e2f6a208e4e81563364b04ca797c
+    pristine_git_object: 2fa56e0614c223d7d48480ff99f3701226982870
   src/cribl_control_plane/acl.py:
     id: 0e865a719763
     last_write_checksum: sha1:7e5b4f0d51b6154a160d2ad4ee7c2791b7d46e22
@@ -8396,8 +8396,8 @@ trackedFiles:
     pristine_git_object: 758a2ebe712692fb95878b4bd87a97bb63b4cae7
   src/cribl_control_plane/errors/healthserverstatus_error.py:
     id: 10d8810cf565
-    last_write_checksum: sha1:d71420fbdc6934633530cf7c8ffcdfd3697b3b0e
-    pristine_git_object: a87db7e931fde9161a122e77279ff540c485804d
+    last_write_checksum: sha1:fcabf4ffb8b18309bc44c5c6de7571da3705ddf0
+    pristine_git_object: 96a917e7e53d5f397d8830f80b6359fc2b7118ae
   src/cribl_control_plane/errors/no_response_error.py:
     id: 751c1eda7c77
     last_write_checksum: sha1:7f326424a7d5ae1bcd5c89a0d6b3dbda9138942f
@@ -8820,8 +8820,8 @@ trackedFiles:
     pristine_git_object: 46c3680d0dfce2c44db1de4176fb994643e19a7f
   src/cribl_control_plane/models/inputelastic.py:
     id: fc33808010d4
-    last_write_checksum: sha1:636907982d0fc074c489575ed6813ccead559b88
-    pristine_git_object: 73cbc2c7a80ffafa421bfcf943305f592796c413
+    last_write_checksum: sha1:c2c495cf153c339d65d21b8b5059b3bc4a8a0504
+    pristine_git_object: 6d0bb2166d0266d48c2c3e4f6d49dc21fa496221
   src/cribl_control_plane/models/inputeventhub.py:
     id: c8e4ab5093b8
     last_write_checksum: sha1:ffbf9ef12df598ed8eb3d7fb923fbd770b3f9d1d
@@ -9296,8 +9296,8 @@ trackedFiles:
     pristine_git_object: ac786a80e71ec9cbdf6bbfd895f5e62a1c1fef2c
   src/cribl_control_plane/models/outputsentinel.py:
     id: 77df0de0dedb
-    last_write_checksum: sha1:9640918b90396142ed78008c369a5c947e0789e6
-    pristine_git_object: 5a9a908871d564c2087c8f547254bdd3a021d7a0
+    last_write_checksum: sha1:df7bb1fb3a70041d276b9e34cde0936f19ba2e51
+    pristine_git_object: d2cbfcb476045e2a13200b768798f200d1fbb37d
   src/cribl_control_plane/models/outputsentineloneaisiem.py:
     id: b7fa883b72d0
     last_write_checksum: sha1:b71f924307d17c813c16fb1e4e2a7c7be41a661f
@@ -9368,8 +9368,8 @@ trackedFiles:
     pristine_git_object: abfb573bfeb991bc494ddb0efebd5d7c46218d17
   src/cribl_control_plane/models/outputwebhook.py:
     id: 02ef584af2cd
-    last_write_checksum: sha1:345aa4791f5c0d74acc166a984565af4e140a90b
-    pristine_git_object: 530f68297f86a6214baaaea0a021dfeee3ed6da2
+    last_write_checksum: sha1:26b8e991436157cd0b4d6cca84a905828d927314
+    pristine_git_object: 447880c3b9f8585080786e43a8a00291169a7b30
   src/cribl_control_plane/models/outputxsiam.py:
     id: 6c1c39431130
     last_write_checksum: sha1:8a559209e65b35758fdb6cf65671030da56e9f20
@@ -9564,8 +9564,8 @@ trackedFiles:
     pristine_git_object: fc76fe0c5505e29859b5d2bb707d48fd27661b8c
   src/cribl_control_plane/types/basemodel.py:
     id: 77c4cfb7e722
-    last_write_checksum: sha1:615d0b364fa924b0fef719958df34596cc7c1ae2
-    pristine_git_object: 231c2e37283a76082f1a064c7aae47f8ee4ee694
+    last_write_checksum: sha1:10d84aedeb9d35edfdadf2c3020caa1d24d8b584
+    pristine_git_object: a9a640a1a7048736383f96c67c6290c86bf536ee
   src/cribl_control_plane/utils/__init__.py:
     id: c9ee56b59017
     last_write_checksum: sha1:5d88356c206a32c694ae113178ca6325a9fc612a
@@ -10707,7 +10707,6 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: "## Python SDK Changes:\n* `cribl_control_plane.destinations.list()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.create()`: \n  *  `request` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.get()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.update()`: \n  *  `request.output` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.delete()`:  `response.items.[]` **Changed** **Breaking** :warning:\n"
 generatedFiles:
   - .devcontainer/README.md
   - .devcontainer/devcontainer.json

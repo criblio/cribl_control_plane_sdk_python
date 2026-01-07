@@ -598,7 +598,7 @@ class OutputWebhook(BaseModel):
 
     custom_event_delimiter: Annotated[
         Optional[str], pydantic.Field(alias="customEventDelimiter")
-    ] = "\n"
+    ] = "\\n"
     r"""Delimiter string to insert between individual events. Defaults to newline character."""
 
     custom_content_type: Annotated[

@@ -1,8 +1,0 @@
-# RestAuthenticationBasicSecretDiscovery
-
-
-## Fields
-
-| Field                                                                                                                      | Type                                                                                                                       | Required                                                                                                                   | Description                                                                                                                |
-| -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `discover_type`                                                                                                            | [Optional[models.RestAuthenticationBasicSecretDiscoverType]](../models/restauthenticationbasicsecretdiscovertype.md)       | :heavy_minus_sign:                                                                                                         | Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task. |

@@ -1,11 +1,35 @@
 # CollectorS3
 
-S3 collector configuration
 
+## Supported Types
 
-## Fields
+### `models.CollectorS3S31`
 
-| Field                                                  | Type                                                   | Required                                               | Description                                            |
-| ------------------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------ |
-| `type`                                                 | [models.CollectorS3Type](../models/collectors3type.md) | :heavy_check_mark:                                     | Collector type: s3                                     |
-| `conf`                                                 | [models.S3CollectorConf](../models/s3collectorconf.md) | :heavy_check_mark:                                     | N/A                                                    |
+```python
+value: models.CollectorS3S31 = /* values here */
+```
+
+### `models.CollectorS3S32`
+
+```python
+value: models.CollectorS3S32 = /* values here */
+```
+
+### `models.CollectorS3S33`
+
+```python
+value: models.CollectorS3S33 = /* values here */
+```
+
+### `models.CollectorS3S34`
+
+```python
+value: models.CollectorS3S34 = /* values here */
+```
+
+### `models.CollectorS3S35`
+
+```python
+value: models.CollectorS3S35 = /* values here */
+```
+

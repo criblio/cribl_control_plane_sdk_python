@@ -72,18 +72,21 @@ with CriblControlPlane(
         ],
         "worker_affinity": False,
         "collector": {
-            "type": models.CollectorDatabaseType.DATABASE,
+            "type": "database",
             "conf": {
+                "type": models.CollectorDatabaseType.DATABASE,
                 "connection_id": "<id>",
                 "query": "<value>",
                 "query_validation_enabled": True,
-                "default_breakers": models.DatabaseCollectorConfHiddenDefaultBreakers.CRIBL,
+                "default_breakers": models.CollectorDatabaseHiddenDefaultBreakers.CRIBL,
                 "scheduling": {
                     "state_tracking": {
                         "enabled": True,
                     },
                 },
             },
+            "destructive": False,
+            "encoding": "<value>",
         },
         "input": {
             "type": models.SavedJobCollectionInputType.COLLECTION,
@@ -332,18 +335,21 @@ with CriblControlPlane(
         ],
         "worker_affinity": False,
         "collector": {
-            "type": models.CollectorDatabaseType.DATABASE,
+            "type": "database",
             "conf": {
+                "type": models.CollectorDatabaseType.DATABASE,
                 "connection_id": "<id>",
                 "query": "<value>",
                 "query_validation_enabled": True,
-                "default_breakers": models.DatabaseCollectorConfHiddenDefaultBreakers.CRIBL,
+                "default_breakers": models.CollectorDatabaseHiddenDefaultBreakers.CRIBL,
                 "scheduling": {
                     "state_tracking": {
                         "enabled": False,
                     },
                 },
             },
+            "destructive": False,
+            "encoding": "<value>",
         },
         "input": {
             "type": models.SavedJobCollectionInputType.COLLECTION,

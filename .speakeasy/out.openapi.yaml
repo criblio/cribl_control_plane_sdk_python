@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.16.0-alpha.1767654263427-c6413233
+  version: 4.16.0-alpha.1767904558500-aedb6cfa
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -57267,21 +57267,14 @@ components:
       required:
         - outputId
         - success
-    CriblEvent:
-      type: object
-      additionalProperties: true
-      properties:
-        _raw:
-          type: string
-      required:
-        - _raw
     OutputTestRequest:
       type: object
       properties:
         events:
           type: array
           items:
-            $ref: "#/components/schemas/CriblEvent"
+            type: object
+            additionalProperties: true
       required:
         - events
     CountedPipeline:

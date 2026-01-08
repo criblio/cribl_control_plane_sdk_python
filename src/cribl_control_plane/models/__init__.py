@@ -3532,7 +3532,6 @@ if TYPE_CHECKING:
         CreateVersionUndoRequest,
         CreateVersionUndoRequestTypedDict,
     )
-    from .criblevent import CriblEvent, CriblEventTypedDict
     from .cribllakedataset import (
         CriblLakeDataset,
         CriblLakeDatasetFormat,
@@ -10233,8 +10232,6 @@ __all__ = [
     "CreateVersionRevertRequestTypedDict",
     "CreateVersionUndoRequest",
     "CreateVersionUndoRequestTypedDict",
-    "CriblEvent",
-    "CriblEventTypedDict",
     "CriblLakeDataset",
     "CriblLakeDatasetFormat",
     "CriblLakeDatasetTypedDict",
@@ -18685,8 +18682,6 @@ _dynamic_imports: dict[str, str] = {
     "CreateVersionRevertRequestTypedDict": ".createversionrevertop",
     "CreateVersionUndoRequest": ".createversionundoop",
     "CreateVersionUndoRequestTypedDict": ".createversionundoop",
-    "CriblEvent": ".criblevent",
-    "CriblEventTypedDict": ".criblevent",
     "CriblLakeDataset": ".cribllakedataset",
     "CriblLakeDatasetFormat": ".cribllakedataset",
     "CriblLakeDatasetTypedDict": ".cribllakedataset",

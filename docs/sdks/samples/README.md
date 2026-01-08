@@ -71,9 +71,9 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.destinations.samples.create(id="<id>", events=[
-        models.CriblEvent(
-            raw="<value>",
-        ),
+        {
+            "_raw": "<value>",
+        },
     ])
 
     # Handle response
@@ -86,7 +86,7 @@ with CriblControlPlane(
 | Parameter                                                            | Type                                                                 | Required                                                             | Description                                                          |
 | -------------------------------------------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------- |
 | `id`                                                                 | *str*                                                                | :heavy_check_mark:                                                   | The <code>id</code> of the Destination to send sample event data to. |
-| `events`                                                             | List[[models.CriblEvent](../../models/criblevent.md)]                | :heavy_check_mark:                                                   | N/A                                                                  |
+| `events`                                                             | List[Dict[str, *Any*]]                                               | :heavy_check_mark:                                                   | N/A                                                                  |
 | `retries`                                                            | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)     | :heavy_minus_sign:                                                   | Configuration to override the default retry behavior of the client.  |
 
 ### Response

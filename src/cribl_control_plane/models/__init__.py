@@ -24,8 +24,6 @@ if TYPE_CHECKING:
     from .branchinfo import BranchInfo, BranchInfoTypedDict
     from .cacheconnection import CacheConnection, CacheConnectionTypedDict
     from .cacheconnectionbackfillstatus import CacheConnectionBackfillStatus
-    from .capturelevel import CaptureLevel
-    from .captureparams import CaptureParams, CaptureParamsTypedDict
     from .cloudprovider import CloudProvider
     from .collectorazureblob import (
         CollectorAzureBlob,
@@ -8180,9 +8178,6 @@ __all__ = [
     "CacheConnection",
     "CacheConnectionBackfillStatus",
     "CacheConnectionTypedDict",
-    "CaptureLevel",
-    "CaptureParams",
-    "CaptureParamsTypedDict",
     "CaptureSettings",
     "CaptureSettingsTypedDict",
     "CertOptions",
@@ -15248,9 +15243,6 @@ _dynamic_imports: dict[str, str] = {
     "CacheConnection": ".cacheconnection",
     "CacheConnectionTypedDict": ".cacheconnection",
     "CacheConnectionBackfillStatus": ".cacheconnectionbackfillstatus",
-    "CaptureLevel": ".capturelevel",
-    "CaptureParams": ".captureparams",
-    "CaptureParamsTypedDict": ".captureparams",
     "CloudProvider": ".cloudprovider",
     "CollectorAzureBlob": ".collectorazureblob",
     "CollectorAzureBlobAuthenticationMethod1": ".collectorazureblob",

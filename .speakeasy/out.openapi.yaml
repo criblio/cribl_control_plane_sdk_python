@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.16.0-alpha.1767808351351-326f0624
+  version: 4.16.0-alpha.1767654263427-c6413233
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -57459,44 +57459,6 @@ components:
       required:
         - password
         - username
-    CapturedEvent:
-      type: object
-      additionalProperties: true
-      properties:
-        _raw:
-          type: string
-        _time:
-          type: number
-    CaptureLevel:
-      type: integer
-      enum:
-        - 0
-        - 1
-        - 2
-        - 3
-      x-speakeasy-unknown-values: allow
-    CaptureParams:
-      type: object
-      properties:
-        duration:
-          type: number
-        filter:
-          type: string
-        level:
-          $ref: "#/components/schemas/CaptureLevel"
-        maxEvents:
-          type: number
-        stepDuration:
-          type: number
-        workerId:
-          type: string
-        workerThreshold:
-          type: number
-      required:
-        - duration
-        - filter
-        - level
-        - maxEvents
     HealthServerStatus:
       type: object
       properties:
@@ -61474,8 +61436,6 @@ tags:
     description: Actions related to Packs
   - name: pipelines
     description: Actions related to Pipelines
-  - name: preview
-    description: Actions related to data preview
   - name: routes
     description: Actions related to Routes
   - name: sources
@@ -63491,37 +63451,6 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/LoginInfo"
-  /system/capture:
-    post:
-      operationId: createSystemCapture
-      tags:
-        - preview
-      x-speakeasy-group: system.captures
-      x-speakeasy-name-override: get
-      summary: Capture live incoming data
-      description: Capture live incoming data
-      responses:
-        "200":
-          description: CapturedEvent object
-          content:
-            application/x-ndjson:
-              schema:
-                $ref: "#/components/schemas/CapturedEvent"
-        "401":
-          description: Unauthorized
-        "500":
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-      requestBody:
-        description: CaptureParams object
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/CaptureParams"
   /health:
     get:
       operationId: getHealth

@@ -2,13 +2,11 @@
 
 from .basesdk import BaseSDK
 from .sdkconfiguration import SDKConfiguration
-from cribl_control_plane.captures import Captures
 from cribl_control_plane.settings import Settings
 from typing import Optional
 
 
 class SystemSDK(BaseSDK):
-    captures: Captures
     settings: Settings
 
     def __init__(
@@ -19,5 +17,4 @@ class SystemSDK(BaseSDK):
         self._init_sdks()
 
     def _init_sdks(self):
-        self.captures = Captures(self.sdk_configuration, parent_ref=self.parent_ref)
         self.settings = Settings(self.sdk_configuration, parent_ref=self.parent_ref)

@@ -2,311 +2,27 @@
 
 from __future__ import annotations
 from .collector import Collector, CollectorTypedDict
-from cribl_control_plane import models, utils
+from .inputtypesavedjobcollection import (
+    InputTypeSavedJobCollection,
+    InputTypeSavedJobCollectionTypedDict,
+)
+from .jobtypeoptionssavedjobcollection import JobTypeOptionsSavedJobCollection
+from .scheduletypesavedjobcollection import (
+    ScheduleTypeSavedJobCollection,
+    ScheduleTypeSavedJobCollectionTypedDict,
+)
+from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel
 from cribl_control_plane.utils import validate_open_enum
-from enum import Enum
 import pydantic
 from pydantic import field_serializer
 from pydantic.functional_validators import PlainValidator
-from typing import Any, List, Optional
+from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class SavedJobCollectionJobType(str, Enum, metaclass=utils.OpenEnumMeta):
-    COLLECTION = "collection"
-    EXECUTOR = "executor"
-    SCHEDULED_SEARCH = "scheduledSearch"
-
-
-class SavedJobCollectionRunType(str, Enum, metaclass=utils.OpenEnumMeta):
-    COLLECTION = "collection"
-
-
-class SavedJobCollectionLogLevel(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Level at which to set task logging"""
-
-    ERROR = "error"
-    WARN = "warn"
-    INFO = "info"
-    DEBUG = "debug"
-    SILLY = "silly"
-
-
-class SavedJobCollectionTimeWarningTypedDict(TypedDict):
-    pass
-
-
-class SavedJobCollectionTimeWarning(BaseModel):
-    pass
-
-
-class SavedJobCollectionRunSettingsTypedDict(TypedDict):
-    type: NotRequired[SavedJobCollectionRunType]
-    reschedule_dropped_tasks: NotRequired[bool]
-    r"""Reschedule tasks that failed with non-fatal errors"""
-    max_task_reschedule: NotRequired[float]
-    r"""Maximum number of times a task can be rescheduled"""
-    log_level: NotRequired[SavedJobCollectionLogLevel]
-    r"""Level at which to set task logging"""
-    job_timeout: NotRequired[str]
-    r"""Maximum time the job is allowed to run. Time unit defaults to seconds if not specified (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
-    mode: NotRequired[str]
-    r"""Job run mode. Preview will either return up to N matching results, or will run until capture time T is reached. Discovery will gather the list of files to turn into streaming tasks, without running the data collection job. Full Run will run the collection job."""
-    time_range_type: NotRequired[str]
-    earliest: NotRequired[float]
-    r"""Earliest time to collect data for the selected timezone"""
-    latest: NotRequired[float]
-    r"""Latest time to collect data for the selected timezone"""
-    timestamp_timezone: NotRequired[Any]
-    time_warning: NotRequired[SavedJobCollectionTimeWarningTypedDict]
-    expression: NotRequired[str]
-    r"""A filter for tokens in the provided collect path and/or the events being collected"""
-    min_task_size: NotRequired[str]
-    r"""Limits the bundle size for small tasks. For example,
-
-
-    if your lower bundle size is 1MB, you can bundle up to five 200KB files into one task.
-    """
-    max_task_size: NotRequired[str]
-    r"""Limits the bundle size for files above the lower task bundle size. For example, if your upper bundle size is 10MB,
-
-
-    you can bundle up to five 2MB files into one task. Files greater than this size will be assigned to individual tasks.
-    """
-
-
-class SavedJobCollectionRunSettings(BaseModel):
-    type: Annotated[
-        Optional[SavedJobCollectionRunType], PlainValidator(validate_open_enum(False))
-    ] = None
-
-    reschedule_dropped_tasks: Annotated[
-        Optional[bool], pydantic.Field(alias="rescheduleDroppedTasks")
-    ] = True
-    r"""Reschedule tasks that failed with non-fatal errors"""
-
-    max_task_reschedule: Annotated[
-        Optional[float], pydantic.Field(alias="maxTaskReschedule")
-    ] = 1
-    r"""Maximum number of times a task can be rescheduled"""
-
-    log_level: Annotated[
-        Annotated[
-            Optional[SavedJobCollectionLogLevel],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="logLevel"),
-    ] = SavedJobCollectionLogLevel.INFO
-    r"""Level at which to set task logging"""
-
-    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = "0"
-    r"""Maximum time the job is allowed to run. Time unit defaults to seconds if not specified (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
-
-    mode: Optional[str] = "list"
-    r"""Job run mode. Preview will either return up to N matching results, or will run until capture time T is reached. Discovery will gather the list of files to turn into streaming tasks, without running the data collection job. Full Run will run the collection job."""
-
-    time_range_type: Annotated[Optional[str], pydantic.Field(alias="timeRangeType")] = (
-        "relative"
-    )
-
-    earliest: Optional[float] = None
-    r"""Earliest time to collect data for the selected timezone"""
-
-    latest: Optional[float] = None
-    r"""Latest time to collect data for the selected timezone"""
-
-    timestamp_timezone: Annotated[
-        Optional[Any], pydantic.Field(alias="timestampTimezone")
-    ] = None
-
-    time_warning: Annotated[
-        Optional[SavedJobCollectionTimeWarning], pydantic.Field(alias="timeWarning")
-    ] = None
-
-    expression: Optional[str] = "true"
-    r"""A filter for tokens in the provided collect path and/or the events being collected"""
-
-    min_task_size: Annotated[Optional[str], pydantic.Field(alias="minTaskSize")] = "1MB"
-    r"""Limits the bundle size for small tasks. For example,
-
-
-    if your lower bundle size is 1MB, you can bundle up to five 200KB files into one task.
-    """
-
-    max_task_size: Annotated[Optional[str], pydantic.Field(alias="maxTaskSize")] = (
-        "10MB"
-    )
-    r"""Limits the bundle size for files above the lower task bundle size. For example, if your upper bundle size is 10MB,
-
-
-    you can bundle up to five 2MB files into one task. Files greater than this size will be assigned to individual tasks.
-    """
-
-    @field_serializer("type")
-    def serialize_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.SavedJobCollectionRunType(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("log_level")
-    def serialize_log_level(self, value):
-        if isinstance(value, str):
-            try:
-                return models.SavedJobCollectionLogLevel(value)
-            except ValueError:
-                return value
-        return value
-
-
-class SavedJobCollectionScheduleTypedDict(TypedDict):
-    r"""Configuration for a scheduled job"""
-
-    enabled: NotRequired[bool]
-    r"""Enable to configure scheduling for this Collector"""
-    skippable: NotRequired[bool]
-    r"""Skippable jobs can be delayed, up to their next run time, if the system is hitting concurrency limits"""
-    resume_missed: NotRequired[bool]
-    r"""If Stream Leader (or single instance) restarts, run all missed jobs according to their original schedules"""
-    cron_schedule: NotRequired[str]
-    r"""A cron schedule on which to run this job"""
-    max_concurrent_runs: NotRequired[float]
-    r"""The maximum number of instances of this scheduled job that may be running at any time"""
-    run: NotRequired[SavedJobCollectionRunSettingsTypedDict]
-
-
-class SavedJobCollectionSchedule(BaseModel):
-    r"""Configuration for a scheduled job"""
-
-    enabled: Optional[bool] = None
-    r"""Enable to configure scheduling for this Collector"""
-
-    skippable: Optional[bool] = True
-    r"""Skippable jobs can be delayed, up to their next run time, if the system is hitting concurrency limits"""
-
-    resume_missed: Annotated[Optional[bool], pydantic.Field(alias="resumeMissed")] = (
-        False
-    )
-    r"""If Stream Leader (or single instance) restarts, run all missed jobs according to their original schedules"""
-
-    cron_schedule: Annotated[Optional[str], pydantic.Field(alias="cronSchedule")] = (
-        "*/5 * * * *"
-    )
-    r"""A cron schedule on which to run this job"""
-
-    max_concurrent_runs: Annotated[
-        Optional[float], pydantic.Field(alias="maxConcurrentRuns")
-    ] = 1
-    r"""The maximum number of instances of this scheduled job that may be running at any time"""
-
-    run: Optional[SavedJobCollectionRunSettings] = None
-
-
-class SavedJobCollectionInputType(str, Enum, metaclass=utils.OpenEnumMeta):
-    COLLECTION = "collection"
-
-
-class SavedJobCollectionPreprocessTypedDict(TypedDict):
-    disabled: NotRequired[bool]
-    command: NotRequired[str]
-    r"""Command to feed the data through (via stdin) and process its output (stdout)"""
-    args: NotRequired[List[str]]
-    r"""Arguments to be added to the custom command"""
-
-
-class SavedJobCollectionPreprocess(BaseModel):
-    disabled: Optional[bool] = True
-
-    command: Optional[str] = None
-    r"""Command to feed the data through (via stdin) and process its output (stdout)"""
-
-    args: Optional[List[str]] = None
-    r"""Arguments to be added to the custom command"""
-
-
-class SavedJobCollectionMetadatumTypedDict(TypedDict):
-    name: str
-    value: str
-    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
-
-
-class SavedJobCollectionMetadatum(BaseModel):
-    name: str
-
-    value: str
-    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
-
-
-class SavedJobCollectionInputTypedDict(TypedDict):
-    type: NotRequired[SavedJobCollectionInputType]
-    breaker_rulesets: NotRequired[List[str]]
-    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
-    stale_channel_flush_ms: NotRequired[float]
-    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
-    send_to_routes: NotRequired[bool]
-    r"""Send events to normal routing and event processing. Disable to select a specific Pipeline/Destination combination."""
-    preprocess: NotRequired[SavedJobCollectionPreprocessTypedDict]
-    throttle_rate_per_sec: NotRequired[str]
-    r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
-    metadata: NotRequired[List[SavedJobCollectionMetadatumTypedDict]]
-    r"""Fields to add to events from this input"""
-    pipeline: NotRequired[str]
-    r"""Pipeline to process results"""
-    output: NotRequired[str]
-    r"""Destination to send results to"""
-
-
-class SavedJobCollectionInput(BaseModel):
-    type: Annotated[
-        Optional[SavedJobCollectionInputType], PlainValidator(validate_open_enum(False))
-    ] = SavedJobCollectionInputType.COLLECTION
-
-    breaker_rulesets: Annotated[
-        Optional[List[str]], pydantic.Field(alias="breakerRulesets")
-    ] = None
-    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
-
-    stale_channel_flush_ms: Annotated[
-        Optional[float], pydantic.Field(alias="staleChannelFlushMs")
-    ] = 10000
-    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Send events to normal routing and event processing. Disable to select a specific Pipeline/Destination combination."""
-
-    preprocess: Optional[SavedJobCollectionPreprocess] = None
-
-    throttle_rate_per_sec: Annotated[
-        Optional[str], pydantic.Field(alias="throttleRatePerSec")
-    ] = "0"
-    r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
-
-    metadata: Optional[List[SavedJobCollectionMetadatum]] = None
-    r"""Fields to add to events from this input"""
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process results"""
-
-    output: Optional[str] = None
-    r"""Destination to send results to"""
-
-    @field_serializer("type")
-    def serialize_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.SavedJobCollectionInputType(value)
-            except ValueError:
-                return value
-        return value
-
-
 class SavedJobCollectionTypedDict(TypedDict):
-    type: SavedJobCollectionJobType
+    type: JobTypeOptionsSavedJobCollection
     collector: CollectorTypedDict
     r"""Collector configuration"""
     id: NotRequired[str]
@@ -322,18 +38,18 @@ class SavedJobCollectionTypedDict(TypedDict):
     r"""Resume the ad hoc job if a failure condition causes Stream to restart during job execution"""
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    schedule: NotRequired[SavedJobCollectionScheduleTypedDict]
+    schedule: NotRequired[ScheduleTypeSavedJobCollectionTypedDict]
     r"""Configuration for a scheduled job"""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
     worker_affinity: NotRequired[bool]
     r"""If enabled, tasks are created and run by the same Worker Node"""
-    input: NotRequired[SavedJobCollectionInputTypedDict]
+    input: NotRequired[InputTypeSavedJobCollectionTypedDict]
 
 
 class SavedJobCollection(BaseModel):
     type: Annotated[
-        SavedJobCollectionJobType, PlainValidator(validate_open_enum(False))
+        JobTypeOptionsSavedJobCollection, PlainValidator(validate_open_enum(False))
     ]
 
     collector: Collector
@@ -365,7 +81,7 @@ class SavedJobCollection(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    schedule: Optional[SavedJobCollectionSchedule] = None
+    schedule: Optional[ScheduleTypeSavedJobCollection] = None
     r"""Configuration for a scheduled job"""
 
     streamtags: Optional[List[str]] = None
@@ -376,13 +92,13 @@ class SavedJobCollection(BaseModel):
     ] = False
     r"""If enabled, tasks are created and run by the same Worker Node"""
 
-    input: Optional[SavedJobCollectionInput] = None
+    input: Optional[InputTypeSavedJobCollection] = None
 
     @field_serializer("type")
     def serialize_type(self, value):
         if isinstance(value, str):
             try:
-                return models.SavedJobCollectionJobType(value)
+                return models.JobTypeOptionsSavedJobCollection(value)
             except ValueError:
                 return value
         return value

@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 from .hbleaderinfo import HBLeaderInfo, HBLeaderInfoTypedDict
-from cribl_control_plane import models, utils
+from .modeoptionsinstancesettingsschema import ModeOptionsInstanceSettingsSchema
+from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel
 from cribl_control_plane.utils import validate_open_enum
-from enum import Enum
 import pydantic
 from pydantic import field_serializer
 from pydantic.functional_validators import PlainValidator
@@ -37,19 +37,9 @@ class Config(BaseModel):
     version: Optional[str] = None
 
 
-class DistMode(str, Enum, metaclass=utils.OpenEnumMeta):
-    SINGLE = "single"
-    MASTER = "master"
-    WORKER = "worker"
-    EDGE = "edge"
-    MANAGED_EDGE = "managed-edge"
-    OUTPOST = "outpost"
-    SEARCH_SUPERVISOR = "search-supervisor"
-
-
 class HBCriblInfoTypedDict(TypedDict):
     config: ConfigTypedDict
-    dist_mode: DistMode
+    dist_mode: ModeOptionsInstanceSettingsSchema
     group: str
     guid: str
     start_time: float
@@ -69,7 +59,9 @@ class HBCriblInfo(BaseModel):
     config: Config
 
     dist_mode: Annotated[
-        Annotated[DistMode, PlainValidator(validate_open_enum(False))],
+        Annotated[
+            ModeOptionsInstanceSettingsSchema, PlainValidator(validate_open_enum(False))
+        ],
         pydantic.Field(alias="distMode"),
     ]
 
@@ -109,7 +101,7 @@ class HBCriblInfo(BaseModel):
     def serialize_dist_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.DistMode(value)
+                return models.ModeOptionsInstanceSettingsSchema(value)
             except ValueError:
                 return value
         return value

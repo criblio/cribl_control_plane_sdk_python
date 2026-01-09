@@ -31,85 +31,85 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.create(saved_job={
-        "id": "<id>",
-        "description": "pomelo outside offensively ew",
-        "type": models.SavedJobCollectionJobType.EXECUTOR,
-        "ttl": "4h",
-        "ignore_group_jobs_limit": False,
-        "remove_fields": [
+    res = ccp_client.collectors.create(saved_job=models.SavedJobCollection(
+        id="<id>",
+        description="pomelo outside offensively ew",
+        type=models.JobTypeOptionsSavedJobCollection.EXECUTOR,
+        ttl="4h",
+        ignore_group_jobs_limit=False,
+        remove_fields=[
             "<value 1>",
             "<value 2>",
         ],
-        "resume_on_boot": False,
-        "environment": "<value>",
-        "schedule": {
-            "enabled": True,
-            "skippable": True,
-            "resume_missed": False,
-            "cron_schedule": "*/5 * * * *",
-            "max_concurrent_runs": 1,
-            "run": {
-                "type": models.SavedJobCollectionRunType.COLLECTION,
-                "reschedule_dropped_tasks": True,
-                "max_task_reschedule": 1,
-                "log_level": models.SavedJobCollectionLogLevel.INFO,
-                "job_timeout": "0",
-                "mode": "list",
-                "time_range_type": "relative",
-                "earliest": 432.8,
-                "latest": 2023.34,
-                "timestamp_timezone": "<value>",
-                "time_warning": {},
-                "expression": "true",
-                "min_task_size": "1MB",
-                "max_task_size": "10MB",
-            },
-        },
-        "streamtags": [
+        resume_on_boot=False,
+        environment="<value>",
+        schedule=models.ScheduleTypeSavedJobCollection(
+            enabled=True,
+            skippable=True,
+            resume_missed=False,
+            cron_schedule="*/5 * * * *",
+            max_concurrent_runs=1,
+            run=models.ScheduleTypeSavedJobCollectionRunSettings(
+                type=models.ScheduleTypeSavedJobCollectionType.COLLECTION,
+                reschedule_dropped_tasks=True,
+                max_task_reschedule=1,
+                log_level=models.ScheduleTypeSavedJobCollectionLogLevel.INFO,
+                job_timeout="0",
+                mode="list",
+                time_range_type="relative",
+                earliest=432.8,
+                latest=2023.34,
+                timestamp_timezone="<value>",
+                time_warning=models.TimeWarning(),
+                expression="true",
+                min_task_size="1MB",
+                max_task_size="10MB",
+            ),
+        ),
+        streamtags=[
             "<value 1>",
             "<value 2>",
         ],
-        "worker_affinity": False,
-        "collector": {
-            "type": models.CollectorDatabaseType.DATABASE,
-            "conf": {
-                "connection_id": "<id>",
-                "query": "<value>",
-                "query_validation_enabled": True,
-                "default_breakers": models.DatabaseCollectorConfHiddenDefaultBreakers.CRIBL,
-                "scheduling": {
-                    "state_tracking": {
-                        "enabled": True,
-                    },
-                },
-            },
-        },
-        "input": {
-            "type": models.SavedJobCollectionInputType.COLLECTION,
-            "breaker_rulesets": [
+        worker_affinity=False,
+        collector=models.CollectorDatabase(
+            type=models.CollectorDatabaseType.DATABASE,
+            conf=models.DatabaseCollectorConf(
+                connection_id="<id>",
+                query="<value>",
+                query_validation_enabled=True,
+                default_breakers=models.HiddenDefaultBreakersOptionsDatabaseCollectorConf.CRIBL,
+                scheduling=models.DatabaseCollectorConfScheduling(
+                    state_tracking=models.DatabaseCollectorConfStateTracking(
+                        enabled=True,
+                    ),
+                ),
+            ),
+        ),
+        input=models.InputTypeSavedJobCollection(
+            type=models.TypeOptionsSavedJobCollectionInput.COLLECTION,
+            breaker_rulesets=[
                 "<value 1>",
             ],
-            "stale_channel_flush_ms": 10000,
-            "send_to_routes": True,
-            "preprocess": {
-                "disabled": True,
-                "command": "<value>",
-                "args": [
+            stale_channel_flush_ms=10000,
+            send_to_routes=True,
+            preprocess=models.PreprocessTypeSavedJobCollectionInput(
+                disabled=True,
+                command="<value>",
+                args=[
                     "<value 1>",
                 ],
-            },
-            "throttle_rate_per_sec": "0",
-            "metadata": [
-                {
-                    "name": "<value>",
-                    "value": "<value>",
-                },
+            ),
+            throttle_rate_per_sec="0",
+            metadata=[
+                models.ItemsTypeNotificationMetadata(
+                    name="<value>",
+                    value="<value>",
+                ),
             ],
-            "pipeline": "<value>",
-            "output": "<value>",
-        },
-    }, cribl_pack="<value>")
+            pipeline="<value>",
+            output="<value>",
+        ),
+    ), cribl_pack="<value>")
 
     # Handle response
     print(res)
@@ -291,88 +291,88 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.update(id="<id>", saved_job={
-        "id": "<id>",
-        "description": "unabashedly notwithstanding ugh digestive",
-        "type": models.SavedJobCollectionJobType.SCHEDULED_SEARCH,
-        "ttl": "4h",
-        "ignore_group_jobs_limit": False,
-        "remove_fields": [
+    res = ccp_client.collectors.update(id="<id>", saved_job=models.SavedJobCollection(
+        id="<id>",
+        description="unabashedly notwithstanding ugh digestive",
+        type=models.JobTypeOptionsSavedJobCollection.SCHEDULED_SEARCH,
+        ttl="4h",
+        ignore_group_jobs_limit=False,
+        remove_fields=[
             "<value 1>",
             "<value 2>",
         ],
-        "resume_on_boot": False,
-        "environment": "<value>",
-        "schedule": {
-            "enabled": True,
-            "skippable": True,
-            "resume_missed": False,
-            "cron_schedule": "*/5 * * * *",
-            "max_concurrent_runs": 1,
-            "run": {
-                "type": models.SavedJobCollectionRunType.COLLECTION,
-                "reschedule_dropped_tasks": True,
-                "max_task_reschedule": 1,
-                "log_level": models.SavedJobCollectionLogLevel.INFO,
-                "job_timeout": "0",
-                "mode": "list",
-                "time_range_type": "relative",
-                "earliest": 9142.96,
-                "latest": 521.08,
-                "timestamp_timezone": "<value>",
-                "time_warning": {},
-                "expression": "true",
-                "min_task_size": "1MB",
-                "max_task_size": "10MB",
-            },
-        },
-        "streamtags": [
+        resume_on_boot=False,
+        environment="<value>",
+        schedule=models.ScheduleTypeSavedJobCollection(
+            enabled=True,
+            skippable=True,
+            resume_missed=False,
+            cron_schedule="*/5 * * * *",
+            max_concurrent_runs=1,
+            run=models.ScheduleTypeSavedJobCollectionRunSettings(
+                type=models.ScheduleTypeSavedJobCollectionType.COLLECTION,
+                reschedule_dropped_tasks=True,
+                max_task_reschedule=1,
+                log_level=models.ScheduleTypeSavedJobCollectionLogLevel.INFO,
+                job_timeout="0",
+                mode="list",
+                time_range_type="relative",
+                earliest=9142.96,
+                latest=521.08,
+                timestamp_timezone="<value>",
+                time_warning=models.TimeWarning(),
+                expression="true",
+                min_task_size="1MB",
+                max_task_size="10MB",
+            ),
+        ),
+        streamtags=[
             "<value 1>",
             "<value 2>",
         ],
-        "worker_affinity": False,
-        "collector": {
-            "type": models.CollectorDatabaseType.DATABASE,
-            "conf": {
-                "connection_id": "<id>",
-                "query": "<value>",
-                "query_validation_enabled": True,
-                "default_breakers": models.DatabaseCollectorConfHiddenDefaultBreakers.CRIBL,
-                "scheduling": {
-                    "state_tracking": {
-                        "enabled": False,
-                    },
-                },
-            },
-        },
-        "input": {
-            "type": models.SavedJobCollectionInputType.COLLECTION,
-            "breaker_rulesets": [
+        worker_affinity=False,
+        collector=models.CollectorDatabase(
+            type=models.CollectorDatabaseType.DATABASE,
+            conf=models.DatabaseCollectorConf(
+                connection_id="<id>",
+                query="<value>",
+                query_validation_enabled=True,
+                default_breakers=models.HiddenDefaultBreakersOptionsDatabaseCollectorConf.CRIBL,
+                scheduling=models.DatabaseCollectorConfScheduling(
+                    state_tracking=models.DatabaseCollectorConfStateTracking(
+                        enabled=False,
+                    ),
+                ),
+            ),
+        ),
+        input=models.InputTypeSavedJobCollection(
+            type=models.TypeOptionsSavedJobCollectionInput.COLLECTION,
+            breaker_rulesets=[
                 "<value 1>",
                 "<value 2>",
                 "<value 3>",
             ],
-            "stale_channel_flush_ms": 10000,
-            "send_to_routes": True,
-            "preprocess": {
-                "disabled": True,
-                "command": "<value>",
-                "args": [
+            stale_channel_flush_ms=10000,
+            send_to_routes=True,
+            preprocess=models.PreprocessTypeSavedJobCollectionInput(
+                disabled=True,
+                command="<value>",
+                args=[
                     "<value 1>",
                     "<value 2>",
                 ],
-            },
-            "throttle_rate_per_sec": "0",
-            "metadata": [
-                {
-                    "name": "<value>",
-                    "value": "<value>",
-                },
+            ),
+            throttle_rate_per_sec="0",
+            metadata=[
+                models.ItemsTypeNotificationMetadata(
+                    name="<value>",
+                    value="<value>",
+                ),
             ],
-            "pipeline": "<value>",
-            "output": "<value>",
-        },
-    }, cribl_pack="<value>")
+            pipeline="<value>",
+            output="<value>",
+        ),
+    ), cribl_pack="<value>")
 
     # Handle response
     print(res)

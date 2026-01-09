@@ -9,11 +9,9 @@ from .itemstypenotificationmetadata import (
 from .pqtype import PqType, PqTypeTypedDict
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -114,15 +112,13 @@ class InputWinEventLogs(BaseModel):
 
     pq: Optional[PqType] = None
 
-    read_mode: Annotated[
-        Annotated[Optional[ReadMode], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="readMode"),
-    ] = ReadMode.NEWEST
+    read_mode: Annotated[Optional[ReadMode], pydantic.Field(alias="readMode")] = (
+        ReadMode.NEWEST
+    )
     r"""Read all stored and future event logs, or only future events"""
 
     event_format: Annotated[
-        Annotated[Optional[EventFormat], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="eventFormat"),
+        Optional[EventFormat], pydantic.Field(alias="eventFormat")
     ] = EventFormat.JSON
     r"""Format of individual events"""
 

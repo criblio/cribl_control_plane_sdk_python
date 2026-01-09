@@ -16,11 +16,9 @@ from .tlssettingsserversidetype import (
 )
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -206,11 +204,7 @@ class InputLoki(BaseModel):
     r"""Absolute path on which to listen for Loki logs requests. Defaults to /loki/api/v1/push, which will (in this example) expand as: 'http://<your‑upstream‑URL>:<your‑port>/loki/api/v1/push'."""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationTypeOptionsLokiAuth],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationTypeOptionsLokiAuth], pydantic.Field(alias="authType")
     ] = AuthenticationTypeOptionsLokiAuth.NONE
     r"""Loki logs authentication type"""
 

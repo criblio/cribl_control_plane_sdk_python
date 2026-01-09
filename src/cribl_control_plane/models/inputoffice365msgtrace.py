@@ -11,11 +11,9 @@ from .retryrulestype1 import RetryRulesType1, RetryRulesType1TypedDict
 from .subscriptionplanoptions import SubscriptionPlanOptions
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -199,10 +197,7 @@ class InputOffice365MsgTrace(BaseModel):
     r"""Disables time filtering of events when a date range is specified."""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[InputOffice365MsgTraceAuthenticationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[InputOffice365MsgTraceAuthenticationMethod],
         pydantic.Field(alias="authType"),
     ] = InputOffice365MsgTraceAuthenticationMethod.OAUTH
     r"""Select authentication method."""
@@ -218,11 +213,7 @@ class InputOffice365MsgTrace(BaseModel):
     r"""Maximum number of times a task can be rescheduled"""
 
     log_level: Annotated[
-        Annotated[
-            Optional[InputOffice365MsgTraceLogLevel],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="logLevel"),
+        Optional[InputOffice365MsgTraceLogLevel], pydantic.Field(alias="logLevel")
     ] = InputOffice365MsgTraceLogLevel.INFO
     r"""Log Level (verbosity) for collection runtime behavior."""
 
@@ -280,10 +271,7 @@ class InputOffice365MsgTrace(BaseModel):
     r"""Resource to pass in the OAuth request parameter."""
 
     plan_type: Annotated[
-        Annotated[
-            Optional[SubscriptionPlanOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="planType"),
+        Optional[SubscriptionPlanOptions], pydantic.Field(alias="planType")
     ] = SubscriptionPlanOptions.ENTERPRISE_GCC
     r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
 

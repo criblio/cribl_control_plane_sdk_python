@@ -9,10 +9,8 @@ from .minimumtlsversionoptionskafkaschemaregistrytls import (
 )
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -73,18 +71,12 @@ class TLSSettingsServerSideType(BaseModel):
     r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
 
     min_version: Annotated[
-        Annotated[
-            Optional[MinimumTLSVersionOptionsKafkaSchemaRegistryTLS],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[MinimumTLSVersionOptionsKafkaSchemaRegistryTLS],
         pydantic.Field(alias="minVersion"),
     ] = None
 
     max_version: Annotated[
-        Annotated[
-            Optional[MaximumTLSVersionOptionsKafkaSchemaRegistryTLS],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[MaximumTLSVersionOptionsKafkaSchemaRegistryTLS],
         pydantic.Field(alias="maxVersion"),
     ] = None
 

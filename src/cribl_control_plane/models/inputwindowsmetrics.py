@@ -14,11 +14,9 @@ from .pqtype import PqType, PqTypeTypedDict
 from .processtype import ProcessType, ProcessTypeTypedDict
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -48,10 +46,7 @@ class InputWindowsMetricsSystemTypedDict(TypedDict):
 
 
 class InputWindowsMetricsSystem(BaseModel):
-    mode: Annotated[
-        Optional[InputWindowsMetricsSystemMode],
-        PlainValidator(validate_open_enum(False)),
-    ] = InputWindowsMetricsSystemMode.BASIC
+    mode: Optional[InputWindowsMetricsSystemMode] = InputWindowsMetricsSystemMode.BASIC
     r"""Select the level of details for system metrics"""
 
     detail: Optional[bool] = False
@@ -92,9 +87,7 @@ class InputWindowsMetricsCPUTypedDict(TypedDict):
 
 
 class InputWindowsMetricsCPU(BaseModel):
-    mode: Annotated[
-        Optional[InputWindowsMetricsCPUMode], PlainValidator(validate_open_enum(False))
-    ] = InputWindowsMetricsCPUMode.BASIC
+    mode: Optional[InputWindowsMetricsCPUMode] = InputWindowsMetricsCPUMode.BASIC
     r"""Select the level of details for CPU metrics"""
 
     per_cpu: Annotated[Optional[bool], pydantic.Field(alias="perCpu")] = False
@@ -137,10 +130,7 @@ class InputWindowsMetricsMemoryTypedDict(TypedDict):
 
 
 class InputWindowsMetricsMemory(BaseModel):
-    mode: Annotated[
-        Optional[InputWindowsMetricsMemoryMode],
-        PlainValidator(validate_open_enum(False)),
-    ] = InputWindowsMetricsMemoryMode.BASIC
+    mode: Optional[InputWindowsMetricsMemoryMode] = InputWindowsMetricsMemoryMode.BASIC
     r"""Select the level of details for memory metrics"""
 
     detail: Optional[bool] = False
@@ -183,10 +173,9 @@ class InputWindowsMetricsNetworkTypedDict(TypedDict):
 
 
 class InputWindowsMetricsNetwork(BaseModel):
-    mode: Annotated[
-        Optional[InputWindowsMetricsNetworkMode],
-        PlainValidator(validate_open_enum(False)),
-    ] = InputWindowsMetricsNetworkMode.BASIC
+    mode: Optional[InputWindowsMetricsNetworkMode] = (
+        InputWindowsMetricsNetworkMode.BASIC
+    )
     r"""Select the level of details for network metrics"""
 
     detail: Optional[bool] = False
@@ -238,9 +227,7 @@ class InputWindowsMetricsDiskTypedDict(TypedDict):
 
 
 class InputWindowsMetricsDisk(BaseModel):
-    mode: Annotated[
-        Optional[InputWindowsMetricsDiskMode], PlainValidator(validate_open_enum(False))
-    ] = InputWindowsMetricsDiskMode.BASIC
+    mode: Optional[InputWindowsMetricsDiskMode] = InputWindowsMetricsDiskMode.BASIC
     r"""Select the level of details for disk metrics"""
 
     per_volume: Annotated[Optional[bool], pydantic.Field(alias="perVolume")] = False
@@ -289,9 +276,7 @@ class InputWindowsMetricsHostTypedDict(TypedDict):
 
 
 class InputWindowsMetricsHost(BaseModel):
-    mode: Annotated[
-        Optional[ModeOptionsHost], PlainValidator(validate_open_enum(False))
-    ] = ModeOptionsHost.BASIC
+    mode: Optional[ModeOptionsHost] = ModeOptionsHost.BASIC
     r"""Select level of detail for host metrics"""
 
     custom: Optional[InputWindowsMetricsCustom] = None
@@ -333,10 +318,9 @@ class InputWindowsMetricsPersistence(BaseModel):
     max_data_time: Annotated[Optional[str], pydantic.Field(alias="maxDataTime")] = "24h"
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
 
-    compress: Annotated[
-        Optional[DataCompressionFormatOptionsPersistence],
-        PlainValidator(validate_open_enum(False)),
-    ] = DataCompressionFormatOptionsPersistence.GZIP
+    compress: Optional[DataCompressionFormatOptionsPersistence] = (
+        DataCompressionFormatOptionsPersistence.GZIP
+    )
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = (
         "$CRIBL_HOME/state/windows_metrics"

@@ -16,11 +16,9 @@ from .tlssettingsserversidetype import (
 )
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import Any, List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -49,10 +47,7 @@ class InputZscalerHecAuthToken(BaseModel):
     r"""Shared secret to be provided by any client (Authorization: <token>)"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsAuthTokensItems],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsAuthTokensItems],
         pydantic.Field(alias="authType"),
     ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""

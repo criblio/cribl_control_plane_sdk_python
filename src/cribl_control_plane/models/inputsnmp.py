@@ -10,11 +10,9 @@ from .itemstypenotificationmetadata import (
 from .pqtype import PqType, PqTypeTypedDict
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -48,18 +46,14 @@ class InputSnmpV3User(BaseModel):
     name: str
 
     auth_protocol: Annotated[
-        Annotated[
-            Optional[AuthenticationProtocolOptionsV3User],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationProtocolOptionsV3User],
         pydantic.Field(alias="authProtocol"),
     ] = AuthenticationProtocolOptionsV3User.NONE
 
     auth_key: Annotated[Optional[str], pydantic.Field(alias="authKey")] = None
 
     priv_protocol: Annotated[
-        Annotated[Optional[PrivacyProtocol], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="privProtocol"),
+        Optional[PrivacyProtocol], pydantic.Field(alias="privProtocol")
     ] = PrivacyProtocol.NONE
 
     priv_key: Annotated[Optional[str], pydantic.Field(alias="privKey")] = None

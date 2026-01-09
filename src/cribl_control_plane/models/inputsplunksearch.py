@@ -13,11 +13,9 @@ from .pqtype import PqType, PqTypeTypedDict
 from .retryrulestype import RetryRulesType, RetryRulesTypeTypedDict
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -217,10 +215,7 @@ class InputSplunkSearch(BaseModel):
     r"""REST API used to create a search"""
 
     output_mode: Annotated[
-        Annotated[
-            Optional[OutputModeOptionsSplunkCollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[OutputModeOptionsSplunkCollectorConf],
         pydantic.Field(alias="outputMode"),
     ] = OutputModeOptionsSplunkCollectorConf.JSON
     r"""Format of the returned output"""
@@ -236,11 +231,7 @@ class InputSplunkSearch(BaseModel):
     r"""Optional request headers to send to the endpoint"""
 
     log_level: Annotated[
-        Annotated[
-            Optional[InputSplunkSearchLogLevel],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="logLevel"),
+        Optional[InputSplunkSearchLogLevel], pydantic.Field(alias="logLevel")
     ] = None
     r"""Collector runtime log level (verbosity)"""
 
@@ -301,11 +292,7 @@ class InputSplunkSearch(BaseModel):
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[InputSplunkSearchAuthenticationType],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[InputSplunkSearchAuthenticationType], pydantic.Field(alias="authType")
     ] = InputSplunkSearchAuthenticationType.BASIC
     r"""Splunk Search authentication type"""
 

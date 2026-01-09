@@ -4,13 +4,8 @@ from __future__ import annotations
 from .workertypes import WorkerTypes
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import (
-    FieldMetadata,
-    QueryParamMetadata,
-    validate_open_enum,
-)
+from cribl_control_plane.utils import FieldMetadata, QueryParamMetadata
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -22,7 +17,7 @@ class GetSummaryRequestTypedDict(TypedDict):
 
 class GetSummaryRequest(BaseModel):
     mode: Annotated[
-        Annotated[Optional[WorkerTypes], PlainValidator(validate_open_enum(False))],
+        Optional[WorkerTypes],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
     r"""Filter for limiting the response by Cribl product: Cribl Stream (<code>worker</code>) or Cribl Edge (<code>managed-edge</code>)."""

@@ -8,10 +8,8 @@ from cribl_control_plane.utils import (
     FieldMetadata,
     PathParamMetadata,
     QueryParamMetadata,
-    validate_open_enum,
 )
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -27,7 +25,7 @@ class GetConfigGroupByProductAndIDRequestTypedDict(TypedDict):
 
 class GetConfigGroupByProductAndIDRequest(BaseModel):
     product: Annotated[
-        Annotated[ProductsCore, PlainValidator(validate_open_enum(False))],
+        ProductsCore,
         FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
     ]
     r"""Name of the Cribl product to get the Worker Groups or Edge Fleets for."""

@@ -9,11 +9,9 @@ from .itemstypenotificationmetadata import (
 from .pqtype import PqType, PqTypeTypedDict
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -103,8 +101,7 @@ class InputExec(BaseModel):
     r"""Maximum number of retry attempts in the event that the command fails"""
 
     schedule_type: Annotated[
-        Annotated[Optional[ScheduleType], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="scheduleType"),
+        Optional[ScheduleType], pydantic.Field(alias="scheduleType")
     ] = ScheduleType.INTERVAL
     r"""Select a schedule type; either an interval (in seconds) or a cron-style schedule."""
 

@@ -28,11 +28,9 @@ from .timeoutretrysettingstype import (
 )
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -88,9 +86,7 @@ class ExtentTagTypedDict(TypedDict):
 class ExtentTag(BaseModel):
     value: str
 
-    prefix: Annotated[
-        Optional[PrefixOptional], PlainValidator(validate_open_enum(False))
-    ] = None
+    prefix: Optional[PrefixOptional] = None
 
     @field_serializer("prefix")
     def serialize_prefix(self, value):
@@ -361,24 +357,17 @@ class OutputAzureDataExplorer(BaseModel):
     r"""When saving or starting the Destination, validate the database name and credentials; also validate table name, except when creating a new table. Disable if your Azure app does not have both the Database Viewer and the Table Viewer role."""
 
     ingest_mode: Annotated[
-        Annotated[Optional[IngestionMode], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="ingestMode"),
+        Optional[IngestionMode], pydantic.Field(alias="ingestMode")
     ] = IngestionMode.BATCHING
 
     oauth_endpoint: Annotated[
-        Annotated[
-            Optional[MicrosoftEntraIDAuthenticationEndpointOptionsSasl],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[MicrosoftEntraIDAuthenticationEndpointOptionsSasl],
         pydantic.Field(alias="oauthEndpoint"),
     ] = MicrosoftEntraIDAuthenticationEndpointOptionsSasl.HTTPS_LOGIN_MICROSOFTONLINE_COM
     r"""Endpoint used to acquire authentication tokens from Azure"""
 
     oauth_type: Annotated[
-        Annotated[
-            Optional[OutputAzureDataExplorerAuthenticationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[OutputAzureDataExplorerAuthenticationMethod],
         pydantic.Field(alias="oauthType"),
     ] = OutputAzureDataExplorerAuthenticationMethod.CLIENT_SECRET
     r"""The type of OAuth 2.0 client credentials grant flow to use"""
@@ -393,24 +382,16 @@ class OutputAzureDataExplorer(BaseModel):
 
     certificate: Optional[Certificate] = None
 
-    format_: Annotated[
-        Annotated[
-            Optional[DataFormatOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="format"),
-    ] = DataFormatOptions.JSON
+    format_: Annotated[Optional[DataFormatOptions], pydantic.Field(alias="format")] = (
+        DataFormatOptions.JSON
+    )
     r"""Format of the output data"""
 
-    compress: Annotated[
-        Optional[CompressionOptions2], PlainValidator(validate_open_enum(False))
-    ] = CompressionOptions2.GZIP
+    compress: Optional[CompressionOptions2] = CompressionOptions2.GZIP
     r"""Data compression format to apply to HTTP content before it is delivered"""
 
     compression_level: Annotated[
-        Annotated[
-            Optional[CompressionLevelOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="compressionLevel"),
+        Optional[CompressionLevelOptions], pydantic.Field(alias="compressionLevel")
     ] = CompressionLevelOptions.BEST_SPEED
     r"""Compression level to apply before moving files to final destination"""
 
@@ -425,18 +406,12 @@ class OutputAzureDataExplorer(BaseModel):
     r"""To add a new schema, navigate to Processing > Knowledge > Parquet Schemas"""
 
     parquet_version: Annotated[
-        Annotated[
-            Optional[ParquetVersionOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="parquetVersion"),
+        Optional[ParquetVersionOptions], pydantic.Field(alias="parquetVersion")
     ] = ParquetVersionOptions.PARQUET_2_6
     r"""Determines which data types are supported and how they are represented"""
 
     parquet_data_page_version: Annotated[
-        Annotated[
-            Optional[DataPageVersionOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="parquetDataPageVersion"),
+        Optional[DataPageVersionOptions], pydantic.Field(alias="parquetDataPageVersion")
     ] = DataPageVersionOptions.DATA_PAGE_V2
     r"""Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it."""
 
@@ -519,11 +494,7 @@ class OutputAzureDataExplorer(BaseModel):
     r"""The ingestion service URI for your cluster. Typically, `https://ingest-<cluster>.<region>.kusto.windows.net`."""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -563,10 +534,7 @@ class OutputAzureDataExplorer(BaseModel):
     r"""Maximum number of parts to upload in parallel per file"""
 
     on_disk_full_backpressure: Annotated[
-        Annotated[
-            Optional[DiskSpaceProtectionOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[DiskSpaceProtectionOptions],
         pydantic.Field(alias="onDiskFullBackpressure"),
     ] = DiskSpaceProtectionOptions.BLOCK
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
@@ -600,14 +568,12 @@ class OutputAzureDataExplorer(BaseModel):
     r"""Prevents duplicate ingestion by verifying whether an extent with the specified ingest-by tag already exists"""
 
     report_level: Annotated[
-        Annotated[Optional[ReportLevel], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="reportLevel"),
+        Optional[ReportLevel], pydantic.Field(alias="reportLevel")
     ] = ReportLevel.FAILURES_ONLY
     r"""Level of ingestion status reporting. Defaults to FailuresOnly."""
 
     report_method: Annotated[
-        Annotated[Optional[ReportMethod], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="reportMethod"),
+        Optional[ReportMethod], pydantic.Field(alias="reportMethod")
     ] = ReportMethod.QUEUE
     r"""Target of the ingestion status reporting. Defaults to Queue."""
 
@@ -675,10 +641,9 @@ class OutputAzureDataExplorer(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -705,19 +670,12 @@ class OutputAzureDataExplorer(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 

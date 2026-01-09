@@ -13,11 +13,9 @@ from .pqtype import PqType, PqTypeTypedDict
 from .signatureversionoptions3 import SignatureVersionOptions3
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -104,10 +102,7 @@ class InputSqs(BaseModel):
     queue_name: Annotated[str, pydantic.Field(alias="queueName")]
     r"""The name, URL, or ARN of the SQS queue to read events from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can only be evaluated at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
 
-    queue_type: Annotated[
-        Annotated[InputSqsQueueType, PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="queueType"),
-    ]
+    queue_type: Annotated[InputSqsQueueType, pydantic.Field(alias="queueType")]
     r"""The queue type used (or created)"""
 
     id: Optional[str] = None
@@ -146,10 +141,7 @@ class InputSqs(BaseModel):
     r"""Create queue if it does not exist"""
 
     aws_authentication_method: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsS3CollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
     ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
@@ -165,11 +157,7 @@ class InputSqs(BaseModel):
     r"""SQS service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to SQS-compatible endpoint."""
 
     signature_version: Annotated[
-        Annotated[
-            Optional[SignatureVersionOptions3],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="signatureVersion"),
+        Optional[SignatureVersionOptions3], pydantic.Field(alias="signatureVersion")
     ] = SignatureVersionOptions3.V4
     r"""Signature version to use for signing SQS requests"""
 

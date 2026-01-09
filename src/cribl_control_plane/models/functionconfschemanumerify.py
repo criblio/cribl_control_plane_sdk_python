@@ -3,11 +3,9 @@
 from __future__ import annotations
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -46,11 +44,7 @@ class FunctionConfSchemaNumerify(BaseModel):
     r"""Optional JavaScript expression to determine whether a field should be numerified. If left blank, all fields will be numerified. Use the 'name' and 'value' global variables to access fields' names/values. Examples: `value != null`, `name=='fieldname'`. You can access other fields' values via `__e.<fieldName>`."""
 
     format_: Annotated[
-        Annotated[
-            Optional[FunctionConfSchemaNumerifyFormat],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="format"),
+        Optional[FunctionConfSchemaNumerifyFormat], pydantic.Field(alias="format")
     ] = FunctionConfSchemaNumerifyFormat.NONE
 
     @field_serializer("format_")

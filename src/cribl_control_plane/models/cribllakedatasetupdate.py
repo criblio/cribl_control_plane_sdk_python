@@ -10,10 +10,8 @@ from .lakedatasetsearchconfig import (
 )
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -52,11 +50,7 @@ class CriblLakeDatasetUpdate(BaseModel):
     description: Optional[str] = None
 
     format_: Annotated[
-        Annotated[
-            Optional[FormatOptionsCriblLakeDataset],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="format"),
+        Optional[FormatOptionsCriblLakeDataset], pydantic.Field(alias="format")
     ] = None
 
     http_da_used: Annotated[Optional[bool], pydantic.Field(alias="httpDAUsed")] = None

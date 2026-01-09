@@ -4,11 +4,9 @@ from __future__ import annotations
 from .tlsoptionshostsitems import TLSOptionsHostsItems
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing_extensions import NotRequired, TypedDict
 
 
 class ItemsTypeHostsTypedDict(TypedDict):
@@ -31,9 +29,7 @@ class ItemsTypeHosts(BaseModel):
     port: float
     r"""The port to connect to on the provided host"""
 
-    tls: Annotated[
-        Optional[TLSOptionsHostsItems], PlainValidator(validate_open_enum(False))
-    ] = TLSOptionsHostsItems.INHERIT
+    tls: Optional[TLSOptionsHostsItems] = TLSOptionsHostsItems.INHERIT
     r"""Whether to inherit TLS configs from group setting or disable TLS"""
 
     servername: Optional[str] = None

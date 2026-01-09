@@ -13,11 +13,9 @@ from .itemstyperules import ItemsTypeRules, ItemsTypeRulesTypedDict
 from .pqtype import PqType, PqTypeTypedDict
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -53,10 +51,9 @@ class InputKubeMetricsPersistence(BaseModel):
     max_data_time: Annotated[Optional[str], pydantic.Field(alias="maxDataTime")] = "24h"
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
 
-    compress: Annotated[
-        Optional[DataCompressionFormatOptionsPersistence],
-        PlainValidator(validate_open_enum(False)),
-    ] = DataCompressionFormatOptionsPersistence.GZIP
+    compress: Optional[DataCompressionFormatOptionsPersistence] = (
+        DataCompressionFormatOptionsPersistence.GZIP
+    )
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = (
         "$CRIBL_HOME/state/kube_metrics"

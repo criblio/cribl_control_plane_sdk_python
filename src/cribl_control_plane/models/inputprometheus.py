@@ -16,11 +16,9 @@ from .recordtypeoptions import RecordTypeOptions
 from .signatureversionoptions1 import SignatureVersionOptions1
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -183,11 +181,7 @@ class InputPrometheus(BaseModel):
     r"""Other dimensions to include in events"""
 
     discovery_type: Annotated[
-        Annotated[
-            Optional[InputPrometheusDiscoveryType],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="discoveryType"),
+        Optional[InputPrometheusDiscoveryType], pydantic.Field(alias="discoveryType")
     ] = InputPrometheusDiscoveryType.STATIC
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
 
@@ -195,10 +189,7 @@ class InputPrometheus(BaseModel):
     r"""How often, in minutes, to scrape targets for metrics. Maximum of 60 minutes. 60 must be evenly divisible by the value you enter."""
 
     log_level: Annotated[
-        Annotated[
-            Optional[InputPrometheusLogLevel], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="logLevel"),
+        Optional[InputPrometheusLogLevel], pydantic.Field(alias="logLevel")
     ] = InputPrometheusLogLevel.INFO
     r"""Collector runtime log level"""
 
@@ -235,11 +226,7 @@ class InputPrometheus(BaseModel):
     r"""Fields to add to events from this input"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsSasl],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationMethodOptionsSasl], pydantic.Field(alias="authType")
     ] = AuthenticationMethodOptionsSasl.MANUAL
     r"""Enter credentials directly, or select a stored secret"""
 
@@ -251,10 +238,7 @@ class InputPrometheus(BaseModel):
     r"""List of Prometheus targets to pull metrics from. Values can be in URL or host[:port] format. For example: http://localhost:9090/metrics, localhost:9090, or localhost. In cases where just host[:port] is specified, the endpoint will resolve to 'http://host[:port]/metrics'."""
 
     record_type: Annotated[
-        Annotated[
-            Optional[RecordTypeOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="recordType"),
+        Optional[RecordTypeOptions], pydantic.Field(alias="recordType")
     ] = RecordTypeOptions.SRV
     r"""DNS record type to resolve"""
 
@@ -265,8 +249,7 @@ class InputPrometheus(BaseModel):
     r"""List of DNS names to resolve"""
 
     scrape_protocol: Annotated[
-        Annotated[Optional[MetricsProtocol], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="scrapeProtocol"),
+        Optional[MetricsProtocol], pydantic.Field(alias="scrapeProtocol")
     ] = MetricsProtocol.HTTP
     r"""Protocol to use when collecting metrics"""
 
@@ -276,10 +259,7 @@ class InputPrometheus(BaseModel):
     r"""Path to use when collecting metrics from discovered targets"""
 
     aws_authentication_method: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsS3CollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
     ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
@@ -308,11 +288,7 @@ class InputPrometheus(BaseModel):
     r"""EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint."""
 
     signature_version: Annotated[
-        Annotated[
-            Optional[SignatureVersionOptions1],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="signatureVersion"),
+        Optional[SignatureVersionOptions1], pydantic.Field(alias="signatureVersion")
     ] = SignatureVersionOptions1.V4
     r"""Signature version to use for signing EC2 requests"""
 

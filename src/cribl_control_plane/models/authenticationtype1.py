@@ -9,10 +9,8 @@ from .microsoftentraidauthenticationendpointoptionssasl import (
 from .saslmechanismoptionssasl1 import SaslMechanismOptionsSasl1
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -56,11 +54,7 @@ class AuthenticationType1(BaseModel):
     disabled: Optional[bool] = False
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsSasl1],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationMethodOptionsSasl1], pydantic.Field(alias="authType")
     ] = AuthenticationMethodOptionsSasl1.MANUAL
     r"""Enter password directly, or select a stored secret"""
 
@@ -70,18 +64,13 @@ class AuthenticationType1(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
 
-    mechanism: Annotated[
-        Optional[SaslMechanismOptionsSasl1], PlainValidator(validate_open_enum(False))
-    ] = SaslMechanismOptionsSasl1.PLAIN
+    mechanism: Optional[SaslMechanismOptionsSasl1] = SaslMechanismOptionsSasl1.PLAIN
 
     username: Optional[str] = "$ConnectionString"
     r"""The username for authentication. For Event Hubs, this should always be $ConnectionString."""
 
     client_secret_auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsSasl2],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsSasl2],
         pydantic.Field(alias="clientSecretAuthType"),
     ] = AuthenticationMethodOptionsSasl2.MANUAL
 
@@ -105,10 +94,7 @@ class AuthenticationType1(BaseModel):
     passphrase: Optional[str] = None
 
     oauth_endpoint: Annotated[
-        Annotated[
-            Optional[MicrosoftEntraIDAuthenticationEndpointOptionsSasl],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[MicrosoftEntraIDAuthenticationEndpointOptionsSasl],
         pydantic.Field(alias="oauthEndpoint"),
     ] = MicrosoftEntraIDAuthenticationEndpointOptionsSasl.HTTPS_LOGIN_MICROSOFTONLINE_COM
     r"""Endpoint used to acquire authentication tokens from Azure"""

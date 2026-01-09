@@ -17,11 +17,9 @@ from .tlssettingsserversidetype import (
 )
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -84,11 +82,7 @@ class InputElasticProxyMode(BaseModel):
     r"""Enable proxying of non-bulk API requests to an external Elastic server. Enable this only if you understand the implications. See [Cribl Docs](https://docs.cribl.io/stream/sources-elastic/#proxy-mode) for more details."""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[InputElasticAuthenticationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[InputElasticAuthenticationMethod], pydantic.Field(alias="authType")
     ] = InputElasticAuthenticationMethod.NONE
     r"""Enter credentials directly, or select a stored secret"""
 
@@ -290,18 +284,11 @@ class InputElastic(BaseModel):
     r"""Absolute path on which to listen for Elasticsearch API requests. Defaults to /. _bulk will be appended automatically. For example, /myPath becomes /myPath/_bulk. Requests can then be made to either /myPath/_bulk or /myPath/<myIndexName>/_bulk. Other entries are faked as success."""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[InputElasticAuthenticationType],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[InputElasticAuthenticationType], pydantic.Field(alias="authType")
     ] = InputElasticAuthenticationType.NONE
 
     api_version: Annotated[
-        Annotated[
-            Optional[InputElasticAPIVersion], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="apiVersion"),
+        Optional[InputElasticAPIVersion], pydantic.Field(alias="apiVersion")
     ] = InputElasticAPIVersion.EIGHT_DOT_3_DOT_2
     r"""The API version to use for communicating with the server"""
 

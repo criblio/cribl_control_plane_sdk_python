@@ -13,11 +13,9 @@ from .tlssettingsserversidetype import (
 )
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import Any, List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -50,10 +48,7 @@ class InputCloudflareHecAuthTokenTypedDict(TypedDict):
 
 class InputCloudflareHecAuthToken(BaseModel):
     auth_type: Annotated[
-        Annotated[
-            Optional[InputCloudflareHecAuthenticationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[InputCloudflareHecAuthenticationMethod],
         pydantic.Field(alias="authType"),
     ] = InputCloudflareHecAuthenticationMethod.SECRET
     r"""Select Secret to use a text secret to authenticate"""

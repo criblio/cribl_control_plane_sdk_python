@@ -18,11 +18,9 @@ from .tlssettingsserversidetype import (
 )
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -208,10 +206,7 @@ class InputPrometheusRw(BaseModel):
     r"""Absolute path on which to listen for Prometheus requests. Defaults to /write, which will expand as: http://<your‑upstream‑URL>:<your‑port>/write."""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationTypeOptionsPrometheusAuth],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationTypeOptionsPrometheusAuth],
         pydantic.Field(alias="authType"),
     ] = AuthenticationTypeOptionsPrometheusAuth.NONE
     r"""Remote Write authentication type"""

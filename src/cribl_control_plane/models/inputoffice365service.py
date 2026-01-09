@@ -13,11 +13,9 @@ from .retryrulestype1 import RetryRulesType1, RetryRulesType1TypedDict
 from .subscriptionplanoptions import SubscriptionPlanOptions
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -47,11 +45,7 @@ class InputOffice365ServiceContentConfig(BaseModel):
     interval: Optional[float] = None
 
     log_level: Annotated[
-        Annotated[
-            Optional[LogLevelOptionsContentConfigItems],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="logLevel"),
+        Optional[LogLevelOptionsContentConfigItems], pydantic.Field(alias="logLevel")
     ] = None
     r"""Collector runtime Log Level"""
 
@@ -154,10 +148,7 @@ class InputOffice365Service(BaseModel):
     pq: Optional[PqType] = None
 
     plan_type: Annotated[
-        Annotated[
-            Optional[SubscriptionPlanOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="planType"),
+        Optional[SubscriptionPlanOptions], pydantic.Field(alias="planType")
     ] = SubscriptionPlanOptions.ENTERPRISE_GCC
     r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
 
@@ -199,11 +190,7 @@ class InputOffice365Service(BaseModel):
     ] = None
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptions1],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationMethodOptions1], pydantic.Field(alias="authType")
     ] = AuthenticationMethodOptions1.MANUAL
     r"""Enter client secret directly, or select a stored secret"""
 

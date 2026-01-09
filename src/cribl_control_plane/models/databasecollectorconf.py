@@ -6,10 +6,8 @@ from .hiddendefaultbreakersoptionsdatabasecollectorconf import (
 )
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -59,10 +57,7 @@ class DatabaseCollectorConf(BaseModel):
     r"""Enforces a basic query validation that allows only a single 'select' statement. Disable for more complex queries or when using semicolons. Caution: Disabling query validation allows DDL and DML statements to be executed, which could be destructive to your database."""
 
     default_breakers: Annotated[
-        Annotated[
-            Optional[HiddenDefaultBreakersOptionsDatabaseCollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[HiddenDefaultBreakersOptionsDatabaseCollectorConf],
         pydantic.Field(alias="defaultBreakers"),
     ] = None
 

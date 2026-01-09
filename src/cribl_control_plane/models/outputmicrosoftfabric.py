@@ -17,11 +17,9 @@ from .tlssettingsclientsidetype import (
 )
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -69,9 +67,7 @@ class OutputMicrosoftFabricAuthentication(BaseModel):
 
     disabled: Optional[bool] = False
 
-    mechanism: Annotated[
-        Optional[SaslMechanismOptionsSasl1], PlainValidator(validate_open_enum(False))
-    ] = SaslMechanismOptionsSasl1.PLAIN
+    mechanism: Optional[SaslMechanismOptionsSasl1] = SaslMechanismOptionsSasl1.PLAIN
 
     username: Optional[str] = "$ConnectionString"
     r"""The username for authentication. This should always be $ConnectionString."""
@@ -80,10 +76,7 @@ class OutputMicrosoftFabricAuthentication(BaseModel):
     r"""Select or create a stored text secret corresponding to the SASL JASS Password Primary or Password Secondary"""
 
     client_secret_auth_type: Annotated[
-        Annotated[
-            Optional[OutputMicrosoftFabricAuthenticationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[OutputMicrosoftFabricAuthenticationMethod],
         pydantic.Field(alias="clientSecretAuthType"),
     ] = OutputMicrosoftFabricAuthenticationMethod.SECRET
 
@@ -104,10 +97,7 @@ class OutputMicrosoftFabricAuthentication(BaseModel):
     passphrase: Optional[str] = None
 
     oauth_endpoint: Annotated[
-        Annotated[
-            Optional[MicrosoftEntraIDAuthenticationEndpointOptionsSasl],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[MicrosoftEntraIDAuthenticationEndpointOptionsSasl],
         pydantic.Field(alias="oauthEndpoint"),
     ] = MicrosoftEntraIDAuthenticationEndpointOptionsSasl.HTTPS_LOGIN_MICROSOFTONLINE_COM
     r"""Endpoint used to acquire authentication tokens from Azure"""
@@ -254,16 +244,11 @@ class OutputMicrosoftFabric(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    ack: Annotated[
-        Optional[AcknowledgmentsOptions], PlainValidator(validate_open_enum(True))
-    ] = AcknowledgmentsOptions.ONE
+    ack: Optional[AcknowledgmentsOptions] = AcknowledgmentsOptions.ONE
     r"""Control the number of required acknowledgments"""
 
     format_: Annotated[
-        Annotated[
-            Optional[RecordDataFormatOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="format"),
+        Optional[RecordDataFormatOptions], pydantic.Field(alias="format")
     ] = RecordDataFormatOptions.JSON
     r"""Format to use to serialize events before writing to the Event Hubs Kafka brokers"""
 
@@ -322,11 +307,7 @@ class OutputMicrosoftFabric(BaseModel):
     tls: Optional[TLSSettingsClientSideType] = None
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -342,10 +323,9 @@ class OutputMicrosoftFabric(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -372,19 +352,12 @@ class OutputMicrosoftFabric(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 

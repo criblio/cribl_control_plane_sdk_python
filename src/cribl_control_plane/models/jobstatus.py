@@ -3,12 +3,10 @@
 from __future__ import annotations
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import Any, Dict, Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing_extensions import NotRequired, TypedDict
 
 
 class State(int, Enum, metaclass=utils.OpenEnumMeta):
@@ -33,7 +31,7 @@ class JobStatusTypedDict(TypedDict):
 
 
 class JobStatus(BaseModel):
-    state: Annotated[State, PlainValidator(validate_open_enum(True))]
+    state: State
     r"""State of the Job"""
 
     reason: Optional[Dict[str, Any]] = None

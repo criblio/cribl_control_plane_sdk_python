@@ -21,11 +21,10 @@ from .retrytypeoptionshealthcheckcollectorconfretryrules import (
 )
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import get_discriminator, validate_open_enum
+from cribl_control_plane.utils import get_discriminator
 from enum import Enum
 import pydantic
 from pydantic import Discriminator, Tag, field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import Any, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
@@ -66,10 +65,7 @@ class HealthCheckAuthenticationOauthSecretDiscoveryTypedDict(TypedDict):
 
 class HealthCheckAuthenticationOauthSecretDiscovery(BaseModel):
     discover_type: Annotated[
-        Annotated[
-            Optional[HealthCheckAuthenticationOauthSecretDiscoverType],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[HealthCheckAuthenticationOauthSecretDiscoverType],
         pydantic.Field(alias="discoverType"),
     ] = HealthCheckAuthenticationOauthSecretDiscoverType.NONE
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
@@ -123,10 +119,9 @@ class HealthCheckAuthenticationOauthSecretRetryRulesTypedDict(TypedDict):
 
 
 class HealthCheckAuthenticationOauthSecretRetryRules(BaseModel):
-    type: Annotated[
-        Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules],
-        PlainValidator(validate_open_enum(False)),
-    ] = RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
+    type: Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules] = (
+        RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
+    )
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[Any] = None
@@ -200,10 +195,9 @@ class HealthCheckAuthenticationOauthSecret(BaseModel):
     collect_url: Annotated[str, pydantic.Field(alias="collectUrl")]
     r"""Expression to derive URL to use for the health check operation (can be a constant)."""
 
-    authentication: Annotated[
-        Optional[HealthCheckAuthenticationOauthSecretAuthentication],
-        PlainValidator(validate_open_enum(False)),
-    ] = HealthCheckAuthenticationOauthSecretAuthentication.NONE
+    authentication: Optional[HealthCheckAuthenticationOauthSecretAuthentication] = (
+        HealthCheckAuthenticationOauthSecretAuthentication.NONE
+    )
     r"""Authentication method for Discover and Collect REST calls. You can specify API Key–based authentication by adding the appropriate Collect headers."""
 
     login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = ""
@@ -239,10 +233,7 @@ class HealthCheckAuthenticationOauthSecret(BaseModel):
     discovery: Optional[HealthCheckAuthenticationOauthSecretDiscovery] = None
 
     collect_method: Annotated[
-        Annotated[
-            Optional[HealthCheckAuthenticationOauthSecretHealthCheckMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[HealthCheckAuthenticationOauthSecretHealthCheckMethod],
         pydantic.Field(alias="collectMethod"),
     ] = HealthCheckAuthenticationOauthSecretHealthCheckMethod.GET
     r"""Health check HTTP method."""
@@ -273,10 +264,7 @@ class HealthCheckAuthenticationOauthSecret(BaseModel):
     r"""Whether to reject certificates that cannot be verified against a valid CA (e.g., self-signed certificates)."""
 
     default_breakers: Annotated[
-        Annotated[
-            Optional[HiddenDefaultBreakersOptionsDatabaseCollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[HiddenDefaultBreakersOptionsDatabaseCollectorConf],
         pydantic.Field(alias="defaultBreakers"),
     ] = None
 
@@ -356,10 +344,7 @@ class HealthCheckAuthenticationOauthDiscoveryTypedDict(TypedDict):
 
 class HealthCheckAuthenticationOauthDiscovery(BaseModel):
     discover_type: Annotated[
-        Annotated[
-            Optional[HealthCheckAuthenticationOauthDiscoverType],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[HealthCheckAuthenticationOauthDiscoverType],
         pydantic.Field(alias="discoverType"),
     ] = HealthCheckAuthenticationOauthDiscoverType.NONE
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
@@ -413,10 +398,9 @@ class HealthCheckAuthenticationOauthRetryRulesTypedDict(TypedDict):
 
 
 class HealthCheckAuthenticationOauthRetryRules(BaseModel):
-    type: Annotated[
-        Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules],
-        PlainValidator(validate_open_enum(False)),
-    ] = RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
+    type: Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules] = (
+        RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
+    )
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[Any] = None
@@ -492,10 +476,9 @@ class HealthCheckAuthenticationOauth(BaseModel):
     collect_url: Annotated[str, pydantic.Field(alias="collectUrl")]
     r"""Expression to derive URL to use for the health check operation (can be a constant)."""
 
-    authentication: Annotated[
-        Optional[HealthCheckAuthenticationOauthAuthentication],
-        PlainValidator(validate_open_enum(False)),
-    ] = HealthCheckAuthenticationOauthAuthentication.NONE
+    authentication: Optional[HealthCheckAuthenticationOauthAuthentication] = (
+        HealthCheckAuthenticationOauthAuthentication.NONE
+    )
     r"""Authentication method for Discover and Collect REST calls. You can specify API Key–based authentication by adding the appropriate Collect headers."""
 
     login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = ""
@@ -531,10 +514,7 @@ class HealthCheckAuthenticationOauth(BaseModel):
     discovery: Optional[HealthCheckAuthenticationOauthDiscovery] = None
 
     collect_method: Annotated[
-        Annotated[
-            Optional[HealthCheckAuthenticationOauthHealthCheckMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[HealthCheckAuthenticationOauthHealthCheckMethod],
         pydantic.Field(alias="collectMethod"),
     ] = HealthCheckAuthenticationOauthHealthCheckMethod.GET
     r"""Health check HTTP method."""
@@ -565,10 +545,7 @@ class HealthCheckAuthenticationOauth(BaseModel):
     r"""Whether to reject certificates that cannot be verified against a valid CA (e.g., self-signed certificates)."""
 
     default_breakers: Annotated[
-        Annotated[
-            Optional[HiddenDefaultBreakersOptionsDatabaseCollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[HiddenDefaultBreakersOptionsDatabaseCollectorConf],
         pydantic.Field(alias="defaultBreakers"),
     ] = None
 
@@ -646,10 +623,7 @@ class HealthCheckAuthenticationLoginSecretDiscoveryTypedDict(TypedDict):
 
 class HealthCheckAuthenticationLoginSecretDiscovery(BaseModel):
     discover_type: Annotated[
-        Annotated[
-            Optional[HealthCheckAuthenticationLoginSecretDiscoverType],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[HealthCheckAuthenticationLoginSecretDiscoverType],
         pydantic.Field(alias="discoverType"),
     ] = HealthCheckAuthenticationLoginSecretDiscoverType.NONE
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
@@ -703,10 +677,9 @@ class HealthCheckAuthenticationLoginSecretRetryRulesTypedDict(TypedDict):
 
 
 class HealthCheckAuthenticationLoginSecretRetryRules(BaseModel):
-    type: Annotated[
-        Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules],
-        PlainValidator(validate_open_enum(False)),
-    ] = RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
+    type: Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules] = (
+        RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
+    )
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[Any] = None
@@ -776,10 +749,9 @@ class HealthCheckAuthenticationLoginSecret(BaseModel):
     collect_url: Annotated[str, pydantic.Field(alias="collectUrl")]
     r"""Expression to derive URL to use for the health check operation (can be a constant)."""
 
-    authentication: Annotated[
-        Optional[HealthCheckAuthenticationLoginSecretAuthentication],
-        PlainValidator(validate_open_enum(False)),
-    ] = HealthCheckAuthenticationLoginSecretAuthentication.NONE
+    authentication: Optional[HealthCheckAuthenticationLoginSecretAuthentication] = (
+        HealthCheckAuthenticationLoginSecretAuthentication.NONE
+    )
     r"""Authentication method for Discover and Collect REST calls. You can specify API Key–based authentication by adding the appropriate Collect headers."""
 
     login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = (
@@ -811,10 +783,7 @@ class HealthCheckAuthenticationLoginSecret(BaseModel):
     discovery: Optional[HealthCheckAuthenticationLoginSecretDiscovery] = None
 
     collect_method: Annotated[
-        Annotated[
-            Optional[HealthCheckAuthenticationLoginSecretHealthCheckMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[HealthCheckAuthenticationLoginSecretHealthCheckMethod],
         pydantic.Field(alias="collectMethod"),
     ] = HealthCheckAuthenticationLoginSecretHealthCheckMethod.GET
     r"""Health check HTTP method."""
@@ -845,10 +814,7 @@ class HealthCheckAuthenticationLoginSecret(BaseModel):
     r"""Whether to reject certificates that cannot be verified against a valid CA (e.g., self-signed certificates)."""
 
     default_breakers: Annotated[
-        Annotated[
-            Optional[HiddenDefaultBreakersOptionsDatabaseCollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[HiddenDefaultBreakersOptionsDatabaseCollectorConf],
         pydantic.Field(alias="defaultBreakers"),
     ] = None
 
@@ -928,10 +894,7 @@ class HealthCheckAuthenticationLoginDiscoveryTypedDict(TypedDict):
 
 class HealthCheckAuthenticationLoginDiscovery(BaseModel):
     discover_type: Annotated[
-        Annotated[
-            Optional[HealthCheckAuthenticationLoginDiscoverType],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[HealthCheckAuthenticationLoginDiscoverType],
         pydantic.Field(alias="discoverType"),
     ] = HealthCheckAuthenticationLoginDiscoverType.NONE
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
@@ -985,10 +948,9 @@ class HealthCheckAuthenticationLoginRetryRulesTypedDict(TypedDict):
 
 
 class HealthCheckAuthenticationLoginRetryRules(BaseModel):
-    type: Annotated[
-        Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules],
-        PlainValidator(validate_open_enum(False)),
-    ] = RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
+    type: Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules] = (
+        RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
+    )
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[Any] = None
@@ -1063,10 +1025,9 @@ class HealthCheckAuthenticationLogin(BaseModel):
     collect_url: Annotated[str, pydantic.Field(alias="collectUrl")]
     r"""Expression to derive URL to use for the health check operation (can be a constant)."""
 
-    authentication: Annotated[
-        Optional[HealthCheckAuthenticationLoginAuthentication],
-        PlainValidator(validate_open_enum(False)),
-    ] = HealthCheckAuthenticationLoginAuthentication.NONE
+    authentication: Optional[HealthCheckAuthenticationLoginAuthentication] = (
+        HealthCheckAuthenticationLoginAuthentication.NONE
+    )
     r"""Authentication method for Discover and Collect REST calls. You can specify API Key–based authentication by adding the appropriate Collect headers."""
 
     login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = (
@@ -1098,10 +1059,7 @@ class HealthCheckAuthenticationLogin(BaseModel):
     discovery: Optional[HealthCheckAuthenticationLoginDiscovery] = None
 
     collect_method: Annotated[
-        Annotated[
-            Optional[HealthCheckAuthenticationLoginHealthCheckMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[HealthCheckAuthenticationLoginHealthCheckMethod],
         pydantic.Field(alias="collectMethod"),
     ] = HealthCheckAuthenticationLoginHealthCheckMethod.GET
     r"""Health check HTTP method."""
@@ -1132,10 +1090,7 @@ class HealthCheckAuthenticationLogin(BaseModel):
     r"""Whether to reject certificates that cannot be verified against a valid CA (e.g., self-signed certificates)."""
 
     default_breakers: Annotated[
-        Annotated[
-            Optional[HiddenDefaultBreakersOptionsDatabaseCollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[HiddenDefaultBreakersOptionsDatabaseCollectorConf],
         pydantic.Field(alias="defaultBreakers"),
     ] = None
 
@@ -1213,10 +1168,7 @@ class HealthCheckAuthenticationBasicSecretDiscoveryTypedDict(TypedDict):
 
 class HealthCheckAuthenticationBasicSecretDiscovery(BaseModel):
     discover_type: Annotated[
-        Annotated[
-            Optional[HealthCheckAuthenticationBasicSecretDiscoverType],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[HealthCheckAuthenticationBasicSecretDiscoverType],
         pydantic.Field(alias="discoverType"),
     ] = HealthCheckAuthenticationBasicSecretDiscoverType.NONE
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
@@ -1270,10 +1222,9 @@ class HealthCheckAuthenticationBasicSecretRetryRulesTypedDict(TypedDict):
 
 
 class HealthCheckAuthenticationBasicSecretRetryRules(BaseModel):
-    type: Annotated[
-        Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules],
-        PlainValidator(validate_open_enum(False)),
-    ] = RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
+    type: Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules] = (
+        RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
+    )
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[Any] = None
@@ -1331,19 +1282,15 @@ class HealthCheckAuthenticationBasicSecret(BaseModel):
     collect_url: Annotated[str, pydantic.Field(alias="collectUrl")]
     r"""Expression to derive URL to use for the health check operation (can be a constant)."""
 
-    authentication: Annotated[
-        Optional[HealthCheckAuthenticationBasicSecretAuthentication],
-        PlainValidator(validate_open_enum(False)),
-    ] = HealthCheckAuthenticationBasicSecretAuthentication.NONE
+    authentication: Optional[HealthCheckAuthenticationBasicSecretAuthentication] = (
+        HealthCheckAuthenticationBasicSecretAuthentication.NONE
+    )
     r"""Authentication method for Discover and Collect REST calls. You can specify API Key–based authentication by adding the appropriate Collect headers."""
 
     discovery: Optional[HealthCheckAuthenticationBasicSecretDiscovery] = None
 
     collect_method: Annotated[
-        Annotated[
-            Optional[HealthCheckAuthenticationBasicSecretHealthCheckMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[HealthCheckAuthenticationBasicSecretHealthCheckMethod],
         pydantic.Field(alias="collectMethod"),
     ] = HealthCheckAuthenticationBasicSecretHealthCheckMethod.GET
     r"""Health check HTTP method."""
@@ -1374,10 +1321,7 @@ class HealthCheckAuthenticationBasicSecret(BaseModel):
     r"""Whether to reject certificates that cannot be verified against a valid CA (e.g., self-signed certificates)."""
 
     default_breakers: Annotated[
-        Annotated[
-            Optional[HiddenDefaultBreakersOptionsDatabaseCollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[HiddenDefaultBreakersOptionsDatabaseCollectorConf],
         pydantic.Field(alias="defaultBreakers"),
     ] = None
 
@@ -1457,10 +1401,7 @@ class HealthCheckAuthenticationBasicDiscoveryTypedDict(TypedDict):
 
 class HealthCheckAuthenticationBasicDiscovery(BaseModel):
     discover_type: Annotated[
-        Annotated[
-            Optional[HealthCheckAuthenticationBasicDiscoverType],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[HealthCheckAuthenticationBasicDiscoverType],
         pydantic.Field(alias="discoverType"),
     ] = HealthCheckAuthenticationBasicDiscoverType.NONE
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
@@ -1514,10 +1455,9 @@ class HealthCheckAuthenticationBasicRetryRulesTypedDict(TypedDict):
 
 
 class HealthCheckAuthenticationBasicRetryRules(BaseModel):
-    type: Annotated[
-        Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules],
-        PlainValidator(validate_open_enum(False)),
-    ] = RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
+    type: Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules] = (
+        RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
+    )
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[Any] = None
@@ -1580,19 +1520,15 @@ class HealthCheckAuthenticationBasic(BaseModel):
     collect_url: Annotated[str, pydantic.Field(alias="collectUrl")]
     r"""Expression to derive URL to use for the health check operation (can be a constant)."""
 
-    authentication: Annotated[
-        Optional[HealthCheckAuthenticationBasicAuthentication],
-        PlainValidator(validate_open_enum(False)),
-    ] = HealthCheckAuthenticationBasicAuthentication.NONE
+    authentication: Optional[HealthCheckAuthenticationBasicAuthentication] = (
+        HealthCheckAuthenticationBasicAuthentication.NONE
+    )
     r"""Authentication method for Discover and Collect REST calls. You can specify API Key–based authentication by adding the appropriate Collect headers."""
 
     discovery: Optional[HealthCheckAuthenticationBasicDiscovery] = None
 
     collect_method: Annotated[
-        Annotated[
-            Optional[HealthCheckAuthenticationBasicHealthCheckMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[HealthCheckAuthenticationBasicHealthCheckMethod],
         pydantic.Field(alias="collectMethod"),
     ] = HealthCheckAuthenticationBasicHealthCheckMethod.GET
     r"""Health check HTTP method."""
@@ -1623,10 +1559,7 @@ class HealthCheckAuthenticationBasic(BaseModel):
     r"""Whether to reject certificates that cannot be verified against a valid CA (e.g., self-signed certificates)."""
 
     default_breakers: Annotated[
-        Annotated[
-            Optional[HiddenDefaultBreakersOptionsDatabaseCollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[HiddenDefaultBreakersOptionsDatabaseCollectorConf],
         pydantic.Field(alias="defaultBreakers"),
     ] = None
 
@@ -1704,10 +1637,7 @@ class HealthCheckAuthenticationNoneDiscoveryTypedDict(TypedDict):
 
 class HealthCheckAuthenticationNoneDiscovery(BaseModel):
     discover_type: Annotated[
-        Annotated[
-            Optional[HealthCheckAuthenticationNoneDiscoverType],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[HealthCheckAuthenticationNoneDiscoverType],
         pydantic.Field(alias="discoverType"),
     ] = HealthCheckAuthenticationNoneDiscoverType.NONE
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
@@ -1761,10 +1691,9 @@ class HealthCheckAuthenticationNoneRetryRulesTypedDict(TypedDict):
 
 
 class HealthCheckAuthenticationNoneRetryRules(BaseModel):
-    type: Annotated[
-        Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules],
-        PlainValidator(validate_open_enum(False)),
-    ] = RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
+    type: Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules] = (
+        RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
+    )
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[Any] = None
@@ -1817,19 +1746,15 @@ class HealthCheckAuthenticationNone(BaseModel):
     collect_url: Annotated[str, pydantic.Field(alias="collectUrl")]
     r"""Expression to derive URL to use for the health check operation (can be a constant)."""
 
-    authentication: Annotated[
-        Optional[HealthCheckAuthenticationNoneAuthentication],
-        PlainValidator(validate_open_enum(False)),
-    ] = HealthCheckAuthenticationNoneAuthentication.NONE
+    authentication: Optional[HealthCheckAuthenticationNoneAuthentication] = (
+        HealthCheckAuthenticationNoneAuthentication.NONE
+    )
     r"""Authentication method for Discover and Collect REST calls. You can specify API Key–based authentication by adding the appropriate Collect headers."""
 
     discovery: Optional[HealthCheckAuthenticationNoneDiscovery] = None
 
     collect_method: Annotated[
-        Annotated[
-            Optional[HealthCheckAuthenticationNoneHealthCheckMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[HealthCheckAuthenticationNoneHealthCheckMethod],
         pydantic.Field(alias="collectMethod"),
     ] = HealthCheckAuthenticationNoneHealthCheckMethod.GET
     r"""Health check HTTP method."""
@@ -1860,10 +1785,7 @@ class HealthCheckAuthenticationNone(BaseModel):
     r"""Whether to reject certificates that cannot be verified against a valid CA (e.g., self-signed certificates)."""
 
     default_breakers: Annotated[
-        Annotated[
-            Optional[HiddenDefaultBreakersOptionsDatabaseCollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[HiddenDefaultBreakersOptionsDatabaseCollectorConf],
         pydantic.Field(alias="defaultBreakers"),
     ] = None
 
@@ -1940,10 +1862,7 @@ class HealthCheckCollectMethodPostWithBodyDiscoveryTypedDict(TypedDict):
 
 class HealthCheckCollectMethodPostWithBodyDiscovery(BaseModel):
     discover_type: Annotated[
-        Annotated[
-            Optional[HealthCheckCollectMethodPostWithBodyDiscoverType],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[HealthCheckCollectMethodPostWithBodyDiscoverType],
         pydantic.Field(alias="discoverType"),
     ] = HealthCheckCollectMethodPostWithBodyDiscoverType.NONE
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
@@ -1998,10 +1917,9 @@ class HealthCheckCollectMethodPostWithBodyRetryRulesTypedDict(TypedDict):
 
 
 class HealthCheckCollectMethodPostWithBodyRetryRules(BaseModel):
-    type: Annotated[
-        Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules],
-        PlainValidator(validate_open_enum(False)),
-    ] = RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
+    type: Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules] = (
+        RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
+    )
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[Any] = None
@@ -2055,10 +1973,7 @@ class HealthCheckCollectMethodPostWithBody(BaseModel):
     r"""Expression to derive URL to use for the health check operation (can be a constant)."""
 
     collect_method: Annotated[
-        Annotated[
-            Optional[HealthCheckCollectMethodPostWithBodyHealthCheckMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[HealthCheckCollectMethodPostWithBodyHealthCheckMethod],
         pydantic.Field(alias="collectMethod"),
     ] = HealthCheckCollectMethodPostWithBodyHealthCheckMethod.GET
     r"""Health check HTTP method."""
@@ -2082,10 +1997,9 @@ class HealthCheckCollectMethodPostWithBody(BaseModel):
     ] = False
     r"""Enable to make auth health check call."""
 
-    authentication: Annotated[
-        Optional[HealthCheckCollectMethodPostWithBodyAuthentication],
-        PlainValidator(validate_open_enum(False)),
-    ] = HealthCheckCollectMethodPostWithBodyAuthentication.NONE
+    authentication: Optional[HealthCheckCollectMethodPostWithBodyAuthentication] = (
+        HealthCheckCollectMethodPostWithBodyAuthentication.NONE
+    )
     r"""Authentication method for Discover and Collect REST calls. You can specify API Key–based authentication by adding the appropriate Collect headers."""
 
     timeout: Optional[float] = 30
@@ -2097,10 +2011,7 @@ class HealthCheckCollectMethodPostWithBody(BaseModel):
     r"""Whether to reject certificates that cannot be verified against a valid CA (e.g., self-signed certificates)."""
 
     default_breakers: Annotated[
-        Annotated[
-            Optional[HiddenDefaultBreakersOptionsDatabaseCollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[HiddenDefaultBreakersOptionsDatabaseCollectorConf],
         pydantic.Field(alias="defaultBreakers"),
     ] = None
 
@@ -2177,10 +2088,7 @@ class HealthCheckCollectMethodPostDiscoveryTypedDict(TypedDict):
 
 class HealthCheckCollectMethodPostDiscovery(BaseModel):
     discover_type: Annotated[
-        Annotated[
-            Optional[HealthCheckCollectMethodPostDiscoverType],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[HealthCheckCollectMethodPostDiscoverType],
         pydantic.Field(alias="discoverType"),
     ] = HealthCheckCollectMethodPostDiscoverType.NONE
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
@@ -2235,10 +2143,9 @@ class HealthCheckCollectMethodPostRetryRulesTypedDict(TypedDict):
 
 
 class HealthCheckCollectMethodPostRetryRules(BaseModel):
-    type: Annotated[
-        Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules],
-        PlainValidator(validate_open_enum(False)),
-    ] = RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
+    type: Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules] = (
+        RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
+    )
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[Any] = None
@@ -2292,10 +2199,7 @@ class HealthCheckCollectMethodPost(BaseModel):
     r"""Expression to derive URL to use for the health check operation (can be a constant)."""
 
     collect_method: Annotated[
-        Annotated[
-            Optional[HealthCheckCollectMethodPostHealthCheckMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[HealthCheckCollectMethodPostHealthCheckMethod],
         pydantic.Field(alias="collectMethod"),
     ] = HealthCheckCollectMethodPostHealthCheckMethod.GET
     r"""Health check HTTP method."""
@@ -2319,10 +2223,9 @@ class HealthCheckCollectMethodPost(BaseModel):
     ] = False
     r"""Enable to make auth health check call."""
 
-    authentication: Annotated[
-        Optional[HealthCheckCollectMethodPostAuthentication],
-        PlainValidator(validate_open_enum(False)),
-    ] = HealthCheckCollectMethodPostAuthentication.NONE
+    authentication: Optional[HealthCheckCollectMethodPostAuthentication] = (
+        HealthCheckCollectMethodPostAuthentication.NONE
+    )
     r"""Authentication method for Discover and Collect REST calls. You can specify API Key–based authentication by adding the appropriate Collect headers."""
 
     timeout: Optional[float] = 30
@@ -2334,10 +2237,7 @@ class HealthCheckCollectMethodPost(BaseModel):
     r"""Whether to reject certificates that cannot be verified against a valid CA (e.g., self-signed certificates)."""
 
     default_breakers: Annotated[
-        Annotated[
-            Optional[HiddenDefaultBreakersOptionsDatabaseCollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[HiddenDefaultBreakersOptionsDatabaseCollectorConf],
         pydantic.Field(alias="defaultBreakers"),
     ] = None
 
@@ -2412,10 +2312,7 @@ class HealthCheckCollectMethodGetDiscoveryTypedDict(TypedDict):
 
 class HealthCheckCollectMethodGetDiscovery(BaseModel):
     discover_type: Annotated[
-        Annotated[
-            Optional[HealthCheckCollectMethodGetDiscoverType],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[HealthCheckCollectMethodGetDiscoverType],
         pydantic.Field(alias="discoverType"),
     ] = HealthCheckCollectMethodGetDiscoverType.NONE
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
@@ -2470,10 +2367,9 @@ class HealthCheckCollectMethodGetRetryRulesTypedDict(TypedDict):
 
 
 class HealthCheckCollectMethodGetRetryRules(BaseModel):
-    type: Annotated[
-        Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules],
-        PlainValidator(validate_open_enum(False)),
-    ] = RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
+    type: Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules] = (
+        RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
+    )
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[Any] = None
@@ -2527,10 +2423,7 @@ class HealthCheckCollectMethodGet(BaseModel):
     r"""Expression to derive URL to use for the health check operation (can be a constant)."""
 
     collect_method: Annotated[
-        Annotated[
-            Optional[HealthCheckCollectMethodGetHealthCheckMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[HealthCheckCollectMethodGetHealthCheckMethod],
         pydantic.Field(alias="collectMethod"),
     ] = HealthCheckCollectMethodGetHealthCheckMethod.GET
     r"""Health check HTTP method."""
@@ -2554,10 +2447,9 @@ class HealthCheckCollectMethodGet(BaseModel):
     ] = False
     r"""Enable to make auth health check call."""
 
-    authentication: Annotated[
-        Optional[HealthCheckCollectMethodGetAuthentication],
-        PlainValidator(validate_open_enum(False)),
-    ] = HealthCheckCollectMethodGetAuthentication.NONE
+    authentication: Optional[HealthCheckCollectMethodGetAuthentication] = (
+        HealthCheckCollectMethodGetAuthentication.NONE
+    )
     r"""Authentication method for Discover and Collect REST calls. You can specify API Key–based authentication by adding the appropriate Collect headers."""
 
     timeout: Optional[float] = 30
@@ -2569,10 +2461,7 @@ class HealthCheckCollectMethodGet(BaseModel):
     r"""Whether to reject certificates that cannot be verified against a valid CA (e.g., self-signed certificates)."""
 
     default_breakers: Annotated[
-        Annotated[
-            Optional[HiddenDefaultBreakersOptionsDatabaseCollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[HiddenDefaultBreakersOptionsDatabaseCollectorConf],
         pydantic.Field(alias="defaultBreakers"),
     ] = None
 

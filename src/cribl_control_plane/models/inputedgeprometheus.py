@@ -17,11 +17,9 @@ from .recordtypeoptions import RecordTypeOptions
 from .signatureversionoptions1 import SignatureVersionOptions1
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -68,9 +66,7 @@ class Target(BaseModel):
     host: str
     r"""Name of host from which to pull metrics."""
 
-    protocol: Annotated[
-        Optional[ProtocolOptionsTargetsItems], PlainValidator(validate_open_enum(False))
-    ] = ProtocolOptionsTargetsItems.HTTP
+    protocol: Optional[ProtocolOptionsTargetsItems] = ProtocolOptionsTargetsItems.HTTP
     r"""Protocol to use when collecting metrics"""
 
     port: Optional[float] = 9090
@@ -231,10 +227,7 @@ class InputEdgePrometheus(BaseModel):
     r"""Other dimensions to include in events"""
 
     discovery_type: Annotated[
-        Annotated[
-            Optional[InputEdgePrometheusDiscoveryType],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[InputEdgePrometheusDiscoveryType],
         pydantic.Field(alias="discoveryType"),
     ] = InputEdgePrometheusDiscoveryType.STATIC
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
@@ -251,10 +244,7 @@ class InputEdgePrometheus(BaseModel):
     r"""Fields to add to events from this input"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[InputEdgePrometheusAuthenticationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[InputEdgePrometheusAuthenticationMethod],
         pydantic.Field(alias="authType"),
     ] = InputEdgePrometheusAuthenticationMethod.MANUAL
     r"""Enter credentials directly, or select a stored secret"""
@@ -264,10 +254,7 @@ class InputEdgePrometheus(BaseModel):
     targets: Optional[List[Target]] = None
 
     record_type: Annotated[
-        Annotated[
-            Optional[RecordTypeOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="recordType"),
+        Optional[RecordTypeOptions], pydantic.Field(alias="recordType")
     ] = RecordTypeOptions.SRV
     r"""DNS record type to resolve"""
 
@@ -278,11 +265,7 @@ class InputEdgePrometheus(BaseModel):
     r"""List of DNS names to resolve"""
 
     scrape_protocol: Annotated[
-        Annotated[
-            Optional[ProtocolOptionsTargetsItems],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="scrapeProtocol"),
+        Optional[ProtocolOptionsTargetsItems], pydantic.Field(alias="scrapeProtocol")
     ] = ProtocolOptionsTargetsItems.HTTP
     r"""Protocol to use when collecting metrics"""
 
@@ -292,10 +275,7 @@ class InputEdgePrometheus(BaseModel):
     r"""Path to use when collecting metrics from discovered targets"""
 
     aws_authentication_method: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsS3CollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
     ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
@@ -324,11 +304,7 @@ class InputEdgePrometheus(BaseModel):
     r"""EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint."""
 
     signature_version: Annotated[
-        Annotated[
-            Optional[SignatureVersionOptions1],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="signatureVersion"),
+        Optional[SignatureVersionOptions1], pydantic.Field(alias="signatureVersion")
     ] = SignatureVersionOptions1.V4
     r"""Signature version to use for signing EC2 requests"""
 

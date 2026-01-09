@@ -16,11 +16,9 @@ from .tlssettingsserversidetype import (
 )
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import Any, List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -222,9 +220,7 @@ class InputOpenTelemetry(BaseModel):
     ] = "/^$/"
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
 
-    protocol: Annotated[
-        Optional[InputOpenTelemetryProtocol], PlainValidator(validate_open_enum(False))
-    ] = InputOpenTelemetryProtocol.GRPC
+    protocol: Optional[InputOpenTelemetryProtocol] = InputOpenTelemetryProtocol.GRPC
     r"""Select whether to leverage gRPC or HTTP for OpenTelemetry"""
 
     extract_spans: Annotated[Optional[bool], pydantic.Field(alias="extractSpans")] = (
@@ -238,20 +234,12 @@ class InputOpenTelemetry(BaseModel):
     r"""Enable to extract each incoming Gauge or IntGauge metric to multiple events, one per data point"""
 
     otlp_version: Annotated[
-        Annotated[
-            Optional[InputOpenTelemetryOTLPVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="otlpVersion"),
+        Optional[InputOpenTelemetryOTLPVersion], pydantic.Field(alias="otlpVersion")
     ] = InputOpenTelemetryOTLPVersion.ZERO_DOT_10_DOT_0
     r"""The version of OTLP Protobuf definitions to use when interpreting received data"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationTypeOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationTypeOptions], pydantic.Field(alias="authType")
     ] = AuthenticationTypeOptions.NONE
     r"""OpenTelemetry authentication type"""
 

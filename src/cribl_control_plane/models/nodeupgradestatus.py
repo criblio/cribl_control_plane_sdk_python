@@ -7,11 +7,9 @@ from .nodeskippedupgradestatus import NodeSkippedUpgradeStatus
 from .nodeupgradestate import NodeUpgradeState
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing_extensions import NotRequired, TypedDict
 
 
 class NodeUpgradeStatusTypedDict(TypedDict):
@@ -23,21 +21,15 @@ class NodeUpgradeStatusTypedDict(TypedDict):
 
 
 class NodeUpgradeStatus(BaseModel):
-    state: Annotated[NodeUpgradeState, PlainValidator(validate_open_enum(True))]
+    state: NodeUpgradeState
 
     timestamp: float
 
-    active: Annotated[
-        Optional[NodeActiveUpgradeStatus], PlainValidator(validate_open_enum(True))
-    ] = None
+    active: Optional[NodeActiveUpgradeStatus] = None
 
-    failed: Annotated[
-        Optional[NodeFailedUpgradeStatus], PlainValidator(validate_open_enum(True))
-    ] = None
+    failed: Optional[NodeFailedUpgradeStatus] = None
 
-    skipped: Annotated[
-        Optional[NodeSkippedUpgradeStatus], PlainValidator(validate_open_enum(True))
-    ] = None
+    skipped: Optional[NodeSkippedUpgradeStatus] = None
 
     @field_serializer("active")
     def serialize_active(self, value):

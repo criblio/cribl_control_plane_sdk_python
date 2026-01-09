@@ -9,11 +9,9 @@ from .itemstypenotificationmetadata import (
 from .pqtype import PqType, PqTypeTypedDict
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -248,9 +246,7 @@ class InputSystemStatePersistence(BaseModel):
     max_data_time: Annotated[Optional[str], pydantic.Field(alias="maxDataTime")] = "24h"
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
 
-    compress: Annotated[
-        Optional[DataCompressionFormat], PlainValidator(validate_open_enum(False))
-    ] = DataCompressionFormat.NONE
+    compress: Optional[DataCompressionFormat] = DataCompressionFormat.NONE
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = (
         "$CRIBL_HOME/state/system_state"

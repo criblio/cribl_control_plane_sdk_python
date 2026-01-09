@@ -1,6 +1,6 @@
 # CollectorCriblLakeType
 
-Collector type: cribl_lake
+Collector type
 
 
 ## Values

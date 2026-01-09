@@ -1,6 +1,6 @@
 # CollectorScriptType
 
-Collector type: script
+Collector type
 
 
 ## Values

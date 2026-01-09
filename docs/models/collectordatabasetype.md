@@ -1,6 +1,6 @@
 # CollectorDatabaseType
 
-Collector type: database
+Collector type
 
 
 ## Values

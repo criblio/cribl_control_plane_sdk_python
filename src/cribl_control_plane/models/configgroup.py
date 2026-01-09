@@ -8,10 +8,8 @@ from .gittypeconfiggroup import GitTypeConfigGroup, GitTypeConfigGroupTypedDict
 from .typeoptionsconfiggroup import TypeOptionsConfigGroup
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -58,10 +56,7 @@ class ConfigGroup(BaseModel):
     description: Optional[str] = None
 
     estimated_ingest_rate: Annotated[
-        Annotated[
-            Optional[EstimatedIngestRateOptionsConfigGroup],
-            PlainValidator(validate_open_enum(True)),
-        ],
+        Optional[EstimatedIngestRateOptionsConfigGroup],
         pydantic.Field(alias="estimatedIngestRate"),
     ] = None
     r"""Maximum expected volume of data ingested by the @{group}. (This setting is available only on @{group}s consisting of Cribl-managed Cribl.Cloud @{node}s.)"""
@@ -96,9 +91,7 @@ class ConfigGroup(BaseModel):
 
     tags: Optional[str] = None
 
-    type: Annotated[
-        Optional[TypeOptionsConfigGroup], PlainValidator(validate_open_enum(False))
-    ] = None
+    type: Optional[TypeOptionsConfigGroup] = None
 
     upgrade_version: Annotated[
         Optional[str], pydantic.Field(alias="upgradeVersion")

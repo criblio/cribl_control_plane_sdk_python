@@ -3,11 +3,9 @@
 from __future__ import annotations
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import ConfigDict, field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import Any, Dict, List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -51,10 +49,7 @@ class DNSLookupField(BaseModel):
     in_field_name: Annotated[Optional[str], pydantic.Field(alias="inFieldName")] = None
 
     resource_record_type: Annotated[
-        Annotated[
-            Optional[ResourceRecordType], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="resourceRecordType"),
+        Optional[ResourceRecordType], pydantic.Field(alias="resourceRecordType")
     ] = ResourceRecordType.A
     r"""The DNS record type (RR) to return. Defaults to 'A'."""
 
@@ -168,11 +163,7 @@ class FunctionConfSchemaDNSLookup(BaseModel):
     r"""Specify fallback values for the DNS resolver to use when it cannot resolve a DNS short name"""
 
     lookup_fail_log_level: Annotated[
-        Annotated[
-            Optional[LogLevelForFailedLookups],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="lookupFailLogLevel"),
+        Optional[LogLevelForFailedLookups], pydantic.Field(alias="lookupFailLogLevel")
     ] = LogLevelForFailedLookups.ERROR
 
     @property

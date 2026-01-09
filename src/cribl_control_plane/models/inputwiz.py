@@ -11,11 +11,9 @@ from .pqtype import PqType, PqTypeTypedDict
 from .retryrulestype import RetryRulesType, RetryRulesTypeTypedDict
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -117,10 +115,7 @@ class InputWizContentConfig(BaseModel):
     r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Units default to seconds if not specified. Enter 0 for unlimited time."""
 
     log_level: Annotated[
-        Annotated[
-            Optional[InputWizLogLevel], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="logLevel"),
+        Optional[InputWizLogLevel], pydantic.Field(alias="logLevel")
     ] = InputWizLogLevel.INFO
     r"""Collector runtime log level"""
 
@@ -265,11 +260,7 @@ class InputWiz(BaseModel):
     ] = None
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptions1],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationMethodOptions1], pydantic.Field(alias="authType")
     ] = AuthenticationMethodOptions1.MANUAL
     r"""Enter client secret directly, or select a stored secret"""
 

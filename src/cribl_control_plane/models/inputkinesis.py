@@ -13,11 +13,9 @@ from .pqtype import PqType, PqTypeTypedDict
 from .signatureversionoptions2 import SignatureVersionOptions2
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -169,18 +167,12 @@ class InputKinesis(BaseModel):
     r"""A JavaScript expression to be called with each shardId for the stream. If the expression evaluates to a truthy value, the shard will be processed."""
 
     shard_iterator_type: Annotated[
-        Annotated[
-            Optional[ShardIteratorStart], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="shardIteratorType"),
+        Optional[ShardIteratorStart], pydantic.Field(alias="shardIteratorType")
     ] = ShardIteratorStart.TRIM_HORIZON
     r"""Location at which to start reading a shard for the first time"""
 
     payload_format: Annotated[
-        Annotated[
-            Optional[RecordDataFormat], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="payloadFormat"),
+        Optional[RecordDataFormat], pydantic.Field(alias="payloadFormat")
     ] = RecordDataFormat.CRIBL
     r"""Format of data inside the Kinesis Stream records. Gzip compression is automatically detected."""
 
@@ -195,18 +187,12 @@ class InputKinesis(BaseModel):
     r"""Maximum number of records, across all shards, to pull down at once per Worker Process"""
 
     load_balancing_algorithm: Annotated[
-        Annotated[
-            Optional[ShardLoadBalancing], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="loadBalancingAlgorithm"),
+        Optional[ShardLoadBalancing], pydantic.Field(alias="loadBalancingAlgorithm")
     ] = ShardLoadBalancing.CONSISTENT_HASHING
     r"""The load-balancing algorithm to use for spreading out shards across Workers and Worker Processes"""
 
     aws_authentication_method: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsS3CollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
     ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
@@ -219,11 +205,7 @@ class InputKinesis(BaseModel):
     r"""Kinesis stream service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Kinesis stream-compatible endpoint."""
 
     signature_version: Annotated[
-        Annotated[
-            Optional[SignatureVersionOptions2],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="signatureVersion"),
+        Optional[SignatureVersionOptions2], pydantic.Field(alias="signatureVersion")
     ] = SignatureVersionOptions2.V4
     r"""Signature version to use for signing Kinesis stream requests"""
 

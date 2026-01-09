@@ -15,11 +15,9 @@ from .minimumtlsversionoptionskafkaschemaregistrytls import (
 from .pqtype import PqType, PqTypeTypedDict
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import Any, List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -101,18 +99,12 @@ class MTLSSettings(BaseModel):
     r"""Regex matching allowable common names in peer certificates' subject attribute"""
 
     min_version: Annotated[
-        Annotated[
-            Optional[MinimumTLSVersionOptionsKafkaSchemaRegistryTLS],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[MinimumTLSVersionOptionsKafkaSchemaRegistryTLS],
         pydantic.Field(alias="minVersion"),
     ] = None
 
     max_version: Annotated[
-        Annotated[
-            Optional[MaximumTLSVersionOptionsKafkaSchemaRegistryTLS],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[MaximumTLSVersionOptionsKafkaSchemaRegistryTLS],
         pydantic.Field(alias="maxVersion"),
     ] = None
 
@@ -212,8 +204,7 @@ class Subscription(BaseModel):
     r"""Version UUID for this subscription. If any subscription parameters are modified, this value will change."""
 
     content_format: Annotated[
-        Annotated[Optional[InputWefFormat], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="contentFormat"),
+        Optional[InputWefFormat], pydantic.Field(alias="contentFormat")
     ] = InputWefFormat.RAW
     r"""Content format in which the endpoint should deliver events"""
 
@@ -242,10 +233,7 @@ class Subscription(BaseModel):
     r"""The RFC-3066 locale the Windows clients should use when sending events. Defaults to \"en-US\"."""
 
     query_selector: Annotated[
-        Annotated[
-            Optional[QueryBuilderMode], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="querySelector"),
+        Optional[QueryBuilderMode], pydantic.Field(alias="querySelector")
     ] = QueryBuilderMode.SIMPLE
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -375,11 +363,7 @@ class InputWef(BaseModel):
     r"""Port to listen on"""
 
     auth_method: Annotated[
-        Annotated[
-            Optional[InputWefAuthenticationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authMethod"),
+        Optional[InputWefAuthenticationMethod], pydantic.Field(alias="authMethod")
     ] = InputWefAuthenticationMethod.CLIENT_CERT
     r"""How to authenticate incoming client connections"""
 

@@ -3,11 +3,9 @@
 from __future__ import annotations
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -103,19 +101,12 @@ class NotifyConfiguration(BaseModel):
     r"""Js expression that filters events, a greater than 'Trigger Count' events will trigger the notification"""
 
     trigger_type: Annotated[
-        Annotated[
-            Optional[PipelineFunctionNotifyTriggerType],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="triggerType"),
+        Optional[PipelineFunctionNotifyTriggerType], pydantic.Field(alias="triggerType")
     ] = None
     r"""Type of the trigger condition. custom applies a kusto expression over the results, and results count applies a comparison over results count"""
 
     trigger_comparator: Annotated[
-        Annotated[
-            Optional[PipelineFunctionNotifyCountComparator],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[PipelineFunctionNotifyCountComparator],
         pydantic.Field(alias="triggerComparator"),
     ] = None
     r"""Operation to be applied over the results count"""

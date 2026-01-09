@@ -96,11 +96,10 @@ from .tlssettingsserversidetype import (
 )
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import get_discriminator, validate_open_enum
+from cribl_control_plane.utils import get_discriminator
 from enum import Enum
 import pydantic
 from pydantic import Discriminator, Tag, field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import Any, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
@@ -133,11 +132,7 @@ class AuthTokenCloudflareHecTypedDict(TypedDict):
 
 class AuthTokenCloudflareHec(BaseModel):
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodCloudflareHec],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationMethodCloudflareHec], pydantic.Field(alias="authType")
     ] = AuthenticationMethodCloudflareHec.SECRET
     r"""Select Secret to use a text secret to authenticate"""
 
@@ -394,10 +389,7 @@ class AuthTokenZscalerHec(BaseModel):
     r"""Shared secret to be provided by any client (Authorization: <token>)"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsAuthTokensItems],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsAuthTokensItems],
         pydantic.Field(alias="authType"),
     ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
@@ -753,10 +745,7 @@ class CreateInputInputSecurityLake(BaseModel):
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
 
     aws_authentication_method: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsS3CollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
     ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
@@ -772,10 +761,7 @@ class CreateInputInputSecurityLake(BaseModel):
     r"""S3 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint."""
 
     signature_version: Annotated[
-        Annotated[
-            Optional[SignatureVersionOptionsS3CollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[SignatureVersionOptionsS3CollectorConf],
         pydantic.Field(alias="signatureVersion"),
     ] = SignatureVersionOptionsS3CollectorConf.V4
     r"""Signature version to use for signing S3 requests"""
@@ -882,11 +868,7 @@ class CreateInputInputSecurityLake(BaseModel):
     r"""Select or create a stored secret that references your access key and secret key"""
 
     tag_after_processing: Annotated[
-        Annotated[
-            Optional[TagAfterProcessingOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="tagAfterProcessing"),
+        Optional[TagAfterProcessingOptions], pydantic.Field(alias="tagAfterProcessing")
     ] = None
 
     processed_tag_key: Annotated[
@@ -1343,10 +1325,9 @@ class ContentConfigWiz(BaseModel):
     job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = "0"
     r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Units default to seconds if not specified. Enter 0 for unlimited time."""
 
-    log_level: Annotated[
-        Annotated[Optional[LogLevelWiz], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="logLevel"),
-    ] = LogLevelWiz.INFO
+    log_level: Annotated[Optional[LogLevelWiz], pydantic.Field(alias="logLevel")] = (
+        LogLevelWiz.INFO
+    )
     r"""Collector runtime log level"""
 
     max_pages: Annotated[Optional[float], pydantic.Field(alias="maxPages")] = 0
@@ -1490,11 +1471,7 @@ class CreateInputInputWiz(BaseModel):
     ] = None
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptions1],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationMethodOptions1], pydantic.Field(alias="authType")
     ] = AuthenticationMethodOptions1.MANUAL
     r"""Enter client secret directly, or select a stored secret"""
 
@@ -1829,18 +1806,12 @@ class CreateInputInputWinEventLogs(BaseModel):
     pq: Optional[PqType] = None
 
     read_mode: Annotated[
-        Annotated[
-            Optional[CreateInputReadMode], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="readMode"),
+        Optional[CreateInputReadMode], pydantic.Field(alias="readMode")
     ] = CreateInputReadMode.NEWEST
     r"""Read all stored and future event logs, or only future events"""
 
     event_format: Annotated[
-        Annotated[
-            Optional[CreateInputEventFormat], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="eventFormat"),
+        Optional[CreateInputEventFormat], pydantic.Field(alias="eventFormat")
     ] = CreateInputEventFormat.JSON
     r"""Format of individual events"""
 
@@ -1971,18 +1942,12 @@ class CreateInputMTLSSettings(BaseModel):
     r"""Regex matching allowable common names in peer certificates' subject attribute"""
 
     min_version: Annotated[
-        Annotated[
-            Optional[MinimumTLSVersionOptionsKafkaSchemaRegistryTLS],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[MinimumTLSVersionOptionsKafkaSchemaRegistryTLS],
         pydantic.Field(alias="minVersion"),
     ] = None
 
     max_version: Annotated[
-        Annotated[
-            Optional[MaximumTLSVersionOptionsKafkaSchemaRegistryTLS],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[MaximumTLSVersionOptionsKafkaSchemaRegistryTLS],
         pydantic.Field(alias="maxVersion"),
     ] = None
 
@@ -2082,10 +2047,7 @@ class CreateInputSubscription(BaseModel):
     r"""Version UUID for this subscription. If any subscription parameters are modified, this value will change."""
 
     content_format: Annotated[
-        Annotated[
-            Optional[CreateInputFormat], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="contentFormat"),
+        Optional[CreateInputFormat], pydantic.Field(alias="contentFormat")
     ] = CreateInputFormat.RAW
     r"""Content format in which the endpoint should deliver events"""
 
@@ -2114,11 +2076,7 @@ class CreateInputSubscription(BaseModel):
     r"""The RFC-3066 locale the Windows clients should use when sending events. Defaults to \"en-US\"."""
 
     query_selector: Annotated[
-        Annotated[
-            Optional[CreateInputQueryBuilderMode],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="querySelector"),
+        Optional[CreateInputQueryBuilderMode], pydantic.Field(alias="querySelector")
     ] = CreateInputQueryBuilderMode.SIMPLE
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -2248,10 +2206,7 @@ class CreateInputInputWef(BaseModel):
     r"""Port to listen on"""
 
     auth_method: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodWef], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="authMethod"),
+        Optional[AuthenticationMethodWef], pydantic.Field(alias="authMethod")
     ] = AuthenticationMethodWef.CLIENT_CERT
     r"""How to authenticate incoming client connections"""
 
@@ -2404,10 +2359,9 @@ class PersistenceAppscope(BaseModel):
     max_data_time: Annotated[Optional[str], pydantic.Field(alias="maxDataTime")] = "24h"
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
 
-    compress: Annotated[
-        Optional[DataCompressionFormatOptionsPersistence],
-        PlainValidator(validate_open_enum(False)),
-    ] = DataCompressionFormatOptionsPersistence.GZIP
+    compress: Optional[DataCompressionFormatOptionsPersistence] = (
+        DataCompressionFormatOptionsPersistence.GZIP
+    )
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = (
         "$CRIBL_HOME/state/appscope"
@@ -2565,10 +2519,7 @@ class CreateInputInputAppscope(BaseModel):
     persistence: Optional[PersistenceAppscope] = None
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsAuthTokensItems],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsAuthTokensItems],
         pydantic.Field(alias="authType"),
     ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
@@ -2760,10 +2711,7 @@ class CreateInputInputTCP(BaseModel):
     r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsAuthTokensItems],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsAuthTokensItems],
         pydantic.Field(alias="authType"),
     ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
@@ -2882,9 +2830,7 @@ class CreateInputInputFile(BaseModel):
 
     pq: Optional[PqType] = None
 
-    mode: Annotated[
-        Optional[CreateInputInputFileMode], PlainValidator(validate_open_enum(False))
-    ] = CreateInputInputFileMode.MANUAL
+    mode: Optional[CreateInputInputFileMode] = CreateInputInputFileMode.MANUAL
     r"""Choose how to discover files to monitor"""
 
     interval: Optional[float] = 10
@@ -3463,10 +3409,7 @@ class CreateInputInputSqs(BaseModel):
     queue_name: Annotated[str, pydantic.Field(alias="queueName")]
     r"""The name, URL, or ARN of the SQS queue to read events from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can only be evaluated at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
 
-    queue_type: Annotated[
-        Annotated[CreateInputQueueType, PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="queueType"),
-    ]
+    queue_type: Annotated[CreateInputQueueType, pydantic.Field(alias="queueType")]
     r"""The queue type used (or created)"""
 
     disabled: Optional[bool] = False
@@ -3502,10 +3445,7 @@ class CreateInputInputSqs(BaseModel):
     r"""Create queue if it does not exist"""
 
     aws_authentication_method: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsS3CollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
     ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
@@ -3521,11 +3461,7 @@ class CreateInputInputSqs(BaseModel):
     r"""SQS service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to SQS-compatible endpoint."""
 
     signature_version: Annotated[
-        Annotated[
-            Optional[SignatureVersionOptions3],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="signatureVersion"),
+        Optional[SignatureVersionOptions3], pydantic.Field(alias="signatureVersion")
     ] = SignatureVersionOptions3.V4
     r"""Signature version to use for signing SQS requests"""
 
@@ -3898,9 +3834,7 @@ class CreateInputInputOpenTelemetry(BaseModel):
     ] = "/^$/"
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
 
-    protocol: Annotated[
-        Optional[CreateInputProtocol], PlainValidator(validate_open_enum(False))
-    ] = CreateInputProtocol.GRPC
+    protocol: Optional[CreateInputProtocol] = CreateInputProtocol.GRPC
     r"""Select whether to leverage gRPC or HTTP for OpenTelemetry"""
 
     extract_spans: Annotated[Optional[bool], pydantic.Field(alias="extractSpans")] = (
@@ -3914,19 +3848,12 @@ class CreateInputInputOpenTelemetry(BaseModel):
     r"""Enable to extract each incoming Gauge or IntGauge metric to multiple events, one per data point"""
 
     otlp_version: Annotated[
-        Annotated[
-            Optional[CreateInputOTLPVersion], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="otlpVersion"),
+        Optional[CreateInputOTLPVersion], pydantic.Field(alias="otlpVersion")
     ] = CreateInputOTLPVersion.ZERO_DOT_10_DOT_0
     r"""The version of OTLP Protobuf definitions to use when interpreting received data"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationTypeOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationTypeOptions], pydantic.Field(alias="authType")
     ] = AuthenticationTypeOptions.NONE
     r"""OpenTelemetry authentication type"""
 
@@ -4051,21 +3978,14 @@ class CreateInputV3User(BaseModel):
     name: str
 
     auth_protocol: Annotated[
-        Annotated[
-            Optional[AuthenticationProtocolOptionsV3User],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationProtocolOptionsV3User],
         pydantic.Field(alias="authProtocol"),
     ] = AuthenticationProtocolOptionsV3User.NONE
 
     auth_key: Annotated[Optional[str], pydantic.Field(alias="authKey")] = None
 
     priv_protocol: Annotated[
-        Annotated[
-            Optional[CreateInputPrivacyProtocol],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="privProtocol"),
+        Optional[CreateInputPrivacyProtocol], pydantic.Field(alias="privProtocol")
     ] = CreateInputPrivacyProtocol.NONE
 
     priv_key: Annotated[Optional[str], pydantic.Field(alias="privKey")] = None
@@ -4364,10 +4284,7 @@ class CreateInputInputS3Inventory(BaseModel):
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
 
     aws_authentication_method: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsS3CollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
     ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
@@ -4383,10 +4300,7 @@ class CreateInputInputS3Inventory(BaseModel):
     r"""S3 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint."""
 
     signature_version: Annotated[
-        Annotated[
-            Optional[SignatureVersionOptionsS3CollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[SignatureVersionOptionsS3CollectorConf],
         pydantic.Field(alias="signatureVersion"),
     ] = SignatureVersionOptionsS3CollectorConf.V4
     r"""Signature version to use for signing S3 requests"""
@@ -4505,11 +4419,7 @@ class CreateInputInputS3Inventory(BaseModel):
     r"""Select or create a stored secret that references your access key and secret key"""
 
     tag_after_processing: Annotated[
-        Annotated[
-            Optional[TagAfterProcessingOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="tagAfterProcessing"),
+        Optional[TagAfterProcessingOptions], pydantic.Field(alias="tagAfterProcessing")
     ] = None
 
     processed_tag_key: Annotated[
@@ -4683,10 +4593,7 @@ class CreateInputInputS3(BaseModel):
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
 
     aws_authentication_method: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsS3CollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
     ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
@@ -4702,10 +4609,7 @@ class CreateInputInputS3(BaseModel):
     r"""S3 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint."""
 
     signature_version: Annotated[
-        Annotated[
-            Optional[SignatureVersionOptionsS3CollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[SignatureVersionOptionsS3CollectorConf],
         pydantic.Field(alias="signatureVersion"),
     ] = SignatureVersionOptionsS3CollectorConf.V4
     r"""Signature version to use for signing S3 requests"""
@@ -5176,20 +5080,13 @@ class CreateInputInputKinesis(BaseModel):
     r"""A JavaScript expression to be called with each shardId for the stream. If the expression evaluates to a truthy value, the shard will be processed."""
 
     shard_iterator_type: Annotated[
-        Annotated[
-            Optional[CreateInputShardIteratorStart],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[CreateInputShardIteratorStart],
         pydantic.Field(alias="shardIteratorType"),
     ] = CreateInputShardIteratorStart.TRIM_HORIZON
     r"""Location at which to start reading a shard for the first time"""
 
     payload_format: Annotated[
-        Annotated[
-            Optional[CreateInputRecordDataFormat],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="payloadFormat"),
+        Optional[CreateInputRecordDataFormat], pydantic.Field(alias="payloadFormat")
     ] = CreateInputRecordDataFormat.CRIBL
     r"""Format of data inside the Kinesis Stream records. Gzip compression is automatically detected."""
 
@@ -5204,19 +5101,13 @@ class CreateInputInputKinesis(BaseModel):
     r"""Maximum number of records, across all shards, to pull down at once per Worker Process"""
 
     load_balancing_algorithm: Annotated[
-        Annotated[
-            Optional[CreateInputShardLoadBalancing],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[CreateInputShardLoadBalancing],
         pydantic.Field(alias="loadBalancingAlgorithm"),
     ] = CreateInputShardLoadBalancing.CONSISTENT_HASHING
     r"""The load-balancing algorithm to use for spreading out shards across Workers and Worker Processes"""
 
     aws_authentication_method: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsS3CollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
     ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
@@ -5229,11 +5120,7 @@ class CreateInputInputKinesis(BaseModel):
     r"""Kinesis stream service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Kinesis stream-compatible endpoint."""
 
     signature_version: Annotated[
-        Annotated[
-            Optional[SignatureVersionOptions2],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="signatureVersion"),
+        Optional[SignatureVersionOptions2], pydantic.Field(alias="signatureVersion")
     ] = SignatureVersionOptions2.V4
     r"""Signature version to use for signing Kinesis stream requests"""
 
@@ -5919,10 +5806,7 @@ class CreateInputInputCrowdstrike(BaseModel):
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
 
     aws_authentication_method: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsS3CollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
     ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
@@ -5938,10 +5822,7 @@ class CreateInputInputCrowdstrike(BaseModel):
     r"""S3 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint."""
 
     signature_version: Annotated[
-        Annotated[
-            Optional[SignatureVersionOptionsS3CollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[SignatureVersionOptionsS3CollectorConf],
         pydantic.Field(alias="signatureVersion"),
     ] = SignatureVersionOptionsS3CollectorConf.V4
     r"""Signature version to use for signing S3 requests"""
@@ -6038,11 +5919,7 @@ class CreateInputInputCrowdstrike(BaseModel):
     r"""Select or create a stored secret that references your access key and secret key"""
 
     tag_after_processing: Annotated[
-        Annotated[
-            Optional[TagAfterProcessingOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="tagAfterProcessing"),
+        Optional[TagAfterProcessingOptions], pydantic.Field(alias="tagAfterProcessing")
     ] = None
 
     processed_tag_key: Annotated[
@@ -6108,9 +5985,7 @@ class SystemWindowsMetricsTypedDict(TypedDict):
 
 
 class SystemWindowsMetrics(BaseModel):
-    mode: Annotated[
-        Optional[SystemModeWindowsMetrics], PlainValidator(validate_open_enum(False))
-    ] = SystemModeWindowsMetrics.BASIC
+    mode: Optional[SystemModeWindowsMetrics] = SystemModeWindowsMetrics.BASIC
     r"""Select the level of details for system metrics"""
 
     detail: Optional[bool] = False
@@ -6151,9 +6026,7 @@ class CPUWindowsMetricsTypedDict(TypedDict):
 
 
 class CPUWindowsMetrics(BaseModel):
-    mode: Annotated[
-        Optional[CPUModeWindowsMetrics], PlainValidator(validate_open_enum(False))
-    ] = CPUModeWindowsMetrics.BASIC
+    mode: Optional[CPUModeWindowsMetrics] = CPUModeWindowsMetrics.BASIC
     r"""Select the level of details for CPU metrics"""
 
     per_cpu: Annotated[Optional[bool], pydantic.Field(alias="perCpu")] = False
@@ -6196,9 +6069,7 @@ class MemoryWindowsMetricsTypedDict(TypedDict):
 
 
 class MemoryWindowsMetrics(BaseModel):
-    mode: Annotated[
-        Optional[MemoryModeWindowsMetrics], PlainValidator(validate_open_enum(False))
-    ] = MemoryModeWindowsMetrics.BASIC
+    mode: Optional[MemoryModeWindowsMetrics] = MemoryModeWindowsMetrics.BASIC
     r"""Select the level of details for memory metrics"""
 
     detail: Optional[bool] = False
@@ -6241,9 +6112,7 @@ class NetworkWindowsMetricsTypedDict(TypedDict):
 
 
 class NetworkWindowsMetrics(BaseModel):
-    mode: Annotated[
-        Optional[NetworkModeWindowsMetrics], PlainValidator(validate_open_enum(False))
-    ] = NetworkModeWindowsMetrics.BASIC
+    mode: Optional[NetworkModeWindowsMetrics] = NetworkModeWindowsMetrics.BASIC
     r"""Select the level of details for network metrics"""
 
     detail: Optional[bool] = False
@@ -6295,9 +6164,7 @@ class DiskWindowsMetricsTypedDict(TypedDict):
 
 
 class DiskWindowsMetrics(BaseModel):
-    mode: Annotated[
-        Optional[DiskModeWindowsMetrics], PlainValidator(validate_open_enum(False))
-    ] = DiskModeWindowsMetrics.BASIC
+    mode: Optional[DiskModeWindowsMetrics] = DiskModeWindowsMetrics.BASIC
     r"""Select the level of details for disk metrics"""
 
     per_volume: Annotated[Optional[bool], pydantic.Field(alias="perVolume")] = False
@@ -6346,9 +6213,7 @@ class HostWindowsMetricsTypedDict(TypedDict):
 
 
 class HostWindowsMetrics(BaseModel):
-    mode: Annotated[
-        Optional[ModeOptionsHost], PlainValidator(validate_open_enum(False))
-    ] = ModeOptionsHost.BASIC
+    mode: Optional[ModeOptionsHost] = ModeOptionsHost.BASIC
     r"""Select level of detail for host metrics"""
 
     custom: Optional[CustomWindowsMetrics] = None
@@ -6390,10 +6255,9 @@ class PersistenceWindowsMetrics(BaseModel):
     max_data_time: Annotated[Optional[str], pydantic.Field(alias="maxDataTime")] = "24h"
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
 
-    compress: Annotated[
-        Optional[DataCompressionFormatOptionsPersistence],
-        PlainValidator(validate_open_enum(False)),
-    ] = DataCompressionFormatOptionsPersistence.GZIP
+    compress: Optional[DataCompressionFormatOptionsPersistence] = (
+        DataCompressionFormatOptionsPersistence.GZIP
+    )
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = (
         "$CRIBL_HOME/state/windows_metrics"
@@ -6706,10 +6570,9 @@ class PersistenceKubeMetrics(BaseModel):
     max_data_time: Annotated[Optional[str], pydantic.Field(alias="maxDataTime")] = "24h"
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
 
-    compress: Annotated[
-        Optional[DataCompressionFormatOptionsPersistence],
-        PlainValidator(validate_open_enum(False)),
-    ] = DataCompressionFormatOptionsPersistence.GZIP
+    compress: Optional[DataCompressionFormatOptionsPersistence] = (
+        DataCompressionFormatOptionsPersistence.GZIP
+    )
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = (
         "$CRIBL_HOME/state/kube_metrics"
@@ -7028,10 +6891,9 @@ class PersistenceSystemState(BaseModel):
     max_data_time: Annotated[Optional[str], pydantic.Field(alias="maxDataTime")] = "24h"
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
 
-    compress: Annotated[
-        Optional[CreateInputDataCompressionFormat],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateInputDataCompressionFormat.NONE
+    compress: Optional[CreateInputDataCompressionFormat] = (
+        CreateInputDataCompressionFormat.NONE
+    )
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = (
         "$CRIBL_HOME/state/system_state"
@@ -7150,9 +7012,7 @@ class SystemSystemMetricsTypedDict(TypedDict):
 
 
 class SystemSystemMetrics(BaseModel):
-    mode: Annotated[
-        Optional[SystemModeSystemMetrics], PlainValidator(validate_open_enum(False))
-    ] = SystemModeSystemMetrics.BASIC
+    mode: Optional[SystemModeSystemMetrics] = SystemModeSystemMetrics.BASIC
     r"""Select the level of detail for system metrics"""
 
     processes: Optional[bool] = False
@@ -7193,9 +7053,7 @@ class CPUSystemMetricsTypedDict(TypedDict):
 
 
 class CPUSystemMetrics(BaseModel):
-    mode: Annotated[
-        Optional[CPUModeSystemMetrics], PlainValidator(validate_open_enum(False))
-    ] = CPUModeSystemMetrics.BASIC
+    mode: Optional[CPUModeSystemMetrics] = CPUModeSystemMetrics.BASIC
     r"""Select the level of detail for CPU metrics"""
 
     per_cpu: Annotated[Optional[bool], pydantic.Field(alias="perCpu")] = False
@@ -7238,9 +7096,7 @@ class MemorySystemMetricsTypedDict(TypedDict):
 
 
 class MemorySystemMetrics(BaseModel):
-    mode: Annotated[
-        Optional[MemoryModeSystemMetrics], PlainValidator(validate_open_enum(False))
-    ] = MemoryModeSystemMetrics.BASIC
+    mode: Optional[MemoryModeSystemMetrics] = MemoryModeSystemMetrics.BASIC
     r"""Select the level of detail for memory metrics"""
 
     detail: Optional[bool] = False
@@ -7283,9 +7139,7 @@ class NetworkSystemMetricsTypedDict(TypedDict):
 
 
 class NetworkSystemMetrics(BaseModel):
-    mode: Annotated[
-        Optional[NetworkModeSystemMetrics], PlainValidator(validate_open_enum(False))
-    ] = NetworkModeSystemMetrics.BASIC
+    mode: Optional[NetworkModeSystemMetrics] = NetworkModeSystemMetrics.BASIC
     r"""Select the level of detail for network metrics"""
 
     detail: Optional[bool] = False
@@ -7343,9 +7197,7 @@ class DiskSystemMetricsTypedDict(TypedDict):
 
 
 class DiskSystemMetrics(BaseModel):
-    mode: Annotated[
-        Optional[DiskModeSystemMetrics], PlainValidator(validate_open_enum(False))
-    ] = DiskModeSystemMetrics.BASIC
+    mode: Optional[DiskModeSystemMetrics] = DiskModeSystemMetrics.BASIC
     r"""Select the level of detail for disk metrics"""
 
     detail: Optional[bool] = False
@@ -7403,9 +7255,7 @@ class HostSystemMetricsTypedDict(TypedDict):
 
 
 class HostSystemMetrics(BaseModel):
-    mode: Annotated[
-        Optional[ModeOptionsHost], PlainValidator(validate_open_enum(False))
-    ] = ModeOptionsHost.BASIC
+    mode: Optional[ModeOptionsHost] = ModeOptionsHost.BASIC
     r"""Select level of detail for host metrics"""
 
     custom: Optional[CustomSystemMetrics] = None
@@ -7459,9 +7309,7 @@ class CreateInputContainerTypedDict(TypedDict):
 
 
 class CreateInputContainer(BaseModel):
-    mode: Annotated[
-        Optional[ContainerModeSystemMetrics], PlainValidator(validate_open_enum(False))
-    ] = ContainerModeSystemMetrics.BASIC
+    mode: Optional[ContainerModeSystemMetrics] = ContainerModeSystemMetrics.BASIC
     r"""Select the level of detail for container metrics"""
 
     docker_socket: Annotated[
@@ -7525,10 +7373,9 @@ class PersistenceSystemMetrics(BaseModel):
     max_data_time: Annotated[Optional[str], pydantic.Field(alias="maxDataTime")] = "24h"
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
 
-    compress: Annotated[
-        Optional[DataCompressionFormatOptionsPersistence],
-        PlainValidator(validate_open_enum(False)),
-    ] = DataCompressionFormatOptionsPersistence.GZIP
+    compress: Optional[DataCompressionFormatOptionsPersistence] = (
+        DataCompressionFormatOptionsPersistence.GZIP
+    )
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = (
         "$CRIBL_HOME/state/system_metrics"
@@ -7750,10 +7597,7 @@ class CreateInputInputTcpjson(BaseModel):
     r"""Load balance traffic across all Worker Processes"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsAuthTokensItems],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsAuthTokensItems],
         pydantic.Field(alias="authType"),
     ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
@@ -8481,10 +8325,7 @@ class CreateInputInputGooglePubsub(BaseModel):
     r"""Region to retrieve messages from. Select 'default' to allow Google to auto-select the nearest region. When using ordered delivery, the selected region must be allowed by message storage policy."""
 
     google_auth_method: Annotated[
-        Annotated[
-            Optional[GoogleAuthenticationMethodOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[GoogleAuthenticationMethodOptions],
         pydantic.Field(alias="googleAuthMethod"),
     ] = GoogleAuthenticationMethodOptions.MANUAL
     r"""Choose Auto to use Google Application Default Credentials (ADC), Manual to enter Google service account credentials directly, or Secret to select or create a stored secret that references Google service account credentials."""
@@ -8773,10 +8614,7 @@ class CreateInputInputExec(BaseModel):
     r"""Maximum number of retry attempts in the event that the command fails"""
 
     schedule_type: Annotated[
-        Annotated[
-            Optional[CreateInputScheduleType], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="scheduleType"),
+        Optional[CreateInputScheduleType], pydantic.Field(alias="scheduleType")
     ] = CreateInputScheduleType.INTERVAL
     r"""Select a schedule type; either an interval (in seconds) or a cron-style schedule."""
 
@@ -9214,10 +9052,7 @@ class CreateInputInputOffice365MsgTrace(BaseModel):
     r"""Disables time filtering of events when a date range is specified."""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOffice365MsgTrace],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOffice365MsgTrace],
         pydantic.Field(alias="authType"),
     ] = AuthenticationMethodOffice365MsgTrace.OAUTH
     r"""Select authentication method."""
@@ -9233,11 +9068,7 @@ class CreateInputInputOffice365MsgTrace(BaseModel):
     r"""Maximum number of times a task can be rescheduled"""
 
     log_level: Annotated[
-        Annotated[
-            Optional[LogLevelOffice365MsgTrace],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="logLevel"),
+        Optional[LogLevelOffice365MsgTrace], pydantic.Field(alias="logLevel")
     ] = LogLevelOffice365MsgTrace.INFO
     r"""Log Level (verbosity) for collection runtime behavior."""
 
@@ -9295,10 +9126,7 @@ class CreateInputInputOffice365MsgTrace(BaseModel):
     r"""Resource to pass in the OAuth request parameter."""
 
     plan_type: Annotated[
-        Annotated[
-            Optional[SubscriptionPlanOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="planType"),
+        Optional[SubscriptionPlanOptions], pydantic.Field(alias="planType")
     ] = SubscriptionPlanOptions.ENTERPRISE_GCC
     r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
 
@@ -9362,11 +9190,7 @@ class ContentConfigOffice365Service(BaseModel):
     interval: Optional[float] = None
 
     log_level: Annotated[
-        Annotated[
-            Optional[LogLevelOptionsContentConfigItems],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="logLevel"),
+        Optional[LogLevelOptionsContentConfigItems], pydantic.Field(alias="logLevel")
     ] = None
     r"""Collector runtime Log Level"""
 
@@ -9469,10 +9293,7 @@ class CreateInputInputOffice365Service(BaseModel):
     pq: Optional[PqType] = None
 
     plan_type: Annotated[
-        Annotated[
-            Optional[SubscriptionPlanOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="planType"),
+        Optional[SubscriptionPlanOptions], pydantic.Field(alias="planType")
     ] = SubscriptionPlanOptions.ENTERPRISE_GCC
     r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
 
@@ -9514,11 +9335,7 @@ class CreateInputInputOffice365Service(BaseModel):
     ] = None
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptions1],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationMethodOptions1], pydantic.Field(alias="authType")
     ] = AuthenticationMethodOptions1.MANUAL
     r"""Enter client secret directly, or select a stored secret"""
 
@@ -9574,11 +9391,7 @@ class ContentConfigOffice365Mgmt(BaseModel):
     interval: Optional[float] = None
 
     log_level: Annotated[
-        Annotated[
-            Optional[LogLevelOptionsContentConfigItems],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="logLevel"),
+        Optional[LogLevelOptionsContentConfigItems], pydantic.Field(alias="logLevel")
     ] = None
     r"""Collector runtime Log Level"""
 
@@ -9685,10 +9498,7 @@ class CreateInputInputOffice365Mgmt(BaseModel):
     pq: Optional[PqType] = None
 
     plan_type: Annotated[
-        Annotated[
-            Optional[SubscriptionPlanOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="planType"),
+        Optional[SubscriptionPlanOptions], pydantic.Field(alias="planType")
     ] = SubscriptionPlanOptions.ENTERPRISE_GCC
     r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
 
@@ -9738,11 +9548,7 @@ class CreateInputInputOffice365Mgmt(BaseModel):
     ] = None
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptions1],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationMethodOptions1], pydantic.Field(alias="authType")
     ] = AuthenticationMethodOptions1.MANUAL
     r"""Enter client secret directly, or select a stored secret"""
 
@@ -9815,9 +9621,7 @@ class CreateInputTarget(BaseModel):
     host: str
     r"""Name of host from which to pull metrics."""
 
-    protocol: Annotated[
-        Optional[ProtocolOptionsTargetsItems], PlainValidator(validate_open_enum(False))
-    ] = ProtocolOptionsTargetsItems.HTTP
+    protocol: Optional[ProtocolOptionsTargetsItems] = ProtocolOptionsTargetsItems.HTTP
     r"""Protocol to use when collecting metrics"""
 
     port: Optional[float] = 9090
@@ -9978,11 +9782,7 @@ class CreateInputInputEdgePrometheus(BaseModel):
     r"""Other dimensions to include in events"""
 
     discovery_type: Annotated[
-        Annotated[
-            Optional[DiscoveryTypeEdgePrometheus],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="discoveryType"),
+        Optional[DiscoveryTypeEdgePrometheus], pydantic.Field(alias="discoveryType")
     ] = DiscoveryTypeEdgePrometheus.STATIC
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
 
@@ -9998,11 +9798,7 @@ class CreateInputInputEdgePrometheus(BaseModel):
     r"""Fields to add to events from this input"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodEdgePrometheus],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationMethodEdgePrometheus], pydantic.Field(alias="authType")
     ] = AuthenticationMethodEdgePrometheus.MANUAL
     r"""Enter credentials directly, or select a stored secret"""
 
@@ -10011,10 +9807,7 @@ class CreateInputInputEdgePrometheus(BaseModel):
     targets: Optional[List[CreateInputTarget]] = None
 
     record_type: Annotated[
-        Annotated[
-            Optional[RecordTypeOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="recordType"),
+        Optional[RecordTypeOptions], pydantic.Field(alias="recordType")
     ] = RecordTypeOptions.SRV
     r"""DNS record type to resolve"""
 
@@ -10025,11 +9818,7 @@ class CreateInputInputEdgePrometheus(BaseModel):
     r"""List of DNS names to resolve"""
 
     scrape_protocol: Annotated[
-        Annotated[
-            Optional[ProtocolOptionsTargetsItems],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="scrapeProtocol"),
+        Optional[ProtocolOptionsTargetsItems], pydantic.Field(alias="scrapeProtocol")
     ] = ProtocolOptionsTargetsItems.HTTP
     r"""Protocol to use when collecting metrics"""
 
@@ -10039,10 +9828,7 @@ class CreateInputInputEdgePrometheus(BaseModel):
     r"""Path to use when collecting metrics from discovered targets"""
 
     aws_authentication_method: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsS3CollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
     ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
@@ -10071,11 +9857,7 @@ class CreateInputInputEdgePrometheus(BaseModel):
     r"""EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint."""
 
     signature_version: Annotated[
-        Annotated[
-            Optional[SignatureVersionOptions1],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="signatureVersion"),
+        Optional[SignatureVersionOptions1], pydantic.Field(alias="signatureVersion")
     ] = SignatureVersionOptions1.V4
     r"""Signature version to use for signing EC2 requests"""
 
@@ -10357,10 +10139,7 @@ class CreateInputInputPrometheus(BaseModel):
     r"""Other dimensions to include in events"""
 
     discovery_type: Annotated[
-        Annotated[
-            Optional[DiscoveryTypePrometheus], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="discoveryType"),
+        Optional[DiscoveryTypePrometheus], pydantic.Field(alias="discoveryType")
     ] = DiscoveryTypePrometheus.STATIC
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
 
@@ -10368,10 +10147,7 @@ class CreateInputInputPrometheus(BaseModel):
     r"""How often, in minutes, to scrape targets for metrics. Maximum of 60 minutes. 60 must be evenly divisible by the value you enter."""
 
     log_level: Annotated[
-        Annotated[
-            Optional[LogLevelPrometheus], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="logLevel"),
+        Optional[LogLevelPrometheus], pydantic.Field(alias="logLevel")
     ] = LogLevelPrometheus.INFO
     r"""Collector runtime log level"""
 
@@ -10408,11 +10184,7 @@ class CreateInputInputPrometheus(BaseModel):
     r"""Fields to add to events from this input"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsSasl],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationMethodOptionsSasl], pydantic.Field(alias="authType")
     ] = AuthenticationMethodOptionsSasl.MANUAL
     r"""Enter credentials directly, or select a stored secret"""
 
@@ -10424,10 +10196,7 @@ class CreateInputInputPrometheus(BaseModel):
     r"""List of Prometheus targets to pull metrics from. Values can be in URL or host[:port] format. For example: http://localhost:9090/metrics, localhost:9090, or localhost. In cases where just host[:port] is specified, the endpoint will resolve to 'http://host[:port]/metrics'."""
 
     record_type: Annotated[
-        Annotated[
-            Optional[RecordTypeOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="recordType"),
+        Optional[RecordTypeOptions], pydantic.Field(alias="recordType")
     ] = RecordTypeOptions.SRV
     r"""DNS record type to resolve"""
 
@@ -10438,11 +10207,7 @@ class CreateInputInputPrometheus(BaseModel):
     r"""List of DNS names to resolve"""
 
     scrape_protocol: Annotated[
-        Annotated[
-            Optional[CreateInputMetricsProtocol],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="scrapeProtocol"),
+        Optional[CreateInputMetricsProtocol], pydantic.Field(alias="scrapeProtocol")
     ] = CreateInputMetricsProtocol.HTTP
     r"""Protocol to use when collecting metrics"""
 
@@ -10452,10 +10217,7 @@ class CreateInputInputPrometheus(BaseModel):
     r"""Path to use when collecting metrics from discovered targets"""
 
     aws_authentication_method: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsS3CollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
     ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
@@ -10484,11 +10246,7 @@ class CreateInputInputPrometheus(BaseModel):
     r"""EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint."""
 
     signature_version: Annotated[
-        Annotated[
-            Optional[SignatureVersionOptions1],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="signatureVersion"),
+        Optional[SignatureVersionOptions1], pydantic.Field(alias="signatureVersion")
     ] = SignatureVersionOptions1.V4
     r"""Signature version to use for signing EC2 requests"""
 
@@ -10773,10 +10531,7 @@ class CreateInputInputPrometheusRw(BaseModel):
     r"""Absolute path on which to listen for Prometheus requests. Defaults to /write, which will expand as: http://<your‑upstream‑URL>:<your‑port>/write."""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationTypeOptionsPrometheusAuth],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationTypeOptionsPrometheusAuth],
         pydantic.Field(alias="authType"),
     ] = AuthenticationTypeOptionsPrometheusAuth.NONE
     r"""Remote Write authentication type"""
@@ -11028,11 +10783,7 @@ class CreateInputInputLoki(BaseModel):
     r"""Absolute path on which to listen for Loki logs requests. Defaults to /loki/api/v1/push, which will (in this example) expand as: 'http://<your‑upstream‑URL>:<your‑port>/loki/api/v1/push'."""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationTypeOptionsLokiAuth],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationTypeOptionsLokiAuth], pydantic.Field(alias="authType")
     ] = AuthenticationTypeOptionsLokiAuth.NONE
     r"""Loki logs authentication type"""
 
@@ -11137,10 +10888,7 @@ class CreateInputPrometheusAuth2TypedDict(TypedDict):
 
 class CreateInputPrometheusAuth2(BaseModel):
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationTypeOptionsPrometheusAuth],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationTypeOptionsPrometheusAuth],
         pydantic.Field(alias="authType"),
     ] = AuthenticationTypeOptionsPrometheusAuth.NONE
     r"""Remote Write authentication type"""
@@ -11237,11 +10985,7 @@ class CreateInputLokiAuth2TypedDict(TypedDict):
 
 class CreateInputLokiAuth2(BaseModel):
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationTypeOptionsLokiAuth],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationTypeOptionsLokiAuth], pydantic.Field(alias="authType")
     ] = AuthenticationTypeOptionsLokiAuth.NONE
     r"""Loki logs authentication type"""
 
@@ -11514,10 +11258,7 @@ class CreateInputPrometheusAuth1TypedDict(TypedDict):
 
 class CreateInputPrometheusAuth1(BaseModel):
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationTypeOptionsPrometheusAuth],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationTypeOptionsPrometheusAuth],
         pydantic.Field(alias="authType"),
     ] = AuthenticationTypeOptionsPrometheusAuth.NONE
     r"""Remote Write authentication type"""
@@ -11614,11 +11355,7 @@ class CreateInputLokiAuth1TypedDict(TypedDict):
 
 class CreateInputLokiAuth1(BaseModel):
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationTypeOptionsLokiAuth],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationTypeOptionsLokiAuth], pydantic.Field(alias="authType")
     ] = AuthenticationTypeOptionsLokiAuth.NONE
     r"""Loki logs authentication type"""
 
@@ -12156,11 +11893,7 @@ class ProxyModeElastic(BaseModel):
     r"""Enable proxying of non-bulk API requests to an external Elastic server. Enable this only if you understand the implications. See [Cribl Docs](https://docs.cribl.io/stream/sources-elastic/#proxy-mode) for more details."""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodElastic],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationMethodElastic], pydantic.Field(alias="authType")
     ] = AuthenticationMethodElastic.NONE
     r"""Enter credentials directly, or select a stored secret"""
 
@@ -12362,18 +12095,11 @@ class CreateInputInputElastic(BaseModel):
     r"""Absolute path on which to listen for Elasticsearch API requests. Defaults to /. _bulk will be appended automatically. For example, /myPath becomes /myPath/_bulk. Requests can then be made to either /myPath/_bulk or /myPath/<myIndexName>/_bulk. Other entries are faked as success."""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationTypeElastic],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationTypeElastic], pydantic.Field(alias="authType")
     ] = AuthenticationTypeElastic.NONE
 
     api_version: Annotated[
-        Annotated[
-            Optional[CreateInputAPIVersion], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="apiVersion"),
+        Optional[CreateInputAPIVersion], pydantic.Field(alias="apiVersion")
     ] = CreateInputAPIVersion.EIGHT_DOT_3_DOT_2
     r"""The API version to use for communicating with the server"""
 
@@ -12578,11 +12304,7 @@ class CreateInputInputAzureBlob(BaseModel):
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationMethodOptions], pydantic.Field(alias="authType")
     ] = AuthenticationMethodOptions.MANUAL
 
     description: Optional[str] = None
@@ -12656,10 +12378,7 @@ class AuthTokenSplunkHec(BaseModel):
     r"""Shared secret to be provided by any client (Authorization: <token>)"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsAuthTokensItems],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsAuthTokensItems],
         pydantic.Field(alias="authType"),
     ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
@@ -13116,10 +12835,7 @@ class CreateInputInputSplunkSearch(BaseModel):
     r"""REST API used to create a search"""
 
     output_mode: Annotated[
-        Annotated[
-            Optional[OutputModeOptionsSplunkCollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[OutputModeOptionsSplunkCollectorConf],
         pydantic.Field(alias="outputMode"),
     ] = OutputModeOptionsSplunkCollectorConf.JSON
     r"""Format of the returned output"""
@@ -13136,10 +12852,7 @@ class CreateInputInputSplunkSearch(BaseModel):
     r"""Optional request headers to send to the endpoint"""
 
     log_level: Annotated[
-        Annotated[
-            Optional[LogLevelSplunkSearch], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="logLevel"),
+        Optional[LogLevelSplunkSearch], pydantic.Field(alias="logLevel")
     ] = None
     r"""Collector runtime log level (verbosity)"""
 
@@ -13200,11 +12913,7 @@ class CreateInputInputSplunkSearch(BaseModel):
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationTypeSplunkSearch],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationTypeSplunkSearch], pydantic.Field(alias="authType")
     ] = AuthenticationTypeSplunkSearch.BASIC
     r"""Splunk Search authentication type"""
 
@@ -13469,11 +13178,7 @@ class CreateInputInputSplunk(BaseModel):
     r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
 
     max_s2_sversion: Annotated[
-        Annotated[
-            Optional[CreateInputMaxS2SVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="maxS2Sversion"),
+        Optional[CreateInputMaxS2SVersion], pydantic.Field(alias="maxS2Sversion")
     ] = CreateInputMaxS2SVersion.V3
     r"""The highest S2S protocol version to advertise during handshake"""
 
@@ -13494,9 +13199,7 @@ class CreateInputInputSplunk(BaseModel):
     ] = False
     r"""Extract and process Splunk-generated metrics as Cribl metrics"""
 
-    compress: Annotated[
-        Optional[CreateInputCompression], PlainValidator(validate_open_enum(False))
-    ] = CreateInputCompression.DISABLED
+    compress: Optional[CreateInputCompression] = CreateInputCompression.DISABLED
     r"""Controls whether to support reading compressed data from a forwarder. Select 'Automatic' to match the forwarder's configuration, or 'Disabled' to reject compressed connections."""
 
     @field_serializer("max_s2_sversion")
@@ -13931,10 +13634,7 @@ class CreateInputInputMsk(BaseModel):
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
 
     aws_authentication_method: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsS3CollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
     ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
@@ -13947,10 +13647,7 @@ class CreateInputInputMsk(BaseModel):
     r"""MSK cluster service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to MSK cluster-compatible endpoint."""
 
     signature_version: Annotated[
-        Annotated[
-            Optional[SignatureVersionOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="signatureVersion"),
+        Optional[SignatureVersionOptions], pydantic.Field(alias="signatureVersion")
     ] = SignatureVersionOptions.V4
     r"""Signature version to use for signing MSK cluster requests"""
 

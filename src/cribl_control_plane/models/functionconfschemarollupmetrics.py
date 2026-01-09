@@ -3,11 +3,9 @@
 from __future__ import annotations
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -42,8 +40,7 @@ class FunctionConfSchemaRollupMetrics(BaseModel):
     r"""The time span of the rollup window. Must be a valid time string (such as 10s)."""
 
     gauge_rollup: Annotated[
-        Annotated[Optional[GaugeUpdate], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="gaugeRollup"),
+        Optional[GaugeUpdate], pydantic.Field(alias="gaugeRollup")
     ] = GaugeUpdate.LAST
     r"""The operation to use when rolling up gauge metrics. Defaults to last."""
 

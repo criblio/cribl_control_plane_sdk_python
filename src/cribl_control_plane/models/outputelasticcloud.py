@@ -25,11 +25,9 @@ from .timeoutretrysettingstype import (
 )
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -60,11 +58,7 @@ class OutputElasticCloudAuth(BaseModel):
     password: Optional[str] = None
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsAuth],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationMethodOptionsAuth], pydantic.Field(alias="authType")
     ] = AuthenticationMethodOptionsAuth.MANUAL
     r"""Enter credentials directly, or select a stored secret"""
 
@@ -241,10 +235,7 @@ class OutputElasticCloud(BaseModel):
     r"""Headers to add to all events"""
 
     failed_request_logging_mode: Annotated[
-        Annotated[
-            Optional[FailedRequestLoggingModeOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
     ] = FailedRequestLoggingModeOptions.NONE
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
@@ -287,11 +278,7 @@ class OutputElasticCloud(BaseModel):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -307,10 +294,9 @@ class OutputElasticCloud(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -337,19 +323,12 @@ class OutputElasticCloud(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 

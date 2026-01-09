@@ -7,11 +7,10 @@ from .certificatetypeazureblobauthtypeclientcert import (
 )
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import get_discriminator, validate_open_enum
+from cribl_control_plane.utils import get_discriminator
 from enum import Enum
 import pydantic
 from pydantic import Discriminator, Tag, field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
@@ -94,10 +93,7 @@ class AzureBlobAuthTypeClientCert(BaseModel):
     r"""Container to collect from. This value can be a constant, or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: myBucket-${C.vars.myVar}"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AzureBlobAuthTypeClientCertAuthenticationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AzureBlobAuthTypeClientCertAuthenticationMethod],
         pydantic.Field(alias="authType"),
     ] = AzureBlobAuthTypeClientCertAuthenticationMethod.MANUAL
     r"""Enter authentication data directly, or select a secret referencing your auth data"""
@@ -235,10 +231,7 @@ class AzureBlobAuthTypeClientSecret(BaseModel):
     r"""Container to collect from. This value can be a constant, or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: myBucket-${C.vars.myVar}"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AzureBlobAuthTypeClientSecretAuthenticationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AzureBlobAuthTypeClientSecretAuthenticationMethod],
         pydantic.Field(alias="authType"),
     ] = AzureBlobAuthTypeClientSecretAuthenticationMethod.MANUAL
     r"""Enter authentication data directly, or select a secret referencing your auth data"""
@@ -357,10 +350,7 @@ class AzureBlobAuthTypeSecret(BaseModel):
     r"""Container to collect from. This value can be a constant, or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: myBucket-${C.vars.myVar}"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AzureBlobAuthTypeSecretAuthenticationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AzureBlobAuthTypeSecretAuthenticationMethod],
         pydantic.Field(alias="authType"),
     ] = AzureBlobAuthTypeSecretAuthenticationMethod.MANUAL
     r"""Enter authentication data directly, or select a secret referencing your auth data"""
@@ -471,10 +461,7 @@ class AzureBlobAuthTypeManual(BaseModel):
     r"""Container to collect from. This value can be a constant, or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: myBucket-${C.vars.myVar}"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AzureBlobAuthTypeManualAuthenticationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AzureBlobAuthTypeManualAuthenticationMethod],
         pydantic.Field(alias="authType"),
     ] = AzureBlobAuthTypeManualAuthenticationMethod.MANUAL
     r"""Enter authentication data directly, or select a secret referencing your auth data"""

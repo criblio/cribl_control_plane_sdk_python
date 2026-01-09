@@ -3,11 +3,9 @@
 from __future__ import annotations
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -47,10 +45,7 @@ class FunctionConfSchemaPublishMetricsField(BaseModel):
     r"""JavaScript expression to evaluate the metric field name. Defaults to Event Field Name."""
 
     metric_type: Annotated[
-        Annotated[
-            Optional[FunctionConfSchemaPublishMetricsMetricType],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[FunctionConfSchemaPublishMetricsMetricType],
         pydantic.Field(alias="metricType"),
     ] = FunctionConfSchemaPublishMetricsMetricType.GAUGE
 

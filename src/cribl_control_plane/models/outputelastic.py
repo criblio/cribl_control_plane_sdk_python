@@ -25,11 +25,9 @@ from .timeoutretrysettingstype import (
 )
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -60,11 +58,7 @@ class OutputElasticAuth(BaseModel):
     password: Optional[str] = None
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsAuth],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationMethodOptionsAuth], pydantic.Field(alias="authType")
     ] = AuthenticationMethodOptionsAuth.MANUAL
     r"""Enter credentials directly, or select a stored secret"""
 
@@ -299,10 +293,7 @@ class OutputElastic(BaseModel):
     r"""Headers to add to all events"""
 
     failed_request_logging_mode: Annotated[
-        Annotated[
-            Optional[FailedRequestLoggingModeOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
     ] = FailedRequestLoggingModeOptions.NONE
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
@@ -334,8 +325,7 @@ class OutputElastic(BaseModel):
     auth: Optional[OutputElasticAuth] = None
 
     elastic_version: Annotated[
-        Annotated[Optional[ElasticVersion], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="elasticVersion"),
+        Optional[ElasticVersion], pydantic.Field(alias="elasticVersion")
     ] = ElasticVersion.AUTO
     r"""Optional Elasticsearch version, used to format events. If not specified, will auto-discover version."""
 
@@ -350,8 +340,7 @@ class OutputElastic(BaseModel):
     r"""Include the `document_id` field when sending events to an Elastic TSDS (time series data stream)"""
 
     write_action: Annotated[
-        Annotated[Optional[WriteAction], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="writeAction"),
+        Optional[WriteAction], pydantic.Field(alias="writeAction")
     ] = WriteAction.CREATE
     r"""Action to use when writing events. Must be set to `Create` when writing to a data stream."""
 
@@ -361,11 +350,7 @@ class OutputElastic(BaseModel):
     r"""Retry failed events when a bulk request to Elastic is successful, but the response body returns an error for one or more events in the batch"""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -404,10 +389,9 @@ class OutputElastic(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -434,19 +418,12 @@ class OutputElastic(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 

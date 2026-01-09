@@ -12,11 +12,9 @@ from .tlssettingsclientsidetypekafkaschemaregistry import (
 )
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -211,33 +209,25 @@ class OutputSyslog(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    protocol: Annotated[
-        Optional[OutputSyslogProtocol], PlainValidator(validate_open_enum(False))
-    ] = OutputSyslogProtocol.TCP
+    protocol: Optional[OutputSyslogProtocol] = OutputSyslogProtocol.TCP
     r"""The network protocol to use for sending out syslog messages"""
 
-    facility: Annotated[
-        Optional[Facility], PlainValidator(validate_open_enum(True))
-    ] = Facility.ONE
+    facility: Optional[Facility] = Facility.ONE
     r"""Default value for message facility. Will be overwritten by value of __facility if set. Defaults to user."""
 
-    severity: Annotated[
-        Optional[OutputSyslogSeverity], PlainValidator(validate_open_enum(True))
-    ] = OutputSyslogSeverity.FIVE
+    severity: Optional[OutputSyslogSeverity] = OutputSyslogSeverity.FIVE
     r"""Default value for message severity. Will be overwritten by value of __severity if set. Defaults to notice."""
 
     app_name: Annotated[Optional[str], pydantic.Field(alias="appName")] = "Cribl"
     r"""Default name for device or application that originated the message. Defaults to Cribl, but will be overwritten by value of __appname if set."""
 
     message_format: Annotated[
-        Annotated[Optional[MessageFormat], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="messageFormat"),
+        Optional[MessageFormat], pydantic.Field(alias="messageFormat")
     ] = MessageFormat.RFC3164
     r"""The syslog message format depending on the receiver's support"""
 
     timestamp_format: Annotated[
-        Annotated[Optional[TimestampFormat], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="timestampFormat"),
+        Optional[TimestampFormat], pydantic.Field(alias="timestampFormat")
     ] = TimestampFormat.SYSLOG
     r"""Timestamp format to use when serializing event's time field"""
 
@@ -303,11 +293,7 @@ class OutputSyslog(BaseModel):
     tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -336,10 +322,9 @@ class OutputSyslog(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -366,19 +351,12 @@ class OutputSyslog(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 

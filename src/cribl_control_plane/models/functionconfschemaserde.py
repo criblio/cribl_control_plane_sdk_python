@@ -4,11 +4,9 @@ from __future__ import annotations
 from .typeoptions import TypeOptions
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import Any, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -39,15 +37,12 @@ class FunctionConfSchemaSerdeTypedDict(TypedDict):
 
 
 class FunctionConfSchemaSerde(BaseModel):
-    mode: Annotated[
-        Optional[FunctionConfSchemaSerdeOperationMode],
-        PlainValidator(validate_open_enum(False)),
-    ] = FunctionConfSchemaSerdeOperationMode.EXTRACT
+    mode: Optional[FunctionConfSchemaSerdeOperationMode] = (
+        FunctionConfSchemaSerdeOperationMode.EXTRACT
+    )
     r"""Extract creates new fields. Reserialize extracts and filters fields, and then reserializes."""
 
-    type: Annotated[
-        Optional[TypeOptions], PlainValidator(validate_open_enum(False))
-    ] = TypeOptions.CSV
+    type: Optional[TypeOptions] = TypeOptions.CSV
     r"""Parser or formatter type to use"""
 
     delim_char: Annotated[Optional[Any], pydantic.Field(alias="delimChar")] = None

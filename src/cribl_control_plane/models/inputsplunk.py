@@ -13,11 +13,9 @@ from .tlssettingsserversidetype import (
 )
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -202,8 +200,7 @@ class InputSplunk(BaseModel):
     r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
 
     max_s2_sversion: Annotated[
-        Annotated[Optional[MaxS2SVersion], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="maxS2Sversion"),
+        Optional[MaxS2SVersion], pydantic.Field(alias="maxS2Sversion")
     ] = MaxS2SVersion.V3
     r"""The highest S2S protocol version to advertise during handshake"""
 
@@ -224,9 +221,7 @@ class InputSplunk(BaseModel):
     ] = False
     r"""Extract and process Splunk-generated metrics as Cribl metrics"""
 
-    compress: Annotated[
-        Optional[InputSplunkCompression], PlainValidator(validate_open_enum(False))
-    ] = InputSplunkCompression.DISABLED
+    compress: Optional[InputSplunkCompression] = InputSplunkCompression.DISABLED
     r"""Controls whether to support reading compressed data from a forwarder. Select 'Automatic' to match the forwarder's configuration, or 'Disabled' to reject compressed connections."""
 
     @field_serializer("max_s2_sversion")

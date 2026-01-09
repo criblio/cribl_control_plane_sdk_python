@@ -7,11 +7,9 @@ from .logleveloptionssavedjobcollectionschedulerun import (
 from .metricsstore import MetricsStore, MetricsStoreTypedDict
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import Any, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -56,10 +54,7 @@ class ScheduleTypeRunnableJobCollectionRunSettingsTypedDict(TypedDict):
 
 
 class ScheduleTypeRunnableJobCollectionRunSettings(BaseModel):
-    type: Annotated[
-        Optional[ScheduleTypeRunnableJobCollectionType],
-        PlainValidator(validate_open_enum(False)),
-    ] = None
+    type: Optional[ScheduleTypeRunnableJobCollectionType] = None
 
     reschedule_dropped_tasks: Annotated[
         Optional[bool], pydantic.Field(alias="rescheduleDroppedTasks")
@@ -72,10 +67,7 @@ class ScheduleTypeRunnableJobCollectionRunSettings(BaseModel):
     r"""Maximum number of times a task can be rescheduled"""
 
     log_level: Annotated[
-        Annotated[
-            Optional[LogLevelOptionsSavedJobCollectionScheduleRun],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[LogLevelOptionsSavedJobCollectionScheduleRun],
         pydantic.Field(alias="logLevel"),
     ] = LogLevelOptionsSavedJobCollectionScheduleRun.INFO
     r"""Level at which to set task logging"""

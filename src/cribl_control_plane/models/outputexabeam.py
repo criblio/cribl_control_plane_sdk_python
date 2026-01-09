@@ -8,11 +8,9 @@ from .signatureversionoptions4 import SignatureVersionOptions4
 from .storageclassoptions1 import StorageClassOptions1
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -135,27 +133,17 @@ class OutputExabeam(BaseModel):
     r"""Google Cloud Storage service endpoint"""
 
     signature_version: Annotated[
-        Annotated[
-            Optional[SignatureVersionOptions4],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="signatureVersion"),
+        Optional[SignatureVersionOptions4], pydantic.Field(alias="signatureVersion")
     ] = SignatureVersionOptions4.V4
     r"""Signature version to use for signing Google Cloud Storage requests"""
 
     object_acl: Annotated[
-        Annotated[
-            Optional[ObjectACLOptions1], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="objectACL"),
+        Optional[ObjectACLOptions1], pydantic.Field(alias="objectACL")
     ] = ObjectACLOptions1.PRIVATE
     r"""Object ACL to assign to uploaded objects"""
 
     storage_class: Annotated[
-        Annotated[
-            Optional[StorageClassOptions1], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="storageClass"),
+        Optional[StorageClassOptions1], pydantic.Field(alias="storageClass")
     ] = None
     r"""Storage class to select for uploaded objects"""
 
@@ -195,11 +183,7 @@ class OutputExabeam(BaseModel):
     r"""Maximum number of files to keep open concurrently. When exceeded, @{product} will close the oldest open files and move them to the final output location."""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions1],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions1.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -209,10 +193,7 @@ class OutputExabeam(BaseModel):
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
 
     on_disk_full_backpressure: Annotated[
-        Annotated[
-            Optional[DiskSpaceProtectionOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[DiskSpaceProtectionOptions],
         pydantic.Field(alias="onDiskFullBackpressure"),
     ] = DiskSpaceProtectionOptions.BLOCK
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""

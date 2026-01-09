@@ -9,11 +9,9 @@ from .modeoptions import ModeOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -190,8 +188,7 @@ class OutputGoogleCloudLogging(BaseModel):
     type: OutputGoogleCloudLoggingType
 
     log_location_type: Annotated[
-        Annotated[LogLocationType, PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="logLocationType"),
+        LogLocationType, pydantic.Field(alias="logLocationType")
     ]
 
     log_name_expression: Annotated[str, pydantic.Field(alias="logNameExpression")]
@@ -224,8 +221,7 @@ class OutputGoogleCloudLogging(BaseModel):
     ] = False
 
     payload_format: Annotated[
-        Annotated[Optional[PayloadFormat], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="payloadFormat"),
+        Optional[PayloadFormat], pydantic.Field(alias="payloadFormat")
     ] = PayloadFormat.TEXT
     r"""Format to use when sending payload. Defaults to Text."""
 
@@ -255,10 +251,7 @@ class OutputGoogleCloudLogging(BaseModel):
     r"""JavaScript expression to compute the value of the insert ID field."""
 
     google_auth_method: Annotated[
-        Annotated[
-            Optional[GoogleAuthenticationMethodOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[GoogleAuthenticationMethodOptions],
         pydantic.Field(alias="googleAuthMethod"),
     ] = GoogleAuthenticationMethodOptions.MANUAL
     r"""Choose Auto to use Google Application Default Credentials (ADC), Manual to enter Google service account credentials directly, or Secret to select or create a stored secret that references Google service account credentials."""
@@ -441,11 +434,7 @@ class OutputGoogleCloudLogging(BaseModel):
     r"""A JavaScript expression that evaluates to the the sampling decision of the span associated with the log entry. See the [documentation](https://cloud.google.com/logging/docs/reference/v2/rest/v2/LogEntry) for details."""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -471,10 +460,9 @@ class OutputGoogleCloudLogging(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -501,19 +489,12 @@ class OutputGoogleCloudLogging(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 

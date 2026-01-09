@@ -14,11 +14,9 @@ from .pqtype import PqType, PqTypeTypedDict
 from .processtype import ProcessType, ProcessTypeTypedDict
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -48,10 +46,7 @@ class InputSystemMetricsSystemTypedDict(TypedDict):
 
 
 class InputSystemMetricsSystem(BaseModel):
-    mode: Annotated[
-        Optional[InputSystemMetricsSystemMode],
-        PlainValidator(validate_open_enum(False)),
-    ] = InputSystemMetricsSystemMode.BASIC
+    mode: Optional[InputSystemMetricsSystemMode] = InputSystemMetricsSystemMode.BASIC
     r"""Select the level of detail for system metrics"""
 
     processes: Optional[bool] = False
@@ -92,9 +87,7 @@ class InputSystemMetricsCPUTypedDict(TypedDict):
 
 
 class InputSystemMetricsCPU(BaseModel):
-    mode: Annotated[
-        Optional[InputSystemMetricsCPUMode], PlainValidator(validate_open_enum(False))
-    ] = InputSystemMetricsCPUMode.BASIC
+    mode: Optional[InputSystemMetricsCPUMode] = InputSystemMetricsCPUMode.BASIC
     r"""Select the level of detail for CPU metrics"""
 
     per_cpu: Annotated[Optional[bool], pydantic.Field(alias="perCpu")] = False
@@ -137,10 +130,7 @@ class InputSystemMetricsMemoryTypedDict(TypedDict):
 
 
 class InputSystemMetricsMemory(BaseModel):
-    mode: Annotated[
-        Optional[InputSystemMetricsMemoryMode],
-        PlainValidator(validate_open_enum(False)),
-    ] = InputSystemMetricsMemoryMode.BASIC
+    mode: Optional[InputSystemMetricsMemoryMode] = InputSystemMetricsMemoryMode.BASIC
     r"""Select the level of detail for memory metrics"""
 
     detail: Optional[bool] = False
@@ -183,10 +173,7 @@ class InputSystemMetricsNetworkTypedDict(TypedDict):
 
 
 class InputSystemMetricsNetwork(BaseModel):
-    mode: Annotated[
-        Optional[InputSystemMetricsNetworkMode],
-        PlainValidator(validate_open_enum(False)),
-    ] = InputSystemMetricsNetworkMode.BASIC
+    mode: Optional[InputSystemMetricsNetworkMode] = InputSystemMetricsNetworkMode.BASIC
     r"""Select the level of detail for network metrics"""
 
     detail: Optional[bool] = False
@@ -244,9 +231,7 @@ class InputSystemMetricsDiskTypedDict(TypedDict):
 
 
 class InputSystemMetricsDisk(BaseModel):
-    mode: Annotated[
-        Optional[InputSystemMetricsDiskMode], PlainValidator(validate_open_enum(False))
-    ] = InputSystemMetricsDiskMode.BASIC
+    mode: Optional[InputSystemMetricsDiskMode] = InputSystemMetricsDiskMode.BASIC
     r"""Select the level of detail for disk metrics"""
 
     detail: Optional[bool] = False
@@ -304,9 +289,7 @@ class InputSystemMetricsHostTypedDict(TypedDict):
 
 
 class InputSystemMetricsHost(BaseModel):
-    mode: Annotated[
-        Optional[ModeOptionsHost], PlainValidator(validate_open_enum(False))
-    ] = ModeOptionsHost.BASIC
+    mode: Optional[ModeOptionsHost] = ModeOptionsHost.BASIC
     r"""Select level of detail for host metrics"""
 
     custom: Optional[InputSystemMetricsCustom] = None
@@ -360,10 +343,9 @@ class ContainerTypedDict(TypedDict):
 
 
 class Container(BaseModel):
-    mode: Annotated[
-        Optional[InputSystemMetricsContainerMode],
-        PlainValidator(validate_open_enum(False)),
-    ] = InputSystemMetricsContainerMode.BASIC
+    mode: Optional[InputSystemMetricsContainerMode] = (
+        InputSystemMetricsContainerMode.BASIC
+    )
     r"""Select the level of detail for container metrics"""
 
     docker_socket: Annotated[
@@ -427,10 +409,9 @@ class InputSystemMetricsPersistence(BaseModel):
     max_data_time: Annotated[Optional[str], pydantic.Field(alias="maxDataTime")] = "24h"
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
 
-    compress: Annotated[
-        Optional[DataCompressionFormatOptionsPersistence],
-        PlainValidator(validate_open_enum(False)),
-    ] = DataCompressionFormatOptionsPersistence.GZIP
+    compress: Optional[DataCompressionFormatOptionsPersistence] = (
+        DataCompressionFormatOptionsPersistence.GZIP
+    )
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = (
         "$CRIBL_HOME/state/system_metrics"

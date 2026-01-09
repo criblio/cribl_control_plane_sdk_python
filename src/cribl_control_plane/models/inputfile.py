@@ -9,11 +9,9 @@ from .itemstypenotificationmetadata import (
 from .pqtype import PqType, PqTypeTypedDict
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -119,9 +117,7 @@ class InputFile(BaseModel):
 
     pq: Optional[PqType] = None
 
-    mode: Annotated[
-        Optional[InputFileMode], PlainValidator(validate_open_enum(False))
-    ] = InputFileMode.MANUAL
+    mode: Optional[InputFileMode] = InputFileMode.MANUAL
     r"""Choose how to discover files to monitor"""
 
     interval: Optional[float] = 10

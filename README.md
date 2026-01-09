@@ -131,7 +131,7 @@ with CriblControlPlane(
         "lakehouse_connection_type": models.LakehouseConnectionType.CACHE,
         "migration_query_id": "<id>",
         "retention_in_days": 1466.58,
-    }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.CriblLakeDatasetFormat.DDSS, http_da_used=True, metrics={
+    }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.FormatOptionsCriblLakeDataset.DDSS, http_da_used=True, metrics={
         "current_size_bytes": 6170.04,
         "metrics_date": "<value>",
     }, retention_period_in_days=456.37, search_config={
@@ -192,7 +192,7 @@ async def main():
             "lakehouse_connection_type": models.LakehouseConnectionType.CACHE,
             "migration_query_id": "<id>",
             "retention_in_days": 1466.58,
-        }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.CriblLakeDatasetFormat.DDSS, http_da_used=True, metrics={
+        }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.FormatOptionsCriblLakeDataset.DDSS, http_da_used=True, metrics={
             "current_size_bytes": 6170.04,
             "metrics_date": "<value>",
         }, retention_period_in_days=456.37, search_config={
@@ -262,7 +262,7 @@ with CriblControlPlane(
         "lakehouse_connection_type": models.LakehouseConnectionType.CACHE,
         "migration_query_id": "<id>",
         "retention_in_days": 1466.58,
-    }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.CriblLakeDatasetFormat.DDSS, http_da_used=True, metrics={
+    }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.FormatOptionsCriblLakeDataset.DDSS, http_da_used=True, metrics={
         "current_size_bytes": 6170.04,
         "metrics_date": "<value>",
     }, retention_period_in_days=456.37, search_config={
@@ -318,10 +318,10 @@ with CriblControlPlane(
 * [update](docs/sdks/destinations/README.md#update) - Update a Destination
 * [delete](docs/sdks/destinations/README.md#delete) - Delete a Destination
 
-#### [Destinations.Pq](docs/sdks/destinationspq/README.md)
+#### [Destinations.Pq](docs/sdks/pq/README.md)
 
-* [clear](docs/sdks/destinationspq/README.md#clear) - Clear the persistent queue for a Destination
-* [get](docs/sdks/destinationspq/README.md#get) - Get information about the latest job to clear the persistent queue for a Destination
+* [clear](docs/sdks/pq/README.md#clear) - Clear the persistent queue for a Destination
+* [get](docs/sdks/pq/README.md#get) - Get information about the latest job to clear the persistent queue for a Destination
 
 #### [Destinations.Samples](docs/sdks/samples/README.md)
 
@@ -432,10 +432,10 @@ with CriblControlPlane(
 * [get](docs/sdks/commits/README.md#get) - Get the diff and log message for a commit
 * [undo](docs/sdks/commits/README.md#undo) - Discard uncommitted (staged) changes
 
-#### [Versions.Commits.Files](docs/sdks/commitsfiles/README.md)
+#### [Versions.Commits.Files](docs/sdks/files/README.md)
 
-* [count](docs/sdks/commitsfiles/README.md#count) - Get a count of files that changed since a commit
-* [list](docs/sdks/commitsfiles/README.md#list) - Get the names and statuses of files that changed since a commit
+* [count](docs/sdks/files/README.md#count) - Get a count of files that changed since a commit
+* [list](docs/sdks/files/README.md#list) - Get the names and statuses of files that changed since a commit
 
 ### [Versions.Configs](docs/sdks/versionsconfigs/README.md)
 
@@ -511,7 +511,7 @@ with CriblControlPlane(
         "lakehouse_connection_type": models.LakehouseConnectionType.CACHE,
         "migration_query_id": "<id>",
         "retention_in_days": 1466.58,
-    }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.CriblLakeDatasetFormat.DDSS, http_da_used=True, metrics={
+    }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.FormatOptionsCriblLakeDataset.DDSS, http_da_used=True, metrics={
         "current_size_bytes": 6170.04,
         "metrics_date": "<value>",
     }, retention_period_in_days=456.37, search_config={
@@ -570,7 +570,7 @@ with CriblControlPlane(
         "lakehouse_connection_type": models.LakehouseConnectionType.CACHE,
         "migration_query_id": "<id>",
         "retention_in_days": 1466.58,
-    }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.CriblLakeDatasetFormat.DDSS, http_da_used=True, metrics={
+    }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.FormatOptionsCriblLakeDataset.DDSS, http_da_used=True, metrics={
         "current_size_bytes": 6170.04,
         "metrics_date": "<value>",
     }, retention_period_in_days=456.37, search_config={
@@ -643,7 +643,7 @@ with CriblControlPlane(
             "lakehouse_connection_type": models.LakehouseConnectionType.CACHE,
             "migration_query_id": "<id>",
             "retention_in_days": 1466.58,
-        }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.CriblLakeDatasetFormat.DDSS, http_da_used=True, metrics={
+        }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.FormatOptionsCriblLakeDataset.DDSS, http_da_used=True, metrics={
             "current_size_bytes": 6170.04,
             "metrics_date": "<value>",
         }, retention_period_in_days=456.37, search_config={

@@ -20,8 +20,8 @@ class HecTokens(BaseSDK):
         enabled: Optional[bool] = None,
         metadata: Optional[
             Union[
-                List[models.AddHecTokenRequestMetadatum],
-                List[models.AddHecTokenRequestMetadatumTypedDict],
+                List[models.EventBreakerRuleFields],
+                List[models.EventBreakerRuleFieldsTypedDict],
             ]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -61,7 +61,7 @@ class HecTokens(BaseSDK):
                 description=description,
                 enabled=enabled,
                 metadata=utils.get_pydantic_model(
-                    metadata, Optional[List[models.AddHecTokenRequestMetadatum]]
+                    metadata, Optional[List[models.EventBreakerRuleFields]]
                 ),
                 token=token,
             ),
@@ -143,8 +143,8 @@ class HecTokens(BaseSDK):
         enabled: Optional[bool] = None,
         metadata: Optional[
             Union[
-                List[models.AddHecTokenRequestMetadatum],
-                List[models.AddHecTokenRequestMetadatumTypedDict],
+                List[models.EventBreakerRuleFields],
+                List[models.EventBreakerRuleFieldsTypedDict],
             ]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -184,7 +184,7 @@ class HecTokens(BaseSDK):
                 description=description,
                 enabled=enabled,
                 metadata=utils.get_pydantic_model(
-                    metadata, Optional[List[models.AddHecTokenRequestMetadatum]]
+                    metadata, Optional[List[models.EventBreakerRuleFields]]
                 ),
                 token=token,
             ),
@@ -266,8 +266,8 @@ class HecTokens(BaseSDK):
         enabled: Optional[bool] = None,
         metadata: Optional[
             Union[
-                List[models.UpdateHecTokenRequestMetadatum],
-                List[models.UpdateHecTokenRequestMetadatumTypedDict],
+                List[models.EventBreakerRuleFields],
+                List[models.EventBreakerRuleFieldsTypedDict],
             ]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -308,7 +308,7 @@ class HecTokens(BaseSDK):
                 description=description,
                 enabled=enabled,
                 metadata=utils.get_pydantic_model(
-                    metadata, Optional[List[models.UpdateHecTokenRequestMetadatum]]
+                    metadata, Optional[List[models.EventBreakerRuleFields]]
                 ),
             ),
         )
@@ -389,8 +389,8 @@ class HecTokens(BaseSDK):
         enabled: Optional[bool] = None,
         metadata: Optional[
             Union[
-                List[models.UpdateHecTokenRequestMetadatum],
-                List[models.UpdateHecTokenRequestMetadatumTypedDict],
+                List[models.EventBreakerRuleFields],
+                List[models.EventBreakerRuleFieldsTypedDict],
             ]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -431,7 +431,7 @@ class HecTokens(BaseSDK):
                 description=description,
                 enabled=enabled,
                 metadata=utils.get_pydantic_model(
-                    metadata, Optional[List[models.UpdateHecTokenRequestMetadatum]]
+                    metadata, Optional[List[models.EventBreakerRuleFields]]
                 ),
             ),
         )

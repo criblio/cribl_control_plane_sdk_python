@@ -230,10 +230,10 @@ class GroupsSDK(BaseSDK):
         deploying_worker_count: Optional[float] = None,
         description: Optional[str] = None,
         estimated_ingest_rate: Optional[
-            models.GroupCreateRequestEstimatedIngestRate
+            models.EstimatedIngestRateOptionsConfigGroup
         ] = None,
         git: Optional[
-            Union[models.GroupCreateRequestGit, models.GroupCreateRequestGitTypedDict]
+            Union[models.GitTypeConfigGroup, models.GitTypeConfigGroupTypedDict]
         ] = None,
         incompatible_worker_count: Optional[float] = None,
         inherits: Optional[str] = None,
@@ -252,7 +252,7 @@ class GroupsSDK(BaseSDK):
         source_group_id: Optional[str] = None,
         streamtags: Optional[List[str]] = None,
         tags: Optional[str] = None,
-        type_: Optional[models.GroupCreateRequestType] = None,
+        type_: Optional[models.TypeOptionsConfigGroup] = None,
         upgrade_version: Optional[str] = None,
         worker_count: Optional[float] = None,
         worker_remote_access: Optional[bool] = None,
@@ -312,9 +312,7 @@ class GroupsSDK(BaseSDK):
                 deploying_worker_count=deploying_worker_count,
                 description=description,
                 estimated_ingest_rate=estimated_ingest_rate,
-                git=utils.get_pydantic_model(
-                    git, Optional[models.GroupCreateRequestGit]
-                ),
+                git=utils.get_pydantic_model(git, Optional[models.GitTypeConfigGroup]),
                 id=id,
                 incompatible_worker_count=incompatible_worker_count,
                 inherits=inherits,
@@ -414,10 +412,10 @@ class GroupsSDK(BaseSDK):
         deploying_worker_count: Optional[float] = None,
         description: Optional[str] = None,
         estimated_ingest_rate: Optional[
-            models.GroupCreateRequestEstimatedIngestRate
+            models.EstimatedIngestRateOptionsConfigGroup
         ] = None,
         git: Optional[
-            Union[models.GroupCreateRequestGit, models.GroupCreateRequestGitTypedDict]
+            Union[models.GitTypeConfigGroup, models.GitTypeConfigGroupTypedDict]
         ] = None,
         incompatible_worker_count: Optional[float] = None,
         inherits: Optional[str] = None,
@@ -436,7 +434,7 @@ class GroupsSDK(BaseSDK):
         source_group_id: Optional[str] = None,
         streamtags: Optional[List[str]] = None,
         tags: Optional[str] = None,
-        type_: Optional[models.GroupCreateRequestType] = None,
+        type_: Optional[models.TypeOptionsConfigGroup] = None,
         upgrade_version: Optional[str] = None,
         worker_count: Optional[float] = None,
         worker_remote_access: Optional[bool] = None,
@@ -496,9 +494,7 @@ class GroupsSDK(BaseSDK):
                 deploying_worker_count=deploying_worker_count,
                 description=description,
                 estimated_ingest_rate=estimated_ingest_rate,
-                git=utils.get_pydantic_model(
-                    git, Optional[models.GroupCreateRequestGit]
-                ),
+                git=utils.get_pydantic_model(git, Optional[models.GitTypeConfigGroup]),
                 id=id,
                 incompatible_worker_count=incompatible_worker_count,
                 inherits=inherits,
@@ -795,9 +791,11 @@ class GroupsSDK(BaseSDK):
         config_version: Optional[str] = None,
         deploying_worker_count: Optional[float] = None,
         description: Optional[str] = None,
-        estimated_ingest_rate: Optional[models.ConfigGroupEstimatedIngestRate] = None,
+        estimated_ingest_rate: Optional[
+            models.EstimatedIngestRateOptionsConfigGroup
+        ] = None,
         git: Optional[
-            Union[models.ConfigGroupGit, models.ConfigGroupGitTypedDict]
+            Union[models.GitTypeConfigGroup, models.GitTypeConfigGroupTypedDict]
         ] = None,
         incompatible_worker_count: Optional[float] = None,
         inherits: Optional[str] = None,
@@ -815,7 +813,7 @@ class GroupsSDK(BaseSDK):
         provisioned: Optional[bool] = None,
         streamtags: Optional[List[str]] = None,
         tags: Optional[str] = None,
-        type_: Optional[models.ConfigGroupType] = None,
+        type_: Optional[models.TypeOptionsConfigGroup] = None,
         upgrade_version: Optional[str] = None,
         worker_count: Optional[float] = None,
         worker_remote_access: Optional[bool] = None,
@@ -878,7 +876,7 @@ class GroupsSDK(BaseSDK):
                 deploying_worker_count=deploying_worker_count,
                 description=description,
                 estimated_ingest_rate=estimated_ingest_rate,
-                git=utils.get_pydantic_model(git, Optional[models.ConfigGroupGit]),
+                git=utils.get_pydantic_model(git, Optional[models.GitTypeConfigGroup]),
                 id=id,
                 incompatible_worker_count=incompatible_worker_count,
                 inherits=inherits,
@@ -974,9 +972,11 @@ class GroupsSDK(BaseSDK):
         config_version: Optional[str] = None,
         deploying_worker_count: Optional[float] = None,
         description: Optional[str] = None,
-        estimated_ingest_rate: Optional[models.ConfigGroupEstimatedIngestRate] = None,
+        estimated_ingest_rate: Optional[
+            models.EstimatedIngestRateOptionsConfigGroup
+        ] = None,
         git: Optional[
-            Union[models.ConfigGroupGit, models.ConfigGroupGitTypedDict]
+            Union[models.GitTypeConfigGroup, models.GitTypeConfigGroupTypedDict]
         ] = None,
         incompatible_worker_count: Optional[float] = None,
         inherits: Optional[str] = None,
@@ -994,7 +994,7 @@ class GroupsSDK(BaseSDK):
         provisioned: Optional[bool] = None,
         streamtags: Optional[List[str]] = None,
         tags: Optional[str] = None,
-        type_: Optional[models.ConfigGroupType] = None,
+        type_: Optional[models.TypeOptionsConfigGroup] = None,
         upgrade_version: Optional[str] = None,
         worker_count: Optional[float] = None,
         worker_remote_access: Optional[bool] = None,
@@ -1057,7 +1057,7 @@ class GroupsSDK(BaseSDK):
                 deploying_worker_count=deploying_worker_count,
                 description=description,
                 estimated_ingest_rate=estimated_ingest_rate,
-                git=utils.get_pydantic_model(git, Optional[models.ConfigGroupGit]),
+                git=utils.get_pydantic_model(git, Optional[models.GitTypeConfigGroup]),
                 id=id,
                 incompatible_worker_count=incompatible_worker_count,
                 inherits=inherits,

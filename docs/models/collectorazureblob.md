@@ -1,29 +1,11 @@
 # CollectorAzureBlob
 
+AzureBlob collector configuration
 
-## Supported Types
 
-### `models.CollectorAzureBlobAzureBlob1`
+## Fields
 
-```python
-value: models.CollectorAzureBlobAzureBlob1 = /* values here */
-```
-
-### `models.CollectorAzureBlobAzureBlob2`
-
-```python
-value: models.CollectorAzureBlobAzureBlob2 = /* values here */
-```
-
-### `models.CollectorAzureBlobAzureBlob3`
-
-```python
-value: models.CollectorAzureBlobAzureBlob3 = /* values here */
-```
-
-### `models.CollectorAzureBlobAzureBlob4`
-
-```python
-value: models.CollectorAzureBlobAzureBlob4 = /* values here */
-```
-
+| Field                                                                | Type                                                                 | Required                                                             | Description                                                          |
+| -------------------------------------------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| `type`                                                               | [models.CollectorAzureBlobType](../models/collectorazureblobtype.md) | :heavy_check_mark:                                                   | Collector type                                                       |
+| `conf`                                                               | [models.AzureBlobCollectorConf](../models/azureblobcollectorconf.md) | :heavy_check_mark:                                                   | N/A                                                                  |

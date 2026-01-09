@@ -1,6 +1,6 @@
 # CollectorFilesystemType
 
-Collector type: filesystem
+Collector type
 
 
 ## Values

@@ -6,7 +6,7 @@ from cribl_control_plane._hooks import HookContext
 from cribl_control_plane.types import OptionalNullable, UNSET
 from cribl_control_plane.utils import get_security_from_env
 from cribl_control_plane.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, List, Mapping, Optional, Union
+from typing import Any, Dict, List, Mapping, Optional
 
 
 class Samples(BaseSDK):
@@ -202,7 +202,7 @@ class Samples(BaseSDK):
         self,
         *,
         id: str,
-        events: Union[List[models.CriblEvent], List[models.CriblEventTypedDict]],
+        events: List[Dict[str, Any]],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -232,7 +232,7 @@ class Samples(BaseSDK):
         request = models.CreateOutputTestByIDRequest(
             id=id,
             output_test_request=models.OutputTestRequest(
-                events=utils.get_pydantic_model(events, List[models.CriblEvent]),
+                events=events,
             ),
         )
 
@@ -306,7 +306,7 @@ class Samples(BaseSDK):
         self,
         *,
         id: str,
-        events: Union[List[models.CriblEvent], List[models.CriblEventTypedDict]],
+        events: List[Dict[str, Any]],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -336,7 +336,7 @@ class Samples(BaseSDK):
         request = models.CreateOutputTestByIDRequest(
             id=id,
             output_test_request=models.OutputTestRequest(
-                events=utils.get_pydantic_model(events, List[models.CriblEvent]),
+                events=events,
             ),
         )
 

@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.InputCloudflareHecSendToRoutesTrueWithConnectionsConstraint`
+### `models.InputCloudflareHecSendToRoutesTrueConstraint`
 
 ```python
-value: models.InputCloudflareHecSendToRoutesTrueWithConnectionsConstraint = /* values here */
+value: models.InputCloudflareHecSendToRoutesTrueConstraint = /* values here */
 ```
 
 ### `models.InputCloudflareHecSendToRoutesFalseWithConnectionsConstraint`
@@ -15,10 +15,10 @@ value: models.InputCloudflareHecSendToRoutesTrueWithConnectionsConstraint = /* v
 value: models.InputCloudflareHecSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputCloudflareHecPqEnabledFalseWithPqConstraint`
+### `models.InputCloudflareHecPqEnabledFalseConstraint`
 
 ```python
-value: models.InputCloudflareHecPqEnabledFalseWithPqConstraint = /* values here */
+value: models.InputCloudflareHecPqEnabledFalseConstraint = /* values here */
 ```
 
 ### `models.InputCloudflareHecPqEnabledTrueWithPqConstraint`

@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 from .authenticationprotocoloptionsv3user import AuthenticationProtocolOptionsV3User
-from .itemstypeconnections import ItemsTypeConnections, ItemsTypeConnectionsTypedDict
+from .itemstypeconnectionsoptional import (
+    ItemsTypeConnectionsOptional,
+    ItemsTypeConnectionsOptionalTypedDict,
+)
 from .itemstypenotificationmetadata import (
     ItemsTypeNotificationMetadata,
     ItemsTypeNotificationMetadataTypedDict,
@@ -121,7 +124,7 @@ class InputSnmpPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     host: NotRequired[str]
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
@@ -171,7 +174,7 @@ class InputSnmpPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     host: Optional[str] = "0.0.0.0"
@@ -216,11 +219,10 @@ class InputSnmpPqEnabledTrueWithPqConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class InputSnmpPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class InputSnmpPqEnabledFalseConstraintTypedDict(TypedDict):
     type: InputSnmpType
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -232,8 +234,9 @@ class InputSnmpPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
     port: NotRequired[float]
@@ -255,13 +258,11 @@ class InputSnmpPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     description: NotRequired[str]
 
 
-class InputSnmpPqEnabledFalseWithPqConstraint(BaseModel):
+class InputSnmpPqEnabledFalseConstraint(BaseModel):
     type: InputSnmpType
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -282,8 +283,10 @@ class InputSnmpPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
@@ -331,7 +334,7 @@ class InputSnmpSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
     type: InputSnmpType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -374,7 +377,7 @@ class InputSnmpSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
@@ -438,12 +441,10 @@ class InputSnmpSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class InputSnmpSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
+class InputSnmpSendToRoutesTrueConstraintTypedDict(TypedDict):
     type: InputSnmpType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -455,6 +456,8 @@ class InputSnmpSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
@@ -477,16 +480,13 @@ class InputSnmpSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
     description: NotRequired[str]
 
 
-class InputSnmpSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class InputSnmpSendToRoutesTrueConstraint(BaseModel):
     type: InputSnmpType
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -504,6 +504,9 @@ class InputSnmpSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -552,9 +555,9 @@ class InputSnmpSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 InputSnmpTypedDict = TypeAliasType(
     "InputSnmpTypedDict",
     Union[
-        InputSnmpSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        InputSnmpSendToRoutesTrueConstraintTypedDict,
         InputSnmpSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        InputSnmpPqEnabledFalseWithPqConstraintTypedDict,
+        InputSnmpPqEnabledFalseConstraintTypedDict,
         InputSnmpPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -563,9 +566,9 @@ InputSnmpTypedDict = TypeAliasType(
 InputSnmp = TypeAliasType(
     "InputSnmp",
     Union[
-        InputSnmpSendToRoutesTrueWithConnectionsConstraint,
+        InputSnmpSendToRoutesTrueConstraint,
         InputSnmpSendToRoutesFalseWithConnectionsConstraint,
-        InputSnmpPqEnabledFalseWithPqConstraint,
+        InputSnmpPqEnabledFalseConstraint,
         InputSnmpPqEnabledTrueWithPqConstraint,
     ],
 )

@@ -7,7 +7,10 @@ from .authenticationmethodoptionsauthtokensitems import (
 from .datacompressionformatoptionspersistence import (
     DataCompressionFormatOptionsPersistence,
 )
-from .itemstypeconnections import ItemsTypeConnections, ItemsTypeConnectionsTypedDict
+from .itemstypeconnectionsoptional import (
+    ItemsTypeConnectionsOptional,
+    ItemsTypeConnectionsOptionalTypedDict,
+)
 from .itemstypenotificationmetadata import (
     ItemsTypeNotificationMetadata,
     ItemsTypeNotificationMetadataTypedDict,
@@ -127,7 +130,7 @@ class InputAppscopePqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     ip_whitelist_regex: NotRequired[str]
     r"""Regex matching IP addresses that are allowed to establish a connection"""
@@ -196,7 +199,7 @@ class InputAppscopePqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     ip_whitelist_regex: Annotated[
@@ -295,11 +298,10 @@ class InputAppscopePqEnabledTrueWithPqConstraint(BaseModel):
         return value
 
 
-class InputAppscopePqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class InputAppscopePqEnabledFalseConstraintTypedDict(TypedDict):
     type: InputAppscopeType
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -311,8 +313,9 @@ class InputAppscopePqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     ip_whitelist_regex: NotRequired[str]
     r"""Regex matching IP addresses that are allowed to establish a connection"""
     max_active_cxn: NotRequired[float]
@@ -353,13 +356,11 @@ class InputAppscopePqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Select or create a stored text secret"""
 
 
-class InputAppscopePqEnabledFalseWithPqConstraint(BaseModel):
+class InputAppscopePqEnabledFalseConstraint(BaseModel):
     type: InputAppscopeType
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -380,8 +381,10 @@ class InputAppscopePqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     ip_whitelist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipWhitelistRegex")
@@ -483,7 +486,7 @@ class InputAppscopeSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict
     type: InputAppscopeType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -545,7 +548,7 @@ class InputAppscopeSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
@@ -663,12 +666,10 @@ class InputAppscopeSendToRoutesFalseWithConnectionsConstraint(BaseModel):
         return value
 
 
-class InputAppscopeSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
+class InputAppscopeSendToRoutesTrueConstraintTypedDict(TypedDict):
     type: InputAppscopeType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -680,6 +681,8 @@ class InputAppscopeSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict)
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     ip_whitelist_regex: NotRequired[str]
     r"""Regex matching IP addresses that are allowed to establish a connection"""
@@ -721,16 +724,13 @@ class InputAppscopeSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict)
     r"""Select or create a stored text secret"""
 
 
-class InputAppscopeSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class InputAppscopeSendToRoutesTrueConstraint(BaseModel):
     type: InputAppscopeType
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -748,6 +748,9 @@ class InputAppscopeSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -850,9 +853,9 @@ class InputAppscopeSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 InputAppscopeTypedDict = TypeAliasType(
     "InputAppscopeTypedDict",
     Union[
-        InputAppscopeSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        InputAppscopeSendToRoutesTrueConstraintTypedDict,
         InputAppscopeSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        InputAppscopePqEnabledFalseWithPqConstraintTypedDict,
+        InputAppscopePqEnabledFalseConstraintTypedDict,
         InputAppscopePqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -861,9 +864,9 @@ InputAppscopeTypedDict = TypeAliasType(
 InputAppscope = TypeAliasType(
     "InputAppscope",
     Union[
-        InputAppscopeSendToRoutesTrueWithConnectionsConstraint,
+        InputAppscopeSendToRoutesTrueConstraint,
         InputAppscopeSendToRoutesFalseWithConnectionsConstraint,
-        InputAppscopePqEnabledFalseWithPqConstraint,
+        InputAppscopePqEnabledFalseConstraint,
         InputAppscopePqEnabledTrueWithPqConstraint,
     ],
 )

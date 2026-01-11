@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.CreateInputInputOffice365MgmtSendToRoutesTrueWithConnectionsConstraint`
+### `models.CreateInputInputOffice365MgmtSendToRoutesTrueConstraint`
 
 ```python
-value: models.CreateInputInputOffice365MgmtSendToRoutesTrueWithConnectionsConstraint = /* values here */
+value: models.CreateInputInputOffice365MgmtSendToRoutesTrueConstraint = /* values here */
 ```
 
 ### `models.CreateInputInputOffice365MgmtSendToRoutesFalseWithConnectionsConstraint`
@@ -15,10 +15,10 @@ value: models.CreateInputInputOffice365MgmtSendToRoutesTrueWithConnectionsConstr
 value: models.CreateInputInputOffice365MgmtSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputOffice365MgmtPqEnabledFalseWithPqConstraint`
+### `models.CreateInputInputOffice365MgmtPqEnabledFalseConstraint`
 
 ```python
-value: models.CreateInputInputOffice365MgmtPqEnabledFalseWithPqConstraint = /* values here */
+value: models.CreateInputInputOffice365MgmtPqEnabledFalseConstraint = /* values here */
 ```
 
 ### `models.CreateInputInputOffice365MgmtPqEnabledTrueWithPqConstraint`

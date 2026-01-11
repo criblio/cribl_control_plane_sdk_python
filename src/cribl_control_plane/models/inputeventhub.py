@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 from .authenticationtype1 import AuthenticationType1, AuthenticationType1TypedDict
-from .itemstypeconnections import ItemsTypeConnections, ItemsTypeConnectionsTypedDict
+from .itemstypeconnectionsoptional import (
+    ItemsTypeConnectionsOptional,
+    ItemsTypeConnectionsOptionalTypedDict,
+)
 from .itemstypenotificationmetadata import (
     ItemsTypeNotificationMetadata,
     ItemsTypeNotificationMetadataTypedDict,
@@ -43,7 +46,7 @@ class InputEventhubPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     group_id: NotRequired[str]
     r"""The consumer group this instance belongs to. Default is 'Cribl'."""
@@ -134,7 +137,7 @@ class InputEventhubPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = "Cribl"
@@ -243,7 +246,7 @@ class InputEventhubPqEnabledTrueWithPqConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class InputEventhubPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class InputEventhubPqEnabledFalseConstraintTypedDict(TypedDict):
     type: InputEventhubType
     brokers: List[str]
     r"""List of Event Hubs Kafka brokers to connect to (example: yourdomain.servicebus.windows.net:9093). The hostname can be found in the host portion of the primary or secondary connection string in Shared Access Policies."""
@@ -251,7 +254,6 @@ class InputEventhubPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""The name of the Event Hub (Kafka topic) to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Event Hubs Source to only a single topic."""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -263,8 +265,9 @@ class InputEventhubPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     group_id: NotRequired[str]
     r"""The consumer group this instance belongs to. Default is 'Cribl'."""
     from_beginning: NotRequired[bool]
@@ -321,7 +324,7 @@ class InputEventhubPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     description: NotRequired[str]
 
 
-class InputEventhubPqEnabledFalseWithPqConstraint(BaseModel):
+class InputEventhubPqEnabledFalseConstraint(BaseModel):
     type: InputEventhubType
 
     brokers: List[str]
@@ -332,8 +335,6 @@ class InputEventhubPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -354,8 +355,10 @@ class InputEventhubPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = "Cribl"
     r"""The consumer group this instance belongs to. Default is 'Cribl'."""
@@ -471,7 +474,7 @@ class InputEventhubSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict
     r"""The name of the Event Hub (Kafka topic) to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Event Hubs Source to only a single topic."""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -555,7 +558,7 @@ class InputEventhubSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
@@ -683,7 +686,7 @@ class InputEventhubSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class InputEventhubSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
+class InputEventhubSendToRoutesTrueConstraintTypedDict(TypedDict):
     type: InputEventhubType
     brokers: List[str]
     r"""List of Event Hubs Kafka brokers to connect to (example: yourdomain.servicebus.windows.net:9093). The hostname can be found in the host portion of the primary or secondary connection string in Shared Access Policies."""
@@ -691,8 +694,6 @@ class InputEventhubSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict)
     r"""The name of the Event Hub (Kafka topic) to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Event Hubs Source to only a single topic."""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -704,6 +705,8 @@ class InputEventhubSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict)
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     group_id: NotRequired[str]
     r"""The consumer group this instance belongs to. Default is 'Cribl'."""
@@ -761,7 +764,7 @@ class InputEventhubSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict)
     description: NotRequired[str]
 
 
-class InputEventhubSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class InputEventhubSendToRoutesTrueConstraint(BaseModel):
     type: InputEventhubType
 
     brokers: List[str]
@@ -774,9 +777,6 @@ class InputEventhubSendToRoutesTrueWithConnectionsConstraint(BaseModel):
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -794,6 +794,9 @@ class InputEventhubSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -906,9 +909,9 @@ class InputEventhubSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 InputEventhubTypedDict = TypeAliasType(
     "InputEventhubTypedDict",
     Union[
-        InputEventhubSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        InputEventhubSendToRoutesTrueConstraintTypedDict,
         InputEventhubSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        InputEventhubPqEnabledFalseWithPqConstraintTypedDict,
+        InputEventhubPqEnabledFalseConstraintTypedDict,
         InputEventhubPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -917,9 +920,9 @@ InputEventhubTypedDict = TypeAliasType(
 InputEventhub = TypeAliasType(
     "InputEventhub",
     Union[
-        InputEventhubSendToRoutesTrueWithConnectionsConstraint,
+        InputEventhubSendToRoutesTrueConstraint,
         InputEventhubSendToRoutesFalseWithConnectionsConstraint,
-        InputEventhubPqEnabledFalseWithPqConstraint,
+        InputEventhubPqEnabledFalseConstraint,
         InputEventhubPqEnabledTrueWithPqConstraint,
     ],
 )

@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 from .authenticationtypeoptions import AuthenticationTypeOptions
-from .itemstypeconnections import ItemsTypeConnections, ItemsTypeConnectionsTypedDict
+from .itemstypeconnectionsoptional import (
+    ItemsTypeConnectionsOptional,
+    ItemsTypeConnectionsOptionalTypedDict,
+)
 from .itemstypenotificationmetadata import (
     ItemsTypeNotificationMetadata,
     ItemsTypeNotificationMetadataTypedDict,
@@ -61,7 +64,7 @@ class InputOpenTelemetryPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -157,7 +160,7 @@ class InputOpenTelemetryPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     host: Optional[str] = "0.0.0.0"
@@ -335,11 +338,10 @@ class InputOpenTelemetryPqEnabledTrueWithPqConstraint(BaseModel):
         return value
 
 
-class InputOpenTelemetryPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class InputOpenTelemetryPqEnabledFalseConstraintTypedDict(TypedDict):
     type: InputOpenTelemetryType
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -351,8 +353,9 @@ class InputOpenTelemetryPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: NotRequired[float]
@@ -420,13 +423,11 @@ class InputOpenTelemetryPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Enable to extract each incoming log record to a separate event"""
 
 
-class InputOpenTelemetryPqEnabledFalseWithPqConstraint(BaseModel):
+class InputOpenTelemetryPqEnabledFalseConstraint(BaseModel):
     type: InputOpenTelemetryType
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -447,8 +448,10 @@ class InputOpenTelemetryPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -629,7 +632,7 @@ class InputOpenTelemetrySendToRoutesFalseWithConnectionsConstraintTypedDict(Type
     type: InputOpenTelemetryType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -718,7 +721,7 @@ class InputOpenTelemetrySendToRoutesFalseWithConnectionsConstraint(BaseModel):
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
@@ -915,12 +918,10 @@ class InputOpenTelemetrySendToRoutesFalseWithConnectionsConstraint(BaseModel):
         return value
 
 
-class InputOpenTelemetrySendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
+class InputOpenTelemetrySendToRoutesTrueConstraintTypedDict(TypedDict):
     type: InputOpenTelemetryType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -932,6 +933,8 @@ class InputOpenTelemetrySendToRoutesTrueWithConnectionsConstraintTypedDict(Typed
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -1000,16 +1003,13 @@ class InputOpenTelemetrySendToRoutesTrueWithConnectionsConstraintTypedDict(Typed
     r"""Enable to extract each incoming log record to a separate event"""
 
 
-class InputOpenTelemetrySendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class InputOpenTelemetrySendToRoutesTrueConstraint(BaseModel):
     type: InputOpenTelemetryType
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -1027,6 +1027,9 @@ class InputOpenTelemetrySendToRoutesTrueWithConnectionsConstraint(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -1208,9 +1211,9 @@ class InputOpenTelemetrySendToRoutesTrueWithConnectionsConstraint(BaseModel):
 InputOpenTelemetryTypedDict = TypeAliasType(
     "InputOpenTelemetryTypedDict",
     Union[
-        InputOpenTelemetrySendToRoutesTrueWithConnectionsConstraintTypedDict,
+        InputOpenTelemetrySendToRoutesTrueConstraintTypedDict,
         InputOpenTelemetrySendToRoutesFalseWithConnectionsConstraintTypedDict,
-        InputOpenTelemetryPqEnabledFalseWithPqConstraintTypedDict,
+        InputOpenTelemetryPqEnabledFalseConstraintTypedDict,
         InputOpenTelemetryPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -1219,9 +1222,9 @@ InputOpenTelemetryTypedDict = TypeAliasType(
 InputOpenTelemetry = TypeAliasType(
     "InputOpenTelemetry",
     Union[
-        InputOpenTelemetrySendToRoutesTrueWithConnectionsConstraint,
+        InputOpenTelemetrySendToRoutesTrueConstraint,
         InputOpenTelemetrySendToRoutesFalseWithConnectionsConstraint,
-        InputOpenTelemetryPqEnabledFalseWithPqConstraint,
+        InputOpenTelemetryPqEnabledFalseConstraint,
         InputOpenTelemetryPqEnabledTrueWithPqConstraint,
     ],
 )

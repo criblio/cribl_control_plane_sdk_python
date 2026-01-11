@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 from .authenticationmethodoptions1 import AuthenticationMethodOptions1
-from .itemstypeconnections import ItemsTypeConnections, ItemsTypeConnectionsTypedDict
+from .itemstypeconnectionsoptional import (
+    ItemsTypeConnectionsOptional,
+    ItemsTypeConnectionsOptionalTypedDict,
+)
 from .itemstypenotificationmetadata import (
     ItemsTypeNotificationMetadata,
     ItemsTypeNotificationMetadataTypedDict,
@@ -153,7 +156,7 @@ class InputWizPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     endpoint: NotRequired[str]
     r"""The Wiz GraphQL API endpoint. Example: https://api.us1.app.wiz.io/graphql"""
@@ -218,7 +221,7 @@ class InputWizPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     endpoint: Optional[str] = "https://api.<region>.app.wiz.io/graphql"
@@ -282,7 +285,7 @@ class InputWizPqEnabledTrueWithPqConstraint(BaseModel):
         return value
 
 
-class InputWizPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class InputWizPqEnabledFalseConstraintTypedDict(TypedDict):
     type: InputWizType
     auth_url: str
     r"""The authentication URL to generate an OAuth token"""
@@ -291,7 +294,6 @@ class InputWizPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     content_config: List[InputWizContentConfigTypedDict]
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -303,8 +305,9 @@ class InputWizPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     endpoint: NotRequired[str]
     r"""The Wiz GraphQL API endpoint. Example: https://api.us1.app.wiz.io/graphql"""
     auth_audience_override: NotRequired[str]
@@ -331,7 +334,7 @@ class InputWizPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Select or create a stored text secret"""
 
 
-class InputWizPqEnabledFalseWithPqConstraint(BaseModel):
+class InputWizPqEnabledFalseConstraint(BaseModel):
     type: InputWizType
 
     auth_url: Annotated[str, pydantic.Field(alias="authUrl")]
@@ -346,8 +349,6 @@ class InputWizPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -368,8 +369,10 @@ class InputWizPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     endpoint: Optional[str] = "https://api.<region>.app.wiz.io/graphql"
     r"""The Wiz GraphQL API endpoint. Example: https://api.us1.app.wiz.io/graphql"""
@@ -441,7 +444,7 @@ class InputWizSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
     content_config: List[InputWizContentConfigTypedDict]
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -499,7 +502,7 @@ class InputWizSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
@@ -582,7 +585,7 @@ class InputWizSendToRoutesFalseWithConnectionsConstraint(BaseModel):
         return value
 
 
-class InputWizSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
+class InputWizSendToRoutesTrueConstraintTypedDict(TypedDict):
     type: InputWizType
     auth_url: str
     r"""The authentication URL to generate an OAuth token"""
@@ -591,8 +594,6 @@ class InputWizSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
     content_config: List[InputWizContentConfigTypedDict]
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -604,6 +605,8 @@ class InputWizSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     endpoint: NotRequired[str]
     r"""The Wiz GraphQL API endpoint. Example: https://api.us1.app.wiz.io/graphql"""
@@ -631,7 +634,7 @@ class InputWizSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
     r"""Select or create a stored text secret"""
 
 
-class InputWizSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class InputWizSendToRoutesTrueConstraint(BaseModel):
     type: InputWizType
 
     auth_url: Annotated[str, pydantic.Field(alias="authUrl")]
@@ -649,9 +652,6 @@ class InputWizSendToRoutesTrueWithConnectionsConstraint(BaseModel):
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
@@ -668,6 +668,9 @@ class InputWizSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -735,9 +738,9 @@ class InputWizSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 InputWizTypedDict = TypeAliasType(
     "InputWizTypedDict",
     Union[
-        InputWizSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        InputWizSendToRoutesTrueConstraintTypedDict,
         InputWizSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        InputWizPqEnabledFalseWithPqConstraintTypedDict,
+        InputWizPqEnabledFalseConstraintTypedDict,
         InputWizPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -746,9 +749,9 @@ InputWizTypedDict = TypeAliasType(
 InputWiz = TypeAliasType(
     "InputWiz",
     Union[
-        InputWizSendToRoutesTrueWithConnectionsConstraint,
+        InputWizSendToRoutesTrueConstraint,
         InputWizSendToRoutesFalseWithConnectionsConstraint,
-        InputWizPqEnabledFalseWithPqConstraint,
+        InputWizPqEnabledFalseConstraint,
         InputWizPqEnabledTrueWithPqConstraint,
     ],
 )

@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.CreateInputInputEventhubSendToRoutesTrueWithConnectionsConstraint`
+### `models.CreateInputInputEventhubSendToRoutesTrueConstraint`
 
 ```python
-value: models.CreateInputInputEventhubSendToRoutesTrueWithConnectionsConstraint = /* values here */
+value: models.CreateInputInputEventhubSendToRoutesTrueConstraint = /* values here */
 ```
 
 ### `models.CreateInputInputEventhubSendToRoutesFalseWithConnectionsConstraint`
@@ -15,10 +15,10 @@ value: models.CreateInputInputEventhubSendToRoutesTrueWithConnectionsConstraint 
 value: models.CreateInputInputEventhubSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputEventhubPqEnabledFalseWithPqConstraint`
+### `models.CreateInputInputEventhubPqEnabledFalseConstraint`
 
 ```python
-value: models.CreateInputInputEventhubPqEnabledFalseWithPqConstraint = /* values here */
+value: models.CreateInputInputEventhubPqEnabledFalseConstraint = /* values here */
 ```
 
 ### `models.CreateInputInputEventhubPqEnabledTrueWithPqConstraint`

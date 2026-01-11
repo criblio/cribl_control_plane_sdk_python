@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.CreateInputInputWefSendToRoutesTrueWithConnectionsConstraint`
+### `models.CreateInputInputWefSendToRoutesTrueConstraint`
 
 ```python
-value: models.CreateInputInputWefSendToRoutesTrueWithConnectionsConstraint = /* values here */
+value: models.CreateInputInputWefSendToRoutesTrueConstraint = /* values here */
 ```
 
 ### `models.CreateInputInputWefSendToRoutesFalseWithConnectionsConstraint`
@@ -15,10 +15,10 @@ value: models.CreateInputInputWefSendToRoutesTrueWithConnectionsConstraint = /* 
 value: models.CreateInputInputWefSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputWefPqEnabledFalseWithPqConstraint`
+### `models.CreateInputInputWefPqEnabledFalseConstraint`
 
 ```python
-value: models.CreateInputInputWefPqEnabledFalseWithPqConstraint = /* values here */
+value: models.CreateInputInputWefPqEnabledFalseConstraint = /* values here */
 ```
 
 ### `models.CreateInputInputWefPqEnabledTrueWithPqConstraint`

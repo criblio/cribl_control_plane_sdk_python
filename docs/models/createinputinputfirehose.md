@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.CreateInputInputFirehoseSendToRoutesTrueWithConnectionsConstraint`
+### `models.CreateInputInputFirehoseSendToRoutesTrueConstraint`
 
 ```python
-value: models.CreateInputInputFirehoseSendToRoutesTrueWithConnectionsConstraint = /* values here */
+value: models.CreateInputInputFirehoseSendToRoutesTrueConstraint = /* values here */
 ```
 
 ### `models.CreateInputInputFirehoseSendToRoutesFalseWithConnectionsConstraint`
@@ -15,10 +15,10 @@ value: models.CreateInputInputFirehoseSendToRoutesTrueWithConnectionsConstraint 
 value: models.CreateInputInputFirehoseSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputFirehosePqEnabledFalseWithPqConstraint`
+### `models.CreateInputInputFirehosePqEnabledFalseConstraint`
 
 ```python
-value: models.CreateInputInputFirehosePqEnabledFalseWithPqConstraint = /* values here */
+value: models.CreateInputInputFirehosePqEnabledFalseConstraint = /* values here */
 ```
 
 ### `models.CreateInputInputFirehosePqEnabledTrueWithPqConstraint`

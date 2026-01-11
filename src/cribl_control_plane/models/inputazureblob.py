@@ -6,7 +6,10 @@ from .certificatetypeazureblobauthtypeclientcert import (
     CertificateTypeAzureBlobAuthTypeClientCert,
     CertificateTypeAzureBlobAuthTypeClientCertTypedDict,
 )
-from .itemstypeconnections import ItemsTypeConnections, ItemsTypeConnectionsTypedDict
+from .itemstypeconnectionsoptional import (
+    ItemsTypeConnectionsOptional,
+    ItemsTypeConnectionsOptionalTypedDict,
+)
 from .itemstypenotificationmetadata import (
     ItemsTypeNotificationMetadata,
     ItemsTypeNotificationMetadataTypedDict,
@@ -43,7 +46,7 @@ class InputAzureBlobPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     file_filter: NotRequired[str]
     r"""Regex matching file names to download and process. Defaults to: .*"""
@@ -118,7 +121,7 @@ class InputAzureBlobPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     file_filter: Annotated[Optional[str], pydantic.Field(alias="fileFilter")] = "/.*/"
@@ -218,13 +221,12 @@ class InputAzureBlobPqEnabledTrueWithPqConstraint(BaseModel):
         return value
 
 
-class InputAzureBlobPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class InputAzureBlobPqEnabledFalseConstraintTypedDict(TypedDict):
     type: InputAzureBlobType
     queue_name: str
     r"""The storage account queue name blob notifications will be read from. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myQueue-${C.vars.myVar}`"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -236,8 +238,9 @@ class InputAzureBlobPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     file_filter: NotRequired[str]
     r"""Regex matching file names to download and process. Defaults to: .*"""
     visibility_timeout: NotRequired[float]
@@ -281,7 +284,7 @@ class InputAzureBlobPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
 
 
-class InputAzureBlobPqEnabledFalseWithPqConstraint(BaseModel):
+class InputAzureBlobPqEnabledFalseConstraint(BaseModel):
     type: InputAzureBlobType
 
     queue_name: Annotated[str, pydantic.Field(alias="queueName")]
@@ -289,8 +292,6 @@ class InputAzureBlobPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -311,8 +312,10 @@ class InputAzureBlobPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     file_filter: Annotated[Optional[str], pydantic.Field(alias="fileFilter")] = "/.*/"
     r"""Regex matching file names to download and process. Defaults to: .*"""
@@ -417,7 +420,7 @@ class InputAzureBlobSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDic
     r"""The storage account queue name blob notifications will be read from. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myQueue-${C.vars.myVar}`"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -485,7 +488,7 @@ class InputAzureBlobSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
@@ -604,14 +607,12 @@ class InputAzureBlobSendToRoutesFalseWithConnectionsConstraint(BaseModel):
         return value
 
 
-class InputAzureBlobSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
+class InputAzureBlobSendToRoutesTrueConstraintTypedDict(TypedDict):
     type: InputAzureBlobType
     queue_name: str
     r"""The storage account queue name blob notifications will be read from. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myQueue-${C.vars.myVar}`"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -623,6 +624,8 @@ class InputAzureBlobSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     file_filter: NotRequired[str]
     r"""Regex matching file names to download and process. Defaults to: .*"""
@@ -667,7 +670,7 @@ class InputAzureBlobSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict
     certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
 
 
-class InputAzureBlobSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class InputAzureBlobSendToRoutesTrueConstraint(BaseModel):
     type: InputAzureBlobType
 
     queue_name: Annotated[str, pydantic.Field(alias="queueName")]
@@ -677,9 +680,6 @@ class InputAzureBlobSendToRoutesTrueWithConnectionsConstraint(BaseModel):
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -697,6 +697,9 @@ class InputAzureBlobSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -800,9 +803,9 @@ class InputAzureBlobSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 InputAzureBlobTypedDict = TypeAliasType(
     "InputAzureBlobTypedDict",
     Union[
-        InputAzureBlobSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        InputAzureBlobSendToRoutesTrueConstraintTypedDict,
         InputAzureBlobSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        InputAzureBlobPqEnabledFalseWithPqConstraintTypedDict,
+        InputAzureBlobPqEnabledFalseConstraintTypedDict,
         InputAzureBlobPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -811,9 +814,9 @@ InputAzureBlobTypedDict = TypeAliasType(
 InputAzureBlob = TypeAliasType(
     "InputAzureBlob",
     Union[
-        InputAzureBlobSendToRoutesTrueWithConnectionsConstraint,
+        InputAzureBlobSendToRoutesTrueConstraint,
         InputAzureBlobSendToRoutesFalseWithConnectionsConstraint,
-        InputAzureBlobPqEnabledFalseWithPqConstraint,
+        InputAzureBlobPqEnabledFalseConstraint,
         InputAzureBlobPqEnabledTrueWithPqConstraint,
     ],
 )

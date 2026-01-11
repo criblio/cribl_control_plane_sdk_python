@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.InputOffice365MsgTraceSendToRoutesTrueWithConnectionsConstraint`
+### `models.InputOffice365MsgTraceSendToRoutesTrueConstraint`
 
 ```python
-value: models.InputOffice365MsgTraceSendToRoutesTrueWithConnectionsConstraint = /* values here */
+value: models.InputOffice365MsgTraceSendToRoutesTrueConstraint = /* values here */
 ```
 
 ### `models.InputOffice365MsgTraceSendToRoutesFalseWithConnectionsConstraint`
@@ -15,10 +15,10 @@ value: models.InputOffice365MsgTraceSendToRoutesTrueWithConnectionsConstraint = 
 value: models.InputOffice365MsgTraceSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputOffice365MsgTracePqEnabledFalseWithPqConstraint`
+### `models.InputOffice365MsgTracePqEnabledFalseConstraint`
 
 ```python
-value: models.InputOffice365MsgTracePqEnabledFalseWithPqConstraint = /* values here */
+value: models.InputOffice365MsgTracePqEnabledFalseConstraint = /* values here */
 ```
 
 ### `models.InputOffice365MsgTracePqEnabledTrueWithPqConstraint`

@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.CreateInputInputS3InventorySendToRoutesTrueWithConnectionsConstraint`
+### `models.CreateInputInputS3InventorySendToRoutesTrueConstraint`
 
 ```python
-value: models.CreateInputInputS3InventorySendToRoutesTrueWithConnectionsConstraint = /* values here */
+value: models.CreateInputInputS3InventorySendToRoutesTrueConstraint = /* values here */
 ```
 
 ### `models.CreateInputInputS3InventorySendToRoutesFalseWithConnectionsConstraint`
@@ -15,10 +15,10 @@ value: models.CreateInputInputS3InventorySendToRoutesTrueWithConnectionsConstrai
 value: models.CreateInputInputS3InventorySendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputS3InventoryPqEnabledFalseWithPqConstraint`
+### `models.CreateInputInputS3InventoryPqEnabledFalseConstraint`
 
 ```python
-value: models.CreateInputInputS3InventoryPqEnabledFalseWithPqConstraint = /* values here */
+value: models.CreateInputInputS3InventoryPqEnabledFalseConstraint = /* values here */
 ```
 
 ### `models.CreateInputInputS3InventoryPqEnabledTrueWithPqConstraint`

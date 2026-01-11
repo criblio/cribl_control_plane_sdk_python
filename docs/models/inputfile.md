@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.InputFileSendToRoutesTrueWithConnectionsConstraint`
+### `models.InputFileSendToRoutesTrueConstraint`
 
 ```python
-value: models.InputFileSendToRoutesTrueWithConnectionsConstraint = /* values here */
+value: models.InputFileSendToRoutesTrueConstraint = /* values here */
 ```
 
 ### `models.InputFileSendToRoutesFalseWithConnectionsConstraint`
@@ -15,10 +15,10 @@ value: models.InputFileSendToRoutesTrueWithConnectionsConstraint = /* values her
 value: models.InputFileSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputFilePqEnabledFalseWithPqConstraint`
+### `models.InputFilePqEnabledFalseConstraint`
 
 ```python
-value: models.InputFilePqEnabledFalseWithPqConstraint = /* values here */
+value: models.InputFilePqEnabledFalseConstraint = /* values here */
 ```
 
 ### `models.InputFilePqEnabledTrueWithPqConstraint`

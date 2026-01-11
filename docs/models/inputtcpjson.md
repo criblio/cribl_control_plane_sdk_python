@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.InputTcpjsonSendToRoutesTrueWithConnectionsConstraint`
+### `models.InputTcpjsonSendToRoutesTrueConstraint`
 
 ```python
-value: models.InputTcpjsonSendToRoutesTrueWithConnectionsConstraint = /* values here */
+value: models.InputTcpjsonSendToRoutesTrueConstraint = /* values here */
 ```
 
 ### `models.InputTcpjsonSendToRoutesFalseWithConnectionsConstraint`
@@ -15,10 +15,10 @@ value: models.InputTcpjsonSendToRoutesTrueWithConnectionsConstraint = /* values 
 value: models.InputTcpjsonSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputTcpjsonPqEnabledFalseWithPqConstraint`
+### `models.InputTcpjsonPqEnabledFalseConstraint`
 
 ```python
-value: models.InputTcpjsonPqEnabledFalseWithPqConstraint = /* values here */
+value: models.InputTcpjsonPqEnabledFalseConstraint = /* values here */
 ```
 
 ### `models.InputTcpjsonPqEnabledTrueWithPqConstraint`

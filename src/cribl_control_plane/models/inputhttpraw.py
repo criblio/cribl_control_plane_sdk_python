@@ -5,7 +5,10 @@ from .itemstypeauthtokensext import (
     ItemsTypeAuthTokensExt,
     ItemsTypeAuthTokensExtTypedDict,
 )
-from .itemstypeconnections import ItemsTypeConnections, ItemsTypeConnectionsTypedDict
+from .itemstypeconnectionsoptional import (
+    ItemsTypeConnectionsOptional,
+    ItemsTypeConnectionsOptionalTypedDict,
+)
 from .itemstypenotificationmetadata import (
     ItemsTypeNotificationMetadata,
     ItemsTypeNotificationMetadataTypedDict,
@@ -44,7 +47,7 @@ class InputHTTPRawPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -118,7 +121,7 @@ class InputHTTPRawPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     host: Optional[str] = "0.0.0.0"
@@ -217,13 +220,12 @@ class InputHTTPRawPqEnabledTrueWithPqConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class InputHTTPRawPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class InputHTTPRawPqEnabledFalseConstraintTypedDict(TypedDict):
     type: InputHTTPRawType
     port: float
     r"""Port to listen on"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -235,8 +237,9 @@ class InputHTTPRawPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     auth_tokens: NotRequired[List[str]]
@@ -279,7 +282,7 @@ class InputHTTPRawPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     description: NotRequired[str]
 
 
-class InputHTTPRawPqEnabledFalseWithPqConstraint(BaseModel):
+class InputHTTPRawPqEnabledFalseConstraint(BaseModel):
     type: InputHTTPRawType
 
     port: float
@@ -287,8 +290,6 @@ class InputHTTPRawPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -309,8 +310,10 @@ class InputHTTPRawPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -414,7 +417,7 @@ class InputHTTPRawSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict)
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -481,7 +484,7 @@ class InputHTTPRawSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
@@ -599,14 +602,12 @@ class InputHTTPRawSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class InputHTTPRawSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
+class InputHTTPRawSendToRoutesTrueConstraintTypedDict(TypedDict):
     type: InputHTTPRawType
     port: float
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -618,6 +619,8 @@ class InputHTTPRawSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -661,7 +664,7 @@ class InputHTTPRawSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
     description: NotRequired[str]
 
 
-class InputHTTPRawSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class InputHTTPRawSendToRoutesTrueConstraint(BaseModel):
     type: InputHTTPRawType
 
     port: float
@@ -671,9 +674,6 @@ class InputHTTPRawSendToRoutesTrueWithConnectionsConstraint(BaseModel):
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -691,6 +691,9 @@ class InputHTTPRawSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -793,9 +796,9 @@ class InputHTTPRawSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 InputHTTPRawTypedDict = TypeAliasType(
     "InputHTTPRawTypedDict",
     Union[
-        InputHTTPRawSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        InputHTTPRawSendToRoutesTrueConstraintTypedDict,
         InputHTTPRawSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        InputHTTPRawPqEnabledFalseWithPqConstraintTypedDict,
+        InputHTTPRawPqEnabledFalseConstraintTypedDict,
         InputHTTPRawPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -804,9 +807,9 @@ InputHTTPRawTypedDict = TypeAliasType(
 InputHTTPRaw = TypeAliasType(
     "InputHTTPRaw",
     Union[
-        InputHTTPRawSendToRoutesTrueWithConnectionsConstraint,
+        InputHTTPRawSendToRoutesTrueConstraint,
         InputHTTPRawSendToRoutesFalseWithConnectionsConstraint,
-        InputHTTPRawPqEnabledFalseWithPqConstraint,
+        InputHTTPRawPqEnabledFalseConstraint,
         InputHTTPRawPqEnabledTrueWithPqConstraint,
     ],
 )

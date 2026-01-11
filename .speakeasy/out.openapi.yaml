@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.16.0-alpha.1768142851623-d9f68056
+  version: 4.16.0-alpha.1768147684763-e6e7bb3c
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -10705,7 +10705,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         breakerRulesets:
@@ -10792,7 +10792,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         brokers:
@@ -11006,7 +11006,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         brokers:
@@ -11271,7 +11271,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -11442,7 +11442,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -11624,7 +11624,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         searchHead:
@@ -11902,7 +11902,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -12143,7 +12143,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         queueName:
@@ -12312,7 +12312,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -12585,7 +12585,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         brokers:
@@ -12797,7 +12797,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -13080,7 +13080,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -13285,7 +13285,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -13489,7 +13489,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         dimensionList:
@@ -13752,7 +13752,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         dimensionList:
@@ -14041,7 +14041,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         planType:
@@ -14224,7 +14224,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         planType:
@@ -14381,7 +14381,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         url:
@@ -14599,7 +14599,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         brokers:
@@ -14816,7 +14816,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         command:
@@ -14922,7 +14922,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -15065,7 +15065,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         topicName:
@@ -15186,7 +15186,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         filter:
@@ -15253,7 +15253,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -15368,7 +15368,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -15511,7 +15511,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -15717,7 +15717,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -15838,7 +15838,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         interval:
@@ -16185,7 +16185,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         interval:
@@ -16397,7 +16397,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         interval:
@@ -16506,7 +16506,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         interval:
@@ -16618,7 +16618,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         rules:
@@ -16686,7 +16686,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         interval:
@@ -16966,7 +16966,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         queueName:
@@ -17178,7 +17178,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -17335,7 +17335,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         samples:
@@ -17417,7 +17417,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -17597,7 +17597,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         streamName:
@@ -17790,7 +17790,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         prefix:
@@ -17864,7 +17864,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -17965,7 +17965,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         queueName:
@@ -18193,7 +18193,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         queueName:
@@ -18431,7 +18431,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -18587,7 +18587,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -18818,7 +18818,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -18906,7 +18906,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         queueName:
@@ -19075,7 +19075,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -19250,7 +19250,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         mode:
@@ -19417,7 +19417,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -19555,7 +19555,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         ipWhitelistRegex:
@@ -19764,7 +19764,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -20092,7 +20092,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         logNames:
@@ -20224,7 +20224,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -20323,7 +20323,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         path:
@@ -20435,7 +20435,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         endpoint:
@@ -21025,7 +21025,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -21207,7 +21207,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -21323,7 +21323,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         queueName:
@@ -21550,7 +21550,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -21764,7 +21764,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -40634,10 +40634,8 @@ components:
           type: boolean
           title: Disabled
           description: Whether this group is disabled
-    ItemsTypeConnections:
+    ItemsTypeConnectionsOptional:
       type: object
-      required:
-        - output
       properties:
         pipeline:
           title: Pipeline or Pack
@@ -40669,8 +40667,17 @@ components:
       title: Compression
       description: Codec to use to compress the persisted data
       x-speakeasy-unknown-values: allow
-    ItemsTypeConnectionsOptional:
+    SendToRoutesTrueConstraint:
+      properties:
+        sendToRoutes:
+          enum:
+            - true
+      required:
+        - sendToRoutes
+    ItemsTypeConnections:
       type: object
+      required:
+        - output
       properties:
         pipeline:
           title: Pipeline or Pack
@@ -40678,6 +40685,13 @@ components:
         output:
           title: Destination
           type: string
+    PqEnabledFalseConstraint:
+      properties:
+        pqEnabled:
+          enum:
+            - false
+      required:
+        - pqEnabled
     AuthTypeKafkaSchemaRegistry:
       type: object
       description: Credentials to use when authenticating with the schema registry using basic HTTP authentication
@@ -42154,19 +42168,6 @@ components:
         pqControls:
           type: object
           title: ""
-    SendToRoutesTrueWithConnectionsConstraint:
-      properties:
-        sendToRoutes:
-          enum:
-            - true
-        connections:
-          type: array
-          title: Use QuickConnect
-          description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
-          items:
-            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
-      required:
-        - sendToRoutes
     SendToRoutesFalseWithConnectionsConstraint:
       properties:
         sendToRoutes:
@@ -42879,17 +42880,8 @@ components:
           pattern: ^((\d*\.?\d+)((KB|MB|GB|TB|PB|EB|ZB|YB|kb|mb|gb|tb|pb|eb|zb|yb){1}))$
     SendToRoutesUnionConstraint:
       oneOf:
-        - $ref: "#/components/schemas/SendToRoutesTrueWithConnectionsConstraint"
+        - $ref: "#/components/schemas/SendToRoutesTrueConstraint"
         - $ref: "#/components/schemas/SendToRoutesFalseWithConnectionsConstraint"
-    PqEnabledFalseWithPqConstraint:
-      properties:
-        pqEnabled:
-          enum:
-            - false
-        pq:
-          $ref: "#/components/schemas/PqType"
-      required:
-        - pqEnabled
     PqEnabledTrueWithPqConstraint:
       properties:
         pqEnabled:
@@ -42989,7 +42981,7 @@ components:
           description: Used when __valueSchemaIdOut is not present, to transform _raw, leave blank if value transformation is not required by default.
     PqEnabledUnionConstraint:
       oneOf:
-        - $ref: "#/components/schemas/PqEnabledFalseWithPqConstraint"
+        - $ref: "#/components/schemas/PqEnabledFalseConstraint"
         - $ref: "#/components/schemas/PqEnabledTrueWithPqConstraint"
   examples:
     CreateGroupExamplesCloudWg:

@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 from .authenticationmethodoptions1 import AuthenticationMethodOptions1
-from .itemstypeconnections import ItemsTypeConnections, ItemsTypeConnectionsTypedDict
+from .itemstypeconnectionsoptional import (
+    ItemsTypeConnectionsOptional,
+    ItemsTypeConnectionsOptionalTypedDict,
+)
 from .itemstypenotificationmetadata import (
     ItemsTypeNotificationMetadata,
     ItemsTypeNotificationMetadataTypedDict,
@@ -81,7 +84,7 @@ class InputOffice365ServicePqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     plan_type: NotRequired[SubscriptionPlanOptions]
     r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
@@ -144,7 +147,7 @@ class InputOffice365ServicePqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     plan_type: Annotated[
@@ -221,7 +224,7 @@ class InputOffice365ServicePqEnabledTrueWithPqConstraint(BaseModel):
         return value
 
 
-class InputOffice365ServicePqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class InputOffice365ServicePqEnabledFalseConstraintTypedDict(TypedDict):
     type: InputOffice365ServiceType
     tenant_id: str
     r"""Office 365 Azure Tenant ID"""
@@ -229,7 +232,6 @@ class InputOffice365ServicePqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Office 365 Azure Application ID"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -241,8 +243,9 @@ class InputOffice365ServicePqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     plan_type: NotRequired[SubscriptionPlanOptions]
     r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
     timeout: NotRequired[float]
@@ -271,7 +274,7 @@ class InputOffice365ServicePqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Select or create a stored text secret"""
 
 
-class InputOffice365ServicePqEnabledFalseWithPqConstraint(BaseModel):
+class InputOffice365ServicePqEnabledFalseConstraint(BaseModel):
     type: InputOffice365ServiceType
 
     tenant_id: Annotated[str, pydantic.Field(alias="tenantId")]
@@ -282,8 +285,6 @@ class InputOffice365ServicePqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -304,8 +305,10 @@ class InputOffice365ServicePqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     plan_type: Annotated[
         Optional[SubscriptionPlanOptions], pydantic.Field(alias="planType")
@@ -391,7 +394,7 @@ class InputOffice365ServiceSendToRoutesFalseWithConnectionsConstraintTypedDict(
     r"""Office 365 Azure Application ID"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -447,7 +450,7 @@ class InputOffice365ServiceSendToRoutesFalseWithConnectionsConstraint(BaseModel)
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
@@ -543,9 +546,7 @@ class InputOffice365ServiceSendToRoutesFalseWithConnectionsConstraint(BaseModel)
         return value
 
 
-class InputOffice365ServiceSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class InputOffice365ServiceSendToRoutesTrueConstraintTypedDict(TypedDict):
     type: InputOffice365ServiceType
     tenant_id: str
     r"""Office 365 Azure Tenant ID"""
@@ -553,8 +554,6 @@ class InputOffice365ServiceSendToRoutesTrueWithConnectionsConstraintTypedDict(
     r"""Office 365 Azure Application ID"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -566,6 +565,8 @@ class InputOffice365ServiceSendToRoutesTrueWithConnectionsConstraintTypedDict(
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     plan_type: NotRequired[SubscriptionPlanOptions]
     r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
@@ -595,7 +596,7 @@ class InputOffice365ServiceSendToRoutesTrueWithConnectionsConstraintTypedDict(
     r"""Select or create a stored text secret"""
 
 
-class InputOffice365ServiceSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class InputOffice365ServiceSendToRoutesTrueConstraint(BaseModel):
     type: InputOffice365ServiceType
 
     tenant_id: Annotated[str, pydantic.Field(alias="tenantId")]
@@ -608,9 +609,6 @@ class InputOffice365ServiceSendToRoutesTrueWithConnectionsConstraint(BaseModel):
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -628,6 +626,9 @@ class InputOffice365ServiceSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -708,9 +709,9 @@ class InputOffice365ServiceSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 InputOffice365ServiceTypedDict = TypeAliasType(
     "InputOffice365ServiceTypedDict",
     Union[
-        InputOffice365ServiceSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        InputOffice365ServiceSendToRoutesTrueConstraintTypedDict,
         InputOffice365ServiceSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        InputOffice365ServicePqEnabledFalseWithPqConstraintTypedDict,
+        InputOffice365ServicePqEnabledFalseConstraintTypedDict,
         InputOffice365ServicePqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -719,9 +720,9 @@ InputOffice365ServiceTypedDict = TypeAliasType(
 InputOffice365Service = TypeAliasType(
     "InputOffice365Service",
     Union[
-        InputOffice365ServiceSendToRoutesTrueWithConnectionsConstraint,
+        InputOffice365ServiceSendToRoutesTrueConstraint,
         InputOffice365ServiceSendToRoutesFalseWithConnectionsConstraint,
-        InputOffice365ServicePqEnabledFalseWithPqConstraint,
+        InputOffice365ServicePqEnabledFalseConstraint,
         InputOffice365ServicePqEnabledTrueWithPqConstraint,
     ],
 )

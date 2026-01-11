@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.CreateInputInputKafkaSendToRoutesTrueWithConnectionsConstraint`
+### `models.CreateInputInputKafkaSendToRoutesTrueConstraint`
 
 ```python
-value: models.CreateInputInputKafkaSendToRoutesTrueWithConnectionsConstraint = /* values here */
+value: models.CreateInputInputKafkaSendToRoutesTrueConstraint = /* values here */
 ```
 
 ### `models.CreateInputInputKafkaSendToRoutesFalseWithConnectionsConstraint`
@@ -15,10 +15,10 @@ value: models.CreateInputInputKafkaSendToRoutesTrueWithConnectionsConstraint = /
 value: models.CreateInputInputKafkaSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputKafkaPqEnabledFalseWithPqConstraint`
+### `models.CreateInputInputKafkaPqEnabledFalseConstraint`
 
 ```python
-value: models.CreateInputInputKafkaPqEnabledFalseWithPqConstraint = /* values here */
+value: models.CreateInputInputKafkaPqEnabledFalseConstraint = /* values here */
 ```
 
 ### `models.CreateInputInputKafkaPqEnabledTrueWithPqConstraint`

@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 from .authenticationtypeoptionslokiauth import AuthenticationTypeOptionsLokiAuth
-from .itemstypeconnections import ItemsTypeConnections, ItemsTypeConnectionsTypedDict
+from .itemstypeconnectionsoptional import (
+    ItemsTypeConnectionsOptional,
+    ItemsTypeConnectionsOptionalTypedDict,
+)
 from .itemstypenotificationmetadata import (
     ItemsTypeNotificationMetadata,
     ItemsTypeNotificationMetadataTypedDict,
@@ -45,7 +48,7 @@ class InputLokiPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -135,7 +138,7 @@ class InputLokiPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     host: Optional[str] = "0.0.0.0"
@@ -274,13 +277,12 @@ class InputLokiPqEnabledTrueWithPqConstraint(BaseModel):
         return value
 
 
-class InputLokiPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class InputLokiPqEnabledFalseConstraintTypedDict(TypedDict):
     type: InputLokiType
     port: float
     r"""Port to listen on"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -292,8 +294,9 @@ class InputLokiPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
@@ -352,7 +355,7 @@ class InputLokiPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
 
-class InputLokiPqEnabledFalseWithPqConstraint(BaseModel):
+class InputLokiPqEnabledFalseConstraint(BaseModel):
     type: InputLokiType
 
     port: float
@@ -360,8 +363,6 @@ class InputLokiPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -382,8 +383,10 @@ class InputLokiPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -527,7 +530,7 @@ class InputLokiSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -610,7 +613,7 @@ class InputLokiSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
@@ -768,14 +771,12 @@ class InputLokiSendToRoutesFalseWithConnectionsConstraint(BaseModel):
         return value
 
 
-class InputLokiSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
+class InputLokiSendToRoutesTrueConstraintTypedDict(TypedDict):
     type: InputLokiType
     port: float
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -787,6 +788,8 @@ class InputLokiSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -846,7 +849,7 @@ class InputLokiSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
 
-class InputLokiSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class InputLokiSendToRoutesTrueConstraint(BaseModel):
     type: InputLokiType
 
     port: float
@@ -856,9 +859,6 @@ class InputLokiSendToRoutesTrueWithConnectionsConstraint(BaseModel):
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -876,6 +876,9 @@ class InputLokiSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -1018,9 +1021,9 @@ class InputLokiSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 InputLokiTypedDict = TypeAliasType(
     "InputLokiTypedDict",
     Union[
-        InputLokiSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        InputLokiSendToRoutesTrueConstraintTypedDict,
         InputLokiSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        InputLokiPqEnabledFalseWithPqConstraintTypedDict,
+        InputLokiPqEnabledFalseConstraintTypedDict,
         InputLokiPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -1029,9 +1032,9 @@ InputLokiTypedDict = TypeAliasType(
 InputLoki = TypeAliasType(
     "InputLoki",
     Union[
-        InputLokiSendToRoutesTrueWithConnectionsConstraint,
+        InputLokiSendToRoutesTrueConstraint,
         InputLokiSendToRoutesFalseWithConnectionsConstraint,
-        InputLokiPqEnabledFalseWithPqConstraint,
+        InputLokiPqEnabledFalseConstraint,
         InputLokiPqEnabledTrueWithPqConstraint,
     ],
 )

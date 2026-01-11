@@ -4,7 +4,10 @@ from __future__ import annotations
 from .authenticationmethodoptionsauthtokensitems import (
     AuthenticationMethodOptionsAuthTokensItems,
 )
-from .itemstypeconnections import ItemsTypeConnections, ItemsTypeConnectionsTypedDict
+from .itemstypeconnectionsoptional import (
+    ItemsTypeConnectionsOptional,
+    ItemsTypeConnectionsOptionalTypedDict,
+)
 from .itemstypenotificationmetadata import (
     ItemsTypeNotificationMetadata,
     ItemsTypeNotificationMetadataTypedDict,
@@ -97,7 +100,7 @@ class InputSplunkHecPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -182,7 +185,7 @@ class InputSplunkHecPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     host: Optional[str] = "0.0.0.0"
@@ -310,13 +313,12 @@ class InputSplunkHecPqEnabledTrueWithPqConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class InputSplunkHecPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class InputSplunkHecPqEnabledFalseConstraintTypedDict(TypedDict):
     type: InputSplunkHecType
     port: float
     r"""Port to listen on"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -328,8 +330,9 @@ class InputSplunkHecPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     auth_tokens: NotRequired[List[InputSplunkHecAuthTokenTypedDict]]
@@ -383,7 +386,7 @@ class InputSplunkHecPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     description: NotRequired[str]
 
 
-class InputSplunkHecPqEnabledFalseWithPqConstraint(BaseModel):
+class InputSplunkHecPqEnabledFalseConstraint(BaseModel):
     type: InputSplunkHecType
 
     port: float
@@ -391,8 +394,6 @@ class InputSplunkHecPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -413,8 +414,10 @@ class InputSplunkHecPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -547,7 +550,7 @@ class InputSplunkHecSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDic
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -625,7 +628,7 @@ class InputSplunkHecSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
@@ -772,14 +775,12 @@ class InputSplunkHecSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class InputSplunkHecSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
+class InputSplunkHecSendToRoutesTrueConstraintTypedDict(TypedDict):
     type: InputSplunkHecType
     port: float
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -791,6 +792,8 @@ class InputSplunkHecSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -845,7 +848,7 @@ class InputSplunkHecSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict
     description: NotRequired[str]
 
 
-class InputSplunkHecSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class InputSplunkHecSendToRoutesTrueConstraint(BaseModel):
     type: InputSplunkHecType
 
     port: float
@@ -855,9 +858,6 @@ class InputSplunkHecSendToRoutesTrueWithConnectionsConstraint(BaseModel):
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -875,6 +875,9 @@ class InputSplunkHecSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -1006,9 +1009,9 @@ class InputSplunkHecSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 InputSplunkHecTypedDict = TypeAliasType(
     "InputSplunkHecTypedDict",
     Union[
-        InputSplunkHecSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        InputSplunkHecSendToRoutesTrueConstraintTypedDict,
         InputSplunkHecSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        InputSplunkHecPqEnabledFalseWithPqConstraintTypedDict,
+        InputSplunkHecPqEnabledFalseConstraintTypedDict,
         InputSplunkHecPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -1017,9 +1020,9 @@ InputSplunkHecTypedDict = TypeAliasType(
 InputSplunkHec = TypeAliasType(
     "InputSplunkHec",
     Union[
-        InputSplunkHecSendToRoutesTrueWithConnectionsConstraint,
+        InputSplunkHecSendToRoutesTrueConstraint,
         InputSplunkHecSendToRoutesFalseWithConnectionsConstraint,
-        InputSplunkHecPqEnabledFalseWithPqConstraint,
+        InputSplunkHecPqEnabledFalseConstraint,
         InputSplunkHecPqEnabledTrueWithPqConstraint,
     ],
 )

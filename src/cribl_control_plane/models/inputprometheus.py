@@ -5,7 +5,10 @@ from .authenticationmethodoptionss3collectorconf import (
     AuthenticationMethodOptionsS3CollectorConf,
 )
 from .authenticationmethodoptionssasl import AuthenticationMethodOptionsSasl
-from .itemstypeconnections import ItemsTypeConnections, ItemsTypeConnectionsTypedDict
+from .itemstypeconnectionsoptional import (
+    ItemsTypeConnectionsOptional,
+    ItemsTypeConnectionsOptionalTypedDict,
+)
 from .itemstypenotificationmetadata import (
     ItemsTypeNotificationMetadata,
     ItemsTypeNotificationMetadataTypedDict,
@@ -70,7 +73,7 @@ class InputPrometheusPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     dimension_list: NotRequired[List[str]]
     r"""Other dimensions to include in events"""
@@ -172,7 +175,7 @@ class InputPrometheusPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     dimension_list: Annotated[
@@ -392,11 +395,10 @@ class InputPrometheusPqEnabledTrueWithPqConstraint(BaseModel):
         return value
 
 
-class InputPrometheusPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class InputPrometheusPqEnabledFalseConstraintTypedDict(TypedDict):
     type: InputPrometheusType
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -408,8 +410,9 @@ class InputPrometheusPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     dimension_list: NotRequired[List[str]]
     r"""Other dimensions to include in events"""
     discovery_type: NotRequired[InputPrometheusDiscoveryType]
@@ -483,13 +486,11 @@ class InputPrometheusPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Select or create a secret that references your credentials"""
 
 
-class InputPrometheusPqEnabledFalseWithPqConstraint(BaseModel):
+class InputPrometheusPqEnabledFalseConstraint(BaseModel):
     type: InputPrometheusType
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -510,8 +511,10 @@ class InputPrometheusPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     dimension_list: Annotated[
         Optional[List[str]], pydantic.Field(alias="dimensionList")
@@ -734,7 +737,7 @@ class InputPrometheusSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDi
     type: InputPrometheusType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -829,7 +832,7 @@ class InputPrometheusSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
@@ -1068,12 +1071,10 @@ class InputPrometheusSendToRoutesFalseWithConnectionsConstraint(BaseModel):
         return value
 
 
-class InputPrometheusSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
+class InputPrometheusSendToRoutesTrueConstraintTypedDict(TypedDict):
     type: InputPrometheusType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -1085,6 +1086,8 @@ class InputPrometheusSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDic
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     dimension_list: NotRequired[List[str]]
     r"""Other dimensions to include in events"""
@@ -1159,16 +1162,13 @@ class InputPrometheusSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDic
     r"""Select or create a secret that references your credentials"""
 
 
-class InputPrometheusSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class InputPrometheusSendToRoutesTrueConstraint(BaseModel):
     type: InputPrometheusType
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -1186,6 +1186,9 @@ class InputPrometheusSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -1409,9 +1412,9 @@ class InputPrometheusSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 InputPrometheusTypedDict = TypeAliasType(
     "InputPrometheusTypedDict",
     Union[
-        InputPrometheusSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        InputPrometheusSendToRoutesTrueConstraintTypedDict,
         InputPrometheusSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        InputPrometheusPqEnabledFalseWithPqConstraintTypedDict,
+        InputPrometheusPqEnabledFalseConstraintTypedDict,
         InputPrometheusPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -1420,9 +1423,9 @@ InputPrometheusTypedDict = TypeAliasType(
 InputPrometheus = TypeAliasType(
     "InputPrometheus",
     Union[
-        InputPrometheusSendToRoutesTrueWithConnectionsConstraint,
+        InputPrometheusSendToRoutesTrueConstraint,
         InputPrometheusSendToRoutesFalseWithConnectionsConstraint,
-        InputPrometheusPqEnabledFalseWithPqConstraint,
+        InputPrometheusPqEnabledFalseConstraint,
         InputPrometheusPqEnabledTrueWithPqConstraint,
     ],
 )

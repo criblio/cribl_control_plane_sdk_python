@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 from .diskspoolingtype import DiskSpoolingType, DiskSpoolingTypeTypedDict
-from .itemstypeconnections import ItemsTypeConnections, ItemsTypeConnectionsTypedDict
+from .itemstypeconnectionsoptional import (
+    ItemsTypeConnectionsOptional,
+    ItemsTypeConnectionsOptionalTypedDict,
+)
 from .itemstypenotificationmetadata import (
     ItemsTypeNotificationMetadata,
     ItemsTypeNotificationMetadataTypedDict,
@@ -50,7 +53,7 @@ class InputKubeLogsPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     interval: NotRequired[float]
     r"""Time, in seconds, between checks for new containers. Default is 15 secs."""
@@ -97,7 +100,7 @@ class InputKubeLogsPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     interval: Optional[float] = 15
@@ -132,11 +135,10 @@ class InputKubeLogsPqEnabledTrueWithPqConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class InputKubeLogsPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class InputKubeLogsPqEnabledFalseConstraintTypedDict(TypedDict):
     type: InputKubeLogsType
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -148,8 +150,9 @@ class InputKubeLogsPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     interval: NotRequired[float]
     r"""Time, in seconds, between checks for new containers. Default is 15 secs."""
     rules: NotRequired[List[InputKubeLogsRuleTypedDict]]
@@ -168,13 +171,11 @@ class InputKubeLogsPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     description: NotRequired[str]
 
 
-class InputKubeLogsPqEnabledFalseWithPqConstraint(BaseModel):
+class InputKubeLogsPqEnabledFalseConstraint(BaseModel):
     type: InputKubeLogsType
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -195,8 +196,10 @@ class InputKubeLogsPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     interval: Optional[float] = 15
     r"""Time, in seconds, between checks for new containers. Default is 15 secs."""
@@ -234,7 +237,7 @@ class InputKubeLogsSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict
     type: InputKubeLogsType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -274,7 +277,7 @@ class InputKubeLogsSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
@@ -328,12 +331,10 @@ class InputKubeLogsSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class InputKubeLogsSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
+class InputKubeLogsSendToRoutesTrueConstraintTypedDict(TypedDict):
     type: InputKubeLogsType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -345,6 +346,8 @@ class InputKubeLogsSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict)
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     interval: NotRequired[float]
     r"""Time, in seconds, between checks for new containers. Default is 15 secs."""
@@ -364,16 +367,13 @@ class InputKubeLogsSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict)
     description: NotRequired[str]
 
 
-class InputKubeLogsSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class InputKubeLogsSendToRoutesTrueConstraint(BaseModel):
     type: InputKubeLogsType
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -391,6 +391,9 @@ class InputKubeLogsSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -429,9 +432,9 @@ class InputKubeLogsSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 InputKubeLogsTypedDict = TypeAliasType(
     "InputKubeLogsTypedDict",
     Union[
-        InputKubeLogsSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        InputKubeLogsSendToRoutesTrueConstraintTypedDict,
         InputKubeLogsSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        InputKubeLogsPqEnabledFalseWithPqConstraintTypedDict,
+        InputKubeLogsPqEnabledFalseConstraintTypedDict,
         InputKubeLogsPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -440,9 +443,9 @@ InputKubeLogsTypedDict = TypeAliasType(
 InputKubeLogs = TypeAliasType(
     "InputKubeLogs",
     Union[
-        InputKubeLogsSendToRoutesTrueWithConnectionsConstraint,
+        InputKubeLogsSendToRoutesTrueConstraint,
         InputKubeLogsSendToRoutesFalseWithConnectionsConstraint,
-        InputKubeLogsPqEnabledFalseWithPqConstraint,
+        InputKubeLogsPqEnabledFalseConstraint,
         InputKubeLogsPqEnabledTrueWithPqConstraint,
     ],
 )

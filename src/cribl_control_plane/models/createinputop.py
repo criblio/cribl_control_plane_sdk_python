@@ -33,7 +33,10 @@ from .itemstypeauthtokensext import (
     ItemsTypeAuthTokensExt,
     ItemsTypeAuthTokensExtTypedDict,
 )
-from .itemstypeconnections import ItemsTypeConnections, ItemsTypeConnectionsTypedDict
+from .itemstypeconnectionsoptional import (
+    ItemsTypeConnectionsOptional,
+    ItemsTypeConnectionsOptionalTypedDict,
+)
 from .itemstypeextrahttpheaders import (
     ItemsTypeExtraHTTPHeaders,
     ItemsTypeExtraHTTPHeadersTypedDict,
@@ -187,7 +190,7 @@ class CreateInputInputCloudflareHecPqEnabledTrueWithPqConstraintTypedDict(TypedD
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -265,7 +268,7 @@ class CreateInputInputCloudflareHecPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     host: Optional[str] = "0.0.0.0"
@@ -369,7 +372,7 @@ class CreateInputInputCloudflareHecPqEnabledTrueWithPqConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class CreateInputInputCloudflareHecPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputCloudflareHecPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputCloudflareHecType
@@ -379,7 +382,6 @@ class CreateInputInputCloudflareHecPqEnabledFalseWithPqConstraintTypedDict(Typed
     r"""Absolute path on which to listen for the Cloudflare HTTP Event Collector API requests. This input supports the /event endpoint."""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -389,8 +391,9 @@ class CreateInputInputCloudflareHecPqEnabledFalseWithPqConstraintTypedDict(Typed
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     auth_tokens: NotRequired[List[CreateInputInputCloudflareHecAuthTokenTypedDict]]
@@ -434,7 +437,7 @@ class CreateInputInputCloudflareHecPqEnabledFalseWithPqConstraintTypedDict(Typed
     description: NotRequired[str]
 
 
-class CreateInputInputCloudflareHecPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputCloudflareHecPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -448,8 +451,6 @@ class CreateInputInputCloudflareHecPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -467,8 +468,10 @@ class CreateInputInputCloudflareHecPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -583,7 +586,7 @@ class CreateInputInputCloudflareHecSendToRoutesFalseWithConnectionsConstraintTyp
     r"""Absolute path on which to listen for the Cloudflare HTTP Event Collector API requests. This input supports the /event endpoint."""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -657,7 +660,7 @@ class CreateInputInputCloudflareHecSendToRoutesFalseWithConnectionsConstraint(
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -777,9 +780,7 @@ class CreateInputInputCloudflareHecSendToRoutesFalseWithConnectionsConstraint(
     description: Optional[str] = None
 
 
-class CreateInputInputCloudflareHecSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputCloudflareHecSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputCloudflareHecType
@@ -789,8 +790,6 @@ class CreateInputInputCloudflareHecSendToRoutesTrueWithConnectionsConstraintType
     r"""Absolute path on which to listen for the Cloudflare HTTP Event Collector API requests. This input supports the /event endpoint."""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -800,6 +799,8 @@ class CreateInputInputCloudflareHecSendToRoutesTrueWithConnectionsConstraintType
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -844,7 +845,7 @@ class CreateInputInputCloudflareHecSendToRoutesTrueWithConnectionsConstraintType
     description: NotRequired[str]
 
 
-class CreateInputInputCloudflareHecSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputCloudflareHecSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -861,9 +862,6 @@ class CreateInputInputCloudflareHecSendToRoutesTrueWithConnectionsConstraint(Bas
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
     disabled: Optional[bool] = False
 
     pipeline: Optional[str] = None
@@ -877,6 +875,9 @@ class CreateInputInputCloudflareHecSendToRoutesTrueWithConnectionsConstraint(Bas
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -984,9 +985,9 @@ class CreateInputInputCloudflareHecSendToRoutesTrueWithConnectionsConstraint(Bas
 CreateInputInputCloudflareHecTypedDict = TypeAliasType(
     "CreateInputInputCloudflareHecTypedDict",
     Union[
-        CreateInputInputCloudflareHecSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputCloudflareHecSendToRoutesTrueConstraintTypedDict,
         CreateInputInputCloudflareHecSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputCloudflareHecPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputCloudflareHecPqEnabledFalseConstraintTypedDict,
         CreateInputInputCloudflareHecPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -995,9 +996,9 @@ CreateInputInputCloudflareHecTypedDict = TypeAliasType(
 CreateInputInputCloudflareHec = TypeAliasType(
     "CreateInputInputCloudflareHec",
     Union[
-        CreateInputInputCloudflareHecSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputCloudflareHecSendToRoutesTrueConstraint,
         CreateInputInputCloudflareHecSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputCloudflareHecPqEnabledFalseWithPqConstraint,
+        CreateInputInputCloudflareHecPqEnabledFalseConstraint,
         CreateInputInputCloudflareHecPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -1075,7 +1076,7 @@ class CreateInputInputZscalerHecPqEnabledTrueWithPqConstraintTypedDict(TypedDict
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -1150,7 +1151,7 @@ class CreateInputInputZscalerHecPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     host: Optional[str] = "0.0.0.0"
@@ -1252,7 +1253,7 @@ class CreateInputInputZscalerHecPqEnabledTrueWithPqConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class CreateInputInputZscalerHecPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputZscalerHecPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputZscalerHecType
@@ -1260,7 +1261,6 @@ class CreateInputInputZscalerHecPqEnabledFalseWithPqConstraintTypedDict(TypedDic
     r"""Port to listen on"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -1270,8 +1270,9 @@ class CreateInputInputZscalerHecPqEnabledFalseWithPqConstraintTypedDict(TypedDic
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     auth_tokens: NotRequired[List[CreateInputInputZscalerHecAuthTokenTypedDict]]
@@ -1315,7 +1316,7 @@ class CreateInputInputZscalerHecPqEnabledFalseWithPqConstraintTypedDict(TypedDic
     description: NotRequired[str]
 
 
-class CreateInputInputZscalerHecPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputZscalerHecPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -1326,8 +1327,6 @@ class CreateInputInputZscalerHecPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -1345,8 +1344,10 @@ class CreateInputInputZscalerHecPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -1457,7 +1458,7 @@ class CreateInputInputZscalerHecSendToRoutesFalseWithConnectionsConstraintTypedD
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -1526,7 +1527,7 @@ class CreateInputInputZscalerHecSendToRoutesFalseWithConnectionsConstraint(BaseM
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -1644,9 +1645,7 @@ class CreateInputInputZscalerHecSendToRoutesFalseWithConnectionsConstraint(BaseM
     description: Optional[str] = None
 
 
-class CreateInputInputZscalerHecSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputZscalerHecSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputZscalerHecType
@@ -1654,8 +1653,6 @@ class CreateInputInputZscalerHecSendToRoutesTrueWithConnectionsConstraintTypedDi
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -1665,6 +1662,8 @@ class CreateInputInputZscalerHecSendToRoutesTrueWithConnectionsConstraintTypedDi
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -1709,7 +1708,7 @@ class CreateInputInputZscalerHecSendToRoutesTrueWithConnectionsConstraintTypedDi
     description: NotRequired[str]
 
 
-class CreateInputInputZscalerHecSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputZscalerHecSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -1722,9 +1721,6 @@ class CreateInputInputZscalerHecSendToRoutesTrueWithConnectionsConstraint(BaseMo
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -1739,6 +1735,9 @@ class CreateInputInputZscalerHecSendToRoutesTrueWithConnectionsConstraint(BaseMo
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -1844,9 +1843,9 @@ class CreateInputInputZscalerHecSendToRoutesTrueWithConnectionsConstraint(BaseMo
 CreateInputInputZscalerHecTypedDict = TypeAliasType(
     "CreateInputInputZscalerHecTypedDict",
     Union[
-        CreateInputInputZscalerHecSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputZscalerHecSendToRoutesTrueConstraintTypedDict,
         CreateInputInputZscalerHecSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputZscalerHecPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputZscalerHecPqEnabledFalseConstraintTypedDict,
         CreateInputInputZscalerHecPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -1855,9 +1854,9 @@ CreateInputInputZscalerHecTypedDict = TypeAliasType(
 CreateInputInputZscalerHec = TypeAliasType(
     "CreateInputInputZscalerHec",
     Union[
-        CreateInputInputZscalerHecSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputZscalerHecSendToRoutesTrueConstraint,
         CreateInputInputZscalerHecSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputZscalerHecPqEnabledFalseWithPqConstraint,
+        CreateInputInputZscalerHecPqEnabledFalseConstraint,
         CreateInputInputZscalerHecPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -1885,7 +1884,7 @@ class CreateInputInputSecurityLakePqEnabledTrueWithPqConstraintTypedDict(TypedDi
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     file_filter: NotRequired[str]
     r"""Regex matching file names to download and process. Defaults to: .*"""
@@ -1983,7 +1982,7 @@ class CreateInputInputSecurityLakePqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     file_filter: Annotated[Optional[str], pydantic.Field(alias="fileFilter")] = "/.*/"
@@ -2159,7 +2158,7 @@ class CreateInputInputSecurityLakePqEnabledTrueWithPqConstraint(BaseModel):
         return value
 
 
-class CreateInputInputSecurityLakePqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputSecurityLakePqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputSecurityLakeType
@@ -2167,7 +2166,6 @@ class CreateInputInputSecurityLakePqEnabledFalseWithPqConstraintTypedDict(TypedD
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -2177,8 +2175,9 @@ class CreateInputInputSecurityLakePqEnabledFalseWithPqConstraintTypedDict(TypedD
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     file_filter: NotRequired[str]
     r"""Regex matching file names to download and process. Defaults to: .*"""
     aws_account_id: NotRequired[str]
@@ -2245,7 +2244,7 @@ class CreateInputInputSecurityLakePqEnabledFalseWithPqConstraintTypedDict(TypedD
     r"""The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
 
 
-class CreateInputInputSecurityLakePqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputSecurityLakePqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -2256,8 +2255,6 @@ class CreateInputInputSecurityLakePqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -2275,8 +2272,10 @@ class CreateInputInputSecurityLakePqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     file_filter: Annotated[Optional[str], pydantic.Field(alias="fileFilter")] = "/.*/"
     r"""Regex matching file names to download and process. Defaults to: .*"""
@@ -2461,7 +2460,7 @@ class CreateInputInputSecurityLakeSendToRoutesFalseWithConnectionsConstraintType
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -2553,7 +2552,7 @@ class CreateInputInputSecurityLakeSendToRoutesFalseWithConnectionsConstraint(Bas
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -2745,9 +2744,7 @@ class CreateInputInputSecurityLakeSendToRoutesFalseWithConnectionsConstraint(Bas
         return value
 
 
-class CreateInputInputSecurityLakeSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputSecurityLakeSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputSecurityLakeType
@@ -2755,8 +2752,6 @@ class CreateInputInputSecurityLakeSendToRoutesTrueWithConnectionsConstraintTyped
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -2766,6 +2761,8 @@ class CreateInputInputSecurityLakeSendToRoutesTrueWithConnectionsConstraintTyped
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     file_filter: NotRequired[str]
     r"""Regex matching file names to download and process. Defaults to: .*"""
@@ -2833,7 +2830,7 @@ class CreateInputInputSecurityLakeSendToRoutesTrueWithConnectionsConstraintTyped
     r"""The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
 
 
-class CreateInputInputSecurityLakeSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputSecurityLakeSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -2846,9 +2843,6 @@ class CreateInputInputSecurityLakeSendToRoutesTrueWithConnectionsConstraint(Base
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -2863,6 +2857,9 @@ class CreateInputInputSecurityLakeSendToRoutesTrueWithConnectionsConstraint(Base
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -3042,9 +3039,9 @@ class CreateInputInputSecurityLakeSendToRoutesTrueWithConnectionsConstraint(Base
 CreateInputInputSecurityLakeTypedDict = TypeAliasType(
     "CreateInputInputSecurityLakeTypedDict",
     Union[
-        CreateInputInputSecurityLakeSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputSecurityLakeSendToRoutesTrueConstraintTypedDict,
         CreateInputInputSecurityLakeSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputSecurityLakePqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputSecurityLakePqEnabledFalseConstraintTypedDict,
         CreateInputInputSecurityLakePqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -3053,9 +3050,9 @@ CreateInputInputSecurityLakeTypedDict = TypeAliasType(
 CreateInputInputSecurityLake = TypeAliasType(
     "CreateInputInputSecurityLake",
     Union[
-        CreateInputInputSecurityLakeSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputSecurityLakeSendToRoutesTrueConstraint,
         CreateInputInputSecurityLakeSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputSecurityLakePqEnabledFalseWithPqConstraint,
+        CreateInputInputSecurityLakePqEnabledFalseConstraint,
         CreateInputInputSecurityLakePqEnabledTrueWithPqConstraint,
     ],
 )
@@ -3081,7 +3078,7 @@ class CreateInputInputNetflowPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     host: NotRequired[str]
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
@@ -3135,7 +3132,7 @@ class CreateInputInputNetflowPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     host: Optional[str] = "0.0.0.0"
@@ -3186,13 +3183,12 @@ class CreateInputInputNetflowPqEnabledTrueWithPqConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class CreateInputInputNetflowPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputNetflowPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputNetflowType
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -3202,8 +3198,9 @@ class CreateInputInputNetflowPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
     port: NotRequired[float]
@@ -3229,7 +3226,7 @@ class CreateInputInputNetflowPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     description: NotRequired[str]
 
 
-class CreateInputInputNetflowPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputNetflowPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -3237,8 +3234,6 @@ class CreateInputInputNetflowPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -3256,8 +3251,10 @@ class CreateInputInputNetflowPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
@@ -3315,7 +3312,7 @@ class CreateInputInputNetflowSendToRoutesFalseWithConnectionsConstraintTypedDict
     type: CreateInputInputNetflowType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -3363,7 +3360,7 @@ class CreateInputInputNetflowSendToRoutesFalseWithConnectionsConstraint(BaseMode
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -3430,16 +3427,12 @@ class CreateInputInputNetflowSendToRoutesFalseWithConnectionsConstraint(BaseMode
     description: Optional[str] = None
 
 
-class CreateInputInputNetflowSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputNetflowSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputNetflowType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -3449,6 +3442,8 @@ class CreateInputInputNetflowSendToRoutesTrueWithConnectionsConstraintTypedDict(
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
@@ -3475,7 +3470,7 @@ class CreateInputInputNetflowSendToRoutesTrueWithConnectionsConstraintTypedDict(
     description: NotRequired[str]
 
 
-class CreateInputInputNetflowSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputNetflowSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -3485,9 +3480,6 @@ class CreateInputInputNetflowSendToRoutesTrueWithConnectionsConstraint(BaseModel
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -3502,6 +3494,9 @@ class CreateInputInputNetflowSendToRoutesTrueWithConnectionsConstraint(BaseModel
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -3556,9 +3551,9 @@ class CreateInputInputNetflowSendToRoutesTrueWithConnectionsConstraint(BaseModel
 CreateInputInputNetflowTypedDict = TypeAliasType(
     "CreateInputInputNetflowTypedDict",
     Union[
-        CreateInputInputNetflowSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputNetflowSendToRoutesTrueConstraintTypedDict,
         CreateInputInputNetflowSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputNetflowPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputNetflowPqEnabledFalseConstraintTypedDict,
         CreateInputInputNetflowPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -3567,9 +3562,9 @@ CreateInputInputNetflowTypedDict = TypeAliasType(
 CreateInputInputNetflow = TypeAliasType(
     "CreateInputInputNetflow",
     Union[
-        CreateInputInputNetflowSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputNetflowSendToRoutesTrueConstraint,
         CreateInputInputNetflowSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputNetflowPqEnabledFalseWithPqConstraint,
+        CreateInputInputNetflowPqEnabledFalseConstraint,
         CreateInputInputNetflowPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -3597,7 +3592,7 @@ class CreateInputInputWizWebhookPqEnabledTrueWithPqConstraintTypedDict(TypedDict
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -3671,7 +3666,7 @@ class CreateInputInputWizWebhookPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     host: Optional[str] = "0.0.0.0"
@@ -3770,7 +3765,7 @@ class CreateInputInputWizWebhookPqEnabledTrueWithPqConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class CreateInputInputWizWebhookPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputWizWebhookPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputWizWebhookType
@@ -3778,7 +3773,6 @@ class CreateInputInputWizWebhookPqEnabledFalseWithPqConstraintTypedDict(TypedDic
     r"""Port to listen on"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -3788,8 +3782,9 @@ class CreateInputInputWizWebhookPqEnabledFalseWithPqConstraintTypedDict(TypedDic
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     auth_tokens: NotRequired[List[str]]
@@ -3832,7 +3827,7 @@ class CreateInputInputWizWebhookPqEnabledFalseWithPqConstraintTypedDict(TypedDic
     description: NotRequired[str]
 
 
-class CreateInputInputWizWebhookPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputWizWebhookPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -3843,8 +3838,6 @@ class CreateInputInputWizWebhookPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -3862,8 +3855,10 @@ class CreateInputInputWizWebhookPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -3971,7 +3966,7 @@ class CreateInputInputWizWebhookSendToRoutesFalseWithConnectionsConstraintTypedD
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -4039,7 +4034,7 @@ class CreateInputInputWizWebhookSendToRoutesFalseWithConnectionsConstraint(BaseM
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -4154,9 +4149,7 @@ class CreateInputInputWizWebhookSendToRoutesFalseWithConnectionsConstraint(BaseM
     description: Optional[str] = None
 
 
-class CreateInputInputWizWebhookSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputWizWebhookSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputWizWebhookType
@@ -4164,8 +4157,6 @@ class CreateInputInputWizWebhookSendToRoutesTrueWithConnectionsConstraintTypedDi
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -4175,6 +4166,8 @@ class CreateInputInputWizWebhookSendToRoutesTrueWithConnectionsConstraintTypedDi
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -4218,7 +4211,7 @@ class CreateInputInputWizWebhookSendToRoutesTrueWithConnectionsConstraintTypedDi
     description: NotRequired[str]
 
 
-class CreateInputInputWizWebhookSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputWizWebhookSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -4231,9 +4224,6 @@ class CreateInputInputWizWebhookSendToRoutesTrueWithConnectionsConstraint(BaseMo
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -4248,6 +4238,9 @@ class CreateInputInputWizWebhookSendToRoutesTrueWithConnectionsConstraint(BaseMo
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -4350,9 +4343,9 @@ class CreateInputInputWizWebhookSendToRoutesTrueWithConnectionsConstraint(BaseMo
 CreateInputInputWizWebhookTypedDict = TypeAliasType(
     "CreateInputInputWizWebhookTypedDict",
     Union[
-        CreateInputInputWizWebhookSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputWizWebhookSendToRoutesTrueConstraintTypedDict,
         CreateInputInputWizWebhookSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputWizWebhookPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputWizWebhookPqEnabledFalseConstraintTypedDict,
         CreateInputInputWizWebhookPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -4361,9 +4354,9 @@ CreateInputInputWizWebhookTypedDict = TypeAliasType(
 CreateInputInputWizWebhook = TypeAliasType(
     "CreateInputInputWizWebhook",
     Union[
-        CreateInputInputWizWebhookSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputWizWebhookSendToRoutesTrueConstraint,
         CreateInputInputWizWebhookSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputWizWebhookPqEnabledFalseWithPqConstraint,
+        CreateInputInputWizWebhookPqEnabledFalseConstraint,
         CreateInputInputWizWebhookPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -4504,7 +4497,7 @@ class CreateInputInputWizPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     endpoint: NotRequired[str]
     r"""The Wiz GraphQL API endpoint. Example: https://api.us1.app.wiz.io/graphql"""
@@ -4569,7 +4562,7 @@ class CreateInputInputWizPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     endpoint: Optional[str] = "https://api.<region>.app.wiz.io/graphql"
@@ -4633,7 +4626,7 @@ class CreateInputInputWizPqEnabledTrueWithPqConstraint(BaseModel):
         return value
 
 
-class CreateInputInputWizPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputWizPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputWizType
@@ -4644,7 +4637,6 @@ class CreateInputInputWizPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     content_config: List[CreateInputInputWizContentConfigTypedDict]
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -4654,8 +4646,9 @@ class CreateInputInputWizPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     endpoint: NotRequired[str]
     r"""The Wiz GraphQL API endpoint. Example: https://api.us1.app.wiz.io/graphql"""
     auth_audience_override: NotRequired[str]
@@ -4682,7 +4675,7 @@ class CreateInputInputWizPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Select or create a stored text secret"""
 
 
-class CreateInputInputWizPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputWizPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -4701,8 +4694,6 @@ class CreateInputInputWizPqEnabledFalseWithPqConstraint(BaseModel):
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
-    pq: Optional[PqType] = None
-
     disabled: Optional[bool] = False
 
     pipeline: Optional[str] = None
@@ -4719,8 +4710,10 @@ class CreateInputInputWizPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     endpoint: Optional[str] = "https://api.<region>.app.wiz.io/graphql"
     r"""The Wiz GraphQL API endpoint. Example: https://api.us1.app.wiz.io/graphql"""
@@ -4794,7 +4787,7 @@ class CreateInputInputWizSendToRoutesFalseWithConnectionsConstraintTypedDict(Typ
     content_config: List[CreateInputInputWizContentConfigTypedDict]
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -4853,7 +4846,7 @@ class CreateInputInputWizSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -4933,7 +4926,7 @@ class CreateInputInputWizSendToRoutesFalseWithConnectionsConstraint(BaseModel):
         return value
 
 
-class CreateInputInputWizSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
+class CreateInputInputWizSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputWizType
@@ -4944,8 +4937,6 @@ class CreateInputInputWizSendToRoutesTrueWithConnectionsConstraintTypedDict(Type
     content_config: List[CreateInputInputWizContentConfigTypedDict]
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -4955,6 +4946,8 @@ class CreateInputInputWizSendToRoutesTrueWithConnectionsConstraintTypedDict(Type
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     endpoint: NotRequired[str]
     r"""The Wiz GraphQL API endpoint. Example: https://api.us1.app.wiz.io/graphql"""
@@ -4982,7 +4975,7 @@ class CreateInputInputWizSendToRoutesTrueWithConnectionsConstraintTypedDict(Type
     r"""Select or create a stored text secret"""
 
 
-class CreateInputInputWizSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputWizSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -5003,9 +4996,6 @@ class CreateInputInputWizSendToRoutesTrueWithConnectionsConstraint(BaseModel):
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
     disabled: Optional[bool] = False
 
     pipeline: Optional[str] = None
@@ -5019,6 +5009,9 @@ class CreateInputInputWizSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -5086,9 +5079,9 @@ class CreateInputInputWizSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 CreateInputInputWizTypedDict = TypeAliasType(
     "CreateInputInputWizTypedDict",
     Union[
-        CreateInputInputWizSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputWizSendToRoutesTrueConstraintTypedDict,
         CreateInputInputWizSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputWizPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputWizPqEnabledFalseConstraintTypedDict,
         CreateInputInputWizPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -5097,9 +5090,9 @@ CreateInputInputWizTypedDict = TypeAliasType(
 CreateInputInputWiz = TypeAliasType(
     "CreateInputInputWiz",
     Union[
-        CreateInputInputWizSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputWizSendToRoutesTrueConstraint,
         CreateInputInputWizSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputWizPqEnabledFalseWithPqConstraint,
+        CreateInputInputWizPqEnabledFalseConstraint,
         CreateInputInputWizPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -5144,7 +5137,7 @@ class CreateInputInputJournalFilesPqEnabledTrueWithPqConstraintTypedDict(TypedDi
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     interval: NotRequired[float]
     r"""Time, in seconds, between scanning for journals."""
@@ -5192,7 +5185,7 @@ class CreateInputInputJournalFilesPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     interval: Optional[float] = 10
@@ -5213,18 +5206,18 @@ class CreateInputInputJournalFilesPqEnabledTrueWithPqConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class CreateInputPqEnabledFalseWithPqConstraintInputJournalFilesType(str, Enum):
+class CreateInputPqEnabledFalseConstraintInputJournalFilesType(str, Enum):
     JOURNAL_FILES = "journal_files"
 
 
-class CreateInputPqEnabledFalseWithPqConstraintRuleTypedDict(TypedDict):
+class CreateInputPqEnabledFalseConstraintRuleTypedDict(TypedDict):
     filter_: str
     r"""JavaScript expression applied to Journal objects. Return 'true' to include it."""
     description: NotRequired[str]
     r"""Optional description of this rule's purpose"""
 
 
-class CreateInputPqEnabledFalseWithPqConstraintRule(BaseModel):
+class CreateInputPqEnabledFalseConstraintRule(BaseModel):
     filter_: Annotated[str, pydantic.Field(alias="filter")]
     r"""JavaScript expression applied to Journal objects. Return 'true' to include it."""
 
@@ -5232,17 +5225,16 @@ class CreateInputPqEnabledFalseWithPqConstraintRule(BaseModel):
     r"""Optional description of this rule's purpose"""
 
 
-class CreateInputInputJournalFilesPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputJournalFilesPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputPqEnabledFalseWithPqConstraintInputJournalFilesType
+    type: CreateInputPqEnabledFalseConstraintInputJournalFilesType
     path: str
     r"""Directory path to search for journals. Environment variables will be resolved, e.g. $CRIBL_EDGE_FS_ROOT/var/log/journal/$MACHINE_ID."""
     journals: List[str]
     r"""The full path of discovered journals are matched against this wildcard list."""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -5252,11 +5244,12 @@ class CreateInputInputJournalFilesPqEnabledFalseWithPqConstraintTypedDict(TypedD
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     interval: NotRequired[float]
     r"""Time, in seconds, between scanning for journals."""
-    rules: NotRequired[List[CreateInputPqEnabledFalseWithPqConstraintRuleTypedDict]]
+    rules: NotRequired[List[CreateInputPqEnabledFalseConstraintRuleTypedDict]]
     r"""Add rules to decide which journal objects to allow. Events are generated if no rules are given or if all the rules' expressions evaluate to true."""
     current_boot: NotRequired[bool]
     r"""Skip log messages that are not part of the current boot session."""
@@ -5267,11 +5260,11 @@ class CreateInputInputJournalFilesPqEnabledFalseWithPqConstraintTypedDict(TypedD
     description: NotRequired[str]
 
 
-class CreateInputInputJournalFilesPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputJournalFilesPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputPqEnabledFalseWithPqConstraintInputJournalFilesType
+    type: CreateInputPqEnabledFalseConstraintInputJournalFilesType
 
     path: str
     r"""Directory path to search for journals. Environment variables will be resolved, e.g. $CRIBL_EDGE_FS_ROOT/var/log/journal/$MACHINE_ID."""
@@ -5281,8 +5274,6 @@ class CreateInputInputJournalFilesPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -5300,13 +5291,15 @@ class CreateInputInputJournalFilesPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     interval: Optional[float] = 10
     r"""Time, in seconds, between scanning for journals."""
 
-    rules: Optional[List[CreateInputPqEnabledFalseWithPqConstraintRule]] = None
+    rules: Optional[List[CreateInputPqEnabledFalseConstraintRule]] = None
     r"""Add rules to decide which journal objects to allow. Events are generated if no rules are given or if all the rules' expressions evaluate to true."""
 
     current_boot: Annotated[Optional[bool], pydantic.Field(alias="currentBoot")] = False
@@ -5354,7 +5347,7 @@ class CreateInputInputJournalFilesSendToRoutesFalseWithConnectionsConstraintType
     r"""The full path of discovered journals are matched against this wildcard list."""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -5398,7 +5391,7 @@ class CreateInputInputJournalFilesSendToRoutesFalseWithConnectionsConstraint(Bas
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -5437,20 +5430,18 @@ class CreateInputInputJournalFilesSendToRoutesFalseWithConnectionsConstraint(Bas
     description: Optional[str] = None
 
 
-class CreateInputSendToRoutesTrueWithConnectionsConstraintInputJournalFilesType(
-    str, Enum
-):
+class CreateInputSendToRoutesTrueConstraintInputJournalFilesType(str, Enum):
     JOURNAL_FILES = "journal_files"
 
 
-class CreateInputSendToRoutesTrueWithConnectionsConstraintRuleTypedDict(TypedDict):
+class CreateInputSendToRoutesTrueConstraintRuleTypedDict(TypedDict):
     filter_: str
     r"""JavaScript expression applied to Journal objects. Return 'true' to include it."""
     description: NotRequired[str]
     r"""Optional description of this rule's purpose"""
 
 
-class CreateInputSendToRoutesTrueWithConnectionsConstraintRule(BaseModel):
+class CreateInputSendToRoutesTrueConstraintRule(BaseModel):
     filter_: Annotated[str, pydantic.Field(alias="filter")]
     r"""JavaScript expression applied to Journal objects. Return 'true' to include it."""
 
@@ -5458,20 +5449,16 @@ class CreateInputSendToRoutesTrueWithConnectionsConstraintRule(BaseModel):
     r"""Optional description of this rule's purpose"""
 
 
-class CreateInputInputJournalFilesSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputJournalFilesSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSendToRoutesTrueWithConnectionsConstraintInputJournalFilesType
+    type: CreateInputSendToRoutesTrueConstraintInputJournalFilesType
     path: str
     r"""Directory path to search for journals. Environment variables will be resolved, e.g. $CRIBL_EDGE_FS_ROOT/var/log/journal/$MACHINE_ID."""
     journals: List[str]
     r"""The full path of discovered journals are matched against this wildcard list."""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -5481,12 +5468,12 @@ class CreateInputInputJournalFilesSendToRoutesTrueWithConnectionsConstraintTyped
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     interval: NotRequired[float]
     r"""Time, in seconds, between scanning for journals."""
-    rules: NotRequired[
-        List[CreateInputSendToRoutesTrueWithConnectionsConstraintRuleTypedDict]
-    ]
+    rules: NotRequired[List[CreateInputSendToRoutesTrueConstraintRuleTypedDict]]
     r"""Add rules to decide which journal objects to allow. Events are generated if no rules are given or if all the rules' expressions evaluate to true."""
     current_boot: NotRequired[bool]
     r"""Skip log messages that are not part of the current boot session."""
@@ -5497,11 +5484,11 @@ class CreateInputInputJournalFilesSendToRoutesTrueWithConnectionsConstraintTyped
     description: NotRequired[str]
 
 
-class CreateInputInputJournalFilesSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputJournalFilesSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSendToRoutesTrueWithConnectionsConstraintInputJournalFilesType
+    type: CreateInputSendToRoutesTrueConstraintInputJournalFilesType
 
     path: str
     r"""Directory path to search for journals. Environment variables will be resolved, e.g. $CRIBL_EDGE_FS_ROOT/var/log/journal/$MACHINE_ID."""
@@ -5513,9 +5500,6 @@ class CreateInputInputJournalFilesSendToRoutesTrueWithConnectionsConstraint(Base
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -5531,14 +5515,15 @@ class CreateInputInputJournalFilesSendToRoutesTrueWithConnectionsConstraint(Base
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
     pq: Optional[PqType] = None
 
     interval: Optional[float] = 10
     r"""Time, in seconds, between scanning for journals."""
 
-    rules: Optional[List[CreateInputSendToRoutesTrueWithConnectionsConstraintRule]] = (
-        None
-    )
+    rules: Optional[List[CreateInputSendToRoutesTrueConstraintRule]] = None
     r"""Add rules to decide which journal objects to allow. Events are generated if no rules are given or if all the rules' expressions evaluate to true."""
 
     current_boot: Annotated[Optional[bool], pydantic.Field(alias="currentBoot")] = False
@@ -5556,9 +5541,9 @@ class CreateInputInputJournalFilesSendToRoutesTrueWithConnectionsConstraint(Base
 CreateInputInputJournalFilesTypedDict = TypeAliasType(
     "CreateInputInputJournalFilesTypedDict",
     Union[
-        CreateInputInputJournalFilesSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputJournalFilesSendToRoutesTrueConstraintTypedDict,
         CreateInputInputJournalFilesSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputJournalFilesPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputJournalFilesPqEnabledFalseConstraintTypedDict,
         CreateInputInputJournalFilesPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -5567,9 +5552,9 @@ CreateInputInputJournalFilesTypedDict = TypeAliasType(
 CreateInputInputJournalFiles = TypeAliasType(
     "CreateInputInputJournalFiles",
     Union[
-        CreateInputInputJournalFilesSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputJournalFilesSendToRoutesTrueConstraint,
         CreateInputInputJournalFilesSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputJournalFilesPqEnabledFalseWithPqConstraint,
+        CreateInputInputJournalFilesPqEnabledFalseConstraint,
         CreateInputInputJournalFilesPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -5597,7 +5582,7 @@ class CreateInputInputRawUDPPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     host: NotRequired[str]
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
@@ -5646,7 +5631,7 @@ class CreateInputInputRawUDPPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     host: Optional[str] = "0.0.0.0"
@@ -5683,7 +5668,7 @@ class CreateInputInputRawUDPPqEnabledTrueWithPqConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class CreateInputInputRawUDPPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputRawUDPPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputRawUDPType
@@ -5691,7 +5676,6 @@ class CreateInputInputRawUDPPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Port to listen on"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -5701,8 +5685,9 @@ class CreateInputInputRawUDPPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
     max_buffer_size: NotRequired[float]
@@ -5720,7 +5705,7 @@ class CreateInputInputRawUDPPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     description: NotRequired[str]
 
 
-class CreateInputInputRawUDPPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputRawUDPPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -5731,8 +5716,6 @@ class CreateInputInputRawUDPPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -5750,8 +5733,10 @@ class CreateInputInputRawUDPPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
@@ -5797,7 +5782,7 @@ class CreateInputInputRawUDPSendToRoutesFalseWithConnectionsConstraintTypedDict(
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -5840,7 +5825,7 @@ class CreateInputInputRawUDPSendToRoutesFalseWithConnectionsConstraint(BaseModel
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -5893,9 +5878,7 @@ class CreateInputInputRawUDPSendToRoutesFalseWithConnectionsConstraint(BaseModel
     description: Optional[str] = None
 
 
-class CreateInputInputRawUDPSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputRawUDPSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputRawUDPType
@@ -5903,8 +5886,6 @@ class CreateInputInputRawUDPSendToRoutesTrueWithConnectionsConstraintTypedDict(
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -5914,6 +5895,8 @@ class CreateInputInputRawUDPSendToRoutesTrueWithConnectionsConstraintTypedDict(
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
@@ -5932,7 +5915,7 @@ class CreateInputInputRawUDPSendToRoutesTrueWithConnectionsConstraintTypedDict(
     description: NotRequired[str]
 
 
-class CreateInputInputRawUDPSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputRawUDPSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -5945,9 +5928,6 @@ class CreateInputInputRawUDPSendToRoutesTrueWithConnectionsConstraint(BaseModel)
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -5962,6 +5942,9 @@ class CreateInputInputRawUDPSendToRoutesTrueWithConnectionsConstraint(BaseModel)
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -6002,9 +5985,9 @@ class CreateInputInputRawUDPSendToRoutesTrueWithConnectionsConstraint(BaseModel)
 CreateInputInputRawUDPTypedDict = TypeAliasType(
     "CreateInputInputRawUDPTypedDict",
     Union[
-        CreateInputInputRawUDPSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputRawUDPSendToRoutesTrueConstraintTypedDict,
         CreateInputInputRawUDPSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputRawUDPPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputRawUDPPqEnabledFalseConstraintTypedDict,
         CreateInputInputRawUDPPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -6013,9 +5996,9 @@ CreateInputInputRawUDPTypedDict = TypeAliasType(
 CreateInputInputRawUDP = TypeAliasType(
     "CreateInputInputRawUDP",
     Union[
-        CreateInputInputRawUDPSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputRawUDPSendToRoutesTrueConstraint,
         CreateInputInputRawUDPSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputRawUDPPqEnabledFalseWithPqConstraint,
+        CreateInputInputRawUDPPqEnabledFalseConstraint,
         CreateInputInputRawUDPPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -6061,7 +6044,7 @@ class CreateInputInputWinEventLogsPqEnabledTrueWithPqConstraintTypedDict(TypedDi
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     read_mode: NotRequired[CreateInputReadMode]
     r"""Read all stored and future event logs, or only future events"""
@@ -6114,7 +6097,7 @@ class CreateInputInputWinEventLogsPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     read_mode: Annotated[
@@ -6177,7 +6160,7 @@ class CreateInputInputWinEventLogsPqEnabledTrueWithPqConstraint(BaseModel):
         return value
 
 
-class CreateInputInputWinEventLogsPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputWinEventLogsPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputWinEventLogsType
@@ -6185,7 +6168,6 @@ class CreateInputInputWinEventLogsPqEnabledFalseWithPqConstraintTypedDict(TypedD
     r"""Enter the event logs to collect. Run \"Get-WinEvent -ListLog *\" in PowerShell to see the available logs."""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -6195,8 +6177,9 @@ class CreateInputInputWinEventLogsPqEnabledFalseWithPqConstraintTypedDict(TypedD
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     read_mode: NotRequired[CreateInputReadMode]
     r"""Read all stored and future event logs, or only future events"""
     event_format: NotRequired[CreateInputEventFormat]
@@ -6218,7 +6201,7 @@ class CreateInputInputWinEventLogsPqEnabledFalseWithPqConstraintTypedDict(TypedD
     r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
 
 
-class CreateInputInputWinEventLogsPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputWinEventLogsPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -6229,8 +6212,6 @@ class CreateInputInputWinEventLogsPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -6248,8 +6229,10 @@ class CreateInputInputWinEventLogsPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     read_mode: Annotated[
         Optional[CreateInputReadMode], pydantic.Field(alias="readMode")
@@ -6321,7 +6304,7 @@ class CreateInputInputWinEventLogsSendToRoutesFalseWithConnectionsConstraintType
     r"""Enter the event logs to collect. Run \"Get-WinEvent -ListLog *\" in PowerShell to see the available logs."""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -6368,7 +6351,7 @@ class CreateInputInputWinEventLogsSendToRoutesFalseWithConnectionsConstraint(Bas
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -6447,9 +6430,7 @@ class CreateInputInputWinEventLogsSendToRoutesFalseWithConnectionsConstraint(Bas
         return value
 
 
-class CreateInputInputWinEventLogsSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputWinEventLogsSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputWinEventLogsType
@@ -6457,8 +6438,6 @@ class CreateInputInputWinEventLogsSendToRoutesTrueWithConnectionsConstraintTyped
     r"""Enter the event logs to collect. Run \"Get-WinEvent -ListLog *\" in PowerShell to see the available logs."""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -6468,6 +6447,8 @@ class CreateInputInputWinEventLogsSendToRoutesTrueWithConnectionsConstraintTyped
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     read_mode: NotRequired[CreateInputReadMode]
     r"""Read all stored and future event logs, or only future events"""
@@ -6490,7 +6471,7 @@ class CreateInputInputWinEventLogsSendToRoutesTrueWithConnectionsConstraintTyped
     r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
 
 
-class CreateInputInputWinEventLogsSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputWinEventLogsSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -6503,9 +6484,6 @@ class CreateInputInputWinEventLogsSendToRoutesTrueWithConnectionsConstraint(Base
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -6520,6 +6498,9 @@ class CreateInputInputWinEventLogsSendToRoutesTrueWithConnectionsConstraint(Base
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -6586,9 +6567,9 @@ class CreateInputInputWinEventLogsSendToRoutesTrueWithConnectionsConstraint(Base
 CreateInputInputWinEventLogsTypedDict = TypeAliasType(
     "CreateInputInputWinEventLogsTypedDict",
     Union[
-        CreateInputInputWinEventLogsSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputWinEventLogsSendToRoutesTrueConstraintTypedDict,
         CreateInputInputWinEventLogsSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputWinEventLogsPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputWinEventLogsPqEnabledFalseConstraintTypedDict,
         CreateInputInputWinEventLogsPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -6597,9 +6578,9 @@ CreateInputInputWinEventLogsTypedDict = TypeAliasType(
 CreateInputInputWinEventLogs = TypeAliasType(
     "CreateInputInputWinEventLogs",
     Union[
-        CreateInputInputWinEventLogsSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputWinEventLogsSendToRoutesTrueConstraint,
         CreateInputInputWinEventLogsSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputWinEventLogsPqEnabledFalseWithPqConstraint,
+        CreateInputInputWinEventLogsPqEnabledFalseConstraint,
         CreateInputInputWinEventLogsPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -6864,7 +6845,7 @@ class CreateInputInputWefPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -6936,7 +6917,7 @@ class CreateInputInputWefPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     host: Optional[str] = "0.0.0.0"
@@ -7034,7 +7015,7 @@ class CreateInputInputWefPqEnabledTrueWithPqConstraint(BaseModel):
         return value
 
 
-class CreateInputInputWefPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputWefPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputWefType
@@ -7042,7 +7023,6 @@ class CreateInputInputWefPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Subscriptions to events on forwarding endpoints"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -7052,8 +7032,9 @@ class CreateInputInputWefPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: NotRequired[float]
@@ -7094,7 +7075,7 @@ class CreateInputInputWefPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Log a warning if the client certificate authority (CA) fingerprint does not match the expected value. A mismatch prevents Cribl from receiving events from the Windows Event Forwarder."""
 
 
-class CreateInputInputWefPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputWefPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -7105,8 +7086,6 @@ class CreateInputInputWefPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -7124,8 +7103,10 @@ class CreateInputInputWefPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -7230,7 +7211,7 @@ class CreateInputInputWefSendToRoutesFalseWithConnectionsConstraintTypedDict(Typ
     r"""Subscriptions to events on forwarding endpoints"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -7296,7 +7277,7 @@ class CreateInputInputWefSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -7410,7 +7391,7 @@ class CreateInputInputWefSendToRoutesFalseWithConnectionsConstraint(BaseModel):
         return value
 
 
-class CreateInputInputWefSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
+class CreateInputInputWefSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputWefType
@@ -7418,8 +7399,6 @@ class CreateInputInputWefSendToRoutesTrueWithConnectionsConstraintTypedDict(Type
     r"""Subscriptions to events on forwarding endpoints"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -7429,6 +7408,8 @@ class CreateInputInputWefSendToRoutesTrueWithConnectionsConstraintTypedDict(Type
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -7470,7 +7451,7 @@ class CreateInputInputWefSendToRoutesTrueWithConnectionsConstraintTypedDict(Type
     r"""Log a warning if the client certificate authority (CA) fingerprint does not match the expected value. A mismatch prevents Cribl from receiving events from the Windows Event Forwarder."""
 
 
-class CreateInputInputWefSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputWefSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -7483,9 +7464,6 @@ class CreateInputInputWefSendToRoutesTrueWithConnectionsConstraint(BaseModel):
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -7500,6 +7478,9 @@ class CreateInputInputWefSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -7601,9 +7582,9 @@ class CreateInputInputWefSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 CreateInputInputWefTypedDict = TypeAliasType(
     "CreateInputInputWefTypedDict",
     Union[
-        CreateInputInputWefSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputWefSendToRoutesTrueConstraintTypedDict,
         CreateInputInputWefSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputWefPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputWefPqEnabledFalseConstraintTypedDict,
         CreateInputInputWefPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -7612,9 +7593,9 @@ CreateInputInputWefTypedDict = TypeAliasType(
 CreateInputInputWef = TypeAliasType(
     "CreateInputInputWef",
     Union[
-        CreateInputInputWefSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputWefSendToRoutesTrueConstraint,
         CreateInputInputWefSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputWefPqEnabledFalseWithPqConstraint,
+        CreateInputInputWefPqEnabledFalseConstraint,
         CreateInputInputWefPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -7721,7 +7702,7 @@ class CreateInputInputAppscopePqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     ip_whitelist_regex: NotRequired[str]
     r"""Regex matching IP addresses that are allowed to establish a connection"""
@@ -7790,7 +7771,7 @@ class CreateInputInputAppscopePqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     ip_whitelist_regex: Annotated[
@@ -7889,13 +7870,12 @@ class CreateInputInputAppscopePqEnabledTrueWithPqConstraint(BaseModel):
         return value
 
 
-class CreateInputInputAppscopePqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputAppscopePqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputAppscopeType
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -7905,8 +7885,9 @@ class CreateInputInputAppscopePqEnabledFalseWithPqConstraintTypedDict(TypedDict)
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     ip_whitelist_regex: NotRequired[str]
     r"""Regex matching IP addresses that are allowed to establish a connection"""
     max_active_cxn: NotRequired[float]
@@ -7947,7 +7928,7 @@ class CreateInputInputAppscopePqEnabledFalseWithPqConstraintTypedDict(TypedDict)
     r"""Select or create a stored text secret"""
 
 
-class CreateInputInputAppscopePqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputAppscopePqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -7955,8 +7936,6 @@ class CreateInputInputAppscopePqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -7974,8 +7953,10 @@ class CreateInputInputAppscopePqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     ip_whitelist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipWhitelistRegex")
@@ -8081,7 +8062,7 @@ class CreateInputInputAppscopeSendToRoutesFalseWithConnectionsConstraintTypedDic
     type: CreateInputInputAppscopeType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -8144,7 +8125,7 @@ class CreateInputInputAppscopeSendToRoutesFalseWithConnectionsConstraint(BaseMod
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -8259,16 +8240,12 @@ class CreateInputInputAppscopeSendToRoutesFalseWithConnectionsConstraint(BaseMod
         return value
 
 
-class CreateInputInputAppscopeSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputAppscopeSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputAppscopeType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -8278,6 +8255,8 @@ class CreateInputInputAppscopeSendToRoutesTrueWithConnectionsConstraintTypedDict
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     ip_whitelist_regex: NotRequired[str]
     r"""Regex matching IP addresses that are allowed to establish a connection"""
@@ -8319,7 +8298,7 @@ class CreateInputInputAppscopeSendToRoutesTrueWithConnectionsConstraintTypedDict
     r"""Select or create a stored text secret"""
 
 
-class CreateInputInputAppscopeSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputAppscopeSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -8329,9 +8308,6 @@ class CreateInputInputAppscopeSendToRoutesTrueWithConnectionsConstraint(BaseMode
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -8346,6 +8322,9 @@ class CreateInputInputAppscopeSendToRoutesTrueWithConnectionsConstraint(BaseMode
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -8448,9 +8427,9 @@ class CreateInputInputAppscopeSendToRoutesTrueWithConnectionsConstraint(BaseMode
 CreateInputInputAppscopeTypedDict = TypeAliasType(
     "CreateInputInputAppscopeTypedDict",
     Union[
-        CreateInputInputAppscopeSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputAppscopeSendToRoutesTrueConstraintTypedDict,
         CreateInputInputAppscopeSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputAppscopePqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputAppscopePqEnabledFalseConstraintTypedDict,
         CreateInputInputAppscopePqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -8459,9 +8438,9 @@ CreateInputInputAppscopeTypedDict = TypeAliasType(
 CreateInputInputAppscope = TypeAliasType(
     "CreateInputInputAppscope",
     Union[
-        CreateInputInputAppscopeSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputAppscopeSendToRoutesTrueConstraint,
         CreateInputInputAppscopeSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputAppscopePqEnabledFalseWithPqConstraint,
+        CreateInputInputAppscopePqEnabledFalseConstraint,
         CreateInputInputAppscopePqEnabledTrueWithPqConstraint,
     ],
 )
@@ -8489,7 +8468,7 @@ class CreateInputInputTCPPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -8554,7 +8533,7 @@ class CreateInputInputTCPPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     host: Optional[str] = "0.0.0.0"
@@ -8636,7 +8615,7 @@ class CreateInputInputTCPPqEnabledTrueWithPqConstraint(BaseModel):
         return value
 
 
-class CreateInputInputTCPPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputTCPPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputTCPType
@@ -8644,7 +8623,6 @@ class CreateInputInputTCPPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Port to listen on"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -8654,8 +8632,9 @@ class CreateInputInputTCPPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
@@ -8689,7 +8668,7 @@ class CreateInputInputTCPPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Select or create a stored text secret"""
 
 
-class CreateInputInputTCPPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputTCPPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -8700,8 +8679,6 @@ class CreateInputInputTCPPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -8719,8 +8696,10 @@ class CreateInputInputTCPPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -8809,7 +8788,7 @@ class CreateInputInputTCPSendToRoutesFalseWithConnectionsConstraintTypedDict(Typ
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -8868,7 +8847,7 @@ class CreateInputInputTCPSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -8966,7 +8945,7 @@ class CreateInputInputTCPSendToRoutesFalseWithConnectionsConstraint(BaseModel):
         return value
 
 
-class CreateInputInputTCPSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
+class CreateInputInputTCPSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputTCPType
@@ -8974,8 +8953,6 @@ class CreateInputInputTCPSendToRoutesTrueWithConnectionsConstraintTypedDict(Type
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -8985,6 +8962,8 @@ class CreateInputInputTCPSendToRoutesTrueWithConnectionsConstraintTypedDict(Type
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -9019,7 +8998,7 @@ class CreateInputInputTCPSendToRoutesTrueWithConnectionsConstraintTypedDict(Type
     r"""Select or create a stored text secret"""
 
 
-class CreateInputInputTCPSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputTCPSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -9032,9 +9011,6 @@ class CreateInputInputTCPSendToRoutesTrueWithConnectionsConstraint(BaseModel):
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -9049,6 +9025,9 @@ class CreateInputInputTCPSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -9134,9 +9113,9 @@ class CreateInputInputTCPSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 CreateInputInputTCPTypedDict = TypeAliasType(
     "CreateInputInputTCPTypedDict",
     Union[
-        CreateInputInputTCPSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputTCPSendToRoutesTrueConstraintTypedDict,
         CreateInputInputTCPSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputTCPPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputTCPPqEnabledFalseConstraintTypedDict,
         CreateInputInputTCPPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -9145,9 +9124,9 @@ CreateInputInputTCPTypedDict = TypeAliasType(
 CreateInputInputTCP = TypeAliasType(
     "CreateInputInputTCP",
     Union[
-        CreateInputInputTCPSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputTCPSendToRoutesTrueConstraint,
         CreateInputInputTCPSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputTCPPqEnabledFalseWithPqConstraint,
+        CreateInputInputTCPPqEnabledFalseConstraint,
         CreateInputInputTCPPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -9184,7 +9163,7 @@ class CreateInputInputFilePqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     mode: NotRequired[CreateInputPqEnabledTrueWithPqConstraintMode]
     r"""Choose how to discover files to monitor"""
@@ -9253,7 +9232,7 @@ class CreateInputInputFilePqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     mode: Optional[CreateInputPqEnabledTrueWithPqConstraintMode] = (
@@ -9338,13 +9317,11 @@ class CreateInputInputFilePqEnabledTrueWithPqConstraint(BaseModel):
         return value
 
 
-class CreateInputPqEnabledFalseWithPqConstraintInputFileType(str, Enum):
+class CreateInputPqEnabledFalseConstraintInputFileType(str, Enum):
     FILE = "file"
 
 
-class CreateInputPqEnabledFalseWithPqConstraintMode(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class CreateInputPqEnabledFalseConstraintMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Choose how to discover files to monitor"""
 
     # Manual
@@ -9353,13 +9330,12 @@ class CreateInputPqEnabledFalseWithPqConstraintMode(
     AUTO = "auto"
 
 
-class CreateInputInputFilePqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputFilePqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputPqEnabledFalseWithPqConstraintInputFileType
+    type: CreateInputPqEnabledFalseConstraintInputFileType
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -9369,9 +9345,10 @@ class CreateInputInputFilePqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    mode: NotRequired[CreateInputPqEnabledFalseWithPqConstraintMode]
+    pq: NotRequired[PqTypeTypedDict]
+    mode: NotRequired[CreateInputPqEnabledFalseConstraintMode]
     r"""Choose how to discover files to monitor"""
     interval: NotRequired[float]
     r"""Time, in seconds, between scanning for files"""
@@ -9411,16 +9388,14 @@ class CreateInputInputFilePqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Stream binary files as Base64-encoded chunks."""
 
 
-class CreateInputInputFilePqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputFilePqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputPqEnabledFalseWithPqConstraintInputFileType
+    type: CreateInputPqEnabledFalseConstraintInputFileType
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -9438,11 +9413,13 @@ class CreateInputInputFilePqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    mode: Optional[CreateInputPqEnabledFalseWithPqConstraintMode] = (
-        CreateInputPqEnabledFalseWithPqConstraintMode.MANUAL
+    pq: Optional[PqType] = None
+
+    mode: Optional[CreateInputPqEnabledFalseConstraintMode] = (
+        CreateInputPqEnabledFalseConstraintMode.MANUAL
     )
     r"""Choose how to discover files to monitor"""
 
@@ -9517,7 +9494,7 @@ class CreateInputInputFilePqEnabledFalseWithPqConstraint(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputPqEnabledFalseWithPqConstraintMode(value)
+                return models.CreateInputPqEnabledFalseConstraintMode(value)
             except ValueError:
                 return value
         return value
@@ -9546,7 +9523,7 @@ class CreateInputInputFileSendToRoutesFalseWithConnectionsConstraintTypedDict(
     type: CreateInputSendToRoutesFalseWithConnectionsConstraintInputFileType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -9609,7 +9586,7 @@ class CreateInputInputFileSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -9712,11 +9689,11 @@ class CreateInputInputFileSendToRoutesFalseWithConnectionsConstraint(BaseModel):
         return value
 
 
-class CreateInputSendToRoutesTrueWithConnectionsConstraintInputFileType(str, Enum):
+class CreateInputSendToRoutesTrueConstraintInputFileType(str, Enum):
     FILE = "file"
 
 
-class CreateInputSendToRoutesTrueWithConnectionsConstraintMode(
+class CreateInputSendToRoutesTrueConstraintMode(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Choose how to discover files to monitor"""
@@ -9727,14 +9704,12 @@ class CreateInputSendToRoutesTrueWithConnectionsConstraintMode(
     AUTO = "auto"
 
 
-class CreateInputInputFileSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
+class CreateInputInputFileSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSendToRoutesTrueWithConnectionsConstraintInputFileType
+    type: CreateInputSendToRoutesTrueConstraintInputFileType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -9744,8 +9719,10 @@ class CreateInputInputFileSendToRoutesTrueWithConnectionsConstraintTypedDict(Typ
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
-    mode: NotRequired[CreateInputSendToRoutesTrueWithConnectionsConstraintMode]
+    mode: NotRequired[CreateInputSendToRoutesTrueConstraintMode]
     r"""Choose how to discover files to monitor"""
     interval: NotRequired[float]
     r"""Time, in seconds, between scanning for files"""
@@ -9785,19 +9762,16 @@ class CreateInputInputFileSendToRoutesTrueWithConnectionsConstraintTypedDict(Typ
     r"""Stream binary files as Base64-encoded chunks."""
 
 
-class CreateInputInputFileSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputFileSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSendToRoutesTrueWithConnectionsConstraintInputFileType
+    type: CreateInputSendToRoutesTrueConstraintInputFileType
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -9813,10 +9787,13 @@ class CreateInputInputFileSendToRoutesTrueWithConnectionsConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
     pq: Optional[PqType] = None
 
-    mode: Optional[CreateInputSendToRoutesTrueWithConnectionsConstraintMode] = (
-        CreateInputSendToRoutesTrueWithConnectionsConstraintMode.MANUAL
+    mode: Optional[CreateInputSendToRoutesTrueConstraintMode] = (
+        CreateInputSendToRoutesTrueConstraintMode.MANUAL
     )
     r"""Choose how to discover files to monitor"""
 
@@ -9891,9 +9868,7 @@ class CreateInputInputFileSendToRoutesTrueWithConnectionsConstraint(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputSendToRoutesTrueWithConnectionsConstraintMode(
-                    value
-                )
+                return models.CreateInputSendToRoutesTrueConstraintMode(value)
             except ValueError:
                 return value
         return value
@@ -9902,9 +9877,9 @@ class CreateInputInputFileSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 CreateInputInputFileTypedDict = TypeAliasType(
     "CreateInputInputFileTypedDict",
     Union[
-        CreateInputInputFileSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputFileSendToRoutesTrueConstraintTypedDict,
         CreateInputInputFileSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputFilePqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputFilePqEnabledFalseConstraintTypedDict,
         CreateInputInputFilePqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -9913,9 +9888,9 @@ CreateInputInputFileTypedDict = TypeAliasType(
 CreateInputInputFile = TypeAliasType(
     "CreateInputInputFile",
     Union[
-        CreateInputInputFileSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputFileSendToRoutesTrueConstraint,
         CreateInputInputFileSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputFilePqEnabledFalseWithPqConstraint,
+        CreateInputInputFilePqEnabledFalseConstraint,
         CreateInputInputFilePqEnabledTrueWithPqConstraint,
     ],
 )
@@ -9942,7 +9917,7 @@ class CreateInputInputSyslogSyslog2TypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
@@ -10017,7 +9992,7 @@ class CreateInputInputSyslogSyslog2(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
@@ -10142,7 +10117,7 @@ class CreateInputInputSyslogSyslog1TypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
@@ -10217,7 +10192,7 @@ class CreateInputInputSyslogSyslog1(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
@@ -10368,7 +10343,7 @@ class CreateInputInputSqsPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     aws_account_id: NotRequired[str]
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
@@ -10444,7 +10419,7 @@ class CreateInputInputSqsPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     aws_account_id: Annotated[Optional[str], pydantic.Field(alias="awsAccountId")] = (
@@ -10558,7 +10533,7 @@ class CreateInputInputSqsPqEnabledTrueWithPqConstraint(BaseModel):
         return value
 
 
-class CreateInputInputSqsPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputSqsPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputSqsType
@@ -10568,7 +10543,6 @@ class CreateInputInputSqsPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""The queue type used (or created)"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -10578,8 +10552,9 @@ class CreateInputInputSqsPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     aws_account_id: NotRequired[str]
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
     create_queue: NotRequired[bool]
@@ -10621,7 +10596,7 @@ class CreateInputInputSqsPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
 
 
-class CreateInputInputSqsPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputSqsPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -10635,8 +10610,6 @@ class CreateInputInputSqsPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -10654,8 +10627,10 @@ class CreateInputInputSqsPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     aws_account_id: Annotated[Optional[str], pydantic.Field(alias="awsAccountId")] = (
         None
@@ -10778,7 +10753,7 @@ class CreateInputInputSqsSendToRoutesFalseWithConnectionsConstraintTypedDict(Typ
     r"""The queue type used (or created)"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -10848,7 +10823,7 @@ class CreateInputInputSqsSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -10978,7 +10953,7 @@ class CreateInputInputSqsSendToRoutesFalseWithConnectionsConstraint(BaseModel):
         return value
 
 
-class CreateInputInputSqsSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
+class CreateInputInputSqsSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputSqsType
@@ -10988,8 +10963,6 @@ class CreateInputInputSqsSendToRoutesTrueWithConnectionsConstraintTypedDict(Type
     r"""The queue type used (or created)"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -10999,6 +10972,8 @@ class CreateInputInputSqsSendToRoutesTrueWithConnectionsConstraintTypedDict(Type
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     aws_account_id: NotRequired[str]
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
@@ -11041,7 +11016,7 @@ class CreateInputInputSqsSendToRoutesTrueWithConnectionsConstraintTypedDict(Type
     r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
 
 
-class CreateInputInputSqsSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputSqsSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -11058,9 +11033,6 @@ class CreateInputInputSqsSendToRoutesTrueWithConnectionsConstraint(BaseModel):
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
     disabled: Optional[bool] = False
 
     pipeline: Optional[str] = None
@@ -11074,6 +11046,9 @@ class CreateInputInputSqsSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -11191,9 +11166,9 @@ class CreateInputInputSqsSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 CreateInputInputSqsTypedDict = TypeAliasType(
     "CreateInputInputSqsTypedDict",
     Union[
-        CreateInputInputSqsSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputSqsSendToRoutesTrueConstraintTypedDict,
         CreateInputInputSqsSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputSqsPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputSqsPqEnabledFalseConstraintTypedDict,
         CreateInputInputSqsPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -11202,9 +11177,9 @@ CreateInputInputSqsTypedDict = TypeAliasType(
 CreateInputInputSqs = TypeAliasType(
     "CreateInputInputSqs",
     Union[
-        CreateInputInputSqsSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputSqsSendToRoutesTrueConstraint,
         CreateInputInputSqsSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputSqsPqEnabledFalseWithPqConstraint,
+        CreateInputInputSqsPqEnabledFalseConstraint,
         CreateInputInputSqsPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -11232,7 +11207,7 @@ class CreateInputInputModelDrivenTelemetryPqEnabledTrueWithPqConstraintTypedDict
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -11275,7 +11250,7 @@ class CreateInputInputModelDrivenTelemetryPqEnabledTrueWithPqConstraint(BaseMode
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     host: Optional[str] = "0.0.0.0"
@@ -11302,15 +11277,12 @@ class CreateInputInputModelDrivenTelemetryPqEnabledTrueWithPqConstraint(BaseMode
     description: Optional[str] = None
 
 
-class CreateInputInputModelDrivenTelemetryPqEnabledFalseWithPqConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputModelDrivenTelemetryPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputModelDrivenTelemetryType
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -11320,8 +11292,9 @@ class CreateInputInputModelDrivenTelemetryPqEnabledFalseWithPqConstraintTypedDic
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: NotRequired[float]
@@ -11336,7 +11309,7 @@ class CreateInputInputModelDrivenTelemetryPqEnabledFalseWithPqConstraintTypedDic
     description: NotRequired[str]
 
 
-class CreateInputInputModelDrivenTelemetryPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputModelDrivenTelemetryPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -11344,8 +11317,6 @@ class CreateInputInputModelDrivenTelemetryPqEnabledFalseWithPqConstraint(BaseMod
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -11363,8 +11334,10 @@ class CreateInputInputModelDrivenTelemetryPqEnabledFalseWithPqConstraint(BaseMod
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -11398,7 +11371,7 @@ class CreateInputInputModelDrivenTelemetrySendToRoutesFalseWithConnectionsConstr
     type: CreateInputInputModelDrivenTelemetryType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -11437,7 +11410,7 @@ class CreateInputInputModelDrivenTelemetrySendToRoutesFalseWithConnectionsConstr
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -11480,7 +11453,7 @@ class CreateInputInputModelDrivenTelemetrySendToRoutesFalseWithConnectionsConstr
     description: Optional[str] = None
 
 
-class CreateInputInputModelDrivenTelemetrySendToRoutesTrueWithConnectionsConstraintTypedDict(
+class CreateInputInputModelDrivenTelemetrySendToRoutesTrueConstraintTypedDict(
     TypedDict
 ):
     id: str
@@ -11488,8 +11461,6 @@ class CreateInputInputModelDrivenTelemetrySendToRoutesTrueWithConnectionsConstra
     type: CreateInputInputModelDrivenTelemetryType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -11499,6 +11470,8 @@ class CreateInputInputModelDrivenTelemetrySendToRoutesTrueWithConnectionsConstra
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -11514,9 +11487,7 @@ class CreateInputInputModelDrivenTelemetrySendToRoutesTrueWithConnectionsConstra
     description: NotRequired[str]
 
 
-class CreateInputInputModelDrivenTelemetrySendToRoutesTrueWithConnectionsConstraint(
-    BaseModel
-):
+class CreateInputInputModelDrivenTelemetrySendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -11526,9 +11497,6 @@ class CreateInputInputModelDrivenTelemetrySendToRoutesTrueWithConnectionsConstra
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -11543,6 +11511,9 @@ class CreateInputInputModelDrivenTelemetrySendToRoutesTrueWithConnectionsConstra
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -11573,9 +11544,9 @@ class CreateInputInputModelDrivenTelemetrySendToRoutesTrueWithConnectionsConstra
 CreateInputInputModelDrivenTelemetryTypedDict = TypeAliasType(
     "CreateInputInputModelDrivenTelemetryTypedDict",
     Union[
-        CreateInputInputModelDrivenTelemetrySendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputModelDrivenTelemetrySendToRoutesTrueConstraintTypedDict,
         CreateInputInputModelDrivenTelemetrySendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputModelDrivenTelemetryPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputModelDrivenTelemetryPqEnabledFalseConstraintTypedDict,
         CreateInputInputModelDrivenTelemetryPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -11584,9 +11555,9 @@ CreateInputInputModelDrivenTelemetryTypedDict = TypeAliasType(
 CreateInputInputModelDrivenTelemetry = TypeAliasType(
     "CreateInputInputModelDrivenTelemetry",
     Union[
-        CreateInputInputModelDrivenTelemetrySendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputModelDrivenTelemetrySendToRoutesTrueConstraint,
         CreateInputInputModelDrivenTelemetrySendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputModelDrivenTelemetryPqEnabledFalseWithPqConstraint,
+        CreateInputInputModelDrivenTelemetryPqEnabledFalseConstraint,
         CreateInputInputModelDrivenTelemetryPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -11630,7 +11601,7 @@ class CreateInputInputOpenTelemetryPqEnabledTrueWithPqConstraintTypedDict(TypedD
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -11726,7 +11697,7 @@ class CreateInputInputOpenTelemetryPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     host: Optional[str] = "0.0.0.0"
@@ -11904,13 +11875,12 @@ class CreateInputInputOpenTelemetryPqEnabledTrueWithPqConstraint(BaseModel):
         return value
 
 
-class CreateInputInputOpenTelemetryPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputOpenTelemetryPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputOpenTelemetryType
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -11920,8 +11890,9 @@ class CreateInputInputOpenTelemetryPqEnabledFalseWithPqConstraintTypedDict(Typed
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: NotRequired[float]
@@ -11989,7 +11960,7 @@ class CreateInputInputOpenTelemetryPqEnabledFalseWithPqConstraintTypedDict(Typed
     r"""Enable to extract each incoming log record to a separate event"""
 
 
-class CreateInputInputOpenTelemetryPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputOpenTelemetryPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -11997,8 +11968,6 @@ class CreateInputInputOpenTelemetryPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -12016,8 +11985,10 @@ class CreateInputInputOpenTelemetryPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -12202,7 +12173,7 @@ class CreateInputInputOpenTelemetrySendToRoutesFalseWithConnectionsConstraintTyp
     type: CreateInputInputOpenTelemetryType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -12294,7 +12265,7 @@ class CreateInputInputOpenTelemetrySendToRoutesFalseWithConnectionsConstraint(
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -12488,16 +12459,12 @@ class CreateInputInputOpenTelemetrySendToRoutesFalseWithConnectionsConstraint(
         return value
 
 
-class CreateInputInputOpenTelemetrySendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputOpenTelemetrySendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputOpenTelemetryType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -12507,6 +12474,8 @@ class CreateInputInputOpenTelemetrySendToRoutesTrueWithConnectionsConstraintType
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -12575,7 +12544,7 @@ class CreateInputInputOpenTelemetrySendToRoutesTrueWithConnectionsConstraintType
     r"""Enable to extract each incoming log record to a separate event"""
 
 
-class CreateInputInputOpenTelemetrySendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputOpenTelemetrySendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -12585,9 +12554,6 @@ class CreateInputInputOpenTelemetrySendToRoutesTrueWithConnectionsConstraint(Bas
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -12602,6 +12568,9 @@ class CreateInputInputOpenTelemetrySendToRoutesTrueWithConnectionsConstraint(Bas
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -12783,9 +12752,9 @@ class CreateInputInputOpenTelemetrySendToRoutesTrueWithConnectionsConstraint(Bas
 CreateInputInputOpenTelemetryTypedDict = TypeAliasType(
     "CreateInputInputOpenTelemetryTypedDict",
     Union[
-        CreateInputInputOpenTelemetrySendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputOpenTelemetrySendToRoutesTrueConstraintTypedDict,
         CreateInputInputOpenTelemetrySendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputOpenTelemetryPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputOpenTelemetryPqEnabledFalseConstraintTypedDict,
         CreateInputInputOpenTelemetryPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -12794,9 +12763,9 @@ CreateInputInputOpenTelemetryTypedDict = TypeAliasType(
 CreateInputInputOpenTelemetry = TypeAliasType(
     "CreateInputInputOpenTelemetry",
     Union[
-        CreateInputInputOpenTelemetrySendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputOpenTelemetrySendToRoutesTrueConstraint,
         CreateInputInputOpenTelemetrySendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputOpenTelemetryPqEnabledFalseWithPqConstraint,
+        CreateInputInputOpenTelemetryPqEnabledFalseConstraint,
         CreateInputInputOpenTelemetryPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -12906,7 +12875,7 @@ class CreateInputInputSnmpPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     host: NotRequired[str]
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
@@ -12956,7 +12925,7 @@ class CreateInputInputSnmpPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     host: Optional[str] = "0.0.0.0"
@@ -13001,13 +12970,12 @@ class CreateInputInputSnmpPqEnabledTrueWithPqConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class CreateInputInputSnmpPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputSnmpPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputSnmpType
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -13017,8 +12985,9 @@ class CreateInputInputSnmpPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
     port: NotRequired[float]
@@ -13040,7 +13009,7 @@ class CreateInputInputSnmpPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     description: NotRequired[str]
 
 
-class CreateInputInputSnmpPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputSnmpPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -13048,8 +13017,6 @@ class CreateInputInputSnmpPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -13067,8 +13034,10 @@ class CreateInputInputSnmpPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
@@ -13120,7 +13089,7 @@ class CreateInputInputSnmpSendToRoutesFalseWithConnectionsConstraintTypedDict(
     type: CreateInputInputSnmpType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -13164,7 +13133,7 @@ class CreateInputInputSnmpSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -13225,14 +13194,12 @@ class CreateInputInputSnmpSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class CreateInputInputSnmpSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
+class CreateInputInputSnmpSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputSnmpType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -13242,6 +13209,8 @@ class CreateInputInputSnmpSendToRoutesTrueWithConnectionsConstraintTypedDict(Typ
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
@@ -13264,7 +13233,7 @@ class CreateInputInputSnmpSendToRoutesTrueWithConnectionsConstraintTypedDict(Typ
     description: NotRequired[str]
 
 
-class CreateInputInputSnmpSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputSnmpSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -13274,9 +13243,6 @@ class CreateInputInputSnmpSendToRoutesTrueWithConnectionsConstraint(BaseModel):
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -13291,6 +13257,9 @@ class CreateInputInputSnmpSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -13339,9 +13308,9 @@ class CreateInputInputSnmpSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 CreateInputInputSnmpTypedDict = TypeAliasType(
     "CreateInputInputSnmpTypedDict",
     Union[
-        CreateInputInputSnmpSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputSnmpSendToRoutesTrueConstraintTypedDict,
         CreateInputInputSnmpSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputSnmpPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputSnmpPqEnabledFalseConstraintTypedDict,
         CreateInputInputSnmpPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -13350,9 +13319,9 @@ CreateInputInputSnmpTypedDict = TypeAliasType(
 CreateInputInputSnmp = TypeAliasType(
     "CreateInputInputSnmp",
     Union[
-        CreateInputInputSnmpSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputSnmpSendToRoutesTrueConstraint,
         CreateInputInputSnmpSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputSnmpPqEnabledFalseWithPqConstraint,
+        CreateInputInputSnmpPqEnabledFalseConstraint,
         CreateInputInputSnmpPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -13380,7 +13349,7 @@ class CreateInputInputS3InventoryPqEnabledTrueWithPqConstraintTypedDict(TypedDic
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     file_filter: NotRequired[str]
     r"""Regex matching file names to download and process. Defaults to: .*"""
@@ -13482,7 +13451,7 @@ class CreateInputInputS3InventoryPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     file_filter: Annotated[Optional[str], pydantic.Field(alias="fileFilter")] = "/.*/"
@@ -13670,7 +13639,7 @@ class CreateInputInputS3InventoryPqEnabledTrueWithPqConstraint(BaseModel):
         return value
 
 
-class CreateInputInputS3InventoryPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputS3InventoryPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputS3InventoryType
@@ -13678,7 +13647,6 @@ class CreateInputInputS3InventoryPqEnabledFalseWithPqConstraintTypedDict(TypedDi
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -13688,8 +13656,9 @@ class CreateInputInputS3InventoryPqEnabledFalseWithPqConstraintTypedDict(TypedDi
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     file_filter: NotRequired[str]
     r"""Regex matching file names to download and process. Defaults to: .*"""
     aws_account_id: NotRequired[str]
@@ -13760,7 +13729,7 @@ class CreateInputInputS3InventoryPqEnabledFalseWithPqConstraintTypedDict(TypedDi
     r"""The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
 
 
-class CreateInputInputS3InventoryPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputS3InventoryPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -13771,8 +13740,6 @@ class CreateInputInputS3InventoryPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -13790,8 +13757,10 @@ class CreateInputInputS3InventoryPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     file_filter: Annotated[Optional[str], pydantic.Field(alias="fileFilter")] = "/.*/"
     r"""Regex matching file names to download and process. Defaults to: .*"""
@@ -13988,7 +13957,7 @@ class CreateInputInputS3InventorySendToRoutesFalseWithConnectionsConstraintTyped
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -14084,7 +14053,7 @@ class CreateInputInputS3InventorySendToRoutesFalseWithConnectionsConstraint(Base
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -14288,9 +14257,7 @@ class CreateInputInputS3InventorySendToRoutesFalseWithConnectionsConstraint(Base
         return value
 
 
-class CreateInputInputS3InventorySendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputS3InventorySendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputS3InventoryType
@@ -14298,8 +14265,6 @@ class CreateInputInputS3InventorySendToRoutesTrueWithConnectionsConstraintTypedD
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -14309,6 +14274,8 @@ class CreateInputInputS3InventorySendToRoutesTrueWithConnectionsConstraintTypedD
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     file_filter: NotRequired[str]
     r"""Regex matching file names to download and process. Defaults to: .*"""
@@ -14380,7 +14347,7 @@ class CreateInputInputS3InventorySendToRoutesTrueWithConnectionsConstraintTypedD
     r"""The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
 
 
-class CreateInputInputS3InventorySendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputS3InventorySendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -14393,9 +14360,6 @@ class CreateInputInputS3InventorySendToRoutesTrueWithConnectionsConstraint(BaseM
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -14410,6 +14374,9 @@ class CreateInputInputS3InventorySendToRoutesTrueWithConnectionsConstraint(BaseM
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -14601,9 +14568,9 @@ class CreateInputInputS3InventorySendToRoutesTrueWithConnectionsConstraint(BaseM
 CreateInputInputS3InventoryTypedDict = TypeAliasType(
     "CreateInputInputS3InventoryTypedDict",
     Union[
-        CreateInputInputS3InventorySendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputS3InventorySendToRoutesTrueConstraintTypedDict,
         CreateInputInputS3InventorySendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputS3InventoryPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputS3InventoryPqEnabledFalseConstraintTypedDict,
         CreateInputInputS3InventoryPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -14612,9 +14579,9 @@ CreateInputInputS3InventoryTypedDict = TypeAliasType(
 CreateInputInputS3Inventory = TypeAliasType(
     "CreateInputInputS3Inventory",
     Union[
-        CreateInputInputS3InventorySendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputS3InventorySendToRoutesTrueConstraint,
         CreateInputInputS3InventorySendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputS3InventoryPqEnabledFalseWithPqConstraint,
+        CreateInputInputS3InventoryPqEnabledFalseConstraint,
         CreateInputInputS3InventoryPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -14642,7 +14609,7 @@ class CreateInputInputS3PqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     file_filter: NotRequired[str]
     r"""Regex matching file names to download and process. Defaults to: .*"""
@@ -14741,7 +14708,7 @@ class CreateInputInputS3PqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     file_filter: Annotated[Optional[str], pydantic.Field(alias="fileFilter")] = "/.*/"
@@ -14909,7 +14876,7 @@ class CreateInputInputS3PqEnabledTrueWithPqConstraint(BaseModel):
         return value
 
 
-class CreateInputInputS3PqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputS3PqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputS3Type
@@ -14917,7 +14884,6 @@ class CreateInputInputS3PqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -14927,8 +14893,9 @@ class CreateInputInputS3PqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     file_filter: NotRequired[str]
     r"""Regex matching file names to download and process. Defaults to: .*"""
     aws_account_id: NotRequired[str]
@@ -14996,7 +14963,7 @@ class CreateInputInputS3PqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
 
 
-class CreateInputInputS3PqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputS3PqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -15007,8 +14974,6 @@ class CreateInputInputS3PqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -15026,8 +14991,10 @@ class CreateInputInputS3PqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     file_filter: Annotated[Optional[str], pydantic.Field(alias="fileFilter")] = "/.*/"
     r"""Regex matching file names to download and process. Defaults to: .*"""
@@ -15202,7 +15169,7 @@ class CreateInputInputS3SendToRoutesFalseWithConnectionsConstraintTypedDict(Type
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -15295,7 +15262,7 @@ class CreateInputInputS3SendToRoutesFalseWithConnectionsConstraint(BaseModel):
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -15479,7 +15446,7 @@ class CreateInputInputS3SendToRoutesFalseWithConnectionsConstraint(BaseModel):
         return value
 
 
-class CreateInputInputS3SendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
+class CreateInputInputS3SendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputS3Type
@@ -15487,8 +15454,6 @@ class CreateInputInputS3SendToRoutesTrueWithConnectionsConstraintTypedDict(Typed
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -15498,6 +15463,8 @@ class CreateInputInputS3SendToRoutesTrueWithConnectionsConstraintTypedDict(Typed
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     file_filter: NotRequired[str]
     r"""Regex matching file names to download and process. Defaults to: .*"""
@@ -15566,7 +15533,7 @@ class CreateInputInputS3SendToRoutesTrueWithConnectionsConstraintTypedDict(Typed
     r"""The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
 
 
-class CreateInputInputS3SendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputS3SendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -15579,9 +15546,6 @@ class CreateInputInputS3SendToRoutesTrueWithConnectionsConstraint(BaseModel):
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -15596,6 +15560,9 @@ class CreateInputInputS3SendToRoutesTrueWithConnectionsConstraint(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -15767,9 +15734,9 @@ class CreateInputInputS3SendToRoutesTrueWithConnectionsConstraint(BaseModel):
 CreateInputInputS3TypedDict = TypeAliasType(
     "CreateInputInputS3TypedDict",
     Union[
-        CreateInputInputS3SendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputS3SendToRoutesTrueConstraintTypedDict,
         CreateInputInputS3SendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputS3PqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputS3PqEnabledFalseConstraintTypedDict,
         CreateInputInputS3PqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -15778,9 +15745,9 @@ CreateInputInputS3TypedDict = TypeAliasType(
 CreateInputInputS3 = TypeAliasType(
     "CreateInputInputS3",
     Union[
-        CreateInputInputS3SendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputS3SendToRoutesTrueConstraint,
         CreateInputInputS3SendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputS3PqEnabledFalseWithPqConstraint,
+        CreateInputInputS3PqEnabledFalseConstraint,
         CreateInputInputS3PqEnabledTrueWithPqConstraint,
     ],
 )
@@ -15806,7 +15773,7 @@ class CreateInputInputMetricsPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     host: NotRequired[str]
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
@@ -15855,7 +15822,7 @@ class CreateInputInputMetricsPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     host: Optional[str] = "0.0.0.0"
@@ -15895,13 +15862,12 @@ class CreateInputInputMetricsPqEnabledTrueWithPqConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class CreateInputInputMetricsPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputMetricsPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputMetricsType
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -15911,8 +15877,9 @@ class CreateInputInputMetricsPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
     udp_port: NotRequired[float]
@@ -15933,7 +15900,7 @@ class CreateInputInputMetricsPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     description: NotRequired[str]
 
 
-class CreateInputInputMetricsPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputMetricsPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -15941,8 +15908,6 @@ class CreateInputInputMetricsPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -15960,8 +15925,10 @@ class CreateInputInputMetricsPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
@@ -16008,7 +15975,7 @@ class CreateInputInputMetricsSendToRoutesFalseWithConnectionsConstraintTypedDict
     type: CreateInputInputMetricsType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -16051,7 +16018,7 @@ class CreateInputInputMetricsSendToRoutesFalseWithConnectionsConstraint(BaseMode
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -16107,16 +16074,12 @@ class CreateInputInputMetricsSendToRoutesFalseWithConnectionsConstraint(BaseMode
     description: Optional[str] = None
 
 
-class CreateInputInputMetricsSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputMetricsSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputMetricsType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -16126,6 +16089,8 @@ class CreateInputInputMetricsSendToRoutesTrueWithConnectionsConstraintTypedDict(
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
@@ -16147,7 +16112,7 @@ class CreateInputInputMetricsSendToRoutesTrueWithConnectionsConstraintTypedDict(
     description: NotRequired[str]
 
 
-class CreateInputInputMetricsSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputMetricsSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -16157,9 +16122,6 @@ class CreateInputInputMetricsSendToRoutesTrueWithConnectionsConstraint(BaseModel
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -16174,6 +16136,9 @@ class CreateInputInputMetricsSendToRoutesTrueWithConnectionsConstraint(BaseModel
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -16217,9 +16182,9 @@ class CreateInputInputMetricsSendToRoutesTrueWithConnectionsConstraint(BaseModel
 CreateInputInputMetricsTypedDict = TypeAliasType(
     "CreateInputInputMetricsTypedDict",
     Union[
-        CreateInputInputMetricsSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputMetricsSendToRoutesTrueConstraintTypedDict,
         CreateInputInputMetricsSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputMetricsPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputMetricsPqEnabledFalseConstraintTypedDict,
         CreateInputInputMetricsPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -16228,9 +16193,9 @@ CreateInputInputMetricsTypedDict = TypeAliasType(
 CreateInputInputMetrics = TypeAliasType(
     "CreateInputInputMetrics",
     Union[
-        CreateInputInputMetricsSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputMetricsSendToRoutesTrueConstraint,
         CreateInputInputMetricsSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputMetricsPqEnabledFalseWithPqConstraint,
+        CreateInputInputMetricsPqEnabledFalseConstraint,
         CreateInputInputMetricsPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -16256,7 +16221,7 @@ class CreateInputInputCriblmetricsPqEnabledTrueWithPqConstraintTypedDict(TypedDi
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     prefix: NotRequired[str]
     r"""A prefix that is applied to the metrics provided by Cribl Stream"""
@@ -16294,7 +16259,7 @@ class CreateInputInputCriblmetricsPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     prefix: Optional[str] = "cribl.logstream."
@@ -16311,13 +16276,12 @@ class CreateInputInputCriblmetricsPqEnabledTrueWithPqConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class CreateInputInputCriblmetricsPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputCriblmetricsPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputCriblmetricsType
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -16327,8 +16291,9 @@ class CreateInputInputCriblmetricsPqEnabledFalseWithPqConstraintTypedDict(TypedD
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     prefix: NotRequired[str]
     r"""A prefix that is applied to the metrics provided by Cribl Stream"""
     full_fidelity: NotRequired[bool]
@@ -16338,7 +16303,7 @@ class CreateInputInputCriblmetricsPqEnabledFalseWithPqConstraintTypedDict(TypedD
     description: NotRequired[str]
 
 
-class CreateInputInputCriblmetricsPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputCriblmetricsPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -16346,8 +16311,6 @@ class CreateInputInputCriblmetricsPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -16365,8 +16328,10 @@ class CreateInputInputCriblmetricsPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     prefix: Optional[str] = "cribl.logstream."
     r"""A prefix that is applied to the metrics provided by Cribl Stream"""
@@ -16390,7 +16355,7 @@ class CreateInputInputCriblmetricsSendToRoutesFalseWithConnectionsConstraintType
     type: CreateInputInputCriblmetricsType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -16422,7 +16387,7 @@ class CreateInputInputCriblmetricsSendToRoutesFalseWithConnectionsConstraint(Bas
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -16455,16 +16420,12 @@ class CreateInputInputCriblmetricsSendToRoutesFalseWithConnectionsConstraint(Bas
     description: Optional[str] = None
 
 
-class CreateInputInputCriblmetricsSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputCriblmetricsSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputCriblmetricsType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -16474,6 +16435,8 @@ class CreateInputInputCriblmetricsSendToRoutesTrueWithConnectionsConstraintTyped
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     prefix: NotRequired[str]
     r"""A prefix that is applied to the metrics provided by Cribl Stream"""
@@ -16484,7 +16447,7 @@ class CreateInputInputCriblmetricsSendToRoutesTrueWithConnectionsConstraintTyped
     description: NotRequired[str]
 
 
-class CreateInputInputCriblmetricsSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputCriblmetricsSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -16494,9 +16457,6 @@ class CreateInputInputCriblmetricsSendToRoutesTrueWithConnectionsConstraint(Base
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -16511,6 +16471,9 @@ class CreateInputInputCriblmetricsSendToRoutesTrueWithConnectionsConstraint(Base
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -16531,9 +16494,9 @@ class CreateInputInputCriblmetricsSendToRoutesTrueWithConnectionsConstraint(Base
 CreateInputInputCriblmetricsTypedDict = TypeAliasType(
     "CreateInputInputCriblmetricsTypedDict",
     Union[
-        CreateInputInputCriblmetricsSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputCriblmetricsSendToRoutesTrueConstraintTypedDict,
         CreateInputInputCriblmetricsSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputCriblmetricsPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputCriblmetricsPqEnabledFalseConstraintTypedDict,
         CreateInputInputCriblmetricsPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -16542,9 +16505,9 @@ CreateInputInputCriblmetricsTypedDict = TypeAliasType(
 CreateInputInputCriblmetrics = TypeAliasType(
     "CreateInputInputCriblmetrics",
     Union[
-        CreateInputInputCriblmetricsSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputCriblmetricsSendToRoutesTrueConstraint,
         CreateInputInputCriblmetricsSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputCriblmetricsPqEnabledFalseWithPqConstraint,
+        CreateInputInputCriblmetricsPqEnabledFalseConstraint,
         CreateInputInputCriblmetricsPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -16605,7 +16568,7 @@ class CreateInputInputKinesisPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     service_interval: NotRequired[float]
     r"""Time interval in minutes between consecutive service calls"""
@@ -16685,7 +16648,7 @@ class CreateInputInputKinesisPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     service_interval: Annotated[
@@ -16837,7 +16800,7 @@ class CreateInputInputKinesisPqEnabledTrueWithPqConstraint(BaseModel):
         return value
 
 
-class CreateInputInputKinesisPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputKinesisPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputKinesisType
@@ -16847,7 +16810,6 @@ class CreateInputInputKinesisPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Region where the Kinesis stream is located"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -16857,8 +16819,9 @@ class CreateInputInputKinesisPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     service_interval: NotRequired[float]
     r"""Time interval in minutes between consecutive service calls"""
     shard_expr: NotRequired[str]
@@ -16904,7 +16867,7 @@ class CreateInputInputKinesisPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Select or create a stored secret that references your access key and secret key"""
 
 
-class CreateInputInputKinesisPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputKinesisPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -16918,8 +16881,6 @@ class CreateInputInputKinesisPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -16937,8 +16898,10 @@ class CreateInputInputKinesisPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     service_interval: Annotated[
         Optional[float], pydantic.Field(alias="serviceInterval")
@@ -17101,7 +17064,7 @@ class CreateInputInputKinesisSendToRoutesFalseWithConnectionsConstraintTypedDict
     r"""Region where the Kinesis stream is located"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -17175,7 +17138,7 @@ class CreateInputInputKinesisSendToRoutesFalseWithConnectionsConstraint(BaseMode
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -17343,9 +17306,7 @@ class CreateInputInputKinesisSendToRoutesFalseWithConnectionsConstraint(BaseMode
         return value
 
 
-class CreateInputInputKinesisSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputKinesisSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputKinesisType
@@ -17355,8 +17316,6 @@ class CreateInputInputKinesisSendToRoutesTrueWithConnectionsConstraintTypedDict(
     r"""Region where the Kinesis stream is located"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -17366,6 +17325,8 @@ class CreateInputInputKinesisSendToRoutesTrueWithConnectionsConstraintTypedDict(
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     service_interval: NotRequired[float]
     r"""Time interval in minutes between consecutive service calls"""
@@ -17412,7 +17373,7 @@ class CreateInputInputKinesisSendToRoutesTrueWithConnectionsConstraintTypedDict(
     r"""Select or create a stored secret that references your access key and secret key"""
 
 
-class CreateInputInputKinesisSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputKinesisSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -17429,9 +17390,6 @@ class CreateInputInputKinesisSendToRoutesTrueWithConnectionsConstraint(BaseModel
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
     disabled: Optional[bool] = False
 
     pipeline: Optional[str] = None
@@ -17445,6 +17403,9 @@ class CreateInputInputKinesisSendToRoutesTrueWithConnectionsConstraint(BaseModel
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -17600,9 +17561,9 @@ class CreateInputInputKinesisSendToRoutesTrueWithConnectionsConstraint(BaseModel
 CreateInputInputKinesisTypedDict = TypeAliasType(
     "CreateInputInputKinesisTypedDict",
     Union[
-        CreateInputInputKinesisSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputKinesisSendToRoutesTrueConstraintTypedDict,
         CreateInputInputKinesisSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputKinesisPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputKinesisPqEnabledFalseConstraintTypedDict,
         CreateInputInputKinesisPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -17611,9 +17572,9 @@ CreateInputInputKinesisTypedDict = TypeAliasType(
 CreateInputInputKinesis = TypeAliasType(
     "CreateInputInputKinesis",
     Union[
-        CreateInputInputKinesisSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputKinesisSendToRoutesTrueConstraint,
         CreateInputInputKinesisSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputKinesisPqEnabledFalseWithPqConstraint,
+        CreateInputInputKinesisPqEnabledFalseConstraint,
         CreateInputInputKinesisPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -17641,7 +17602,7 @@ class CreateInputInputHTTPRawPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -17715,7 +17676,7 @@ class CreateInputInputHTTPRawPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     host: Optional[str] = "0.0.0.0"
@@ -17814,7 +17775,7 @@ class CreateInputInputHTTPRawPqEnabledTrueWithPqConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class CreateInputInputHTTPRawPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputHTTPRawPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputHTTPRawType
@@ -17822,7 +17783,6 @@ class CreateInputInputHTTPRawPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Port to listen on"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -17832,8 +17792,9 @@ class CreateInputInputHTTPRawPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     auth_tokens: NotRequired[List[str]]
@@ -17876,7 +17837,7 @@ class CreateInputInputHTTPRawPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     description: NotRequired[str]
 
 
-class CreateInputInputHTTPRawPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputHTTPRawPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -17887,8 +17848,6 @@ class CreateInputInputHTTPRawPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -17906,8 +17865,10 @@ class CreateInputInputHTTPRawPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -18015,7 +17976,7 @@ class CreateInputInputHTTPRawSendToRoutesFalseWithConnectionsConstraintTypedDict
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -18083,7 +18044,7 @@ class CreateInputInputHTTPRawSendToRoutesFalseWithConnectionsConstraint(BaseMode
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -18198,9 +18159,7 @@ class CreateInputInputHTTPRawSendToRoutesFalseWithConnectionsConstraint(BaseMode
     description: Optional[str] = None
 
 
-class CreateInputInputHTTPRawSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputHTTPRawSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputHTTPRawType
@@ -18208,8 +18167,6 @@ class CreateInputInputHTTPRawSendToRoutesTrueWithConnectionsConstraintTypedDict(
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -18219,6 +18176,8 @@ class CreateInputInputHTTPRawSendToRoutesTrueWithConnectionsConstraintTypedDict(
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -18262,7 +18221,7 @@ class CreateInputInputHTTPRawSendToRoutesTrueWithConnectionsConstraintTypedDict(
     description: NotRequired[str]
 
 
-class CreateInputInputHTTPRawSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputHTTPRawSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -18275,9 +18234,6 @@ class CreateInputInputHTTPRawSendToRoutesTrueWithConnectionsConstraint(BaseModel
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -18292,6 +18248,9 @@ class CreateInputInputHTTPRawSendToRoutesTrueWithConnectionsConstraint(BaseModel
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -18394,9 +18353,9 @@ class CreateInputInputHTTPRawSendToRoutesTrueWithConnectionsConstraint(BaseModel
 CreateInputInputHTTPRawTypedDict = TypeAliasType(
     "CreateInputInputHTTPRawTypedDict",
     Union[
-        CreateInputInputHTTPRawSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputHTTPRawSendToRoutesTrueConstraintTypedDict,
         CreateInputInputHTTPRawSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputHTTPRawPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputHTTPRawPqEnabledFalseConstraintTypedDict,
         CreateInputInputHTTPRawPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -18405,9 +18364,9 @@ CreateInputInputHTTPRawTypedDict = TypeAliasType(
 CreateInputInputHTTPRaw = TypeAliasType(
     "CreateInputInputHTTPRaw",
     Union[
-        CreateInputInputHTTPRawSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputHTTPRawSendToRoutesTrueConstraint,
         CreateInputInputHTTPRawSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputHTTPRawPqEnabledFalseWithPqConstraint,
+        CreateInputInputHTTPRawPqEnabledFalseConstraint,
         CreateInputInputHTTPRawPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -18449,7 +18408,7 @@ class CreateInputInputDatagenPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
     r"""Fields to add to events from this input"""
@@ -18485,7 +18444,7 @@ class CreateInputInputDatagenPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -18494,14 +18453,13 @@ class CreateInputInputDatagenPqEnabledTrueWithPqConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class CreateInputInputDatagenPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputDatagenPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputDatagenType
     samples: List[CreateInputSampleTypedDict]
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -18511,14 +18469,15 @@ class CreateInputInputDatagenPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
 
 
-class CreateInputInputDatagenPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputDatagenPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -18528,8 +18487,6 @@ class CreateInputInputDatagenPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -18547,8 +18504,10 @@ class CreateInputInputDatagenPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
     r"""Fields to add to events from this input"""
@@ -18565,7 +18524,7 @@ class CreateInputInputDatagenSendToRoutesFalseWithConnectionsConstraintTypedDict
     samples: List[CreateInputSampleTypedDict]
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -18595,7 +18554,7 @@ class CreateInputInputDatagenSendToRoutesFalseWithConnectionsConstraint(BaseMode
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -18620,17 +18579,13 @@ class CreateInputInputDatagenSendToRoutesFalseWithConnectionsConstraint(BaseMode
     description: Optional[str] = None
 
 
-class CreateInputInputDatagenSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputDatagenSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputDatagenType
     samples: List[CreateInputSampleTypedDict]
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -18640,13 +18595,15 @@ class CreateInputInputDatagenSendToRoutesTrueWithConnectionsConstraintTypedDict(
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
 
 
-class CreateInputInputDatagenSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputDatagenSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -18659,9 +18616,6 @@ class CreateInputInputDatagenSendToRoutesTrueWithConnectionsConstraint(BaseModel
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
     disabled: Optional[bool] = False
 
     pipeline: Optional[str] = None
@@ -18676,6 +18630,9 @@ class CreateInputInputDatagenSendToRoutesTrueWithConnectionsConstraint(BaseModel
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
     pq: Optional[PqType] = None
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -18687,9 +18644,9 @@ class CreateInputInputDatagenSendToRoutesTrueWithConnectionsConstraint(BaseModel
 CreateInputInputDatagenTypedDict = TypeAliasType(
     "CreateInputInputDatagenTypedDict",
     Union[
-        CreateInputInputDatagenSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputDatagenSendToRoutesTrueConstraintTypedDict,
         CreateInputInputDatagenSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputDatagenPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputDatagenPqEnabledFalseConstraintTypedDict,
         CreateInputInputDatagenPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -18698,9 +18655,9 @@ CreateInputInputDatagenTypedDict = TypeAliasType(
 CreateInputInputDatagen = TypeAliasType(
     "CreateInputInputDatagen",
     Union[
-        CreateInputInputDatagenSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputDatagenSendToRoutesTrueConstraint,
         CreateInputInputDatagenSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputDatagenPqEnabledFalseWithPqConstraint,
+        CreateInputInputDatagenPqEnabledFalseConstraint,
         CreateInputInputDatagenPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -18745,7 +18702,7 @@ class CreateInputInputDatadogAgentPqEnabledTrueWithPqConstraintTypedDict(TypedDi
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -18810,7 +18767,7 @@ class CreateInputInputDatadogAgentPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     host: Optional[str] = "0.0.0.0"
@@ -18889,7 +18846,7 @@ class CreateInputInputDatadogAgentPqEnabledTrueWithPqConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class CreateInputInputDatadogAgentPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputDatadogAgentPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputDatadogAgentType
@@ -18897,7 +18854,6 @@ class CreateInputInputDatadogAgentPqEnabledFalseWithPqConstraintTypedDict(TypedD
     r"""Port to listen on"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -18907,8 +18863,9 @@ class CreateInputInputDatadogAgentPqEnabledFalseWithPqConstraintTypedDict(TypedD
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
@@ -18942,7 +18899,7 @@ class CreateInputInputDatadogAgentPqEnabledFalseWithPqConstraintTypedDict(TypedD
     description: NotRequired[str]
 
 
-class CreateInputInputDatadogAgentPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputDatadogAgentPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -18953,8 +18910,6 @@ class CreateInputInputDatadogAgentPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -18972,8 +18927,10 @@ class CreateInputInputDatadogAgentPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -19061,7 +19018,7 @@ class CreateInputInputDatadogAgentSendToRoutesFalseWithConnectionsConstraintType
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -19120,7 +19077,7 @@ class CreateInputInputDatadogAgentSendToRoutesFalseWithConnectionsConstraint(Bas
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -19215,9 +19172,7 @@ class CreateInputInputDatadogAgentSendToRoutesFalseWithConnectionsConstraint(Bas
     description: Optional[str] = None
 
 
-class CreateInputInputDatadogAgentSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputDatadogAgentSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputDatadogAgentType
@@ -19225,8 +19180,6 @@ class CreateInputInputDatadogAgentSendToRoutesTrueWithConnectionsConstraintTyped
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -19236,6 +19189,8 @@ class CreateInputInputDatadogAgentSendToRoutesTrueWithConnectionsConstraintTyped
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -19270,7 +19225,7 @@ class CreateInputInputDatadogAgentSendToRoutesTrueWithConnectionsConstraintTyped
     description: NotRequired[str]
 
 
-class CreateInputInputDatadogAgentSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputDatadogAgentSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -19283,9 +19238,6 @@ class CreateInputInputDatadogAgentSendToRoutesTrueWithConnectionsConstraint(Base
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -19300,6 +19252,9 @@ class CreateInputInputDatadogAgentSendToRoutesTrueWithConnectionsConstraint(Base
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -19382,9 +19337,9 @@ class CreateInputInputDatadogAgentSendToRoutesTrueWithConnectionsConstraint(Base
 CreateInputInputDatadogAgentTypedDict = TypeAliasType(
     "CreateInputInputDatadogAgentTypedDict",
     Union[
-        CreateInputInputDatadogAgentSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputDatadogAgentSendToRoutesTrueConstraintTypedDict,
         CreateInputInputDatadogAgentSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputDatadogAgentPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputDatadogAgentPqEnabledFalseConstraintTypedDict,
         CreateInputInputDatadogAgentPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -19393,9 +19348,9 @@ CreateInputInputDatadogAgentTypedDict = TypeAliasType(
 CreateInputInputDatadogAgent = TypeAliasType(
     "CreateInputInputDatadogAgent",
     Union[
-        CreateInputInputDatadogAgentSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputDatadogAgentSendToRoutesTrueConstraint,
         CreateInputInputDatadogAgentSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputDatadogAgentPqEnabledFalseWithPqConstraint,
+        CreateInputInputDatadogAgentPqEnabledFalseConstraint,
         CreateInputInputDatadogAgentPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -19423,7 +19378,7 @@ class CreateInputInputCrowdstrikePqEnabledTrueWithPqConstraintTypedDict(TypedDic
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     file_filter: NotRequired[str]
     r"""Regex matching file names to download and process. Defaults to: .*"""
@@ -19517,7 +19472,7 @@ class CreateInputInputCrowdstrikePqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     file_filter: Annotated[Optional[str], pydantic.Field(alias="fileFilter")] = "/.*/"
@@ -19683,7 +19638,7 @@ class CreateInputInputCrowdstrikePqEnabledTrueWithPqConstraint(BaseModel):
         return value
 
 
-class CreateInputInputCrowdstrikePqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputCrowdstrikePqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputCrowdstrikeType
@@ -19691,7 +19646,6 @@ class CreateInputInputCrowdstrikePqEnabledFalseWithPqConstraintTypedDict(TypedDi
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -19701,8 +19655,9 @@ class CreateInputInputCrowdstrikePqEnabledFalseWithPqConstraintTypedDict(TypedDi
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     file_filter: NotRequired[str]
     r"""Regex matching file names to download and process. Defaults to: .*"""
     aws_account_id: NotRequired[str]
@@ -19765,7 +19720,7 @@ class CreateInputInputCrowdstrikePqEnabledFalseWithPqConstraintTypedDict(TypedDi
     r"""The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
 
 
-class CreateInputInputCrowdstrikePqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputCrowdstrikePqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -19776,8 +19731,6 @@ class CreateInputInputCrowdstrikePqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -19795,8 +19748,10 @@ class CreateInputInputCrowdstrikePqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     file_filter: Annotated[Optional[str], pydantic.Field(alias="fileFilter")] = "/.*/"
     r"""Regex matching file names to download and process. Defaults to: .*"""
@@ -19971,7 +19926,7 @@ class CreateInputInputCrowdstrikeSendToRoutesFalseWithConnectionsConstraintTyped
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -20059,7 +20014,7 @@ class CreateInputInputCrowdstrikeSendToRoutesFalseWithConnectionsConstraint(Base
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -20241,9 +20196,7 @@ class CreateInputInputCrowdstrikeSendToRoutesFalseWithConnectionsConstraint(Base
         return value
 
 
-class CreateInputInputCrowdstrikeSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputCrowdstrikeSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputCrowdstrikeType
@@ -20251,8 +20204,6 @@ class CreateInputInputCrowdstrikeSendToRoutesTrueWithConnectionsConstraintTypedD
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -20262,6 +20213,8 @@ class CreateInputInputCrowdstrikeSendToRoutesTrueWithConnectionsConstraintTypedD
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     file_filter: NotRequired[str]
     r"""Regex matching file names to download and process. Defaults to: .*"""
@@ -20325,7 +20278,7 @@ class CreateInputInputCrowdstrikeSendToRoutesTrueWithConnectionsConstraintTypedD
     r"""The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
 
 
-class CreateInputInputCrowdstrikeSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputCrowdstrikeSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -20338,9 +20291,6 @@ class CreateInputInputCrowdstrikeSendToRoutesTrueWithConnectionsConstraint(BaseM
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -20355,6 +20305,9 @@ class CreateInputInputCrowdstrikeSendToRoutesTrueWithConnectionsConstraint(BaseM
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -20524,9 +20477,9 @@ class CreateInputInputCrowdstrikeSendToRoutesTrueWithConnectionsConstraint(BaseM
 CreateInputInputCrowdstrikeTypedDict = TypeAliasType(
     "CreateInputInputCrowdstrikeTypedDict",
     Union[
-        CreateInputInputCrowdstrikeSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputCrowdstrikeSendToRoutesTrueConstraintTypedDict,
         CreateInputInputCrowdstrikeSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputCrowdstrikePqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputCrowdstrikePqEnabledFalseConstraintTypedDict,
         CreateInputInputCrowdstrikePqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -20535,9 +20488,9 @@ CreateInputInputCrowdstrikeTypedDict = TypeAliasType(
 CreateInputInputCrowdstrike = TypeAliasType(
     "CreateInputInputCrowdstrike",
     Union[
-        CreateInputInputCrowdstrikeSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputCrowdstrikeSendToRoutesTrueConstraint,
         CreateInputInputCrowdstrikeSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputCrowdstrikePqEnabledFalseWithPqConstraint,
+        CreateInputInputCrowdstrikePqEnabledFalseConstraint,
         CreateInputInputCrowdstrikePqEnabledTrueWithPqConstraint,
     ],
 )
@@ -20885,7 +20838,7 @@ class CreateInputInputWindowsMetricsPqEnabledTrueWithPqConstraintTypedDict(Typed
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     interval: NotRequired[float]
     r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
@@ -20926,7 +20879,7 @@ class CreateInputInputWindowsMetricsPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     interval: Optional[float] = 10
@@ -20949,13 +20902,12 @@ class CreateInputInputWindowsMetricsPqEnabledTrueWithPqConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class CreateInputInputWindowsMetricsPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputWindowsMetricsPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputWindowsMetricsType
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -20965,8 +20917,9 @@ class CreateInputInputWindowsMetricsPqEnabledFalseWithPqConstraintTypedDict(Type
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     interval: NotRequired[float]
     r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
     host: NotRequired[CreateInputInputWindowsMetricsHostTypedDict]
@@ -20979,7 +20932,7 @@ class CreateInputInputWindowsMetricsPqEnabledFalseWithPqConstraintTypedDict(Type
     description: NotRequired[str]
 
 
-class CreateInputInputWindowsMetricsPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputWindowsMetricsPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -20987,8 +20940,6 @@ class CreateInputInputWindowsMetricsPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -21006,8 +20957,10 @@ class CreateInputInputWindowsMetricsPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     interval: Optional[float] = 10
     r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
@@ -21037,7 +20990,7 @@ class CreateInputInputWindowsMetricsSendToRoutesFalseWithConnectionsConstraintTy
     type: CreateInputInputWindowsMetricsType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -21074,7 +21027,7 @@ class CreateInputInputWindowsMetricsSendToRoutesFalseWithConnectionsConstraint(
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -21113,16 +21066,12 @@ class CreateInputInputWindowsMetricsSendToRoutesFalseWithConnectionsConstraint(
     description: Optional[str] = None
 
 
-class CreateInputInputWindowsMetricsSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputWindowsMetricsSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputWindowsMetricsType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -21132,6 +21081,8 @@ class CreateInputInputWindowsMetricsSendToRoutesTrueWithConnectionsConstraintTyp
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     interval: NotRequired[float]
     r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
@@ -21145,9 +21096,7 @@ class CreateInputInputWindowsMetricsSendToRoutesTrueWithConnectionsConstraintTyp
     description: NotRequired[str]
 
 
-class CreateInputInputWindowsMetricsSendToRoutesTrueWithConnectionsConstraint(
-    BaseModel
-):
+class CreateInputInputWindowsMetricsSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -21157,9 +21106,6 @@ class CreateInputInputWindowsMetricsSendToRoutesTrueWithConnectionsConstraint(
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -21174,6 +21120,9 @@ class CreateInputInputWindowsMetricsSendToRoutesTrueWithConnectionsConstraint(
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -21200,9 +21149,9 @@ class CreateInputInputWindowsMetricsSendToRoutesTrueWithConnectionsConstraint(
 CreateInputInputWindowsMetricsTypedDict = TypeAliasType(
     "CreateInputInputWindowsMetricsTypedDict",
     Union[
-        CreateInputInputWindowsMetricsSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputWindowsMetricsSendToRoutesTrueConstraintTypedDict,
         CreateInputInputWindowsMetricsSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputWindowsMetricsPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputWindowsMetricsPqEnabledFalseConstraintTypedDict,
         CreateInputInputWindowsMetricsPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -21211,9 +21160,9 @@ CreateInputInputWindowsMetricsTypedDict = TypeAliasType(
 CreateInputInputWindowsMetrics = TypeAliasType(
     "CreateInputInputWindowsMetrics",
     Union[
-        CreateInputInputWindowsMetricsSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputWindowsMetricsSendToRoutesTrueConstraint,
         CreateInputInputWindowsMetricsSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputWindowsMetricsPqEnabledFalseWithPqConstraint,
+        CreateInputInputWindowsMetricsPqEnabledFalseConstraint,
         CreateInputInputWindowsMetricsPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -21239,7 +21188,7 @@ class CreateInputInputKubeEventsPqEnabledTrueWithPqConstraintTypedDict(TypedDict
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     rules: NotRequired[List[ItemsTypeRulesTypedDict]]
     r"""Filtering on event fields"""
@@ -21275,7 +21224,7 @@ class CreateInputInputKubeEventsPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     rules: Optional[List[ItemsTypeRules]] = None
@@ -21287,13 +21236,12 @@ class CreateInputInputKubeEventsPqEnabledTrueWithPqConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class CreateInputInputKubeEventsPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputKubeEventsPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputKubeEventsType
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -21303,8 +21251,9 @@ class CreateInputInputKubeEventsPqEnabledFalseWithPqConstraintTypedDict(TypedDic
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     rules: NotRequired[List[ItemsTypeRulesTypedDict]]
     r"""Filtering on event fields"""
     metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
@@ -21312,7 +21261,7 @@ class CreateInputInputKubeEventsPqEnabledFalseWithPqConstraintTypedDict(TypedDic
     description: NotRequired[str]
 
 
-class CreateInputInputKubeEventsPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputKubeEventsPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -21320,8 +21269,6 @@ class CreateInputInputKubeEventsPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -21339,8 +21286,10 @@ class CreateInputInputKubeEventsPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     rules: Optional[List[ItemsTypeRules]] = None
     r"""Filtering on event fields"""
@@ -21359,7 +21308,7 @@ class CreateInputInputKubeEventsSendToRoutesFalseWithConnectionsConstraintTypedD
     type: CreateInputInputKubeEventsType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -21389,7 +21338,7 @@ class CreateInputInputKubeEventsSendToRoutesFalseWithConnectionsConstraint(BaseM
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -21417,16 +21366,12 @@ class CreateInputInputKubeEventsSendToRoutesFalseWithConnectionsConstraint(BaseM
     description: Optional[str] = None
 
 
-class CreateInputInputKubeEventsSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputKubeEventsSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputKubeEventsType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -21436,6 +21381,8 @@ class CreateInputInputKubeEventsSendToRoutesTrueWithConnectionsConstraintTypedDi
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     rules: NotRequired[List[ItemsTypeRulesTypedDict]]
     r"""Filtering on event fields"""
@@ -21444,7 +21391,7 @@ class CreateInputInputKubeEventsSendToRoutesTrueWithConnectionsConstraintTypedDi
     description: NotRequired[str]
 
 
-class CreateInputInputKubeEventsSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputKubeEventsSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -21454,9 +21401,6 @@ class CreateInputInputKubeEventsSendToRoutesTrueWithConnectionsConstraint(BaseMo
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -21471,6 +21415,9 @@ class CreateInputInputKubeEventsSendToRoutesTrueWithConnectionsConstraint(BaseMo
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -21486,9 +21433,9 @@ class CreateInputInputKubeEventsSendToRoutesTrueWithConnectionsConstraint(BaseMo
 CreateInputInputKubeEventsTypedDict = TypeAliasType(
     "CreateInputInputKubeEventsTypedDict",
     Union[
-        CreateInputInputKubeEventsSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputKubeEventsSendToRoutesTrueConstraintTypedDict,
         CreateInputInputKubeEventsSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputKubeEventsPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputKubeEventsPqEnabledFalseConstraintTypedDict,
         CreateInputInputKubeEventsPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -21497,9 +21444,9 @@ CreateInputInputKubeEventsTypedDict = TypeAliasType(
 CreateInputInputKubeEvents = TypeAliasType(
     "CreateInputInputKubeEvents",
     Union[
-        CreateInputInputKubeEventsSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputKubeEventsSendToRoutesTrueConstraint,
         CreateInputInputKubeEventsSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputKubeEventsPqEnabledFalseWithPqConstraint,
+        CreateInputInputKubeEventsPqEnabledFalseConstraint,
         CreateInputInputKubeEventsPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -21540,7 +21487,7 @@ class CreateInputInputKubeLogsPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     interval: NotRequired[float]
     r"""Time, in seconds, between checks for new containers. Default is 15 secs."""
@@ -21587,7 +21534,7 @@ class CreateInputInputKubeLogsPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     interval: Optional[float] = 15
@@ -21622,13 +21569,12 @@ class CreateInputInputKubeLogsPqEnabledTrueWithPqConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class CreateInputInputKubeLogsPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputKubeLogsPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputKubeLogsType
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -21638,8 +21584,9 @@ class CreateInputInputKubeLogsPqEnabledFalseWithPqConstraintTypedDict(TypedDict)
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     interval: NotRequired[float]
     r"""Time, in seconds, between checks for new containers. Default is 15 secs."""
     rules: NotRequired[List[CreateInputInputKubeLogsRuleTypedDict]]
@@ -21658,7 +21605,7 @@ class CreateInputInputKubeLogsPqEnabledFalseWithPqConstraintTypedDict(TypedDict)
     description: NotRequired[str]
 
 
-class CreateInputInputKubeLogsPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputKubeLogsPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -21666,8 +21613,6 @@ class CreateInputInputKubeLogsPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -21685,8 +21630,10 @@ class CreateInputInputKubeLogsPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     interval: Optional[float] = 15
     r"""Time, in seconds, between checks for new containers. Default is 15 secs."""
@@ -21728,7 +21675,7 @@ class CreateInputInputKubeLogsSendToRoutesFalseWithConnectionsConstraintTypedDic
     type: CreateInputInputKubeLogsType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -21769,7 +21716,7 @@ class CreateInputInputKubeLogsSendToRoutesFalseWithConnectionsConstraint(BaseMod
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -21820,16 +21767,12 @@ class CreateInputInputKubeLogsSendToRoutesFalseWithConnectionsConstraint(BaseMod
     description: Optional[str] = None
 
 
-class CreateInputInputKubeLogsSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputKubeLogsSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputKubeLogsType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -21839,6 +21782,8 @@ class CreateInputInputKubeLogsSendToRoutesTrueWithConnectionsConstraintTypedDict
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     interval: NotRequired[float]
     r"""Time, in seconds, between checks for new containers. Default is 15 secs."""
@@ -21858,7 +21803,7 @@ class CreateInputInputKubeLogsSendToRoutesTrueWithConnectionsConstraintTypedDict
     description: NotRequired[str]
 
 
-class CreateInputInputKubeLogsSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputKubeLogsSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -21868,9 +21813,6 @@ class CreateInputInputKubeLogsSendToRoutesTrueWithConnectionsConstraint(BaseMode
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -21885,6 +21827,9 @@ class CreateInputInputKubeLogsSendToRoutesTrueWithConnectionsConstraint(BaseMode
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -21923,9 +21868,9 @@ class CreateInputInputKubeLogsSendToRoutesTrueWithConnectionsConstraint(BaseMode
 CreateInputInputKubeLogsTypedDict = TypeAliasType(
     "CreateInputInputKubeLogsTypedDict",
     Union[
-        CreateInputInputKubeLogsSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputKubeLogsSendToRoutesTrueConstraintTypedDict,
         CreateInputInputKubeLogsSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputKubeLogsPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputKubeLogsPqEnabledFalseConstraintTypedDict,
         CreateInputInputKubeLogsPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -21934,9 +21879,9 @@ CreateInputInputKubeLogsTypedDict = TypeAliasType(
 CreateInputInputKubeLogs = TypeAliasType(
     "CreateInputInputKubeLogs",
     Union[
-        CreateInputInputKubeLogsSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputKubeLogsSendToRoutesTrueConstraint,
         CreateInputInputKubeLogsSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputKubeLogsPqEnabledFalseWithPqConstraint,
+        CreateInputInputKubeLogsPqEnabledFalseConstraint,
         CreateInputInputKubeLogsPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -22008,7 +21953,7 @@ class CreateInputInputKubeMetricsPqEnabledTrueWithPqConstraintTypedDict(TypedDic
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     interval: NotRequired[float]
     r"""Time, in seconds, between consecutive metrics collections. Default is 15 secs."""
@@ -22047,7 +21992,7 @@ class CreateInputInputKubeMetricsPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     interval: Optional[float] = 15
@@ -22064,13 +22009,12 @@ class CreateInputInputKubeMetricsPqEnabledTrueWithPqConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class CreateInputInputKubeMetricsPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputKubeMetricsPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputKubeMetricsType
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -22080,8 +22024,9 @@ class CreateInputInputKubeMetricsPqEnabledFalseWithPqConstraintTypedDict(TypedDi
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     interval: NotRequired[float]
     r"""Time, in seconds, between consecutive metrics collections. Default is 15 secs."""
     rules: NotRequired[List[ItemsTypeRulesTypedDict]]
@@ -22092,7 +22037,7 @@ class CreateInputInputKubeMetricsPqEnabledFalseWithPqConstraintTypedDict(TypedDi
     description: NotRequired[str]
 
 
-class CreateInputInputKubeMetricsPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputKubeMetricsPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -22100,8 +22045,6 @@ class CreateInputInputKubeMetricsPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -22119,8 +22062,10 @@ class CreateInputInputKubeMetricsPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     interval: Optional[float] = 15
     r"""Time, in seconds, between consecutive metrics collections. Default is 15 secs."""
@@ -22144,7 +22089,7 @@ class CreateInputInputKubeMetricsSendToRoutesFalseWithConnectionsConstraintTyped
     type: CreateInputInputKubeMetricsType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -22177,7 +22122,7 @@ class CreateInputInputKubeMetricsSendToRoutesFalseWithConnectionsConstraint(Base
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -22210,16 +22155,12 @@ class CreateInputInputKubeMetricsSendToRoutesFalseWithConnectionsConstraint(Base
     description: Optional[str] = None
 
 
-class CreateInputInputKubeMetricsSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputKubeMetricsSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputKubeMetricsType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -22229,6 +22170,8 @@ class CreateInputInputKubeMetricsSendToRoutesTrueWithConnectionsConstraintTypedD
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     interval: NotRequired[float]
     r"""Time, in seconds, between consecutive metrics collections. Default is 15 secs."""
@@ -22240,7 +22183,7 @@ class CreateInputInputKubeMetricsSendToRoutesTrueWithConnectionsConstraintTypedD
     description: NotRequired[str]
 
 
-class CreateInputInputKubeMetricsSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputKubeMetricsSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -22250,9 +22193,6 @@ class CreateInputInputKubeMetricsSendToRoutesTrueWithConnectionsConstraint(BaseM
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -22267,6 +22207,9 @@ class CreateInputInputKubeMetricsSendToRoutesTrueWithConnectionsConstraint(BaseM
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -22287,9 +22230,9 @@ class CreateInputInputKubeMetricsSendToRoutesTrueWithConnectionsConstraint(BaseM
 CreateInputInputKubeMetricsTypedDict = TypeAliasType(
     "CreateInputInputKubeMetricsTypedDict",
     Union[
-        CreateInputInputKubeMetricsSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputKubeMetricsSendToRoutesTrueConstraintTypedDict,
         CreateInputInputKubeMetricsSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputKubeMetricsPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputKubeMetricsPqEnabledFalseConstraintTypedDict,
         CreateInputInputKubeMetricsPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -22298,9 +22241,9 @@ CreateInputInputKubeMetricsTypedDict = TypeAliasType(
 CreateInputInputKubeMetrics = TypeAliasType(
     "CreateInputInputKubeMetrics",
     Union[
-        CreateInputInputKubeMetricsSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputKubeMetricsSendToRoutesTrueConstraint,
         CreateInputInputKubeMetricsSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputKubeMetricsPqEnabledFalseWithPqConstraint,
+        CreateInputInputKubeMetricsPqEnabledFalseConstraint,
         CreateInputInputKubeMetricsPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -22571,7 +22514,7 @@ class CreateInputInputSystemStatePqEnabledTrueWithPqConstraintTypedDict(TypedDic
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     interval: NotRequired[float]
     r"""Time, in seconds, between consecutive state collections. Default is 300 seconds (5 minutes)."""
@@ -22611,7 +22554,7 @@ class CreateInputInputSystemStatePqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     interval: Optional[float] = 300
@@ -22632,13 +22575,12 @@ class CreateInputInputSystemStatePqEnabledTrueWithPqConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class CreateInputInputSystemStatePqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputSystemStatePqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputSystemStateType
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -22648,8 +22590,9 @@ class CreateInputInputSystemStatePqEnabledFalseWithPqConstraintTypedDict(TypedDi
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     interval: NotRequired[float]
     r"""Time, in seconds, between consecutive state collections. Default is 300 seconds (5 minutes)."""
     metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
@@ -22661,7 +22604,7 @@ class CreateInputInputSystemStatePqEnabledFalseWithPqConstraintTypedDict(TypedDi
     description: NotRequired[str]
 
 
-class CreateInputInputSystemStatePqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputSystemStatePqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -22669,8 +22612,6 @@ class CreateInputInputSystemStatePqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -22688,8 +22629,10 @@ class CreateInputInputSystemStatePqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     interval: Optional[float] = 300
     r"""Time, in seconds, between consecutive state collections. Default is 300 seconds (5 minutes)."""
@@ -22717,7 +22660,7 @@ class CreateInputInputSystemStateSendToRoutesFalseWithConnectionsConstraintTyped
     type: CreateInputInputSystemStateType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -22751,7 +22694,7 @@ class CreateInputInputSystemStateSendToRoutesFalseWithConnectionsConstraint(Base
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -22788,16 +22731,12 @@ class CreateInputInputSystemStateSendToRoutesFalseWithConnectionsConstraint(Base
     description: Optional[str] = None
 
 
-class CreateInputInputSystemStateSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputSystemStateSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputSystemStateType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -22807,6 +22746,8 @@ class CreateInputInputSystemStateSendToRoutesTrueWithConnectionsConstraintTypedD
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     interval: NotRequired[float]
     r"""Time, in seconds, between consecutive state collections. Default is 300 seconds (5 minutes)."""
@@ -22819,7 +22760,7 @@ class CreateInputInputSystemStateSendToRoutesTrueWithConnectionsConstraintTypedD
     description: NotRequired[str]
 
 
-class CreateInputInputSystemStateSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputSystemStateSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -22829,9 +22770,6 @@ class CreateInputInputSystemStateSendToRoutesTrueWithConnectionsConstraint(BaseM
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -22846,6 +22784,9 @@ class CreateInputInputSystemStateSendToRoutesTrueWithConnectionsConstraint(BaseM
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -22870,9 +22811,9 @@ class CreateInputInputSystemStateSendToRoutesTrueWithConnectionsConstraint(BaseM
 CreateInputInputSystemStateTypedDict = TypeAliasType(
     "CreateInputInputSystemStateTypedDict",
     Union[
-        CreateInputInputSystemStateSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputSystemStateSendToRoutesTrueConstraintTypedDict,
         CreateInputInputSystemStateSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputSystemStatePqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputSystemStatePqEnabledFalseConstraintTypedDict,
         CreateInputInputSystemStatePqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -22881,9 +22822,9 @@ CreateInputInputSystemStateTypedDict = TypeAliasType(
 CreateInputInputSystemState = TypeAliasType(
     "CreateInputInputSystemState",
     Union[
-        CreateInputInputSystemStateSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputSystemStateSendToRoutesTrueConstraint,
         CreateInputInputSystemStateSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputSystemStatePqEnabledFalseWithPqConstraint,
+        CreateInputInputSystemStatePqEnabledFalseConstraint,
         CreateInputInputSystemStatePqEnabledTrueWithPqConstraint,
     ],
 )
@@ -23320,7 +23261,7 @@ class CreateInputInputSystemMetricsPqEnabledTrueWithPqConstraintTypedDict(TypedD
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     interval: NotRequired[float]
     r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
@@ -23360,7 +23301,7 @@ class CreateInputInputSystemMetricsPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     interval: Optional[float] = 10
@@ -23380,13 +23321,12 @@ class CreateInputInputSystemMetricsPqEnabledTrueWithPqConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class CreateInputInputSystemMetricsPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputSystemMetricsPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputSystemMetricsType
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -23396,8 +23336,9 @@ class CreateInputInputSystemMetricsPqEnabledFalseWithPqConstraintTypedDict(Typed
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     interval: NotRequired[float]
     r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
     host: NotRequired[CreateInputInputSystemMetricsHostTypedDict]
@@ -23409,7 +23350,7 @@ class CreateInputInputSystemMetricsPqEnabledFalseWithPqConstraintTypedDict(Typed
     description: NotRequired[str]
 
 
-class CreateInputInputSystemMetricsPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputSystemMetricsPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -23417,8 +23358,6 @@ class CreateInputInputSystemMetricsPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -23436,8 +23375,10 @@ class CreateInputInputSystemMetricsPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     interval: Optional[float] = 10
     r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
@@ -23464,7 +23405,7 @@ class CreateInputInputSystemMetricsSendToRoutesFalseWithConnectionsConstraintTyp
     type: CreateInputInputSystemMetricsType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -23500,7 +23441,7 @@ class CreateInputInputSystemMetricsSendToRoutesFalseWithConnectionsConstraint(
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -23536,16 +23477,12 @@ class CreateInputInputSystemMetricsSendToRoutesFalseWithConnectionsConstraint(
     description: Optional[str] = None
 
 
-class CreateInputInputSystemMetricsSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputSystemMetricsSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputSystemMetricsType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -23555,6 +23492,8 @@ class CreateInputInputSystemMetricsSendToRoutesTrueWithConnectionsConstraintType
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     interval: NotRequired[float]
     r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
@@ -23567,7 +23506,7 @@ class CreateInputInputSystemMetricsSendToRoutesTrueWithConnectionsConstraintType
     description: NotRequired[str]
 
 
-class CreateInputInputSystemMetricsSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputSystemMetricsSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -23577,9 +23516,6 @@ class CreateInputInputSystemMetricsSendToRoutesTrueWithConnectionsConstraint(Bas
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -23594,6 +23530,9 @@ class CreateInputInputSystemMetricsSendToRoutesTrueWithConnectionsConstraint(Bas
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -23617,9 +23556,9 @@ class CreateInputInputSystemMetricsSendToRoutesTrueWithConnectionsConstraint(Bas
 CreateInputInputSystemMetricsTypedDict = TypeAliasType(
     "CreateInputInputSystemMetricsTypedDict",
     Union[
-        CreateInputInputSystemMetricsSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputSystemMetricsSendToRoutesTrueConstraintTypedDict,
         CreateInputInputSystemMetricsSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputSystemMetricsPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputSystemMetricsPqEnabledFalseConstraintTypedDict,
         CreateInputInputSystemMetricsPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -23628,9 +23567,9 @@ CreateInputInputSystemMetricsTypedDict = TypeAliasType(
 CreateInputInputSystemMetrics = TypeAliasType(
     "CreateInputInputSystemMetrics",
     Union[
-        CreateInputInputSystemMetricsSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputSystemMetricsSendToRoutesTrueConstraint,
         CreateInputInputSystemMetricsSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputSystemMetricsPqEnabledFalseWithPqConstraint,
+        CreateInputInputSystemMetricsPqEnabledFalseConstraint,
         CreateInputInputSystemMetricsPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -23658,7 +23597,7 @@ class CreateInputInputTcpjsonPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -23718,7 +23657,7 @@ class CreateInputInputTcpjsonPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     host: Optional[str] = "0.0.0.0"
@@ -23788,7 +23727,7 @@ class CreateInputInputTcpjsonPqEnabledTrueWithPqConstraint(BaseModel):
         return value
 
 
-class CreateInputInputTcpjsonPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputTcpjsonPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputTcpjsonType
@@ -23796,7 +23735,6 @@ class CreateInputInputTcpjsonPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Port to listen on"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -23806,8 +23744,9 @@ class CreateInputInputTcpjsonPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
@@ -23836,7 +23775,7 @@ class CreateInputInputTcpjsonPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Select or create a stored text secret"""
 
 
-class CreateInputInputTcpjsonPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputTcpjsonPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -23847,8 +23786,6 @@ class CreateInputInputTcpjsonPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -23866,8 +23803,10 @@ class CreateInputInputTcpjsonPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -23946,7 +23885,7 @@ class CreateInputInputTcpjsonSendToRoutesFalseWithConnectionsConstraintTypedDict
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -24000,7 +23939,7 @@ class CreateInputInputTcpjsonSendToRoutesFalseWithConnectionsConstraint(BaseMode
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -24086,9 +24025,7 @@ class CreateInputInputTcpjsonSendToRoutesFalseWithConnectionsConstraint(BaseMode
         return value
 
 
-class CreateInputInputTcpjsonSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputTcpjsonSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputTcpjsonType
@@ -24096,8 +24033,6 @@ class CreateInputInputTcpjsonSendToRoutesTrueWithConnectionsConstraintTypedDict(
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -24107,6 +24042,8 @@ class CreateInputInputTcpjsonSendToRoutesTrueWithConnectionsConstraintTypedDict(
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -24136,7 +24073,7 @@ class CreateInputInputTcpjsonSendToRoutesTrueWithConnectionsConstraintTypedDict(
     r"""Select or create a stored text secret"""
 
 
-class CreateInputInputTcpjsonSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputTcpjsonSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -24149,9 +24086,6 @@ class CreateInputInputTcpjsonSendToRoutesTrueWithConnectionsConstraint(BaseModel
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -24166,6 +24100,9 @@ class CreateInputInputTcpjsonSendToRoutesTrueWithConnectionsConstraint(BaseModel
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -24239,9 +24176,9 @@ class CreateInputInputTcpjsonSendToRoutesTrueWithConnectionsConstraint(BaseModel
 CreateInputInputTcpjsonTypedDict = TypeAliasType(
     "CreateInputInputTcpjsonTypedDict",
     Union[
-        CreateInputInputTcpjsonSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputTcpjsonSendToRoutesTrueConstraintTypedDict,
         CreateInputInputTcpjsonSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputTcpjsonPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputTcpjsonPqEnabledFalseConstraintTypedDict,
         CreateInputInputTcpjsonPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -24250,9 +24187,9 @@ CreateInputInputTcpjsonTypedDict = TypeAliasType(
 CreateInputInputTcpjson = TypeAliasType(
     "CreateInputInputTcpjson",
     Union[
-        CreateInputInputTcpjsonSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputTcpjsonSendToRoutesTrueConstraint,
         CreateInputInputTcpjsonSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputTcpjsonPqEnabledFalseWithPqConstraint,
+        CreateInputInputTcpjsonPqEnabledFalseConstraint,
         CreateInputInputTcpjsonPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -24339,7 +24276,7 @@ class CreateInputInputCriblLakeHTTPPqEnabledTrueWithPqConstraintTypedDict(TypedD
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -24411,7 +24348,7 @@ class CreateInputInputCriblLakeHTTPPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     host: Optional[str] = "0.0.0.0"
@@ -24506,7 +24443,7 @@ class CreateInputInputCriblLakeHTTPPqEnabledTrueWithPqConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class CreateInputInputCriblLakeHTTPPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputCriblLakeHTTPPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputCriblLakeHTTPType
@@ -24514,7 +24451,6 @@ class CreateInputInputCriblLakeHTTPPqEnabledFalseWithPqConstraintTypedDict(Typed
     r"""Port to listen on"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -24524,8 +24460,9 @@ class CreateInputInputCriblLakeHTTPPqEnabledFalseWithPqConstraintTypedDict(Typed
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     auth_tokens: NotRequired[List[str]]
@@ -24566,7 +24503,7 @@ class CreateInputInputCriblLakeHTTPPqEnabledFalseWithPqConstraintTypedDict(Typed
     description: NotRequired[str]
 
 
-class CreateInputInputCriblLakeHTTPPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputCriblLakeHTTPPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -24577,8 +24514,6 @@ class CreateInputInputCriblLakeHTTPPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -24596,8 +24531,10 @@ class CreateInputInputCriblLakeHTTPPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -24701,7 +24638,7 @@ class CreateInputInputCriblLakeHTTPSendToRoutesFalseWithConnectionsConstraintTyp
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -24769,7 +24706,7 @@ class CreateInputInputCriblLakeHTTPSendToRoutesFalseWithConnectionsConstraint(
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -24880,9 +24817,7 @@ class CreateInputInputCriblLakeHTTPSendToRoutesFalseWithConnectionsConstraint(
     description: Optional[str] = None
 
 
-class CreateInputInputCriblLakeHTTPSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputCriblLakeHTTPSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputCriblLakeHTTPType
@@ -24890,8 +24825,6 @@ class CreateInputInputCriblLakeHTTPSendToRoutesTrueWithConnectionsConstraintType
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -24901,6 +24834,8 @@ class CreateInputInputCriblLakeHTTPSendToRoutesTrueWithConnectionsConstraintType
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -24942,7 +24877,7 @@ class CreateInputInputCriblLakeHTTPSendToRoutesTrueWithConnectionsConstraintType
     description: NotRequired[str]
 
 
-class CreateInputInputCriblLakeHTTPSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputCriblLakeHTTPSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -24955,9 +24890,6 @@ class CreateInputInputCriblLakeHTTPSendToRoutesTrueWithConnectionsConstraint(Bas
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -24972,6 +24904,9 @@ class CreateInputInputCriblLakeHTTPSendToRoutesTrueWithConnectionsConstraint(Bas
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -25070,9 +25005,9 @@ class CreateInputInputCriblLakeHTTPSendToRoutesTrueWithConnectionsConstraint(Bas
 CreateInputInputCriblLakeHTTPTypedDict = TypeAliasType(
     "CreateInputInputCriblLakeHTTPTypedDict",
     Union[
-        CreateInputInputCriblLakeHTTPSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputCriblLakeHTTPSendToRoutesTrueConstraintTypedDict,
         CreateInputInputCriblLakeHTTPSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputCriblLakeHTTPPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputCriblLakeHTTPPqEnabledFalseConstraintTypedDict,
         CreateInputInputCriblLakeHTTPPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -25081,9 +25016,9 @@ CreateInputInputCriblLakeHTTPTypedDict = TypeAliasType(
 CreateInputInputCriblLakeHTTP = TypeAliasType(
     "CreateInputInputCriblLakeHTTP",
     Union[
-        CreateInputInputCriblLakeHTTPSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputCriblLakeHTTPSendToRoutesTrueConstraint,
         CreateInputInputCriblLakeHTTPSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputCriblLakeHTTPPqEnabledFalseWithPqConstraint,
+        CreateInputInputCriblLakeHTTPPqEnabledFalseConstraint,
         CreateInputInputCriblLakeHTTPPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -25111,7 +25046,7 @@ class CreateInputInputCriblHTTPPqEnabledTrueWithPqConstraintTypedDict(TypedDict)
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -25175,7 +25110,7 @@ class CreateInputInputCriblHTTPPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     host: Optional[str] = "0.0.0.0"
@@ -25249,7 +25184,7 @@ class CreateInputInputCriblHTTPPqEnabledTrueWithPqConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class CreateInputInputCriblHTTPPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputCriblHTTPPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputCriblHTTPType
@@ -25257,7 +25192,6 @@ class CreateInputInputCriblHTTPPqEnabledFalseWithPqConstraintTypedDict(TypedDict
     r"""Port to listen on"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -25267,8 +25201,9 @@ class CreateInputInputCriblHTTPPqEnabledFalseWithPqConstraintTypedDict(TypedDict
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     auth_tokens: NotRequired[List[ItemsTypeAuthTokensTypedDict]]
@@ -25301,7 +25236,7 @@ class CreateInputInputCriblHTTPPqEnabledFalseWithPqConstraintTypedDict(TypedDict
     description: NotRequired[str]
 
 
-class CreateInputInputCriblHTTPPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputCriblHTTPPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -25312,8 +25247,6 @@ class CreateInputInputCriblHTTPPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -25331,8 +25264,10 @@ class CreateInputInputCriblHTTPPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -25415,7 +25350,7 @@ class CreateInputInputCriblHTTPSendToRoutesFalseWithConnectionsConstraintTypedDi
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -25473,7 +25408,7 @@ class CreateInputInputCriblHTTPSendToRoutesFalseWithConnectionsConstraint(BaseMo
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -25563,9 +25498,7 @@ class CreateInputInputCriblHTTPSendToRoutesFalseWithConnectionsConstraint(BaseMo
     description: Optional[str] = None
 
 
-class CreateInputInputCriblHTTPSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputCriblHTTPSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputCriblHTTPType
@@ -25573,8 +25506,6 @@ class CreateInputInputCriblHTTPSendToRoutesTrueWithConnectionsConstraintTypedDic
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -25584,6 +25515,8 @@ class CreateInputInputCriblHTTPSendToRoutesTrueWithConnectionsConstraintTypedDic
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -25617,7 +25550,7 @@ class CreateInputInputCriblHTTPSendToRoutesTrueWithConnectionsConstraintTypedDic
     description: NotRequired[str]
 
 
-class CreateInputInputCriblHTTPSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputCriblHTTPSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -25630,9 +25563,6 @@ class CreateInputInputCriblHTTPSendToRoutesTrueWithConnectionsConstraint(BaseMod
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -25647,6 +25577,9 @@ class CreateInputInputCriblHTTPSendToRoutesTrueWithConnectionsConstraint(BaseMod
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -25724,9 +25657,9 @@ class CreateInputInputCriblHTTPSendToRoutesTrueWithConnectionsConstraint(BaseMod
 CreateInputInputCriblHTTPTypedDict = TypeAliasType(
     "CreateInputInputCriblHTTPTypedDict",
     Union[
-        CreateInputInputCriblHTTPSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputCriblHTTPSendToRoutesTrueConstraintTypedDict,
         CreateInputInputCriblHTTPSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputCriblHTTPPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputCriblHTTPPqEnabledFalseConstraintTypedDict,
         CreateInputInputCriblHTTPPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -25735,9 +25668,9 @@ CreateInputInputCriblHTTPTypedDict = TypeAliasType(
 CreateInputInputCriblHTTP = TypeAliasType(
     "CreateInputInputCriblHTTP",
     Union[
-        CreateInputInputCriblHTTPSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputCriblHTTPSendToRoutesTrueConstraint,
         CreateInputInputCriblHTTPSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputCriblHTTPPqEnabledFalseWithPqConstraint,
+        CreateInputInputCriblHTTPPqEnabledFalseConstraint,
         CreateInputInputCriblHTTPPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -25765,7 +25698,7 @@ class CreateInputInputCriblTCPPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -25819,7 +25752,7 @@ class CreateInputInputCriblTCPPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     host: Optional[str] = "0.0.0.0"
@@ -25868,7 +25801,7 @@ class CreateInputInputCriblTCPPqEnabledTrueWithPqConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class CreateInputInputCriblTCPPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputCriblTCPPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputCriblTCPType
@@ -25876,7 +25809,6 @@ class CreateInputInputCriblTCPPqEnabledFalseWithPqConstraintTypedDict(TypedDict)
     r"""Port to listen on"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -25886,8 +25818,9 @@ class CreateInputInputCriblTCPPqEnabledFalseWithPqConstraintTypedDict(TypedDict)
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
@@ -25910,7 +25843,7 @@ class CreateInputInputCriblTCPPqEnabledFalseWithPqConstraintTypedDict(TypedDict)
     description: NotRequired[str]
 
 
-class CreateInputInputCriblTCPPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputCriblTCPPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -25921,8 +25854,6 @@ class CreateInputInputCriblTCPPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -25940,8 +25871,10 @@ class CreateInputInputCriblTCPPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -25999,7 +25932,7 @@ class CreateInputInputCriblTCPSendToRoutesFalseWithConnectionsConstraintTypedDic
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -26047,7 +25980,7 @@ class CreateInputInputCriblTCPSendToRoutesFalseWithConnectionsConstraint(BaseMod
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -26112,9 +26045,7 @@ class CreateInputInputCriblTCPSendToRoutesFalseWithConnectionsConstraint(BaseMod
     description: Optional[str] = None
 
 
-class CreateInputInputCriblTCPSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputCriblTCPSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputCriblTCPType
@@ -26122,8 +26053,6 @@ class CreateInputInputCriblTCPSendToRoutesTrueWithConnectionsConstraintTypedDict
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -26133,6 +26062,8 @@ class CreateInputInputCriblTCPSendToRoutesTrueWithConnectionsConstraintTypedDict
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -26156,7 +26087,7 @@ class CreateInputInputCriblTCPSendToRoutesTrueWithConnectionsConstraintTypedDict
     description: NotRequired[str]
 
 
-class CreateInputInputCriblTCPSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputCriblTCPSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -26169,9 +26100,6 @@ class CreateInputInputCriblTCPSendToRoutesTrueWithConnectionsConstraint(BaseMode
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -26186,6 +26114,9 @@ class CreateInputInputCriblTCPSendToRoutesTrueWithConnectionsConstraint(BaseMode
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -26238,9 +26169,9 @@ class CreateInputInputCriblTCPSendToRoutesTrueWithConnectionsConstraint(BaseMode
 CreateInputInputCriblTCPTypedDict = TypeAliasType(
     "CreateInputInputCriblTCPTypedDict",
     Union[
-        CreateInputInputCriblTCPSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputCriblTCPSendToRoutesTrueConstraintTypedDict,
         CreateInputInputCriblTCPSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputCriblTCPPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputCriblTCPPqEnabledFalseConstraintTypedDict,
         CreateInputInputCriblTCPPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -26249,9 +26180,9 @@ CreateInputInputCriblTCPTypedDict = TypeAliasType(
 CreateInputInputCriblTCP = TypeAliasType(
     "CreateInputInputCriblTCP",
     Union[
-        CreateInputInputCriblTCPSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputCriblTCPSendToRoutesTrueConstraint,
         CreateInputInputCriblTCPSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputCriblTCPPqEnabledFalseWithPqConstraint,
+        CreateInputInputCriblTCPPqEnabledFalseConstraint,
         CreateInputInputCriblTCPPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -26277,7 +26208,7 @@ class CreateInputInputCriblPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     filter_: NotRequired[str]
     metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
@@ -26312,7 +26243,7 @@ class CreateInputInputCriblPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
@@ -26323,13 +26254,12 @@ class CreateInputInputCriblPqEnabledTrueWithPqConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class CreateInputInputCriblPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputCriblPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputCriblType
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -26339,15 +26269,16 @@ class CreateInputInputCriblPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     filter_: NotRequired[str]
     metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
 
 
-class CreateInputInputCriblPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputCriblPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -26355,8 +26286,6 @@ class CreateInputInputCriblPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -26374,8 +26303,10 @@ class CreateInputInputCriblPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
 
@@ -26393,7 +26324,7 @@ class CreateInputInputCriblSendToRoutesFalseWithConnectionsConstraintTypedDict(
     type: CreateInputInputCriblType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -26422,7 +26353,7 @@ class CreateInputInputCriblSendToRoutesFalseWithConnectionsConstraint(BaseModel)
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -26449,16 +26380,12 @@ class CreateInputInputCriblSendToRoutesFalseWithConnectionsConstraint(BaseModel)
     description: Optional[str] = None
 
 
-class CreateInputInputCriblSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputCriblSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputCriblType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -26468,6 +26395,8 @@ class CreateInputInputCriblSendToRoutesTrueWithConnectionsConstraintTypedDict(
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     filter_: NotRequired[str]
     metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
@@ -26475,7 +26404,7 @@ class CreateInputInputCriblSendToRoutesTrueWithConnectionsConstraintTypedDict(
     description: NotRequired[str]
 
 
-class CreateInputInputCriblSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputCriblSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -26485,9 +26414,6 @@ class CreateInputInputCriblSendToRoutesTrueWithConnectionsConstraint(BaseModel):
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -26502,6 +26428,9 @@ class CreateInputInputCriblSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -26516,9 +26445,9 @@ class CreateInputInputCriblSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 CreateInputInputCriblTypedDict = TypeAliasType(
     "CreateInputInputCriblTypedDict",
     Union[
-        CreateInputInputCriblSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputCriblSendToRoutesTrueConstraintTypedDict,
         CreateInputInputCriblSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputCriblPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputCriblPqEnabledFalseConstraintTypedDict,
         CreateInputInputCriblPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -26527,9 +26456,9 @@ CreateInputInputCriblTypedDict = TypeAliasType(
 CreateInputInputCribl = TypeAliasType(
     "CreateInputInputCribl",
     Union[
-        CreateInputInputCriblSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputCriblSendToRoutesTrueConstraint,
         CreateInputInputCriblSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputCriblPqEnabledFalseWithPqConstraint,
+        CreateInputInputCriblPqEnabledFalseConstraint,
         CreateInputInputCriblPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -26557,7 +26486,7 @@ class CreateInputInputGooglePubsubPqEnabledTrueWithPqConstraintTypedDict(TypedDi
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     topic_name: NotRequired[str]
     r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""
@@ -26618,7 +26547,7 @@ class CreateInputInputGooglePubsubPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     topic_name: Annotated[Optional[str], pydantic.Field(alias="topicName")] = "cribl"
@@ -26685,7 +26614,7 @@ class CreateInputInputGooglePubsubPqEnabledTrueWithPqConstraint(BaseModel):
         return value
 
 
-class CreateInputInputGooglePubsubPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputGooglePubsubPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputGooglePubsubType
@@ -26693,7 +26622,6 @@ class CreateInputInputGooglePubsubPqEnabledFalseWithPqConstraintTypedDict(TypedD
     r"""ID of the subscription to use when receiving events. When Monitor subscription is enabled, the fully qualified subscription name must be entered. Example: projects/myProject/subscriptions/mySubscription"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -26703,8 +26631,9 @@ class CreateInputInputGooglePubsubPqEnabledFalseWithPqConstraintTypedDict(TypedD
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     topic_name: NotRequired[str]
     r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""
     monitor_subscription: NotRequired[bool]
@@ -26734,7 +26663,7 @@ class CreateInputInputGooglePubsubPqEnabledFalseWithPqConstraintTypedDict(TypedD
     r"""Receive events in the order they were added to the queue. The process sending events must have ordering enabled."""
 
 
-class CreateInputInputGooglePubsubPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputGooglePubsubPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -26745,8 +26674,6 @@ class CreateInputInputGooglePubsubPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -26764,8 +26691,10 @@ class CreateInputInputGooglePubsubPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     topic_name: Annotated[Optional[str], pydantic.Field(alias="topicName")] = "cribl"
     r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""
@@ -26841,7 +26770,7 @@ class CreateInputInputGooglePubsubSendToRoutesFalseWithConnectionsConstraintType
     r"""ID of the subscription to use when receiving events. When Monitor subscription is enabled, the fully qualified subscription name must be entered. Example: projects/myProject/subscriptions/mySubscription"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -26896,7 +26825,7 @@ class CreateInputInputGooglePubsubSendToRoutesFalseWithConnectionsConstraint(Bas
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -26979,9 +26908,7 @@ class CreateInputInputGooglePubsubSendToRoutesFalseWithConnectionsConstraint(Bas
         return value
 
 
-class CreateInputInputGooglePubsubSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputGooglePubsubSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputGooglePubsubType
@@ -26989,8 +26916,6 @@ class CreateInputInputGooglePubsubSendToRoutesTrueWithConnectionsConstraintTyped
     r"""ID of the subscription to use when receiving events. When Monitor subscription is enabled, the fully qualified subscription name must be entered. Example: projects/myProject/subscriptions/mySubscription"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -27000,6 +26925,8 @@ class CreateInputInputGooglePubsubSendToRoutesTrueWithConnectionsConstraintTyped
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     topic_name: NotRequired[str]
     r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""
@@ -27030,7 +26957,7 @@ class CreateInputInputGooglePubsubSendToRoutesTrueWithConnectionsConstraintTyped
     r"""Receive events in the order they were added to the queue. The process sending events must have ordering enabled."""
 
 
-class CreateInputInputGooglePubsubSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputGooglePubsubSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -27043,9 +26970,6 @@ class CreateInputInputGooglePubsubSendToRoutesTrueWithConnectionsConstraint(Base
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -27060,6 +26984,9 @@ class CreateInputInputGooglePubsubSendToRoutesTrueWithConnectionsConstraint(Base
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -27130,9 +27057,9 @@ class CreateInputInputGooglePubsubSendToRoutesTrueWithConnectionsConstraint(Base
 CreateInputInputGooglePubsubTypedDict = TypeAliasType(
     "CreateInputInputGooglePubsubTypedDict",
     Union[
-        CreateInputInputGooglePubsubSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputGooglePubsubSendToRoutesTrueConstraintTypedDict,
         CreateInputInputGooglePubsubSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputGooglePubsubPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputGooglePubsubPqEnabledFalseConstraintTypedDict,
         CreateInputInputGooglePubsubPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -27141,9 +27068,9 @@ CreateInputInputGooglePubsubTypedDict = TypeAliasType(
 CreateInputInputGooglePubsub = TypeAliasType(
     "CreateInputInputGooglePubsub",
     Union[
-        CreateInputInputGooglePubsubSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputGooglePubsubSendToRoutesTrueConstraint,
         CreateInputInputGooglePubsubSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputGooglePubsubPqEnabledFalseWithPqConstraint,
+        CreateInputInputGooglePubsubPqEnabledFalseConstraint,
         CreateInputInputGooglePubsubPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -27171,7 +27098,7 @@ class CreateInputInputFirehosePqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -27235,7 +27162,7 @@ class CreateInputInputFirehosePqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     host: Optional[str] = "0.0.0.0"
@@ -27309,7 +27236,7 @@ class CreateInputInputFirehosePqEnabledTrueWithPqConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class CreateInputInputFirehosePqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputFirehosePqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputFirehoseType
@@ -27317,7 +27244,6 @@ class CreateInputInputFirehosePqEnabledFalseWithPqConstraintTypedDict(TypedDict)
     r"""Port to listen on"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -27327,8 +27253,9 @@ class CreateInputInputFirehosePqEnabledFalseWithPqConstraintTypedDict(TypedDict)
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     auth_tokens: NotRequired[List[str]]
@@ -27361,7 +27288,7 @@ class CreateInputInputFirehosePqEnabledFalseWithPqConstraintTypedDict(TypedDict)
     description: NotRequired[str]
 
 
-class CreateInputInputFirehosePqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputFirehosePqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -27372,8 +27299,6 @@ class CreateInputInputFirehosePqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -27391,8 +27316,10 @@ class CreateInputInputFirehosePqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -27475,7 +27402,7 @@ class CreateInputInputFirehoseSendToRoutesFalseWithConnectionsConstraintTypedDic
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -27533,7 +27460,7 @@ class CreateInputInputFirehoseSendToRoutesFalseWithConnectionsConstraint(BaseMod
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -27623,9 +27550,7 @@ class CreateInputInputFirehoseSendToRoutesFalseWithConnectionsConstraint(BaseMod
     description: Optional[str] = None
 
 
-class CreateInputInputFirehoseSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputFirehoseSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputFirehoseType
@@ -27633,8 +27558,6 @@ class CreateInputInputFirehoseSendToRoutesTrueWithConnectionsConstraintTypedDict
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -27644,6 +27567,8 @@ class CreateInputInputFirehoseSendToRoutesTrueWithConnectionsConstraintTypedDict
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -27677,7 +27602,7 @@ class CreateInputInputFirehoseSendToRoutesTrueWithConnectionsConstraintTypedDict
     description: NotRequired[str]
 
 
-class CreateInputInputFirehoseSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputFirehoseSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -27690,9 +27615,6 @@ class CreateInputInputFirehoseSendToRoutesTrueWithConnectionsConstraint(BaseMode
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -27707,6 +27629,9 @@ class CreateInputInputFirehoseSendToRoutesTrueWithConnectionsConstraint(BaseMode
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -27784,9 +27709,9 @@ class CreateInputInputFirehoseSendToRoutesTrueWithConnectionsConstraint(BaseMode
 CreateInputInputFirehoseTypedDict = TypeAliasType(
     "CreateInputInputFirehoseTypedDict",
     Union[
-        CreateInputInputFirehoseSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputFirehoseSendToRoutesTrueConstraintTypedDict,
         CreateInputInputFirehoseSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputFirehosePqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputFirehosePqEnabledFalseConstraintTypedDict,
         CreateInputInputFirehosePqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -27795,9 +27720,9 @@ CreateInputInputFirehoseTypedDict = TypeAliasType(
 CreateInputInputFirehose = TypeAliasType(
     "CreateInputInputFirehose",
     Union[
-        CreateInputInputFirehoseSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputFirehoseSendToRoutesTrueConstraint,
         CreateInputInputFirehoseSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputFirehosePqEnabledFalseWithPqConstraint,
+        CreateInputInputFirehosePqEnabledFalseConstraint,
         CreateInputInputFirehosePqEnabledTrueWithPqConstraint,
     ],
 )
@@ -27834,7 +27759,7 @@ class CreateInputInputExecPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     retries: NotRequired[float]
     r"""Maximum number of retry attempts in the event that the command fails"""
@@ -27883,7 +27808,7 @@ class CreateInputInputExecPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     retries: Optional[float] = 10
@@ -27930,11 +27855,11 @@ class CreateInputInputExecPqEnabledTrueWithPqConstraint(BaseModel):
         return value
 
 
-class CreateInputPqEnabledFalseWithPqConstraintInputExecType(str, Enum):
+class CreateInputPqEnabledFalseConstraintInputExecType(str, Enum):
     EXEC = "exec"
 
 
-class CreateInputPqEnabledFalseWithPqConstraintScheduleType(
+class CreateInputPqEnabledFalseConstraintScheduleType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Select a schedule type; either an interval (in seconds) or a cron-style schedule."""
@@ -27943,15 +27868,14 @@ class CreateInputPqEnabledFalseWithPqConstraintScheduleType(
     CRON_SCHEDULE = "cronSchedule"
 
 
-class CreateInputInputExecPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputExecPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputPqEnabledFalseWithPqConstraintInputExecType
+    type: CreateInputPqEnabledFalseConstraintInputExecType
     command: str
     r"""Command to execute; supports Bourne shell (or CMD on Windows) syntax"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -27961,11 +27885,12 @@ class CreateInputInputExecPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     retries: NotRequired[float]
     r"""Maximum number of retry attempts in the event that the command fails"""
-    schedule_type: NotRequired[CreateInputPqEnabledFalseWithPqConstraintScheduleType]
+    schedule_type: NotRequired[CreateInputPqEnabledFalseConstraintScheduleType]
     r"""Select a schedule type; either an interval (in seconds) or a cron-style schedule."""
     breaker_rulesets: NotRequired[List[str]]
     r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
@@ -27980,19 +27905,17 @@ class CreateInputInputExecPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Cron schedule to execute the command on."""
 
 
-class CreateInputInputExecPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputExecPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputPqEnabledFalseWithPqConstraintInputExecType
+    type: CreateInputPqEnabledFalseConstraintInputExecType
 
     command: str
     r"""Command to execute; supports Bourne shell (or CMD on Windows) syntax"""
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -28010,16 +27933,18 @@ class CreateInputInputExecPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     retries: Optional[float] = 10
     r"""Maximum number of retry attempts in the event that the command fails"""
 
     schedule_type: Annotated[
-        Optional[CreateInputPqEnabledFalseWithPqConstraintScheduleType],
+        Optional[CreateInputPqEnabledFalseConstraintScheduleType],
         pydantic.Field(alias="scheduleType"),
-    ] = CreateInputPqEnabledFalseWithPqConstraintScheduleType.INTERVAL
+    ] = CreateInputPqEnabledFalseConstraintScheduleType.INTERVAL
     r"""Select a schedule type; either an interval (in seconds) or a cron-style schedule."""
 
     breaker_rulesets: Annotated[
@@ -28049,9 +27974,7 @@ class CreateInputInputExecPqEnabledFalseWithPqConstraint(BaseModel):
     def serialize_schedule_type(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputPqEnabledFalseWithPqConstraintScheduleType(
-                    value
-                )
+                return models.CreateInputPqEnabledFalseConstraintScheduleType(value)
             except ValueError:
                 return value
         return value
@@ -28080,7 +28003,7 @@ class CreateInputInputExecSendToRoutesFalseWithConnectionsConstraintTypedDict(
     r"""Command to execute; supports Bourne shell (or CMD on Windows) syntax"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -28125,7 +28048,7 @@ class CreateInputInputExecSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -28188,11 +28111,11 @@ class CreateInputInputExecSendToRoutesFalseWithConnectionsConstraint(BaseModel):
         return value
 
 
-class CreateInputSendToRoutesTrueWithConnectionsConstraintInputExecType(str, Enum):
+class CreateInputSendToRoutesTrueConstraintInputExecType(str, Enum):
     EXEC = "exec"
 
 
-class CreateInputSendToRoutesTrueWithConnectionsConstraintScheduleType(
+class CreateInputSendToRoutesTrueConstraintScheduleType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Select a schedule type; either an interval (in seconds) or a cron-style schedule."""
@@ -28201,16 +28124,14 @@ class CreateInputSendToRoutesTrueWithConnectionsConstraintScheduleType(
     CRON_SCHEDULE = "cronSchedule"
 
 
-class CreateInputInputExecSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
+class CreateInputInputExecSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSendToRoutesTrueWithConnectionsConstraintInputExecType
+    type: CreateInputSendToRoutesTrueConstraintInputExecType
     command: str
     r"""Command to execute; supports Bourne shell (or CMD on Windows) syntax"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -28220,12 +28141,12 @@ class CreateInputInputExecSendToRoutesTrueWithConnectionsConstraintTypedDict(Typ
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     retries: NotRequired[float]
     r"""Maximum number of retry attempts in the event that the command fails"""
-    schedule_type: NotRequired[
-        CreateInputSendToRoutesTrueWithConnectionsConstraintScheduleType
-    ]
+    schedule_type: NotRequired[CreateInputSendToRoutesTrueConstraintScheduleType]
     r"""Select a schedule type; either an interval (in seconds) or a cron-style schedule."""
     breaker_rulesets: NotRequired[List[str]]
     r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
@@ -28240,11 +28161,11 @@ class CreateInputInputExecSendToRoutesTrueWithConnectionsConstraintTypedDict(Typ
     r"""Cron schedule to execute the command on."""
 
 
-class CreateInputInputExecSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputExecSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSendToRoutesTrueWithConnectionsConstraintInputExecType
+    type: CreateInputSendToRoutesTrueConstraintInputExecType
 
     command: str
     r"""Command to execute; supports Bourne shell (or CMD on Windows) syntax"""
@@ -28253,9 +28174,6 @@ class CreateInputInputExecSendToRoutesTrueWithConnectionsConstraint(BaseModel):
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -28271,15 +28189,18 @@ class CreateInputInputExecSendToRoutesTrueWithConnectionsConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
     pq: Optional[PqType] = None
 
     retries: Optional[float] = 10
     r"""Maximum number of retry attempts in the event that the command fails"""
 
     schedule_type: Annotated[
-        Optional[CreateInputSendToRoutesTrueWithConnectionsConstraintScheduleType],
+        Optional[CreateInputSendToRoutesTrueConstraintScheduleType],
         pydantic.Field(alias="scheduleType"),
-    ] = CreateInputSendToRoutesTrueWithConnectionsConstraintScheduleType.INTERVAL
+    ] = CreateInputSendToRoutesTrueConstraintScheduleType.INTERVAL
     r"""Select a schedule type; either an interval (in seconds) or a cron-style schedule."""
 
     breaker_rulesets: Annotated[
@@ -28309,9 +28230,7 @@ class CreateInputInputExecSendToRoutesTrueWithConnectionsConstraint(BaseModel):
     def serialize_schedule_type(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputSendToRoutesTrueWithConnectionsConstraintScheduleType(
-                    value
-                )
+                return models.CreateInputSendToRoutesTrueConstraintScheduleType(value)
             except ValueError:
                 return value
         return value
@@ -28320,9 +28239,9 @@ class CreateInputInputExecSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 CreateInputInputExecTypedDict = TypeAliasType(
     "CreateInputInputExecTypedDict",
     Union[
-        CreateInputInputExecSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputExecSendToRoutesTrueConstraintTypedDict,
         CreateInputInputExecSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputExecPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputExecPqEnabledFalseConstraintTypedDict,
         CreateInputInputExecPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -28331,9 +28250,9 @@ CreateInputInputExecTypedDict = TypeAliasType(
 CreateInputInputExec = TypeAliasType(
     "CreateInputInputExec",
     Union[
-        CreateInputInputExecSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputExecSendToRoutesTrueConstraint,
         CreateInputInputExecSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputExecPqEnabledFalseWithPqConstraint,
+        CreateInputInputExecPqEnabledFalseConstraint,
         CreateInputInputExecPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -28363,7 +28282,7 @@ class CreateInputInputEventhubPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     group_id: NotRequired[str]
     r"""The consumer group this instance belongs to. Default is 'Cribl'."""
@@ -28454,7 +28373,7 @@ class CreateInputInputEventhubPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = "Cribl"
@@ -28563,7 +28482,7 @@ class CreateInputInputEventhubPqEnabledTrueWithPqConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class CreateInputInputEventhubPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputEventhubPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputEventhubType
@@ -28573,7 +28492,6 @@ class CreateInputInputEventhubPqEnabledFalseWithPqConstraintTypedDict(TypedDict)
     r"""The name of the Event Hub (Kafka topic) to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Event Hubs Source to only a single topic."""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -28583,8 +28501,9 @@ class CreateInputInputEventhubPqEnabledFalseWithPqConstraintTypedDict(TypedDict)
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     group_id: NotRequired[str]
     r"""The consumer group this instance belongs to. Default is 'Cribl'."""
     from_beginning: NotRequired[bool]
@@ -28641,7 +28560,7 @@ class CreateInputInputEventhubPqEnabledFalseWithPqConstraintTypedDict(TypedDict)
     description: NotRequired[str]
 
 
-class CreateInputInputEventhubPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputEventhubPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -28655,8 +28574,6 @@ class CreateInputInputEventhubPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -28674,8 +28591,10 @@ class CreateInputInputEventhubPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = "Cribl"
     r"""The consumer group this instance belongs to. Default is 'Cribl'."""
@@ -28795,7 +28714,7 @@ class CreateInputInputEventhubSendToRoutesFalseWithConnectionsConstraintTypedDic
     r"""The name of the Event Hub (Kafka topic) to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Event Hubs Source to only a single topic."""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -28880,7 +28799,7 @@ class CreateInputInputEventhubSendToRoutesFalseWithConnectionsConstraint(BaseMod
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -29005,9 +28924,7 @@ class CreateInputInputEventhubSendToRoutesFalseWithConnectionsConstraint(BaseMod
     description: Optional[str] = None
 
 
-class CreateInputInputEventhubSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputEventhubSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputEventhubType
@@ -29017,8 +28934,6 @@ class CreateInputInputEventhubSendToRoutesTrueWithConnectionsConstraintTypedDict
     r"""The name of the Event Hub (Kafka topic) to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Event Hubs Source to only a single topic."""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -29028,6 +28943,8 @@ class CreateInputInputEventhubSendToRoutesTrueWithConnectionsConstraintTypedDict
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     group_id: NotRequired[str]
     r"""The consumer group this instance belongs to. Default is 'Cribl'."""
@@ -29085,7 +29002,7 @@ class CreateInputInputEventhubSendToRoutesTrueWithConnectionsConstraintTypedDict
     description: NotRequired[str]
 
 
-class CreateInputInputEventhubSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputEventhubSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -29102,9 +29019,6 @@ class CreateInputInputEventhubSendToRoutesTrueWithConnectionsConstraint(BaseMode
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
     disabled: Optional[bool] = False
 
     pipeline: Optional[str] = None
@@ -29118,6 +29032,9 @@ class CreateInputInputEventhubSendToRoutesTrueWithConnectionsConstraint(BaseMode
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -29230,9 +29147,9 @@ class CreateInputInputEventhubSendToRoutesTrueWithConnectionsConstraint(BaseMode
 CreateInputInputEventhubTypedDict = TypeAliasType(
     "CreateInputInputEventhubTypedDict",
     Union[
-        CreateInputInputEventhubSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputEventhubSendToRoutesTrueConstraintTypedDict,
         CreateInputInputEventhubSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputEventhubPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputEventhubPqEnabledFalseConstraintTypedDict,
         CreateInputInputEventhubPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -29241,9 +29158,9 @@ CreateInputInputEventhubTypedDict = TypeAliasType(
 CreateInputInputEventhub = TypeAliasType(
     "CreateInputInputEventhub",
     Union[
-        CreateInputInputEventhubSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputEventhubSendToRoutesTrueConstraint,
         CreateInputInputEventhubSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputEventhubPqEnabledFalseWithPqConstraint,
+        CreateInputInputEventhubPqEnabledFalseConstraint,
         CreateInputInputEventhubPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -29322,7 +29239,7 @@ class CreateInputInputOffice365MsgTracePqEnabledTrueWithPqConstraintTypedDict(
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     url: NotRequired[str]
     r"""URL to use when retrieving report data."""
@@ -29406,7 +29323,7 @@ class CreateInputInputOffice365MsgTracePqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     url: Optional[str] = (
@@ -29548,15 +29465,12 @@ class CreateInputInputOffice365MsgTracePqEnabledTrueWithPqConstraint(BaseModel):
         return value
 
 
-class CreateInputInputOffice365MsgTracePqEnabledFalseWithPqConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputOffice365MsgTracePqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputOffice365MsgTraceType
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -29566,8 +29480,9 @@ class CreateInputInputOffice365MsgTracePqEnabledFalseWithPqConstraintTypedDict(
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     url: NotRequired[str]
     r"""URL to use when retrieving report data."""
     interval: NotRequired[float]
@@ -29623,7 +29538,7 @@ class CreateInputInputOffice365MsgTracePqEnabledFalseWithPqConstraintTypedDict(
     cert_options: NotRequired[CreateInputCertOptionsTypedDict]
 
 
-class CreateInputInputOffice365MsgTracePqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputOffice365MsgTracePqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -29631,8 +29546,6 @@ class CreateInputInputOffice365MsgTracePqEnabledFalseWithPqConstraint(BaseModel)
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -29650,8 +29563,10 @@ class CreateInputInputOffice365MsgTracePqEnabledFalseWithPqConstraint(BaseModel)
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     url: Optional[str] = (
         "https://reports.office365.com/ecp/reportingwebservice/reporting.svc/MessageTrace"
@@ -29800,7 +29715,7 @@ class CreateInputInputOffice365MsgTraceSendToRoutesFalseWithConnectionsConstrain
     type: CreateInputInputOffice365MsgTraceType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -29880,7 +29795,7 @@ class CreateInputInputOffice365MsgTraceSendToRoutesFalseWithConnectionsConstrain
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -30038,16 +29953,12 @@ class CreateInputInputOffice365MsgTraceSendToRoutesFalseWithConnectionsConstrain
         return value
 
 
-class CreateInputInputOffice365MsgTraceSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputOffice365MsgTraceSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputOffice365MsgTraceType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -30057,6 +29968,8 @@ class CreateInputInputOffice365MsgTraceSendToRoutesTrueWithConnectionsConstraint
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     url: NotRequired[str]
     r"""URL to use when retrieving report data."""
@@ -30113,9 +30026,7 @@ class CreateInputInputOffice365MsgTraceSendToRoutesTrueWithConnectionsConstraint
     cert_options: NotRequired[CreateInputCertOptionsTypedDict]
 
 
-class CreateInputInputOffice365MsgTraceSendToRoutesTrueWithConnectionsConstraint(
-    BaseModel
-):
+class CreateInputInputOffice365MsgTraceSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -30125,9 +30036,6 @@ class CreateInputInputOffice365MsgTraceSendToRoutesTrueWithConnectionsConstraint
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -30142,6 +30050,9 @@ class CreateInputInputOffice365MsgTraceSendToRoutesTrueWithConnectionsConstraint
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -30287,9 +30198,9 @@ class CreateInputInputOffice365MsgTraceSendToRoutesTrueWithConnectionsConstraint
 CreateInputInputOffice365MsgTraceTypedDict = TypeAliasType(
     "CreateInputInputOffice365MsgTraceTypedDict",
     Union[
-        CreateInputInputOffice365MsgTraceSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputOffice365MsgTraceSendToRoutesTrueConstraintTypedDict,
         CreateInputInputOffice365MsgTraceSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputOffice365MsgTracePqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputOffice365MsgTracePqEnabledFalseConstraintTypedDict,
         CreateInputInputOffice365MsgTracePqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -30298,9 +30209,9 @@ CreateInputInputOffice365MsgTraceTypedDict = TypeAliasType(
 CreateInputInputOffice365MsgTrace = TypeAliasType(
     "CreateInputInputOffice365MsgTrace",
     Union[
-        CreateInputInputOffice365MsgTraceSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputOffice365MsgTraceSendToRoutesTrueConstraint,
         CreateInputInputOffice365MsgTraceSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputOffice365MsgTracePqEnabledFalseWithPqConstraint,
+        CreateInputInputOffice365MsgTracePqEnabledFalseConstraint,
         CreateInputInputOffice365MsgTracePqEnabledTrueWithPqConstraint,
     ],
 )
@@ -30367,7 +30278,7 @@ class CreateInputInputOffice365ServicePqEnabledTrueWithPqConstraintTypedDict(Typ
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     plan_type: NotRequired[SubscriptionPlanOptions]
     r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
@@ -30432,7 +30343,7 @@ class CreateInputInputOffice365ServicePqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     plan_type: Annotated[
@@ -30509,9 +30420,7 @@ class CreateInputInputOffice365ServicePqEnabledTrueWithPqConstraint(BaseModel):
         return value
 
 
-class CreateInputInputOffice365ServicePqEnabledFalseWithPqConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputOffice365ServicePqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputOffice365ServiceType
@@ -30521,7 +30430,6 @@ class CreateInputInputOffice365ServicePqEnabledFalseWithPqConstraintTypedDict(
     r"""Office 365 Azure Application ID"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -30531,8 +30439,9 @@ class CreateInputInputOffice365ServicePqEnabledFalseWithPqConstraintTypedDict(
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     plan_type: NotRequired[SubscriptionPlanOptions]
     r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
     timeout: NotRequired[float]
@@ -30563,7 +30472,7 @@ class CreateInputInputOffice365ServicePqEnabledFalseWithPqConstraintTypedDict(
     r"""Select or create a stored text secret"""
 
 
-class CreateInputInputOffice365ServicePqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputOffice365ServicePqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -30577,8 +30486,6 @@ class CreateInputInputOffice365ServicePqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -30596,8 +30503,10 @@ class CreateInputInputOffice365ServicePqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     plan_type: Annotated[
         Optional[SubscriptionPlanOptions], pydantic.Field(alias="planType")
@@ -30685,7 +30594,7 @@ class CreateInputInputOffice365ServiceSendToRoutesFalseWithConnectionsConstraint
     r"""Office 365 Azure Application ID"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -30746,7 +30655,7 @@ class CreateInputInputOffice365ServiceSendToRoutesFalseWithConnectionsConstraint
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -30839,9 +30748,7 @@ class CreateInputInputOffice365ServiceSendToRoutesFalseWithConnectionsConstraint
         return value
 
 
-class CreateInputInputOffice365ServiceSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputOffice365ServiceSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputOffice365ServiceType
@@ -30851,8 +30758,6 @@ class CreateInputInputOffice365ServiceSendToRoutesTrueWithConnectionsConstraintT
     r"""Office 365 Azure Application ID"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -30862,6 +30767,8 @@ class CreateInputInputOffice365ServiceSendToRoutesTrueWithConnectionsConstraintT
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     plan_type: NotRequired[SubscriptionPlanOptions]
     r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
@@ -30893,9 +30800,7 @@ class CreateInputInputOffice365ServiceSendToRoutesTrueWithConnectionsConstraintT
     r"""Select or create a stored text secret"""
 
 
-class CreateInputInputOffice365ServiceSendToRoutesTrueWithConnectionsConstraint(
-    BaseModel
-):
+class CreateInputInputOffice365ServiceSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -30912,9 +30817,6 @@ class CreateInputInputOffice365ServiceSendToRoutesTrueWithConnectionsConstraint(
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
     disabled: Optional[bool] = False
 
     pipeline: Optional[str] = None
@@ -30928,6 +30830,9 @@ class CreateInputInputOffice365ServiceSendToRoutesTrueWithConnectionsConstraint(
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -31008,9 +30913,9 @@ class CreateInputInputOffice365ServiceSendToRoutesTrueWithConnectionsConstraint(
 CreateInputInputOffice365ServiceTypedDict = TypeAliasType(
     "CreateInputInputOffice365ServiceTypedDict",
     Union[
-        CreateInputInputOffice365ServiceSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputOffice365ServiceSendToRoutesTrueConstraintTypedDict,
         CreateInputInputOffice365ServiceSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputOffice365ServicePqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputOffice365ServicePqEnabledFalseConstraintTypedDict,
         CreateInputInputOffice365ServicePqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -31019,9 +30924,9 @@ CreateInputInputOffice365ServiceTypedDict = TypeAliasType(
 CreateInputInputOffice365Service = TypeAliasType(
     "CreateInputInputOffice365Service",
     Union[
-        CreateInputInputOffice365ServiceSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputOffice365ServiceSendToRoutesTrueConstraint,
         CreateInputInputOffice365ServiceSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputOffice365ServicePqEnabledFalseWithPqConstraint,
+        CreateInputInputOffice365ServicePqEnabledFalseConstraint,
         CreateInputInputOffice365ServicePqEnabledTrueWithPqConstraint,
     ],
 )
@@ -31088,7 +30993,7 @@ class CreateInputInputOffice365MgmtPqEnabledTrueWithPqConstraintTypedDict(TypedD
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     plan_type: NotRequired[SubscriptionPlanOptions]
     r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
@@ -31157,7 +31062,7 @@ class CreateInputInputOffice365MgmtPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     plan_type: Annotated[
@@ -31242,7 +31147,7 @@ class CreateInputInputOffice365MgmtPqEnabledTrueWithPqConstraint(BaseModel):
         return value
 
 
-class CreateInputInputOffice365MgmtPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputOffice365MgmtPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputOffice365MgmtType
@@ -31252,7 +31157,6 @@ class CreateInputInputOffice365MgmtPqEnabledFalseWithPqConstraintTypedDict(Typed
     r"""Office 365 Azure Application ID"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -31262,8 +31166,9 @@ class CreateInputInputOffice365MgmtPqEnabledFalseWithPqConstraintTypedDict(Typed
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     plan_type: NotRequired[SubscriptionPlanOptions]
     r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
     timeout: NotRequired[float]
@@ -31298,7 +31203,7 @@ class CreateInputInputOffice365MgmtPqEnabledFalseWithPqConstraintTypedDict(Typed
     r"""Select or create a stored text secret"""
 
 
-class CreateInputInputOffice365MgmtPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputOffice365MgmtPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -31312,8 +31217,6 @@ class CreateInputInputOffice365MgmtPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -31331,8 +31234,10 @@ class CreateInputInputOffice365MgmtPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     plan_type: Annotated[
         Optional[SubscriptionPlanOptions], pydantic.Field(alias="planType")
@@ -31428,7 +31333,7 @@ class CreateInputInputOffice365MgmtSendToRoutesFalseWithConnectionsConstraintTyp
     r"""Office 365 Azure Application ID"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -31493,7 +31398,7 @@ class CreateInputInputOffice365MgmtSendToRoutesFalseWithConnectionsConstraint(
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -31594,9 +31499,7 @@ class CreateInputInputOffice365MgmtSendToRoutesFalseWithConnectionsConstraint(
         return value
 
 
-class CreateInputInputOffice365MgmtSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputOffice365MgmtSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputOffice365MgmtType
@@ -31606,8 +31509,6 @@ class CreateInputInputOffice365MgmtSendToRoutesTrueWithConnectionsConstraintType
     r"""Office 365 Azure Application ID"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -31617,6 +31518,8 @@ class CreateInputInputOffice365MgmtSendToRoutesTrueWithConnectionsConstraintType
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     plan_type: NotRequired[SubscriptionPlanOptions]
     r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
@@ -31652,7 +31555,7 @@ class CreateInputInputOffice365MgmtSendToRoutesTrueWithConnectionsConstraintType
     r"""Select or create a stored text secret"""
 
 
-class CreateInputInputOffice365MgmtSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputOffice365MgmtSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -31669,9 +31572,6 @@ class CreateInputInputOffice365MgmtSendToRoutesTrueWithConnectionsConstraint(Bas
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
     disabled: Optional[bool] = False
 
     pipeline: Optional[str] = None
@@ -31685,6 +31585,9 @@ class CreateInputInputOffice365MgmtSendToRoutesTrueWithConnectionsConstraint(Bas
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -31773,9 +31676,9 @@ class CreateInputInputOffice365MgmtSendToRoutesTrueWithConnectionsConstraint(Bas
 CreateInputInputOffice365MgmtTypedDict = TypeAliasType(
     "CreateInputInputOffice365MgmtTypedDict",
     Union[
-        CreateInputInputOffice365MgmtSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputOffice365MgmtSendToRoutesTrueConstraintTypedDict,
         CreateInputInputOffice365MgmtSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputOffice365MgmtPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputOffice365MgmtPqEnabledFalseConstraintTypedDict,
         CreateInputInputOffice365MgmtPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -31784,9 +31687,9 @@ CreateInputInputOffice365MgmtTypedDict = TypeAliasType(
 CreateInputInputOffice365Mgmt = TypeAliasType(
     "CreateInputInputOffice365Mgmt",
     Union[
-        CreateInputInputOffice365MgmtSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputOffice365MgmtSendToRoutesTrueConstraint,
         CreateInputInputOffice365MgmtSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputOffice365MgmtPqEnabledFalseWithPqConstraint,
+        CreateInputInputOffice365MgmtPqEnabledFalseConstraint,
         CreateInputInputOffice365MgmtPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -31888,7 +31791,7 @@ class CreateInputInputEdgePrometheusPqEnabledTrueWithPqConstraintTypedDict(Typed
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     dimension_list: NotRequired[List[str]]
     r"""Other dimensions to include in events"""
@@ -31990,7 +31893,7 @@ class CreateInputInputEdgePrometheusPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     dimension_list: Annotated[
@@ -32200,13 +32103,12 @@ class CreateInputInputEdgePrometheusPqEnabledTrueWithPqConstraint(BaseModel):
         return value
 
 
-class CreateInputInputEdgePrometheusPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputEdgePrometheusPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputEdgePrometheusType
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -32216,8 +32118,9 @@ class CreateInputInputEdgePrometheusPqEnabledFalseWithPqConstraintTypedDict(Type
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     dimension_list: NotRequired[List[str]]
     r"""Other dimensions to include in events"""
     discovery_type: NotRequired[CreateInputInputEdgePrometheusDiscoveryType]
@@ -32291,7 +32194,7 @@ class CreateInputInputEdgePrometheusPqEnabledFalseWithPqConstraintTypedDict(Type
     r"""Select or create a secret that references your credentials"""
 
 
-class CreateInputInputEdgePrometheusPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputEdgePrometheusPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -32299,8 +32202,6 @@ class CreateInputInputEdgePrometheusPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -32318,8 +32219,10 @@ class CreateInputInputEdgePrometheusPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     dimension_list: Annotated[
         Optional[List[str]], pydantic.Field(alias="dimensionList")
@@ -32536,7 +32439,7 @@ class CreateInputInputEdgePrometheusSendToRoutesFalseWithConnectionsConstraintTy
     type: CreateInputInputEdgePrometheusType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -32634,7 +32537,7 @@ class CreateInputInputEdgePrometheusSendToRoutesFalseWithConnectionsConstraint(
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -32860,16 +32763,12 @@ class CreateInputInputEdgePrometheusSendToRoutesFalseWithConnectionsConstraint(
         return value
 
 
-class CreateInputInputEdgePrometheusSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputEdgePrometheusSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputEdgePrometheusType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -32879,6 +32778,8 @@ class CreateInputInputEdgePrometheusSendToRoutesTrueWithConnectionsConstraintTyp
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     dimension_list: NotRequired[List[str]]
     r"""Other dimensions to include in events"""
@@ -32953,9 +32854,7 @@ class CreateInputInputEdgePrometheusSendToRoutesTrueWithConnectionsConstraintTyp
     r"""Select or create a secret that references your credentials"""
 
 
-class CreateInputInputEdgePrometheusSendToRoutesTrueWithConnectionsConstraint(
-    BaseModel
-):
+class CreateInputInputEdgePrometheusSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -32965,9 +32864,6 @@ class CreateInputInputEdgePrometheusSendToRoutesTrueWithConnectionsConstraint(
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -32982,6 +32878,9 @@ class CreateInputInputEdgePrometheusSendToRoutesTrueWithConnectionsConstraint(
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -33195,9 +33094,9 @@ class CreateInputInputEdgePrometheusSendToRoutesTrueWithConnectionsConstraint(
 CreateInputInputEdgePrometheusTypedDict = TypeAliasType(
     "CreateInputInputEdgePrometheusTypedDict",
     Union[
-        CreateInputInputEdgePrometheusSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputEdgePrometheusSendToRoutesTrueConstraintTypedDict,
         CreateInputInputEdgePrometheusSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputEdgePrometheusPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputEdgePrometheusPqEnabledFalseConstraintTypedDict,
         CreateInputInputEdgePrometheusPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -33206,9 +33105,9 @@ CreateInputInputEdgePrometheusTypedDict = TypeAliasType(
 CreateInputInputEdgePrometheus = TypeAliasType(
     "CreateInputInputEdgePrometheus",
     Union[
-        CreateInputInputEdgePrometheusSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputEdgePrometheusSendToRoutesTrueConstraint,
         CreateInputInputEdgePrometheusSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputEdgePrometheusPqEnabledFalseWithPqConstraint,
+        CreateInputInputEdgePrometheusPqEnabledFalseConstraint,
         CreateInputInputEdgePrometheusPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -33261,7 +33160,7 @@ class CreateInputInputPrometheusPqEnabledTrueWithPqConstraintTypedDict(TypedDict
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     dimension_list: NotRequired[List[str]]
     r"""Other dimensions to include in events"""
@@ -33363,7 +33262,7 @@ class CreateInputInputPrometheusPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     dimension_list: Annotated[
@@ -33584,13 +33483,12 @@ class CreateInputInputPrometheusPqEnabledTrueWithPqConstraint(BaseModel):
         return value
 
 
-class CreateInputInputPrometheusPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputPrometheusPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputPrometheusType
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -33600,8 +33498,9 @@ class CreateInputInputPrometheusPqEnabledFalseWithPqConstraintTypedDict(TypedDic
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     dimension_list: NotRequired[List[str]]
     r"""Other dimensions to include in events"""
     discovery_type: NotRequired[CreateInputInputPrometheusDiscoveryType]
@@ -33675,7 +33574,7 @@ class CreateInputInputPrometheusPqEnabledFalseWithPqConstraintTypedDict(TypedDic
     r"""Select or create a secret that references your credentials"""
 
 
-class CreateInputInputPrometheusPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputPrometheusPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -33683,8 +33582,6 @@ class CreateInputInputPrometheusPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -33702,8 +33599,10 @@ class CreateInputInputPrometheusPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     dimension_list: Annotated[
         Optional[List[str]], pydantic.Field(alias="dimensionList")
@@ -33931,7 +33830,7 @@ class CreateInputInputPrometheusSendToRoutesFalseWithConnectionsConstraintTypedD
     type: CreateInputInputPrometheusType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -34027,7 +33926,7 @@ class CreateInputInputPrometheusSendToRoutesFalseWithConnectionsConstraint(BaseM
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -34264,16 +34163,12 @@ class CreateInputInputPrometheusSendToRoutesFalseWithConnectionsConstraint(BaseM
         return value
 
 
-class CreateInputInputPrometheusSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputPrometheusSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputPrometheusType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -34283,6 +34178,8 @@ class CreateInputInputPrometheusSendToRoutesTrueWithConnectionsConstraintTypedDi
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     dimension_list: NotRequired[List[str]]
     r"""Other dimensions to include in events"""
@@ -34357,7 +34254,7 @@ class CreateInputInputPrometheusSendToRoutesTrueWithConnectionsConstraintTypedDi
     r"""Select or create a secret that references your credentials"""
 
 
-class CreateInputInputPrometheusSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputPrometheusSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -34367,9 +34264,6 @@ class CreateInputInputPrometheusSendToRoutesTrueWithConnectionsConstraint(BaseMo
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -34384,6 +34278,9 @@ class CreateInputInputPrometheusSendToRoutesTrueWithConnectionsConstraint(BaseMo
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -34608,9 +34505,9 @@ class CreateInputInputPrometheusSendToRoutesTrueWithConnectionsConstraint(BaseMo
 CreateInputInputPrometheusTypedDict = TypeAliasType(
     "CreateInputInputPrometheusTypedDict",
     Union[
-        CreateInputInputPrometheusSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputPrometheusSendToRoutesTrueConstraintTypedDict,
         CreateInputInputPrometheusSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputPrometheusPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputPrometheusPqEnabledFalseConstraintTypedDict,
         CreateInputInputPrometheusPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -34619,9 +34516,9 @@ CreateInputInputPrometheusTypedDict = TypeAliasType(
 CreateInputInputPrometheus = TypeAliasType(
     "CreateInputInputPrometheus",
     Union[
-        CreateInputInputPrometheusSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputPrometheusSendToRoutesTrueConstraint,
         CreateInputInputPrometheusSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputPrometheusPqEnabledFalseWithPqConstraint,
+        CreateInputInputPrometheusPqEnabledFalseConstraint,
         CreateInputInputPrometheusPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -34649,7 +34546,7 @@ class CreateInputInputPrometheusRwPqEnabledTrueWithPqConstraintTypedDict(TypedDi
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -34739,7 +34636,7 @@ class CreateInputInputPrometheusRwPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     host: Optional[str] = "0.0.0.0"
@@ -34879,7 +34776,7 @@ class CreateInputInputPrometheusRwPqEnabledTrueWithPqConstraint(BaseModel):
         return value
 
 
-class CreateInputInputPrometheusRwPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputPrometheusRwPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputPrometheusRwType
@@ -34887,7 +34784,6 @@ class CreateInputInputPrometheusRwPqEnabledFalseWithPqConstraintTypedDict(TypedD
     r"""Port to listen on"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -34897,8 +34793,9 @@ class CreateInputInputPrometheusRwPqEnabledFalseWithPqConstraintTypedDict(TypedD
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
@@ -34957,7 +34854,7 @@ class CreateInputInputPrometheusRwPqEnabledFalseWithPqConstraintTypedDict(TypedD
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
 
-class CreateInputInputPrometheusRwPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputPrometheusRwPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -34968,8 +34865,6 @@ class CreateInputInputPrometheusRwPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -34987,8 +34882,10 @@ class CreateInputInputPrometheusRwPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -35137,7 +35034,7 @@ class CreateInputInputPrometheusRwSendToRoutesFalseWithConnectionsConstraintType
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -35221,7 +35118,7 @@ class CreateInputInputPrometheusRwSendToRoutesFalseWithConnectionsConstraint(Bas
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -35377,9 +35274,7 @@ class CreateInputInputPrometheusRwSendToRoutesFalseWithConnectionsConstraint(Bas
         return value
 
 
-class CreateInputInputPrometheusRwSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputPrometheusRwSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputPrometheusRwType
@@ -35387,8 +35282,6 @@ class CreateInputInputPrometheusRwSendToRoutesTrueWithConnectionsConstraintTyped
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -35398,6 +35291,8 @@ class CreateInputInputPrometheusRwSendToRoutesTrueWithConnectionsConstraintTyped
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -35457,7 +35352,7 @@ class CreateInputInputPrometheusRwSendToRoutesTrueWithConnectionsConstraintTyped
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
 
-class CreateInputInputPrometheusRwSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputPrometheusRwSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -35470,9 +35365,6 @@ class CreateInputInputPrometheusRwSendToRoutesTrueWithConnectionsConstraint(Base
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -35487,6 +35379,9 @@ class CreateInputInputPrometheusRwSendToRoutesTrueWithConnectionsConstraint(Base
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -35630,9 +35525,9 @@ class CreateInputInputPrometheusRwSendToRoutesTrueWithConnectionsConstraint(Base
 CreateInputInputPrometheusRwTypedDict = TypeAliasType(
     "CreateInputInputPrometheusRwTypedDict",
     Union[
-        CreateInputInputPrometheusRwSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputPrometheusRwSendToRoutesTrueConstraintTypedDict,
         CreateInputInputPrometheusRwSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputPrometheusRwPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputPrometheusRwPqEnabledFalseConstraintTypedDict,
         CreateInputInputPrometheusRwPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -35641,9 +35536,9 @@ CreateInputInputPrometheusRwTypedDict = TypeAliasType(
 CreateInputInputPrometheusRw = TypeAliasType(
     "CreateInputInputPrometheusRw",
     Union[
-        CreateInputInputPrometheusRwSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputPrometheusRwSendToRoutesTrueConstraint,
         CreateInputInputPrometheusRwSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputPrometheusRwPqEnabledFalseWithPqConstraint,
+        CreateInputInputPrometheusRwPqEnabledFalseConstraint,
         CreateInputInputPrometheusRwPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -35671,7 +35566,7 @@ class CreateInputInputLokiPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -35761,7 +35656,7 @@ class CreateInputInputLokiPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     host: Optional[str] = "0.0.0.0"
@@ -35900,7 +35795,7 @@ class CreateInputInputLokiPqEnabledTrueWithPqConstraint(BaseModel):
         return value
 
 
-class CreateInputInputLokiPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputLokiPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputLokiType
@@ -35908,7 +35803,6 @@ class CreateInputInputLokiPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Port to listen on"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -35918,8 +35812,9 @@ class CreateInputInputLokiPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
@@ -35978,7 +35873,7 @@ class CreateInputInputLokiPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
 
-class CreateInputInputLokiPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputLokiPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -35989,8 +35884,6 @@ class CreateInputInputLokiPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -36008,8 +35901,10 @@ class CreateInputInputLokiPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -36157,7 +36052,7 @@ class CreateInputInputLokiSendToRoutesFalseWithConnectionsConstraintTypedDict(
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -36241,7 +36136,7 @@ class CreateInputInputLokiSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -36396,7 +36291,7 @@ class CreateInputInputLokiSendToRoutesFalseWithConnectionsConstraint(BaseModel):
         return value
 
 
-class CreateInputInputLokiSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
+class CreateInputInputLokiSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputLokiType
@@ -36404,8 +36299,6 @@ class CreateInputInputLokiSendToRoutesTrueWithConnectionsConstraintTypedDict(Typ
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -36415,6 +36308,8 @@ class CreateInputInputLokiSendToRoutesTrueWithConnectionsConstraintTypedDict(Typ
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -36474,7 +36369,7 @@ class CreateInputInputLokiSendToRoutesTrueWithConnectionsConstraintTypedDict(Typ
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
 
-class CreateInputInputLokiSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputLokiSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -36487,9 +36382,6 @@ class CreateInputInputLokiSendToRoutesTrueWithConnectionsConstraint(BaseModel):
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -36504,6 +36396,9 @@ class CreateInputInputLokiSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -36646,9 +36541,9 @@ class CreateInputInputLokiSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 CreateInputInputLokiTypedDict = TypeAliasType(
     "CreateInputInputLokiTypedDict",
     Union[
-        CreateInputInputLokiSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputLokiSendToRoutesTrueConstraintTypedDict,
         CreateInputInputLokiSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputLokiPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputLokiPqEnabledFalseConstraintTypedDict,
         CreateInputInputLokiPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -36657,9 +36552,9 @@ CreateInputInputLokiTypedDict = TypeAliasType(
 CreateInputInputLoki = TypeAliasType(
     "CreateInputInputLoki",
     Union[
-        CreateInputInputLokiSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputLokiSendToRoutesTrueConstraint,
         CreateInputInputLokiSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputLokiPqEnabledFalseWithPqConstraint,
+        CreateInputInputLokiPqEnabledFalseConstraint,
         CreateInputInputLokiPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -36879,7 +36774,7 @@ class CreateInputInputGrafanaGrafana2TypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
@@ -36946,7 +36841,7 @@ class CreateInputInputGrafanaGrafana2(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
@@ -37249,7 +37144,7 @@ class CreateInputInputGrafanaGrafana1TypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
@@ -37316,7 +37211,7 @@ class CreateInputInputGrafanaGrafana1(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
@@ -37444,7 +37339,7 @@ class CreateInputInputConfluentCloudPqEnabledTrueWithPqConstraintTypedDict(Typed
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     tls: NotRequired[TLSSettingsClientSideType1TypedDict]
     group_id: NotRequired[str]
@@ -37536,7 +37431,7 @@ class CreateInputInputConfluentCloudPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     tls: Optional[TLSSettingsClientSideType1] = None
@@ -37647,7 +37542,7 @@ class CreateInputInputConfluentCloudPqEnabledTrueWithPqConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class CreateInputInputConfluentCloudPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputConfluentCloudPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputConfluentCloudType
@@ -37657,7 +37552,6 @@ class CreateInputInputConfluentCloudPqEnabledFalseWithPqConstraintTypedDict(Type
     r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -37667,8 +37561,9 @@ class CreateInputInputConfluentCloudPqEnabledFalseWithPqConstraintTypedDict(Type
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     tls: NotRequired[TLSSettingsClientSideType1TypedDict]
     group_id: NotRequired[str]
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
@@ -37726,7 +37621,7 @@ class CreateInputInputConfluentCloudPqEnabledFalseWithPqConstraintTypedDict(Type
     description: NotRequired[str]
 
 
-class CreateInputInputConfluentCloudPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputConfluentCloudPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -37740,8 +37635,6 @@ class CreateInputInputConfluentCloudPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -37759,8 +37652,10 @@ class CreateInputInputConfluentCloudPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     tls: Optional[TLSSettingsClientSideType1] = None
 
@@ -37882,7 +37777,7 @@ class CreateInputInputConfluentCloudSendToRoutesFalseWithConnectionsConstraintTy
     r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -37970,7 +37865,7 @@ class CreateInputInputConfluentCloudSendToRoutesFalseWithConnectionsConstraint(
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -38097,9 +37992,7 @@ class CreateInputInputConfluentCloudSendToRoutesFalseWithConnectionsConstraint(
     description: Optional[str] = None
 
 
-class CreateInputInputConfluentCloudSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputConfluentCloudSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputConfluentCloudType
@@ -38109,8 +38002,6 @@ class CreateInputInputConfluentCloudSendToRoutesTrueWithConnectionsConstraintTyp
     r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -38120,6 +38011,8 @@ class CreateInputInputConfluentCloudSendToRoutesTrueWithConnectionsConstraintTyp
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     tls: NotRequired[TLSSettingsClientSideType1TypedDict]
     group_id: NotRequired[str]
@@ -38178,9 +38071,7 @@ class CreateInputInputConfluentCloudSendToRoutesTrueWithConnectionsConstraintTyp
     description: NotRequired[str]
 
 
-class CreateInputInputConfluentCloudSendToRoutesTrueWithConnectionsConstraint(
-    BaseModel
-):
+class CreateInputInputConfluentCloudSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -38197,9 +38088,6 @@ class CreateInputInputConfluentCloudSendToRoutesTrueWithConnectionsConstraint(
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
     disabled: Optional[bool] = False
 
     pipeline: Optional[str] = None
@@ -38213,6 +38101,9 @@ class CreateInputInputConfluentCloudSendToRoutesTrueWithConnectionsConstraint(
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -38327,9 +38218,9 @@ class CreateInputInputConfluentCloudSendToRoutesTrueWithConnectionsConstraint(
 CreateInputInputConfluentCloudTypedDict = TypeAliasType(
     "CreateInputInputConfluentCloudTypedDict",
     Union[
-        CreateInputInputConfluentCloudSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputConfluentCloudSendToRoutesTrueConstraintTypedDict,
         CreateInputInputConfluentCloudSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputConfluentCloudPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputConfluentCloudPqEnabledFalseConstraintTypedDict,
         CreateInputInputConfluentCloudPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -38338,9 +38229,9 @@ CreateInputInputConfluentCloudTypedDict = TypeAliasType(
 CreateInputInputConfluentCloud = TypeAliasType(
     "CreateInputInputConfluentCloud",
     Union[
-        CreateInputInputConfluentCloudSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputConfluentCloudSendToRoutesTrueConstraint,
         CreateInputInputConfluentCloudSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputConfluentCloudPqEnabledFalseWithPqConstraint,
+        CreateInputInputConfluentCloudPqEnabledFalseConstraint,
         CreateInputInputConfluentCloudPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -38466,7 +38357,7 @@ class CreateInputInputElasticPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -38544,7 +38435,7 @@ class CreateInputInputElasticPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     host: Optional[str] = "0.0.0.0"
@@ -38673,7 +38564,7 @@ class CreateInputInputElasticPqEnabledTrueWithPqConstraint(BaseModel):
         return value
 
 
-class CreateInputInputElasticPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputElasticPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputElasticType
@@ -38681,7 +38572,6 @@ class CreateInputInputElasticPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Port to listen on"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -38691,8 +38581,9 @@ class CreateInputInputElasticPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
@@ -38739,7 +38630,7 @@ class CreateInputInputElasticPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Custom version information to respond to requests"""
 
 
-class CreateInputInputElasticPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputElasticPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -38750,8 +38641,6 @@ class CreateInputInputElasticPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -38769,8 +38658,10 @@ class CreateInputInputElasticPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -38908,7 +38799,7 @@ class CreateInputInputElasticSendToRoutesFalseWithConnectionsConstraintTypedDict
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -38980,7 +38871,7 @@ class CreateInputInputElasticSendToRoutesFalseWithConnectionsConstraint(BaseMode
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -39125,9 +39016,7 @@ class CreateInputInputElasticSendToRoutesFalseWithConnectionsConstraint(BaseMode
         return value
 
 
-class CreateInputInputElasticSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputElasticSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputElasticType
@@ -39135,8 +39024,6 @@ class CreateInputInputElasticSendToRoutesTrueWithConnectionsConstraintTypedDict(
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -39146,6 +39033,8 @@ class CreateInputInputElasticSendToRoutesTrueWithConnectionsConstraintTypedDict(
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -39193,7 +39082,7 @@ class CreateInputInputElasticSendToRoutesTrueWithConnectionsConstraintTypedDict(
     r"""Custom version information to respond to requests"""
 
 
-class CreateInputInputElasticSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputElasticSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -39206,9 +39095,6 @@ class CreateInputInputElasticSendToRoutesTrueWithConnectionsConstraint(BaseModel
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -39223,6 +39109,9 @@ class CreateInputInputElasticSendToRoutesTrueWithConnectionsConstraint(BaseModel
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -39355,9 +39244,9 @@ class CreateInputInputElasticSendToRoutesTrueWithConnectionsConstraint(BaseModel
 CreateInputInputElasticTypedDict = TypeAliasType(
     "CreateInputInputElasticTypedDict",
     Union[
-        CreateInputInputElasticSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputElasticSendToRoutesTrueConstraintTypedDict,
         CreateInputInputElasticSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputElasticPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputElasticPqEnabledFalseConstraintTypedDict,
         CreateInputInputElasticPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -39366,9 +39255,9 @@ CreateInputInputElasticTypedDict = TypeAliasType(
 CreateInputInputElastic = TypeAliasType(
     "CreateInputInputElastic",
     Union[
-        CreateInputInputElasticSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputElasticSendToRoutesTrueConstraint,
         CreateInputInputElasticSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputElasticPqEnabledFalseWithPqConstraint,
+        CreateInputInputElasticPqEnabledFalseConstraint,
         CreateInputInputElasticPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -39396,7 +39285,7 @@ class CreateInputInputAzureBlobPqEnabledTrueWithPqConstraintTypedDict(TypedDict)
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     file_filter: NotRequired[str]
     r"""Regex matching file names to download and process. Defaults to: .*"""
@@ -39471,7 +39360,7 @@ class CreateInputInputAzureBlobPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     file_filter: Annotated[Optional[str], pydantic.Field(alias="fileFilter")] = "/.*/"
@@ -39571,7 +39460,7 @@ class CreateInputInputAzureBlobPqEnabledTrueWithPqConstraint(BaseModel):
         return value
 
 
-class CreateInputInputAzureBlobPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputAzureBlobPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputAzureBlobType
@@ -39579,7 +39468,6 @@ class CreateInputInputAzureBlobPqEnabledFalseWithPqConstraintTypedDict(TypedDict
     r"""The storage account queue name blob notifications will be read from. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myQueue-${C.vars.myVar}`"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -39589,8 +39477,9 @@ class CreateInputInputAzureBlobPqEnabledFalseWithPqConstraintTypedDict(TypedDict
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     file_filter: NotRequired[str]
     r"""Regex matching file names to download and process. Defaults to: .*"""
     visibility_timeout: NotRequired[float]
@@ -39634,7 +39523,7 @@ class CreateInputInputAzureBlobPqEnabledFalseWithPqConstraintTypedDict(TypedDict
     certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
 
 
-class CreateInputInputAzureBlobPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputAzureBlobPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -39645,8 +39534,6 @@ class CreateInputInputAzureBlobPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -39664,8 +39551,10 @@ class CreateInputInputAzureBlobPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     file_filter: Annotated[Optional[str], pydantic.Field(alias="fileFilter")] = "/.*/"
     r"""Regex matching file names to download and process. Defaults to: .*"""
@@ -39774,7 +39663,7 @@ class CreateInputInputAzureBlobSendToRoutesFalseWithConnectionsConstraintTypedDi
     r"""The storage account queue name blob notifications will be read from. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myQueue-${C.vars.myVar}`"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -39843,7 +39732,7 @@ class CreateInputInputAzureBlobSendToRoutesFalseWithConnectionsConstraint(BaseMo
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -39959,9 +39848,7 @@ class CreateInputInputAzureBlobSendToRoutesFalseWithConnectionsConstraint(BaseMo
         return value
 
 
-class CreateInputInputAzureBlobSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputAzureBlobSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputAzureBlobType
@@ -39969,8 +39856,6 @@ class CreateInputInputAzureBlobSendToRoutesTrueWithConnectionsConstraintTypedDic
     r"""The storage account queue name blob notifications will be read from. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myQueue-${C.vars.myVar}`"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -39980,6 +39865,8 @@ class CreateInputInputAzureBlobSendToRoutesTrueWithConnectionsConstraintTypedDic
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     file_filter: NotRequired[str]
     r"""Regex matching file names to download and process. Defaults to: .*"""
@@ -40024,7 +39911,7 @@ class CreateInputInputAzureBlobSendToRoutesTrueWithConnectionsConstraintTypedDic
     certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
 
 
-class CreateInputInputAzureBlobSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputAzureBlobSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -40037,9 +39924,6 @@ class CreateInputInputAzureBlobSendToRoutesTrueWithConnectionsConstraint(BaseMod
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -40054,6 +39938,9 @@ class CreateInputInputAzureBlobSendToRoutesTrueWithConnectionsConstraint(BaseMod
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -40157,9 +40044,9 @@ class CreateInputInputAzureBlobSendToRoutesTrueWithConnectionsConstraint(BaseMod
 CreateInputInputAzureBlobTypedDict = TypeAliasType(
     "CreateInputInputAzureBlobTypedDict",
     Union[
-        CreateInputInputAzureBlobSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputAzureBlobSendToRoutesTrueConstraintTypedDict,
         CreateInputInputAzureBlobSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputAzureBlobPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputAzureBlobPqEnabledFalseConstraintTypedDict,
         CreateInputInputAzureBlobPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -40168,9 +40055,9 @@ CreateInputInputAzureBlobTypedDict = TypeAliasType(
 CreateInputInputAzureBlob = TypeAliasType(
     "CreateInputInputAzureBlob",
     Union[
-        CreateInputInputAzureBlobSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputAzureBlobSendToRoutesTrueConstraint,
         CreateInputInputAzureBlobSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputAzureBlobPqEnabledFalseWithPqConstraint,
+        CreateInputInputAzureBlobPqEnabledFalseConstraint,
         CreateInputInputAzureBlobPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -40250,7 +40137,7 @@ class CreateInputInputSplunkHecPqEnabledTrueWithPqConstraintTypedDict(TypedDict)
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -40335,7 +40222,7 @@ class CreateInputInputSplunkHecPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     host: Optional[str] = "0.0.0.0"
@@ -40464,7 +40351,7 @@ class CreateInputInputSplunkHecPqEnabledTrueWithPqConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class CreateInputInputSplunkHecPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputSplunkHecPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputSplunkHecType
@@ -40472,7 +40359,6 @@ class CreateInputInputSplunkHecPqEnabledFalseWithPqConstraintTypedDict(TypedDict
     r"""Port to listen on"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -40482,8 +40368,9 @@ class CreateInputInputSplunkHecPqEnabledFalseWithPqConstraintTypedDict(TypedDict
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     auth_tokens: NotRequired[List[CreateInputInputSplunkHecAuthTokenTypedDict]]
@@ -40537,7 +40424,7 @@ class CreateInputInputSplunkHecPqEnabledFalseWithPqConstraintTypedDict(TypedDict
     description: NotRequired[str]
 
 
-class CreateInputInputSplunkHecPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputSplunkHecPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -40548,8 +40435,6 @@ class CreateInputInputSplunkHecPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -40567,8 +40452,10 @@ class CreateInputInputSplunkHecPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -40706,7 +40593,7 @@ class CreateInputInputSplunkHecSendToRoutesFalseWithConnectionsConstraintTypedDi
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -40785,7 +40672,7 @@ class CreateInputInputSplunkHecSendToRoutesFalseWithConnectionsConstraint(BaseMo
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -40930,9 +40817,7 @@ class CreateInputInputSplunkHecSendToRoutesFalseWithConnectionsConstraint(BaseMo
     description: Optional[str] = None
 
 
-class CreateInputInputSplunkHecSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputSplunkHecSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputSplunkHecType
@@ -40940,8 +40825,6 @@ class CreateInputInputSplunkHecSendToRoutesTrueWithConnectionsConstraintTypedDic
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -40951,6 +40834,8 @@ class CreateInputInputSplunkHecSendToRoutesTrueWithConnectionsConstraintTypedDic
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -41005,7 +40890,7 @@ class CreateInputInputSplunkHecSendToRoutesTrueWithConnectionsConstraintTypedDic
     description: NotRequired[str]
 
 
-class CreateInputInputSplunkHecSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputSplunkHecSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -41018,9 +40903,6 @@ class CreateInputInputSplunkHecSendToRoutesTrueWithConnectionsConstraint(BaseMod
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -41035,6 +40917,9 @@ class CreateInputInputSplunkHecSendToRoutesTrueWithConnectionsConstraint(BaseMod
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -41167,9 +41052,9 @@ class CreateInputInputSplunkHecSendToRoutesTrueWithConnectionsConstraint(BaseMod
 CreateInputInputSplunkHecTypedDict = TypeAliasType(
     "CreateInputInputSplunkHecTypedDict",
     Union[
-        CreateInputInputSplunkHecSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputSplunkHecSendToRoutesTrueConstraintTypedDict,
         CreateInputInputSplunkHecSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputSplunkHecPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputSplunkHecPqEnabledFalseConstraintTypedDict,
         CreateInputInputSplunkHecPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -41178,9 +41063,9 @@ CreateInputInputSplunkHecTypedDict = TypeAliasType(
 CreateInputInputSplunkHec = TypeAliasType(
     "CreateInputInputSplunkHec",
     Union[
-        CreateInputInputSplunkHecSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputSplunkHecSendToRoutesTrueConstraint,
         CreateInputInputSplunkHecSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputSplunkHecPqEnabledFalseWithPqConstraint,
+        CreateInputInputSplunkHecPqEnabledFalseConstraint,
         CreateInputInputSplunkHecPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -41256,7 +41141,7 @@ class CreateInputInputSplunkSearchPqEnabledTrueWithPqConstraintTypedDict(TypedDi
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     search_head: NotRequired[str]
     r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
@@ -41360,7 +41245,7 @@ class CreateInputInputSplunkSearchPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     search_head: Annotated[Optional[str], pydantic.Field(alias="searchHead")] = (
@@ -41547,7 +41432,7 @@ class CreateInputInputSplunkSearchPqEnabledTrueWithPqConstraint(BaseModel):
         return value
 
 
-class CreateInputInputSplunkSearchPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputSplunkSearchPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputSplunkSearchType
@@ -41555,7 +41440,6 @@ class CreateInputInputSplunkSearchPqEnabledFalseWithPqConstraintTypedDict(TypedD
     r"""Enter Splunk search here. Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -41565,8 +41449,9 @@ class CreateInputInputSplunkSearchPqEnabledFalseWithPqConstraintTypedDict(TypedD
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     search_head: NotRequired[str]
     r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
     earliest: NotRequired[str]
@@ -41639,7 +41524,7 @@ class CreateInputInputSplunkSearchPqEnabledFalseWithPqConstraintTypedDict(TypedD
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
 
-class CreateInputInputSplunkSearchPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputSplunkSearchPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -41650,8 +41535,6 @@ class CreateInputInputSplunkSearchPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -41669,8 +41552,10 @@ class CreateInputInputSplunkSearchPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     search_head: Annotated[Optional[str], pydantic.Field(alias="searchHead")] = (
         "https://localhost:8089"
@@ -41866,7 +41751,7 @@ class CreateInputInputSplunkSearchSendToRoutesFalseWithConnectionsConstraintType
     r"""Enter Splunk search here. Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -41964,7 +41849,7 @@ class CreateInputInputSplunkSearchSendToRoutesFalseWithConnectionsConstraint(Bas
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -42167,9 +42052,7 @@ class CreateInputInputSplunkSearchSendToRoutesFalseWithConnectionsConstraint(Bas
         return value
 
 
-class CreateInputInputSplunkSearchSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputSplunkSearchSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputSplunkSearchType
@@ -42177,8 +42060,6 @@ class CreateInputInputSplunkSearchSendToRoutesTrueWithConnectionsConstraintTyped
     r"""Enter Splunk search here. Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -42188,6 +42069,8 @@ class CreateInputInputSplunkSearchSendToRoutesTrueWithConnectionsConstraintTyped
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     search_head: NotRequired[str]
     r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
@@ -42261,7 +42144,7 @@ class CreateInputInputSplunkSearchSendToRoutesTrueWithConnectionsConstraintTyped
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
 
-class CreateInputInputSplunkSearchSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputSplunkSearchSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -42274,9 +42157,6 @@ class CreateInputInputSplunkSearchSendToRoutesTrueWithConnectionsConstraint(Base
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -42291,6 +42171,9 @@ class CreateInputInputSplunkSearchSendToRoutesTrueWithConnectionsConstraint(Base
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -42481,9 +42364,9 @@ class CreateInputInputSplunkSearchSendToRoutesTrueWithConnectionsConstraint(Base
 CreateInputInputSplunkSearchTypedDict = TypeAliasType(
     "CreateInputInputSplunkSearchTypedDict",
     Union[
-        CreateInputInputSplunkSearchSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputSplunkSearchSendToRoutesTrueConstraintTypedDict,
         CreateInputInputSplunkSearchSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputSplunkSearchPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputSplunkSearchPqEnabledFalseConstraintTypedDict,
         CreateInputInputSplunkSearchPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -42492,9 +42375,9 @@ CreateInputInputSplunkSearchTypedDict = TypeAliasType(
 CreateInputInputSplunkSearch = TypeAliasType(
     "CreateInputInputSplunkSearch",
     Union[
-        CreateInputInputSplunkSearchSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputSplunkSearchSendToRoutesTrueConstraint,
         CreateInputInputSplunkSearchSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputSplunkSearchPqEnabledFalseWithPqConstraint,
+        CreateInputInputSplunkSearchPqEnabledFalseConstraint,
         CreateInputInputSplunkSearchPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -42555,7 +42438,7 @@ class CreateInputInputSplunkPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -42623,7 +42506,7 @@ class CreateInputInputSplunkPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     host: Optional[str] = "0.0.0.0"
@@ -42724,7 +42607,7 @@ class CreateInputInputSplunkPqEnabledTrueWithPqConstraint(BaseModel):
         return value
 
 
-class CreateInputInputSplunkPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputSplunkPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputSplunkType
@@ -42732,7 +42615,6 @@ class CreateInputInputSplunkPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Port to listen on"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -42742,8 +42624,9 @@ class CreateInputInputSplunkPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
@@ -42780,7 +42663,7 @@ class CreateInputInputSplunkPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Controls whether to support reading compressed data from a forwarder. Select 'Automatic' to match the forwarder's configuration, or 'Disabled' to reject compressed connections."""
 
 
-class CreateInputInputSplunkPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputSplunkPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -42791,8 +42674,6 @@ class CreateInputInputSplunkPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -42810,8 +42691,10 @@ class CreateInputInputSplunkPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -42921,7 +42804,7 @@ class CreateInputInputSplunkSendToRoutesFalseWithConnectionsConstraintTypedDict(
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -42983,7 +42866,7 @@ class CreateInputInputSplunkSendToRoutesFalseWithConnectionsConstraint(BaseModel
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -43100,9 +42983,7 @@ class CreateInputInputSplunkSendToRoutesFalseWithConnectionsConstraint(BaseModel
         return value
 
 
-class CreateInputInputSplunkSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputSplunkSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputSplunkType
@@ -43110,8 +42991,6 @@ class CreateInputInputSplunkSendToRoutesTrueWithConnectionsConstraintTypedDict(
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -43121,6 +43000,8 @@ class CreateInputInputSplunkSendToRoutesTrueWithConnectionsConstraintTypedDict(
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -43158,7 +43039,7 @@ class CreateInputInputSplunkSendToRoutesTrueWithConnectionsConstraintTypedDict(
     r"""Controls whether to support reading compressed data from a forwarder. Select 'Automatic' to match the forwarder's configuration, or 'Disabled' to reject compressed connections."""
 
 
-class CreateInputInputSplunkSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputSplunkSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -43171,9 +43052,6 @@ class CreateInputInputSplunkSendToRoutesTrueWithConnectionsConstraint(BaseModel)
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -43188,6 +43066,9 @@ class CreateInputInputSplunkSendToRoutesTrueWithConnectionsConstraint(BaseModel)
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -43292,9 +43173,9 @@ class CreateInputInputSplunkSendToRoutesTrueWithConnectionsConstraint(BaseModel)
 CreateInputInputSplunkTypedDict = TypeAliasType(
     "CreateInputInputSplunkTypedDict",
     Union[
-        CreateInputInputSplunkSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputSplunkSendToRoutesTrueConstraintTypedDict,
         CreateInputInputSplunkSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputSplunkPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputSplunkPqEnabledFalseConstraintTypedDict,
         CreateInputInputSplunkPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -43303,9 +43184,9 @@ CreateInputInputSplunkTypedDict = TypeAliasType(
 CreateInputInputSplunk = TypeAliasType(
     "CreateInputInputSplunk",
     Union[
-        CreateInputInputSplunkSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputSplunkSendToRoutesTrueConstraint,
         CreateInputInputSplunkSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputSplunkPqEnabledFalseWithPqConstraint,
+        CreateInputInputSplunkPqEnabledFalseConstraint,
         CreateInputInputSplunkPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -43333,7 +43214,7 @@ class CreateInputInputHTTPPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -43406,7 +43287,7 @@ class CreateInputInputHTTPPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     host: Optional[str] = "0.0.0.0"
@@ -43502,7 +43383,7 @@ class CreateInputInputHTTPPqEnabledTrueWithPqConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class CreateInputInputHTTPPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputHTTPPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputHTTPType
@@ -43510,7 +43391,6 @@ class CreateInputInputHTTPPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Port to listen on"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -43520,8 +43400,9 @@ class CreateInputInputHTTPPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     auth_tokens: NotRequired[List[str]]
@@ -43563,7 +43444,7 @@ class CreateInputInputHTTPPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     description: NotRequired[str]
 
 
-class CreateInputInputHTTPPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputHTTPPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -43574,8 +43455,6 @@ class CreateInputInputHTTPPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -43593,8 +43472,10 @@ class CreateInputInputHTTPPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -43699,7 +43580,7 @@ class CreateInputInputHTTPSendToRoutesFalseWithConnectionsConstraintTypedDict(
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -43766,7 +43647,7 @@ class CreateInputInputHTTPSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -43878,7 +43759,7 @@ class CreateInputInputHTTPSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class CreateInputInputHTTPSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
+class CreateInputInputHTTPSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputHTTPType
@@ -43886,8 +43767,6 @@ class CreateInputInputHTTPSendToRoutesTrueWithConnectionsConstraintTypedDict(Typ
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -43897,6 +43776,8 @@ class CreateInputInputHTTPSendToRoutesTrueWithConnectionsConstraintTypedDict(Typ
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -43939,7 +43820,7 @@ class CreateInputInputHTTPSendToRoutesTrueWithConnectionsConstraintTypedDict(Typ
     description: NotRequired[str]
 
 
-class CreateInputInputHTTPSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputHTTPSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -43952,9 +43833,6 @@ class CreateInputInputHTTPSendToRoutesTrueWithConnectionsConstraint(BaseModel):
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
 
@@ -43969,6 +43847,9 @@ class CreateInputInputHTTPSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -44068,9 +43949,9 @@ class CreateInputInputHTTPSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 CreateInputInputHTTPTypedDict = TypeAliasType(
     "CreateInputInputHTTPTypedDict",
     Union[
-        CreateInputInputHTTPSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputHTTPSendToRoutesTrueConstraintTypedDict,
         CreateInputInputHTTPSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputHTTPPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputHTTPPqEnabledFalseConstraintTypedDict,
         CreateInputInputHTTPPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -44079,9 +43960,9 @@ CreateInputInputHTTPTypedDict = TypeAliasType(
 CreateInputInputHTTP = TypeAliasType(
     "CreateInputInputHTTP",
     Union[
-        CreateInputInputHTTPSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputHTTPSendToRoutesTrueConstraint,
         CreateInputInputHTTPSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputHTTPPqEnabledFalseWithPqConstraint,
+        CreateInputInputHTTPPqEnabledFalseConstraint,
         CreateInputInputHTTPPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -44113,7 +43994,7 @@ class CreateInputInputMskPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     group_id: NotRequired[str]
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
@@ -44228,7 +44109,7 @@ class CreateInputInputMskPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = "Cribl"
@@ -44407,7 +44288,7 @@ class CreateInputInputMskPqEnabledTrueWithPqConstraint(BaseModel):
         return value
 
 
-class CreateInputInputMskPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputMskPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputMskType
@@ -44419,7 +44300,6 @@ class CreateInputInputMskPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Region where the MSK cluster is located"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -44429,8 +44309,9 @@ class CreateInputInputMskPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     group_id: NotRequired[str]
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
     from_beginning: NotRequired[bool]
@@ -44508,7 +44389,7 @@ class CreateInputInputMskPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Select or create a stored secret that references your access key and secret key"""
 
 
-class CreateInputInputMskPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputMskPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -44526,8 +44407,6 @@ class CreateInputInputMskPqEnabledFalseWithPqConstraint(BaseModel):
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
-    pq: Optional[PqType] = None
-
     disabled: Optional[bool] = False
 
     pipeline: Optional[str] = None
@@ -44544,8 +44423,10 @@ class CreateInputInputMskPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = "Cribl"
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
@@ -44735,7 +44616,7 @@ class CreateInputInputMskSendToRoutesFalseWithConnectionsConstraintTypedDict(Typ
     r"""Region where the MSK cluster is located"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -44844,7 +44725,7 @@ class CreateInputInputMskSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -45039,7 +44920,7 @@ class CreateInputInputMskSendToRoutesFalseWithConnectionsConstraint(BaseModel):
         return value
 
 
-class CreateInputInputMskSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
+class CreateInputInputMskSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputMskType
@@ -45051,8 +44932,6 @@ class CreateInputInputMskSendToRoutesTrueWithConnectionsConstraintTypedDict(Type
     r"""Region where the MSK cluster is located"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -45062,6 +44941,8 @@ class CreateInputInputMskSendToRoutesTrueWithConnectionsConstraintTypedDict(Type
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     group_id: NotRequired[str]
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
@@ -45140,7 +45021,7 @@ class CreateInputInputMskSendToRoutesTrueWithConnectionsConstraintTypedDict(Type
     r"""Select or create a stored secret that references your access key and secret key"""
 
 
-class CreateInputInputMskSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputMskSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -45160,9 +45041,6 @@ class CreateInputInputMskSendToRoutesTrueWithConnectionsConstraint(BaseModel):
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
     disabled: Optional[bool] = False
 
     pipeline: Optional[str] = None
@@ -45176,6 +45054,9 @@ class CreateInputInputMskSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -45358,9 +45239,9 @@ class CreateInputInputMskSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 CreateInputInputMskTypedDict = TypeAliasType(
     "CreateInputInputMskTypedDict",
     Union[
-        CreateInputInputMskSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputMskSendToRoutesTrueConstraintTypedDict,
         CreateInputInputMskSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputMskPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputMskPqEnabledFalseConstraintTypedDict,
         CreateInputInputMskPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -45369,9 +45250,9 @@ CreateInputInputMskTypedDict = TypeAliasType(
 CreateInputInputMsk = TypeAliasType(
     "CreateInputInputMsk",
     Union[
-        CreateInputInputMskSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputMskSendToRoutesTrueConstraint,
         CreateInputInputMskSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputMskPqEnabledFalseWithPqConstraint,
+        CreateInputInputMskPqEnabledFalseConstraint,
         CreateInputInputMskPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -45401,7 +45282,7 @@ class CreateInputInputKafkaPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     group_id: NotRequired[str]
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
@@ -45493,7 +45374,7 @@ class CreateInputInputKafkaPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = "Cribl"
@@ -45604,7 +45485,7 @@ class CreateInputInputKafkaPqEnabledTrueWithPqConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class CreateInputInputKafkaPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputKafkaPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputKafkaType
@@ -45614,7 +45495,6 @@ class CreateInputInputKafkaPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -45624,8 +45504,9 @@ class CreateInputInputKafkaPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     group_id: NotRequired[str]
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
     from_beginning: NotRequired[bool]
@@ -45683,7 +45564,7 @@ class CreateInputInputKafkaPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     description: NotRequired[str]
 
 
-class CreateInputInputKafkaPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputKafkaPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -45697,8 +45578,6 @@ class CreateInputInputKafkaPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     disabled: Optional[bool] = False
 
@@ -45716,8 +45595,10 @@ class CreateInputInputKafkaPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = "Cribl"
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
@@ -45839,7 +45720,7 @@ class CreateInputInputKafkaSendToRoutesFalseWithConnectionsConstraintTypedDict(
     r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -45925,7 +45806,7 @@ class CreateInputInputKafkaSendToRoutesFalseWithConnectionsConstraint(BaseModel)
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     disabled: Optional[bool] = False
@@ -46052,9 +45933,7 @@ class CreateInputInputKafkaSendToRoutesFalseWithConnectionsConstraint(BaseModel)
     description: Optional[str] = None
 
 
-class CreateInputInputKafkaSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputKafkaSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputInputKafkaType
@@ -46064,8 +45943,6 @@ class CreateInputInputKafkaSendToRoutesTrueWithConnectionsConstraintTypedDict(
     r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -46075,6 +45952,8 @@ class CreateInputInputKafkaSendToRoutesTrueWithConnectionsConstraintTypedDict(
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     group_id: NotRequired[str]
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
@@ -46133,7 +46012,7 @@ class CreateInputInputKafkaSendToRoutesTrueWithConnectionsConstraintTypedDict(
     description: NotRequired[str]
 
 
-class CreateInputInputKafkaSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputKafkaSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -46150,9 +46029,6 @@ class CreateInputInputKafkaSendToRoutesTrueWithConnectionsConstraint(BaseModel):
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
     disabled: Optional[bool] = False
 
     pipeline: Optional[str] = None
@@ -46166,6 +46042,9 @@ class CreateInputInputKafkaSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -46280,9 +46159,9 @@ class CreateInputInputKafkaSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 CreateInputInputKafkaTypedDict = TypeAliasType(
     "CreateInputInputKafkaTypedDict",
     Union[
-        CreateInputInputKafkaSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputKafkaSendToRoutesTrueConstraintTypedDict,
         CreateInputInputKafkaSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputKafkaPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputKafkaPqEnabledFalseConstraintTypedDict,
         CreateInputInputKafkaPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -46291,9 +46170,9 @@ CreateInputInputKafkaTypedDict = TypeAliasType(
 CreateInputInputKafka = TypeAliasType(
     "CreateInputInputKafka",
     Union[
-        CreateInputInputKafkaSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputKafkaSendToRoutesTrueConstraint,
         CreateInputInputKafkaSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputKafkaPqEnabledFalseWithPqConstraint,
+        CreateInputInputKafkaPqEnabledFalseConstraint,
         CreateInputInputKafkaPqEnabledTrueWithPqConstraint,
     ],
 )
@@ -46319,7 +46198,7 @@ class CreateInputInputCollectionPqEnabledTrueWithPqConstraintTypedDict(TypedDict
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     breaker_rulesets: NotRequired[List[str]]
     r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
@@ -46363,7 +46242,7 @@ class CreateInputInputCollectionPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     breaker_rulesets: Annotated[
@@ -46390,12 +46269,11 @@ class CreateInputInputCollectionPqEnabledTrueWithPqConstraint(BaseModel):
     r"""Destination to send results to"""
 
 
-class CreateInputInputCollectionPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class CreateInputInputCollectionPqEnabledFalseConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     type: NotRequired[CreateInputInputCollectionType]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -46406,8 +46284,9 @@ class CreateInputInputCollectionPqEnabledFalseWithPqConstraintTypedDict(TypedDic
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     breaker_rulesets: NotRequired[List[str]]
     r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
     stale_channel_flush_ms: NotRequired[float]
@@ -46421,14 +46300,12 @@ class CreateInputInputCollectionPqEnabledFalseWithPqConstraintTypedDict(TypedDic
     r"""Destination to send results to"""
 
 
-class CreateInputInputCollectionPqEnabledFalseWithPqConstraint(BaseModel):
+class CreateInputInputCollectionPqEnabledFalseConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     type: Optional[CreateInputInputCollectionType] = (
         CreateInputInputCollectionType.COLLECTION
@@ -46450,8 +46327,10 @@ class CreateInputInputCollectionPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     breaker_rulesets: Annotated[
         Optional[List[str]], pydantic.Field(alias="breakerRulesets")
@@ -46484,7 +46363,7 @@ class CreateInputInputCollectionSendToRoutesFalseWithConnectionsConstraintTypedD
     r"""Unique ID for this input"""
     send_to_routes: NotRequired[bool]
     r"""Send events to normal routing and event processing. Disable to select a specific Pipeline/Destination combination."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     type: NotRequired[CreateInputInputCollectionType]
     disabled: NotRequired[bool]
@@ -46519,7 +46398,7 @@ class CreateInputInputCollectionSendToRoutesFalseWithConnectionsConstraint(BaseM
     )
     r"""Send events to normal routing and event processing. Disable to select a specific Pipeline/Destination combination."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     type: Optional[CreateInputInputCollectionType] = (
@@ -46566,15 +46445,11 @@ class CreateInputInputCollectionSendToRoutesFalseWithConnectionsConstraint(BaseM
     r"""Destination to send results to"""
 
 
-class CreateInputInputCollectionSendToRoutesTrueWithConnectionsConstraintTypedDict(
-    TypedDict
-):
+class CreateInputInputCollectionSendToRoutesTrueConstraintTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     send_to_routes: NotRequired[bool]
     r"""Send events to normal routing and event processing. Disable to select a specific Pipeline/Destination combination."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     type: NotRequired[CreateInputInputCollectionType]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -46585,6 +46460,8 @@ class CreateInputInputCollectionSendToRoutesTrueWithConnectionsConstraintTypedDi
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     breaker_rulesets: NotRequired[List[str]]
     r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
@@ -46599,7 +46476,7 @@ class CreateInputInputCollectionSendToRoutesTrueWithConnectionsConstraintTypedDi
     r"""Destination to send results to"""
 
 
-class CreateInputInputCollectionSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class CreateInputInputCollectionSendToRoutesTrueConstraint(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -46607,9 +46484,6 @@ class CreateInputInputCollectionSendToRoutesTrueWithConnectionsConstraint(BaseMo
         True
     )
     r"""Send events to normal routing and event processing. Disable to select a specific Pipeline/Destination combination."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     type: Optional[CreateInputInputCollectionType] = (
         CreateInputInputCollectionType.COLLECTION
@@ -46628,6 +46502,9 @@ class CreateInputInputCollectionSendToRoutesTrueWithConnectionsConstraint(BaseMo
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -46658,9 +46535,9 @@ class CreateInputInputCollectionSendToRoutesTrueWithConnectionsConstraint(BaseMo
 CreateInputInputCollectionTypedDict = TypeAliasType(
     "CreateInputInputCollectionTypedDict",
     Union[
-        CreateInputInputCollectionSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        CreateInputInputCollectionSendToRoutesTrueConstraintTypedDict,
         CreateInputInputCollectionSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        CreateInputInputCollectionPqEnabledFalseWithPqConstraintTypedDict,
+        CreateInputInputCollectionPqEnabledFalseConstraintTypedDict,
         CreateInputInputCollectionPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -46669,9 +46546,9 @@ CreateInputInputCollectionTypedDict = TypeAliasType(
 CreateInputInputCollection = TypeAliasType(
     "CreateInputInputCollection",
     Union[
-        CreateInputInputCollectionSendToRoutesTrueWithConnectionsConstraint,
+        CreateInputInputCollectionSendToRoutesTrueConstraint,
         CreateInputInputCollectionSendToRoutesFalseWithConnectionsConstraint,
-        CreateInputInputCollectionPqEnabledFalseWithPqConstraint,
+        CreateInputInputCollectionPqEnabledFalseConstraint,
         CreateInputInputCollectionPqEnabledTrueWithPqConstraint,
     ],
 )

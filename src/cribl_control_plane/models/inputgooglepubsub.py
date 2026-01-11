@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 from .googleauthenticationmethodoptions import GoogleAuthenticationMethodOptions
-from .itemstypeconnections import ItemsTypeConnections, ItemsTypeConnectionsTypedDict
+from .itemstypeconnectionsoptional import (
+    ItemsTypeConnectionsOptional,
+    ItemsTypeConnectionsOptionalTypedDict,
+)
 from .itemstypenotificationmetadata import (
     ItemsTypeNotificationMetadata,
     ItemsTypeNotificationMetadataTypedDict,
@@ -39,7 +42,7 @@ class InputGooglePubsubPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     topic_name: NotRequired[str]
     r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""
@@ -100,7 +103,7 @@ class InputGooglePubsubPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     topic_name: Annotated[Optional[str], pydantic.Field(alias="topicName")] = "cribl"
@@ -167,13 +170,12 @@ class InputGooglePubsubPqEnabledTrueWithPqConstraint(BaseModel):
         return value
 
 
-class InputGooglePubsubPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class InputGooglePubsubPqEnabledFalseConstraintTypedDict(TypedDict):
     type: InputGooglePubsubType
     subscription_name: str
     r"""ID of the subscription to use when receiving events. When Monitor subscription is enabled, the fully qualified subscription name must be entered. Example: projects/myProject/subscriptions/mySubscription"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -185,8 +187,9 @@ class InputGooglePubsubPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     topic_name: NotRequired[str]
     r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""
     monitor_subscription: NotRequired[bool]
@@ -216,7 +219,7 @@ class InputGooglePubsubPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Receive events in the order they were added to the queue. The process sending events must have ordering enabled."""
 
 
-class InputGooglePubsubPqEnabledFalseWithPqConstraint(BaseModel):
+class InputGooglePubsubPqEnabledFalseConstraint(BaseModel):
     type: InputGooglePubsubType
 
     subscription_name: Annotated[str, pydantic.Field(alias="subscriptionName")]
@@ -224,8 +227,6 @@ class InputGooglePubsubPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -246,8 +247,10 @@ class InputGooglePubsubPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     topic_name: Annotated[Optional[str], pydantic.Field(alias="topicName")] = "cribl"
     r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""
@@ -319,7 +322,7 @@ class InputGooglePubsubSendToRoutesFalseWithConnectionsConstraintTypedDict(Typed
     r"""ID of the subscription to use when receiving events. When Monitor subscription is enabled, the fully qualified subscription name must be entered. Example: projects/myProject/subscriptions/mySubscription"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -373,7 +376,7 @@ class InputGooglePubsubSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
@@ -459,14 +462,12 @@ class InputGooglePubsubSendToRoutesFalseWithConnectionsConstraint(BaseModel):
         return value
 
 
-class InputGooglePubsubSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
+class InputGooglePubsubSendToRoutesTrueConstraintTypedDict(TypedDict):
     type: InputGooglePubsubType
     subscription_name: str
     r"""ID of the subscription to use when receiving events. When Monitor subscription is enabled, the fully qualified subscription name must be entered. Example: projects/myProject/subscriptions/mySubscription"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -478,6 +479,8 @@ class InputGooglePubsubSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedD
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     topic_name: NotRequired[str]
     r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""
@@ -508,7 +511,7 @@ class InputGooglePubsubSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedD
     r"""Receive events in the order they were added to the queue. The process sending events must have ordering enabled."""
 
 
-class InputGooglePubsubSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class InputGooglePubsubSendToRoutesTrueConstraint(BaseModel):
     type: InputGooglePubsubType
 
     subscription_name: Annotated[str, pydantic.Field(alias="subscriptionName")]
@@ -518,9 +521,6 @@ class InputGooglePubsubSendToRoutesTrueWithConnectionsConstraint(BaseModel):
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -538,6 +538,9 @@ class InputGooglePubsubSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -608,9 +611,9 @@ class InputGooglePubsubSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 InputGooglePubsubTypedDict = TypeAliasType(
     "InputGooglePubsubTypedDict",
     Union[
-        InputGooglePubsubSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        InputGooglePubsubSendToRoutesTrueConstraintTypedDict,
         InputGooglePubsubSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        InputGooglePubsubPqEnabledFalseWithPqConstraintTypedDict,
+        InputGooglePubsubPqEnabledFalseConstraintTypedDict,
         InputGooglePubsubPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -619,9 +622,9 @@ InputGooglePubsubTypedDict = TypeAliasType(
 InputGooglePubsub = TypeAliasType(
     "InputGooglePubsub",
     Union[
-        InputGooglePubsubSendToRoutesTrueWithConnectionsConstraint,
+        InputGooglePubsubSendToRoutesTrueConstraint,
         InputGooglePubsubSendToRoutesFalseWithConnectionsConstraint,
-        InputGooglePubsubPqEnabledFalseWithPqConstraint,
+        InputGooglePubsubPqEnabledFalseConstraint,
         InputGooglePubsubPqEnabledTrueWithPqConstraint,
     ],
 )

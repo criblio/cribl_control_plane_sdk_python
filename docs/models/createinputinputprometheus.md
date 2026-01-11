@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.CreateInputInputPrometheusSendToRoutesTrueWithConnectionsConstraint`
+### `models.CreateInputInputPrometheusSendToRoutesTrueConstraint`
 
 ```python
-value: models.CreateInputInputPrometheusSendToRoutesTrueWithConnectionsConstraint = /* values here */
+value: models.CreateInputInputPrometheusSendToRoutesTrueConstraint = /* values here */
 ```
 
 ### `models.CreateInputInputPrometheusSendToRoutesFalseWithConnectionsConstraint`
@@ -15,10 +15,10 @@ value: models.CreateInputInputPrometheusSendToRoutesTrueWithConnectionsConstrain
 value: models.CreateInputInputPrometheusSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputPrometheusPqEnabledFalseWithPqConstraint`
+### `models.CreateInputInputPrometheusPqEnabledFalseConstraint`
 
 ```python
-value: models.CreateInputInputPrometheusPqEnabledFalseWithPqConstraint = /* values here */
+value: models.CreateInputInputPrometheusPqEnabledFalseConstraint = /* values here */
 ```
 
 ### `models.CreateInputInputPrometheusPqEnabledTrueWithPqConstraint`

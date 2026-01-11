@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.InputHTTPRawSendToRoutesTrueWithConnectionsConstraint`
+### `models.InputHTTPRawSendToRoutesTrueConstraint`
 
 ```python
-value: models.InputHTTPRawSendToRoutesTrueWithConnectionsConstraint = /* values here */
+value: models.InputHTTPRawSendToRoutesTrueConstraint = /* values here */
 ```
 
 ### `models.InputHTTPRawSendToRoutesFalseWithConnectionsConstraint`
@@ -15,10 +15,10 @@ value: models.InputHTTPRawSendToRoutesTrueWithConnectionsConstraint = /* values 
 value: models.InputHTTPRawSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputHTTPRawPqEnabledFalseWithPqConstraint`
+### `models.InputHTTPRawPqEnabledFalseConstraint`
 
 ```python
-value: models.InputHTTPRawPqEnabledFalseWithPqConstraint = /* values here */
+value: models.InputHTTPRawPqEnabledFalseConstraint = /* values here */
 ```
 
 ### `models.InputHTTPRawPqEnabledTrueWithPqConstraint`

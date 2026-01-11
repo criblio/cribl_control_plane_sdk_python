@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.InputSecurityLakeSendToRoutesTrueWithConnectionsConstraint`
+### `models.InputSecurityLakeSendToRoutesTrueConstraint`
 
 ```python
-value: models.InputSecurityLakeSendToRoutesTrueWithConnectionsConstraint = /* values here */
+value: models.InputSecurityLakeSendToRoutesTrueConstraint = /* values here */
 ```
 
 ### `models.InputSecurityLakeSendToRoutesFalseWithConnectionsConstraint`
@@ -15,10 +15,10 @@ value: models.InputSecurityLakeSendToRoutesTrueWithConnectionsConstraint = /* va
 value: models.InputSecurityLakeSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputSecurityLakePqEnabledFalseWithPqConstraint`
+### `models.InputSecurityLakePqEnabledFalseConstraint`
 
 ```python
-value: models.InputSecurityLakePqEnabledFalseWithPqConstraint = /* values here */
+value: models.InputSecurityLakePqEnabledFalseConstraint = /* values here */
 ```
 
 ### `models.InputSecurityLakePqEnabledTrueWithPqConstraint`

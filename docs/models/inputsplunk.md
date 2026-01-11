@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.InputSplunkSendToRoutesTrueWithConnectionsConstraint`
+### `models.InputSplunkSendToRoutesTrueConstraint`
 
 ```python
-value: models.InputSplunkSendToRoutesTrueWithConnectionsConstraint = /* values here */
+value: models.InputSplunkSendToRoutesTrueConstraint = /* values here */
 ```
 
 ### `models.InputSplunkSendToRoutesFalseWithConnectionsConstraint`
@@ -15,10 +15,10 @@ value: models.InputSplunkSendToRoutesTrueWithConnectionsConstraint = /* values h
 value: models.InputSplunkSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputSplunkPqEnabledFalseWithPqConstraint`
+### `models.InputSplunkPqEnabledFalseConstraint`
 
 ```python
-value: models.InputSplunkPqEnabledFalseWithPqConstraint = /* values here */
+value: models.InputSplunkPqEnabledFalseConstraint = /* values here */
 ```
 
 ### `models.InputSplunkPqEnabledTrueWithPqConstraint`

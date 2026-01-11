@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.CreateInputInputOpenTelemetrySendToRoutesTrueWithConnectionsConstraint`
+### `models.CreateInputInputOpenTelemetrySendToRoutesTrueConstraint`
 
 ```python
-value: models.CreateInputInputOpenTelemetrySendToRoutesTrueWithConnectionsConstraint = /* values here */
+value: models.CreateInputInputOpenTelemetrySendToRoutesTrueConstraint = /* values here */
 ```
 
 ### `models.CreateInputInputOpenTelemetrySendToRoutesFalseWithConnectionsConstraint`
@@ -15,10 +15,10 @@ value: models.CreateInputInputOpenTelemetrySendToRoutesTrueWithConnectionsConstr
 value: models.CreateInputInputOpenTelemetrySendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputOpenTelemetryPqEnabledFalseWithPqConstraint`
+### `models.CreateInputInputOpenTelemetryPqEnabledFalseConstraint`
 
 ```python
-value: models.CreateInputInputOpenTelemetryPqEnabledFalseWithPqConstraint = /* values here */
+value: models.CreateInputInputOpenTelemetryPqEnabledFalseConstraint = /* values here */
 ```
 
 ### `models.CreateInputInputOpenTelemetryPqEnabledTrueWithPqConstraint`

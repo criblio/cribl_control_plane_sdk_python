@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.InputCriblLakeHTTPSendToRoutesTrueWithConnectionsConstraint`
+### `models.InputCriblLakeHTTPSendToRoutesTrueConstraint`
 
 ```python
-value: models.InputCriblLakeHTTPSendToRoutesTrueWithConnectionsConstraint = /* values here */
+value: models.InputCriblLakeHTTPSendToRoutesTrueConstraint = /* values here */
 ```
 
 ### `models.InputCriblLakeHTTPSendToRoutesFalseWithConnectionsConstraint`
@@ -15,10 +15,10 @@ value: models.InputCriblLakeHTTPSendToRoutesTrueWithConnectionsConstraint = /* v
 value: models.InputCriblLakeHTTPSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputCriblLakeHTTPPqEnabledFalseWithPqConstraint`
+### `models.InputCriblLakeHTTPPqEnabledFalseConstraint`
 
 ```python
-value: models.InputCriblLakeHTTPPqEnabledFalseWithPqConstraint = /* values here */
+value: models.InputCriblLakeHTTPPqEnabledFalseConstraint = /* values here */
 ```
 
 ### `models.InputCriblLakeHTTPPqEnabledTrueWithPqConstraint`

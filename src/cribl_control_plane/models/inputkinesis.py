@@ -4,7 +4,10 @@ from __future__ import annotations
 from .authenticationmethodoptionss3collectorconf import (
     AuthenticationMethodOptionsS3CollectorConf,
 )
-from .itemstypeconnections import ItemsTypeConnections, ItemsTypeConnectionsTypedDict
+from .itemstypeconnectionsoptional import (
+    ItemsTypeConnectionsOptional,
+    ItemsTypeConnectionsOptionalTypedDict,
+)
 from .itemstypenotificationmetadata import (
     ItemsTypeNotificationMetadata,
     ItemsTypeNotificationMetadataTypedDict,
@@ -75,7 +78,7 @@ class InputKinesisPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     service_interval: NotRequired[float]
     r"""Time interval in minutes between consecutive service calls"""
@@ -155,7 +158,7 @@ class InputKinesisPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     service_interval: Annotated[
@@ -305,7 +308,7 @@ class InputKinesisPqEnabledTrueWithPqConstraint(BaseModel):
         return value
 
 
-class InputKinesisPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class InputKinesisPqEnabledFalseConstraintTypedDict(TypedDict):
     type: InputKinesisType
     stream_name: str
     r"""Kinesis Data Stream to read data from"""
@@ -313,7 +316,6 @@ class InputKinesisPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Region where the Kinesis stream is located"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -325,8 +327,9 @@ class InputKinesisPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     service_interval: NotRequired[float]
     r"""Time interval in minutes between consecutive service calls"""
     shard_expr: NotRequired[str]
@@ -372,7 +375,7 @@ class InputKinesisPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Select or create a stored secret that references your access key and secret key"""
 
 
-class InputKinesisPqEnabledFalseWithPqConstraint(BaseModel):
+class InputKinesisPqEnabledFalseConstraint(BaseModel):
     type: InputKinesisType
 
     stream_name: Annotated[str, pydantic.Field(alias="streamName")]
@@ -383,8 +386,6 @@ class InputKinesisPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -405,8 +406,10 @@ class InputKinesisPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     service_interval: Annotated[
         Optional[float], pydantic.Field(alias="serviceInterval")
@@ -563,7 +566,7 @@ class InputKinesisSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict)
     r"""Region where the Kinesis stream is located"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -636,7 +639,7 @@ class InputKinesisSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
@@ -805,7 +808,7 @@ class InputKinesisSendToRoutesFalseWithConnectionsConstraint(BaseModel):
         return value
 
 
-class InputKinesisSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
+class InputKinesisSendToRoutesTrueConstraintTypedDict(TypedDict):
     type: InputKinesisType
     stream_name: str
     r"""Kinesis Data Stream to read data from"""
@@ -813,8 +816,6 @@ class InputKinesisSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
     r"""Region where the Kinesis stream is located"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -826,6 +827,8 @@ class InputKinesisSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     service_interval: NotRequired[float]
     r"""Time interval in minutes between consecutive service calls"""
@@ -872,7 +875,7 @@ class InputKinesisSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
     r"""Select or create a stored secret that references your access key and secret key"""
 
 
-class InputKinesisSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class InputKinesisSendToRoutesTrueConstraint(BaseModel):
     type: InputKinesisType
 
     stream_name: Annotated[str, pydantic.Field(alias="streamName")]
@@ -885,9 +888,6 @@ class InputKinesisSendToRoutesTrueWithConnectionsConstraint(BaseModel):
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -905,6 +905,9 @@ class InputKinesisSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -1058,9 +1061,9 @@ class InputKinesisSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 InputKinesisTypedDict = TypeAliasType(
     "InputKinesisTypedDict",
     Union[
-        InputKinesisSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        InputKinesisSendToRoutesTrueConstraintTypedDict,
         InputKinesisSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        InputKinesisPqEnabledFalseWithPqConstraintTypedDict,
+        InputKinesisPqEnabledFalseConstraintTypedDict,
         InputKinesisPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -1069,9 +1072,9 @@ InputKinesisTypedDict = TypeAliasType(
 InputKinesis = TypeAliasType(
     "InputKinesis",
     Union[
-        InputKinesisSendToRoutesTrueWithConnectionsConstraint,
+        InputKinesisSendToRoutesTrueConstraint,
         InputKinesisSendToRoutesFalseWithConnectionsConstraint,
-        InputKinesisPqEnabledFalseWithPqConstraint,
+        InputKinesisPqEnabledFalseConstraint,
         InputKinesisPqEnabledTrueWithPqConstraint,
     ],
 )

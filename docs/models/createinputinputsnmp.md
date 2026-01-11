@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.CreateInputInputSnmpSendToRoutesTrueWithConnectionsConstraint`
+### `models.CreateInputInputSnmpSendToRoutesTrueConstraint`
 
 ```python
-value: models.CreateInputInputSnmpSendToRoutesTrueWithConnectionsConstraint = /* values here */
+value: models.CreateInputInputSnmpSendToRoutesTrueConstraint = /* values here */
 ```
 
 ### `models.CreateInputInputSnmpSendToRoutesFalseWithConnectionsConstraint`
@@ -15,10 +15,10 @@ value: models.CreateInputInputSnmpSendToRoutesTrueWithConnectionsConstraint = /*
 value: models.CreateInputInputSnmpSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputSnmpPqEnabledFalseWithPqConstraint`
+### `models.CreateInputInputSnmpPqEnabledFalseConstraint`
 
 ```python
-value: models.CreateInputInputSnmpPqEnabledFalseWithPqConstraint = /* values here */
+value: models.CreateInputInputSnmpPqEnabledFalseConstraint = /* values here */
 ```
 
 ### `models.CreateInputInputSnmpPqEnabledTrueWithPqConstraint`

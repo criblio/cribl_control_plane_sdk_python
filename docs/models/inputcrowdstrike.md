@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.InputCrowdstrikeSendToRoutesTrueWithConnectionsConstraint`
+### `models.InputCrowdstrikeSendToRoutesTrueConstraint`
 
 ```python
-value: models.InputCrowdstrikeSendToRoutesTrueWithConnectionsConstraint = /* values here */
+value: models.InputCrowdstrikeSendToRoutesTrueConstraint = /* values here */
 ```
 
 ### `models.InputCrowdstrikeSendToRoutesFalseWithConnectionsConstraint`
@@ -15,10 +15,10 @@ value: models.InputCrowdstrikeSendToRoutesTrueWithConnectionsConstraint = /* val
 value: models.InputCrowdstrikeSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputCrowdstrikePqEnabledFalseWithPqConstraint`
+### `models.InputCrowdstrikePqEnabledFalseConstraint`
 
 ```python
-value: models.InputCrowdstrikePqEnabledFalseWithPqConstraint = /* values here */
+value: models.InputCrowdstrikePqEnabledFalseConstraint = /* values here */
 ```
 
 ### `models.InputCrowdstrikePqEnabledTrueWithPqConstraint`

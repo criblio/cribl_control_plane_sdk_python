@@ -19,11 +19,9 @@ from .tlssettingsserversidetype import (
 )
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
@@ -63,10 +61,7 @@ class PrometheusAuth2TypedDict(TypedDict):
 
 class PrometheusAuth2(BaseModel):
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationTypeOptionsPrometheusAuth],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationTypeOptionsPrometheusAuth],
         pydantic.Field(alias="authType"),
     ] = AuthenticationTypeOptionsPrometheusAuth.NONE
     r"""Remote Write authentication type"""
@@ -163,11 +158,7 @@ class LokiAuth2TypedDict(TypedDict):
 
 class LokiAuth2(BaseModel):
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationTypeOptionsLokiAuth],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationTypeOptionsLokiAuth], pydantic.Field(alias="authType")
     ] = AuthenticationTypeOptionsLokiAuth.NONE
     r"""Loki logs authentication type"""
 
@@ -438,10 +429,7 @@ class PrometheusAuth1TypedDict(TypedDict):
 
 class PrometheusAuth1(BaseModel):
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationTypeOptionsPrometheusAuth],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationTypeOptionsPrometheusAuth],
         pydantic.Field(alias="authType"),
     ] = AuthenticationTypeOptionsPrometheusAuth.NONE
     r"""Remote Write authentication type"""
@@ -538,11 +526,7 @@ class LokiAuth1TypedDict(TypedDict):
 
 class LokiAuth1(BaseModel):
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationTypeOptionsLokiAuth],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationTypeOptionsLokiAuth], pydantic.Field(alias="authType")
     ] = AuthenticationTypeOptionsLokiAuth.NONE
     r"""Loki logs authentication type"""
 

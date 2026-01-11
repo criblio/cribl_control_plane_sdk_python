@@ -3,11 +3,9 @@
 from __future__ import annotations
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -38,10 +36,7 @@ class FunctionConfSchemaAggregateMetricsAggregation(BaseModel):
     r"""Aggregate function to perform on events. Example: sum(bytes).where(action=='REJECT').as(TotalBytes)"""
 
     metric_type: Annotated[
-        Annotated[
-            Optional[FunctionConfSchemaAggregateMetricsMetricType],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[FunctionConfSchemaAggregateMetricsMetricType],
         pydantic.Field(alias="metricType"),
     ] = FunctionConfSchemaAggregateMetricsMetricType.AUTOMATIC
     r"""The output metric type"""

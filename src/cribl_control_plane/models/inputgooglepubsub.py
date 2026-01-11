@@ -10,23 +10,24 @@ from .itemstypenotificationmetadata import (
 from .pqtype import PqType, PqTypeTypedDict
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
-from typing import List, Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing import List, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class InputGooglePubsubType(str, Enum):
     GOOGLE_PUBSUB = "google_pubsub"
 
 
-class InputGooglePubsubTypedDict(TypedDict):
+class InputGooglePubsubInputCollectionPart1Type1TypedDict(TypedDict):
     type: InputGooglePubsubType
     subscription_name: str
     r"""ID of the subscription to use when receiving events. When Monitor subscription is enabled, the fully qualified subscription name must be entered. Example: projects/myProject/subscriptions/mySubscription"""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -36,13 +37,10 @@ class InputGooglePubsubTypedDict(TypedDict):
     r"""Select whether to send data to Routes, or directly to Destinations."""
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
     connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[PqTypeTypedDict]
     topic_name: NotRequired[str]
     r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""
     monitor_subscription: NotRequired[bool]
@@ -72,11 +70,16 @@ class InputGooglePubsubTypedDict(TypedDict):
     r"""Receive events in the order they were added to the queue. The process sending events must have ordering enabled."""
 
 
-class InputGooglePubsub(BaseModel):
+class InputGooglePubsubInputCollectionPart1Type1(BaseModel):
     type: InputGooglePubsubType
 
     subscription_name: Annotated[str, pydantic.Field(alias="subscriptionName")]
     r"""ID of the subscription to use when receiving events. When Monitor subscription is enabled, the fully qualified subscription name must be entered. Example: projects/myProject/subscriptions/mySubscription"""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -94,16 +97,11 @@ class InputGooglePubsub(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
     connections: Optional[List[ItemsTypeConnections]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
-    pq: Optional[PqType] = None
 
     topic_name: Annotated[Optional[str], pydantic.Field(alias="topicName")] = "cribl"
     r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""
@@ -125,10 +123,7 @@ class InputGooglePubsub(BaseModel):
     r"""Region to retrieve messages from. Select 'default' to allow Google to auto-select the nearest region. When using ordered delivery, the selected region must be allowed by message storage policy."""
 
     google_auth_method: Annotated[
-        Annotated[
-            Optional[GoogleAuthenticationMethodOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[GoogleAuthenticationMethodOptions],
         pydantic.Field(alias="googleAuthMethod"),
     ] = GoogleAuthenticationMethodOptions.MANUAL
     r"""Choose Auto to use Google Application Default Credentials (ADC), Manual to enter Google service account credentials directly, or Secret to select or create a stored secret that references Google service account credentials."""
@@ -170,3 +165,463 @@ class InputGooglePubsub(BaseModel):
             except ValueError:
                 return value
         return value
+
+
+class InputGooglePubsubInputCollectionPart0Type1TypedDict(TypedDict):
+    type: InputGooglePubsubType
+    subscription_name: str
+    r"""ID of the subscription to use when receiving events. When Monitor subscription is enabled, the fully qualified subscription name must be entered. Example: projects/myProject/subscriptions/mySubscription"""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    id: NotRequired[str]
+    r"""Unique ID for this input"""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
+    topic_name: NotRequired[str]
+    r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""
+    monitor_subscription: NotRequired[bool]
+    r"""Use when the subscription is not created by this Source and topic is not known"""
+    create_topic: NotRequired[bool]
+    r"""Create topic if it does not exist"""
+    create_subscription: NotRequired[bool]
+    r"""Create subscription if it does not exist"""
+    region: NotRequired[str]
+    r"""Region to retrieve messages from. Select 'default' to allow Google to auto-select the nearest region. When using ordered delivery, the selected region must be allowed by message storage policy."""
+    google_auth_method: NotRequired[GoogleAuthenticationMethodOptions]
+    r"""Choose Auto to use Google Application Default Credentials (ADC), Manual to enter Google service account credentials directly, or Secret to select or create a stored secret that references Google service account credentials."""
+    service_account_credentials: NotRequired[str]
+    r"""Contents of service account credentials (JSON keys) file downloaded from Google Cloud. To upload a file, click the upload button at this field's upper right."""
+    secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
+    max_backlog: NotRequired[float]
+    r"""If Destination exerts backpressure, this setting limits how many inbound events Stream will queue for processing before it stops retrieving events"""
+    concurrency: NotRequired[float]
+    r"""How many streams to pull messages from at one time. Doubling the value doubles the number of messages this Source pulls from the topic (if available), while consuming more CPU and memory. Defaults to 5."""
+    request_timeout: NotRequired[float]
+    r"""Pull request timeout, in milliseconds"""
+    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    r"""Fields to add to events from this input"""
+    description: NotRequired[str]
+    ordered_delivery: NotRequired[bool]
+    r"""Receive events in the order they were added to the queue. The process sending events must have ordering enabled."""
+
+
+class InputGooglePubsubInputCollectionPart0Type1(BaseModel):
+    type: InputGooglePubsubType
+
+    subscription_name: Annotated[str, pydantic.Field(alias="subscriptionName")]
+    r"""ID of the subscription to use when receiving events. When Monitor subscription is enabled, the fully qualified subscription name must be entered. Example: projects/myProject/subscriptions/mySubscription"""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    id: Optional[str] = None
+    r"""Unique ID for this input"""
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnections]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
+
+    topic_name: Annotated[Optional[str], pydantic.Field(alias="topicName")] = "cribl"
+    r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""
+
+    monitor_subscription: Annotated[
+        Optional[bool], pydantic.Field(alias="monitorSubscription")
+    ] = False
+    r"""Use when the subscription is not created by this Source and topic is not known"""
+
+    create_topic: Annotated[Optional[bool], pydantic.Field(alias="createTopic")] = False
+    r"""Create topic if it does not exist"""
+
+    create_subscription: Annotated[
+        Optional[bool], pydantic.Field(alias="createSubscription")
+    ] = True
+    r"""Create subscription if it does not exist"""
+
+    region: Optional[str] = None
+    r"""Region to retrieve messages from. Select 'default' to allow Google to auto-select the nearest region. When using ordered delivery, the selected region must be allowed by message storage policy."""
+
+    google_auth_method: Annotated[
+        Optional[GoogleAuthenticationMethodOptions],
+        pydantic.Field(alias="googleAuthMethod"),
+    ] = GoogleAuthenticationMethodOptions.MANUAL
+    r"""Choose Auto to use Google Application Default Credentials (ADC), Manual to enter Google service account credentials directly, or Secret to select or create a stored secret that references Google service account credentials."""
+
+    service_account_credentials: Annotated[
+        Optional[str], pydantic.Field(alias="serviceAccountCredentials")
+    ] = None
+    r"""Contents of service account credentials (JSON keys) file downloaded from Google Cloud. To upload a file, click the upload button at this field's upper right."""
+
+    secret: Optional[str] = None
+    r"""Select or create a stored text secret"""
+
+    max_backlog: Annotated[Optional[float], pydantic.Field(alias="maxBacklog")] = 1000
+    r"""If Destination exerts backpressure, this setting limits how many inbound events Stream will queue for processing before it stops retrieving events"""
+
+    concurrency: Optional[float] = 5
+    r"""How many streams to pull messages from at one time. Doubling the value doubles the number of messages this Source pulls from the topic (if available), while consuming more CPU and memory. Defaults to 5."""
+
+    request_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="requestTimeout")
+    ] = 60000
+    r"""Pull request timeout, in milliseconds"""
+
+    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    r"""Fields to add to events from this input"""
+
+    description: Optional[str] = None
+
+    ordered_delivery: Annotated[
+        Optional[bool], pydantic.Field(alias="orderedDelivery")
+    ] = False
+    r"""Receive events in the order they were added to the queue. The process sending events must have ordering enabled."""
+
+    @field_serializer("google_auth_method")
+    def serialize_google_auth_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.GoogleAuthenticationMethodOptions(value)
+            except ValueError:
+                return value
+        return value
+
+
+class InputGooglePubsubInputCollectionPart1TypeTypedDict(TypedDict):
+    type: InputGooglePubsubType
+    subscription_name: str
+    r"""ID of the subscription to use when receiving events. When Monitor subscription is enabled, the fully qualified subscription name must be entered. Example: projects/myProject/subscriptions/mySubscription"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    id: NotRequired[str]
+    r"""Unique ID for this input"""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    pq: NotRequired[PqTypeTypedDict]
+    topic_name: NotRequired[str]
+    r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""
+    monitor_subscription: NotRequired[bool]
+    r"""Use when the subscription is not created by this Source and topic is not known"""
+    create_topic: NotRequired[bool]
+    r"""Create topic if it does not exist"""
+    create_subscription: NotRequired[bool]
+    r"""Create subscription if it does not exist"""
+    region: NotRequired[str]
+    r"""Region to retrieve messages from. Select 'default' to allow Google to auto-select the nearest region. When using ordered delivery, the selected region must be allowed by message storage policy."""
+    google_auth_method: NotRequired[GoogleAuthenticationMethodOptions]
+    r"""Choose Auto to use Google Application Default Credentials (ADC), Manual to enter Google service account credentials directly, or Secret to select or create a stored secret that references Google service account credentials."""
+    service_account_credentials: NotRequired[str]
+    r"""Contents of service account credentials (JSON keys) file downloaded from Google Cloud. To upload a file, click the upload button at this field's upper right."""
+    secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
+    max_backlog: NotRequired[float]
+    r"""If Destination exerts backpressure, this setting limits how many inbound events Stream will queue for processing before it stops retrieving events"""
+    concurrency: NotRequired[float]
+    r"""How many streams to pull messages from at one time. Doubling the value doubles the number of messages this Source pulls from the topic (if available), while consuming more CPU and memory. Defaults to 5."""
+    request_timeout: NotRequired[float]
+    r"""Pull request timeout, in milliseconds"""
+    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    r"""Fields to add to events from this input"""
+    description: NotRequired[str]
+    ordered_delivery: NotRequired[bool]
+    r"""Receive events in the order they were added to the queue. The process sending events must have ordering enabled."""
+
+
+class InputGooglePubsubInputCollectionPart1Type(BaseModel):
+    type: InputGooglePubsubType
+
+    subscription_name: Annotated[str, pydantic.Field(alias="subscriptionName")]
+    r"""ID of the subscription to use when receiving events. When Monitor subscription is enabled, the fully qualified subscription name must be entered. Example: projects/myProject/subscriptions/mySubscription"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    connections: Optional[List[ItemsTypeConnections]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    id: Optional[str] = None
+    r"""Unique ID for this input"""
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    pq: Optional[PqType] = None
+
+    topic_name: Annotated[Optional[str], pydantic.Field(alias="topicName")] = "cribl"
+    r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""
+
+    monitor_subscription: Annotated[
+        Optional[bool], pydantic.Field(alias="monitorSubscription")
+    ] = False
+    r"""Use when the subscription is not created by this Source and topic is not known"""
+
+    create_topic: Annotated[Optional[bool], pydantic.Field(alias="createTopic")] = False
+    r"""Create topic if it does not exist"""
+
+    create_subscription: Annotated[
+        Optional[bool], pydantic.Field(alias="createSubscription")
+    ] = True
+    r"""Create subscription if it does not exist"""
+
+    region: Optional[str] = None
+    r"""Region to retrieve messages from. Select 'default' to allow Google to auto-select the nearest region. When using ordered delivery, the selected region must be allowed by message storage policy."""
+
+    google_auth_method: Annotated[
+        Optional[GoogleAuthenticationMethodOptions],
+        pydantic.Field(alias="googleAuthMethod"),
+    ] = GoogleAuthenticationMethodOptions.MANUAL
+    r"""Choose Auto to use Google Application Default Credentials (ADC), Manual to enter Google service account credentials directly, or Secret to select or create a stored secret that references Google service account credentials."""
+
+    service_account_credentials: Annotated[
+        Optional[str], pydantic.Field(alias="serviceAccountCredentials")
+    ] = None
+    r"""Contents of service account credentials (JSON keys) file downloaded from Google Cloud. To upload a file, click the upload button at this field's upper right."""
+
+    secret: Optional[str] = None
+    r"""Select or create a stored text secret"""
+
+    max_backlog: Annotated[Optional[float], pydantic.Field(alias="maxBacklog")] = 1000
+    r"""If Destination exerts backpressure, this setting limits how many inbound events Stream will queue for processing before it stops retrieving events"""
+
+    concurrency: Optional[float] = 5
+    r"""How many streams to pull messages from at one time. Doubling the value doubles the number of messages this Source pulls from the topic (if available), while consuming more CPU and memory. Defaults to 5."""
+
+    request_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="requestTimeout")
+    ] = 60000
+    r"""Pull request timeout, in milliseconds"""
+
+    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    r"""Fields to add to events from this input"""
+
+    description: Optional[str] = None
+
+    ordered_delivery: Annotated[
+        Optional[bool], pydantic.Field(alias="orderedDelivery")
+    ] = False
+    r"""Receive events in the order they were added to the queue. The process sending events must have ordering enabled."""
+
+    @field_serializer("google_auth_method")
+    def serialize_google_auth_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.GoogleAuthenticationMethodOptions(value)
+            except ValueError:
+                return value
+        return value
+
+
+class InputGooglePubsubInputCollectionPart0TypeTypedDict(TypedDict):
+    type: InputGooglePubsubType
+    subscription_name: str
+    r"""ID of the subscription to use when receiving events. When Monitor subscription is enabled, the fully qualified subscription name must be entered. Example: projects/myProject/subscriptions/mySubscription"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    id: NotRequired[str]
+    r"""Unique ID for this input"""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
+    topic_name: NotRequired[str]
+    r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""
+    monitor_subscription: NotRequired[bool]
+    r"""Use when the subscription is not created by this Source and topic is not known"""
+    create_topic: NotRequired[bool]
+    r"""Create topic if it does not exist"""
+    create_subscription: NotRequired[bool]
+    r"""Create subscription if it does not exist"""
+    region: NotRequired[str]
+    r"""Region to retrieve messages from. Select 'default' to allow Google to auto-select the nearest region. When using ordered delivery, the selected region must be allowed by message storage policy."""
+    google_auth_method: NotRequired[GoogleAuthenticationMethodOptions]
+    r"""Choose Auto to use Google Application Default Credentials (ADC), Manual to enter Google service account credentials directly, or Secret to select or create a stored secret that references Google service account credentials."""
+    service_account_credentials: NotRequired[str]
+    r"""Contents of service account credentials (JSON keys) file downloaded from Google Cloud. To upload a file, click the upload button at this field's upper right."""
+    secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
+    max_backlog: NotRequired[float]
+    r"""If Destination exerts backpressure, this setting limits how many inbound events Stream will queue for processing before it stops retrieving events"""
+    concurrency: NotRequired[float]
+    r"""How many streams to pull messages from at one time. Doubling the value doubles the number of messages this Source pulls from the topic (if available), while consuming more CPU and memory. Defaults to 5."""
+    request_timeout: NotRequired[float]
+    r"""Pull request timeout, in milliseconds"""
+    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    r"""Fields to add to events from this input"""
+    description: NotRequired[str]
+    ordered_delivery: NotRequired[bool]
+    r"""Receive events in the order they were added to the queue. The process sending events must have ordering enabled."""
+
+
+class InputGooglePubsubInputCollectionPart0Type(BaseModel):
+    type: InputGooglePubsubType
+
+    subscription_name: Annotated[str, pydantic.Field(alias="subscriptionName")]
+    r"""ID of the subscription to use when receiving events. When Monitor subscription is enabled, the fully qualified subscription name must be entered. Example: projects/myProject/subscriptions/mySubscription"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    id: Optional[str] = None
+    r"""Unique ID for this input"""
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnections]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
+
+    topic_name: Annotated[Optional[str], pydantic.Field(alias="topicName")] = "cribl"
+    r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""
+
+    monitor_subscription: Annotated[
+        Optional[bool], pydantic.Field(alias="monitorSubscription")
+    ] = False
+    r"""Use when the subscription is not created by this Source and topic is not known"""
+
+    create_topic: Annotated[Optional[bool], pydantic.Field(alias="createTopic")] = False
+    r"""Create topic if it does not exist"""
+
+    create_subscription: Annotated[
+        Optional[bool], pydantic.Field(alias="createSubscription")
+    ] = True
+    r"""Create subscription if it does not exist"""
+
+    region: Optional[str] = None
+    r"""Region to retrieve messages from. Select 'default' to allow Google to auto-select the nearest region. When using ordered delivery, the selected region must be allowed by message storage policy."""
+
+    google_auth_method: Annotated[
+        Optional[GoogleAuthenticationMethodOptions],
+        pydantic.Field(alias="googleAuthMethod"),
+    ] = GoogleAuthenticationMethodOptions.MANUAL
+    r"""Choose Auto to use Google Application Default Credentials (ADC), Manual to enter Google service account credentials directly, or Secret to select or create a stored secret that references Google service account credentials."""
+
+    service_account_credentials: Annotated[
+        Optional[str], pydantic.Field(alias="serviceAccountCredentials")
+    ] = None
+    r"""Contents of service account credentials (JSON keys) file downloaded from Google Cloud. To upload a file, click the upload button at this field's upper right."""
+
+    secret: Optional[str] = None
+    r"""Select or create a stored text secret"""
+
+    max_backlog: Annotated[Optional[float], pydantic.Field(alias="maxBacklog")] = 1000
+    r"""If Destination exerts backpressure, this setting limits how many inbound events Stream will queue for processing before it stops retrieving events"""
+
+    concurrency: Optional[float] = 5
+    r"""How many streams to pull messages from at one time. Doubling the value doubles the number of messages this Source pulls from the topic (if available), while consuming more CPU and memory. Defaults to 5."""
+
+    request_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="requestTimeout")
+    ] = 60000
+    r"""Pull request timeout, in milliseconds"""
+
+    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    r"""Fields to add to events from this input"""
+
+    description: Optional[str] = None
+
+    ordered_delivery: Annotated[
+        Optional[bool], pydantic.Field(alias="orderedDelivery")
+    ] = False
+    r"""Receive events in the order they were added to the queue. The process sending events must have ordering enabled."""
+
+    @field_serializer("google_auth_method")
+    def serialize_google_auth_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.GoogleAuthenticationMethodOptions(value)
+            except ValueError:
+                return value
+        return value
+
+
+InputGooglePubsubTypedDict = TypeAliasType(
+    "InputGooglePubsubTypedDict",
+    Union[
+        InputGooglePubsubInputCollectionPart0TypeTypedDict,
+        InputGooglePubsubInputCollectionPart1TypeTypedDict,
+        InputGooglePubsubInputCollectionPart0Type1TypedDict,
+        InputGooglePubsubInputCollectionPart1Type1TypedDict,
+    ],
+)
+
+
+InputGooglePubsub = TypeAliasType(
+    "InputGooglePubsub",
+    Union[
+        InputGooglePubsubInputCollectionPart0Type,
+        InputGooglePubsubInputCollectionPart1Type,
+        InputGooglePubsubInputCollectionPart0Type1,
+        InputGooglePubsubInputCollectionPart1Type1,
+    ],
+)

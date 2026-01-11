@@ -4,10 +4,8 @@ from __future__ import annotations
 from .otlpversionoptions import OtlpVersionOptions
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -32,10 +30,7 @@ class FunctionConfSchemaOtlpMetrics(BaseModel):
     ] = False
 
     otlp_version: Annotated[
-        Annotated[
-            Optional[OtlpVersionOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="otlpVersion"),
+        Optional[OtlpVersionOptions], pydantic.Field(alias="otlpVersion")
     ] = OtlpVersionOptions.ZERO_DOT_10_DOT_0
 
     batch_otlp_metrics: Annotated[

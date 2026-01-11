@@ -5,10 +5,8 @@ from .compressionoptionspq import CompressionOptionsPq
 from .modeoptionspq import ModeOptionsPq
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -40,9 +38,7 @@ class PqTypeTypedDict(TypedDict):
 
 
 class PqType(BaseModel):
-    mode: Annotated[
-        Optional[ModeOptionsPq], PlainValidator(validate_open_enum(False))
-    ] = ModeOptionsPq.ALWAYS
+    mode: Optional[ModeOptionsPq] = ModeOptionsPq.ALWAYS
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size: Annotated[
@@ -66,9 +62,7 @@ class PqType(BaseModel):
     path: Optional[str] = "$CRIBL_HOME/state/queues"
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
 
-    compress: Annotated[
-        Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-    ] = CompressionOptionsPq.NONE
+    compress: Optional[CompressionOptionsPq] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_controls: Annotated[

@@ -14,23 +14,24 @@ from .itemstypenotificationmetadata import (
 from .pqtype import PqType, PqTypeTypedDict
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
-from typing import List, Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing import List, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class InputAzureBlobType(str, Enum):
     AZURE_BLOB = "azure_blob"
 
 
-class InputAzureBlobTypedDict(TypedDict):
+class InputAzureBlobInputCollectionPart1Type1TypedDict(TypedDict):
     type: InputAzureBlobType
     queue_name: str
     r"""The storage account queue name blob notifications will be read from. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myQueue-${C.vars.myVar}`"""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -38,6 +39,582 @@ class InputAzureBlobTypedDict(TypedDict):
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    file_filter: NotRequired[str]
+    r"""Regex matching file names to download and process. Defaults to: .*"""
+    visibility_timeout: NotRequired[float]
+    r"""The duration (in seconds) that the received messages are hidden from subsequent retrieve requests after being retrieved by a ReceiveMessage request."""
+    num_receivers: NotRequired[float]
+    r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
+    max_messages: NotRequired[float]
+    r"""The maximum number of messages to return in a poll request. Azure storage queues never returns more messages than this value (however, fewer messages might be returned). Valid values: 1 to 32."""
+    service_period_secs: NotRequired[float]
+    r"""The duration (in seconds) which pollers should be validated and restarted if exited"""
+    skip_on_error: NotRequired[bool]
+    r"""Skip files that trigger a processing error. Disabled by default, which allows retries after processing errors."""
+    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    r"""Fields to add to events from this input"""
+    breaker_rulesets: NotRequired[List[str]]
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+    stale_channel_flush_ms: NotRequired[float]
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+    parquet_chunk_size_mb: NotRequired[float]
+    r"""Maximum file size for each Parquet chunk"""
+    parquet_chunk_download_timeout: NotRequired[float]
+    r"""The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
+    auth_type: NotRequired[AuthenticationMethodOptions]
+    description: NotRequired[str]
+    connection_string: NotRequired[str]
+    r"""Enter your Azure Storage account connection string. If left blank, Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING."""
+    text_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
+    storage_account_name: NotRequired[str]
+    r"""The name of your Azure storage account"""
+    tenant_id: NotRequired[str]
+    r"""The service principal's tenant ID"""
+    client_id: NotRequired[str]
+    r"""The service principal's client ID"""
+    azure_cloud: NotRequired[str]
+    r"""The Azure cloud to use. Defaults to Azure Public Cloud."""
+    endpoint_suffix: NotRequired[str]
+    r"""Endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net."""
+    client_text_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
+    certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
+
+
+class InputAzureBlobInputCollectionPart1Type1(BaseModel):
+    type: InputAzureBlobType
+
+    queue_name: Annotated[str, pydantic.Field(alias="queueName")]
+    r"""The storage account queue name blob notifications will be read from. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myQueue-${C.vars.myVar}`"""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    pq: Optional[PqType] = None
+
+    id: Optional[str] = None
+    r"""Unique ID for this input"""
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnections]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    file_filter: Annotated[Optional[str], pydantic.Field(alias="fileFilter")] = "/.*/"
+    r"""Regex matching file names to download and process. Defaults to: .*"""
+
+    visibility_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="visibilityTimeout")
+    ] = 600
+    r"""The duration (in seconds) that the received messages are hidden from subsequent retrieve requests after being retrieved by a ReceiveMessage request."""
+
+    num_receivers: Annotated[Optional[float], pydantic.Field(alias="numReceivers")] = 1
+    r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
+
+    max_messages: Annotated[Optional[float], pydantic.Field(alias="maxMessages")] = 1
+    r"""The maximum number of messages to return in a poll request. Azure storage queues never returns more messages than this value (however, fewer messages might be returned). Valid values: 1 to 32."""
+
+    service_period_secs: Annotated[
+        Optional[float], pydantic.Field(alias="servicePeriodSecs")
+    ] = 5
+    r"""The duration (in seconds) which pollers should be validated and restarted if exited"""
+
+    skip_on_error: Annotated[Optional[bool], pydantic.Field(alias="skipOnError")] = (
+        False
+    )
+    r"""Skip files that trigger a processing error. Disabled by default, which allows retries after processing errors."""
+
+    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    r"""Fields to add to events from this input"""
+
+    breaker_rulesets: Annotated[
+        Optional[List[str]], pydantic.Field(alias="breakerRulesets")
+    ] = None
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+
+    stale_channel_flush_ms: Annotated[
+        Optional[float], pydantic.Field(alias="staleChannelFlushMs")
+    ] = 10000
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+
+    parquet_chunk_size_mb: Annotated[
+        Optional[float], pydantic.Field(alias="parquetChunkSizeMB")
+    ] = 5
+    r"""Maximum file size for each Parquet chunk"""
+
+    parquet_chunk_download_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="parquetChunkDownloadTimeout")
+    ] = 600
+    r"""The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
+
+    auth_type: Annotated[
+        Optional[AuthenticationMethodOptions], pydantic.Field(alias="authType")
+    ] = AuthenticationMethodOptions.MANUAL
+
+    description: Optional[str] = None
+
+    connection_string: Annotated[
+        Optional[str], pydantic.Field(alias="connectionString")
+    ] = None
+    r"""Enter your Azure Storage account connection string. If left blank, Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING."""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a stored text secret"""
+
+    storage_account_name: Annotated[
+        Optional[str], pydantic.Field(alias="storageAccountName")
+    ] = None
+    r"""The name of your Azure storage account"""
+
+    tenant_id: Annotated[Optional[str], pydantic.Field(alias="tenantId")] = None
+    r"""The service principal's tenant ID"""
+
+    client_id: Annotated[Optional[str], pydantic.Field(alias="clientId")] = None
+    r"""The service principal's client ID"""
+
+    azure_cloud: Annotated[Optional[str], pydantic.Field(alias="azureCloud")] = None
+    r"""The Azure cloud to use. Defaults to Azure Public Cloud."""
+
+    endpoint_suffix: Annotated[
+        Optional[str], pydantic.Field(alias="endpointSuffix")
+    ] = None
+    r"""Endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net."""
+
+    client_text_secret: Annotated[
+        Optional[str], pydantic.Field(alias="clientTextSecret")
+    ] = None
+    r"""Select or create a stored text secret"""
+
+    certificate: Optional[CertificateTypeAzureBlobAuthTypeClientCert] = None
+
+    @field_serializer("auth_type")
+    def serialize_auth_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.AuthenticationMethodOptions(value)
+            except ValueError:
+                return value
+        return value
+
+
+class InputAzureBlobInputCollectionPart0Type1TypedDict(TypedDict):
+    type: InputAzureBlobType
+    queue_name: str
+    r"""The storage account queue name blob notifications will be read from. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myQueue-${C.vars.myVar}`"""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    id: NotRequired[str]
+    r"""Unique ID for this input"""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
+    file_filter: NotRequired[str]
+    r"""Regex matching file names to download and process. Defaults to: .*"""
+    visibility_timeout: NotRequired[float]
+    r"""The duration (in seconds) that the received messages are hidden from subsequent retrieve requests after being retrieved by a ReceiveMessage request."""
+    num_receivers: NotRequired[float]
+    r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
+    max_messages: NotRequired[float]
+    r"""The maximum number of messages to return in a poll request. Azure storage queues never returns more messages than this value (however, fewer messages might be returned). Valid values: 1 to 32."""
+    service_period_secs: NotRequired[float]
+    r"""The duration (in seconds) which pollers should be validated and restarted if exited"""
+    skip_on_error: NotRequired[bool]
+    r"""Skip files that trigger a processing error. Disabled by default, which allows retries after processing errors."""
+    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    r"""Fields to add to events from this input"""
+    breaker_rulesets: NotRequired[List[str]]
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+    stale_channel_flush_ms: NotRequired[float]
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+    parquet_chunk_size_mb: NotRequired[float]
+    r"""Maximum file size for each Parquet chunk"""
+    parquet_chunk_download_timeout: NotRequired[float]
+    r"""The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
+    auth_type: NotRequired[AuthenticationMethodOptions]
+    description: NotRequired[str]
+    connection_string: NotRequired[str]
+    r"""Enter your Azure Storage account connection string. If left blank, Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING."""
+    text_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
+    storage_account_name: NotRequired[str]
+    r"""The name of your Azure storage account"""
+    tenant_id: NotRequired[str]
+    r"""The service principal's tenant ID"""
+    client_id: NotRequired[str]
+    r"""The service principal's client ID"""
+    azure_cloud: NotRequired[str]
+    r"""The Azure cloud to use. Defaults to Azure Public Cloud."""
+    endpoint_suffix: NotRequired[str]
+    r"""Endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net."""
+    client_text_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
+    certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
+
+
+class InputAzureBlobInputCollectionPart0Type1(BaseModel):
+    type: InputAzureBlobType
+
+    queue_name: Annotated[str, pydantic.Field(alias="queueName")]
+    r"""The storage account queue name blob notifications will be read from. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myQueue-${C.vars.myVar}`"""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    id: Optional[str] = None
+    r"""Unique ID for this input"""
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnections]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
+
+    file_filter: Annotated[Optional[str], pydantic.Field(alias="fileFilter")] = "/.*/"
+    r"""Regex matching file names to download and process. Defaults to: .*"""
+
+    visibility_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="visibilityTimeout")
+    ] = 600
+    r"""The duration (in seconds) that the received messages are hidden from subsequent retrieve requests after being retrieved by a ReceiveMessage request."""
+
+    num_receivers: Annotated[Optional[float], pydantic.Field(alias="numReceivers")] = 1
+    r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
+
+    max_messages: Annotated[Optional[float], pydantic.Field(alias="maxMessages")] = 1
+    r"""The maximum number of messages to return in a poll request. Azure storage queues never returns more messages than this value (however, fewer messages might be returned). Valid values: 1 to 32."""
+
+    service_period_secs: Annotated[
+        Optional[float], pydantic.Field(alias="servicePeriodSecs")
+    ] = 5
+    r"""The duration (in seconds) which pollers should be validated and restarted if exited"""
+
+    skip_on_error: Annotated[Optional[bool], pydantic.Field(alias="skipOnError")] = (
+        False
+    )
+    r"""Skip files that trigger a processing error. Disabled by default, which allows retries after processing errors."""
+
+    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    r"""Fields to add to events from this input"""
+
+    breaker_rulesets: Annotated[
+        Optional[List[str]], pydantic.Field(alias="breakerRulesets")
+    ] = None
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+
+    stale_channel_flush_ms: Annotated[
+        Optional[float], pydantic.Field(alias="staleChannelFlushMs")
+    ] = 10000
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+
+    parquet_chunk_size_mb: Annotated[
+        Optional[float], pydantic.Field(alias="parquetChunkSizeMB")
+    ] = 5
+    r"""Maximum file size for each Parquet chunk"""
+
+    parquet_chunk_download_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="parquetChunkDownloadTimeout")
+    ] = 600
+    r"""The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
+
+    auth_type: Annotated[
+        Optional[AuthenticationMethodOptions], pydantic.Field(alias="authType")
+    ] = AuthenticationMethodOptions.MANUAL
+
+    description: Optional[str] = None
+
+    connection_string: Annotated[
+        Optional[str], pydantic.Field(alias="connectionString")
+    ] = None
+    r"""Enter your Azure Storage account connection string. If left blank, Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING."""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a stored text secret"""
+
+    storage_account_name: Annotated[
+        Optional[str], pydantic.Field(alias="storageAccountName")
+    ] = None
+    r"""The name of your Azure storage account"""
+
+    tenant_id: Annotated[Optional[str], pydantic.Field(alias="tenantId")] = None
+    r"""The service principal's tenant ID"""
+
+    client_id: Annotated[Optional[str], pydantic.Field(alias="clientId")] = None
+    r"""The service principal's client ID"""
+
+    azure_cloud: Annotated[Optional[str], pydantic.Field(alias="azureCloud")] = None
+    r"""The Azure cloud to use. Defaults to Azure Public Cloud."""
+
+    endpoint_suffix: Annotated[
+        Optional[str], pydantic.Field(alias="endpointSuffix")
+    ] = None
+    r"""Endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net."""
+
+    client_text_secret: Annotated[
+        Optional[str], pydantic.Field(alias="clientTextSecret")
+    ] = None
+    r"""Select or create a stored text secret"""
+
+    certificate: Optional[CertificateTypeAzureBlobAuthTypeClientCert] = None
+
+    @field_serializer("auth_type")
+    def serialize_auth_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.AuthenticationMethodOptions(value)
+            except ValueError:
+                return value
+        return value
+
+
+class InputAzureBlobInputCollectionPart1TypeTypedDict(TypedDict):
+    type: InputAzureBlobType
+    queue_name: str
+    r"""The storage account queue name blob notifications will be read from. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myQueue-${C.vars.myVar}`"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    id: NotRequired[str]
+    r"""Unique ID for this input"""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    pq: NotRequired[PqTypeTypedDict]
+    file_filter: NotRequired[str]
+    r"""Regex matching file names to download and process. Defaults to: .*"""
+    visibility_timeout: NotRequired[float]
+    r"""The duration (in seconds) that the received messages are hidden from subsequent retrieve requests after being retrieved by a ReceiveMessage request."""
+    num_receivers: NotRequired[float]
+    r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
+    max_messages: NotRequired[float]
+    r"""The maximum number of messages to return in a poll request. Azure storage queues never returns more messages than this value (however, fewer messages might be returned). Valid values: 1 to 32."""
+    service_period_secs: NotRequired[float]
+    r"""The duration (in seconds) which pollers should be validated and restarted if exited"""
+    skip_on_error: NotRequired[bool]
+    r"""Skip files that trigger a processing error. Disabled by default, which allows retries after processing errors."""
+    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    r"""Fields to add to events from this input"""
+    breaker_rulesets: NotRequired[List[str]]
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+    stale_channel_flush_ms: NotRequired[float]
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+    parquet_chunk_size_mb: NotRequired[float]
+    r"""Maximum file size for each Parquet chunk"""
+    parquet_chunk_download_timeout: NotRequired[float]
+    r"""The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
+    auth_type: NotRequired[AuthenticationMethodOptions]
+    description: NotRequired[str]
+    connection_string: NotRequired[str]
+    r"""Enter your Azure Storage account connection string. If left blank, Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING."""
+    text_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
+    storage_account_name: NotRequired[str]
+    r"""The name of your Azure storage account"""
+    tenant_id: NotRequired[str]
+    r"""The service principal's tenant ID"""
+    client_id: NotRequired[str]
+    r"""The service principal's client ID"""
+    azure_cloud: NotRequired[str]
+    r"""The Azure cloud to use. Defaults to Azure Public Cloud."""
+    endpoint_suffix: NotRequired[str]
+    r"""Endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net."""
+    client_text_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
+    certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
+
+
+class InputAzureBlobInputCollectionPart1Type(BaseModel):
+    type: InputAzureBlobType
+
+    queue_name: Annotated[str, pydantic.Field(alias="queueName")]
+    r"""The storage account queue name blob notifications will be read from. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myQueue-${C.vars.myVar}`"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    connections: Optional[List[ItemsTypeConnections]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    id: Optional[str] = None
+    r"""Unique ID for this input"""
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    pq: Optional[PqType] = None
+
+    file_filter: Annotated[Optional[str], pydantic.Field(alias="fileFilter")] = "/.*/"
+    r"""Regex matching file names to download and process. Defaults to: .*"""
+
+    visibility_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="visibilityTimeout")
+    ] = 600
+    r"""The duration (in seconds) that the received messages are hidden from subsequent retrieve requests after being retrieved by a ReceiveMessage request."""
+
+    num_receivers: Annotated[Optional[float], pydantic.Field(alias="numReceivers")] = 1
+    r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
+
+    max_messages: Annotated[Optional[float], pydantic.Field(alias="maxMessages")] = 1
+    r"""The maximum number of messages to return in a poll request. Azure storage queues never returns more messages than this value (however, fewer messages might be returned). Valid values: 1 to 32."""
+
+    service_period_secs: Annotated[
+        Optional[float], pydantic.Field(alias="servicePeriodSecs")
+    ] = 5
+    r"""The duration (in seconds) which pollers should be validated and restarted if exited"""
+
+    skip_on_error: Annotated[Optional[bool], pydantic.Field(alias="skipOnError")] = (
+        False
+    )
+    r"""Skip files that trigger a processing error. Disabled by default, which allows retries after processing errors."""
+
+    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    r"""Fields to add to events from this input"""
+
+    breaker_rulesets: Annotated[
+        Optional[List[str]], pydantic.Field(alias="breakerRulesets")
+    ] = None
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+
+    stale_channel_flush_ms: Annotated[
+        Optional[float], pydantic.Field(alias="staleChannelFlushMs")
+    ] = 10000
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+
+    parquet_chunk_size_mb: Annotated[
+        Optional[float], pydantic.Field(alias="parquetChunkSizeMB")
+    ] = 5
+    r"""Maximum file size for each Parquet chunk"""
+
+    parquet_chunk_download_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="parquetChunkDownloadTimeout")
+    ] = 600
+    r"""The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
+
+    auth_type: Annotated[
+        Optional[AuthenticationMethodOptions], pydantic.Field(alias="authType")
+    ] = AuthenticationMethodOptions.MANUAL
+
+    description: Optional[str] = None
+
+    connection_string: Annotated[
+        Optional[str], pydantic.Field(alias="connectionString")
+    ] = None
+    r"""Enter your Azure Storage account connection string. If left blank, Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING."""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a stored text secret"""
+
+    storage_account_name: Annotated[
+        Optional[str], pydantic.Field(alias="storageAccountName")
+    ] = None
+    r"""The name of your Azure storage account"""
+
+    tenant_id: Annotated[Optional[str], pydantic.Field(alias="tenantId")] = None
+    r"""The service principal's tenant ID"""
+
+    client_id: Annotated[Optional[str], pydantic.Field(alias="clientId")] = None
+    r"""The service principal's client ID"""
+
+    azure_cloud: Annotated[Optional[str], pydantic.Field(alias="azureCloud")] = None
+    r"""The Azure cloud to use. Defaults to Azure Public Cloud."""
+
+    endpoint_suffix: Annotated[
+        Optional[str], pydantic.Field(alias="endpointSuffix")
+    ] = None
+    r"""Endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net."""
+
+    client_text_secret: Annotated[
+        Optional[str], pydantic.Field(alias="clientTextSecret")
+    ] = None
+    r"""Select or create a stored text secret"""
+
+    certificate: Optional[CertificateTypeAzureBlobAuthTypeClientCert] = None
+
+    @field_serializer("auth_type")
+    def serialize_auth_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.AuthenticationMethodOptions(value)
+            except ValueError:
+                return value
+        return value
+
+
+class InputAzureBlobInputCollectionPart0TypeTypedDict(TypedDict):
+    type: InputAzureBlobType
+    queue_name: str
+    r"""The storage account queue name blob notifications will be read from. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myQueue-${C.vars.myVar}`"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    id: NotRequired[str]
+    r"""Unique ID for this input"""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     pq_enabled: NotRequired[bool]
@@ -90,11 +667,16 @@ class InputAzureBlobTypedDict(TypedDict):
     certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
 
 
-class InputAzureBlob(BaseModel):
+class InputAzureBlobInputCollectionPart0Type(BaseModel):
     type: InputAzureBlobType
 
     queue_name: Annotated[str, pydantic.Field(alias="queueName")]
     r"""The storage account queue name blob notifications will be read from. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myQueue-${C.vars.myVar}`"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -103,11 +685,6 @@ class InputAzureBlob(BaseModel):
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
 
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
@@ -171,11 +748,7 @@ class InputAzureBlob(BaseModel):
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationMethodOptions], pydantic.Field(alias="authType")
     ] = AuthenticationMethodOptions.MANUAL
 
     description: Optional[str] = None
@@ -222,3 +795,25 @@ class InputAzureBlob(BaseModel):
             except ValueError:
                 return value
         return value
+
+
+InputAzureBlobTypedDict = TypeAliasType(
+    "InputAzureBlobTypedDict",
+    Union[
+        InputAzureBlobInputCollectionPart0TypeTypedDict,
+        InputAzureBlobInputCollectionPart1TypeTypedDict,
+        InputAzureBlobInputCollectionPart0Type1TypedDict,
+        InputAzureBlobInputCollectionPart1Type1TypedDict,
+    ],
+)
+
+
+InputAzureBlob = TypeAliasType(
+    "InputAzureBlob",
+    Union[
+        InputAzureBlobInputCollectionPart0Type,
+        InputAzureBlobInputCollectionPart1Type,
+        InputAzureBlobInputCollectionPart0Type1,
+        InputAzureBlobInputCollectionPart1Type1,
+    ],
+)

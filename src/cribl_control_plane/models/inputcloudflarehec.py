@@ -13,13 +13,11 @@ from .tlssettingsserversidetype import (
 )
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
-from typing import Any, List, Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing import Any, List, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class InputCloudflareHecType(str, Enum):
@@ -50,10 +48,7 @@ class InputCloudflareHecAuthTokenTypedDict(TypedDict):
 
 class InputCloudflareHecAuthToken(BaseModel):
     auth_type: Annotated[
-        Annotated[
-            Optional[InputCloudflareHecAuthenticationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[InputCloudflareHecAuthenticationMethod],
         pydantic.Field(alias="authType"),
     ] = InputCloudflareHecAuthenticationMethod.SECRET
     r"""Select Secret to use a text secret to authenticate"""
@@ -86,12 +81,15 @@ class InputCloudflareHecAuthToken(BaseModel):
         return value
 
 
-class InputCloudflareHecTypedDict(TypedDict):
+class InputCloudflareHecInputCollectionPart1Type1TypedDict(TypedDict):
     type: InputCloudflareHecType
     port: float
     r"""Port to listen on"""
     hec_api: str
     r"""Absolute path on which to listen for the Cloudflare HTTP Event Collector API requests. This input supports the /event endpoint."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -99,6 +97,606 @@ class InputCloudflareHecTypedDict(TypedDict):
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    host: NotRequired[str]
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+    auth_tokens: NotRequired[List[InputCloudflareHecAuthTokenTypedDict]]
+    r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
+    tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    max_active_req: NotRequired[float]
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+    max_requests_per_socket: NotRequired[int]
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+    enable_proxy_header: NotRequired[bool]
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+    capture_headers: NotRequired[bool]
+    r"""Add request headers to events, in the __headers field"""
+    activity_log_sample_rate: NotRequired[float]
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+    request_timeout: NotRequired[float]
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+    socket_timeout: NotRequired[float]
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+    keep_alive_timeout: NotRequired[float]
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
+    enable_health_check: NotRequired[Any]
+    ip_allowlist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+    ip_denylist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    r"""Fields to add to every event. May be overridden by fields added at the token or request level."""
+    allowed_indexes: NotRequired[List[str]]
+    r"""List values allowed in HEC event index field. Leave blank to skip validation. Supports wildcards. The values here can expand index validation at the token level."""
+    breaker_rulesets: NotRequired[List[str]]
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+    stale_channel_flush_ms: NotRequired[float]
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+    access_control_allow_origin: NotRequired[List[str]]
+    r"""HTTP origins to which @{product} should send CORS (cross-origin resource sharing) Access-Control-Allow-* headers. Supports wildcards."""
+    access_control_allow_headers: NotRequired[List[str]]
+    r"""HTTP headers that @{product} will send to allowed origins as \"Access-Control-Allow-Headers\" in a CORS preflight response. Use \"*\" to allow all headers."""
+    emit_token_metrics: NotRequired[bool]
+    r"""Emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
+    description: NotRequired[str]
+
+
+class InputCloudflareHecInputCollectionPart1Type1(BaseModel):
+    type: InputCloudflareHecType
+
+    port: float
+    r"""Port to listen on"""
+
+    hec_api: Annotated[str, pydantic.Field(alias="hecAPI")]
+    r"""Absolute path on which to listen for the Cloudflare HTTP Event Collector API requests. This input supports the /event endpoint."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    pq: Optional[PqType] = None
+
+    id: Optional[str] = None
+    r"""Unique ID for this input"""
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnections]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    host: Optional[str] = "0.0.0.0"
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+
+    auth_tokens: Annotated[
+        Optional[List[InputCloudflareHecAuthToken]], pydantic.Field(alias="authTokens")
+    ] = None
+    r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
+
+    tls: Optional[TLSSettingsServerSideType] = None
+
+    max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
+        256
+    )
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+
+    max_requests_per_socket: Annotated[
+        Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
+    ] = 0
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+
+    enable_proxy_header: Annotated[
+        Optional[bool], pydantic.Field(alias="enableProxyHeader")
+    ] = False
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+
+    capture_headers: Annotated[
+        Optional[bool], pydantic.Field(alias="captureHeaders")
+    ] = False
+    r"""Add request headers to events, in the __headers field"""
+
+    activity_log_sample_rate: Annotated[
+        Optional[float], pydantic.Field(alias="activityLogSampleRate")
+    ] = 100
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+
+    request_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="requestTimeout")
+    ] = 0
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+
+    socket_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="socketTimeout")
+    ] = 0
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+
+    keep_alive_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="keepAliveTimeout")
+    ] = 5
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
+
+    enable_health_check: Annotated[
+        Optional[Any], pydantic.Field(alias="enableHealthCheck")
+    ] = None
+
+    ip_allowlist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipAllowlistRegex")
+    ] = "/.*/"
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+
+    ip_denylist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipDenylistRegex")
+    ] = "/^$/"
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+
+    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    r"""Fields to add to every event. May be overridden by fields added at the token or request level."""
+
+    allowed_indexes: Annotated[
+        Optional[List[str]], pydantic.Field(alias="allowedIndexes")
+    ] = None
+    r"""List values allowed in HEC event index field. Leave blank to skip validation. Supports wildcards. The values here can expand index validation at the token level."""
+
+    breaker_rulesets: Annotated[
+        Optional[List[str]], pydantic.Field(alias="breakerRulesets")
+    ] = None
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+
+    stale_channel_flush_ms: Annotated[
+        Optional[float], pydantic.Field(alias="staleChannelFlushMs")
+    ] = 10000
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+
+    access_control_allow_origin: Annotated[
+        Optional[List[str]], pydantic.Field(alias="accessControlAllowOrigin")
+    ] = None
+    r"""HTTP origins to which @{product} should send CORS (cross-origin resource sharing) Access-Control-Allow-* headers. Supports wildcards."""
+
+    access_control_allow_headers: Annotated[
+        Optional[List[str]], pydantic.Field(alias="accessControlAllowHeaders")
+    ] = None
+    r"""HTTP headers that @{product} will send to allowed origins as \"Access-Control-Allow-Headers\" in a CORS preflight response. Use \"*\" to allow all headers."""
+
+    emit_token_metrics: Annotated[
+        Optional[bool], pydantic.Field(alias="emitTokenMetrics")
+    ] = False
+    r"""Emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
+
+    description: Optional[str] = None
+
+
+class InputCloudflareHecInputCollectionPart0Type1TypedDict(TypedDict):
+    type: InputCloudflareHecType
+    port: float
+    r"""Port to listen on"""
+    hec_api: str
+    r"""Absolute path on which to listen for the Cloudflare HTTP Event Collector API requests. This input supports the /event endpoint."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    id: NotRequired[str]
+    r"""Unique ID for this input"""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
+    host: NotRequired[str]
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+    auth_tokens: NotRequired[List[InputCloudflareHecAuthTokenTypedDict]]
+    r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
+    tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    max_active_req: NotRequired[float]
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+    max_requests_per_socket: NotRequired[int]
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+    enable_proxy_header: NotRequired[bool]
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+    capture_headers: NotRequired[bool]
+    r"""Add request headers to events, in the __headers field"""
+    activity_log_sample_rate: NotRequired[float]
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+    request_timeout: NotRequired[float]
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+    socket_timeout: NotRequired[float]
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+    keep_alive_timeout: NotRequired[float]
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
+    enable_health_check: NotRequired[Any]
+    ip_allowlist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+    ip_denylist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    r"""Fields to add to every event. May be overridden by fields added at the token or request level."""
+    allowed_indexes: NotRequired[List[str]]
+    r"""List values allowed in HEC event index field. Leave blank to skip validation. Supports wildcards. The values here can expand index validation at the token level."""
+    breaker_rulesets: NotRequired[List[str]]
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+    stale_channel_flush_ms: NotRequired[float]
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+    access_control_allow_origin: NotRequired[List[str]]
+    r"""HTTP origins to which @{product} should send CORS (cross-origin resource sharing) Access-Control-Allow-* headers. Supports wildcards."""
+    access_control_allow_headers: NotRequired[List[str]]
+    r"""HTTP headers that @{product} will send to allowed origins as \"Access-Control-Allow-Headers\" in a CORS preflight response. Use \"*\" to allow all headers."""
+    emit_token_metrics: NotRequired[bool]
+    r"""Emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
+    description: NotRequired[str]
+
+
+class InputCloudflareHecInputCollectionPart0Type1(BaseModel):
+    type: InputCloudflareHecType
+
+    port: float
+    r"""Port to listen on"""
+
+    hec_api: Annotated[str, pydantic.Field(alias="hecAPI")]
+    r"""Absolute path on which to listen for the Cloudflare HTTP Event Collector API requests. This input supports the /event endpoint."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    id: Optional[str] = None
+    r"""Unique ID for this input"""
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnections]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
+
+    host: Optional[str] = "0.0.0.0"
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+
+    auth_tokens: Annotated[
+        Optional[List[InputCloudflareHecAuthToken]], pydantic.Field(alias="authTokens")
+    ] = None
+    r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
+
+    tls: Optional[TLSSettingsServerSideType] = None
+
+    max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
+        256
+    )
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+
+    max_requests_per_socket: Annotated[
+        Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
+    ] = 0
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+
+    enable_proxy_header: Annotated[
+        Optional[bool], pydantic.Field(alias="enableProxyHeader")
+    ] = False
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+
+    capture_headers: Annotated[
+        Optional[bool], pydantic.Field(alias="captureHeaders")
+    ] = False
+    r"""Add request headers to events, in the __headers field"""
+
+    activity_log_sample_rate: Annotated[
+        Optional[float], pydantic.Field(alias="activityLogSampleRate")
+    ] = 100
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+
+    request_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="requestTimeout")
+    ] = 0
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+
+    socket_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="socketTimeout")
+    ] = 0
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+
+    keep_alive_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="keepAliveTimeout")
+    ] = 5
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
+
+    enable_health_check: Annotated[
+        Optional[Any], pydantic.Field(alias="enableHealthCheck")
+    ] = None
+
+    ip_allowlist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipAllowlistRegex")
+    ] = "/.*/"
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+
+    ip_denylist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipDenylistRegex")
+    ] = "/^$/"
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+
+    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    r"""Fields to add to every event. May be overridden by fields added at the token or request level."""
+
+    allowed_indexes: Annotated[
+        Optional[List[str]], pydantic.Field(alias="allowedIndexes")
+    ] = None
+    r"""List values allowed in HEC event index field. Leave blank to skip validation. Supports wildcards. The values here can expand index validation at the token level."""
+
+    breaker_rulesets: Annotated[
+        Optional[List[str]], pydantic.Field(alias="breakerRulesets")
+    ] = None
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+
+    stale_channel_flush_ms: Annotated[
+        Optional[float], pydantic.Field(alias="staleChannelFlushMs")
+    ] = 10000
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+
+    access_control_allow_origin: Annotated[
+        Optional[List[str]], pydantic.Field(alias="accessControlAllowOrigin")
+    ] = None
+    r"""HTTP origins to which @{product} should send CORS (cross-origin resource sharing) Access-Control-Allow-* headers. Supports wildcards."""
+
+    access_control_allow_headers: Annotated[
+        Optional[List[str]], pydantic.Field(alias="accessControlAllowHeaders")
+    ] = None
+    r"""HTTP headers that @{product} will send to allowed origins as \"Access-Control-Allow-Headers\" in a CORS preflight response. Use \"*\" to allow all headers."""
+
+    emit_token_metrics: Annotated[
+        Optional[bool], pydantic.Field(alias="emitTokenMetrics")
+    ] = False
+    r"""Emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
+
+    description: Optional[str] = None
+
+
+class InputCloudflareHecInputCollectionPart1TypeTypedDict(TypedDict):
+    type: InputCloudflareHecType
+    port: float
+    r"""Port to listen on"""
+    hec_api: str
+    r"""Absolute path on which to listen for the Cloudflare HTTP Event Collector API requests. This input supports the /event endpoint."""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    id: NotRequired[str]
+    r"""Unique ID for this input"""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    pq: NotRequired[PqTypeTypedDict]
+    host: NotRequired[str]
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+    auth_tokens: NotRequired[List[InputCloudflareHecAuthTokenTypedDict]]
+    r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
+    tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    max_active_req: NotRequired[float]
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+    max_requests_per_socket: NotRequired[int]
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+    enable_proxy_header: NotRequired[bool]
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+    capture_headers: NotRequired[bool]
+    r"""Add request headers to events, in the __headers field"""
+    activity_log_sample_rate: NotRequired[float]
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+    request_timeout: NotRequired[float]
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+    socket_timeout: NotRequired[float]
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+    keep_alive_timeout: NotRequired[float]
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
+    enable_health_check: NotRequired[Any]
+    ip_allowlist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+    ip_denylist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    r"""Fields to add to every event. May be overridden by fields added at the token or request level."""
+    allowed_indexes: NotRequired[List[str]]
+    r"""List values allowed in HEC event index field. Leave blank to skip validation. Supports wildcards. The values here can expand index validation at the token level."""
+    breaker_rulesets: NotRequired[List[str]]
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+    stale_channel_flush_ms: NotRequired[float]
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+    access_control_allow_origin: NotRequired[List[str]]
+    r"""HTTP origins to which @{product} should send CORS (cross-origin resource sharing) Access-Control-Allow-* headers. Supports wildcards."""
+    access_control_allow_headers: NotRequired[List[str]]
+    r"""HTTP headers that @{product} will send to allowed origins as \"Access-Control-Allow-Headers\" in a CORS preflight response. Use \"*\" to allow all headers."""
+    emit_token_metrics: NotRequired[bool]
+    r"""Emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
+    description: NotRequired[str]
+
+
+class InputCloudflareHecInputCollectionPart1Type(BaseModel):
+    type: InputCloudflareHecType
+
+    port: float
+    r"""Port to listen on"""
+
+    hec_api: Annotated[str, pydantic.Field(alias="hecAPI")]
+    r"""Absolute path on which to listen for the Cloudflare HTTP Event Collector API requests. This input supports the /event endpoint."""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    connections: Optional[List[ItemsTypeConnections]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    id: Optional[str] = None
+    r"""Unique ID for this input"""
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    pq: Optional[PqType] = None
+
+    host: Optional[str] = "0.0.0.0"
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+
+    auth_tokens: Annotated[
+        Optional[List[InputCloudflareHecAuthToken]], pydantic.Field(alias="authTokens")
+    ] = None
+    r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
+
+    tls: Optional[TLSSettingsServerSideType] = None
+
+    max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
+        256
+    )
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+
+    max_requests_per_socket: Annotated[
+        Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
+    ] = 0
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+
+    enable_proxy_header: Annotated[
+        Optional[bool], pydantic.Field(alias="enableProxyHeader")
+    ] = False
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+
+    capture_headers: Annotated[
+        Optional[bool], pydantic.Field(alias="captureHeaders")
+    ] = False
+    r"""Add request headers to events, in the __headers field"""
+
+    activity_log_sample_rate: Annotated[
+        Optional[float], pydantic.Field(alias="activityLogSampleRate")
+    ] = 100
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+
+    request_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="requestTimeout")
+    ] = 0
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+
+    socket_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="socketTimeout")
+    ] = 0
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+
+    keep_alive_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="keepAliveTimeout")
+    ] = 5
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
+
+    enable_health_check: Annotated[
+        Optional[Any], pydantic.Field(alias="enableHealthCheck")
+    ] = None
+
+    ip_allowlist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipAllowlistRegex")
+    ] = "/.*/"
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+
+    ip_denylist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipDenylistRegex")
+    ] = "/^$/"
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+
+    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    r"""Fields to add to every event. May be overridden by fields added at the token or request level."""
+
+    allowed_indexes: Annotated[
+        Optional[List[str]], pydantic.Field(alias="allowedIndexes")
+    ] = None
+    r"""List values allowed in HEC event index field. Leave blank to skip validation. Supports wildcards. The values here can expand index validation at the token level."""
+
+    breaker_rulesets: Annotated[
+        Optional[List[str]], pydantic.Field(alias="breakerRulesets")
+    ] = None
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+
+    stale_channel_flush_ms: Annotated[
+        Optional[float], pydantic.Field(alias="staleChannelFlushMs")
+    ] = 10000
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+
+    access_control_allow_origin: Annotated[
+        Optional[List[str]], pydantic.Field(alias="accessControlAllowOrigin")
+    ] = None
+    r"""HTTP origins to which @{product} should send CORS (cross-origin resource sharing) Access-Control-Allow-* headers. Supports wildcards."""
+
+    access_control_allow_headers: Annotated[
+        Optional[List[str]], pydantic.Field(alias="accessControlAllowHeaders")
+    ] = None
+    r"""HTTP headers that @{product} will send to allowed origins as \"Access-Control-Allow-Headers\" in a CORS preflight response. Use \"*\" to allow all headers."""
+
+    emit_token_metrics: Annotated[
+        Optional[bool], pydantic.Field(alias="emitTokenMetrics")
+    ] = False
+    r"""Emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
+
+    description: Optional[str] = None
+
+
+class InputCloudflareHecInputCollectionPart0TypeTypedDict(TypedDict):
+    type: InputCloudflareHecType
+    port: float
+    r"""Port to listen on"""
+    hec_api: str
+    r"""Absolute path on which to listen for the Cloudflare HTTP Event Collector API requests. This input supports the /event endpoint."""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    id: NotRequired[str]
+    r"""Unique ID for this input"""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     pq_enabled: NotRequired[bool]
@@ -151,7 +749,7 @@ class InputCloudflareHecTypedDict(TypedDict):
     description: NotRequired[str]
 
 
-class InputCloudflareHec(BaseModel):
+class InputCloudflareHecInputCollectionPart0Type(BaseModel):
     type: InputCloudflareHecType
 
     port: float
@@ -160,6 +758,11 @@ class InputCloudflareHec(BaseModel):
     hec_api: Annotated[str, pydantic.Field(alias="hecAPI")]
     r"""Absolute path on which to listen for the Cloudflare HTTP Event Collector API requests. This input supports the /event endpoint."""
 
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
@@ -167,11 +770,6 @@ class InputCloudflareHec(BaseModel):
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
 
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
@@ -285,3 +883,25 @@ class InputCloudflareHec(BaseModel):
     r"""Emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
 
     description: Optional[str] = None
+
+
+InputCloudflareHecTypedDict = TypeAliasType(
+    "InputCloudflareHecTypedDict",
+    Union[
+        InputCloudflareHecInputCollectionPart0TypeTypedDict,
+        InputCloudflareHecInputCollectionPart1TypeTypedDict,
+        InputCloudflareHecInputCollectionPart0Type1TypedDict,
+        InputCloudflareHecInputCollectionPart1Type1TypedDict,
+    ],
+)
+
+
+InputCloudflareHec = TypeAliasType(
+    "InputCloudflareHec",
+    Union[
+        InputCloudflareHecInputCollectionPart0Type,
+        InputCloudflareHecInputCollectionPart1Type,
+        InputCloudflareHecInputCollectionPart0Type1,
+        InputCloudflareHecInputCollectionPart1Type1,
+    ],
+)

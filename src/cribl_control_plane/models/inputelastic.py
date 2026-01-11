@@ -17,13 +17,11 @@ from .tlssettingsserversidetype import (
 )
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
-from typing import List, Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing import List, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class InputElasticType(str, Enum):
@@ -84,11 +82,7 @@ class InputElasticProxyMode(BaseModel):
     r"""Enable proxying of non-bulk API requests to an external Elastic server. Enable this only if you understand the implications. See [Cribl Docs](https://docs.cribl.io/stream/sources-elastic/#proxy-mode) for more details."""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[InputElasticAuthenticationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[InputElasticAuthenticationMethod], pydantic.Field(alias="authType")
     ] = InputElasticAuthenticationMethod.NONE
     r"""Enter credentials directly, or select a stored secret"""
 
@@ -127,10 +121,13 @@ class InputElasticProxyMode(BaseModel):
         return value
 
 
-class InputElasticTypedDict(TypedDict):
+class InputElasticInputCollectionPart1Type1TypedDict(TypedDict):
     type: InputElasticType
     port: float
     r"""Port to listen on"""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -138,6 +135,675 @@ class InputElasticTypedDict(TypedDict):
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    host: NotRequired[str]
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+    tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    max_active_req: NotRequired[float]
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+    max_requests_per_socket: NotRequired[int]
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+    enable_proxy_header: NotRequired[bool]
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+    capture_headers: NotRequired[bool]
+    r"""Add request headers to events, in the __headers field"""
+    activity_log_sample_rate: NotRequired[float]
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+    request_timeout: NotRequired[float]
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+    socket_timeout: NotRequired[float]
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+    keep_alive_timeout: NotRequired[float]
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
+    enable_health_check: NotRequired[bool]
+    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
+    ip_allowlist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+    ip_denylist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+    elastic_api: NotRequired[str]
+    r"""Absolute path on which to listen for Elasticsearch API requests. Defaults to /. _bulk will be appended automatically. For example, /myPath becomes /myPath/_bulk. Requests can then be made to either /myPath/_bulk or /myPath/<myIndexName>/_bulk. Other entries are faked as success."""
+    auth_type: NotRequired[InputElasticAuthenticationType]
+    api_version: NotRequired[InputElasticAPIVersion]
+    r"""The API version to use for communicating with the server"""
+    extra_http_headers: NotRequired[List[ItemsTypeExtraHTTPHeadersTypedDict]]
+    r"""Headers to add to all events"""
+    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    r"""Fields to add to events from this input"""
+    proxy_mode: NotRequired[InputElasticProxyModeTypedDict]
+    description: NotRequired[str]
+    username: NotRequired[str]
+    password: NotRequired[str]
+    credentials_secret: NotRequired[str]
+    r"""Select or create a secret that references your credentials"""
+    auth_tokens: NotRequired[List[str]]
+    r"""Bearer tokens to include in the authorization header"""
+    custom_api_version: NotRequired[str]
+    r"""Custom version information to respond to requests"""
+
+
+class InputElasticInputCollectionPart1Type1(BaseModel):
+    type: InputElasticType
+
+    port: float
+    r"""Port to listen on"""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    pq: Optional[PqType] = None
+
+    id: Optional[str] = None
+    r"""Unique ID for this input"""
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnections]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    host: Optional[str] = "0.0.0.0"
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+
+    tls: Optional[TLSSettingsServerSideType] = None
+
+    max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
+        256
+    )
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+
+    max_requests_per_socket: Annotated[
+        Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
+    ] = 0
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+
+    enable_proxy_header: Annotated[
+        Optional[bool], pydantic.Field(alias="enableProxyHeader")
+    ] = False
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+
+    capture_headers: Annotated[
+        Optional[bool], pydantic.Field(alias="captureHeaders")
+    ] = False
+    r"""Add request headers to events, in the __headers field"""
+
+    activity_log_sample_rate: Annotated[
+        Optional[float], pydantic.Field(alias="activityLogSampleRate")
+    ] = 100
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+
+    request_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="requestTimeout")
+    ] = 0
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+
+    socket_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="socketTimeout")
+    ] = 0
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+
+    keep_alive_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="keepAliveTimeout")
+    ] = 5
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
+
+    enable_health_check: Annotated[
+        Optional[bool], pydantic.Field(alias="enableHealthCheck")
+    ] = False
+    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
+
+    ip_allowlist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipAllowlistRegex")
+    ] = "/.*/"
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+
+    ip_denylist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipDenylistRegex")
+    ] = "/^$/"
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+
+    elastic_api: Annotated[Optional[str], pydantic.Field(alias="elasticAPI")] = "/"
+    r"""Absolute path on which to listen for Elasticsearch API requests. Defaults to /. _bulk will be appended automatically. For example, /myPath becomes /myPath/_bulk. Requests can then be made to either /myPath/_bulk or /myPath/<myIndexName>/_bulk. Other entries are faked as success."""
+
+    auth_type: Annotated[
+        Optional[InputElasticAuthenticationType], pydantic.Field(alias="authType")
+    ] = InputElasticAuthenticationType.NONE
+
+    api_version: Annotated[
+        Optional[InputElasticAPIVersion], pydantic.Field(alias="apiVersion")
+    ] = InputElasticAPIVersion.EIGHT_DOT_3_DOT_2
+    r"""The API version to use for communicating with the server"""
+
+    extra_http_headers: Annotated[
+        Optional[List[ItemsTypeExtraHTTPHeaders]],
+        pydantic.Field(alias="extraHttpHeaders"),
+    ] = None
+    r"""Headers to add to all events"""
+
+    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    r"""Fields to add to events from this input"""
+
+    proxy_mode: Annotated[
+        Optional[InputElasticProxyMode], pydantic.Field(alias="proxyMode")
+    ] = None
+
+    description: Optional[str] = None
+
+    username: Optional[str] = None
+
+    password: Optional[str] = None
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a secret that references your credentials"""
+
+    auth_tokens: Annotated[Optional[List[str]], pydantic.Field(alias="authTokens")] = (
+        None
+    )
+    r"""Bearer tokens to include in the authorization header"""
+
+    custom_api_version: Annotated[
+        Optional[str], pydantic.Field(alias="customAPIVersion")
+    ] = '{\n    "name": "AzU84iL",\n    "cluster_name": "cribl",\n    "cluster_uuid": "Js6_Z2VKS3KbfRSxPmPbaw",\n    "version": {\n        "number": "8.3.2",\n        "build_type": "tar",\n        "build_hash": "bca0c8d",\n        "build_date": "2019-10-16T06:19:49.319352Z",\n        "build_snapshot": false,\n        "lucene_version": "9.7.2",\n        "minimum_wire_compatibility_version": "7.17.0",\n        "minimum_index_compatibility_version": "7.0.0"\n    },\n    "tagline": "You Know, for Search"\n}'
+    r"""Custom version information to respond to requests"""
+
+    @field_serializer("auth_type")
+    def serialize_auth_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.InputElasticAuthenticationType(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("api_version")
+    def serialize_api_version(self, value):
+        if isinstance(value, str):
+            try:
+                return models.InputElasticAPIVersion(value)
+            except ValueError:
+                return value
+        return value
+
+
+class InputElasticInputCollectionPart0Type1TypedDict(TypedDict):
+    type: InputElasticType
+    port: float
+    r"""Port to listen on"""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    id: NotRequired[str]
+    r"""Unique ID for this input"""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
+    host: NotRequired[str]
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+    tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    max_active_req: NotRequired[float]
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+    max_requests_per_socket: NotRequired[int]
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+    enable_proxy_header: NotRequired[bool]
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+    capture_headers: NotRequired[bool]
+    r"""Add request headers to events, in the __headers field"""
+    activity_log_sample_rate: NotRequired[float]
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+    request_timeout: NotRequired[float]
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+    socket_timeout: NotRequired[float]
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+    keep_alive_timeout: NotRequired[float]
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
+    enable_health_check: NotRequired[bool]
+    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
+    ip_allowlist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+    ip_denylist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+    elastic_api: NotRequired[str]
+    r"""Absolute path on which to listen for Elasticsearch API requests. Defaults to /. _bulk will be appended automatically. For example, /myPath becomes /myPath/_bulk. Requests can then be made to either /myPath/_bulk or /myPath/<myIndexName>/_bulk. Other entries are faked as success."""
+    auth_type: NotRequired[InputElasticAuthenticationType]
+    api_version: NotRequired[InputElasticAPIVersion]
+    r"""The API version to use for communicating with the server"""
+    extra_http_headers: NotRequired[List[ItemsTypeExtraHTTPHeadersTypedDict]]
+    r"""Headers to add to all events"""
+    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    r"""Fields to add to events from this input"""
+    proxy_mode: NotRequired[InputElasticProxyModeTypedDict]
+    description: NotRequired[str]
+    username: NotRequired[str]
+    password: NotRequired[str]
+    credentials_secret: NotRequired[str]
+    r"""Select or create a secret that references your credentials"""
+    auth_tokens: NotRequired[List[str]]
+    r"""Bearer tokens to include in the authorization header"""
+    custom_api_version: NotRequired[str]
+    r"""Custom version information to respond to requests"""
+
+
+class InputElasticInputCollectionPart0Type1(BaseModel):
+    type: InputElasticType
+
+    port: float
+    r"""Port to listen on"""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    id: Optional[str] = None
+    r"""Unique ID for this input"""
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnections]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
+
+    host: Optional[str] = "0.0.0.0"
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+
+    tls: Optional[TLSSettingsServerSideType] = None
+
+    max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
+        256
+    )
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+
+    max_requests_per_socket: Annotated[
+        Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
+    ] = 0
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+
+    enable_proxy_header: Annotated[
+        Optional[bool], pydantic.Field(alias="enableProxyHeader")
+    ] = False
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+
+    capture_headers: Annotated[
+        Optional[bool], pydantic.Field(alias="captureHeaders")
+    ] = False
+    r"""Add request headers to events, in the __headers field"""
+
+    activity_log_sample_rate: Annotated[
+        Optional[float], pydantic.Field(alias="activityLogSampleRate")
+    ] = 100
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+
+    request_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="requestTimeout")
+    ] = 0
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+
+    socket_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="socketTimeout")
+    ] = 0
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+
+    keep_alive_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="keepAliveTimeout")
+    ] = 5
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
+
+    enable_health_check: Annotated[
+        Optional[bool], pydantic.Field(alias="enableHealthCheck")
+    ] = False
+    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
+
+    ip_allowlist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipAllowlistRegex")
+    ] = "/.*/"
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+
+    ip_denylist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipDenylistRegex")
+    ] = "/^$/"
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+
+    elastic_api: Annotated[Optional[str], pydantic.Field(alias="elasticAPI")] = "/"
+    r"""Absolute path on which to listen for Elasticsearch API requests. Defaults to /. _bulk will be appended automatically. For example, /myPath becomes /myPath/_bulk. Requests can then be made to either /myPath/_bulk or /myPath/<myIndexName>/_bulk. Other entries are faked as success."""
+
+    auth_type: Annotated[
+        Optional[InputElasticAuthenticationType], pydantic.Field(alias="authType")
+    ] = InputElasticAuthenticationType.NONE
+
+    api_version: Annotated[
+        Optional[InputElasticAPIVersion], pydantic.Field(alias="apiVersion")
+    ] = InputElasticAPIVersion.EIGHT_DOT_3_DOT_2
+    r"""The API version to use for communicating with the server"""
+
+    extra_http_headers: Annotated[
+        Optional[List[ItemsTypeExtraHTTPHeaders]],
+        pydantic.Field(alias="extraHttpHeaders"),
+    ] = None
+    r"""Headers to add to all events"""
+
+    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    r"""Fields to add to events from this input"""
+
+    proxy_mode: Annotated[
+        Optional[InputElasticProxyMode], pydantic.Field(alias="proxyMode")
+    ] = None
+
+    description: Optional[str] = None
+
+    username: Optional[str] = None
+
+    password: Optional[str] = None
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a secret that references your credentials"""
+
+    auth_tokens: Annotated[Optional[List[str]], pydantic.Field(alias="authTokens")] = (
+        None
+    )
+    r"""Bearer tokens to include in the authorization header"""
+
+    custom_api_version: Annotated[
+        Optional[str], pydantic.Field(alias="customAPIVersion")
+    ] = '{\n    "name": "AzU84iL",\n    "cluster_name": "cribl",\n    "cluster_uuid": "Js6_Z2VKS3KbfRSxPmPbaw",\n    "version": {\n        "number": "8.3.2",\n        "build_type": "tar",\n        "build_hash": "bca0c8d",\n        "build_date": "2019-10-16T06:19:49.319352Z",\n        "build_snapshot": false,\n        "lucene_version": "9.7.2",\n        "minimum_wire_compatibility_version": "7.17.0",\n        "minimum_index_compatibility_version": "7.0.0"\n    },\n    "tagline": "You Know, for Search"\n}'
+    r"""Custom version information to respond to requests"""
+
+    @field_serializer("auth_type")
+    def serialize_auth_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.InputElasticAuthenticationType(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("api_version")
+    def serialize_api_version(self, value):
+        if isinstance(value, str):
+            try:
+                return models.InputElasticAPIVersion(value)
+            except ValueError:
+                return value
+        return value
+
+
+class InputElasticInputCollectionPart1TypeTypedDict(TypedDict):
+    type: InputElasticType
+    port: float
+    r"""Port to listen on"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    id: NotRequired[str]
+    r"""Unique ID for this input"""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    pq: NotRequired[PqTypeTypedDict]
+    host: NotRequired[str]
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+    tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    max_active_req: NotRequired[float]
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+    max_requests_per_socket: NotRequired[int]
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+    enable_proxy_header: NotRequired[bool]
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+    capture_headers: NotRequired[bool]
+    r"""Add request headers to events, in the __headers field"""
+    activity_log_sample_rate: NotRequired[float]
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+    request_timeout: NotRequired[float]
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+    socket_timeout: NotRequired[float]
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+    keep_alive_timeout: NotRequired[float]
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
+    enable_health_check: NotRequired[bool]
+    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
+    ip_allowlist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+    ip_denylist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+    elastic_api: NotRequired[str]
+    r"""Absolute path on which to listen for Elasticsearch API requests. Defaults to /. _bulk will be appended automatically. For example, /myPath becomes /myPath/_bulk. Requests can then be made to either /myPath/_bulk or /myPath/<myIndexName>/_bulk. Other entries are faked as success."""
+    auth_type: NotRequired[InputElasticAuthenticationType]
+    api_version: NotRequired[InputElasticAPIVersion]
+    r"""The API version to use for communicating with the server"""
+    extra_http_headers: NotRequired[List[ItemsTypeExtraHTTPHeadersTypedDict]]
+    r"""Headers to add to all events"""
+    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    r"""Fields to add to events from this input"""
+    proxy_mode: NotRequired[InputElasticProxyModeTypedDict]
+    description: NotRequired[str]
+    username: NotRequired[str]
+    password: NotRequired[str]
+    credentials_secret: NotRequired[str]
+    r"""Select or create a secret that references your credentials"""
+    auth_tokens: NotRequired[List[str]]
+    r"""Bearer tokens to include in the authorization header"""
+    custom_api_version: NotRequired[str]
+    r"""Custom version information to respond to requests"""
+
+
+class InputElasticInputCollectionPart1Type(BaseModel):
+    type: InputElasticType
+
+    port: float
+    r"""Port to listen on"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    connections: Optional[List[ItemsTypeConnections]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    id: Optional[str] = None
+    r"""Unique ID for this input"""
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    pq: Optional[PqType] = None
+
+    host: Optional[str] = "0.0.0.0"
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+
+    tls: Optional[TLSSettingsServerSideType] = None
+
+    max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
+        256
+    )
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+
+    max_requests_per_socket: Annotated[
+        Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
+    ] = 0
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+
+    enable_proxy_header: Annotated[
+        Optional[bool], pydantic.Field(alias="enableProxyHeader")
+    ] = False
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+
+    capture_headers: Annotated[
+        Optional[bool], pydantic.Field(alias="captureHeaders")
+    ] = False
+    r"""Add request headers to events, in the __headers field"""
+
+    activity_log_sample_rate: Annotated[
+        Optional[float], pydantic.Field(alias="activityLogSampleRate")
+    ] = 100
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+
+    request_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="requestTimeout")
+    ] = 0
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+
+    socket_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="socketTimeout")
+    ] = 0
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+
+    keep_alive_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="keepAliveTimeout")
+    ] = 5
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
+
+    enable_health_check: Annotated[
+        Optional[bool], pydantic.Field(alias="enableHealthCheck")
+    ] = False
+    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
+
+    ip_allowlist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipAllowlistRegex")
+    ] = "/.*/"
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+
+    ip_denylist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipDenylistRegex")
+    ] = "/^$/"
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+
+    elastic_api: Annotated[Optional[str], pydantic.Field(alias="elasticAPI")] = "/"
+    r"""Absolute path on which to listen for Elasticsearch API requests. Defaults to /. _bulk will be appended automatically. For example, /myPath becomes /myPath/_bulk. Requests can then be made to either /myPath/_bulk or /myPath/<myIndexName>/_bulk. Other entries are faked as success."""
+
+    auth_type: Annotated[
+        Optional[InputElasticAuthenticationType], pydantic.Field(alias="authType")
+    ] = InputElasticAuthenticationType.NONE
+
+    api_version: Annotated[
+        Optional[InputElasticAPIVersion], pydantic.Field(alias="apiVersion")
+    ] = InputElasticAPIVersion.EIGHT_DOT_3_DOT_2
+    r"""The API version to use for communicating with the server"""
+
+    extra_http_headers: Annotated[
+        Optional[List[ItemsTypeExtraHTTPHeaders]],
+        pydantic.Field(alias="extraHttpHeaders"),
+    ] = None
+    r"""Headers to add to all events"""
+
+    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    r"""Fields to add to events from this input"""
+
+    proxy_mode: Annotated[
+        Optional[InputElasticProxyMode], pydantic.Field(alias="proxyMode")
+    ] = None
+
+    description: Optional[str] = None
+
+    username: Optional[str] = None
+
+    password: Optional[str] = None
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a secret that references your credentials"""
+
+    auth_tokens: Annotated[Optional[List[str]], pydantic.Field(alias="authTokens")] = (
+        None
+    )
+    r"""Bearer tokens to include in the authorization header"""
+
+    custom_api_version: Annotated[
+        Optional[str], pydantic.Field(alias="customAPIVersion")
+    ] = '{\n    "name": "AzU84iL",\n    "cluster_name": "cribl",\n    "cluster_uuid": "Js6_Z2VKS3KbfRSxPmPbaw",\n    "version": {\n        "number": "8.3.2",\n        "build_type": "tar",\n        "build_hash": "bca0c8d",\n        "build_date": "2019-10-16T06:19:49.319352Z",\n        "build_snapshot": false,\n        "lucene_version": "9.7.2",\n        "minimum_wire_compatibility_version": "7.17.0",\n        "minimum_index_compatibility_version": "7.0.0"\n    },\n    "tagline": "You Know, for Search"\n}'
+    r"""Custom version information to respond to requests"""
+
+    @field_serializer("auth_type")
+    def serialize_auth_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.InputElasticAuthenticationType(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("api_version")
+    def serialize_api_version(self, value):
+        if isinstance(value, str):
+            try:
+                return models.InputElasticAPIVersion(value)
+            except ValueError:
+                return value
+        return value
+
+
+class InputElasticInputCollectionPart0TypeTypedDict(TypedDict):
+    type: InputElasticType
+    port: float
+    r"""Port to listen on"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    id: NotRequired[str]
+    r"""Unique ID for this input"""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     pq_enabled: NotRequired[bool]
@@ -193,11 +859,16 @@ class InputElasticTypedDict(TypedDict):
     r"""Custom version information to respond to requests"""
 
 
-class InputElastic(BaseModel):
+class InputElasticInputCollectionPart0Type(BaseModel):
     type: InputElasticType
 
     port: float
     r"""Port to listen on"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -206,11 +877,6 @@ class InputElastic(BaseModel):
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
 
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
@@ -290,18 +956,11 @@ class InputElastic(BaseModel):
     r"""Absolute path on which to listen for Elasticsearch API requests. Defaults to /. _bulk will be appended automatically. For example, /myPath becomes /myPath/_bulk. Requests can then be made to either /myPath/_bulk or /myPath/<myIndexName>/_bulk. Other entries are faked as success."""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[InputElasticAuthenticationType],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[InputElasticAuthenticationType], pydantic.Field(alias="authType")
     ] = InputElasticAuthenticationType.NONE
 
     api_version: Annotated[
-        Annotated[
-            Optional[InputElasticAPIVersion], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="apiVersion"),
+        Optional[InputElasticAPIVersion], pydantic.Field(alias="apiVersion")
     ] = InputElasticAPIVersion.EIGHT_DOT_3_DOT_2
     r"""The API version to use for communicating with the server"""
 
@@ -356,3 +1015,25 @@ class InputElastic(BaseModel):
             except ValueError:
                 return value
         return value
+
+
+InputElasticTypedDict = TypeAliasType(
+    "InputElasticTypedDict",
+    Union[
+        InputElasticInputCollectionPart0TypeTypedDict,
+        InputElasticInputCollectionPart1TypeTypedDict,
+        InputElasticInputCollectionPart0Type1TypedDict,
+        InputElasticInputCollectionPart1Type1TypedDict,
+    ],
+)
+
+
+InputElastic = TypeAliasType(
+    "InputElastic",
+    Union[
+        InputElasticInputCollectionPart0Type,
+        InputElasticInputCollectionPart1Type,
+        InputElasticInputCollectionPart0Type1,
+        InputElasticInputCollectionPart1Type1,
+    ],
+)

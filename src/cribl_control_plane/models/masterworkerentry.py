@@ -6,11 +6,9 @@ from .nodeprovidedinfo import NodeProvidedInfo, NodeProvidedInfoTypedDict
 from .nodeupgradestatus import NodeUpgradeStatus, NodeUpgradeStatusTypedDict
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import Any, Dict, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -75,9 +73,7 @@ class MasterWorkerEntry(BaseModel):
 
     status: Optional[str] = None
 
-    type: Annotated[
-        Optional[MasterWorkerEntryType], PlainValidator(validate_open_enum(False))
-    ] = None
+    type: Optional[MasterWorkerEntryType] = None
 
     workers: Optional[MasterWorkerEntryWorkers] = None
 

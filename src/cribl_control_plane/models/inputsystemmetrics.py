@@ -14,13 +14,11 @@ from .pqtype import PqType, PqTypeTypedDict
 from .processtype import ProcessType, ProcessTypeTypedDict
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
-from typing import List, Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing import List, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class InputSystemMetricsType(str, Enum):
@@ -48,10 +46,7 @@ class InputSystemMetricsSystemTypedDict(TypedDict):
 
 
 class InputSystemMetricsSystem(BaseModel):
-    mode: Annotated[
-        Optional[InputSystemMetricsSystemMode],
-        PlainValidator(validate_open_enum(False)),
-    ] = InputSystemMetricsSystemMode.BASIC
+    mode: Optional[InputSystemMetricsSystemMode] = InputSystemMetricsSystemMode.BASIC
     r"""Select the level of detail for system metrics"""
 
     processes: Optional[bool] = False
@@ -92,9 +87,7 @@ class InputSystemMetricsCPUTypedDict(TypedDict):
 
 
 class InputSystemMetricsCPU(BaseModel):
-    mode: Annotated[
-        Optional[InputSystemMetricsCPUMode], PlainValidator(validate_open_enum(False))
-    ] = InputSystemMetricsCPUMode.BASIC
+    mode: Optional[InputSystemMetricsCPUMode] = InputSystemMetricsCPUMode.BASIC
     r"""Select the level of detail for CPU metrics"""
 
     per_cpu: Annotated[Optional[bool], pydantic.Field(alias="perCpu")] = False
@@ -137,10 +130,7 @@ class InputSystemMetricsMemoryTypedDict(TypedDict):
 
 
 class InputSystemMetricsMemory(BaseModel):
-    mode: Annotated[
-        Optional[InputSystemMetricsMemoryMode],
-        PlainValidator(validate_open_enum(False)),
-    ] = InputSystemMetricsMemoryMode.BASIC
+    mode: Optional[InputSystemMetricsMemoryMode] = InputSystemMetricsMemoryMode.BASIC
     r"""Select the level of detail for memory metrics"""
 
     detail: Optional[bool] = False
@@ -183,10 +173,7 @@ class InputSystemMetricsNetworkTypedDict(TypedDict):
 
 
 class InputSystemMetricsNetwork(BaseModel):
-    mode: Annotated[
-        Optional[InputSystemMetricsNetworkMode],
-        PlainValidator(validate_open_enum(False)),
-    ] = InputSystemMetricsNetworkMode.BASIC
+    mode: Optional[InputSystemMetricsNetworkMode] = InputSystemMetricsNetworkMode.BASIC
     r"""Select the level of detail for network metrics"""
 
     detail: Optional[bool] = False
@@ -244,9 +231,7 @@ class InputSystemMetricsDiskTypedDict(TypedDict):
 
 
 class InputSystemMetricsDisk(BaseModel):
-    mode: Annotated[
-        Optional[InputSystemMetricsDiskMode], PlainValidator(validate_open_enum(False))
-    ] = InputSystemMetricsDiskMode.BASIC
+    mode: Optional[InputSystemMetricsDiskMode] = InputSystemMetricsDiskMode.BASIC
     r"""Select the level of detail for disk metrics"""
 
     detail: Optional[bool] = False
@@ -304,9 +289,7 @@ class InputSystemMetricsHostTypedDict(TypedDict):
 
 
 class InputSystemMetricsHost(BaseModel):
-    mode: Annotated[
-        Optional[ModeOptionsHost], PlainValidator(validate_open_enum(False))
-    ] = ModeOptionsHost.BASIC
+    mode: Optional[ModeOptionsHost] = ModeOptionsHost.BASIC
     r"""Select level of detail for host metrics"""
 
     custom: Optional[InputSystemMetricsCustom] = None
@@ -321,7 +304,7 @@ class InputSystemMetricsHost(BaseModel):
         return value
 
 
-class InputSystemMetricsContainerMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ContainerMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of detail for container metrics"""
 
     # Basic
@@ -343,7 +326,7 @@ class InputSystemMetricsFilter(BaseModel):
 
 
 class ContainerTypedDict(TypedDict):
-    mode: NotRequired[InputSystemMetricsContainerMode]
+    mode: NotRequired[ContainerMode]
     r"""Select the level of detail for container metrics"""
     docker_socket: NotRequired[List[str]]
     r"""Full paths for Docker's UNIX-domain socket"""
@@ -360,10 +343,7 @@ class ContainerTypedDict(TypedDict):
 
 
 class Container(BaseModel):
-    mode: Annotated[
-        Optional[InputSystemMetricsContainerMode],
-        PlainValidator(validate_open_enum(False)),
-    ] = InputSystemMetricsContainerMode.BASIC
+    mode: Optional[ContainerMode] = ContainerMode.BASIC
     r"""Select the level of detail for container metrics"""
 
     docker_socket: Annotated[
@@ -394,7 +374,7 @@ class Container(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.InputSystemMetricsContainerMode(value)
+                return models.ContainerMode(value)
             except ValueError:
                 return value
         return value
@@ -427,10 +407,9 @@ class InputSystemMetricsPersistence(BaseModel):
     max_data_time: Annotated[Optional[str], pydantic.Field(alias="maxDataTime")] = "24h"
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
 
-    compress: Annotated[
-        Optional[DataCompressionFormatOptionsPersistence],
-        PlainValidator(validate_open_enum(False)),
-    ] = DataCompressionFormatOptionsPersistence.GZIP
+    compress: Optional[DataCompressionFormatOptionsPersistence] = (
+        DataCompressionFormatOptionsPersistence.GZIP
+    )
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = (
         "$CRIBL_HOME/state/system_metrics"
@@ -447,8 +426,11 @@ class InputSystemMetricsPersistence(BaseModel):
         return value
 
 
-class InputSystemMetricsTypedDict(TypedDict):
+class InputSystemMetricsInputCollectionPart1Type1TypedDict(TypedDict):
     type: InputSystemMetricsType
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -456,6 +438,231 @@ class InputSystemMetricsTypedDict(TypedDict):
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    interval: NotRequired[float]
+    r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
+    host: NotRequired[InputSystemMetricsHostTypedDict]
+    process: NotRequired[ProcessTypeTypedDict]
+    container: NotRequired[ContainerTypedDict]
+    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    r"""Fields to add to events from this input"""
+    persistence: NotRequired[InputSystemMetricsPersistenceTypedDict]
+    description: NotRequired[str]
+
+
+class InputSystemMetricsInputCollectionPart1Type1(BaseModel):
+    type: InputSystemMetricsType
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    pq: Optional[PqType] = None
+
+    id: Optional[str] = None
+    r"""Unique ID for this input"""
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnections]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    interval: Optional[float] = 10
+    r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
+
+    host: Optional[InputSystemMetricsHost] = None
+
+    process: Optional[ProcessType] = None
+
+    container: Optional[Container] = None
+
+    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    r"""Fields to add to events from this input"""
+
+    persistence: Optional[InputSystemMetricsPersistence] = None
+
+    description: Optional[str] = None
+
+
+class InputSystemMetricsInputCollectionPart0Type1TypedDict(TypedDict):
+    type: InputSystemMetricsType
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    id: NotRequired[str]
+    r"""Unique ID for this input"""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
+    interval: NotRequired[float]
+    r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
+    host: NotRequired[InputSystemMetricsHostTypedDict]
+    process: NotRequired[ProcessTypeTypedDict]
+    container: NotRequired[ContainerTypedDict]
+    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    r"""Fields to add to events from this input"""
+    persistence: NotRequired[InputSystemMetricsPersistenceTypedDict]
+    description: NotRequired[str]
+
+
+class InputSystemMetricsInputCollectionPart0Type1(BaseModel):
+    type: InputSystemMetricsType
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    id: Optional[str] = None
+    r"""Unique ID for this input"""
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnections]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
+
+    interval: Optional[float] = 10
+    r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
+
+    host: Optional[InputSystemMetricsHost] = None
+
+    process: Optional[ProcessType] = None
+
+    container: Optional[Container] = None
+
+    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    r"""Fields to add to events from this input"""
+
+    persistence: Optional[InputSystemMetricsPersistence] = None
+
+    description: Optional[str] = None
+
+
+class InputSystemMetricsInputCollectionPart1TypeTypedDict(TypedDict):
+    type: InputSystemMetricsType
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    id: NotRequired[str]
+    r"""Unique ID for this input"""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    pq: NotRequired[PqTypeTypedDict]
+    interval: NotRequired[float]
+    r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
+    host: NotRequired[InputSystemMetricsHostTypedDict]
+    process: NotRequired[ProcessTypeTypedDict]
+    container: NotRequired[ContainerTypedDict]
+    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    r"""Fields to add to events from this input"""
+    persistence: NotRequired[InputSystemMetricsPersistenceTypedDict]
+    description: NotRequired[str]
+
+
+class InputSystemMetricsInputCollectionPart1Type(BaseModel):
+    type: InputSystemMetricsType
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    connections: Optional[List[ItemsTypeConnections]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    id: Optional[str] = None
+    r"""Unique ID for this input"""
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    pq: Optional[PqType] = None
+
+    interval: Optional[float] = 10
+    r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
+
+    host: Optional[InputSystemMetricsHost] = None
+
+    process: Optional[ProcessType] = None
+
+    container: Optional[Container] = None
+
+    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    r"""Fields to add to events from this input"""
+
+    persistence: Optional[InputSystemMetricsPersistence] = None
+
+    description: Optional[str] = None
+
+
+class InputSystemMetricsInputCollectionPart0TypeTypedDict(TypedDict):
+    type: InputSystemMetricsType
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    id: NotRequired[str]
+    r"""Unique ID for this input"""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     pq_enabled: NotRequired[bool]
@@ -476,8 +683,13 @@ class InputSystemMetricsTypedDict(TypedDict):
     description: NotRequired[str]
 
 
-class InputSystemMetrics(BaseModel):
+class InputSystemMetricsInputCollectionPart0Type(BaseModel):
     type: InputSystemMetricsType
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -486,11 +698,6 @@ class InputSystemMetrics(BaseModel):
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
 
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
@@ -521,3 +728,25 @@ class InputSystemMetrics(BaseModel):
     persistence: Optional[InputSystemMetricsPersistence] = None
 
     description: Optional[str] = None
+
+
+InputSystemMetricsTypedDict = TypeAliasType(
+    "InputSystemMetricsTypedDict",
+    Union[
+        InputSystemMetricsInputCollectionPart0TypeTypedDict,
+        InputSystemMetricsInputCollectionPart1TypeTypedDict,
+        InputSystemMetricsInputCollectionPart0Type1TypedDict,
+        InputSystemMetricsInputCollectionPart1Type1TypedDict,
+    ],
+)
+
+
+InputSystemMetrics = TypeAliasType(
+    "InputSystemMetrics",
+    Union[
+        InputSystemMetricsInputCollectionPart0Type,
+        InputSystemMetricsInputCollectionPart1Type,
+        InputSystemMetricsInputCollectionPart0Type1,
+        InputSystemMetricsInputCollectionPart1Type1,
+    ],
+)

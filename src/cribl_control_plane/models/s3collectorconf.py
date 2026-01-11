@@ -9,11 +9,10 @@ from .signatureversionoptionss3collectorconf import (
 )
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import get_discriminator, validate_open_enum
+from cribl_control_plane.utils import get_discriminator
 from enum import Enum
 import pydantic
 from pydantic import Discriminator, Tag, field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import Any, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
@@ -95,10 +94,7 @@ class S3AwsAuthenticationMethodSecret(BaseModel):
     r"""S3 Bucket from which to collect data"""
 
     aws_authentication_method: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsS3CollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
     ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
@@ -126,10 +122,7 @@ class S3AwsAuthenticationMethodSecret(BaseModel):
     r"""Directory where data will be collected. Templating (such as 'myDir/${datacenter}/${host}/${app}/') and time-based tokens (such as 'myOtherDir/${_time:%Y}/${_time:%m}/${_time:%d}/') are supported. Can be a constant (enclosed in quotes) or a JavaScript expression."""
 
     partitioning_scheme: Annotated[
-        Annotated[
-            Optional[S3AwsAuthenticationMethodSecretPartitioningScheme],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[S3AwsAuthenticationMethodSecretPartitioningScheme],
         pydantic.Field(alias="partitioningScheme"),
     ] = S3AwsAuthenticationMethodSecretPartitioningScheme.NONE
     r"""Partitioning scheme used for this dataset. Using a known scheme like DDSS enables more efficient data reading and retrieval."""
@@ -141,10 +134,7 @@ class S3AwsAuthenticationMethodSecret(BaseModel):
     r"""Must point to an S3-compatible endpoint. If empty, defaults to an AWS region-specific endpoint."""
 
     signature_version: Annotated[
-        Annotated[
-            Optional[SignatureVersionOptionsS3CollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[SignatureVersionOptionsS3CollectorConf],
         pydantic.Field(alias="signatureVersion"),
     ] = SignatureVersionOptionsS3CollectorConf.V4
     r"""Signature version to use for signing S3 requests"""
@@ -303,10 +293,7 @@ class S3AwsAuthenticationMethodManual(BaseModel):
     r"""S3 Bucket from which to collect data"""
 
     aws_authentication_method: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsS3CollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
     ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
@@ -339,10 +326,7 @@ class S3AwsAuthenticationMethodManual(BaseModel):
     r"""Directory where data will be collected. Templating (such as 'myDir/${datacenter}/${host}/${app}/') and time-based tokens (such as 'myOtherDir/${_time:%Y}/${_time:%m}/${_time:%d}/') are supported. Can be a constant (enclosed in quotes) or a JavaScript expression."""
 
     partitioning_scheme: Annotated[
-        Annotated[
-            Optional[S3AwsAuthenticationMethodManualPartitioningScheme],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[S3AwsAuthenticationMethodManualPartitioningScheme],
         pydantic.Field(alias="partitioningScheme"),
     ] = S3AwsAuthenticationMethodManualPartitioningScheme.NONE
     r"""Partitioning scheme used for this dataset. Using a known scheme like DDSS enables more efficient data reading and retrieval."""
@@ -354,10 +338,7 @@ class S3AwsAuthenticationMethodManual(BaseModel):
     r"""Must point to an S3-compatible endpoint. If empty, defaults to an AWS region-specific endpoint."""
 
     signature_version: Annotated[
-        Annotated[
-            Optional[SignatureVersionOptionsS3CollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[SignatureVersionOptionsS3CollectorConf],
         pydantic.Field(alias="signatureVersion"),
     ] = SignatureVersionOptionsS3CollectorConf.V4
     r"""Signature version to use for signing S3 requests"""
@@ -512,10 +493,7 @@ class S3AwsAuthenticationMethodAuto(BaseModel):
     r"""S3 Bucket from which to collect data"""
 
     aws_authentication_method: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsS3CollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
     ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
@@ -540,10 +518,7 @@ class S3AwsAuthenticationMethodAuto(BaseModel):
     r"""Directory where data will be collected. Templating (such as 'myDir/${datacenter}/${host}/${app}/') and time-based tokens (such as 'myOtherDir/${_time:%Y}/${_time:%m}/${_time:%d}/') are supported. Can be a constant (enclosed in quotes) or a JavaScript expression."""
 
     partitioning_scheme: Annotated[
-        Annotated[
-            Optional[S3AwsAuthenticationMethodAutoPartitioningScheme],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[S3AwsAuthenticationMethodAutoPartitioningScheme],
         pydantic.Field(alias="partitioningScheme"),
     ] = S3AwsAuthenticationMethodAutoPartitioningScheme.NONE
     r"""Partitioning scheme used for this dataset. Using a known scheme like DDSS enables more efficient data reading and retrieval."""
@@ -555,10 +530,7 @@ class S3AwsAuthenticationMethodAuto(BaseModel):
     r"""Must point to an S3-compatible endpoint. If empty, defaults to an AWS region-specific endpoint."""
 
     signature_version: Annotated[
-        Annotated[
-            Optional[SignatureVersionOptionsS3CollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[SignatureVersionOptionsS3CollectorConf],
         pydantic.Field(alias="signatureVersion"),
     ] = SignatureVersionOptionsS3CollectorConf.V4
     r"""Signature version to use for signing S3 requests"""
@@ -713,10 +685,7 @@ class S3PartitioningSchemeNone(BaseModel):
     r"""S3 Bucket from which to collect data"""
 
     partitioning_scheme: Annotated[
-        Annotated[
-            Optional[S3PartitioningSchemeNonePartitioningScheme],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[S3PartitioningSchemeNonePartitioningScheme],
         pydantic.Field(alias="partitioningScheme"),
     ] = S3PartitioningSchemeNonePartitioningScheme.NONE
     r"""Partitioning scheme used for this dataset. Using a known scheme like DDSS enables more efficient data reading and retrieval."""
@@ -746,10 +715,7 @@ class S3PartitioningSchemeNone(BaseModel):
     r"""Allows using template tokens as context for expressions that enrich discovery results. For example, given a template /path/${epoch}, an extractor under key \"epoch\" with an expression {date: new Date(+value*1000)}, will enrich discovery results with a human readable \"date\" field."""
 
     aws_authentication_method: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsS3CollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
     ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
@@ -758,10 +724,7 @@ class S3PartitioningSchemeNone(BaseModel):
     r"""Must point to an S3-compatible endpoint. If empty, defaults to an AWS region-specific endpoint."""
 
     signature_version: Annotated[
-        Annotated[
-            Optional[SignatureVersionOptionsS3CollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[SignatureVersionOptionsS3CollectorConf],
         pydantic.Field(alias="signatureVersion"),
     ] = SignatureVersionOptionsS3CollectorConf.V4
     r"""Signature version to use for signing S3 requests"""
@@ -914,10 +877,7 @@ class S3PartitioningSchemeDdss(BaseModel):
     r"""S3 Bucket from which to collect data"""
 
     partitioning_scheme: Annotated[
-        Annotated[
-            Optional[S3PartitioningSchemeDdssPartitioningScheme],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[S3PartitioningSchemeDdssPartitioningScheme],
         pydantic.Field(alias="partitioningScheme"),
     ] = S3PartitioningSchemeDdssPartitioningScheme.NONE
     r"""Partitioning scheme used for this dataset. Using a known scheme like DDSS enables more efficient data reading and retrieval."""
@@ -945,10 +905,7 @@ class S3PartitioningSchemeDdss(BaseModel):
     r"""Allows using template tokens as context for expressions that enrich discovery results. For example, given a template /path/${epoch}, an extractor under key \"epoch\" with an expression {date: new Date(+value*1000)}, will enrich discovery results with a human readable \"date\" field."""
 
     aws_authentication_method: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsS3CollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
     ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
@@ -957,10 +914,7 @@ class S3PartitioningSchemeDdss(BaseModel):
     r"""Must point to an S3-compatible endpoint. If empty, defaults to an AWS region-specific endpoint."""
 
     signature_version: Annotated[
-        Annotated[
-            Optional[SignatureVersionOptionsS3CollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[SignatureVersionOptionsS3CollectorConf],
         pydantic.Field(alias="signatureVersion"),
     ] = SignatureVersionOptionsS3CollectorConf.V4
     r"""Signature version to use for signing S3 requests"""

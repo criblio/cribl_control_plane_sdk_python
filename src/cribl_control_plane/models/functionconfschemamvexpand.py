@@ -3,11 +3,9 @@
 from __future__ import annotations
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -58,10 +56,7 @@ class FunctionConfSchemaMvExpand(BaseModel):
     r"""name of an optional index property generated into the output"""
 
     bag_expansion_mode: Annotated[
-        Annotated[
-            Optional[FunctionConfSchemaMvExpandBagExpansionMode],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[FunctionConfSchemaMvExpandBagExpansionMode],
         pydantic.Field(alias="bagExpansionMode"),
     ] = FunctionConfSchemaMvExpandBagExpansionMode.BAG
     r"""decides if bag-values are expanded to bags or arrays"""

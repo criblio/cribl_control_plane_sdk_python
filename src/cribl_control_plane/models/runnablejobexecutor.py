@@ -15,10 +15,8 @@ from .scheduletyperunnablejobcollection import (
 )
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -46,10 +44,7 @@ class RunnableJobExecutorRun(BaseModel):
     r"""Maximum number of times a task can be rescheduled"""
 
     log_level: Annotated[
-        Annotated[
-            Optional[LogLevelOptionsSavedJobCollectionScheduleRun],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[LogLevelOptionsSavedJobCollectionScheduleRun],
         pydantic.Field(alias="logLevel"),
     ] = LogLevelOptionsSavedJobCollectionScheduleRun.INFO
     r"""Level at which to set task logging"""
@@ -100,10 +95,7 @@ class RunnableJobExecutor(BaseModel):
 
     description: Optional[str] = None
 
-    type: Annotated[
-        Optional[JobTypeOptionsSavedJobCollection],
-        PlainValidator(validate_open_enum(False)),
-    ] = None
+    type: Optional[JobTypeOptionsSavedJobCollection] = None
 
     ttl: Optional[str] = "4h"
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""

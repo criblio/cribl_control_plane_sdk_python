@@ -3,11 +3,9 @@
 from __future__ import annotations
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -39,8 +37,7 @@ class FunctionConfSchemaLocalSearchRulesetRunnerTypedDict(TypedDict):
 
 class FunctionConfSchemaLocalSearchRulesetRunner(BaseModel):
     ruleset_type: Annotated[
-        Annotated[Optional[RulesetType], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="rulesetType"),
+        Optional[RulesetType], pydantic.Field(alias="rulesetType")
     ] = None
 
     ruleset_id: Annotated[Optional[str], pydantic.Field(alias="rulesetId")] = None

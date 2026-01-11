@@ -14,11 +14,9 @@ from .itemstypekeyvaluemetadata import (
 from .parquetversionoptions import ParquetVersionOptions
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -153,12 +151,9 @@ class OutputFilesystem(BaseModel):
     )
     r"""JavaScript expression defining how files are partitioned and organized. Default is date-based. If blank, Stream will fall back to the event's __partition field value – if present – otherwise to each location's root directory."""
 
-    format_: Annotated[
-        Annotated[
-            Optional[DataFormatOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="format"),
-    ] = DataFormatOptions.JSON
+    format_: Annotated[Optional[DataFormatOptions], pydantic.Field(alias="format")] = (
+        DataFormatOptions.JSON
+    )
     r"""Format of the output data"""
 
     base_file_name: Annotated[Optional[str], pydantic.Field(alias="baseFileName")] = (
@@ -200,11 +195,7 @@ class OutputFilesystem(BaseModel):
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions1],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions1.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -214,10 +205,7 @@ class OutputFilesystem(BaseModel):
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
 
     on_disk_full_backpressure: Annotated[
-        Annotated[
-            Optional[DiskSpaceProtectionOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[DiskSpaceProtectionOptions],
         pydantic.Field(alias="onDiskFullBackpressure"),
     ] = DiskSpaceProtectionOptions.BLOCK
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
@@ -229,16 +217,11 @@ class OutputFilesystem(BaseModel):
 
     description: Optional[str] = None
 
-    compress: Annotated[
-        Optional[CompressionOptions2], PlainValidator(validate_open_enum(False))
-    ] = CompressionOptions2.GZIP
+    compress: Optional[CompressionOptions2] = CompressionOptions2.GZIP
     r"""Data compression format to apply to HTTP content before it is delivered"""
 
     compression_level: Annotated[
-        Annotated[
-            Optional[CompressionLevelOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="compressionLevel"),
+        Optional[CompressionLevelOptions], pydantic.Field(alias="compressionLevel")
     ] = CompressionLevelOptions.BEST_SPEED
     r"""Compression level to apply before moving files to final destination"""
 
@@ -253,18 +236,12 @@ class OutputFilesystem(BaseModel):
     r"""To add a new schema, navigate to Processing > Knowledge > Parquet Schemas"""
 
     parquet_version: Annotated[
-        Annotated[
-            Optional[ParquetVersionOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="parquetVersion"),
+        Optional[ParquetVersionOptions], pydantic.Field(alias="parquetVersion")
     ] = ParquetVersionOptions.PARQUET_2_6
     r"""Determines which data types are supported and how they are represented"""
 
     parquet_data_page_version: Annotated[
-        Annotated[
-            Optional[DataPageVersionOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="parquetDataPageVersion"),
+        Optional[DataPageVersionOptions], pydantic.Field(alias="parquetDataPageVersion")
     ] = DataPageVersionOptions.DATA_PAGE_V2
     r"""Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it."""
 

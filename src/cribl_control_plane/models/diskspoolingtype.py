@@ -4,10 +4,8 @@ from __future__ import annotations
 from .compressionoptionspersistence import CompressionOptionsPersistence
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -38,10 +36,9 @@ class DiskSpoolingType(BaseModel):
     max_data_time: Annotated[Optional[str], pydantic.Field(alias="maxDataTime")] = "24h"
     r"""Maximum amount of time to retain data before older buckets are deleted. Examples: 2h, 4d. Default is 24h."""
 
-    compress: Annotated[
-        Optional[CompressionOptionsPersistence],
-        PlainValidator(validate_open_enum(False)),
-    ] = CompressionOptionsPersistence.GZIP
+    compress: Optional[CompressionOptionsPersistence] = (
+        CompressionOptionsPersistence.GZIP
+    )
     r"""Data compression format. Default is gzip."""
 
     @field_serializer("compress")

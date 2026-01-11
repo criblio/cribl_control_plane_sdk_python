@@ -5,7 +5,10 @@ from .authenticationmethodoptionss3collectorconf import (
     AuthenticationMethodOptionsS3CollectorConf,
 )
 from .checkpointingtype import CheckpointingType, CheckpointingTypeTypedDict
-from .itemstypeconnections import ItemsTypeConnections, ItemsTypeConnectionsTypedDict
+from .itemstypeconnectionsoptional import (
+    ItemsTypeConnectionsOptional,
+    ItemsTypeConnectionsOptionalTypedDict,
+)
 from .itemstypenotificationmetadata import (
     ItemsTypeNotificationMetadata,
     ItemsTypeNotificationMetadataTypedDict,
@@ -50,7 +53,7 @@ class InputCrowdstrikePqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     file_filter: NotRequired[str]
     r"""Regex matching file names to download and process. Defaults to: .*"""
@@ -144,7 +147,7 @@ class InputCrowdstrikePqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     file_filter: Annotated[Optional[str], pydantic.Field(alias="fileFilter")] = "/.*/"
@@ -310,13 +313,12 @@ class InputCrowdstrikePqEnabledTrueWithPqConstraint(BaseModel):
         return value
 
 
-class InputCrowdstrikePqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class InputCrowdstrikePqEnabledFalseConstraintTypedDict(TypedDict):
     type: InputCrowdstrikeType
     queue_name: str
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -328,8 +330,9 @@ class InputCrowdstrikePqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     file_filter: NotRequired[str]
     r"""Regex matching file names to download and process. Defaults to: .*"""
     aws_account_id: NotRequired[str]
@@ -392,7 +395,7 @@ class InputCrowdstrikePqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
 
 
-class InputCrowdstrikePqEnabledFalseWithPqConstraint(BaseModel):
+class InputCrowdstrikePqEnabledFalseConstraint(BaseModel):
     type: InputCrowdstrikeType
 
     queue_name: Annotated[str, pydantic.Field(alias="queueName")]
@@ -400,8 +403,6 @@ class InputCrowdstrikePqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -422,8 +423,10 @@ class InputCrowdstrikePqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     file_filter: Annotated[Optional[str], pydantic.Field(alias="fileFilter")] = "/.*/"
     r"""Regex matching file names to download and process. Defaults to: .*"""
@@ -594,7 +597,7 @@ class InputCrowdstrikeSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedD
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -681,7 +684,7 @@ class InputCrowdstrikeSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
@@ -866,14 +869,12 @@ class InputCrowdstrikeSendToRoutesFalseWithConnectionsConstraint(BaseModel):
         return value
 
 
-class InputCrowdstrikeSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
+class InputCrowdstrikeSendToRoutesTrueConstraintTypedDict(TypedDict):
     type: InputCrowdstrikeType
     queue_name: str
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -885,6 +886,8 @@ class InputCrowdstrikeSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDi
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     file_filter: NotRequired[str]
     r"""Regex matching file names to download and process. Defaults to: .*"""
@@ -948,7 +951,7 @@ class InputCrowdstrikeSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDi
     r"""The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
 
 
-class InputCrowdstrikeSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class InputCrowdstrikeSendToRoutesTrueConstraint(BaseModel):
     type: InputCrowdstrikeType
 
     queue_name: Annotated[str, pydantic.Field(alias="queueName")]
@@ -958,9 +961,6 @@ class InputCrowdstrikeSendToRoutesTrueWithConnectionsConstraint(BaseModel):
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -978,6 +978,9 @@ class InputCrowdstrikeSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -1147,9 +1150,9 @@ class InputCrowdstrikeSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 InputCrowdstrikeTypedDict = TypeAliasType(
     "InputCrowdstrikeTypedDict",
     Union[
-        InputCrowdstrikeSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        InputCrowdstrikeSendToRoutesTrueConstraintTypedDict,
         InputCrowdstrikeSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        InputCrowdstrikePqEnabledFalseWithPqConstraintTypedDict,
+        InputCrowdstrikePqEnabledFalseConstraintTypedDict,
         InputCrowdstrikePqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -1158,9 +1161,9 @@ InputCrowdstrikeTypedDict = TypeAliasType(
 InputCrowdstrike = TypeAliasType(
     "InputCrowdstrike",
     Union[
-        InputCrowdstrikeSendToRoutesTrueWithConnectionsConstraint,
+        InputCrowdstrikeSendToRoutesTrueConstraint,
         InputCrowdstrikeSendToRoutesFalseWithConnectionsConstraint,
-        InputCrowdstrikePqEnabledFalseWithPqConstraint,
+        InputCrowdstrikePqEnabledFalseConstraint,
         InputCrowdstrikePqEnabledTrueWithPqConstraint,
     ],
 )

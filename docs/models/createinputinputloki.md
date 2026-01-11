@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.CreateInputInputLokiSendToRoutesTrueWithConnectionsConstraint`
+### `models.CreateInputInputLokiSendToRoutesTrueConstraint`
 
 ```python
-value: models.CreateInputInputLokiSendToRoutesTrueWithConnectionsConstraint = /* values here */
+value: models.CreateInputInputLokiSendToRoutesTrueConstraint = /* values here */
 ```
 
 ### `models.CreateInputInputLokiSendToRoutesFalseWithConnectionsConstraint`
@@ -15,10 +15,10 @@ value: models.CreateInputInputLokiSendToRoutesTrueWithConnectionsConstraint = /*
 value: models.CreateInputInputLokiSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputLokiPqEnabledFalseWithPqConstraint`
+### `models.CreateInputInputLokiPqEnabledFalseConstraint`
 
 ```python
-value: models.CreateInputInputLokiPqEnabledFalseWithPqConstraint = /* values here */
+value: models.CreateInputInputLokiPqEnabledFalseConstraint = /* values here */
 ```
 
 ### `models.CreateInputInputLokiPqEnabledTrueWithPqConstraint`

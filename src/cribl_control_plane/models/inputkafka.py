@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 from .authenticationtype import AuthenticationType, AuthenticationTypeTypedDict
-from .itemstypeconnections import ItemsTypeConnections, ItemsTypeConnectionsTypedDict
+from .itemstypeconnectionsoptional import (
+    ItemsTypeConnectionsOptional,
+    ItemsTypeConnectionsOptionalTypedDict,
+)
 from .itemstypenotificationmetadata import (
     ItemsTypeNotificationMetadata,
     ItemsTypeNotificationMetadataTypedDict,
@@ -47,7 +50,7 @@ class InputKafkaPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     group_id: NotRequired[str]
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
@@ -139,7 +142,7 @@ class InputKafkaPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = "Cribl"
@@ -250,7 +253,7 @@ class InputKafkaPqEnabledTrueWithPqConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class InputKafkaPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class InputKafkaPqEnabledFalseConstraintTypedDict(TypedDict):
     type: InputKafkaType
     brokers: List[str]
     r"""Enter each Kafka bootstrap server you want to use. Specify the hostname and port (such as mykafkabroker:9092) or just the hostname (in which case @{product} will assign port 9092)."""
@@ -258,7 +261,6 @@ class InputKafkaPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -270,8 +272,9 @@ class InputKafkaPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     group_id: NotRequired[str]
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
     from_beginning: NotRequired[bool]
@@ -329,7 +332,7 @@ class InputKafkaPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     description: NotRequired[str]
 
 
-class InputKafkaPqEnabledFalseWithPqConstraint(BaseModel):
+class InputKafkaPqEnabledFalseConstraint(BaseModel):
     type: InputKafkaType
 
     brokers: List[str]
@@ -340,8 +343,6 @@ class InputKafkaPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -362,8 +363,10 @@ class InputKafkaPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = "Cribl"
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
@@ -481,7 +484,7 @@ class InputKafkaSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
     r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -566,7 +569,7 @@ class InputKafkaSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
@@ -696,7 +699,7 @@ class InputKafkaSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class InputKafkaSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
+class InputKafkaSendToRoutesTrueConstraintTypedDict(TypedDict):
     type: InputKafkaType
     brokers: List[str]
     r"""Enter each Kafka bootstrap server you want to use. Specify the hostname and port (such as mykafkabroker:9092) or just the hostname (in which case @{product} will assign port 9092)."""
@@ -704,8 +707,6 @@ class InputKafkaSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
     r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -717,6 +718,8 @@ class InputKafkaSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     group_id: NotRequired[str]
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
@@ -775,7 +778,7 @@ class InputKafkaSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
     description: NotRequired[str]
 
 
-class InputKafkaSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class InputKafkaSendToRoutesTrueConstraint(BaseModel):
     type: InputKafkaType
 
     brokers: List[str]
@@ -788,9 +791,6 @@ class InputKafkaSendToRoutesTrueWithConnectionsConstraint(BaseModel):
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -808,6 +808,9 @@ class InputKafkaSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -922,9 +925,9 @@ class InputKafkaSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 InputKafkaTypedDict = TypeAliasType(
     "InputKafkaTypedDict",
     Union[
-        InputKafkaSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        InputKafkaSendToRoutesTrueConstraintTypedDict,
         InputKafkaSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        InputKafkaPqEnabledFalseWithPqConstraintTypedDict,
+        InputKafkaPqEnabledFalseConstraintTypedDict,
         InputKafkaPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -933,9 +936,9 @@ InputKafkaTypedDict = TypeAliasType(
 InputKafka = TypeAliasType(
     "InputKafka",
     Union[
-        InputKafkaSendToRoutesTrueWithConnectionsConstraint,
+        InputKafkaSendToRoutesTrueConstraint,
         InputKafkaSendToRoutesFalseWithConnectionsConstraint,
-        InputKafkaPqEnabledFalseWithPqConstraint,
+        InputKafkaPqEnabledFalseConstraint,
         InputKafkaPqEnabledTrueWithPqConstraint,
     ],
 )

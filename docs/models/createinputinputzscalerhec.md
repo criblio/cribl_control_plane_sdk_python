@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.CreateInputInputZscalerHecSendToRoutesTrueWithConnectionsConstraint`
+### `models.CreateInputInputZscalerHecSendToRoutesTrueConstraint`
 
 ```python
-value: models.CreateInputInputZscalerHecSendToRoutesTrueWithConnectionsConstraint = /* values here */
+value: models.CreateInputInputZscalerHecSendToRoutesTrueConstraint = /* values here */
 ```
 
 ### `models.CreateInputInputZscalerHecSendToRoutesFalseWithConnectionsConstraint`
@@ -15,10 +15,10 @@ value: models.CreateInputInputZscalerHecSendToRoutesTrueWithConnectionsConstrain
 value: models.CreateInputInputZscalerHecSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputZscalerHecPqEnabledFalseWithPqConstraint`
+### `models.CreateInputInputZscalerHecPqEnabledFalseConstraint`
 
 ```python
-value: models.CreateInputInputZscalerHecPqEnabledFalseWithPqConstraint = /* values here */
+value: models.CreateInputInputZscalerHecPqEnabledFalseConstraint = /* values here */
 ```
 
 ### `models.CreateInputInputZscalerHecPqEnabledTrueWithPqConstraint`

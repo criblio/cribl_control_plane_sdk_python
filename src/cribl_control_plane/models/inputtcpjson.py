@@ -4,7 +4,10 @@ from __future__ import annotations
 from .authenticationmethodoptionsauthtokensitems import (
     AuthenticationMethodOptionsAuthTokensItems,
 )
-from .itemstypeconnections import ItemsTypeConnections, ItemsTypeConnectionsTypedDict
+from .itemstypeconnectionsoptional import (
+    ItemsTypeConnectionsOptional,
+    ItemsTypeConnectionsOptionalTypedDict,
+)
 from .itemstypenotificationmetadata import (
     ItemsTypeNotificationMetadata,
     ItemsTypeNotificationMetadataTypedDict,
@@ -45,7 +48,7 @@ class InputTcpjsonPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -105,7 +108,7 @@ class InputTcpjsonPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     host: Optional[str] = "0.0.0.0"
@@ -175,13 +178,12 @@ class InputTcpjsonPqEnabledTrueWithPqConstraint(BaseModel):
         return value
 
 
-class InputTcpjsonPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class InputTcpjsonPqEnabledFalseConstraintTypedDict(TypedDict):
     type: InputTcpjsonType
     port: float
     r"""Port to listen on"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -193,8 +195,9 @@ class InputTcpjsonPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
@@ -223,7 +226,7 @@ class InputTcpjsonPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Select or create a stored text secret"""
 
 
-class InputTcpjsonPqEnabledFalseWithPqConstraint(BaseModel):
+class InputTcpjsonPqEnabledFalseConstraint(BaseModel):
     type: InputTcpjsonType
 
     port: float
@@ -231,8 +234,6 @@ class InputTcpjsonPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -253,8 +254,10 @@ class InputTcpjsonPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -329,7 +332,7 @@ class InputTcpjsonSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict)
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -382,7 +385,7 @@ class InputTcpjsonSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
@@ -471,14 +474,12 @@ class InputTcpjsonSendToRoutesFalseWithConnectionsConstraint(BaseModel):
         return value
 
 
-class InputTcpjsonSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
+class InputTcpjsonSendToRoutesTrueConstraintTypedDict(TypedDict):
     type: InputTcpjsonType
     port: float
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -490,6 +491,8 @@ class InputTcpjsonSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -519,7 +522,7 @@ class InputTcpjsonSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
     r"""Select or create a stored text secret"""
 
 
-class InputTcpjsonSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class InputTcpjsonSendToRoutesTrueConstraint(BaseModel):
     type: InputTcpjsonType
 
     port: float
@@ -529,9 +532,6 @@ class InputTcpjsonSendToRoutesTrueWithConnectionsConstraint(BaseModel):
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -549,6 +549,9 @@ class InputTcpjsonSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -622,9 +625,9 @@ class InputTcpjsonSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 InputTcpjsonTypedDict = TypeAliasType(
     "InputTcpjsonTypedDict",
     Union[
-        InputTcpjsonSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        InputTcpjsonSendToRoutesTrueConstraintTypedDict,
         InputTcpjsonSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        InputTcpjsonPqEnabledFalseWithPqConstraintTypedDict,
+        InputTcpjsonPqEnabledFalseConstraintTypedDict,
         InputTcpjsonPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -633,9 +636,9 @@ InputTcpjsonTypedDict = TypeAliasType(
 InputTcpjson = TypeAliasType(
     "InputTcpjson",
     Union[
-        InputTcpjsonSendToRoutesTrueWithConnectionsConstraint,
+        InputTcpjsonSendToRoutesTrueConstraint,
         InputTcpjsonSendToRoutesFalseWithConnectionsConstraint,
-        InputTcpjsonPqEnabledFalseWithPqConstraint,
+        InputTcpjsonPqEnabledFalseConstraint,
         InputTcpjsonPqEnabledTrueWithPqConstraint,
     ],
 )

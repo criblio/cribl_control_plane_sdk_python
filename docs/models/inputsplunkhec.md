@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.InputSplunkHecSendToRoutesTrueWithConnectionsConstraint`
+### `models.InputSplunkHecSendToRoutesTrueConstraint`
 
 ```python
-value: models.InputSplunkHecSendToRoutesTrueWithConnectionsConstraint = /* values here */
+value: models.InputSplunkHecSendToRoutesTrueConstraint = /* values here */
 ```
 
 ### `models.InputSplunkHecSendToRoutesFalseWithConnectionsConstraint`
@@ -15,10 +15,10 @@ value: models.InputSplunkHecSendToRoutesTrueWithConnectionsConstraint = /* value
 value: models.InputSplunkHecSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputSplunkHecPqEnabledFalseWithPqConstraint`
+### `models.InputSplunkHecPqEnabledFalseConstraint`
 
 ```python
-value: models.InputSplunkHecPqEnabledFalseWithPqConstraint = /* values here */
+value: models.InputSplunkHecPqEnabledFalseConstraint = /* values here */
 ```
 
 ### `models.InputSplunkHecPqEnabledTrueWithPqConstraint`

@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.CreateInputInputCriblmetricsSendToRoutesTrueWithConnectionsConstraint`
+### `models.CreateInputInputCriblmetricsSendToRoutesTrueConstraint`
 
 ```python
-value: models.CreateInputInputCriblmetricsSendToRoutesTrueWithConnectionsConstraint = /* values here */
+value: models.CreateInputInputCriblmetricsSendToRoutesTrueConstraint = /* values here */
 ```
 
 ### `models.CreateInputInputCriblmetricsSendToRoutesFalseWithConnectionsConstraint`
@@ -15,10 +15,10 @@ value: models.CreateInputInputCriblmetricsSendToRoutesTrueWithConnectionsConstra
 value: models.CreateInputInputCriblmetricsSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputCriblmetricsPqEnabledFalseWithPqConstraint`
+### `models.CreateInputInputCriblmetricsPqEnabledFalseConstraint`
 
 ```python
-value: models.CreateInputInputCriblmetricsPqEnabledFalseWithPqConstraint = /* values here */
+value: models.CreateInputInputCriblmetricsPqEnabledFalseConstraint = /* values here */
 ```
 
 ### `models.CreateInputInputCriblmetricsPqEnabledTrueWithPqConstraint`

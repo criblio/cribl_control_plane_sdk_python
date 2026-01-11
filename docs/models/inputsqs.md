@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.InputSqsSendToRoutesTrueWithConnectionsConstraint`
+### `models.InputSqsSendToRoutesTrueConstraint`
 
 ```python
-value: models.InputSqsSendToRoutesTrueWithConnectionsConstraint = /* values here */
+value: models.InputSqsSendToRoutesTrueConstraint = /* values here */
 ```
 
 ### `models.InputSqsSendToRoutesFalseWithConnectionsConstraint`
@@ -15,10 +15,10 @@ value: models.InputSqsSendToRoutesTrueWithConnectionsConstraint = /* values here
 value: models.InputSqsSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputSqsPqEnabledFalseWithPqConstraint`
+### `models.InputSqsPqEnabledFalseConstraint`
 
 ```python
-value: models.InputSqsPqEnabledFalseWithPqConstraint = /* values here */
+value: models.InputSqsPqEnabledFalseConstraint = /* values here */
 ```
 
 ### `models.InputSqsPqEnabledTrueWithPqConstraint`

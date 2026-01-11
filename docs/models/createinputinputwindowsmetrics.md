@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.CreateInputInputWindowsMetricsSendToRoutesTrueWithConnectionsConstraint`
+### `models.CreateInputInputWindowsMetricsSendToRoutesTrueConstraint`
 
 ```python
-value: models.CreateInputInputWindowsMetricsSendToRoutesTrueWithConnectionsConstraint = /* values here */
+value: models.CreateInputInputWindowsMetricsSendToRoutesTrueConstraint = /* values here */
 ```
 
 ### `models.CreateInputInputWindowsMetricsSendToRoutesFalseWithConnectionsConstraint`
@@ -15,10 +15,10 @@ value: models.CreateInputInputWindowsMetricsSendToRoutesTrueWithConnectionsConst
 value: models.CreateInputInputWindowsMetricsSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputWindowsMetricsPqEnabledFalseWithPqConstraint`
+### `models.CreateInputInputWindowsMetricsPqEnabledFalseConstraint`
 
 ```python
-value: models.CreateInputInputWindowsMetricsPqEnabledFalseWithPqConstraint = /* values here */
+value: models.CreateInputInputWindowsMetricsPqEnabledFalseConstraint = /* values here */
 ```
 
 ### `models.CreateInputInputWindowsMetricsPqEnabledTrueWithPqConstraint`

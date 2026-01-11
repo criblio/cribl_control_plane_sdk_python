@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.CreateInputInputConfluentCloudSendToRoutesTrueWithConnectionsConstraint`
+### `models.CreateInputInputConfluentCloudSendToRoutesTrueConstraint`
 
 ```python
-value: models.CreateInputInputConfluentCloudSendToRoutesTrueWithConnectionsConstraint = /* values here */
+value: models.CreateInputInputConfluentCloudSendToRoutesTrueConstraint = /* values here */
 ```
 
 ### `models.CreateInputInputConfluentCloudSendToRoutesFalseWithConnectionsConstraint`
@@ -15,10 +15,10 @@ value: models.CreateInputInputConfluentCloudSendToRoutesTrueWithConnectionsConst
 value: models.CreateInputInputConfluentCloudSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputConfluentCloudPqEnabledFalseWithPqConstraint`
+### `models.CreateInputInputConfluentCloudPqEnabledFalseConstraint`
 
 ```python
-value: models.CreateInputInputConfluentCloudPqEnabledFalseWithPqConstraint = /* values here */
+value: models.CreateInputInputConfluentCloudPqEnabledFalseConstraint = /* values here */
 ```
 
 ### `models.CreateInputInputConfluentCloudPqEnabledTrueWithPqConstraint`

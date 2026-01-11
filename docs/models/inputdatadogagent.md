@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.InputDatadogAgentSendToRoutesTrueWithConnectionsConstraint`
+### `models.InputDatadogAgentSendToRoutesTrueConstraint`
 
 ```python
-value: models.InputDatadogAgentSendToRoutesTrueWithConnectionsConstraint = /* values here */
+value: models.InputDatadogAgentSendToRoutesTrueConstraint = /* values here */
 ```
 
 ### `models.InputDatadogAgentSendToRoutesFalseWithConnectionsConstraint`
@@ -15,10 +15,10 @@ value: models.InputDatadogAgentSendToRoutesTrueWithConnectionsConstraint = /* va
 value: models.InputDatadogAgentSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputDatadogAgentPqEnabledFalseWithPqConstraint`
+### `models.InputDatadogAgentPqEnabledFalseConstraint`
 
 ```python
-value: models.InputDatadogAgentPqEnabledFalseWithPqConstraint = /* values here */
+value: models.InputDatadogAgentPqEnabledFalseConstraint = /* values here */
 ```
 
 ### `models.InputDatadogAgentPqEnabledTrueWithPqConstraint`

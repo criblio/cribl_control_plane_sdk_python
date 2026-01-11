@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.CreateInputInputSystemStateSendToRoutesTrueWithConnectionsConstraint`
+### `models.CreateInputInputSystemStateSendToRoutesTrueConstraint`
 
 ```python
-value: models.CreateInputInputSystemStateSendToRoutesTrueWithConnectionsConstraint = /* values here */
+value: models.CreateInputInputSystemStateSendToRoutesTrueConstraint = /* values here */
 ```
 
 ### `models.CreateInputInputSystemStateSendToRoutesFalseWithConnectionsConstraint`
@@ -15,10 +15,10 @@ value: models.CreateInputInputSystemStateSendToRoutesTrueWithConnectionsConstrai
 value: models.CreateInputInputSystemStateSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputSystemStatePqEnabledFalseWithPqConstraint`
+### `models.CreateInputInputSystemStatePqEnabledFalseConstraint`
 
 ```python
-value: models.CreateInputInputSystemStatePqEnabledFalseWithPqConstraint = /* values here */
+value: models.CreateInputInputSystemStatePqEnabledFalseConstraint = /* values here */
 ```
 
 ### `models.CreateInputInputSystemStatePqEnabledTrueWithPqConstraint`

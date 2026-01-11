@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.InputKinesisSendToRoutesTrueWithConnectionsConstraint`
+### `models.InputKinesisSendToRoutesTrueConstraint`
 
 ```python
-value: models.InputKinesisSendToRoutesTrueWithConnectionsConstraint = /* values here */
+value: models.InputKinesisSendToRoutesTrueConstraint = /* values here */
 ```
 
 ### `models.InputKinesisSendToRoutesFalseWithConnectionsConstraint`
@@ -15,10 +15,10 @@ value: models.InputKinesisSendToRoutesTrueWithConnectionsConstraint = /* values 
 value: models.InputKinesisSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputKinesisPqEnabledFalseWithPqConstraint`
+### `models.InputKinesisPqEnabledFalseConstraint`
 
 ```python
-value: models.InputKinesisPqEnabledFalseWithPqConstraint = /* values here */
+value: models.InputKinesisPqEnabledFalseConstraint = /* values here */
 ```
 
 ### `models.InputKinesisPqEnabledTrueWithPqConstraint`

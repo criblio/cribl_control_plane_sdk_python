@@ -4,7 +4,10 @@ from __future__ import annotations
 from .authenticationmethodoptionss3collectorconf import (
     AuthenticationMethodOptionsS3CollectorConf,
 )
-from .itemstypeconnections import ItemsTypeConnections, ItemsTypeConnectionsTypedDict
+from .itemstypeconnectionsoptional import (
+    ItemsTypeConnectionsOptional,
+    ItemsTypeConnectionsOptionalTypedDict,
+)
 from .itemstypenotificationmetadata import (
     ItemsTypeNotificationMetadata,
     ItemsTypeNotificationMetadataTypedDict,
@@ -53,7 +56,7 @@ class InputSqsPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     aws_account_id: NotRequired[str]
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
@@ -129,7 +132,7 @@ class InputSqsPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     aws_account_id: Annotated[Optional[str], pydantic.Field(alias="awsAccountId")] = (
@@ -243,7 +246,7 @@ class InputSqsPqEnabledTrueWithPqConstraint(BaseModel):
         return value
 
 
-class InputSqsPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class InputSqsPqEnabledFalseConstraintTypedDict(TypedDict):
     type: InputSqsType
     queue_name: str
     r"""The name, URL, or ARN of the SQS queue to read events from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can only be evaluated at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
@@ -251,7 +254,6 @@ class InputSqsPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""The queue type used (or created)"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -263,8 +265,9 @@ class InputSqsPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     aws_account_id: NotRequired[str]
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
     create_queue: NotRequired[bool]
@@ -306,7 +309,7 @@ class InputSqsPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
 
 
-class InputSqsPqEnabledFalseWithPqConstraint(BaseModel):
+class InputSqsPqEnabledFalseConstraint(BaseModel):
     type: InputSqsType
 
     queue_name: Annotated[str, pydantic.Field(alias="queueName")]
@@ -317,8 +320,6 @@ class InputSqsPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -339,8 +340,10 @@ class InputSqsPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     aws_account_id: Annotated[Optional[str], pydantic.Field(alias="awsAccountId")] = (
         None
@@ -461,7 +464,7 @@ class InputSqsSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
     r"""The queue type used (or created)"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -530,7 +533,7 @@ class InputSqsSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
@@ -663,7 +666,7 @@ class InputSqsSendToRoutesFalseWithConnectionsConstraint(BaseModel):
         return value
 
 
-class InputSqsSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
+class InputSqsSendToRoutesTrueConstraintTypedDict(TypedDict):
     type: InputSqsType
     queue_name: str
     r"""The name, URL, or ARN of the SQS queue to read events from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can only be evaluated at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
@@ -671,8 +674,6 @@ class InputSqsSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
     r"""The queue type used (or created)"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -684,6 +685,8 @@ class InputSqsSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     aws_account_id: NotRequired[str]
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
@@ -726,7 +729,7 @@ class InputSqsSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
     r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
 
 
-class InputSqsSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class InputSqsSendToRoutesTrueConstraint(BaseModel):
     type: InputSqsType
 
     queue_name: Annotated[str, pydantic.Field(alias="queueName")]
@@ -739,9 +742,6 @@ class InputSqsSendToRoutesTrueWithConnectionsConstraint(BaseModel):
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -759,6 +759,9 @@ class InputSqsSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -876,9 +879,9 @@ class InputSqsSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 InputSqsTypedDict = TypeAliasType(
     "InputSqsTypedDict",
     Union[
-        InputSqsSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        InputSqsSendToRoutesTrueConstraintTypedDict,
         InputSqsSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        InputSqsPqEnabledFalseWithPqConstraintTypedDict,
+        InputSqsPqEnabledFalseConstraintTypedDict,
         InputSqsPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -887,9 +890,9 @@ InputSqsTypedDict = TypeAliasType(
 InputSqs = TypeAliasType(
     "InputSqs",
     Union[
-        InputSqsSendToRoutesTrueWithConnectionsConstraint,
+        InputSqsSendToRoutesTrueConstraint,
         InputSqsSendToRoutesFalseWithConnectionsConstraint,
-        InputSqsPqEnabledFalseWithPqConstraint,
+        InputSqsPqEnabledFalseConstraint,
         InputSqsPqEnabledTrueWithPqConstraint,
     ],
 )

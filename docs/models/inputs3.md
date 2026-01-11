@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.InputS3SendToRoutesTrueWithConnectionsConstraint`
+### `models.InputS3SendToRoutesTrueConstraint`
 
 ```python
-value: models.InputS3SendToRoutesTrueWithConnectionsConstraint = /* values here */
+value: models.InputS3SendToRoutesTrueConstraint = /* values here */
 ```
 
 ### `models.InputS3SendToRoutesFalseWithConnectionsConstraint`
@@ -15,10 +15,10 @@ value: models.InputS3SendToRoutesTrueWithConnectionsConstraint = /* values here 
 value: models.InputS3SendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputS3PqEnabledFalseWithPqConstraint`
+### `models.InputS3PqEnabledFalseConstraint`
 
 ```python
-value: models.InputS3PqEnabledFalseWithPqConstraint = /* values here */
+value: models.InputS3PqEnabledFalseConstraint = /* values here */
 ```
 
 ### `models.InputS3PqEnabledTrueWithPqConstraint`

@@ -5,7 +5,10 @@ from .authenticationmethodoptionss3collectorconf import (
     AuthenticationMethodOptionsS3CollectorConf,
 )
 from .checkpointingtype import CheckpointingType, CheckpointingTypeTypedDict
-from .itemstypeconnections import ItemsTypeConnections, ItemsTypeConnectionsTypedDict
+from .itemstypeconnectionsoptional import (
+    ItemsTypeConnectionsOptional,
+    ItemsTypeConnectionsOptionalTypedDict,
+)
 from .itemstypenotificationmetadata import (
     ItemsTypeNotificationMetadata,
     ItemsTypeNotificationMetadataTypedDict,
@@ -50,7 +53,7 @@ class InputS3InventoryPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     file_filter: NotRequired[str]
     r"""Regex matching file names to download and process. Defaults to: .*"""
@@ -152,7 +155,7 @@ class InputS3InventoryPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     file_filter: Annotated[Optional[str], pydantic.Field(alias="fileFilter")] = "/.*/"
@@ -340,13 +343,12 @@ class InputS3InventoryPqEnabledTrueWithPqConstraint(BaseModel):
         return value
 
 
-class InputS3InventoryPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class InputS3InventoryPqEnabledFalseConstraintTypedDict(TypedDict):
     type: InputS3InventoryType
     queue_name: str
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -358,8 +360,9 @@ class InputS3InventoryPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     file_filter: NotRequired[str]
     r"""Regex matching file names to download and process. Defaults to: .*"""
     aws_account_id: NotRequired[str]
@@ -430,7 +433,7 @@ class InputS3InventoryPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
 
 
-class InputS3InventoryPqEnabledFalseWithPqConstraint(BaseModel):
+class InputS3InventoryPqEnabledFalseConstraint(BaseModel):
     type: InputS3InventoryType
 
     queue_name: Annotated[str, pydantic.Field(alias="queueName")]
@@ -438,8 +441,6 @@ class InputS3InventoryPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -460,8 +461,10 @@ class InputS3InventoryPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     file_filter: Annotated[Optional[str], pydantic.Field(alias="fileFilter")] = "/.*/"
     r"""Regex matching file names to download and process. Defaults to: .*"""
@@ -654,7 +657,7 @@ class InputS3InventorySendToRoutesFalseWithConnectionsConstraintTypedDict(TypedD
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -749,7 +752,7 @@ class InputS3InventorySendToRoutesFalseWithConnectionsConstraint(BaseModel):
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
@@ -956,14 +959,12 @@ class InputS3InventorySendToRoutesFalseWithConnectionsConstraint(BaseModel):
         return value
 
 
-class InputS3InventorySendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
+class InputS3InventorySendToRoutesTrueConstraintTypedDict(TypedDict):
     type: InputS3InventoryType
     queue_name: str
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -975,6 +976,8 @@ class InputS3InventorySendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDi
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     file_filter: NotRequired[str]
     r"""Regex matching file names to download and process. Defaults to: .*"""
@@ -1046,7 +1049,7 @@ class InputS3InventorySendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDi
     r"""The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
 
 
-class InputS3InventorySendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class InputS3InventorySendToRoutesTrueConstraint(BaseModel):
     type: InputS3InventoryType
 
     queue_name: Annotated[str, pydantic.Field(alias="queueName")]
@@ -1056,9 +1059,6 @@ class InputS3InventorySendToRoutesTrueWithConnectionsConstraint(BaseModel):
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -1076,6 +1076,9 @@ class InputS3InventorySendToRoutesTrueWithConnectionsConstraint(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -1267,9 +1270,9 @@ class InputS3InventorySendToRoutesTrueWithConnectionsConstraint(BaseModel):
 InputS3InventoryTypedDict = TypeAliasType(
     "InputS3InventoryTypedDict",
     Union[
-        InputS3InventorySendToRoutesTrueWithConnectionsConstraintTypedDict,
+        InputS3InventorySendToRoutesTrueConstraintTypedDict,
         InputS3InventorySendToRoutesFalseWithConnectionsConstraintTypedDict,
-        InputS3InventoryPqEnabledFalseWithPqConstraintTypedDict,
+        InputS3InventoryPqEnabledFalseConstraintTypedDict,
         InputS3InventoryPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -1278,9 +1281,9 @@ InputS3InventoryTypedDict = TypeAliasType(
 InputS3Inventory = TypeAliasType(
     "InputS3Inventory",
     Union[
-        InputS3InventorySendToRoutesTrueWithConnectionsConstraint,
+        InputS3InventorySendToRoutesTrueConstraint,
         InputS3InventorySendToRoutesFalseWithConnectionsConstraint,
-        InputS3InventoryPqEnabledFalseWithPqConstraint,
+        InputS3InventoryPqEnabledFalseConstraint,
         InputS3InventoryPqEnabledTrueWithPqConstraint,
     ],
 )

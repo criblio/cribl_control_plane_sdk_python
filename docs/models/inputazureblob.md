@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.InputAzureBlobSendToRoutesTrueWithConnectionsConstraint`
+### `models.InputAzureBlobSendToRoutesTrueConstraint`
 
 ```python
-value: models.InputAzureBlobSendToRoutesTrueWithConnectionsConstraint = /* values here */
+value: models.InputAzureBlobSendToRoutesTrueConstraint = /* values here */
 ```
 
 ### `models.InputAzureBlobSendToRoutesFalseWithConnectionsConstraint`
@@ -15,10 +15,10 @@ value: models.InputAzureBlobSendToRoutesTrueWithConnectionsConstraint = /* value
 value: models.InputAzureBlobSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputAzureBlobPqEnabledFalseWithPqConstraint`
+### `models.InputAzureBlobPqEnabledFalseConstraint`
 
 ```python
-value: models.InputAzureBlobPqEnabledFalseWithPqConstraint = /* values here */
+value: models.InputAzureBlobPqEnabledFalseConstraint = /* values here */
 ```
 
 ### `models.InputAzureBlobPqEnabledTrueWithPqConstraint`

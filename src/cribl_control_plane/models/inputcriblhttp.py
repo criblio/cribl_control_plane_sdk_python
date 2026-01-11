@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 from .itemstypeauthtokens import ItemsTypeAuthTokens, ItemsTypeAuthTokensTypedDict
-from .itemstypeconnections import ItemsTypeConnections, ItemsTypeConnectionsTypedDict
+from .itemstypeconnectionsoptional import (
+    ItemsTypeConnectionsOptional,
+    ItemsTypeConnectionsOptionalTypedDict,
+)
 from .itemstypenotificationmetadata import (
     ItemsTypeNotificationMetadata,
     ItemsTypeNotificationMetadataTypedDict,
@@ -41,7 +44,7 @@ class InputCriblHTTPPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -105,7 +108,7 @@ class InputCriblHTTPPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     host: Optional[str] = "0.0.0.0"
@@ -179,13 +182,12 @@ class InputCriblHTTPPqEnabledTrueWithPqConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class InputCriblHTTPPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class InputCriblHTTPPqEnabledFalseConstraintTypedDict(TypedDict):
     type: InputCriblHTTPType
     port: float
     r"""Port to listen on"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -197,8 +199,9 @@ class InputCriblHTTPPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     auth_tokens: NotRequired[List[ItemsTypeAuthTokensTypedDict]]
@@ -231,7 +234,7 @@ class InputCriblHTTPPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     description: NotRequired[str]
 
 
-class InputCriblHTTPPqEnabledFalseWithPqConstraint(BaseModel):
+class InputCriblHTTPPqEnabledFalseConstraint(BaseModel):
     type: InputCriblHTTPType
 
     port: float
@@ -239,8 +242,6 @@ class InputCriblHTTPPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -261,8 +262,10 @@ class InputCriblHTTPPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -341,7 +344,7 @@ class InputCriblHTTPSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDic
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -398,7 +401,7 @@ class InputCriblHTTPSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
@@ -491,14 +494,12 @@ class InputCriblHTTPSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     description: Optional[str] = None
 
 
-class InputCriblHTTPSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
+class InputCriblHTTPSendToRoutesTrueConstraintTypedDict(TypedDict):
     type: InputCriblHTTPType
     port: float
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -510,6 +511,8 @@ class InputCriblHTTPSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -543,7 +546,7 @@ class InputCriblHTTPSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict
     description: NotRequired[str]
 
 
-class InputCriblHTTPSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class InputCriblHTTPSendToRoutesTrueConstraint(BaseModel):
     type: InputCriblHTTPType
 
     port: float
@@ -553,9 +556,6 @@ class InputCriblHTTPSendToRoutesTrueWithConnectionsConstraint(BaseModel):
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -573,6 +573,9 @@ class InputCriblHTTPSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -650,9 +653,9 @@ class InputCriblHTTPSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 InputCriblHTTPTypedDict = TypeAliasType(
     "InputCriblHTTPTypedDict",
     Union[
-        InputCriblHTTPSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        InputCriblHTTPSendToRoutesTrueConstraintTypedDict,
         InputCriblHTTPSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        InputCriblHTTPPqEnabledFalseWithPqConstraintTypedDict,
+        InputCriblHTTPPqEnabledFalseConstraintTypedDict,
         InputCriblHTTPPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -661,9 +664,9 @@ InputCriblHTTPTypedDict = TypeAliasType(
 InputCriblHTTP = TypeAliasType(
     "InputCriblHTTP",
     Union[
-        InputCriblHTTPSendToRoutesTrueWithConnectionsConstraint,
+        InputCriblHTTPSendToRoutesTrueConstraint,
         InputCriblHTTPSendToRoutesFalseWithConnectionsConstraint,
-        InputCriblHTTPPqEnabledFalseWithPqConstraint,
+        InputCriblHTTPPqEnabledFalseConstraint,
         InputCriblHTTPPqEnabledTrueWithPqConstraint,
     ],
 )

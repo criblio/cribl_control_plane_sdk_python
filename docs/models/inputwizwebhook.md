@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.InputWizWebhookSendToRoutesTrueWithConnectionsConstraint`
+### `models.InputWizWebhookSendToRoutesTrueConstraint`
 
 ```python
-value: models.InputWizWebhookSendToRoutesTrueWithConnectionsConstraint = /* values here */
+value: models.InputWizWebhookSendToRoutesTrueConstraint = /* values here */
 ```
 
 ### `models.InputWizWebhookSendToRoutesFalseWithConnectionsConstraint`
@@ -15,10 +15,10 @@ value: models.InputWizWebhookSendToRoutesTrueWithConnectionsConstraint = /* valu
 value: models.InputWizWebhookSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputWizWebhookPqEnabledFalseWithPqConstraint`
+### `models.InputWizWebhookPqEnabledFalseConstraint`
 
 ```python
-value: models.InputWizWebhookPqEnabledFalseWithPqConstraint = /* values here */
+value: models.InputWizWebhookPqEnabledFalseConstraint = /* values here */
 ```
 
 ### `models.InputWizWebhookPqEnabledTrueWithPqConstraint`

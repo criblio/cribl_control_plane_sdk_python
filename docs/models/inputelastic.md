@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.InputElasticSendToRoutesTrueWithConnectionsConstraint`
+### `models.InputElasticSendToRoutesTrueConstraint`
 
 ```python
-value: models.InputElasticSendToRoutesTrueWithConnectionsConstraint = /* values here */
+value: models.InputElasticSendToRoutesTrueConstraint = /* values here */
 ```
 
 ### `models.InputElasticSendToRoutesFalseWithConnectionsConstraint`
@@ -15,10 +15,10 @@ value: models.InputElasticSendToRoutesTrueWithConnectionsConstraint = /* values 
 value: models.InputElasticSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputElasticPqEnabledFalseWithPqConstraint`
+### `models.InputElasticPqEnabledFalseConstraint`
 
 ```python
-value: models.InputElasticPqEnabledFalseWithPqConstraint = /* values here */
+value: models.InputElasticPqEnabledFalseConstraint = /* values here */
 ```
 
 ### `models.InputElasticPqEnabledTrueWithPqConstraint`

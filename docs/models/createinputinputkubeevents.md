@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.CreateInputInputKubeEventsSendToRoutesTrueWithConnectionsConstraint`
+### `models.CreateInputInputKubeEventsSendToRoutesTrueConstraint`
 
 ```python
-value: models.CreateInputInputKubeEventsSendToRoutesTrueWithConnectionsConstraint = /* values here */
+value: models.CreateInputInputKubeEventsSendToRoutesTrueConstraint = /* values here */
 ```
 
 ### `models.CreateInputInputKubeEventsSendToRoutesFalseWithConnectionsConstraint`
@@ -15,10 +15,10 @@ value: models.CreateInputInputKubeEventsSendToRoutesTrueWithConnectionsConstrain
 value: models.CreateInputInputKubeEventsSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputKubeEventsPqEnabledFalseWithPqConstraint`
+### `models.CreateInputInputKubeEventsPqEnabledFalseConstraint`
 
 ```python
-value: models.CreateInputInputKubeEventsPqEnabledFalseWithPqConstraint = /* values here */
+value: models.CreateInputInputKubeEventsPqEnabledFalseConstraint = /* values here */
 ```
 
 ### `models.CreateInputInputKubeEventsPqEnabledTrueWithPqConstraint`

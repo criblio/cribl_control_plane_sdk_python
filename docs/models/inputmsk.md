@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.InputMskSendToRoutesTrueWithConnectionsConstraint`
+### `models.InputMskSendToRoutesTrueConstraint`
 
 ```python
-value: models.InputMskSendToRoutesTrueWithConnectionsConstraint = /* values here */
+value: models.InputMskSendToRoutesTrueConstraint = /* values here */
 ```
 
 ### `models.InputMskSendToRoutesFalseWithConnectionsConstraint`
@@ -15,10 +15,10 @@ value: models.InputMskSendToRoutesTrueWithConnectionsConstraint = /* values here
 value: models.InputMskSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputMskPqEnabledFalseWithPqConstraint`
+### `models.InputMskPqEnabledFalseConstraint`
 
 ```python
-value: models.InputMskPqEnabledFalseWithPqConstraint = /* values here */
+value: models.InputMskPqEnabledFalseConstraint = /* values here */
 ```
 
 ### `models.InputMskPqEnabledTrueWithPqConstraint`

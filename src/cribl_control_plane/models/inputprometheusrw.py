@@ -4,7 +4,10 @@ from __future__ import annotations
 from .authenticationtypeoptionsprometheusauth import (
     AuthenticationTypeOptionsPrometheusAuth,
 )
-from .itemstypeconnections import ItemsTypeConnections, ItemsTypeConnectionsTypedDict
+from .itemstypeconnectionsoptional import (
+    ItemsTypeConnectionsOptional,
+    ItemsTypeConnectionsOptionalTypedDict,
+)
 from .itemstypenotificationmetadata import (
     ItemsTypeNotificationMetadata,
     ItemsTypeNotificationMetadataTypedDict,
@@ -47,7 +50,7 @@ class InputPrometheusRwPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -137,7 +140,7 @@ class InputPrometheusRwPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     host: Optional[str] = "0.0.0.0"
@@ -277,13 +280,12 @@ class InputPrometheusRwPqEnabledTrueWithPqConstraint(BaseModel):
         return value
 
 
-class InputPrometheusRwPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class InputPrometheusRwPqEnabledFalseConstraintTypedDict(TypedDict):
     type: InputPrometheusRwType
     port: float
     r"""Port to listen on"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -295,8 +297,9 @@ class InputPrometheusRwPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
@@ -355,7 +358,7 @@ class InputPrometheusRwPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
 
-class InputPrometheusRwPqEnabledFalseWithPqConstraint(BaseModel):
+class InputPrometheusRwPqEnabledFalseConstraint(BaseModel):
     type: InputPrometheusRwType
 
     port: float
@@ -363,8 +366,6 @@ class InputPrometheusRwPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -385,8 +386,10 @@ class InputPrometheusRwPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     host: Optional[str] = "0.0.0.0"
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -531,7 +534,7 @@ class InputPrometheusRwSendToRoutesFalseWithConnectionsConstraintTypedDict(Typed
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -614,7 +617,7 @@ class InputPrometheusRwSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
@@ -773,14 +776,12 @@ class InputPrometheusRwSendToRoutesFalseWithConnectionsConstraint(BaseModel):
         return value
 
 
-class InputPrometheusRwSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
+class InputPrometheusRwSendToRoutesTrueConstraintTypedDict(TypedDict):
     type: InputPrometheusRwType
     port: float
     r"""Port to listen on"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -792,6 +793,8 @@ class InputPrometheusRwSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedD
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -851,7 +854,7 @@ class InputPrometheusRwSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedD
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
 
-class InputPrometheusRwSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class InputPrometheusRwSendToRoutesTrueConstraint(BaseModel):
     type: InputPrometheusRwType
 
     port: float
@@ -861,9 +864,6 @@ class InputPrometheusRwSendToRoutesTrueWithConnectionsConstraint(BaseModel):
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -881,6 +881,9 @@ class InputPrometheusRwSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -1024,9 +1027,9 @@ class InputPrometheusRwSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 InputPrometheusRwTypedDict = TypeAliasType(
     "InputPrometheusRwTypedDict",
     Union[
-        InputPrometheusRwSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        InputPrometheusRwSendToRoutesTrueConstraintTypedDict,
         InputPrometheusRwSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        InputPrometheusRwPqEnabledFalseWithPqConstraintTypedDict,
+        InputPrometheusRwPqEnabledFalseConstraintTypedDict,
         InputPrometheusRwPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -1035,9 +1038,9 @@ InputPrometheusRwTypedDict = TypeAliasType(
 InputPrometheusRw = TypeAliasType(
     "InputPrometheusRw",
     Union[
-        InputPrometheusRwSendToRoutesTrueWithConnectionsConstraint,
+        InputPrometheusRwSendToRoutesTrueConstraint,
         InputPrometheusRwSendToRoutesFalseWithConnectionsConstraint,
-        InputPrometheusRwPqEnabledFalseWithPqConstraint,
+        InputPrometheusRwPqEnabledFalseConstraint,
         InputPrometheusRwPqEnabledTrueWithPqConstraint,
     ],
 )

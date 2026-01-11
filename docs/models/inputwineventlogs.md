@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.InputWinEventLogsSendToRoutesTrueWithConnectionsConstraint`
+### `models.InputWinEventLogsSendToRoutesTrueConstraint`
 
 ```python
-value: models.InputWinEventLogsSendToRoutesTrueWithConnectionsConstraint = /* values here */
+value: models.InputWinEventLogsSendToRoutesTrueConstraint = /* values here */
 ```
 
 ### `models.InputWinEventLogsSendToRoutesFalseWithConnectionsConstraint`
@@ -15,10 +15,10 @@ value: models.InputWinEventLogsSendToRoutesTrueWithConnectionsConstraint = /* va
 value: models.InputWinEventLogsSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputWinEventLogsPqEnabledFalseWithPqConstraint`
+### `models.InputWinEventLogsPqEnabledFalseConstraint`
 
 ```python
-value: models.InputWinEventLogsPqEnabledFalseWithPqConstraint = /* values here */
+value: models.InputWinEventLogsPqEnabledFalseConstraint = /* values here */
 ```
 
 ### `models.InputWinEventLogsPqEnabledTrueWithPqConstraint`

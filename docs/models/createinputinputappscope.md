@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.CreateInputInputAppscopeSendToRoutesTrueWithConnectionsConstraint`
+### `models.CreateInputInputAppscopeSendToRoutesTrueConstraint`
 
 ```python
-value: models.CreateInputInputAppscopeSendToRoutesTrueWithConnectionsConstraint = /* values here */
+value: models.CreateInputInputAppscopeSendToRoutesTrueConstraint = /* values here */
 ```
 
 ### `models.CreateInputInputAppscopeSendToRoutesFalseWithConnectionsConstraint`
@@ -15,10 +15,10 @@ value: models.CreateInputInputAppscopeSendToRoutesTrueWithConnectionsConstraint 
 value: models.CreateInputInputAppscopeSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputAppscopePqEnabledFalseWithPqConstraint`
+### `models.CreateInputInputAppscopePqEnabledFalseConstraint`
 
 ```python
-value: models.CreateInputInputAppscopePqEnabledFalseWithPqConstraint = /* values here */
+value: models.CreateInputInputAppscopePqEnabledFalseConstraint = /* values here */
 ```
 
 ### `models.CreateInputInputAppscopePqEnabledTrueWithPqConstraint`

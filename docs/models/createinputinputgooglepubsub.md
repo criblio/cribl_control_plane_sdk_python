@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.CreateInputInputGooglePubsubSendToRoutesTrueWithConnectionsConstraint`
+### `models.CreateInputInputGooglePubsubSendToRoutesTrueConstraint`
 
 ```python
-value: models.CreateInputInputGooglePubsubSendToRoutesTrueWithConnectionsConstraint = /* values here */
+value: models.CreateInputInputGooglePubsubSendToRoutesTrueConstraint = /* values here */
 ```
 
 ### `models.CreateInputInputGooglePubsubSendToRoutesFalseWithConnectionsConstraint`
@@ -15,10 +15,10 @@ value: models.CreateInputInputGooglePubsubSendToRoutesTrueWithConnectionsConstra
 value: models.CreateInputInputGooglePubsubSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputGooglePubsubPqEnabledFalseWithPqConstraint`
+### `models.CreateInputInputGooglePubsubPqEnabledFalseConstraint`
 
 ```python
-value: models.CreateInputInputGooglePubsubPqEnabledFalseWithPqConstraint = /* values here */
+value: models.CreateInputInputGooglePubsubPqEnabledFalseConstraint = /* values here */
 ```
 
 ### `models.CreateInputInputGooglePubsubPqEnabledTrueWithPqConstraint`

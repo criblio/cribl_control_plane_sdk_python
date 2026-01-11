@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.CreateInputInputRawUDPSendToRoutesTrueWithConnectionsConstraint`
+### `models.CreateInputInputRawUDPSendToRoutesTrueConstraint`
 
 ```python
-value: models.CreateInputInputRawUDPSendToRoutesTrueWithConnectionsConstraint = /* values here */
+value: models.CreateInputInputRawUDPSendToRoutesTrueConstraint = /* values here */
 ```
 
 ### `models.CreateInputInputRawUDPSendToRoutesFalseWithConnectionsConstraint`
@@ -15,10 +15,10 @@ value: models.CreateInputInputRawUDPSendToRoutesTrueWithConnectionsConstraint = 
 value: models.CreateInputInputRawUDPSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputRawUDPPqEnabledFalseWithPqConstraint`
+### `models.CreateInputInputRawUDPPqEnabledFalseConstraint`
 
 ```python
-value: models.CreateInputInputRawUDPPqEnabledFalseWithPqConstraint = /* values here */
+value: models.CreateInputInputRawUDPPqEnabledFalseConstraint = /* values here */
 ```
 
 ### `models.CreateInputInputRawUDPPqEnabledTrueWithPqConstraint`

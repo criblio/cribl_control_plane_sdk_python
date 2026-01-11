@@ -4,7 +4,10 @@ from __future__ import annotations
 from .authenticationmethodoptionss3collectorconf import (
     AuthenticationMethodOptionsS3CollectorConf,
 )
-from .itemstypeconnections import ItemsTypeConnections, ItemsTypeConnectionsTypedDict
+from .itemstypeconnectionsoptional import (
+    ItemsTypeConnectionsOptional,
+    ItemsTypeConnectionsOptionalTypedDict,
+)
 from .itemstypenotificationmetadata import (
     ItemsTypeNotificationMetadata,
     ItemsTypeNotificationMetadataTypedDict,
@@ -54,7 +57,7 @@ class InputMskPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     group_id: NotRequired[str]
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
@@ -169,7 +172,7 @@ class InputMskPqEnabledTrueWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = "Cribl"
@@ -348,7 +351,7 @@ class InputMskPqEnabledTrueWithPqConstraint(BaseModel):
         return value
 
 
-class InputMskPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+class InputMskPqEnabledFalseConstraintTypedDict(TypedDict):
     type: InputMskType
     brokers: List[str]
     r"""Enter each Kafka bootstrap server you want to use. Specify the hostname and port (such as mykafkabroker:9092) or just the hostname (in which case @{product} will assign port 9092)."""
@@ -358,7 +361,6 @@ class InputMskPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Region where the MSK cluster is located"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -370,8 +372,9 @@ class InputMskPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     group_id: NotRequired[str]
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
     from_beginning: NotRequired[bool]
@@ -449,7 +452,7 @@ class InputMskPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     r"""Select or create a stored secret that references your access key and secret key"""
 
 
-class InputMskPqEnabledFalseWithPqConstraint(BaseModel):
+class InputMskPqEnabledFalseConstraint(BaseModel):
     type: InputMskType
 
     brokers: List[str]
@@ -463,8 +466,6 @@ class InputMskPqEnabledFalseWithPqConstraint(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -485,8 +486,10 @@ class InputMskPqEnabledFalseWithPqConstraint(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = "Cribl"
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
@@ -674,7 +677,7 @@ class InputMskSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
     r"""Region where the MSK cluster is located"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -782,7 +785,7 @@ class InputMskSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
@@ -980,7 +983,7 @@ class InputMskSendToRoutesFalseWithConnectionsConstraint(BaseModel):
         return value
 
 
-class InputMskSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
+class InputMskSendToRoutesTrueConstraintTypedDict(TypedDict):
     type: InputMskType
     brokers: List[str]
     r"""Enter each Kafka bootstrap server you want to use. Specify the hostname and port (such as mykafkabroker:9092) or just the hostname (in which case @{product} will assign port 9092)."""
@@ -990,8 +993,6 @@ class InputMskSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
     r"""Region where the MSK cluster is located"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -1003,6 +1004,8 @@ class InputMskSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     group_id: NotRequired[str]
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
@@ -1081,7 +1084,7 @@ class InputMskSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
     r"""Select or create a stored secret that references your access key and secret key"""
 
 
-class InputMskSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+class InputMskSendToRoutesTrueConstraint(BaseModel):
     type: InputMskType
 
     brokers: List[str]
@@ -1097,9 +1100,6 @@ class InputMskSendToRoutesTrueWithConnectionsConstraint(BaseModel):
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -1117,6 +1117,9 @@ class InputMskSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -1299,9 +1302,9 @@ class InputMskSendToRoutesTrueWithConnectionsConstraint(BaseModel):
 InputMskTypedDict = TypeAliasType(
     "InputMskTypedDict",
     Union[
-        InputMskSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        InputMskSendToRoutesTrueConstraintTypedDict,
         InputMskSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        InputMskPqEnabledFalseWithPqConstraintTypedDict,
+        InputMskPqEnabledFalseConstraintTypedDict,
         InputMskPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
@@ -1310,9 +1313,9 @@ InputMskTypedDict = TypeAliasType(
 InputMsk = TypeAliasType(
     "InputMsk",
     Union[
-        InputMskSendToRoutesTrueWithConnectionsConstraint,
+        InputMskSendToRoutesTrueConstraint,
         InputMskSendToRoutesFalseWithConnectionsConstraint,
-        InputMskPqEnabledFalseWithPqConstraint,
+        InputMskPqEnabledFalseConstraint,
         InputMskPqEnabledTrueWithPqConstraint,
     ],
 )

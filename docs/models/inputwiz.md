@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.InputWizSendToRoutesTrueWithConnectionsConstraint`
+### `models.InputWizSendToRoutesTrueConstraint`
 
 ```python
-value: models.InputWizSendToRoutesTrueWithConnectionsConstraint = /* values here */
+value: models.InputWizSendToRoutesTrueConstraint = /* values here */
 ```
 
 ### `models.InputWizSendToRoutesFalseWithConnectionsConstraint`
@@ -15,10 +15,10 @@ value: models.InputWizSendToRoutesTrueWithConnectionsConstraint = /* values here
 value: models.InputWizSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputWizPqEnabledFalseWithPqConstraint`
+### `models.InputWizPqEnabledFalseConstraint`
 
 ```python
-value: models.InputWizPqEnabledFalseWithPqConstraint = /* values here */
+value: models.InputWizPqEnabledFalseConstraint = /* values here */
 ```
 
 ### `models.InputWizPqEnabledTrueWithPqConstraint`

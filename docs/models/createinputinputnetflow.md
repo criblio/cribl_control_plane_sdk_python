@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.CreateInputInputNetflowSendToRoutesTrueWithConnectionsConstraint`
+### `models.CreateInputInputNetflowSendToRoutesTrueConstraint`
 
 ```python
-value: models.CreateInputInputNetflowSendToRoutesTrueWithConnectionsConstraint = /* values here */
+value: models.CreateInputInputNetflowSendToRoutesTrueConstraint = /* values here */
 ```
 
 ### `models.CreateInputInputNetflowSendToRoutesFalseWithConnectionsConstraint`
@@ -15,10 +15,10 @@ value: models.CreateInputInputNetflowSendToRoutesTrueWithConnectionsConstraint =
 value: models.CreateInputInputNetflowSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputNetflowPqEnabledFalseWithPqConstraint`
+### `models.CreateInputInputNetflowPqEnabledFalseConstraint`
 
 ```python
-value: models.CreateInputInputNetflowPqEnabledFalseWithPqConstraint = /* values here */
+value: models.CreateInputInputNetflowPqEnabledFalseConstraint = /* values here */
 ```
 
 ### `models.CreateInputInputNetflowPqEnabledTrueWithPqConstraint`

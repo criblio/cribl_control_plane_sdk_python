@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.CreateInputInputS3SendToRoutesTrueWithConnectionsConstraint`
+### `models.CreateInputInputS3SendToRoutesTrueConstraint`
 
 ```python
-value: models.CreateInputInputS3SendToRoutesTrueWithConnectionsConstraint = /* values here */
+value: models.CreateInputInputS3SendToRoutesTrueConstraint = /* values here */
 ```
 
 ### `models.CreateInputInputS3SendToRoutesFalseWithConnectionsConstraint`
@@ -15,10 +15,10 @@ value: models.CreateInputInputS3SendToRoutesTrueWithConnectionsConstraint = /* v
 value: models.CreateInputInputS3SendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputS3PqEnabledFalseWithPqConstraint`
+### `models.CreateInputInputS3PqEnabledFalseConstraint`
 
 ```python
-value: models.CreateInputInputS3PqEnabledFalseWithPqConstraint = /* values here */
+value: models.CreateInputInputS3PqEnabledFalseConstraint = /* values here */
 ```
 
 ### `models.CreateInputInputS3PqEnabledTrueWithPqConstraint`

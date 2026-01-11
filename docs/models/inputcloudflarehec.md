@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.InputCloudflareHecInputCollectionPart0Type`
+### `models.InputCloudflareHecSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.InputCloudflareHecInputCollectionPart0Type = /* values here */
+value: models.InputCloudflareHecSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputCloudflareHecInputCollectionPart1Type`
+### `models.InputCloudflareHecSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.InputCloudflareHecInputCollectionPart1Type = /* values here */
+value: models.InputCloudflareHecSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputCloudflareHecInputCollectionPart0Type1`
+### `models.InputCloudflareHecPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.InputCloudflareHecInputCollectionPart0Type1 = /* values here */
+value: models.InputCloudflareHecPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.InputCloudflareHecInputCollectionPart1Type1`
+### `models.InputCloudflareHecPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.InputCloudflareHecInputCollectionPart1Type1 = /* values here */
+value: models.InputCloudflareHecPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

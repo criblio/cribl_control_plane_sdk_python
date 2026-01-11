@@ -14,18 +14,18 @@ from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
-class InputJournalFilesInputCollectionPart1Type1Type(str, Enum):
+class InputJournalFilesPqEnabledTrueWithPqConstraintType(str, Enum):
     JOURNAL_FILES = "journal_files"
 
 
-class InputCollectionPart1Type1RuleTypedDict(TypedDict):
+class PqEnabledTrueWithPqConstraintRuleTypedDict(TypedDict):
     filter_: str
     r"""JavaScript expression applied to Journal objects. Return 'true' to include it."""
     description: NotRequired[str]
     r"""Optional description of this rule's purpose"""
 
 
-class InputCollectionPart1Type1Rule(BaseModel):
+class PqEnabledTrueWithPqConstraintRule(BaseModel):
     filter_: Annotated[str, pydantic.Field(alias="filter")]
     r"""JavaScript expression applied to Journal objects. Return 'true' to include it."""
 
@@ -33,8 +33,8 @@ class InputCollectionPart1Type1Rule(BaseModel):
     r"""Optional description of this rule's purpose"""
 
 
-class InputJournalFilesInputCollectionPart1Type1TypedDict(TypedDict):
-    type: InputJournalFilesInputCollectionPart1Type1Type
+class InputJournalFilesPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
+    type: InputJournalFilesPqEnabledTrueWithPqConstraintType
     path: str
     r"""Directory path to search for journals. Environment variables will be resolved, e.g. $CRIBL_EDGE_FS_ROOT/var/log/journal/$MACHINE_ID."""
     journals: List[str]
@@ -57,7 +57,7 @@ class InputJournalFilesInputCollectionPart1Type1TypedDict(TypedDict):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     interval: NotRequired[float]
     r"""Time, in seconds, between scanning for journals."""
-    rules: NotRequired[List[InputCollectionPart1Type1RuleTypedDict]]
+    rules: NotRequired[List[PqEnabledTrueWithPqConstraintRuleTypedDict]]
     r"""Add rules to decide which journal objects to allow. Events are generated if no rules are given or if all the rules' expressions evaluate to true."""
     current_boot: NotRequired[bool]
     r"""Skip log messages that are not part of the current boot session."""
@@ -68,8 +68,8 @@ class InputJournalFilesInputCollectionPart1Type1TypedDict(TypedDict):
     description: NotRequired[str]
 
 
-class InputJournalFilesInputCollectionPart1Type1(BaseModel):
-    type: InputJournalFilesInputCollectionPart1Type1Type
+class InputJournalFilesPqEnabledTrueWithPqConstraint(BaseModel):
+    type: InputJournalFilesPqEnabledTrueWithPqConstraintType
 
     path: str
     r"""Directory path to search for journals. Environment variables will be resolved, e.g. $CRIBL_EDGE_FS_ROOT/var/log/journal/$MACHINE_ID."""
@@ -107,7 +107,7 @@ class InputJournalFilesInputCollectionPart1Type1(BaseModel):
     interval: Optional[float] = 10
     r"""Time, in seconds, between scanning for journals."""
 
-    rules: Optional[List[InputCollectionPart1Type1Rule]] = None
+    rules: Optional[List[PqEnabledTrueWithPqConstraintRule]] = None
     r"""Add rules to decide which journal objects to allow. Events are generated if no rules are given or if all the rules' expressions evaluate to true."""
 
     current_boot: Annotated[Optional[bool], pydantic.Field(alias="currentBoot")] = False
@@ -122,18 +122,18 @@ class InputJournalFilesInputCollectionPart1Type1(BaseModel):
     description: Optional[str] = None
 
 
-class InputJournalFilesInputCollectionPart0Type1Type(str, Enum):
+class InputJournalFilesPqEnabledFalseWithPqConstraintType(str, Enum):
     JOURNAL_FILES = "journal_files"
 
 
-class InputCollectionPart0Type1RuleTypedDict(TypedDict):
+class PqEnabledFalseWithPqConstraintRuleTypedDict(TypedDict):
     filter_: str
     r"""JavaScript expression applied to Journal objects. Return 'true' to include it."""
     description: NotRequired[str]
     r"""Optional description of this rule's purpose"""
 
 
-class InputCollectionPart0Type1Rule(BaseModel):
+class PqEnabledFalseWithPqConstraintRule(BaseModel):
     filter_: Annotated[str, pydantic.Field(alias="filter")]
     r"""JavaScript expression applied to Journal objects. Return 'true' to include it."""
 
@@ -141,14 +141,15 @@ class InputCollectionPart0Type1Rule(BaseModel):
     r"""Optional description of this rule's purpose"""
 
 
-class InputJournalFilesInputCollectionPart0Type1TypedDict(TypedDict):
-    type: InputJournalFilesInputCollectionPart0Type1Type
+class InputJournalFilesPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+    type: InputJournalFilesPqEnabledFalseWithPqConstraintType
     path: str
     r"""Directory path to search for journals. Environment variables will be resolved, e.g. $CRIBL_EDGE_FS_ROOT/var/log/journal/$MACHINE_ID."""
     journals: List[str]
     r"""The full path of discovered journals are matched against this wildcard list."""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -162,10 +163,9 @@ class InputJournalFilesInputCollectionPart0Type1TypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[PqTypeTypedDict]
     interval: NotRequired[float]
     r"""Time, in seconds, between scanning for journals."""
-    rules: NotRequired[List[InputCollectionPart0Type1RuleTypedDict]]
+    rules: NotRequired[List[PqEnabledFalseWithPqConstraintRuleTypedDict]]
     r"""Add rules to decide which journal objects to allow. Events are generated if no rules are given or if all the rules' expressions evaluate to true."""
     current_boot: NotRequired[bool]
     r"""Skip log messages that are not part of the current boot session."""
@@ -176,8 +176,8 @@ class InputJournalFilesInputCollectionPart0Type1TypedDict(TypedDict):
     description: NotRequired[str]
 
 
-class InputJournalFilesInputCollectionPart0Type1(BaseModel):
-    type: InputJournalFilesInputCollectionPart0Type1Type
+class InputJournalFilesPqEnabledFalseWithPqConstraint(BaseModel):
+    type: InputJournalFilesPqEnabledFalseWithPqConstraintType
 
     path: str
     r"""Directory path to search for journals. Environment variables will be resolved, e.g. $CRIBL_EDGE_FS_ROOT/var/log/journal/$MACHINE_ID."""
@@ -187,6 +187,8 @@ class InputJournalFilesInputCollectionPart0Type1(BaseModel):
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -210,12 +212,10 @@ class InputJournalFilesInputCollectionPart0Type1(BaseModel):
     connections: Optional[List[ItemsTypeConnections]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[PqType] = None
-
     interval: Optional[float] = 10
     r"""Time, in seconds, between scanning for journals."""
 
-    rules: Optional[List[InputCollectionPart0Type1Rule]] = None
+    rules: Optional[List[PqEnabledFalseWithPqConstraintRule]] = None
     r"""Add rules to decide which journal objects to allow. Events are generated if no rules are given or if all the rules' expressions evaluate to true."""
 
     current_boot: Annotated[Optional[bool], pydantic.Field(alias="currentBoot")] = False
@@ -230,18 +230,18 @@ class InputJournalFilesInputCollectionPart0Type1(BaseModel):
     description: Optional[str] = None
 
 
-class InputJournalFilesInputCollectionPart1TypeType(str, Enum):
+class InputJournalFilesSendToRoutesFalseWithConnectionsConstraintType(str, Enum):
     JOURNAL_FILES = "journal_files"
 
 
-class InputCollectionPart1TypeRuleTypedDict(TypedDict):
+class SendToRoutesFalseWithConnectionsConstraintRuleTypedDict(TypedDict):
     filter_: str
     r"""JavaScript expression applied to Journal objects. Return 'true' to include it."""
     description: NotRequired[str]
     r"""Optional description of this rule's purpose"""
 
 
-class InputCollectionPart1TypeRule(BaseModel):
+class SendToRoutesFalseWithConnectionsConstraintRule(BaseModel):
     filter_: Annotated[str, pydantic.Field(alias="filter")]
     r"""JavaScript expression applied to Journal objects. Return 'true' to include it."""
 
@@ -249,8 +249,8 @@ class InputCollectionPart1TypeRule(BaseModel):
     r"""Optional description of this rule's purpose"""
 
 
-class InputJournalFilesInputCollectionPart1TypeTypedDict(TypedDict):
-    type: InputJournalFilesInputCollectionPart1TypeType
+class InputJournalFilesSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
+    type: InputJournalFilesSendToRoutesFalseWithConnectionsConstraintType
     path: str
     r"""Directory path to search for journals. Environment variables will be resolved, e.g. $CRIBL_EDGE_FS_ROOT/var/log/journal/$MACHINE_ID."""
     journals: List[str]
@@ -273,7 +273,7 @@ class InputJournalFilesInputCollectionPart1TypeTypedDict(TypedDict):
     pq: NotRequired[PqTypeTypedDict]
     interval: NotRequired[float]
     r"""Time, in seconds, between scanning for journals."""
-    rules: NotRequired[List[InputCollectionPart1TypeRuleTypedDict]]
+    rules: NotRequired[List[SendToRoutesFalseWithConnectionsConstraintRuleTypedDict]]
     r"""Add rules to decide which journal objects to allow. Events are generated if no rules are given or if all the rules' expressions evaluate to true."""
     current_boot: NotRequired[bool]
     r"""Skip log messages that are not part of the current boot session."""
@@ -284,8 +284,8 @@ class InputJournalFilesInputCollectionPart1TypeTypedDict(TypedDict):
     description: NotRequired[str]
 
 
-class InputJournalFilesInputCollectionPart1Type(BaseModel):
-    type: InputJournalFilesInputCollectionPart1TypeType
+class InputJournalFilesSendToRoutesFalseWithConnectionsConstraint(BaseModel):
+    type: InputJournalFilesSendToRoutesFalseWithConnectionsConstraintType
 
     path: str
     r"""Directory path to search for journals. Environment variables will be resolved, e.g. $CRIBL_EDGE_FS_ROOT/var/log/journal/$MACHINE_ID."""
@@ -323,7 +323,7 @@ class InputJournalFilesInputCollectionPart1Type(BaseModel):
     interval: Optional[float] = 10
     r"""Time, in seconds, between scanning for journals."""
 
-    rules: Optional[List[InputCollectionPart1TypeRule]] = None
+    rules: Optional[List[SendToRoutesFalseWithConnectionsConstraintRule]] = None
     r"""Add rules to decide which journal objects to allow. Events are generated if no rules are given or if all the rules' expressions evaluate to true."""
 
     current_boot: Annotated[Optional[bool], pydantic.Field(alias="currentBoot")] = False
@@ -338,18 +338,18 @@ class InputJournalFilesInputCollectionPart1Type(BaseModel):
     description: Optional[str] = None
 
 
-class InputJournalFilesInputCollectionPart0TypeType(str, Enum):
+class InputJournalFilesSendToRoutesTrueWithConnectionsConstraintType(str, Enum):
     JOURNAL_FILES = "journal_files"
 
 
-class InputCollectionPart0TypeRuleTypedDict(TypedDict):
+class SendToRoutesTrueWithConnectionsConstraintRuleTypedDict(TypedDict):
     filter_: str
     r"""JavaScript expression applied to Journal objects. Return 'true' to include it."""
     description: NotRequired[str]
     r"""Optional description of this rule's purpose"""
 
 
-class InputCollectionPart0TypeRule(BaseModel):
+class SendToRoutesTrueWithConnectionsConstraintRule(BaseModel):
     filter_: Annotated[str, pydantic.Field(alias="filter")]
     r"""JavaScript expression applied to Journal objects. Return 'true' to include it."""
 
@@ -357,14 +357,16 @@ class InputCollectionPart0TypeRule(BaseModel):
     r"""Optional description of this rule's purpose"""
 
 
-class InputJournalFilesInputCollectionPart0TypeTypedDict(TypedDict):
-    type: InputJournalFilesInputCollectionPart0TypeType
+class InputJournalFilesSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
+    type: InputJournalFilesSendToRoutesTrueWithConnectionsConstraintType
     path: str
     r"""Directory path to search for journals. Environment variables will be resolved, e.g. $CRIBL_EDGE_FS_ROOT/var/log/journal/$MACHINE_ID."""
     journals: List[str]
     r"""The full path of discovered journals are matched against this wildcard list."""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
+    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -376,12 +378,10 @@ class InputJournalFilesInputCollectionPart0TypeTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     interval: NotRequired[float]
     r"""Time, in seconds, between scanning for journals."""
-    rules: NotRequired[List[InputCollectionPart0TypeRuleTypedDict]]
+    rules: NotRequired[List[SendToRoutesTrueWithConnectionsConstraintRuleTypedDict]]
     r"""Add rules to decide which journal objects to allow. Events are generated if no rules are given or if all the rules' expressions evaluate to true."""
     current_boot: NotRequired[bool]
     r"""Skip log messages that are not part of the current boot session."""
@@ -392,8 +392,8 @@ class InputJournalFilesInputCollectionPart0TypeTypedDict(TypedDict):
     description: NotRequired[str]
 
 
-class InputJournalFilesInputCollectionPart0Type(BaseModel):
-    type: InputJournalFilesInputCollectionPart0TypeType
+class InputJournalFilesSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+    type: InputJournalFilesSendToRoutesTrueWithConnectionsConstraintType
 
     path: str
     r"""Directory path to search for journals. Environment variables will be resolved, e.g. $CRIBL_EDGE_FS_ROOT/var/log/journal/$MACHINE_ID."""
@@ -405,6 +405,9 @@ class InputJournalFilesInputCollectionPart0Type(BaseModel):
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    connections: Optional[List[ItemsTypeConnections]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -423,15 +426,12 @@ class InputJournalFilesInputCollectionPart0Type(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
     pq: Optional[PqType] = None
 
     interval: Optional[float] = 10
     r"""Time, in seconds, between scanning for journals."""
 
-    rules: Optional[List[InputCollectionPart0TypeRule]] = None
+    rules: Optional[List[SendToRoutesTrueWithConnectionsConstraintRule]] = None
     r"""Add rules to decide which journal objects to allow. Events are generated if no rules are given or if all the rules' expressions evaluate to true."""
 
     current_boot: Annotated[Optional[bool], pydantic.Field(alias="currentBoot")] = False
@@ -449,10 +449,10 @@ class InputJournalFilesInputCollectionPart0Type(BaseModel):
 InputJournalFilesTypedDict = TypeAliasType(
     "InputJournalFilesTypedDict",
     Union[
-        InputJournalFilesInputCollectionPart0TypeTypedDict,
-        InputJournalFilesInputCollectionPart1TypeTypedDict,
-        InputJournalFilesInputCollectionPart0Type1TypedDict,
-        InputJournalFilesInputCollectionPart1Type1TypedDict,
+        InputJournalFilesSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        InputJournalFilesSendToRoutesFalseWithConnectionsConstraintTypedDict,
+        InputJournalFilesPqEnabledFalseWithPqConstraintTypedDict,
+        InputJournalFilesPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
 
@@ -460,9 +460,9 @@ InputJournalFilesTypedDict = TypeAliasType(
 InputJournalFiles = TypeAliasType(
     "InputJournalFiles",
     Union[
-        InputJournalFilesInputCollectionPart0Type,
-        InputJournalFilesInputCollectionPart1Type,
-        InputJournalFilesInputCollectionPart0Type1,
-        InputJournalFilesInputCollectionPart1Type1,
+        InputJournalFilesSendToRoutesTrueWithConnectionsConstraint,
+        InputJournalFilesSendToRoutesFalseWithConnectionsConstraint,
+        InputJournalFilesPqEnabledFalseWithPqConstraint,
+        InputJournalFilesPqEnabledTrueWithPqConstraint,
     ],
 )

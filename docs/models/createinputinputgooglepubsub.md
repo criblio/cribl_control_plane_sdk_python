@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.CreateInputInputGooglePubsubInputCollectionPart0Type`
+### `models.CreateInputInputGooglePubsubSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputGooglePubsubInputCollectionPart0Type = /* values here */
+value: models.CreateInputInputGooglePubsubSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputGooglePubsubInputCollectionPart1Type`
+### `models.CreateInputInputGooglePubsubSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputGooglePubsubInputCollectionPart1Type = /* values here */
+value: models.CreateInputInputGooglePubsubSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputGooglePubsubInputCollectionPart0Type1`
+### `models.CreateInputInputGooglePubsubPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.CreateInputInputGooglePubsubInputCollectionPart0Type1 = /* values here */
+value: models.CreateInputInputGooglePubsubPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.CreateInputInputGooglePubsubInputCollectionPart1Type1`
+### `models.CreateInputInputGooglePubsubPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.CreateInputInputGooglePubsubInputCollectionPart1Type1 = /* values here */
+value: models.CreateInputInputGooglePubsubPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

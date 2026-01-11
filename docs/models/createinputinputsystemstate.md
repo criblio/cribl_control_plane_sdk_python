@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.CreateInputInputSystemStateInputCollectionPart0Type`
+### `models.CreateInputInputSystemStateSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputSystemStateInputCollectionPart0Type = /* values here */
+value: models.CreateInputInputSystemStateSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputSystemStateInputCollectionPart1Type`
+### `models.CreateInputInputSystemStateSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputSystemStateInputCollectionPart1Type = /* values here */
+value: models.CreateInputInputSystemStateSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputSystemStateInputCollectionPart0Type1`
+### `models.CreateInputInputSystemStatePqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.CreateInputInputSystemStateInputCollectionPart0Type1 = /* values here */
+value: models.CreateInputInputSystemStatePqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.CreateInputInputSystemStateInputCollectionPart1Type1`
+### `models.CreateInputInputSystemStatePqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.CreateInputInputSystemStateInputCollectionPart1Type1 = /* values here */
+value: models.CreateInputInputSystemStatePqEnabledTrueWithPqConstraint = /* values here */
 ```
 

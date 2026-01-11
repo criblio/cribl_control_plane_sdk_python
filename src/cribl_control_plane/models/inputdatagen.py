@@ -33,7 +33,7 @@ class Sample(BaseModel):
     r"""Maximum number of events to generate per second per Worker Node. Defaults to 10."""
 
 
-class InputDatagenInputCollectionPart1Type1TypedDict(TypedDict):
+class InputDatagenPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     type: InputDatagenType
     samples: List[SampleTypedDict]
     pq_enabled: NotRequired[bool]
@@ -57,7 +57,7 @@ class InputDatagenInputCollectionPart1Type1TypedDict(TypedDict):
     description: NotRequired[str]
 
 
-class InputDatagenInputCollectionPart1Type1(BaseModel):
+class InputDatagenPqEnabledTrueWithPqConstraint(BaseModel):
     type: InputDatagenType
 
     samples: List[Sample]
@@ -95,11 +95,12 @@ class InputDatagenInputCollectionPart1Type1(BaseModel):
     description: Optional[str] = None
 
 
-class InputDatagenInputCollectionPart0Type1TypedDict(TypedDict):
+class InputDatagenPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     type: InputDatagenType
     samples: List[SampleTypedDict]
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -113,19 +114,20 @@ class InputDatagenInputCollectionPart0Type1TypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[PqTypeTypedDict]
     metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
 
 
-class InputDatagenInputCollectionPart0Type1(BaseModel):
+class InputDatagenPqEnabledFalseWithPqConstraint(BaseModel):
     type: InputDatagenType
 
     samples: List[Sample]
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -148,6 +150,66 @@ class InputDatagenInputCollectionPart0Type1(BaseModel):
 
     connections: Optional[List[ItemsTypeConnections]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    r"""Fields to add to events from this input"""
+
+    description: Optional[str] = None
+
+
+class InputDatagenSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
+    type: InputDatagenType
+    samples: List[SampleTypedDict]
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    id: NotRequired[str]
+    r"""Unique ID for this input"""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    pq: NotRequired[PqTypeTypedDict]
+    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    r"""Fields to add to events from this input"""
+    description: NotRequired[str]
+
+
+class InputDatagenSendToRoutesFalseWithConnectionsConstraint(BaseModel):
+    type: InputDatagenType
+
+    samples: List[Sample]
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    connections: Optional[List[ItemsTypeConnections]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    id: Optional[str] = None
+    r"""Unique ID for this input"""
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
 
     pq: Optional[PqType] = None
 
@@ -157,7 +219,7 @@ class InputDatagenInputCollectionPart0Type1(BaseModel):
     description: Optional[str] = None
 
 
-class InputDatagenInputCollectionPart1TypeTypedDict(TypedDict):
+class InputDatagenSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
     type: InputDatagenType
     samples: List[SampleTypedDict]
     send_to_routes: NotRequired[bool]
@@ -181,7 +243,7 @@ class InputDatagenInputCollectionPart1TypeTypedDict(TypedDict):
     description: NotRequired[str]
 
 
-class InputDatagenInputCollectionPart1Type(BaseModel):
+class InputDatagenSendToRoutesTrueWithConnectionsConstraint(BaseModel):
     type: InputDatagenType
 
     samples: List[Sample]
@@ -210,68 +272,6 @@ class InputDatagenInputCollectionPart1Type(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
-
-    pq: Optional[PqType] = None
-
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
-    r"""Fields to add to events from this input"""
-
-    description: Optional[str] = None
-
-
-class InputDatagenInputCollectionPart0TypeTypedDict(TypedDict):
-    type: InputDatagenType
-    samples: List[SampleTypedDict]
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-    id: NotRequired[str]
-    r"""Unique ID for this input"""
-    disabled: NotRequired[bool]
-    pipeline: NotRequired[str]
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-    environment: NotRequired[str]
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[PqTypeTypedDict]
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
-    r"""Fields to add to events from this input"""
-    description: NotRequired[str]
-
-
-class InputDatagenInputCollectionPart0Type(BaseModel):
-    type: InputDatagenType
-
-    samples: List[Sample]
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    id: Optional[str] = None
-    r"""Unique ID for this input"""
-
-    disabled: Optional[bool] = False
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-
-    environment: Optional[str] = None
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -284,10 +284,10 @@ class InputDatagenInputCollectionPart0Type(BaseModel):
 InputDatagenTypedDict = TypeAliasType(
     "InputDatagenTypedDict",
     Union[
-        InputDatagenInputCollectionPart0TypeTypedDict,
-        InputDatagenInputCollectionPart1TypeTypedDict,
-        InputDatagenInputCollectionPart0Type1TypedDict,
-        InputDatagenInputCollectionPart1Type1TypedDict,
+        InputDatagenSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        InputDatagenSendToRoutesFalseWithConnectionsConstraintTypedDict,
+        InputDatagenPqEnabledFalseWithPqConstraintTypedDict,
+        InputDatagenPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
 
@@ -295,9 +295,9 @@ InputDatagenTypedDict = TypeAliasType(
 InputDatagen = TypeAliasType(
     "InputDatagen",
     Union[
-        InputDatagenInputCollectionPart0Type,
-        InputDatagenInputCollectionPart1Type,
-        InputDatagenInputCollectionPart0Type1,
-        InputDatagenInputCollectionPart1Type1,
+        InputDatagenSendToRoutesTrueWithConnectionsConstraint,
+        InputDatagenSendToRoutesFalseWithConnectionsConstraint,
+        InputDatagenPqEnabledFalseWithPqConstraint,
+        InputDatagenPqEnabledTrueWithPqConstraint,
     ],
 )

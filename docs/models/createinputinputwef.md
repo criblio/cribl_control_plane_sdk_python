@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.CreateInputInputWefInputCollectionPart0Type`
+### `models.CreateInputInputWefSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputWefInputCollectionPart0Type = /* values here */
+value: models.CreateInputInputWefSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputWefInputCollectionPart1Type`
+### `models.CreateInputInputWefSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputWefInputCollectionPart1Type = /* values here */
+value: models.CreateInputInputWefSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputWefInputCollectionPart0Type1`
+### `models.CreateInputInputWefPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.CreateInputInputWefInputCollectionPart0Type1 = /* values here */
+value: models.CreateInputInputWefPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.CreateInputInputWefInputCollectionPart1Type1`
+### `models.CreateInputInputWefPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.CreateInputInputWefInputCollectionPart1Type1 = /* values here */
+value: models.CreateInputInputWefPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

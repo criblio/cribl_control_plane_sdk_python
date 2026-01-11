@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.CreateInputInputS3InventoryInputCollectionPart0Type`
+### `models.CreateInputInputS3InventorySendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputS3InventoryInputCollectionPart0Type = /* values here */
+value: models.CreateInputInputS3InventorySendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputS3InventoryInputCollectionPart1Type`
+### `models.CreateInputInputS3InventorySendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputS3InventoryInputCollectionPart1Type = /* values here */
+value: models.CreateInputInputS3InventorySendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputS3InventoryInputCollectionPart0Type1`
+### `models.CreateInputInputS3InventoryPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.CreateInputInputS3InventoryInputCollectionPart0Type1 = /* values here */
+value: models.CreateInputInputS3InventoryPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.CreateInputInputS3InventoryInputCollectionPart1Type1`
+### `models.CreateInputInputS3InventoryPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.CreateInputInputS3InventoryInputCollectionPart1Type1 = /* values here */
+value: models.CreateInputInputS3InventoryPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

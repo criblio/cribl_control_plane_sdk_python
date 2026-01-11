@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.InputKinesisInputCollectionPart0Type`
+### `models.InputKinesisSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.InputKinesisInputCollectionPart0Type = /* values here */
+value: models.InputKinesisSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputKinesisInputCollectionPart1Type`
+### `models.InputKinesisSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.InputKinesisInputCollectionPart1Type = /* values here */
+value: models.InputKinesisSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputKinesisInputCollectionPart0Type1`
+### `models.InputKinesisPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.InputKinesisInputCollectionPart0Type1 = /* values here */
+value: models.InputKinesisPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.InputKinesisInputCollectionPart1Type1`
+### `models.InputKinesisPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.InputKinesisInputCollectionPart1Type1 = /* values here */
+value: models.InputKinesisPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

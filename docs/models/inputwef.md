@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.InputWefInputCollectionPart0Type`
+### `models.InputWefSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.InputWefInputCollectionPart0Type = /* values here */
+value: models.InputWefSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputWefInputCollectionPart1Type`
+### `models.InputWefSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.InputWefInputCollectionPart1Type = /* values here */
+value: models.InputWefSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputWefInputCollectionPart0Type1`
+### `models.InputWefPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.InputWefInputCollectionPart0Type1 = /* values here */
+value: models.InputWefPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.InputWefInputCollectionPart1Type1`
+### `models.InputWefPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.InputWefInputCollectionPart1Type1 = /* values here */
+value: models.InputWefPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

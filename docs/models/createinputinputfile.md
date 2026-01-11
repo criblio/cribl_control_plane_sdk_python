@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.CreateInputInputFileInputCollectionPart0Type`
+### `models.CreateInputInputFileSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputFileInputCollectionPart0Type = /* values here */
+value: models.CreateInputInputFileSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputFileInputCollectionPart1Type`
+### `models.CreateInputInputFileSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputFileInputCollectionPart1Type = /* values here */
+value: models.CreateInputInputFileSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputFileInputCollectionPart0Type1`
+### `models.CreateInputInputFilePqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.CreateInputInputFileInputCollectionPart0Type1 = /* values here */
+value: models.CreateInputInputFilePqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.CreateInputInputFileInputCollectionPart1Type1`
+### `models.CreateInputInputFilePqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.CreateInputInputFileInputCollectionPart1Type1 = /* values here */
+value: models.CreateInputInputFilePqEnabledTrueWithPqConstraint = /* values here */
 ```
 

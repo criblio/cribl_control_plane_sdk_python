@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.CreateInputInputHTTPInputCollectionPart0Type`
+### `models.CreateInputInputHTTPSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputHTTPInputCollectionPart0Type = /* values here */
+value: models.CreateInputInputHTTPSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputHTTPInputCollectionPart1Type`
+### `models.CreateInputInputHTTPSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputHTTPInputCollectionPart1Type = /* values here */
+value: models.CreateInputInputHTTPSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputHTTPInputCollectionPart0Type1`
+### `models.CreateInputInputHTTPPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.CreateInputInputHTTPInputCollectionPart0Type1 = /* values here */
+value: models.CreateInputInputHTTPPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.CreateInputInputHTTPInputCollectionPart1Type1`
+### `models.CreateInputInputHTTPPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.CreateInputInputHTTPInputCollectionPart1Type1 = /* values here */
+value: models.CreateInputInputHTTPPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

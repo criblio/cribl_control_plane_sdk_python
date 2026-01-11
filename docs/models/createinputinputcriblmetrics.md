@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.CreateInputInputCriblmetricsInputCollectionPart0Type`
+### `models.CreateInputInputCriblmetricsSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputCriblmetricsInputCollectionPart0Type = /* values here */
+value: models.CreateInputInputCriblmetricsSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputCriblmetricsInputCollectionPart1Type`
+### `models.CreateInputInputCriblmetricsSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputCriblmetricsInputCollectionPart1Type = /* values here */
+value: models.CreateInputInputCriblmetricsSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputCriblmetricsInputCollectionPart0Type1`
+### `models.CreateInputInputCriblmetricsPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.CreateInputInputCriblmetricsInputCollectionPart0Type1 = /* values here */
+value: models.CreateInputInputCriblmetricsPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.CreateInputInputCriblmetricsInputCollectionPart1Type1`
+### `models.CreateInputInputCriblmetricsPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.CreateInputInputCriblmetricsInputCollectionPart1Type1 = /* values here */
+value: models.CreateInputInputCriblmetricsPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

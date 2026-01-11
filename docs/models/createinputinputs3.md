@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.CreateInputInputS3InputCollectionPart0Type`
+### `models.CreateInputInputS3SendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputS3InputCollectionPart0Type = /* values here */
+value: models.CreateInputInputS3SendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputS3InputCollectionPart1Type`
+### `models.CreateInputInputS3SendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputS3InputCollectionPart1Type = /* values here */
+value: models.CreateInputInputS3SendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputS3InputCollectionPart0Type1`
+### `models.CreateInputInputS3PqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.CreateInputInputS3InputCollectionPart0Type1 = /* values here */
+value: models.CreateInputInputS3PqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.CreateInputInputS3InputCollectionPart1Type1`
+### `models.CreateInputInputS3PqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.CreateInputInputS3InputCollectionPart1Type1 = /* values here */
+value: models.CreateInputInputS3PqEnabledTrueWithPqConstraint = /* values here */
 ```
 

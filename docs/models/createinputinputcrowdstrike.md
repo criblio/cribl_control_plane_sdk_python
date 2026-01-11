@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.CreateInputInputCrowdstrikeInputCollectionPart0Type`
+### `models.CreateInputInputCrowdstrikeSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputCrowdstrikeInputCollectionPart0Type = /* values here */
+value: models.CreateInputInputCrowdstrikeSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputCrowdstrikeInputCollectionPart1Type`
+### `models.CreateInputInputCrowdstrikeSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputCrowdstrikeInputCollectionPart1Type = /* values here */
+value: models.CreateInputInputCrowdstrikeSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputCrowdstrikeInputCollectionPart0Type1`
+### `models.CreateInputInputCrowdstrikePqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.CreateInputInputCrowdstrikeInputCollectionPart0Type1 = /* values here */
+value: models.CreateInputInputCrowdstrikePqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.CreateInputInputCrowdstrikeInputCollectionPart1Type1`
+### `models.CreateInputInputCrowdstrikePqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.CreateInputInputCrowdstrikeInputCollectionPart1Type1 = /* values here */
+value: models.CreateInputInputCrowdstrikePqEnabledTrueWithPqConstraint = /* values here */
 ```
 

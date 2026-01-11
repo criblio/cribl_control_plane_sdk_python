@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.InputTcpjsonInputCollectionPart0Type`
+### `models.InputTcpjsonSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.InputTcpjsonInputCollectionPart0Type = /* values here */
+value: models.InputTcpjsonSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputTcpjsonInputCollectionPart1Type`
+### `models.InputTcpjsonSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.InputTcpjsonInputCollectionPart1Type = /* values here */
+value: models.InputTcpjsonSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputTcpjsonInputCollectionPart0Type1`
+### `models.InputTcpjsonPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.InputTcpjsonInputCollectionPart0Type1 = /* values here */
+value: models.InputTcpjsonPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.InputTcpjsonInputCollectionPart1Type1`
+### `models.InputTcpjsonPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.InputTcpjsonInputCollectionPart1Type1 = /* values here */
+value: models.InputTcpjsonPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

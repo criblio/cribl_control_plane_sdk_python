@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.InputOpenTelemetryInputCollectionPart0Type`
+### `models.InputOpenTelemetrySendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.InputOpenTelemetryInputCollectionPart0Type = /* values here */
+value: models.InputOpenTelemetrySendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputOpenTelemetryInputCollectionPart1Type`
+### `models.InputOpenTelemetrySendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.InputOpenTelemetryInputCollectionPart1Type = /* values here */
+value: models.InputOpenTelemetrySendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputOpenTelemetryInputCollectionPart0Type1`
+### `models.InputOpenTelemetryPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.InputOpenTelemetryInputCollectionPart0Type1 = /* values here */
+value: models.InputOpenTelemetryPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.InputOpenTelemetryInputCollectionPart1Type1`
+### `models.InputOpenTelemetryPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.InputOpenTelemetryInputCollectionPart1Type1 = /* values here */
+value: models.InputOpenTelemetryPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

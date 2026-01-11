@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.CreateInputInputZscalerHecInputCollectionPart0Type`
+### `models.CreateInputInputZscalerHecSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputZscalerHecInputCollectionPart0Type = /* values here */
+value: models.CreateInputInputZscalerHecSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputZscalerHecInputCollectionPart1Type`
+### `models.CreateInputInputZscalerHecSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputZscalerHecInputCollectionPart1Type = /* values here */
+value: models.CreateInputInputZscalerHecSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputZscalerHecInputCollectionPart0Type1`
+### `models.CreateInputInputZscalerHecPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.CreateInputInputZscalerHecInputCollectionPart0Type1 = /* values here */
+value: models.CreateInputInputZscalerHecPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.CreateInputInputZscalerHecInputCollectionPart1Type1`
+### `models.CreateInputInputZscalerHecPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.CreateInputInputZscalerHecInputCollectionPart1Type1 = /* values here */
+value: models.CreateInputInputZscalerHecPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

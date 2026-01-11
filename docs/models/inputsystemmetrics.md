@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.InputSystemMetricsInputCollectionPart0Type`
+### `models.InputSystemMetricsSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.InputSystemMetricsInputCollectionPart0Type = /* values here */
+value: models.InputSystemMetricsSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputSystemMetricsInputCollectionPart1Type`
+### `models.InputSystemMetricsSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.InputSystemMetricsInputCollectionPart1Type = /* values here */
+value: models.InputSystemMetricsSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputSystemMetricsInputCollectionPart0Type1`
+### `models.InputSystemMetricsPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.InputSystemMetricsInputCollectionPart0Type1 = /* values here */
+value: models.InputSystemMetricsPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.InputSystemMetricsInputCollectionPart1Type1`
+### `models.InputSystemMetricsPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.InputSystemMetricsInputCollectionPart1Type1 = /* values here */
+value: models.InputSystemMetricsPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

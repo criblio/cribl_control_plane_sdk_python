@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.InputHTTPRawInputCollectionPart0Type`
+### `models.InputHTTPRawSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.InputHTTPRawInputCollectionPart0Type = /* values here */
+value: models.InputHTTPRawSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputHTTPRawInputCollectionPart1Type`
+### `models.InputHTTPRawSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.InputHTTPRawInputCollectionPart1Type = /* values here */
+value: models.InputHTTPRawSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputHTTPRawInputCollectionPart0Type1`
+### `models.InputHTTPRawPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.InputHTTPRawInputCollectionPart0Type1 = /* values here */
+value: models.InputHTTPRawPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.InputHTTPRawInputCollectionPart1Type1`
+### `models.InputHTTPRawPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.InputHTTPRawInputCollectionPart1Type1 = /* values here */
+value: models.InputHTTPRawPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

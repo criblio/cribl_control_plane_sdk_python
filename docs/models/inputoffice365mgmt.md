@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.InputOffice365MgmtInputCollectionPart0Type`
+### `models.InputOffice365MgmtSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.InputOffice365MgmtInputCollectionPart0Type = /* values here */
+value: models.InputOffice365MgmtSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputOffice365MgmtInputCollectionPart1Type`
+### `models.InputOffice365MgmtSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.InputOffice365MgmtInputCollectionPart1Type = /* values here */
+value: models.InputOffice365MgmtSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputOffice365MgmtInputCollectionPart0Type1`
+### `models.InputOffice365MgmtPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.InputOffice365MgmtInputCollectionPart0Type1 = /* values here */
+value: models.InputOffice365MgmtPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.InputOffice365MgmtInputCollectionPart1Type1`
+### `models.InputOffice365MgmtPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.InputOffice365MgmtInputCollectionPart1Type1 = /* values here */
+value: models.InputOffice365MgmtPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

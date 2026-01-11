@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.CreateInputInputAppscopeInputCollectionPart0Type`
+### `models.CreateInputInputAppscopeSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputAppscopeInputCollectionPart0Type = /* values here */
+value: models.CreateInputInputAppscopeSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputAppscopeInputCollectionPart1Type`
+### `models.CreateInputInputAppscopeSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputAppscopeInputCollectionPart1Type = /* values here */
+value: models.CreateInputInputAppscopeSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputAppscopeInputCollectionPart0Type1`
+### `models.CreateInputInputAppscopePqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.CreateInputInputAppscopeInputCollectionPart0Type1 = /* values here */
+value: models.CreateInputInputAppscopePqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.CreateInputInputAppscopeInputCollectionPart1Type1`
+### `models.CreateInputInputAppscopePqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.CreateInputInputAppscopeInputCollectionPart1Type1 = /* values here */
+value: models.CreateInputInputAppscopePqEnabledTrueWithPqConstraint = /* values here */
 ```
 

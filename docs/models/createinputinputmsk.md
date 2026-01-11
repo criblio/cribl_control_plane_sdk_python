@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.CreateInputInputMskInputCollectionPart0Type`
+### `models.CreateInputInputMskSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputMskInputCollectionPart0Type = /* values here */
+value: models.CreateInputInputMskSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputMskInputCollectionPart1Type`
+### `models.CreateInputInputMskSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputMskInputCollectionPart1Type = /* values here */
+value: models.CreateInputInputMskSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputMskInputCollectionPart0Type1`
+### `models.CreateInputInputMskPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.CreateInputInputMskInputCollectionPart0Type1 = /* values here */
+value: models.CreateInputInputMskPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.CreateInputInputMskInputCollectionPart1Type1`
+### `models.CreateInputInputMskPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.CreateInputInputMskInputCollectionPart1Type1 = /* values here */
+value: models.CreateInputInputMskPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

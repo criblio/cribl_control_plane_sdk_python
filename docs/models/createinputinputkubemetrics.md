@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.CreateInputInputKubeMetricsInputCollectionPart0Type`
+### `models.CreateInputInputKubeMetricsSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputKubeMetricsInputCollectionPart0Type = /* values here */
+value: models.CreateInputInputKubeMetricsSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputKubeMetricsInputCollectionPart1Type`
+### `models.CreateInputInputKubeMetricsSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputKubeMetricsInputCollectionPart1Type = /* values here */
+value: models.CreateInputInputKubeMetricsSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputKubeMetricsInputCollectionPart0Type1`
+### `models.CreateInputInputKubeMetricsPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.CreateInputInputKubeMetricsInputCollectionPart0Type1 = /* values here */
+value: models.CreateInputInputKubeMetricsPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.CreateInputInputKubeMetricsInputCollectionPart1Type1`
+### `models.CreateInputInputKubeMetricsPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.CreateInputInputKubeMetricsInputCollectionPart1Type1 = /* values here */
+value: models.CreateInputInputKubeMetricsPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

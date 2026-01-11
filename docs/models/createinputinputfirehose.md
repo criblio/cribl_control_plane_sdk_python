@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.CreateInputInputFirehoseInputCollectionPart0Type`
+### `models.CreateInputInputFirehoseSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputFirehoseInputCollectionPart0Type = /* values here */
+value: models.CreateInputInputFirehoseSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputFirehoseInputCollectionPart1Type`
+### `models.CreateInputInputFirehoseSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputFirehoseInputCollectionPart1Type = /* values here */
+value: models.CreateInputInputFirehoseSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputFirehoseInputCollectionPart0Type1`
+### `models.CreateInputInputFirehosePqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.CreateInputInputFirehoseInputCollectionPart0Type1 = /* values here */
+value: models.CreateInputInputFirehosePqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.CreateInputInputFirehoseInputCollectionPart1Type1`
+### `models.CreateInputInputFirehosePqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.CreateInputInputFirehoseInputCollectionPart1Type1 = /* values here */
+value: models.CreateInputInputFirehosePqEnabledTrueWithPqConstraint = /* values here */
 ```
 

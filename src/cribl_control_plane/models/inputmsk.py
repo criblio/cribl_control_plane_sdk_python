@@ -32,7 +32,7 @@ class InputMskType(str, Enum):
     MSK = "msk"
 
 
-class InputMskInputCollectionPart1Type1TypedDict(TypedDict):
+class InputMskPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     type: InputMskType
     brokers: List[str]
     r"""Enter each Kafka bootstrap server you want to use. Specify the hostname and port (such as mykafkabroker:9092) or just the hostname (in which case @{product} will assign port 9092)."""
@@ -133,7 +133,7 @@ class InputMskInputCollectionPart1Type1TypedDict(TypedDict):
     r"""Select or create a stored secret that references your access key and secret key"""
 
 
-class InputMskInputCollectionPart1Type1(BaseModel):
+class InputMskPqEnabledTrueWithPqConstraint(BaseModel):
     type: InputMskType
 
     brokers: List[str]
@@ -348,7 +348,7 @@ class InputMskInputCollectionPart1Type1(BaseModel):
         return value
 
 
-class InputMskInputCollectionPart0Type1TypedDict(TypedDict):
+class InputMskPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     type: InputMskType
     brokers: List[str]
     r"""Enter each Kafka bootstrap server you want to use. Specify the hostname and port (such as mykafkabroker:9092) or just the hostname (in which case @{product} will assign port 9092)."""
@@ -358,6 +358,7 @@ class InputMskInputCollectionPart0Type1TypedDict(TypedDict):
     r"""Region where the MSK cluster is located"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -371,6 +372,321 @@ class InputMskInputCollectionPart0Type1TypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    group_id: NotRequired[str]
+    r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
+    from_beginning: NotRequired[bool]
+    r"""Leave enabled if you want the Source, upon first subscribing to a topic, to read starting with the earliest available message"""
+    session_timeout: NotRequired[float]
+    r"""
+    Timeout used to detect client failures when using Kafka's group-management facilities.
+    If the client sends no heartbeats to the broker before the timeout expires,
+    the broker will remove the client from the group and initiate a rebalance.
+    Value must be between the broker's configured group.min.session.timeout.ms and group.max.session.timeout.ms.
+    See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_session.timeout.ms) for details.
+    """
+    rebalance_timeout: NotRequired[float]
+    r"""Maximum allowed time for each worker to join the group after a rebalance begins.
+    If the timeout is exceeded, the coordinator broker will remove the worker from the group.
+    See [Kafka's documentation](https://kafka.apache.org/documentation/#connectconfigs_rebalance.timeout.ms) for details.
+    """
+    heartbeat_interval: NotRequired[float]
+    r"""Expected time between heartbeats to the consumer coordinator when using Kafka's group-management facilities.
+    Value must be lower than sessionTimeout and typically should not exceed 1/3 of the sessionTimeout value.
+    See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_heartbeat.interval.ms) for details.
+    """
+    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    r"""Fields to add to events from this input"""
+    kafka_schema_registry: NotRequired[KafkaSchemaRegistryAuthenticationTypeTypedDict]
+    connection_timeout: NotRequired[float]
+    r"""Maximum time to wait for a connection to complete successfully"""
+    request_timeout: NotRequired[float]
+    r"""Maximum time to wait for Kafka to respond to a request"""
+    max_retries: NotRequired[float]
+    r"""If messages are failing, you can set the maximum number of retries as high as 100 to prevent loss of data"""
+    max_back_off: NotRequired[float]
+    r"""The maximum wait time for a retry, in milliseconds. Default (and minimum) is 30,000 ms (30 seconds); maximum is 180,000 ms (180 seconds)."""
+    initial_backoff: NotRequired[float]
+    r"""Initial value used to calculate the retry, in milliseconds. Maximum is 600,000 ms (10 minutes)."""
+    backoff_rate: NotRequired[float]
+    r"""Set the backoff multiplier (2-20) to control the retry frequency for failed messages. For faster retries, use a lower multiplier. For slower retries with more delay between attempts, use a higher multiplier. The multiplier is used in an exponential backoff formula; see the Kafka [documentation](https://kafka.js.org/docs/retry-detailed) for details."""
+    authentication_timeout: NotRequired[float]
+    r"""Maximum time to wait for Kafka to respond to an authentication request"""
+    reauthentication_threshold: NotRequired[float]
+    r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
+    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+    aws_secret_key: NotRequired[str]
+    endpoint: NotRequired[str]
+    r"""MSK cluster service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to MSK cluster-compatible endpoint."""
+    signature_version: NotRequired[SignatureVersionOptions]
+    r"""Signature version to use for signing MSK cluster requests"""
+    reuse_connections: NotRequired[bool]
+    r"""Reuse connections between requests, which can improve performance"""
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+    enable_assume_role: NotRequired[bool]
+    r"""Use Assume Role credentials to access MSK"""
+    assume_role_arn: NotRequired[str]
+    r"""Amazon Resource Name (ARN) of the role to assume"""
+    assume_role_external_id: NotRequired[str]
+    r"""External ID to use when assuming role"""
+    duration_seconds: NotRequired[float]
+    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+    tls: NotRequired[TLSSettingsClientSideType1TypedDict]
+    auto_commit_interval: NotRequired[float]
+    r"""How often to commit offsets. If both this and Offset commit threshold are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
+    auto_commit_threshold: NotRequired[float]
+    r"""How many events are needed to trigger an offset commit. If both this and Offset commit interval are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
+    max_bytes_per_partition: NotRequired[float]
+    r"""Maximum amount of data that Kafka will return per partition, per fetch request. Must equal or exceed the maximum message size (maxBytesPerPartition) that Kafka is configured to allow. Otherwise, @{product} can get stuck trying to retrieve messages. Defaults to 1048576 (1 MB)."""
+    max_bytes: NotRequired[float]
+    r"""Maximum number of bytes that Kafka will return per fetch request. Defaults to 10485760 (10 MB)."""
+    max_socket_errors: NotRequired[float]
+    r"""Maximum number of network errors before the consumer re-creates a socket"""
+    description: NotRequired[str]
+    aws_api_key: NotRequired[str]
+    aws_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your access key and secret key"""
+
+
+class InputMskPqEnabledFalseWithPqConstraint(BaseModel):
+    type: InputMskType
+
+    brokers: List[str]
+    r"""Enter each Kafka bootstrap server you want to use. Specify the hostname and port (such as mykafkabroker:9092) or just the hostname (in which case @{product} will assign port 9092)."""
+
+    topics: List[str]
+    r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
+
+    region: str
+    r"""Region where the MSK cluster is located"""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    pq: Optional[PqType] = None
+
+    id: Optional[str] = None
+    r"""Unique ID for this input"""
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnections]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = "Cribl"
+    r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
+
+    from_beginning: Annotated[Optional[bool], pydantic.Field(alias="fromBeginning")] = (
+        True
+    )
+    r"""Leave enabled if you want the Source, upon first subscribing to a topic, to read starting with the earliest available message"""
+
+    session_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="sessionTimeout")
+    ] = 30000
+    r"""
+    Timeout used to detect client failures when using Kafka's group-management facilities.
+    If the client sends no heartbeats to the broker before the timeout expires,
+    the broker will remove the client from the group and initiate a rebalance.
+    Value must be between the broker's configured group.min.session.timeout.ms and group.max.session.timeout.ms.
+    See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_session.timeout.ms) for details.
+    """
+
+    rebalance_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="rebalanceTimeout")
+    ] = 60000
+    r"""Maximum allowed time for each worker to join the group after a rebalance begins.
+    If the timeout is exceeded, the coordinator broker will remove the worker from the group.
+    See [Kafka's documentation](https://kafka.apache.org/documentation/#connectconfigs_rebalance.timeout.ms) for details.
+    """
+
+    heartbeat_interval: Annotated[
+        Optional[float], pydantic.Field(alias="heartbeatInterval")
+    ] = 3000
+    r"""Expected time between heartbeats to the consumer coordinator when using Kafka's group-management facilities.
+    Value must be lower than sessionTimeout and typically should not exceed 1/3 of the sessionTimeout value.
+    See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_heartbeat.interval.ms) for details.
+    """
+
+    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    r"""Fields to add to events from this input"""
+
+    kafka_schema_registry: Annotated[
+        Optional[KafkaSchemaRegistryAuthenticationType],
+        pydantic.Field(alias="kafkaSchemaRegistry"),
+    ] = None
+
+    connection_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="connectionTimeout")
+    ] = 10000
+    r"""Maximum time to wait for a connection to complete successfully"""
+
+    request_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="requestTimeout")
+    ] = 60000
+    r"""Maximum time to wait for Kafka to respond to a request"""
+
+    max_retries: Annotated[Optional[float], pydantic.Field(alias="maxRetries")] = 5
+    r"""If messages are failing, you can set the maximum number of retries as high as 100 to prevent loss of data"""
+
+    max_back_off: Annotated[Optional[float], pydantic.Field(alias="maxBackOff")] = 30000
+    r"""The maximum wait time for a retry, in milliseconds. Default (and minimum) is 30,000 ms (30 seconds); maximum is 180,000 ms (180 seconds)."""
+
+    initial_backoff: Annotated[
+        Optional[float], pydantic.Field(alias="initialBackoff")
+    ] = 300
+    r"""Initial value used to calculate the retry, in milliseconds. Maximum is 600,000 ms (10 minutes)."""
+
+    backoff_rate: Annotated[Optional[float], pydantic.Field(alias="backoffRate")] = 2
+    r"""Set the backoff multiplier (2-20) to control the retry frequency for failed messages. For faster retries, use a lower multiplier. For slower retries with more delay between attempts, use a higher multiplier. The multiplier is used in an exponential backoff formula; see the Kafka [documentation](https://kafka.js.org/docs/retry-detailed) for details."""
+
+    authentication_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="authenticationTimeout")
+    ] = 10000
+    r"""Maximum time to wait for Kafka to respond to an authentication request"""
+
+    reauthentication_threshold: Annotated[
+        Optional[float], pydantic.Field(alias="reauthenticationThreshold")
+    ] = 10000
+    r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
+
+    aws_authentication_method: Annotated[
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        pydantic.Field(alias="awsAuthenticationMethod"),
+    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+
+    aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
+        None
+    )
+
+    endpoint: Optional[str] = None
+    r"""MSK cluster service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to MSK cluster-compatible endpoint."""
+
+    signature_version: Annotated[
+        Optional[SignatureVersionOptions], pydantic.Field(alias="signatureVersion")
+    ] = SignatureVersionOptions.V4
+    r"""Signature version to use for signing MSK cluster requests"""
+
+    reuse_connections: Annotated[
+        Optional[bool], pydantic.Field(alias="reuseConnections")
+    ] = True
+    r"""Reuse connections between requests, which can improve performance"""
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = True
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+
+    enable_assume_role: Annotated[
+        Optional[bool], pydantic.Field(alias="enableAssumeRole")
+    ] = False
+    r"""Use Assume Role credentials to access MSK"""
+
+    assume_role_arn: Annotated[Optional[str], pydantic.Field(alias="assumeRoleArn")] = (
+        None
+    )
+    r"""Amazon Resource Name (ARN) of the role to assume"""
+
+    assume_role_external_id: Annotated[
+        Optional[str], pydantic.Field(alias="assumeRoleExternalId")
+    ] = None
+    r"""External ID to use when assuming role"""
+
+    duration_seconds: Annotated[
+        Optional[float], pydantic.Field(alias="durationSeconds")
+    ] = 3600
+    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+
+    tls: Optional[TLSSettingsClientSideType1] = None
+
+    auto_commit_interval: Annotated[
+        Optional[float], pydantic.Field(alias="autoCommitInterval")
+    ] = None
+    r"""How often to commit offsets. If both this and Offset commit threshold are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
+
+    auto_commit_threshold: Annotated[
+        Optional[float], pydantic.Field(alias="autoCommitThreshold")
+    ] = None
+    r"""How many events are needed to trigger an offset commit. If both this and Offset commit interval are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
+
+    max_bytes_per_partition: Annotated[
+        Optional[float], pydantic.Field(alias="maxBytesPerPartition")
+    ] = 1048576
+    r"""Maximum amount of data that Kafka will return per partition, per fetch request. Must equal or exceed the maximum message size (maxBytesPerPartition) that Kafka is configured to allow. Otherwise, @{product} can get stuck trying to retrieve messages. Defaults to 1048576 (1 MB)."""
+
+    max_bytes: Annotated[Optional[float], pydantic.Field(alias="maxBytes")] = 10485760
+    r"""Maximum number of bytes that Kafka will return per fetch request. Defaults to 10485760 (10 MB)."""
+
+    max_socket_errors: Annotated[
+        Optional[float], pydantic.Field(alias="maxSocketErrors")
+    ] = 0
+    r"""Maximum number of network errors before the consumer re-creates a socket"""
+
+    description: Optional[str] = None
+
+    aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+
+    aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
+    r"""Select or create a stored secret that references your access key and secret key"""
+
+    @field_serializer("aws_authentication_method")
+    def serialize_aws_authentication_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("signature_version")
+    def serialize_signature_version(self, value):
+        if isinstance(value, str):
+            try:
+                return models.SignatureVersionOptions(value)
+            except ValueError:
+                return value
+        return value
+
+
+class InputMskSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
+    type: InputMskType
+    brokers: List[str]
+    r"""Enter each Kafka bootstrap server you want to use. Specify the hostname and port (such as mykafkabroker:9092) or just the hostname (in which case @{product} will assign port 9092)."""
+    topics: List[str]
+    r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
+    region: str
+    r"""Region where the MSK cluster is located"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    id: NotRequired[str]
+    r"""Unique ID for this input"""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
     pq: NotRequired[PqTypeTypedDict]
     group_id: NotRequired[str]
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
@@ -449,7 +765,7 @@ class InputMskInputCollectionPart0Type1TypedDict(TypedDict):
     r"""Select or create a stored secret that references your access key and secret key"""
 
 
-class InputMskInputCollectionPart0Type1(BaseModel):
+class InputMskSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     type: InputMskType
 
     brokers: List[str]
@@ -461,8 +777,13 @@ class InputMskInputCollectionPart0Type1(BaseModel):
     region: str
     r"""Region where the MSK cluster is located"""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    connections: Optional[List[ItemsTypeConnections]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -472,19 +793,14 @@ class InputMskInputCollectionPart0Type1(BaseModel):
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -664,7 +980,7 @@ class InputMskInputCollectionPart0Type1(BaseModel):
         return value
 
 
-class InputMskInputCollectionPart1TypeTypedDict(TypedDict):
+class InputMskSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
     type: InputMskType
     brokers: List[str]
     r"""Enter each Kafka bootstrap server you want to use. Specify the hostname and port (such as mykafkabroker:9092) or just the hostname (in which case @{product} will assign port 9092)."""
@@ -765,7 +1081,7 @@ class InputMskInputCollectionPart1TypeTypedDict(TypedDict):
     r"""Select or create a stored secret that references your access key and secret key"""
 
 
-class InputMskInputCollectionPart1Type(BaseModel):
+class InputMskSendToRoutesTrueWithConnectionsConstraint(BaseModel):
     type: InputMskType
 
     brokers: List[str]
@@ -801,322 +1117,6 @@ class InputMskInputCollectionPart1Type(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
-
-    pq: Optional[PqType] = None
-
-    group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = "Cribl"
-    r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
-
-    from_beginning: Annotated[Optional[bool], pydantic.Field(alias="fromBeginning")] = (
-        True
-    )
-    r"""Leave enabled if you want the Source, upon first subscribing to a topic, to read starting with the earliest available message"""
-
-    session_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="sessionTimeout")
-    ] = 30000
-    r"""
-    Timeout used to detect client failures when using Kafka's group-management facilities.
-    If the client sends no heartbeats to the broker before the timeout expires,
-    the broker will remove the client from the group and initiate a rebalance.
-    Value must be between the broker's configured group.min.session.timeout.ms and group.max.session.timeout.ms.
-    See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_session.timeout.ms) for details.
-    """
-
-    rebalance_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="rebalanceTimeout")
-    ] = 60000
-    r"""Maximum allowed time for each worker to join the group after a rebalance begins.
-    If the timeout is exceeded, the coordinator broker will remove the worker from the group.
-    See [Kafka's documentation](https://kafka.apache.org/documentation/#connectconfigs_rebalance.timeout.ms) for details.
-    """
-
-    heartbeat_interval: Annotated[
-        Optional[float], pydantic.Field(alias="heartbeatInterval")
-    ] = 3000
-    r"""Expected time between heartbeats to the consumer coordinator when using Kafka's group-management facilities.
-    Value must be lower than sessionTimeout and typically should not exceed 1/3 of the sessionTimeout value.
-    See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_heartbeat.interval.ms) for details.
-    """
-
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
-    r"""Fields to add to events from this input"""
-
-    kafka_schema_registry: Annotated[
-        Optional[KafkaSchemaRegistryAuthenticationType],
-        pydantic.Field(alias="kafkaSchemaRegistry"),
-    ] = None
-
-    connection_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="connectionTimeout")
-    ] = 10000
-    r"""Maximum time to wait for a connection to complete successfully"""
-
-    request_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="requestTimeout")
-    ] = 60000
-    r"""Maximum time to wait for Kafka to respond to a request"""
-
-    max_retries: Annotated[Optional[float], pydantic.Field(alias="maxRetries")] = 5
-    r"""If messages are failing, you can set the maximum number of retries as high as 100 to prevent loss of data"""
-
-    max_back_off: Annotated[Optional[float], pydantic.Field(alias="maxBackOff")] = 30000
-    r"""The maximum wait time for a retry, in milliseconds. Default (and minimum) is 30,000 ms (30 seconds); maximum is 180,000 ms (180 seconds)."""
-
-    initial_backoff: Annotated[
-        Optional[float], pydantic.Field(alias="initialBackoff")
-    ] = 300
-    r"""Initial value used to calculate the retry, in milliseconds. Maximum is 600,000 ms (10 minutes)."""
-
-    backoff_rate: Annotated[Optional[float], pydantic.Field(alias="backoffRate")] = 2
-    r"""Set the backoff multiplier (2-20) to control the retry frequency for failed messages. For faster retries, use a lower multiplier. For slower retries with more delay between attempts, use a higher multiplier. The multiplier is used in an exponential backoff formula; see the Kafka [documentation](https://kafka.js.org/docs/retry-detailed) for details."""
-
-    authentication_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="authenticationTimeout")
-    ] = 10000
-    r"""Maximum time to wait for Kafka to respond to an authentication request"""
-
-    reauthentication_threshold: Annotated[
-        Optional[float], pydantic.Field(alias="reauthenticationThreshold")
-    ] = 10000
-    r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
-
-    aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
-        pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
-    r"""AWS authentication method. Choose Auto to use IAM roles."""
-
-    aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
-        None
-    )
-
-    endpoint: Optional[str] = None
-    r"""MSK cluster service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to MSK cluster-compatible endpoint."""
-
-    signature_version: Annotated[
-        Optional[SignatureVersionOptions], pydantic.Field(alias="signatureVersion")
-    ] = SignatureVersionOptions.V4
-    r"""Signature version to use for signing MSK cluster requests"""
-
-    reuse_connections: Annotated[
-        Optional[bool], pydantic.Field(alias="reuseConnections")
-    ] = True
-    r"""Reuse connections between requests, which can improve performance"""
-
-    reject_unauthorized: Annotated[
-        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
-    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
-
-    enable_assume_role: Annotated[
-        Optional[bool], pydantic.Field(alias="enableAssumeRole")
-    ] = False
-    r"""Use Assume Role credentials to access MSK"""
-
-    assume_role_arn: Annotated[Optional[str], pydantic.Field(alias="assumeRoleArn")] = (
-        None
-    )
-    r"""Amazon Resource Name (ARN) of the role to assume"""
-
-    assume_role_external_id: Annotated[
-        Optional[str], pydantic.Field(alias="assumeRoleExternalId")
-    ] = None
-    r"""External ID to use when assuming role"""
-
-    duration_seconds: Annotated[
-        Optional[float], pydantic.Field(alias="durationSeconds")
-    ] = 3600
-    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
-
-    tls: Optional[TLSSettingsClientSideType1] = None
-
-    auto_commit_interval: Annotated[
-        Optional[float], pydantic.Field(alias="autoCommitInterval")
-    ] = None
-    r"""How often to commit offsets. If both this and Offset commit threshold are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
-
-    auto_commit_threshold: Annotated[
-        Optional[float], pydantic.Field(alias="autoCommitThreshold")
-    ] = None
-    r"""How many events are needed to trigger an offset commit. If both this and Offset commit interval are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
-
-    max_bytes_per_partition: Annotated[
-        Optional[float], pydantic.Field(alias="maxBytesPerPartition")
-    ] = 1048576
-    r"""Maximum amount of data that Kafka will return per partition, per fetch request. Must equal or exceed the maximum message size (maxBytesPerPartition) that Kafka is configured to allow. Otherwise, @{product} can get stuck trying to retrieve messages. Defaults to 1048576 (1 MB)."""
-
-    max_bytes: Annotated[Optional[float], pydantic.Field(alias="maxBytes")] = 10485760
-    r"""Maximum number of bytes that Kafka will return per fetch request. Defaults to 10485760 (10 MB)."""
-
-    max_socket_errors: Annotated[
-        Optional[float], pydantic.Field(alias="maxSocketErrors")
-    ] = 0
-    r"""Maximum number of network errors before the consumer re-creates a socket"""
-
-    description: Optional[str] = None
-
-    aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
-
-    aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
-    r"""Select or create a stored secret that references your access key and secret key"""
-
-    @field_serializer("aws_authentication_method")
-    def serialize_aws_authentication_method(self, value):
-        if isinstance(value, str):
-            try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("signature_version")
-    def serialize_signature_version(self, value):
-        if isinstance(value, str):
-            try:
-                return models.SignatureVersionOptions(value)
-            except ValueError:
-                return value
-        return value
-
-
-class InputMskInputCollectionPart0TypeTypedDict(TypedDict):
-    type: InputMskType
-    brokers: List[str]
-    r"""Enter each Kafka bootstrap server you want to use. Specify the hostname and port (such as mykafkabroker:9092) or just the hostname (in which case @{product} will assign port 9092)."""
-    topics: List[str]
-    r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
-    region: str
-    r"""Region where the MSK cluster is located"""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-    id: NotRequired[str]
-    r"""Unique ID for this input"""
-    disabled: NotRequired[bool]
-    pipeline: NotRequired[str]
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-    environment: NotRequired[str]
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[PqTypeTypedDict]
-    group_id: NotRequired[str]
-    r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
-    from_beginning: NotRequired[bool]
-    r"""Leave enabled if you want the Source, upon first subscribing to a topic, to read starting with the earliest available message"""
-    session_timeout: NotRequired[float]
-    r"""
-    Timeout used to detect client failures when using Kafka's group-management facilities.
-    If the client sends no heartbeats to the broker before the timeout expires,
-    the broker will remove the client from the group and initiate a rebalance.
-    Value must be between the broker's configured group.min.session.timeout.ms and group.max.session.timeout.ms.
-    See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_session.timeout.ms) for details.
-    """
-    rebalance_timeout: NotRequired[float]
-    r"""Maximum allowed time for each worker to join the group after a rebalance begins.
-    If the timeout is exceeded, the coordinator broker will remove the worker from the group.
-    See [Kafka's documentation](https://kafka.apache.org/documentation/#connectconfigs_rebalance.timeout.ms) for details.
-    """
-    heartbeat_interval: NotRequired[float]
-    r"""Expected time between heartbeats to the consumer coordinator when using Kafka's group-management facilities.
-    Value must be lower than sessionTimeout and typically should not exceed 1/3 of the sessionTimeout value.
-    See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_heartbeat.interval.ms) for details.
-    """
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
-    r"""Fields to add to events from this input"""
-    kafka_schema_registry: NotRequired[KafkaSchemaRegistryAuthenticationTypeTypedDict]
-    connection_timeout: NotRequired[float]
-    r"""Maximum time to wait for a connection to complete successfully"""
-    request_timeout: NotRequired[float]
-    r"""Maximum time to wait for Kafka to respond to a request"""
-    max_retries: NotRequired[float]
-    r"""If messages are failing, you can set the maximum number of retries as high as 100 to prevent loss of data"""
-    max_back_off: NotRequired[float]
-    r"""The maximum wait time for a retry, in milliseconds. Default (and minimum) is 30,000 ms (30 seconds); maximum is 180,000 ms (180 seconds)."""
-    initial_backoff: NotRequired[float]
-    r"""Initial value used to calculate the retry, in milliseconds. Maximum is 600,000 ms (10 minutes)."""
-    backoff_rate: NotRequired[float]
-    r"""Set the backoff multiplier (2-20) to control the retry frequency for failed messages. For faster retries, use a lower multiplier. For slower retries with more delay between attempts, use a higher multiplier. The multiplier is used in an exponential backoff formula; see the Kafka [documentation](https://kafka.js.org/docs/retry-detailed) for details."""
-    authentication_timeout: NotRequired[float]
-    r"""Maximum time to wait for Kafka to respond to an authentication request"""
-    reauthentication_threshold: NotRequired[float]
-    r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
-    r"""AWS authentication method. Choose Auto to use IAM roles."""
-    aws_secret_key: NotRequired[str]
-    endpoint: NotRequired[str]
-    r"""MSK cluster service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to MSK cluster-compatible endpoint."""
-    signature_version: NotRequired[SignatureVersionOptions]
-    r"""Signature version to use for signing MSK cluster requests"""
-    reuse_connections: NotRequired[bool]
-    r"""Reuse connections between requests, which can improve performance"""
-    reject_unauthorized: NotRequired[bool]
-    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
-    enable_assume_role: NotRequired[bool]
-    r"""Use Assume Role credentials to access MSK"""
-    assume_role_arn: NotRequired[str]
-    r"""Amazon Resource Name (ARN) of the role to assume"""
-    assume_role_external_id: NotRequired[str]
-    r"""External ID to use when assuming role"""
-    duration_seconds: NotRequired[float]
-    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
-    tls: NotRequired[TLSSettingsClientSideType1TypedDict]
-    auto_commit_interval: NotRequired[float]
-    r"""How often to commit offsets. If both this and Offset commit threshold are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
-    auto_commit_threshold: NotRequired[float]
-    r"""How many events are needed to trigger an offset commit. If both this and Offset commit interval are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
-    max_bytes_per_partition: NotRequired[float]
-    r"""Maximum amount of data that Kafka will return per partition, per fetch request. Must equal or exceed the maximum message size (maxBytesPerPartition) that Kafka is configured to allow. Otherwise, @{product} can get stuck trying to retrieve messages. Defaults to 1048576 (1 MB)."""
-    max_bytes: NotRequired[float]
-    r"""Maximum number of bytes that Kafka will return per fetch request. Defaults to 10485760 (10 MB)."""
-    max_socket_errors: NotRequired[float]
-    r"""Maximum number of network errors before the consumer re-creates a socket"""
-    description: NotRequired[str]
-    aws_api_key: NotRequired[str]
-    aws_secret: NotRequired[str]
-    r"""Select or create a stored secret that references your access key and secret key"""
-
-
-class InputMskInputCollectionPart0Type(BaseModel):
-    type: InputMskType
-
-    brokers: List[str]
-    r"""Enter each Kafka bootstrap server you want to use. Specify the hostname and port (such as mykafkabroker:9092) or just the hostname (in which case @{product} will assign port 9092)."""
-
-    topics: List[str]
-    r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
-
-    region: str
-    r"""Region where the MSK cluster is located"""
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    id: Optional[str] = None
-    r"""Unique ID for this input"""
-
-    disabled: Optional[bool] = False
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-
-    environment: Optional[str] = None
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -1299,10 +1299,10 @@ class InputMskInputCollectionPart0Type(BaseModel):
 InputMskTypedDict = TypeAliasType(
     "InputMskTypedDict",
     Union[
-        InputMskInputCollectionPart0TypeTypedDict,
-        InputMskInputCollectionPart1TypeTypedDict,
-        InputMskInputCollectionPart0Type1TypedDict,
-        InputMskInputCollectionPart1Type1TypedDict,
+        InputMskSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        InputMskSendToRoutesFalseWithConnectionsConstraintTypedDict,
+        InputMskPqEnabledFalseWithPqConstraintTypedDict,
+        InputMskPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
 
@@ -1310,9 +1310,9 @@ InputMskTypedDict = TypeAliasType(
 InputMsk = TypeAliasType(
     "InputMsk",
     Union[
-        InputMskInputCollectionPart0Type,
-        InputMskInputCollectionPart1Type,
-        InputMskInputCollectionPart0Type1,
-        InputMskInputCollectionPart1Type1,
+        InputMskSendToRoutesTrueWithConnectionsConstraint,
+        InputMskSendToRoutesFalseWithConnectionsConstraint,
+        InputMskPqEnabledFalseWithPqConstraint,
+        InputMskPqEnabledTrueWithPqConstraint,
     ],
 )

@@ -61,7 +61,7 @@ class InputOffice365ServiceContentConfig(BaseModel):
         return value
 
 
-class InputOffice365ServiceInputCollectionPart1Type1TypedDict(TypedDict):
+class InputOffice365ServicePqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     type: InputOffice365ServiceType
     tenant_id: str
     r"""Office 365 Azure Tenant ID"""
@@ -111,7 +111,7 @@ class InputOffice365ServiceInputCollectionPart1Type1TypedDict(TypedDict):
     r"""Select or create a stored text secret"""
 
 
-class InputOffice365ServiceInputCollectionPart1Type1(BaseModel):
+class InputOffice365ServicePqEnabledTrueWithPqConstraint(BaseModel):
     type: InputOffice365ServiceType
 
     tenant_id: Annotated[str, pydantic.Field(alias="tenantId")]
@@ -221,7 +221,7 @@ class InputOffice365ServiceInputCollectionPart1Type1(BaseModel):
         return value
 
 
-class InputOffice365ServiceInputCollectionPart0Type1TypedDict(TypedDict):
+class InputOffice365ServicePqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     type: InputOffice365ServiceType
     tenant_id: str
     r"""Office 365 Azure Tenant ID"""
@@ -229,6 +229,7 @@ class InputOffice365ServiceInputCollectionPart0Type1TypedDict(TypedDict):
     r"""Office 365 Azure Application ID"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -242,6 +243,167 @@ class InputOffice365ServiceInputCollectionPart0Type1TypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    plan_type: NotRequired[SubscriptionPlanOptions]
+    r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
+    timeout: NotRequired[float]
+    r"""HTTP request inactivity timeout, use 0 to disable"""
+    keep_alive_time: NotRequired[float]
+    r"""How often workers should check in with the scheduler to keep job subscription alive"""
+    job_timeout: NotRequired[str]
+    r"""Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time."""
+    max_missed_keep_alives: NotRequired[float]
+    r"""The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked."""
+    ttl: NotRequired[str]
+    r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
+    ignore_group_jobs_limit: NotRequired[bool]
+    r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
+    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    r"""Fields to add to events from this input"""
+    content_config: NotRequired[List[InputOffice365ServiceContentConfigTypedDict]]
+    r"""Enable Office 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."""
+    retry_rules: NotRequired[RetryRulesType1TypedDict]
+    auth_type: NotRequired[AuthenticationMethodOptions1]
+    r"""Enter client secret directly, or select a stored secret"""
+    description: NotRequired[str]
+    client_secret: NotRequired[str]
+    r"""Office 365 Azure client secret"""
+    text_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
+
+
+class InputOffice365ServicePqEnabledFalseWithPqConstraint(BaseModel):
+    type: InputOffice365ServiceType
+
+    tenant_id: Annotated[str, pydantic.Field(alias="tenantId")]
+    r"""Office 365 Azure Tenant ID"""
+
+    app_id: Annotated[str, pydantic.Field(alias="appId")]
+    r"""Office 365 Azure Application ID"""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    pq: Optional[PqType] = None
+
+    id: Optional[str] = None
+    r"""Unique ID for this input"""
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnections]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    plan_type: Annotated[
+        Optional[SubscriptionPlanOptions], pydantic.Field(alias="planType")
+    ] = SubscriptionPlanOptions.ENTERPRISE_GCC
+    r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
+
+    timeout: Optional[float] = 300
+    r"""HTTP request inactivity timeout, use 0 to disable"""
+
+    keep_alive_time: Annotated[
+        Optional[float], pydantic.Field(alias="keepAliveTime")
+    ] = 30
+    r"""How often workers should check in with the scheduler to keep job subscription alive"""
+
+    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = "0"
+    r"""Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time."""
+
+    max_missed_keep_alives: Annotated[
+        Optional[float], pydantic.Field(alias="maxMissedKeepAlives")
+    ] = 3
+    r"""The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked."""
+
+    ttl: Optional[str] = "4h"
+    r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
+
+    ignore_group_jobs_limit: Annotated[
+        Optional[bool], pydantic.Field(alias="ignoreGroupJobsLimit")
+    ] = False
+    r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
+
+    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    r"""Fields to add to events from this input"""
+
+    content_config: Annotated[
+        Optional[List[InputOffice365ServiceContentConfig]],
+        pydantic.Field(alias="contentConfig"),
+    ] = None
+    r"""Enable Office 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."""
+
+    retry_rules: Annotated[
+        Optional[RetryRulesType1], pydantic.Field(alias="retryRules")
+    ] = None
+
+    auth_type: Annotated[
+        Optional[AuthenticationMethodOptions1], pydantic.Field(alias="authType")
+    ] = AuthenticationMethodOptions1.MANUAL
+    r"""Enter client secret directly, or select a stored secret"""
+
+    description: Optional[str] = None
+
+    client_secret: Annotated[Optional[str], pydantic.Field(alias="clientSecret")] = None
+    r"""Office 365 Azure client secret"""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a stored text secret"""
+
+    @field_serializer("plan_type")
+    def serialize_plan_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.SubscriptionPlanOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("auth_type")
+    def serialize_auth_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.AuthenticationMethodOptions1(value)
+            except ValueError:
+                return value
+        return value
+
+
+class InputOffice365ServiceSendToRoutesFalseWithConnectionsConstraintTypedDict(
+    TypedDict
+):
+    type: InputOffice365ServiceType
+    tenant_id: str
+    r"""Office 365 Azure Tenant ID"""
+    app_id: str
+    r"""Office 365 Azure Application ID"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    id: NotRequired[str]
+    r"""Unique ID for this input"""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
     pq: NotRequired[PqTypeTypedDict]
     plan_type: NotRequired[SubscriptionPlanOptions]
     r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
@@ -271,7 +433,7 @@ class InputOffice365ServiceInputCollectionPart0Type1TypedDict(TypedDict):
     r"""Select or create a stored text secret"""
 
 
-class InputOffice365ServiceInputCollectionPart0Type1(BaseModel):
+class InputOffice365ServiceSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     type: InputOffice365ServiceType
 
     tenant_id: Annotated[str, pydantic.Field(alias="tenantId")]
@@ -280,8 +442,13 @@ class InputOffice365ServiceInputCollectionPart0Type1(BaseModel):
     app_id: Annotated[str, pydantic.Field(alias="appId")]
     r"""Office 365 Azure Application ID"""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    connections: Optional[List[ItemsTypeConnections]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -291,19 +458,14 @@ class InputOffice365ServiceInputCollectionPart0Type1(BaseModel):
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -381,7 +543,9 @@ class InputOffice365ServiceInputCollectionPart0Type1(BaseModel):
         return value
 
 
-class InputOffice365ServiceInputCollectionPart1TypeTypedDict(TypedDict):
+class InputOffice365ServiceSendToRoutesTrueWithConnectionsConstraintTypedDict(
+    TypedDict
+):
     type: InputOffice365ServiceType
     tenant_id: str
     r"""Office 365 Azure Tenant ID"""
@@ -431,7 +595,7 @@ class InputOffice365ServiceInputCollectionPart1TypeTypedDict(TypedDict):
     r"""Select or create a stored text secret"""
 
 
-class InputOffice365ServiceInputCollectionPart1Type(BaseModel):
+class InputOffice365ServiceSendToRoutesTrueWithConnectionsConstraint(BaseModel):
     type: InputOffice365ServiceType
 
     tenant_id: Annotated[str, pydantic.Field(alias="tenantId")]
@@ -464,166 +628,6 @@ class InputOffice365ServiceInputCollectionPart1Type(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
-
-    pq: Optional[PqType] = None
-
-    plan_type: Annotated[
-        Optional[SubscriptionPlanOptions], pydantic.Field(alias="planType")
-    ] = SubscriptionPlanOptions.ENTERPRISE_GCC
-    r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
-
-    timeout: Optional[float] = 300
-    r"""HTTP request inactivity timeout, use 0 to disable"""
-
-    keep_alive_time: Annotated[
-        Optional[float], pydantic.Field(alias="keepAliveTime")
-    ] = 30
-    r"""How often workers should check in with the scheduler to keep job subscription alive"""
-
-    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = "0"
-    r"""Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time."""
-
-    max_missed_keep_alives: Annotated[
-        Optional[float], pydantic.Field(alias="maxMissedKeepAlives")
-    ] = 3
-    r"""The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked."""
-
-    ttl: Optional[str] = "4h"
-    r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
-
-    ignore_group_jobs_limit: Annotated[
-        Optional[bool], pydantic.Field(alias="ignoreGroupJobsLimit")
-    ] = False
-    r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
-
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
-    r"""Fields to add to events from this input"""
-
-    content_config: Annotated[
-        Optional[List[InputOffice365ServiceContentConfig]],
-        pydantic.Field(alias="contentConfig"),
-    ] = None
-    r"""Enable Office 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."""
-
-    retry_rules: Annotated[
-        Optional[RetryRulesType1], pydantic.Field(alias="retryRules")
-    ] = None
-
-    auth_type: Annotated[
-        Optional[AuthenticationMethodOptions1], pydantic.Field(alias="authType")
-    ] = AuthenticationMethodOptions1.MANUAL
-    r"""Enter client secret directly, or select a stored secret"""
-
-    description: Optional[str] = None
-
-    client_secret: Annotated[Optional[str], pydantic.Field(alias="clientSecret")] = None
-    r"""Office 365 Azure client secret"""
-
-    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
-    r"""Select or create a stored text secret"""
-
-    @field_serializer("plan_type")
-    def serialize_plan_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.SubscriptionPlanOptions(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("auth_type")
-    def serialize_auth_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.AuthenticationMethodOptions1(value)
-            except ValueError:
-                return value
-        return value
-
-
-class InputOffice365ServiceInputCollectionPart0TypeTypedDict(TypedDict):
-    type: InputOffice365ServiceType
-    tenant_id: str
-    r"""Office 365 Azure Tenant ID"""
-    app_id: str
-    r"""Office 365 Azure Application ID"""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-    id: NotRequired[str]
-    r"""Unique ID for this input"""
-    disabled: NotRequired[bool]
-    pipeline: NotRequired[str]
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-    environment: NotRequired[str]
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[PqTypeTypedDict]
-    plan_type: NotRequired[SubscriptionPlanOptions]
-    r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
-    timeout: NotRequired[float]
-    r"""HTTP request inactivity timeout, use 0 to disable"""
-    keep_alive_time: NotRequired[float]
-    r"""How often workers should check in with the scheduler to keep job subscription alive"""
-    job_timeout: NotRequired[str]
-    r"""Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time."""
-    max_missed_keep_alives: NotRequired[float]
-    r"""The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked."""
-    ttl: NotRequired[str]
-    r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
-    ignore_group_jobs_limit: NotRequired[bool]
-    r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
-    r"""Fields to add to events from this input"""
-    content_config: NotRequired[List[InputOffice365ServiceContentConfigTypedDict]]
-    r"""Enable Office 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."""
-    retry_rules: NotRequired[RetryRulesType1TypedDict]
-    auth_type: NotRequired[AuthenticationMethodOptions1]
-    r"""Enter client secret directly, or select a stored secret"""
-    description: NotRequired[str]
-    client_secret: NotRequired[str]
-    r"""Office 365 Azure client secret"""
-    text_secret: NotRequired[str]
-    r"""Select or create a stored text secret"""
-
-
-class InputOffice365ServiceInputCollectionPart0Type(BaseModel):
-    type: InputOffice365ServiceType
-
-    tenant_id: Annotated[str, pydantic.Field(alias="tenantId")]
-    r"""Office 365 Azure Tenant ID"""
-
-    app_id: Annotated[str, pydantic.Field(alias="appId")]
-    r"""Office 365 Azure Application ID"""
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    id: Optional[str] = None
-    r"""Unique ID for this input"""
-
-    disabled: Optional[bool] = False
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-
-    environment: Optional[str] = None
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -704,10 +708,10 @@ class InputOffice365ServiceInputCollectionPart0Type(BaseModel):
 InputOffice365ServiceTypedDict = TypeAliasType(
     "InputOffice365ServiceTypedDict",
     Union[
-        InputOffice365ServiceInputCollectionPart0TypeTypedDict,
-        InputOffice365ServiceInputCollectionPart1TypeTypedDict,
-        InputOffice365ServiceInputCollectionPart0Type1TypedDict,
-        InputOffice365ServiceInputCollectionPart1Type1TypedDict,
+        InputOffice365ServiceSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        InputOffice365ServiceSendToRoutesFalseWithConnectionsConstraintTypedDict,
+        InputOffice365ServicePqEnabledFalseWithPqConstraintTypedDict,
+        InputOffice365ServicePqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
 
@@ -715,9 +719,9 @@ InputOffice365ServiceTypedDict = TypeAliasType(
 InputOffice365Service = TypeAliasType(
     "InputOffice365Service",
     Union[
-        InputOffice365ServiceInputCollectionPart0Type,
-        InputOffice365ServiceInputCollectionPart1Type,
-        InputOffice365ServiceInputCollectionPart0Type1,
-        InputOffice365ServiceInputCollectionPart1Type1,
+        InputOffice365ServiceSendToRoutesTrueWithConnectionsConstraint,
+        InputOffice365ServiceSendToRoutesFalseWithConnectionsConstraint,
+        InputOffice365ServicePqEnabledFalseWithPqConstraint,
+        InputOffice365ServicePqEnabledTrueWithPqConstraint,
     ],
 )

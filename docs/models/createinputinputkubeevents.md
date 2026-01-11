@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.CreateInputInputKubeEventsInputCollectionPart0Type`
+### `models.CreateInputInputKubeEventsSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputKubeEventsInputCollectionPart0Type = /* values here */
+value: models.CreateInputInputKubeEventsSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputKubeEventsInputCollectionPart1Type`
+### `models.CreateInputInputKubeEventsSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputKubeEventsInputCollectionPart1Type = /* values here */
+value: models.CreateInputInputKubeEventsSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputKubeEventsInputCollectionPart0Type1`
+### `models.CreateInputInputKubeEventsPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.CreateInputInputKubeEventsInputCollectionPart0Type1 = /* values here */
+value: models.CreateInputInputKubeEventsPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.CreateInputInputKubeEventsInputCollectionPart1Type1`
+### `models.CreateInputInputKubeEventsPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.CreateInputInputKubeEventsInputCollectionPart1Type1 = /* values here */
+value: models.CreateInputInputKubeEventsPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

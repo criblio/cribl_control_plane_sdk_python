@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.CreateInputInputSqsInputCollectionPart0Type`
+### `models.CreateInputInputSqsSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputSqsInputCollectionPart0Type = /* values here */
+value: models.CreateInputInputSqsSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputSqsInputCollectionPart1Type`
+### `models.CreateInputInputSqsSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputSqsInputCollectionPart1Type = /* values here */
+value: models.CreateInputInputSqsSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputSqsInputCollectionPart0Type1`
+### `models.CreateInputInputSqsPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.CreateInputInputSqsInputCollectionPart0Type1 = /* values here */
+value: models.CreateInputInputSqsPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.CreateInputInputSqsInputCollectionPart1Type1`
+### `models.CreateInputInputSqsPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.CreateInputInputSqsInputCollectionPart1Type1 = /* values here */
+value: models.CreateInputInputSqsPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

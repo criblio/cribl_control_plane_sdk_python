@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.InputConfluentCloudInputCollectionPart0Type`
+### `models.InputConfluentCloudSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.InputConfluentCloudInputCollectionPart0Type = /* values here */
+value: models.InputConfluentCloudSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputConfluentCloudInputCollectionPart1Type`
+### `models.InputConfluentCloudSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.InputConfluentCloudInputCollectionPart1Type = /* values here */
+value: models.InputConfluentCloudSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputConfluentCloudInputCollectionPart0Type1`
+### `models.InputConfluentCloudPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.InputConfluentCloudInputCollectionPart0Type1 = /* values here */
+value: models.InputConfluentCloudPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.InputConfluentCloudInputCollectionPart1Type1`
+### `models.InputConfluentCloudPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.InputConfluentCloudInputCollectionPart1Type1 = /* values here */
+value: models.InputConfluentCloudPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

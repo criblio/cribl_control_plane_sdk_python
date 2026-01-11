@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.CreateInputInputCriblTCPInputCollectionPart0Type`
+### `models.CreateInputInputCriblTCPSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputCriblTCPInputCollectionPart0Type = /* values here */
+value: models.CreateInputInputCriblTCPSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputCriblTCPInputCollectionPart1Type`
+### `models.CreateInputInputCriblTCPSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputCriblTCPInputCollectionPart1Type = /* values here */
+value: models.CreateInputInputCriblTCPSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputCriblTCPInputCollectionPart0Type1`
+### `models.CreateInputInputCriblTCPPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.CreateInputInputCriblTCPInputCollectionPart0Type1 = /* values here */
+value: models.CreateInputInputCriblTCPPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.CreateInputInputCriblTCPInputCollectionPart1Type1`
+### `models.CreateInputInputCriblTCPPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.CreateInputInputCriblTCPInputCollectionPart1Type1 = /* values here */
+value: models.CreateInputInputCriblTCPPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

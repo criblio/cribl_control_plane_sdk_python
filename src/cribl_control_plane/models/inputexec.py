@@ -16,19 +16,21 @@ from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
-class InputExecInputCollectionPart1Type1Type(str, Enum):
+class InputExecPqEnabledTrueWithPqConstraintType(str, Enum):
     EXEC = "exec"
 
 
-class InputCollectionPart1Type1ScheduleType(str, Enum, metaclass=utils.OpenEnumMeta):
+class PqEnabledTrueWithPqConstraintScheduleType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Select a schedule type; either an interval (in seconds) or a cron-style schedule."""
 
     INTERVAL = "interval"
     CRON_SCHEDULE = "cronSchedule"
 
 
-class InputExecInputCollectionPart1Type1TypedDict(TypedDict):
-    type: InputExecInputCollectionPart1Type1Type
+class InputExecPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
+    type: InputExecPqEnabledTrueWithPqConstraintType
     command: str
     r"""Command to execute; supports Bourne shell (or CMD on Windows) syntax"""
     pq_enabled: NotRequired[bool]
@@ -49,7 +51,7 @@ class InputExecInputCollectionPart1Type1TypedDict(TypedDict):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     retries: NotRequired[float]
     r"""Maximum number of retry attempts in the event that the command fails"""
-    schedule_type: NotRequired[InputCollectionPart1Type1ScheduleType]
+    schedule_type: NotRequired[PqEnabledTrueWithPqConstraintScheduleType]
     r"""Select a schedule type; either an interval (in seconds) or a cron-style schedule."""
     breaker_rulesets: NotRequired[List[str]]
     r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
@@ -64,8 +66,8 @@ class InputExecInputCollectionPart1Type1TypedDict(TypedDict):
     r"""Cron schedule to execute the command on."""
 
 
-class InputExecInputCollectionPart1Type1(BaseModel):
-    type: InputExecInputCollectionPart1Type1Type
+class InputExecPqEnabledTrueWithPqConstraint(BaseModel):
+    type: InputExecPqEnabledTrueWithPqConstraintType
 
     command: str
     r"""Command to execute; supports Bourne shell (or CMD on Windows) syntax"""
@@ -101,9 +103,9 @@ class InputExecInputCollectionPart1Type1(BaseModel):
     r"""Maximum number of retry attempts in the event that the command fails"""
 
     schedule_type: Annotated[
-        Optional[InputCollectionPart1Type1ScheduleType],
+        Optional[PqEnabledTrueWithPqConstraintScheduleType],
         pydantic.Field(alias="scheduleType"),
-    ] = InputCollectionPart1Type1ScheduleType.INTERVAL
+    ] = PqEnabledTrueWithPqConstraintScheduleType.INTERVAL
     r"""Select a schedule type; either an interval (in seconds) or a cron-style schedule."""
 
     breaker_rulesets: Annotated[
@@ -133,29 +135,32 @@ class InputExecInputCollectionPart1Type1(BaseModel):
     def serialize_schedule_type(self, value):
         if isinstance(value, str):
             try:
-                return models.InputCollectionPart1Type1ScheduleType(value)
+                return models.PqEnabledTrueWithPqConstraintScheduleType(value)
             except ValueError:
                 return value
         return value
 
 
-class InputExecInputCollectionPart0Type1Type(str, Enum):
+class InputExecPqEnabledFalseWithPqConstraintType(str, Enum):
     EXEC = "exec"
 
 
-class InputCollectionPart0Type1ScheduleType(str, Enum, metaclass=utils.OpenEnumMeta):
+class PqEnabledFalseWithPqConstraintScheduleType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Select a schedule type; either an interval (in seconds) or a cron-style schedule."""
 
     INTERVAL = "interval"
     CRON_SCHEDULE = "cronSchedule"
 
 
-class InputExecInputCollectionPart0Type1TypedDict(TypedDict):
-    type: InputExecInputCollectionPart0Type1Type
+class InputExecPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+    type: InputExecPqEnabledFalseWithPqConstraintType
     command: str
     r"""Command to execute; supports Bourne shell (or CMD on Windows) syntax"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -169,10 +174,9 @@ class InputExecInputCollectionPart0Type1TypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[PqTypeTypedDict]
     retries: NotRequired[float]
     r"""Maximum number of retry attempts in the event that the command fails"""
-    schedule_type: NotRequired[InputCollectionPart0Type1ScheduleType]
+    schedule_type: NotRequired[PqEnabledFalseWithPqConstraintScheduleType]
     r"""Select a schedule type; either an interval (in seconds) or a cron-style schedule."""
     breaker_rulesets: NotRequired[List[str]]
     r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
@@ -187,14 +191,16 @@ class InputExecInputCollectionPart0Type1TypedDict(TypedDict):
     r"""Cron schedule to execute the command on."""
 
 
-class InputExecInputCollectionPart0Type1(BaseModel):
-    type: InputExecInputCollectionPart0Type1Type
+class InputExecPqEnabledFalseWithPqConstraint(BaseModel):
+    type: InputExecPqEnabledFalseWithPqConstraintType
 
     command: str
     r"""Command to execute; supports Bourne shell (or CMD on Windows) syntax"""
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -218,15 +224,13 @@ class InputExecInputCollectionPart0Type1(BaseModel):
     connections: Optional[List[ItemsTypeConnections]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[PqType] = None
-
     retries: Optional[float] = 10
     r"""Maximum number of retry attempts in the event that the command fails"""
 
     schedule_type: Annotated[
-        Optional[InputCollectionPart0Type1ScheduleType],
+        Optional[PqEnabledFalseWithPqConstraintScheduleType],
         pydantic.Field(alias="scheduleType"),
-    ] = InputCollectionPart0Type1ScheduleType.INTERVAL
+    ] = PqEnabledFalseWithPqConstraintScheduleType.INTERVAL
     r"""Select a schedule type; either an interval (in seconds) or a cron-style schedule."""
 
     breaker_rulesets: Annotated[
@@ -256,25 +260,27 @@ class InputExecInputCollectionPart0Type1(BaseModel):
     def serialize_schedule_type(self, value):
         if isinstance(value, str):
             try:
-                return models.InputCollectionPart0Type1ScheduleType(value)
+                return models.PqEnabledFalseWithPqConstraintScheduleType(value)
             except ValueError:
                 return value
         return value
 
 
-class InputExecInputCollectionPart1TypeType(str, Enum):
+class InputExecSendToRoutesFalseWithConnectionsConstraintType(str, Enum):
     EXEC = "exec"
 
 
-class InputCollectionPart1TypeScheduleType(str, Enum, metaclass=utils.OpenEnumMeta):
+class SendToRoutesFalseWithConnectionsConstraintScheduleType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Select a schedule type; either an interval (in seconds) or a cron-style schedule."""
 
     INTERVAL = "interval"
     CRON_SCHEDULE = "cronSchedule"
 
 
-class InputExecInputCollectionPart1TypeTypedDict(TypedDict):
-    type: InputExecInputCollectionPart1TypeType
+class InputExecSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
+    type: InputExecSendToRoutesFalseWithConnectionsConstraintType
     command: str
     r"""Command to execute; supports Bourne shell (or CMD on Windows) syntax"""
     send_to_routes: NotRequired[bool]
@@ -295,7 +301,7 @@ class InputExecInputCollectionPart1TypeTypedDict(TypedDict):
     pq: NotRequired[PqTypeTypedDict]
     retries: NotRequired[float]
     r"""Maximum number of retry attempts in the event that the command fails"""
-    schedule_type: NotRequired[InputCollectionPart1TypeScheduleType]
+    schedule_type: NotRequired[SendToRoutesFalseWithConnectionsConstraintScheduleType]
     r"""Select a schedule type; either an interval (in seconds) or a cron-style schedule."""
     breaker_rulesets: NotRequired[List[str]]
     r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
@@ -310,8 +316,8 @@ class InputExecInputCollectionPart1TypeTypedDict(TypedDict):
     r"""Cron schedule to execute the command on."""
 
 
-class InputExecInputCollectionPart1Type(BaseModel):
-    type: InputExecInputCollectionPart1TypeType
+class InputExecSendToRoutesFalseWithConnectionsConstraint(BaseModel):
+    type: InputExecSendToRoutesFalseWithConnectionsConstraintType
 
     command: str
     r"""Command to execute; supports Bourne shell (or CMD on Windows) syntax"""
@@ -347,9 +353,9 @@ class InputExecInputCollectionPart1Type(BaseModel):
     r"""Maximum number of retry attempts in the event that the command fails"""
 
     schedule_type: Annotated[
-        Optional[InputCollectionPart1TypeScheduleType],
+        Optional[SendToRoutesFalseWithConnectionsConstraintScheduleType],
         pydantic.Field(alias="scheduleType"),
-    ] = InputCollectionPart1TypeScheduleType.INTERVAL
+    ] = SendToRoutesFalseWithConnectionsConstraintScheduleType.INTERVAL
     r"""Select a schedule type; either an interval (in seconds) or a cron-style schedule."""
 
     breaker_rulesets: Annotated[
@@ -379,29 +385,35 @@ class InputExecInputCollectionPart1Type(BaseModel):
     def serialize_schedule_type(self, value):
         if isinstance(value, str):
             try:
-                return models.InputCollectionPart1TypeScheduleType(value)
+                return models.SendToRoutesFalseWithConnectionsConstraintScheduleType(
+                    value
+                )
             except ValueError:
                 return value
         return value
 
 
-class InputExecInputCollectionPart0TypeType(str, Enum):
+class InputExecSendToRoutesTrueWithConnectionsConstraintType(str, Enum):
     EXEC = "exec"
 
 
-class InputCollectionPart0TypeScheduleType(str, Enum, metaclass=utils.OpenEnumMeta):
+class SendToRoutesTrueWithConnectionsConstraintScheduleType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Select a schedule type; either an interval (in seconds) or a cron-style schedule."""
 
     INTERVAL = "interval"
     CRON_SCHEDULE = "cronSchedule"
 
 
-class InputExecInputCollectionPart0TypeTypedDict(TypedDict):
-    type: InputExecInputCollectionPart0TypeType
+class InputExecSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
+    type: InputExecSendToRoutesTrueWithConnectionsConstraintType
     command: str
     r"""Command to execute; supports Bourne shell (or CMD on Windows) syntax"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
+    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -413,12 +425,10 @@ class InputExecInputCollectionPart0TypeTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     retries: NotRequired[float]
     r"""Maximum number of retry attempts in the event that the command fails"""
-    schedule_type: NotRequired[InputCollectionPart0TypeScheduleType]
+    schedule_type: NotRequired[SendToRoutesTrueWithConnectionsConstraintScheduleType]
     r"""Select a schedule type; either an interval (in seconds) or a cron-style schedule."""
     breaker_rulesets: NotRequired[List[str]]
     r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
@@ -433,8 +443,8 @@ class InputExecInputCollectionPart0TypeTypedDict(TypedDict):
     r"""Cron schedule to execute the command on."""
 
 
-class InputExecInputCollectionPart0Type(BaseModel):
-    type: InputExecInputCollectionPart0TypeType
+class InputExecSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+    type: InputExecSendToRoutesTrueWithConnectionsConstraintType
 
     command: str
     r"""Command to execute; supports Bourne shell (or CMD on Windows) syntax"""
@@ -443,6 +453,9 @@ class InputExecInputCollectionPart0Type(BaseModel):
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    connections: Optional[List[ItemsTypeConnections]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -461,18 +474,15 @@ class InputExecInputCollectionPart0Type(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
     pq: Optional[PqType] = None
 
     retries: Optional[float] = 10
     r"""Maximum number of retry attempts in the event that the command fails"""
 
     schedule_type: Annotated[
-        Optional[InputCollectionPart0TypeScheduleType],
+        Optional[SendToRoutesTrueWithConnectionsConstraintScheduleType],
         pydantic.Field(alias="scheduleType"),
-    ] = InputCollectionPart0TypeScheduleType.INTERVAL
+    ] = SendToRoutesTrueWithConnectionsConstraintScheduleType.INTERVAL
     r"""Select a schedule type; either an interval (in seconds) or a cron-style schedule."""
 
     breaker_rulesets: Annotated[
@@ -502,7 +512,9 @@ class InputExecInputCollectionPart0Type(BaseModel):
     def serialize_schedule_type(self, value):
         if isinstance(value, str):
             try:
-                return models.InputCollectionPart0TypeScheduleType(value)
+                return models.SendToRoutesTrueWithConnectionsConstraintScheduleType(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -511,10 +523,10 @@ class InputExecInputCollectionPart0Type(BaseModel):
 InputExecTypedDict = TypeAliasType(
     "InputExecTypedDict",
     Union[
-        InputExecInputCollectionPart0TypeTypedDict,
-        InputExecInputCollectionPart1TypeTypedDict,
-        InputExecInputCollectionPart0Type1TypedDict,
-        InputExecInputCollectionPart1Type1TypedDict,
+        InputExecSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        InputExecSendToRoutesFalseWithConnectionsConstraintTypedDict,
+        InputExecPqEnabledFalseWithPqConstraintTypedDict,
+        InputExecPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
 
@@ -522,9 +534,9 @@ InputExecTypedDict = TypeAliasType(
 InputExec = TypeAliasType(
     "InputExec",
     Union[
-        InputExecInputCollectionPart0Type,
-        InputExecInputCollectionPart1Type,
-        InputExecInputCollectionPart0Type1,
-        InputExecInputCollectionPart1Type1,
+        InputExecSendToRoutesTrueWithConnectionsConstraint,
+        InputExecSendToRoutesFalseWithConnectionsConstraint,
+        InputExecPqEnabledFalseWithPqConstraint,
+        InputExecPqEnabledTrueWithPqConstraint,
     ],
 )

@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.CreateInputInputModelDrivenTelemetryInputCollectionPart0Type`
+### `models.CreateInputInputModelDrivenTelemetrySendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputModelDrivenTelemetryInputCollectionPart0Type = /* values here */
+value: models.CreateInputInputModelDrivenTelemetrySendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputModelDrivenTelemetryInputCollectionPart1Type`
+### `models.CreateInputInputModelDrivenTelemetrySendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputModelDrivenTelemetryInputCollectionPart1Type = /* values here */
+value: models.CreateInputInputModelDrivenTelemetrySendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputModelDrivenTelemetryInputCollectionPart0Type1`
+### `models.CreateInputInputModelDrivenTelemetryPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.CreateInputInputModelDrivenTelemetryInputCollectionPart0Type1 = /* values here */
+value: models.CreateInputInputModelDrivenTelemetryPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.CreateInputInputModelDrivenTelemetryInputCollectionPart1Type1`
+### `models.CreateInputInputModelDrivenTelemetryPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.CreateInputInputModelDrivenTelemetryInputCollectionPart1Type1 = /* values here */
+value: models.CreateInputInputModelDrivenTelemetryPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

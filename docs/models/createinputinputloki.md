@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.CreateInputInputLokiInputCollectionPart0Type`
+### `models.CreateInputInputLokiSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputLokiInputCollectionPart0Type = /* values here */
+value: models.CreateInputInputLokiSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputLokiInputCollectionPart1Type`
+### `models.CreateInputInputLokiSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputLokiInputCollectionPart1Type = /* values here */
+value: models.CreateInputInputLokiSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputLokiInputCollectionPart0Type1`
+### `models.CreateInputInputLokiPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.CreateInputInputLokiInputCollectionPart0Type1 = /* values here */
+value: models.CreateInputInputLokiPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.CreateInputInputLokiInputCollectionPart1Type1`
+### `models.CreateInputInputLokiPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.CreateInputInputLokiInputCollectionPart1Type1 = /* values here */
+value: models.CreateInputInputLokiPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

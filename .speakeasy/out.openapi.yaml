@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.16.0-alpha.1767961132124-7808071c
+  version: 4.16.0-alpha.1767999795481-d460f4f3
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -39034,6 +39034,126 @@ components:
         - branch
         - commit
         - summary
+    CountedGitCountResult:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/GitCountResult"
+    GitCountResult:
+      type: object
+      properties:
+        count:
+          type: number
+      required:
+        - count
+    CountedGitDiffResult:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/GitDiffResult"
+    DiffFiles:
+      type: array
+      items:
+        type: object
+        properties:
+          addedLines:
+            type: number
+          blocks:
+            type: array
+            items:
+              type: object
+              properties:
+                header:
+                  type: string
+                lines:
+                  $ref: "#/components/schemas/DiffLine"
+                newStartLine:
+                  type: number
+                oldStartLine:
+                  type: number
+                oldStartLine2:
+                  type: number
+              required:
+                - header
+                - lines
+                - newStartLine
+                - oldStartLine
+          changedPercentage:
+            type: number
+          checksumAfter:
+            type: string
+          checksumBefore:
+            oneOf:
+              - type: string
+              - type: array
+                items:
+                  type: string
+          deletedFileMode:
+            type: string
+          deletedLines:
+            type: number
+          isBinary:
+            type: boolean
+          isCombined:
+            type: boolean
+          isCopy:
+            type: boolean
+          isDeleted:
+            type: boolean
+          isGitDiff:
+            type: boolean
+          isNew:
+            type: boolean
+          isRename:
+            type: boolean
+          isTooBig:
+            type: boolean
+          language:
+            type: string
+          mode:
+            type: string
+          newFileMode:
+            type: string
+          newMode:
+            type: string
+          newName:
+            type: string
+          oldMode:
+            oneOf:
+              - type: string
+              - type: array
+                items:
+                  type: string
+          oldName:
+            type: string
+          unchangedPercentage:
+            type: number
+        required:
+          - addedLines
+          - blocks
+          - deletedLines
+          - isCombined
+          - isGitDiff
+          - language
+          - newName
+          - oldName
+    GitDiffResult:
+      type: object
+      properties:
+        diffJson:
+          $ref: "#/components/schemas/DiffFiles"
+      required:
+        - diffJson
     CountedGitFilesResponse:
       type: object
       properties:
@@ -39112,6 +39232,26 @@ components:
           type: string
       required:
         - commit
+    CountedGitShowResult:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/GitShowResult"
+    GitShowResult:
+      type: object
+      properties:
+        commitMessage:
+          type: string
+        diffJson:
+          $ref: "#/components/schemas/DiffFiles"
+      required:
+        - commitMessage
+        - diffJson
     MetricsStore:
       type: object
       properties: {}
@@ -39310,23 +39450,6 @@ components:
           type: string
       required:
         - message
-    CountedGitCountResult:
-      type: object
-      properties:
-        count:
-          type: integer
-          description: number of items present in the items array
-        items:
-          type: array
-          items:
-            $ref: "#/components/schemas/GitCountResult"
-    GitCountResult:
-      type: object
-      properties:
-        count:
-          type: number
-      required:
-        - count
     CurrentBranchResult:
       type: object
       properties:
@@ -39334,109 +39457,6 @@ components:
           type: string
       required:
         - branch
-    CountedGitDiffResult:
-      type: object
-      properties:
-        count:
-          type: integer
-          description: number of items present in the items array
-        items:
-          type: array
-          items:
-            $ref: "#/components/schemas/GitDiffResult"
-    DiffFiles:
-      type: array
-      items:
-        type: object
-        properties:
-          addedLines:
-            type: number
-          blocks:
-            type: array
-            items:
-              type: object
-              properties:
-                header:
-                  type: string
-                lines:
-                  $ref: "#/components/schemas/DiffLine"
-                newStartLine:
-                  type: number
-                oldStartLine:
-                  type: number
-                oldStartLine2:
-                  type: number
-              required:
-                - header
-                - lines
-                - newStartLine
-                - oldStartLine
-          changedPercentage:
-            type: number
-          checksumAfter:
-            type: string
-          checksumBefore:
-            oneOf:
-              - type: string
-              - type: array
-                items:
-                  type: string
-          deletedFileMode:
-            type: string
-          deletedLines:
-            type: number
-          isBinary:
-            type: boolean
-          isCombined:
-            type: boolean
-          isCopy:
-            type: boolean
-          isDeleted:
-            type: boolean
-          isGitDiff:
-            type: boolean
-          isNew:
-            type: boolean
-          isRename:
-            type: boolean
-          isTooBig:
-            type: boolean
-          language:
-            type: string
-          mode:
-            type: string
-          newFileMode:
-            type: string
-          newMode:
-            type: string
-          newName:
-            type: string
-          oldMode:
-            oneOf:
-              - type: string
-              - type: array
-                items:
-                  type: string
-          oldName:
-            type: string
-          unchangedPercentage:
-            type: number
-        required:
-          - addedLines
-          - blocks
-          - deletedLines
-          - isCombined
-          - isGitDiff
-          - language
-          - newName
-          - oldName
-    GitDiffResult:
-      type: object
-      properties:
-        diffJson:
-          $ref: "#/components/schemas/DiffFiles"
-      required:
-        - diffJson
     CountedGitInfo:
       type: object
       properties:
@@ -39488,26 +39508,6 @@ components:
           type: string
         refs:
           type: string
-    CountedGitShowResult:
-      type: object
-      properties:
-        count:
-          type: integer
-          description: number of items present in the items array
-        items:
-          type: array
-          items:
-            $ref: "#/components/schemas/GitShowResult"
-    GitShowResult:
-      type: object
-      properties:
-        commitMessage:
-          type: string
-        diffJson:
-          $ref: "#/components/schemas/DiffFiles"
-      required:
-        - commitMessage
-        - diffJson
     CountedGitStatusResult:
       type: object
       properties:
@@ -41830,6 +41830,8 @@ components:
           additionalProperties:
             type: string
         type:
+          type: string
+        vmId:
           type: string
         zone:
           type: string

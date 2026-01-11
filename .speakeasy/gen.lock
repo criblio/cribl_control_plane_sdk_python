@@ -1,19 +1,19 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 0f3f83953eb1c388c3d351bd9eb00475
-  docVersion: 4.16.0-alpha.1767961132124-7808071c
+  docChecksum: 96cb936aaacfec0029539fedcfd4df0b
+  docVersion: 4.16.0-alpha.1767999795481-d460f4f3
   speakeasyVersion: 1.683.2
   generationVersion: 2.792.3
-  releaseVersion: 0.5.0b16
-  configChecksum: f0802dc85fc0945c7d2b9485d4db0d93
+  releaseVersion: 0.5.0b17
+  configChecksum: 3b1309e2fe6fde3a9e5dc6d8560e8b71
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
 persistentEdits:
-  generation_id: a7cdb564-a038-440a-93a4-521946b05a81
-  pristine_commit_hash: 6b8d0a9cb1e5543bbc1f29e9e390382e68ca504f
-  pristine_tree_hash: b54f140501467c1d73323ea2bac62a024a9573ce
+  generation_id: 8515f7d3-b1a5-4876-9bd3-2e0ff59731ee
+  pristine_commit_hash: bda8a15cc3a43bfa4a5cff0ca6ba51528083b177
+  pristine_tree_hash: cf8f0c261bb8df8b07f04313aea89c2b4893e754
 features:
   python:
     additionalDependencies: 1.0.0
@@ -365,8 +365,8 @@ trackedFiles:
     pristine_git_object: 4e927c790eefa8fc697a615b46cee8641e22a988
   docs/models/azuretypeheartbeatmetadata.md:
     id: a2f372dcd8ec
-    last_write_checksum: sha1:21d16476c34c58b219d61715beaf34225b9c6339
-    pristine_git_object: 00562b914e9e3b729fb93fb2cf534f883297e3d4
+    last_write_checksum: sha1:9ac653fb984f2e1c98656291fa7d9cf557827fd3
+    pristine_git_object: fef7193c764637a0a10167481e243348acee0499
   docs/models/backpressurebehavioroptions.md:
     id: 06a39b1547b3
     last_write_checksum: sha1:45dd62e3b7728314e0b4bf2e2567acc474b3da99
@@ -8973,8 +8973,8 @@ trackedFiles:
     pristine_git_object: 0abbb4d34f2289987b92a4ee3cfe300da8a66143
   pyproject.toml:
     id: 5d07e7d72637
-    last_write_checksum: sha1:3cd1c1d4786e7e663fc3d54c6ac65732394e9c51
-    pristine_git_object: 33cf6a2da9a2a01488ad1c1f41d4f77ae7e737b4
+    last_write_checksum: sha1:170efcbb07144c894d9a14c59e8800a944a27cbf
+    pristine_git_object: a7d8224bb92dfae779939eebdc6591b16a7759fd
   scripts/prepare_readme.py:
     id: e0c5957a6035
     last_write_checksum: sha1:a2e0d08bb2b147a5bab939d676620d1686f3b024
@@ -9005,8 +9005,8 @@ trackedFiles:
     pristine_git_object: b4fad0525f29a586b91348c6d7c51c642d1e9790
   src/cribl_control_plane/_version.py:
     id: 9c8e5f14504b
-    last_write_checksum: sha1:23f47b4ddd704cacf8c8545894c46638d49cb953
-    pristine_git_object: f8640cb841697f2c93413ea9a4e9f87f54350c7d
+    last_write_checksum: sha1:9350c4f6dff926431d455b8f4df50a64331b8a28
+    pristine_git_object: cef25617a8eff8d4aa4d2617b7d1b63c39cf5adc
   src/cribl_control_plane/acl.py:
     id: 0e865a719763
     last_write_checksum: sha1:c0f1375cffa8c5db7bc25e76d94be8fc440cc896
@@ -9213,8 +9213,8 @@ trackedFiles:
     pristine_git_object: da6eb8b3000ad7887a32eefa3025a8a35fa6ee44
   src/cribl_control_plane/models/azuretypeheartbeatmetadata.py:
     id: 8369aafe4182
-    last_write_checksum: sha1:fb146312552971172d1c9ac83a54a250926e73ef
-    pristine_git_object: 3d61b81940bb868ac644f288f7c9b9e405e4da6d
+    last_write_checksum: sha1:55e05aa486c165e604190e26bd186ae91511b3a8
+    pristine_git_object: e569571b61885470db831c45babb8e89758caf4d
   src/cribl_control_plane/models/backpressurebehavioroptions.py:
     id: afd1d4cdbdd0
     last_write_checksum: sha1:81839b37efff57ca0c78b3a22b79be658fd16d08
@@ -16041,7 +16041,7 @@ examples:
           filter: "<value>"
       responses:
         "200":
-          application/json: {"count": 522765, "items": [{"deployable": true, "disconnected": true, "firstMsgTime": 5145.29, "group": "<value>", "id": "<id>", "info": {"architecture": "<value>", "aws": {"enabled": true, "instanceId": "<id>", "region": "<value>", "tags": {}, "type": "<value>", "zone": "<value>"}, "azure": {"enabled": false, "hostname": "intelligent-license.info", "instanceId": "<id>", "name": "<value>", "region": "<value>", "resourceGroup": "<value>", "subscriptionId": "<id>", "tags": {"key": "<value>", "key1": "<value>"}, "type": "<value>", "zone": "<value>"}, "conn_ip": "<value>", "cpus": 587.99, "cribl": {"config": {"featuresRev": "<value>", "hbPeriodSeconds": 7254.06, "logStreamEnv": "<value>", "policyRev": "<value>", "version": "<value>"}, "deploymentId": "<id>", "disableSNIRouting": false, "distMode": "worker", "edgeNodes": 5669.89, "group": "<value>", "guid": "<id>", "installType": "<value>", "lookupVersions": {}, "master": {"host": "clear-cut-armoire.com", "port": 8378.36, "servername": "<value>", "tls": true}, "pid": 5481.66, "socksEnabled": false, "startTime": 2054.83, "tags": ["<value 1>"], "version": "<value>"}, "env": {"key": "<value>", "key1": "<value>"}, "freeDiskSpace": 5289.31, "hostOs": {"addresses": ["<value 1>", "<value 2>", "<value 3>"], "enabled": false, "id": "<id>", "version": "<value>"}, "hostname": "huge-mathematics.org", "isSaasWorker": true, "kube": {"enabled": true, "namespace": "<value>", "node": "<value>", "owner": {"kind": "<value>", "name": "<value>"}, "pod": "<value>", "source": "<value>"}, "localTime": 396.28, "metadata": {"aws": {"enabled": true, "instanceId": "<id>", "region": "<value>", "tags": {}, "type": "<value>", "zone": "<value>"}, "azure": {"enabled": false, "hostname": "discrete-backburn.net", "instanceId": "<id>", "name": "<value>", "region": "<value>", "resourceGroup": "<value>", "subscriptionId": "<id>", "tags": {"key": "<value>", "key1": "<value>"}, "type": "<value>", "zone": "<value>"}, "hostOs": {"addresses": [], "enabled": true, "id": "<id>", "version": "<value>"}, "kube": {"enabled": true, "namespace": "<value>", "node": "<value>", "owner": {"kind": "<value>", "name": "<value>"}, "pod": "<value>", "source": "<value>"}, "os": {"addresses": [], "enabled": true, "id": "<id>", "version": "<value>"}}, "node": "<value>", "os": {"addresses": ["<value 1>"], "enabled": true, "id": "<id>", "version": "<value>"}, "outpost": {"guid": "<id>", "host": "nifty-hoof.name"}, "platform": "<value>", "release": "<value>", "totalDiskSpace": 3554.6, "totalmem": 2822.63}, "lastMetrics": {}, "lastMsgTime": 1368.76, "metadata": {"aws": {"enabled": true, "instanceId": "<id>", "region": "<value>", "tags": {}, "type": "<value>", "zone": "<value>"}, "azure": {"enabled": false, "hostname": "discrete-backburn.net", "instanceId": "<id>", "name": "<value>", "region": "<value>", "resourceGroup": "<value>", "subscriptionId": "<id>", "tags": {"key": "<value>", "key1": "<value>"}, "type": "<value>", "zone": "<value>"}, "hostOs": {"addresses": [], "enabled": true, "id": "<id>", "version": "<value>"}, "kube": {"enabled": true, "namespace": "<value>", "node": "<value>", "owner": {"kind": "<value>", "name": "<value>"}, "pod": "<value>", "source": "<value>"}, "os": {"addresses": [], "enabled": true, "id": "<id>", "version": "<value>"}}, "nodeUpgradeStatus": {"active": 0, "failed": 1, "skipped": 3, "state": 2, "timestamp": 962.97}, "status": "<value>", "type": "resp", "workerProcesses": 571.25, "workers": {"count": 4154.46}}]}
+          application/json: {"count": 522765, "items": [{"deployable": true, "disconnected": true, "firstMsgTime": 5145.29, "group": "<value>", "id": "<id>", "info": {"architecture": "<value>", "aws": {"enabled": true, "instanceId": "<id>", "region": "<value>", "tags": {}, "type": "<value>", "zone": "<value>"}, "azure": {"enabled": false, "hostname": "intelligent-license.info", "instanceId": "<id>", "name": "<value>", "region": "<value>", "resourceGroup": "<value>", "subscriptionId": "<id>", "tags": {"key": "<value>", "key1": "<value>"}, "type": "<value>", "vmId": "<id>", "zone": "<value>"}, "conn_ip": "<value>", "cpus": 587.99, "cribl": {"config": {"featuresRev": "<value>", "hbPeriodSeconds": 7254.06, "logStreamEnv": "<value>", "policyRev": "<value>", "version": "<value>"}, "deploymentId": "<id>", "disableSNIRouting": false, "distMode": "worker", "edgeNodes": 5669.89, "group": "<value>", "guid": "<id>", "installType": "<value>", "lookupVersions": {}, "master": {"host": "clear-cut-armoire.com", "port": 8378.36, "servername": "<value>", "tls": true}, "pid": 5481.66, "socksEnabled": false, "startTime": 2054.83, "tags": ["<value 1>"], "version": "<value>"}, "env": {"key": "<value>", "key1": "<value>"}, "freeDiskSpace": 5289.31, "hostOs": {"addresses": ["<value 1>", "<value 2>", "<value 3>"], "enabled": false, "id": "<id>", "version": "<value>"}, "hostname": "huge-mathematics.org", "isSaasWorker": true, "kube": {"enabled": true, "namespace": "<value>", "node": "<value>", "owner": {"kind": "<value>", "name": "<value>"}, "pod": "<value>", "source": "<value>"}, "localTime": 396.28, "metadata": {"aws": {"enabled": true, "instanceId": "<id>", "region": "<value>", "tags": {}, "type": "<value>", "zone": "<value>"}, "azure": {"enabled": false, "hostname": "discrete-backburn.net", "instanceId": "<id>", "name": "<value>", "region": "<value>", "resourceGroup": "<value>", "subscriptionId": "<id>", "tags": {"key": "<value>", "key1": "<value>"}, "type": "<value>", "vmId": "<id>", "zone": "<value>"}, "hostOs": {"addresses": [], "enabled": true, "id": "<id>", "version": "<value>"}, "kube": {"enabled": true, "namespace": "<value>", "node": "<value>", "owner": {"kind": "<value>", "name": "<value>"}, "pod": "<value>", "source": "<value>"}, "os": {"addresses": [], "enabled": true, "id": "<id>", "version": "<value>"}}, "node": "<value>", "os": {"addresses": ["<value 1>"], "enabled": true, "id": "<id>", "version": "<value>"}, "outpost": {"guid": "<id>", "host": "nifty-hoof.name"}, "platform": "<value>", "release": "<value>", "totalDiskSpace": 3554.6, "totalmem": 2822.63}, "lastMetrics": {}, "lastMsgTime": 1368.76, "metadata": {"aws": {"enabled": true, "instanceId": "<id>", "region": "<value>", "tags": {}, "type": "<value>", "zone": "<value>"}, "azure": {"enabled": false, "hostname": "discrete-backburn.net", "instanceId": "<id>", "name": "<value>", "region": "<value>", "resourceGroup": "<value>", "subscriptionId": "<id>", "tags": {"key": "<value>", "key1": "<value>"}, "type": "<value>", "vmId": "<id>", "zone": "<value>"}, "hostOs": {"addresses": [], "enabled": true, "id": "<id>", "version": "<value>"}, "kube": {"enabled": true, "namespace": "<value>", "node": "<value>", "owner": {"kind": "<value>", "name": "<value>"}, "pod": "<value>", "source": "<value>"}, "os": {"addresses": [], "enabled": true, "id": "<id>", "version": "<value>"}}, "nodeUpgradeStatus": {"active": 0, "failed": 1, "skipped": 3, "state": 2, "timestamp": 962.97}, "status": "<value>", "type": "resp", "workerProcesses": 571.25, "workers": {"count": 4154.46}}]}
         "500":
           application/json: {"message": "<value>"}
   getMasterWorkerEntry:
@@ -16659,6 +16659,9 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
+releaseNotes: |
+  ## Python SDK Changes:
+  * `cribl_control_plane.nodes.list()`:  `response.items.[].info.azure.vm_id` **Added**
 generatedFiles:
   - .devcontainer/README.md
   - .devcontainer/devcontainer.json

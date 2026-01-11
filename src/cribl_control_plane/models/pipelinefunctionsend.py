@@ -3,11 +3,9 @@
 from __future__ import annotations
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -75,9 +73,7 @@ class SendConfiguration(BaseModel):
     ] = None
     r"""Disables generation of intermediate stats. When true stats will be emitted only on end"""
 
-    mode: Annotated[
-        Optional[PipelineFunctionSendMode], PlainValidator(validate_open_enum(False))
-    ] = None
+    mode: Optional[PipelineFunctionSendMode] = None
     r"""In Sender mode, forwards search results directly to the destination. In Metrics mode, accumulates metrics from federated send operators, and forwards the aggregate metrics."""
 
     @field_serializer("mode")

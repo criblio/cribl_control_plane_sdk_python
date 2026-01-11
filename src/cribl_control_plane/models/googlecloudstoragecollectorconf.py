@@ -3,11 +3,10 @@
 from __future__ import annotations
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import get_discriminator, validate_open_enum
+from cribl_control_plane.utils import get_discriminator
 from enum import Enum
 import pydantic
 from pydantic import Discriminator, Tag, field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
@@ -72,10 +71,7 @@ class GoogleCloudStorageAuthTypeSecret(BaseModel):
     r"""Name of the bucket to collect from. This value can be a constant or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`."""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[GoogleCloudStorageAuthTypeSecretAuthenticationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[GoogleCloudStorageAuthTypeSecretAuthenticationMethod],
         pydantic.Field(alias="authType"),
     ] = GoogleCloudStorageAuthTypeSecretAuthenticationMethod.MANUAL
     r"""Enter account credentials manually, select a secret that references your credentials, or use Google Application Default Credentials"""
@@ -189,10 +185,7 @@ class GoogleCloudStorageAuthTypeManual(BaseModel):
     r"""Name of the bucket to collect from. This value can be a constant or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`."""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[GoogleCloudStorageAuthTypeManualAuthenticationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[GoogleCloudStorageAuthTypeManualAuthenticationMethod],
         pydantic.Field(alias="authType"),
     ] = GoogleCloudStorageAuthTypeManualAuthenticationMethod.MANUAL
     r"""Enter account credentials manually, select a secret that references your credentials, or use Google Application Default Credentials"""
@@ -299,10 +292,7 @@ class GoogleCloudStorageAuthTypeAuto(BaseModel):
     r"""Name of the bucket to collect from. This value can be a constant or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`."""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[GoogleCloudStorageAuthTypeAutoAuthenticationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[GoogleCloudStorageAuthTypeAutoAuthenticationMethod],
         pydantic.Field(alias="authType"),
     ] = GoogleCloudStorageAuthTypeAutoAuthenticationMethod.MANUAL
     r"""Enter account credentials manually, select a secret that references your credentials, or use Google Application Default Credentials"""

@@ -133,11 +133,10 @@ from .tlssettingsclientsidetypekafkaschemaregistry import (
 )
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import get_discriminator, validate_open_enum
+from cribl_control_plane.utils import get_discriminator
 from enum import Enum
 import pydantic
 from pydantic import Discriminator, Tag, field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import Any, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
@@ -294,10 +293,7 @@ class CreateOutputOutputCloudflareR2(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     aws_authentication_method: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodCloudflareR2],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodCloudflareR2],
         pydantic.Field(alias="awsAuthenticationMethod"),
     ] = AuthenticationMethodCloudflareR2.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
@@ -323,29 +319,19 @@ class CreateOutputOutputCloudflareR2(BaseModel):
     r"""Root directory to prepend to path before uploading. Enter a constant, or a JavaScript expression enclosed in quotes or backticks."""
 
     signature_version: Annotated[
-        Annotated[
-            Optional[SignatureVersionOptions5],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="signatureVersion"),
+        Optional[SignatureVersionOptions5], pydantic.Field(alias="signatureVersion")
     ] = SignatureVersionOptions5.V4
     r"""Signature version to use for signing MinIO requests"""
 
     object_acl: Annotated[Optional[Any], pydantic.Field(alias="objectACL")] = None
 
     storage_class: Annotated[
-        Annotated[
-            Optional[StorageClassOptions2], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="storageClass"),
+        Optional[StorageClassOptions2], pydantic.Field(alias="storageClass")
     ] = None
     r"""Storage class to select for uploaded objects"""
 
     server_side_encryption: Annotated[
-        Annotated[
-            Optional[ServerSideEncryptionOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[ServerSideEncryptionOptions],
         pydantic.Field(alias="serverSideEncryption"),
     ] = None
     r"""Server-side encryption for uploaded objects"""
@@ -375,12 +361,9 @@ class CreateOutputOutputCloudflareR2(BaseModel):
     )
     r"""JavaScript expression defining how files are partitioned and organized. Default is date-based. If blank, Stream will fall back to the event's __partition field value – if present – otherwise to each location's root directory."""
 
-    format_: Annotated[
-        Annotated[
-            Optional[DataFormatOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="format"),
-    ] = DataFormatOptions.JSON
+    format_: Annotated[Optional[DataFormatOptions], pydantic.Field(alias="format")] = (
+        DataFormatOptions.JSON
+    )
     r"""Format of the output data"""
 
     base_file_name: Annotated[Optional[str], pydantic.Field(alias="baseFileName")] = (
@@ -412,11 +395,7 @@ class CreateOutputOutputCloudflareR2(BaseModel):
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions1],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions1.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -426,10 +405,7 @@ class CreateOutputOutputCloudflareR2(BaseModel):
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
 
     on_disk_full_backpressure: Annotated[
-        Annotated[
-            Optional[DiskSpaceProtectionOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[DiskSpaceProtectionOptions],
         pydantic.Field(alias="onDiskFullBackpressure"),
     ] = DiskSpaceProtectionOptions.BLOCK
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
@@ -462,16 +438,11 @@ class CreateOutputOutputCloudflareR2(BaseModel):
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
 
-    compress: Annotated[
-        Optional[CompressionOptions2], PlainValidator(validate_open_enum(False))
-    ] = CompressionOptions2.GZIP
+    compress: Optional[CompressionOptions2] = CompressionOptions2.GZIP
     r"""Data compression format to apply to HTTP content before it is delivered"""
 
     compression_level: Annotated[
-        Annotated[
-            Optional[CompressionLevelOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="compressionLevel"),
+        Optional[CompressionLevelOptions], pydantic.Field(alias="compressionLevel")
     ] = CompressionLevelOptions.BEST_SPEED
     r"""Compression level to apply before moving files to final destination"""
 
@@ -486,18 +457,12 @@ class CreateOutputOutputCloudflareR2(BaseModel):
     r"""To add a new schema, navigate to Processing > Knowledge > Parquet Schemas"""
 
     parquet_version: Annotated[
-        Annotated[
-            Optional[ParquetVersionOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="parquetVersion"),
+        Optional[ParquetVersionOptions], pydantic.Field(alias="parquetVersion")
     ] = ParquetVersionOptions.PARQUET_2_6
     r"""Determines which data types are supported and how they are represented"""
 
     parquet_data_page_version: Annotated[
-        Annotated[
-            Optional[DataPageVersionOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="parquetDataPageVersion"),
+        Optional[DataPageVersionOptions], pydantic.Field(alias="parquetDataPageVersion")
     ] = DataPageVersionOptions.DATA_PAGE_V2
     r"""Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it."""
 
@@ -696,9 +661,7 @@ class CreateOutputAuthentication(BaseModel):
 
     disabled: Optional[bool] = False
 
-    mechanism: Annotated[
-        Optional[SaslMechanismOptionsSasl1], PlainValidator(validate_open_enum(False))
-    ] = SaslMechanismOptionsSasl1.PLAIN
+    mechanism: Optional[SaslMechanismOptionsSasl1] = SaslMechanismOptionsSasl1.PLAIN
 
     username: Optional[str] = "$ConnectionString"
     r"""The username for authentication. This should always be $ConnectionString."""
@@ -707,10 +670,7 @@ class CreateOutputAuthentication(BaseModel):
     r"""Select or create a stored text secret corresponding to the SASL JASS Password Primary or Password Secondary"""
 
     client_secret_auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodMicrosoftFabric],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodMicrosoftFabric],
         pydantic.Field(alias="clientSecretAuthType"),
     ] = AuthenticationMethodMicrosoftFabric.SECRET
 
@@ -731,10 +691,7 @@ class CreateOutputAuthentication(BaseModel):
     passphrase: Optional[str] = None
 
     oauth_endpoint: Annotated[
-        Annotated[
-            Optional[MicrosoftEntraIDAuthenticationEndpointOptionsSasl],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[MicrosoftEntraIDAuthenticationEndpointOptionsSasl],
         pydantic.Field(alias="oauthEndpoint"),
     ] = MicrosoftEntraIDAuthenticationEndpointOptionsSasl.HTTPS_LOGIN_MICROSOFTONLINE_COM
     r"""Endpoint used to acquire authentication tokens from Azure"""
@@ -881,16 +838,11 @@ class CreateOutputOutputMicrosoftFabric(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    ack: Annotated[
-        Optional[AcknowledgmentsOptions], PlainValidator(validate_open_enum(True))
-    ] = AcknowledgmentsOptions.ONE
+    ack: Optional[AcknowledgmentsOptions] = AcknowledgmentsOptions.ONE
     r"""Control the number of required acknowledgments"""
 
     format_: Annotated[
-        Annotated[
-            Optional[RecordDataFormatOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="format"),
+        Optional[RecordDataFormatOptions], pydantic.Field(alias="format")
     ] = RecordDataFormatOptions.JSON
     r"""Format to use to serialize events before writing to the Event Hubs Kafka brokers"""
 
@@ -949,11 +901,7 @@ class CreateOutputOutputMicrosoftFabric(BaseModel):
     tls: Optional[TLSSettingsClientSideType] = None
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -969,10 +917,9 @@ class CreateOutputOutputMicrosoftFabric(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -999,19 +946,12 @@ class CreateOutputOutputMicrosoftFabric(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -1231,12 +1171,9 @@ class CreateOutputOutputDatabricks(BaseModel):
     )
     r"""JavaScript expression defining how files are partitioned and organized. Default is date-based. If blank, Stream will fall back to the event's __partition field value – if present – otherwise to each location's root directory."""
 
-    format_: Annotated[
-        Annotated[
-            Optional[DataFormatOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="format"),
-    ] = DataFormatOptions.JSON
+    format_: Annotated[Optional[DataFormatOptions], pydantic.Field(alias="format")] = (
+        DataFormatOptions.JSON
+    )
     r"""Format of the output data"""
 
     base_file_name: Annotated[Optional[str], pydantic.Field(alias="baseFileName")] = (
@@ -1278,11 +1215,7 @@ class CreateOutputOutputDatabricks(BaseModel):
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions1],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions1.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -1292,10 +1225,7 @@ class CreateOutputOutputDatabricks(BaseModel):
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
 
     on_disk_full_backpressure: Annotated[
-        Annotated[
-            Optional[DiskSpaceProtectionOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[DiskSpaceProtectionOptions],
         pydantic.Field(alias="onDiskFullBackpressure"),
     ] = DiskSpaceProtectionOptions.BLOCK
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
@@ -1324,16 +1254,11 @@ class CreateOutputOutputDatabricks(BaseModel):
 
     description: Optional[str] = None
 
-    compress: Annotated[
-        Optional[CompressionOptions2], PlainValidator(validate_open_enum(False))
-    ] = CompressionOptions2.GZIP
+    compress: Optional[CompressionOptions2] = CompressionOptions2.GZIP
     r"""Data compression format to apply to HTTP content before it is delivered"""
 
     compression_level: Annotated[
-        Annotated[
-            Optional[CompressionLevelOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="compressionLevel"),
+        Optional[CompressionLevelOptions], pydantic.Field(alias="compressionLevel")
     ] = CompressionLevelOptions.BEST_SPEED
     r"""Compression level to apply before moving files to final destination"""
 
@@ -1348,18 +1273,12 @@ class CreateOutputOutputDatabricks(BaseModel):
     r"""To add a new schema, navigate to Processing > Knowledge > Parquet Schemas"""
 
     parquet_version: Annotated[
-        Annotated[
-            Optional[ParquetVersionOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="parquetVersion"),
+        Optional[ParquetVersionOptions], pydantic.Field(alias="parquetVersion")
     ] = ParquetVersionOptions.PARQUET_2_6
     r"""Determines which data types are supported and how they are represented"""
 
     parquet_data_page_version: Annotated[
-        Annotated[
-            Optional[DataPageVersionOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="parquetDataPageVersion"),
+        Optional[DataPageVersionOptions], pydantic.Field(alias="parquetDataPageVersion")
     ] = DataPageVersionOptions.DATA_PAGE_V2
     r"""Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it."""
 
@@ -1642,10 +1561,7 @@ class CreateOutputOutputChronicle(BaseModel):
     )
 
     authentication_method: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodChronicle],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodChronicle],
         pydantic.Field(alias="authenticationMethod"),
     ] = AuthenticationMethodChronicle.SERVICE_ACCOUNT
 
@@ -1703,10 +1619,7 @@ class CreateOutputOutputChronicle(BaseModel):
     r"""Headers to add to all events"""
 
     failed_request_logging_mode: Annotated[
-        Annotated[
-            Optional[FailedRequestLoggingModeOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
     ] = FailedRequestLoggingModeOptions.NONE
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
@@ -1722,11 +1635,7 @@ class CreateOutputOutputChronicle(BaseModel):
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned."""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -1774,10 +1683,9 @@ class CreateOutputOutputChronicle(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -1804,19 +1712,12 @@ class CreateOutputOutputChronicle(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -2036,15 +1937,12 @@ class CreateOutputOutputSentinelOneAiSiem(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    region: Annotated[
-        Optional[CreateOutputRegion], PlainValidator(validate_open_enum(False))
-    ] = CreateOutputRegion.US
+    region: Optional[CreateOutputRegion] = CreateOutputRegion.US
     r"""The SentinelOne region to send events to. In most cases you can find the region by either looking at your SentinelOne URL or knowing what geographic region your SentinelOne instance is contained in."""
 
-    endpoint: Annotated[
-        Optional[CreateOutputAISIEMEndpointPath],
-        PlainValidator(validate_open_enum(False)),
-    ] = CreateOutputAISIEMEndpointPath.ROOT_SERVICES_COLLECTOR_EVENT
+    endpoint: Optional[CreateOutputAISIEMEndpointPath] = (
+        CreateOutputAISIEMEndpointPath.ROOT_SERVICES_COLLECTOR_EVENT
+    )
     r"""Endpoint to send events to. Use /services/collector/event for structured JSON payloads with standard HEC top-level fields. Use /services/collector/raw for unstructured log lines (plain text)."""
 
     concurrency: Optional[float] = 5
@@ -2086,10 +1984,7 @@ class CreateOutputOutputSentinelOneAiSiem(BaseModel):
     r"""Headers to add to all events"""
 
     failed_request_logging_mode: Annotated[
-        Annotated[
-            Optional[FailedRequestLoggingModeOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
     ] = FailedRequestLoggingModeOptions.NONE
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
@@ -2100,10 +1995,7 @@ class CreateOutputOutputSentinelOneAiSiem(BaseModel):
     r"""List of headers that are safe to log in plain text"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsAuthTokensItems],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsAuthTokensItems],
         pydantic.Field(alias="authType"),
     ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
@@ -2124,11 +2016,7 @@ class CreateOutputOutputSentinelOneAiSiem(BaseModel):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -2219,10 +2107,9 @@ class CreateOutputOutputSentinelOneAiSiem(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -2249,19 +2136,12 @@ class CreateOutputOutputSentinelOneAiSiem(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -2486,9 +2366,7 @@ class CreateOutputOutputDynatraceOtlp(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    protocol: Annotated[
-        Optional[ProtocolDynatraceOtlp], PlainValidator(validate_open_enum(False))
-    ] = ProtocolDynatraceOtlp.HTTP
+    protocol: Optional[ProtocolDynatraceOtlp] = ProtocolDynatraceOtlp.HTTP
     r"""Select a transport option for Dynatrace"""
 
     endpoint: Optional[str] = (
@@ -2497,23 +2375,15 @@ class CreateOutputOutputDynatraceOtlp(BaseModel):
     r"""The endpoint where Dynatrace events will be sent. Enter any valid URL or an IP address (IPv4 or IPv6; enclose IPv6 addresses in square brackets)"""
 
     otlp_version: Annotated[
-        Annotated[
-            Optional[OtlpVersionOptions1], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="otlpVersion"),
+        Optional[OtlpVersionOptions1], pydantic.Field(alias="otlpVersion")
     ] = OtlpVersionOptions1.ONE_DOT_3_DOT_1
     r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
 
-    compress: Annotated[
-        Optional[CompressionOptions4], PlainValidator(validate_open_enum(False))
-    ] = CompressionOptions4.GZIP
+    compress: Optional[CompressionOptions4] = CompressionOptions4.GZIP
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
 
     http_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptions5], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="httpCompress"),
+        Optional[CompressionOptions5], pydantic.Field(alias="httpCompress")
     ] = CompressionOptions5.GZIP
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
 
@@ -2552,10 +2422,7 @@ class CreateOutputOutputDynatraceOtlp(BaseModel):
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     failed_request_logging_mode: Annotated[
-        Annotated[
-            Optional[FailedRequestLoggingModeOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
     ] = FailedRequestLoggingModeOptions.NONE
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
@@ -2574,11 +2441,7 @@ class CreateOutputOutputDynatraceOtlp(BaseModel):
     r"""Disable to close the connection immediately after sending the outgoing request"""
 
     endpoint_type: Annotated[
-        Annotated[
-            Optional[CreateOutputEndpointType],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="endpointType"),
+        Optional[CreateOutputEndpointType], pydantic.Field(alias="endpointType")
     ] = CreateOutputEndpointType.SAAS
     r"""Select the type of Dynatrace endpoint configured"""
 
@@ -2587,11 +2450,7 @@ class CreateOutputOutputDynatraceOtlp(BaseModel):
     )
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -2646,10 +2505,9 @@ class CreateOutputOutputDynatraceOtlp(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -2676,19 +2534,12 @@ class CreateOutputOutputDynatraceOtlp(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -2940,9 +2791,7 @@ class CreateOutputOutputDynatraceHTTP(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    method: Annotated[
-        Optional[MethodOptions], PlainValidator(validate_open_enum(False))
-    ] = MethodOptions.POST
+    method: Optional[MethodOptions] = MethodOptions.POST
     r"""The method to use when sending events"""
 
     keep_alive: Annotated[Optional[bool], pydantic.Field(alias="keepAlive")] = True
@@ -2992,10 +2841,7 @@ class CreateOutputOutputDynatraceHTTP(BaseModel):
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     failed_request_logging_mode: Annotated[
-        Annotated[
-            Optional[FailedRequestLoggingModeOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
     ] = FailedRequestLoggingModeOptions.NONE
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
@@ -3021,40 +2867,23 @@ class CreateOutputOutputDynatraceHTTP(BaseModel):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationTypeDynatraceHTTP],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationTypeDynatraceHTTP], pydantic.Field(alias="authType")
     ] = AuthenticationTypeDynatraceHTTP.TOKEN
 
     format_: Annotated[
-        Annotated[
-            Optional[FormatDynatraceHTTP], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="format"),
+        Optional[FormatDynatraceHTTP], pydantic.Field(alias="format")
     ] = FormatDynatraceHTTP.JSON_ARRAY
     r"""How to format events before sending. Defaults to JSON. Plaintext is not currently supported."""
 
-    endpoint: Annotated[
-        Optional[CreateOutputEndpoint], PlainValidator(validate_open_enum(False))
-    ] = CreateOutputEndpoint.CLOUD
+    endpoint: Optional[CreateOutputEndpoint] = CreateOutputEndpoint.CLOUD
 
     telemetry_type: Annotated[
-        Annotated[
-            Optional[CreateOutputTelemetryType],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="telemetryType"),
+        Optional[CreateOutputTelemetryType], pydantic.Field(alias="telemetryType")
     ] = CreateOutputTelemetryType.LOGS
 
     total_memory_limit_kb: Annotated[
@@ -3074,10 +2903,9 @@ class CreateOutputOutputDynatraceHTTP(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -3104,19 +2932,12 @@ class CreateOutputOutputDynatraceHTTP(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -3497,10 +3318,7 @@ class CreateOutputOutputXsiam(BaseModel):
     r"""Headers to add to all events"""
 
     failed_request_logging_mode: Annotated[
-        Annotated[
-            Optional[FailedRequestLoggingModeOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
     ] = FailedRequestLoggingModeOptions.NONE
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
@@ -3511,11 +3329,7 @@ class CreateOutputOutputXsiam(BaseModel):
     r"""List of headers that are safe to log in plain text"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodXsiam],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationMethodXsiam], pydantic.Field(alias="authType")
     ] = AuthenticationMethodXsiam.TOKEN
     r"""Enter a token directly, or provide a secret referencing a token"""
 
@@ -3540,11 +3354,7 @@ class CreateOutputOutputXsiam(BaseModel):
     r"""Maximum number of requests to limit to per second"""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -3594,10 +3404,9 @@ class CreateOutputOutputXsiam(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -3624,19 +3433,12 @@ class CreateOutputOutputXsiam(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -3933,26 +3735,16 @@ class CreateOutputOutputClickHouse(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationTypeClickHouse],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationTypeClickHouse], pydantic.Field(alias="authType")
     ] = AuthenticationTypeClickHouse.NONE
 
-    format_: Annotated[
-        Annotated[
-            Optional[FormatClickHouse], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="format"),
-    ] = FormatClickHouse.JSON_COMPACT_EACH_ROW_WITH_NAMES
+    format_: Annotated[Optional[FormatClickHouse], pydantic.Field(alias="format")] = (
+        FormatClickHouse.JSON_COMPACT_EACH_ROW_WITH_NAMES
+    )
     r"""Data format to use when sending data to ClickHouse. Defaults to JSON Compact."""
 
     mapping_type: Annotated[
-        Annotated[
-            Optional[CreateOutputMappingType], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="mappingType"),
+        Optional[CreateOutputMappingType], pydantic.Field(alias="mappingType")
     ] = CreateOutputMappingType.AUTOMATIC
     r"""How event fields are mapped to ClickHouse columns."""
 
@@ -4007,10 +3799,7 @@ class CreateOutputOutputClickHouse(BaseModel):
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     failed_request_logging_mode: Annotated[
-        Annotated[
-            Optional[FailedRequestLoggingModeOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
     ] = FailedRequestLoggingModeOptions.NONE
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
@@ -4045,11 +3834,7 @@ class CreateOutputOutputClickHouse(BaseModel):
     ] = None
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -4139,10 +3924,9 @@ class CreateOutputOutputClickHouse(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -4169,19 +3953,12 @@ class CreateOutputOutputClickHouse(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -4320,10 +4097,9 @@ class CreateOutputOutputDiskSpool(BaseModel):
     max_data_time: Annotated[Optional[str], pydantic.Field(alias="maxDataTime")] = "24h"
     r"""Maximum amount of time to retain data before older buckets are deleted. Examples: 2h, 4d. Default is 24h."""
 
-    compress: Annotated[
-        Optional[CompressionOptionsPersistence],
-        PlainValidator(validate_open_enum(False)),
-    ] = CompressionOptionsPersistence.GZIP
+    compress: Optional[CompressionOptionsPersistence] = (
+        CompressionOptionsPersistence.GZIP
+    )
     r"""Data compression format. Default is gzip."""
 
     partition_expr: Annotated[Optional[str], pydantic.Field(alias="partitionExpr")] = (
@@ -4480,10 +4256,7 @@ class CreateOutputOutputCriblLake(BaseModel):
     r"""S3 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint."""
 
     signature_version: Annotated[
-        Annotated[
-            Optional[SignatureVersionOptionsS3CollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[SignatureVersionOptionsS3CollectorConf],
         pydantic.Field(alias="signatureVersion"),
     ] = SignatureVersionOptionsS3CollectorConf.V4
     r"""Signature version to use for signing S3 requests"""
@@ -4532,26 +4305,17 @@ class CreateOutputOutputCriblLake(BaseModel):
     r"""Lake dataset to send the data to."""
 
     object_acl: Annotated[
-        Annotated[
-            Optional[ObjectACLOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="objectACL"),
+        Optional[ObjectACLOptions], pydantic.Field(alias="objectACL")
     ] = ObjectACLOptions.PRIVATE
     r"""Object ACL to assign to uploaded objects"""
 
     storage_class: Annotated[
-        Annotated[
-            Optional[StorageClassOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="storageClass"),
+        Optional[StorageClassOptions], pydantic.Field(alias="storageClass")
     ] = None
     r"""Storage class to select for uploaded objects"""
 
     server_side_encryption: Annotated[
-        Annotated[
-            Optional[ServerSideEncryptionForUploadedObjectsOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[ServerSideEncryptionForUploadedObjectsOptions],
         pydantic.Field(alias="serverSideEncryption"),
     ] = None
 
@@ -4592,11 +4356,7 @@ class CreateOutputOutputCriblLake(BaseModel):
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions1],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions1.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -4606,10 +4366,7 @@ class CreateOutputOutputCriblLake(BaseModel):
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
 
     on_disk_full_backpressure: Annotated[
-        Annotated[
-            Optional[DiskSpaceProtectionOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[DiskSpaceProtectionOptions],
         pydantic.Field(alias="onDiskFullBackpressure"),
     ] = DiskSpaceProtectionOptions.BLOCK
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
@@ -4640,19 +4397,12 @@ class CreateOutputOutputCriblLake(BaseModel):
     r"""Maximum number of files that can be waiting for upload before backpressure is applied"""
 
     aws_authentication_method: Annotated[
-        Annotated[
-            Optional[CreateOutputAwsAuthenticationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[CreateOutputAwsAuthenticationMethod],
         pydantic.Field(alias="awsAuthenticationMethod"),
     ] = CreateOutputAwsAuthenticationMethod.AUTO
 
     format_: Annotated[
-        Annotated[
-            Optional[FormatOptionsCriblLakeDataset],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="format"),
+        Optional[FormatOptionsCriblLakeDataset], pydantic.Field(alias="format")
     ] = None
 
     max_concurrent_file_parts: Annotated[
@@ -4921,10 +4671,7 @@ class CreateOutputOutputSecurityLake(BaseModel):
     )
 
     aws_authentication_method: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsS3CollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
     ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
@@ -4933,11 +4680,7 @@ class CreateOutputOutputSecurityLake(BaseModel):
     r"""Amazon Security Lake service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Amazon Security Lake-compatible endpoint."""
 
     signature_version: Annotated[
-        Annotated[
-            Optional[SignatureVersionSecurityLake],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="signatureVersion"),
+        Optional[SignatureVersionSecurityLake], pydantic.Field(alias="signatureVersion")
     ] = SignatureVersionSecurityLake.V4
     r"""Signature version to use for signing Amazon Security Lake requests"""
 
@@ -4977,26 +4720,17 @@ class CreateOutputOutputSecurityLake(BaseModel):
     r"""Add the Output ID value to staging location"""
 
     object_acl: Annotated[
-        Annotated[
-            Optional[ObjectACLOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="objectACL"),
+        Optional[ObjectACLOptions], pydantic.Field(alias="objectACL")
     ] = ObjectACLOptions.PRIVATE
     r"""Object ACL to assign to uploaded objects"""
 
     storage_class: Annotated[
-        Annotated[
-            Optional[StorageClassOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="storageClass"),
+        Optional[StorageClassOptions], pydantic.Field(alias="storageClass")
     ] = None
     r"""Storage class to select for uploaded objects"""
 
     server_side_encryption: Annotated[
-        Annotated[
-            Optional[ServerSideEncryptionForUploadedObjectsOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[ServerSideEncryptionForUploadedObjectsOptions],
         pydantic.Field(alias="serverSideEncryption"),
     ] = None
 
@@ -5032,11 +4766,7 @@ class CreateOutputOutputSecurityLake(BaseModel):
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions1],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions1.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -5046,10 +4776,7 @@ class CreateOutputOutputSecurityLake(BaseModel):
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
 
     on_disk_full_backpressure: Annotated[
-        Annotated[
-            Optional[DiskSpaceProtectionOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[DiskSpaceProtectionOptions],
         pydantic.Field(alias="onDiskFullBackpressure"),
     ] = DiskSpaceProtectionOptions.BLOCK
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
@@ -5090,18 +4817,12 @@ class CreateOutputOutputSecurityLake(BaseModel):
     r"""Automatically calculate the schema based on the events of each Parquet file generated"""
 
     parquet_version: Annotated[
-        Annotated[
-            Optional[ParquetVersionOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="parquetVersion"),
+        Optional[ParquetVersionOptions], pydantic.Field(alias="parquetVersion")
     ] = ParquetVersionOptions.PARQUET_2_6
     r"""Determines which data types are supported and how they are represented"""
 
     parquet_data_page_version: Annotated[
-        Annotated[
-            Optional[DataPageVersionOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="parquetDataPageVersion"),
+        Optional[DataPageVersionOptions], pydantic.Field(alias="parquetDataPageVersion")
     ] = DataPageVersionOptions.DATA_PAGE_V2
     r"""Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it."""
 
@@ -5416,10 +5137,7 @@ class CreateOutputOutputDlS3(BaseModel):
     r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
 
     aws_authentication_method: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsS3CollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
     ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
@@ -5428,10 +5146,7 @@ class CreateOutputOutputDlS3(BaseModel):
     r"""S3 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint."""
 
     signature_version: Annotated[
-        Annotated[
-            Optional[SignatureVersionOptionsS3CollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[SignatureVersionOptionsS3CollectorConf],
         pydantic.Field(alias="signatureVersion"),
     ] = SignatureVersionOptionsS3CollectorConf.V4
     r"""Signature version to use for signing S3 requests"""
@@ -5480,26 +5195,17 @@ class CreateOutputOutputDlS3(BaseModel):
     r"""Prefix to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"""
 
     object_acl: Annotated[
-        Annotated[
-            Optional[ObjectACLOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="objectACL"),
+        Optional[ObjectACLOptions], pydantic.Field(alias="objectACL")
     ] = ObjectACLOptions.PRIVATE
     r"""Object ACL to assign to uploaded objects"""
 
     storage_class: Annotated[
-        Annotated[
-            Optional[StorageClassOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="storageClass"),
+        Optional[StorageClassOptions], pydantic.Field(alias="storageClass")
     ] = None
     r"""Storage class to select for uploaded objects"""
 
     server_side_encryption: Annotated[
-        Annotated[
-            Optional[ServerSideEncryptionForUploadedObjectsOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[ServerSideEncryptionForUploadedObjectsOptions],
         pydantic.Field(alias="serverSideEncryption"),
     ] = None
 
@@ -5511,12 +5217,9 @@ class CreateOutputOutputDlS3(BaseModel):
     ] = True
     r"""Remove empty staging directories after moving files"""
 
-    format_: Annotated[
-        Annotated[
-            Optional[DataFormatOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="format"),
-    ] = DataFormatOptions.JSON
+    format_: Annotated[Optional[DataFormatOptions], pydantic.Field(alias="format")] = (
+        DataFormatOptions.JSON
+    )
     r"""Format of the output data"""
 
     base_file_name: Annotated[Optional[str], pydantic.Field(alias="baseFileName")] = (
@@ -5548,11 +5251,7 @@ class CreateOutputOutputDlS3(BaseModel):
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions1],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions1.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -5562,10 +5261,7 @@ class CreateOutputOutputDlS3(BaseModel):
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
 
     on_disk_full_backpressure: Annotated[
-        Annotated[
-            Optional[DiskSpaceProtectionOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[DiskSpaceProtectionOptions],
         pydantic.Field(alias="onDiskFullBackpressure"),
     ] = DiskSpaceProtectionOptions.BLOCK
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
@@ -5613,16 +5309,11 @@ class CreateOutputOutputDlS3(BaseModel):
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
 
-    compress: Annotated[
-        Optional[CompressionOptions2], PlainValidator(validate_open_enum(False))
-    ] = CompressionOptions2.GZIP
+    compress: Optional[CompressionOptions2] = CompressionOptions2.GZIP
     r"""Data compression format to apply to HTTP content before it is delivered"""
 
     compression_level: Annotated[
-        Annotated[
-            Optional[CompressionLevelOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="compressionLevel"),
+        Optional[CompressionLevelOptions], pydantic.Field(alias="compressionLevel")
     ] = CompressionLevelOptions.BEST_SPEED
     r"""Compression level to apply before moving files to final destination"""
 
@@ -5637,18 +5328,12 @@ class CreateOutputOutputDlS3(BaseModel):
     r"""To add a new schema, navigate to Processing > Knowledge > Parquet Schemas"""
 
     parquet_version: Annotated[
-        Annotated[
-            Optional[ParquetVersionOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="parquetVersion"),
+        Optional[ParquetVersionOptions], pydantic.Field(alias="parquetVersion")
     ] = ParquetVersionOptions.PARQUET_2_6
     r"""Determines which data types are supported and how they are represented"""
 
     parquet_data_page_version: Annotated[
-        Annotated[
-            Optional[DataPageVersionOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="parquetDataPageVersion"),
+        Optional[DataPageVersionOptions], pydantic.Field(alias="parquetDataPageVersion")
     ] = DataPageVersionOptions.DATA_PAGE_V2
     r"""Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it."""
 
@@ -5975,10 +5660,7 @@ class CreateOutputOutputCrowdstrikeNextGenSiem(BaseModel):
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     failed_request_logging_mode: Annotated[
-        Annotated[
-            Optional[FailedRequestLoggingModeOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
     ] = FailedRequestLoggingModeOptions.NONE
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
@@ -5989,18 +5671,12 @@ class CreateOutputOutputCrowdstrikeNextGenSiem(BaseModel):
     r"""List of headers that are safe to log in plain text"""
 
     format_: Annotated[
-        Annotated[
-            Optional[RequestFormatOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="format"),
+        Optional[RequestFormatOptions], pydantic.Field(alias="format")
     ] = RequestFormatOptions.JSON
     r"""When set to JSON, the event is automatically formatted with required fields before sending. When set to Raw, only the event's `_raw` value is sent."""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsAuthTokensItems],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsAuthTokensItems],
         pydantic.Field(alias="authType"),
     ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
@@ -6021,11 +5697,7 @@ class CreateOutputOutputCrowdstrikeNextGenSiem(BaseModel):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -6046,10 +5718,9 @@ class CreateOutputOutputCrowdstrikeNextGenSiem(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -6076,19 +5747,12 @@ class CreateOutputOutputCrowdstrikeNextGenSiem(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -6317,10 +5981,7 @@ class CreateOutputOutputHumioHec(BaseModel):
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     failed_request_logging_mode: Annotated[
-        Annotated[
-            Optional[FailedRequestLoggingModeOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
     ] = FailedRequestLoggingModeOptions.NONE
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
@@ -6331,18 +5992,12 @@ class CreateOutputOutputHumioHec(BaseModel):
     r"""List of headers that are safe to log in plain text"""
 
     format_: Annotated[
-        Annotated[
-            Optional[RequestFormatOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="format"),
+        Optional[RequestFormatOptions], pydantic.Field(alias="format")
     ] = RequestFormatOptions.JSON
     r"""When set to JSON, the event is automatically formatted with required fields before sending. When set to Raw, only the event's `_raw` value is sent."""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsAuthTokensItems],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsAuthTokensItems],
         pydantic.Field(alias="authType"),
     ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
@@ -6363,11 +6018,7 @@ class CreateOutputOutputHumioHec(BaseModel):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -6389,10 +6040,9 @@ class CreateOutputOutputHumioHec(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -6419,19 +6069,12 @@ class CreateOutputOutputHumioHec(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -6640,9 +6283,7 @@ class CreateOutputOutputCriblSearchEngine(BaseModel):
     ] = None
     r"""Fields to exclude from the event. By default, all internal fields except `__output` are sent. Example: `cribl_pipe`, `c*`. Wildcards supported."""
 
-    compression: Annotated[
-        Optional[CompressionOptions1], PlainValidator(validate_open_enum(False))
-    ] = CompressionOptions1.GZIP
+    compression: Optional[CompressionOptions1] = CompressionOptions1.GZIP
     r"""Codec to use to compress the data before sending"""
 
     concurrency: Optional[float] = 5
@@ -6681,10 +6322,7 @@ class CreateOutputOutputCriblSearchEngine(BaseModel):
     r"""Headers to add to all events"""
 
     failed_request_logging_mode: Annotated[
-        Annotated[
-            Optional[FailedRequestLoggingModeOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
     ] = FailedRequestLoggingModeOptions.NONE
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
@@ -6720,11 +6358,7 @@ class CreateOutputOutputCriblSearchEngine(BaseModel):
     r"""Shared secrets to be used by connected environments to authorize connections. These tokens should also be installed in Cribl HTTP Source in Cribl.Cloud."""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -6763,10 +6397,9 @@ class CreateOutputOutputCriblSearchEngine(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -6793,19 +6426,12 @@ class CreateOutputOutputCriblSearchEngine(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -7005,9 +6631,7 @@ class CreateOutputOutputCriblHTTP(BaseModel):
     ] = None
     r"""Fields to exclude from the event. By default, all internal fields except `__output` are sent. Example: `cribl_pipe`, `c*`. Wildcards supported."""
 
-    compression: Annotated[
-        Optional[CompressionOptions1], PlainValidator(validate_open_enum(False))
-    ] = CompressionOptions1.GZIP
+    compression: Optional[CompressionOptions1] = CompressionOptions1.GZIP
     r"""Codec to use to compress the data before sending"""
 
     concurrency: Optional[float] = 5
@@ -7046,10 +6670,7 @@ class CreateOutputOutputCriblHTTP(BaseModel):
     r"""Headers to add to all events"""
 
     failed_request_logging_mode: Annotated[
-        Annotated[
-            Optional[FailedRequestLoggingModeOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
     ] = FailedRequestLoggingModeOptions.NONE
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
@@ -7085,11 +6706,7 @@ class CreateOutputOutputCriblHTTP(BaseModel):
     r"""Shared secrets to be used by connected environments to authorize connections. These tokens should also be installed in Cribl HTTP Source in Cribl.Cloud."""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -7128,10 +6745,9 @@ class CreateOutputOutputCriblHTTP(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -7158,19 +6774,12 @@ class CreateOutputOutputCriblHTTP(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -7257,9 +6866,7 @@ class HostCriblTCP(BaseModel):
     port: Optional[float] = 10300
     r"""The port to connect to on the provided host"""
 
-    tls: Annotated[
-        Optional[TLSOptionsHostsItems], PlainValidator(validate_open_enum(False))
-    ] = TLSOptionsHostsItems.INHERIT
+    tls: Optional[TLSOptionsHostsItems] = TLSOptionsHostsItems.INHERIT
     r"""Whether to inherit TLS configs from group setting or disable TLS"""
 
     servername: Optional[str] = None
@@ -7382,9 +6989,7 @@ class CreateOutputOutputCriblTCP(BaseModel):
     )
     r"""Use load-balanced destinations"""
 
-    compression: Annotated[
-        Optional[CompressionOptions1], PlainValidator(validate_open_enum(False))
-    ] = CompressionOptions1.GZIP
+    compression: Optional[CompressionOptions1] = CompressionOptions1.GZIP
     r"""Codec to use to compress the data before sending"""
 
     log_failed_requests: Annotated[
@@ -7425,11 +7030,7 @@ class CreateOutputOutputCriblTCP(BaseModel):
     r"""Fields to exclude from the event. By default, all internal fields except `__output` are sent. Example: `cribl_pipe`, `c*`. Wildcards supported."""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -7472,10 +7073,9 @@ class CreateOutputOutputCriblTCP(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -7502,19 +7102,12 @@ class CreateOutputOutputCriblTCP(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -7738,8 +7331,7 @@ class CreateOutputOutputDataset(BaseModel):
     r"""Name of the event field that contains the timestamp. If not specified, defaults to `ts`, `_time`, or `Date.now()`, in that order."""
 
     default_severity: Annotated[
-        Annotated[Optional[SeverityDataset], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="defaultSeverity"),
+        Optional[SeverityDataset], pydantic.Field(alias="defaultSeverity")
     ] = SeverityDataset.INFO
     r"""Default value for event severity. If the `sev` or `__severity` fields are set on an event, the first one matching will override this value."""
 
@@ -7758,9 +7350,7 @@ class CreateOutputOutputDataset(BaseModel):
     ] = False
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
-    site: Annotated[
-        Optional[CreateOutputDataSetSite], PlainValidator(validate_open_enum(False))
-    ] = CreateOutputDataSetSite.US
+    site: Optional[CreateOutputDataSetSite] = CreateOutputDataSetSite.US
     r"""DataSet site to which events should be sent"""
 
     concurrency: Optional[float] = 5
@@ -7807,10 +7397,7 @@ class CreateOutputOutputDataset(BaseModel):
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     failed_request_logging_mode: Annotated[
-        Annotated[
-            Optional[FailedRequestLoggingModeOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
     ] = FailedRequestLoggingModeOptions.NONE
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
@@ -7821,20 +7408,12 @@ class CreateOutputOutputDataset(BaseModel):
     r"""List of headers that are safe to log in plain text"""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptions2],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationMethodOptions2], pydantic.Field(alias="authType")
     ] = AuthenticationMethodOptions2.MANUAL
     r"""Enter API key directly, or select a stored secret"""
 
@@ -7857,10 +7436,9 @@ class CreateOutputOutputDataset(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -7887,19 +7465,12 @@ class CreateOutputOutputDataset(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -8121,10 +7692,7 @@ class CreateOutputOutputServiceNow(BaseModel):
     )
 
     otlp_version: Annotated[
-        Annotated[
-            Optional[OtlpVersionOptions1], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="otlpVersion"),
+        Optional[OtlpVersionOptions1], pydantic.Field(alias="otlpVersion")
     ] = OtlpVersionOptions1.ONE_DOT_3_DOT_1
     r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
 
@@ -8133,21 +7701,14 @@ class CreateOutputOutputServiceNow(BaseModel):
     ] = 2048
     r"""Maximum size, in KB, of the request body"""
 
-    protocol: Annotated[
-        Optional[ProtocolOptions], PlainValidator(validate_open_enum(False))
-    ] = ProtocolOptions.GRPC
+    protocol: Optional[ProtocolOptions] = ProtocolOptions.GRPC
     r"""Select a transport option for OpenTelemetry"""
 
-    compress: Annotated[
-        Optional[CompressionOptions4], PlainValidator(validate_open_enum(False))
-    ] = CompressionOptions4.GZIP
+    compress: Optional[CompressionOptions4] = CompressionOptions4.GZIP
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
 
     http_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptions5], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="httpCompress"),
+        Optional[CompressionOptions5], pydantic.Field(alias="httpCompress")
     ] = CompressionOptions5.GZIP
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
 
@@ -8181,10 +7742,7 @@ class CreateOutputOutputServiceNow(BaseModel):
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     failed_request_logging_mode: Annotated[
-        Annotated[
-            Optional[FailedRequestLoggingModeOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
     ] = FailedRequestLoggingModeOptions.NONE
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
@@ -8203,11 +7761,7 @@ class CreateOutputOutputServiceNow(BaseModel):
     r"""Disable to close the connection immediately after sending the outgoing request"""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -8264,10 +7818,9 @@ class CreateOutputOutputServiceNow(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -8294,19 +7847,12 @@ class CreateOutputOutputServiceNow(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -8555,38 +8101,24 @@ class CreateOutputOutputOpenTelemetry(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    protocol: Annotated[
-        Optional[ProtocolOptions], PlainValidator(validate_open_enum(False))
-    ] = ProtocolOptions.GRPC
+    protocol: Optional[ProtocolOptions] = ProtocolOptions.GRPC
     r"""Select a transport option for OpenTelemetry"""
 
     otlp_version: Annotated[
-        Annotated[
-            Optional[CreateOutputOTLPVersion], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="otlpVersion"),
+        Optional[CreateOutputOTLPVersion], pydantic.Field(alias="otlpVersion")
     ] = CreateOutputOTLPVersion.ZERO_DOT_10_DOT_0
     r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
 
-    compress: Annotated[
-        Optional[CompressionOptions4], PlainValidator(validate_open_enum(False))
-    ] = CompressionOptions4.GZIP
+    compress: Optional[CompressionOptions4] = CompressionOptions4.GZIP
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
 
     http_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptions5], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="httpCompress"),
+        Optional[CompressionOptions5], pydantic.Field(alias="httpCompress")
     ] = CompressionOptions5.GZIP
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationTypeOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationTypeOptions], pydantic.Field(alias="authType")
     ] = AuthenticationTypeOptions.NONE
     r"""OpenTelemetry authentication type"""
 
@@ -8625,10 +8157,7 @@ class CreateOutputOutputOpenTelemetry(BaseModel):
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     failed_request_logging_mode: Annotated[
-        Annotated[
-            Optional[FailedRequestLoggingModeOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
     ] = FailedRequestLoggingModeOptions.NONE
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
@@ -8647,11 +8176,7 @@ class CreateOutputOutputOpenTelemetry(BaseModel):
     r"""Disable to close the connection immediately after sending the outgoing request"""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -8759,10 +8284,9 @@ class CreateOutputOutputOpenTelemetry(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -8789,19 +8313,12 @@ class CreateOutputOutputOpenTelemetry(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -8959,10 +8476,9 @@ class CreateOutputOutputRing(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    format_: Annotated[
-        Annotated[Optional[DataFormatRing], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="format"),
-    ] = DataFormatRing.JSON
+    format_: Annotated[Optional[DataFormatRing], pydantic.Field(alias="format")] = (
+        DataFormatRing.JSON
+    )
     r"""Format of the output data."""
 
     partition_expr: Annotated[Optional[str], pydantic.Field(alias="partitionExpr")] = (
@@ -8976,20 +8492,15 @@ class CreateOutputOutputRing(BaseModel):
     max_data_time: Annotated[Optional[str], pydantic.Field(alias="maxDataTime")] = "24h"
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
 
-    compress: Annotated[
-        Optional[DataCompressionFormatOptionsPersistence],
-        PlainValidator(validate_open_enum(False)),
-    ] = DataCompressionFormatOptionsPersistence.GZIP
+    compress: Optional[DataCompressionFormatOptionsPersistence] = (
+        DataCompressionFormatOptionsPersistence.GZIP
+    )
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/<id>"""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions1],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions1.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -9209,10 +8720,7 @@ class CreateOutputOutputPrometheus(BaseModel):
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     failed_request_logging_mode: Annotated[
-        Annotated[
-            Optional[FailedRequestLoggingModeOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
     ] = FailedRequestLoggingModeOptions.NONE
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
@@ -9238,19 +8746,12 @@ class CreateOutputOutputPrometheus(BaseModel):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationTypeOptionsPrometheusAuth],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationTypeOptionsPrometheusAuth],
         pydantic.Field(alias="authType"),
     ] = AuthenticationTypeOptionsPrometheusAuth.NONE
     r"""Remote Write authentication type"""
@@ -9272,10 +8773,9 @@ class CreateOutputOutputPrometheus(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -9302,19 +8802,12 @@ class CreateOutputOutputPrometheus(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -9571,10 +9064,7 @@ class CreateOutputOutputLoki(BaseModel):
     r"""Name of the event field that contains the message to send. If not specified, Stream sends a JSON representation of the whole event."""
 
     message_format: Annotated[
-        Annotated[
-            Optional[MessageFormatOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="messageFormat"),
+        Optional[MessageFormatOptions], pydantic.Field(alias="messageFormat")
     ] = MessageFormatOptions.PROTOBUF
     r"""Format to use when sending logs to Loki (Protobuf or JSON)"""
 
@@ -9582,10 +9072,7 @@ class CreateOutputOutputLoki(BaseModel):
     r"""List of labels to send with logs. Labels define Loki streams, so use static labels to avoid proliferating label value combinations and streams. Can be merged and/or overridden by the event's __labels field. Example: '__labels: {host: \"cribl.io\", level: \"error\"}'"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationTypeLoki], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationTypeLoki], pydantic.Field(alias="authType")
     ] = AuthenticationTypeLoki.NONE
 
     concurrency: Optional[float] = 1
@@ -9629,10 +9116,7 @@ class CreateOutputOutputLoki(BaseModel):
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     failed_request_logging_mode: Annotated[
-        Annotated[
-            Optional[FailedRequestLoggingModeOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
     ] = FailedRequestLoggingModeOptions.NONE
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
@@ -9663,11 +9147,7 @@ class CreateOutputOutputLoki(BaseModel):
     r"""Add per-event HTTP headers from the __headers field to outgoing requests. Events with different headers are batched and sent separately."""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -9708,10 +9188,9 @@ class CreateOutputOutputLoki(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -9738,19 +9217,12 @@ class CreateOutputOutputLoki(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -9946,10 +9418,7 @@ class CreateOutputOutputGrafanaCloudGrafanaCloud2(BaseModel):
     r"""Name of the event field that contains the message to send. If not specified, Stream sends a JSON representation of the whole event."""
 
     message_format: Annotated[
-        Annotated[
-            Optional[MessageFormatOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="messageFormat"),
+        Optional[MessageFormatOptions], pydantic.Field(alias="messageFormat")
     ] = MessageFormatOptions.PROTOBUF
     r"""Format to use when sending logs to Loki (Protobuf or JSON)"""
 
@@ -10010,10 +9479,7 @@ class CreateOutputOutputGrafanaCloudGrafanaCloud2(BaseModel):
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     failed_request_logging_mode: Annotated[
-        Annotated[
-            Optional[FailedRequestLoggingModeOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
     ] = FailedRequestLoggingModeOptions.NONE
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
@@ -10039,11 +9505,7 @@ class CreateOutputOutputGrafanaCloudGrafanaCloud2(BaseModel):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -10062,10 +9524,9 @@ class CreateOutputOutputGrafanaCloudGrafanaCloud2(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -10092,19 +9553,12 @@ class CreateOutputOutputGrafanaCloudGrafanaCloud2(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -10294,10 +9748,7 @@ class CreateOutputOutputGrafanaCloudGrafanaCloud1(BaseModel):
     r"""Name of the event field that contains the message to send. If not specified, Stream sends a JSON representation of the whole event."""
 
     message_format: Annotated[
-        Annotated[
-            Optional[MessageFormatOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="messageFormat"),
+        Optional[MessageFormatOptions], pydantic.Field(alias="messageFormat")
     ] = MessageFormatOptions.PROTOBUF
     r"""Format to use when sending logs to Loki (Protobuf or JSON)"""
 
@@ -10358,10 +9809,7 @@ class CreateOutputOutputGrafanaCloudGrafanaCloud1(BaseModel):
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     failed_request_logging_mode: Annotated[
-        Annotated[
-            Optional[FailedRequestLoggingModeOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
     ] = FailedRequestLoggingModeOptions.NONE
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
@@ -10387,11 +9835,7 @@ class CreateOutputOutputGrafanaCloudGrafanaCloud1(BaseModel):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -10410,10 +9854,9 @@ class CreateOutputOutputGrafanaCloudGrafanaCloud1(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -10440,19 +9883,12 @@ class CreateOutputOutputGrafanaCloudGrafanaCloud1(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -10715,10 +10151,7 @@ class CreateOutputOutputDatadog(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     content_type: Annotated[
-        Annotated[
-            Optional[CreateOutputSendLogsAs], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="contentType"),
+        Optional[CreateOutputSendLogsAs], pydantic.Field(alias="contentType")
     ] = CreateOutputSendLogsAs.JSON
     r"""The content type to use when sending logs"""
 
@@ -10745,14 +10178,10 @@ class CreateOutputOutputDatadog(BaseModel):
     ] = False
     r"""Allow API key to be set from the event's '__agent_api_key' field"""
 
-    severity: Annotated[
-        Optional[SeverityDatadog], PlainValidator(validate_open_enum(False))
-    ] = None
+    severity: Optional[SeverityDatadog] = None
     r"""Default value for message severity. When you send logs as JSON objects, the event's '__severity' field (if set) will override this value."""
 
-    site: Annotated[
-        Optional[CreateOutputDatadogSite], PlainValidator(validate_open_enum(False))
-    ] = CreateOutputDatadogSite.US
+    site: Optional[CreateOutputDatadogSite] = CreateOutputDatadogSite.US
     r"""Datadog site to which events should be sent"""
 
     send_counters_as_count: Annotated[
@@ -10804,10 +10233,7 @@ class CreateOutputOutputDatadog(BaseModel):
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     failed_request_logging_mode: Annotated[
-        Annotated[
-            Optional[FailedRequestLoggingModeOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
     ] = FailedRequestLoggingModeOptions.NONE
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
@@ -10833,20 +10259,12 @@ class CreateOutputOutputDatadog(BaseModel):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptions2],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationMethodOptions2], pydantic.Field(alias="authType")
     ] = AuthenticationMethodOptions2.MANUAL
     r"""Enter API key directly, or select a stored secret"""
 
@@ -10869,10 +10287,9 @@ class CreateOutputOutputDatadog(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -10899,19 +10316,12 @@ class CreateOutputOutputDatadog(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -11138,10 +10548,7 @@ class CreateOutputOutputSumoLogic(BaseModel):
     r"""Override the source category configured on the Sumo Logic HTTP collector. This can also be overridden at the event level with the __sourceCategory field."""
 
     format_: Annotated[
-        Annotated[
-            Optional[DataFormatSumoLogic], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="format"),
+        Optional[DataFormatSumoLogic], pydantic.Field(alias="format")
     ] = DataFormatSumoLogic.JSON
     r"""Preserve the raw event format instead of JSONifying it"""
 
@@ -11189,10 +10596,7 @@ class CreateOutputOutputSumoLogic(BaseModel):
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     failed_request_logging_mode: Annotated[
-        Annotated[
-            Optional[FailedRequestLoggingModeOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
     ] = FailedRequestLoggingModeOptions.NONE
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
@@ -11218,11 +10622,7 @@ class CreateOutputOutputSumoLogic(BaseModel):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -11243,10 +10643,9 @@ class CreateOutputOutputSumoLogic(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -11273,19 +10672,12 @@ class CreateOutputOutputSumoLogic(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -11527,10 +10919,7 @@ class CreateOutputOutputSqs(BaseModel):
     queue_name: Annotated[str, pydantic.Field(alias="queueName")]
     r"""The name, URL, or ARN of the SQS queue to send events to. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
 
-    queue_type: Annotated[
-        Annotated[CreateOutputQueueType, PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="queueType"),
-    ]
+    queue_type: Annotated[CreateOutputQueueType, pydantic.Field(alias="queueType")]
     r"""The queue type used (or created). Defaults to Standard."""
 
     pipeline: Optional[str] = None
@@ -11561,10 +10950,7 @@ class CreateOutputOutputSqs(BaseModel):
     r"""Create queue if it does not exist."""
 
     aws_authentication_method: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsS3CollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
     ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
@@ -11580,11 +10966,7 @@ class CreateOutputOutputSqs(BaseModel):
     r"""SQS service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to SQS-compatible endpoint."""
 
     signature_version: Annotated[
-        Annotated[
-            Optional[SignatureVersionOptions3],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="signatureVersion"),
+        Optional[SignatureVersionOptions3], pydantic.Field(alias="signatureVersion")
     ] = SignatureVersionOptions3.V4
     r"""Signature version to use for signing SQS requests"""
 
@@ -11639,11 +11021,7 @@ class CreateOutputOutputSqs(BaseModel):
     r"""The maximum number of in-progress API requests before backpressure is applied."""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -11664,10 +11042,9 @@ class CreateOutputOutputSqs(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -11694,19 +11071,12 @@ class CreateOutputOutputSqs(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -11895,10 +11265,7 @@ class CreateOutputOutputSns(BaseModel):
     r"""Maximum number of retries before the output returns an error. Note that not all errors are retryable. The retries use an exponential backoff policy."""
 
     aws_authentication_method: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsS3CollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
     ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
@@ -11914,10 +11281,7 @@ class CreateOutputOutputSns(BaseModel):
     r"""SNS service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to SNS-compatible endpoint."""
 
     signature_version: Annotated[
-        Annotated[
-            Optional[SignatureVersionSns], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="signatureVersion"),
+        Optional[SignatureVersionSns], pydantic.Field(alias="signatureVersion")
     ] = SignatureVersionSns.V4
     r"""Signature version to use for signing SNS requests"""
 
@@ -11952,11 +11316,7 @@ class CreateOutputOutputSns(BaseModel):
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -11977,10 +11337,9 @@ class CreateOutputOutputSns(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -12007,19 +11366,12 @@ class CreateOutputOutputSns(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -12245,9 +11597,7 @@ class CreateOutputOutputGraphite(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    protocol: Annotated[
-        Optional[DestinationProtocolOptions], PlainValidator(validate_open_enum(False))
-    ] = DestinationProtocolOptions.UDP
+    protocol: Optional[DestinationProtocolOptions] = DestinationProtocolOptions.UDP
     r"""Protocol to use when communicating with the destination."""
 
     port: Optional[float] = 8125
@@ -12284,11 +11634,7 @@ class CreateOutputOutputGraphite(BaseModel):
     r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -12302,10 +11648,9 @@ class CreateOutputOutputGraphite(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -12332,19 +11677,12 @@ class CreateOutputOutputGraphite(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -12489,9 +11827,7 @@ class CreateOutputOutputStatsdExt(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    protocol: Annotated[
-        Optional[DestinationProtocolOptions], PlainValidator(validate_open_enum(False))
-    ] = DestinationProtocolOptions.UDP
+    protocol: Optional[DestinationProtocolOptions] = DestinationProtocolOptions.UDP
     r"""Protocol to use when communicating with the destination."""
 
     port: Optional[float] = 8125
@@ -12528,11 +11864,7 @@ class CreateOutputOutputStatsdExt(BaseModel):
     r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -12546,10 +11878,9 @@ class CreateOutputOutputStatsdExt(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -12576,19 +11907,12 @@ class CreateOutputOutputStatsdExt(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -12733,9 +12057,7 @@ class CreateOutputOutputStatsd(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    protocol: Annotated[
-        Optional[DestinationProtocolOptions], PlainValidator(validate_open_enum(False))
-    ] = DestinationProtocolOptions.UDP
+    protocol: Optional[DestinationProtocolOptions] = DestinationProtocolOptions.UDP
     r"""Protocol to use when communicating with the destination."""
 
     port: Optional[float] = 8125
@@ -12772,11 +12094,7 @@ class CreateOutputOutputStatsd(BaseModel):
     r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -12790,10 +12108,9 @@ class CreateOutputOutputStatsd(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -12820,19 +12137,12 @@ class CreateOutputOutputStatsd(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -13032,10 +12342,7 @@ class CreateOutputOutputMinio(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     aws_authentication_method: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsS3CollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
     ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
@@ -13062,35 +12369,22 @@ class CreateOutputOutputMinio(BaseModel):
     r"""Root directory to prepend to path before uploading. Enter a constant, or a JavaScript expression enclosed in quotes or backticks."""
 
     signature_version: Annotated[
-        Annotated[
-            Optional[SignatureVersionOptions5],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="signatureVersion"),
+        Optional[SignatureVersionOptions5], pydantic.Field(alias="signatureVersion")
     ] = SignatureVersionOptions5.V4
     r"""Signature version to use for signing MinIO requests"""
 
     object_acl: Annotated[
-        Annotated[
-            Optional[ObjectACLOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="objectACL"),
+        Optional[ObjectACLOptions], pydantic.Field(alias="objectACL")
     ] = ObjectACLOptions.PRIVATE
     r"""Object ACL to assign to uploaded objects"""
 
     storage_class: Annotated[
-        Annotated[
-            Optional[StorageClassOptions2], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="storageClass"),
+        Optional[StorageClassOptions2], pydantic.Field(alias="storageClass")
     ] = None
     r"""Storage class to select for uploaded objects"""
 
     server_side_encryption: Annotated[
-        Annotated[
-            Optional[ServerSideEncryptionOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[ServerSideEncryptionOptions],
         pydantic.Field(alias="serverSideEncryption"),
     ] = None
     r"""Server-side encryption for uploaded objects"""
@@ -13120,12 +12414,9 @@ class CreateOutputOutputMinio(BaseModel):
     )
     r"""JavaScript expression defining how files are partitioned and organized. Default is date-based. If blank, Stream will fall back to the event's __partition field value – if present – otherwise to each location's root directory."""
 
-    format_: Annotated[
-        Annotated[
-            Optional[DataFormatOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="format"),
-    ] = DataFormatOptions.JSON
+    format_: Annotated[Optional[DataFormatOptions], pydantic.Field(alias="format")] = (
+        DataFormatOptions.JSON
+    )
     r"""Format of the output data"""
 
     base_file_name: Annotated[Optional[str], pydantic.Field(alias="baseFileName")] = (
@@ -13157,11 +12448,7 @@ class CreateOutputOutputMinio(BaseModel):
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions1],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions1.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -13171,10 +12458,7 @@ class CreateOutputOutputMinio(BaseModel):
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
 
     on_disk_full_backpressure: Annotated[
-        Annotated[
-            Optional[DiskSpaceProtectionOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[DiskSpaceProtectionOptions],
         pydantic.Field(alias="onDiskFullBackpressure"),
     ] = DiskSpaceProtectionOptions.BLOCK
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
@@ -13207,16 +12491,11 @@ class CreateOutputOutputMinio(BaseModel):
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
 
-    compress: Annotated[
-        Optional[CompressionOptions2], PlainValidator(validate_open_enum(False))
-    ] = CompressionOptions2.GZIP
+    compress: Optional[CompressionOptions2] = CompressionOptions2.GZIP
     r"""Data compression format to apply to HTTP content before it is delivered"""
 
     compression_level: Annotated[
-        Annotated[
-            Optional[CompressionLevelOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="compressionLevel"),
+        Optional[CompressionLevelOptions], pydantic.Field(alias="compressionLevel")
     ] = CompressionLevelOptions.BEST_SPEED
     r"""Compression level to apply before moving files to final destination"""
 
@@ -13231,18 +12510,12 @@ class CreateOutputOutputMinio(BaseModel):
     r"""To add a new schema, navigate to Processing > Knowledge > Parquet Schemas"""
 
     parquet_version: Annotated[
-        Annotated[
-            Optional[ParquetVersionOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="parquetVersion"),
+        Optional[ParquetVersionOptions], pydantic.Field(alias="parquetVersion")
     ] = ParquetVersionOptions.PARQUET_2_6
     r"""Determines which data types are supported and how they are represented"""
 
     parquet_data_page_version: Annotated[
-        Annotated[
-            Optional[DataPageVersionOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="parquetDataPageVersion"),
+        Optional[DataPageVersionOptions], pydantic.Field(alias="parquetDataPageVersion")
     ] = DataPageVersionOptions.DATA_PAGE_V2
     r"""Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it."""
 
@@ -13521,10 +12794,7 @@ class CreateOutputOutputCloudwatch(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     aws_authentication_method: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsS3CollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
     ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
@@ -13580,11 +12850,7 @@ class CreateOutputOutputCloudwatch(BaseModel):
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Max record size."""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -13605,10 +12871,9 @@ class CreateOutputOutputCloudwatch(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -13635,19 +12900,12 @@ class CreateOutputOutputCloudwatch(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -13878,10 +13136,7 @@ class CreateOutputOutputInfluxdb(BaseModel):
     r"""The v2 API can be enabled with InfluxDB versions 1.8 and later."""
 
     timestamp_precision: Annotated[
-        Annotated[
-            Optional[CreateOutputTimestampPrecision],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[CreateOutputTimestampPrecision],
         pydantic.Field(alias="timestampPrecision"),
     ] = CreateOutputTimestampPrecision.MS
     r"""Sets the precision for the supplied Unix time values. Defaults to milliseconds."""
@@ -13940,10 +13195,7 @@ class CreateOutputOutputInfluxdb(BaseModel):
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     failed_request_logging_mode: Annotated[
-        Annotated[
-            Optional[FailedRequestLoggingModeOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
     ] = FailedRequestLoggingModeOptions.NONE
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
@@ -13969,20 +13221,12 @@ class CreateOutputOutputInfluxdb(BaseModel):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationTypeInfluxdb],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationTypeInfluxdb], pydantic.Field(alias="authType")
     ] = AuthenticationTypeInfluxdb.NONE
     r"""InfluxDB authentication type"""
 
@@ -14007,10 +13251,9 @@ class CreateOutputOutputInfluxdb(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -14037,19 +13280,12 @@ class CreateOutputOutputInfluxdb(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -14291,9 +13527,7 @@ class CreateOutputOutputNewrelicEvents(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    region: Annotated[
-        Optional[RegionOptions], PlainValidator(validate_open_enum(False))
-    ] = RegionOptions.US
+    region: Optional[RegionOptions] = RegionOptions.US
     r"""Which New Relic region endpoint to use."""
 
     concurrency: Optional[float] = 5
@@ -14340,10 +13574,7 @@ class CreateOutputOutputNewrelicEvents(BaseModel):
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     failed_request_logging_mode: Annotated[
-        Annotated[
-            Optional[FailedRequestLoggingModeOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
     ] = FailedRequestLoggingModeOptions.NONE
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
@@ -14369,20 +13600,12 @@ class CreateOutputOutputNewrelicEvents(BaseModel):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptions2],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationMethodOptions2], pydantic.Field(alias="authType")
     ] = AuthenticationMethodOptions2.MANUAL
     r"""Enter API key directly, or select a stored secret"""
 
@@ -14400,10 +13623,9 @@ class CreateOutputOutputNewrelicEvents(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -14430,19 +13652,12 @@ class CreateOutputOutputNewrelicEvents(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -14538,7 +13753,7 @@ class CreateOutputMetadatumTypedDict(TypedDict):
 
 
 class CreateOutputMetadatum(BaseModel):
-    name: Annotated[CreateOutputFieldName, PlainValidator(validate_open_enum(False))]
+    name: CreateOutputFieldName
 
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
@@ -14666,9 +13881,7 @@ class CreateOutputOutputNewrelic(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    region: Annotated[
-        Optional[RegionOptions], PlainValidator(validate_open_enum(False))
-    ] = RegionOptions.US
+    region: Optional[RegionOptions] = RegionOptions.US
     r"""Which New Relic region endpoint to use."""
 
     log_type: Annotated[Optional[str], pydantic.Field(alias="logType")] = ""
@@ -14724,10 +13937,7 @@ class CreateOutputOutputNewrelic(BaseModel):
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     failed_request_logging_mode: Annotated[
-        Annotated[
-            Optional[FailedRequestLoggingModeOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
     ] = FailedRequestLoggingModeOptions.NONE
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
@@ -14753,20 +13963,12 @@ class CreateOutputOutputNewrelic(BaseModel):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptions2],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationMethodOptions2], pydantic.Field(alias="authType")
     ] = AuthenticationMethodOptions2.MANUAL
     r"""Enter API key directly, or select a stored secret"""
 
@@ -14789,10 +13991,9 @@ class CreateOutputOutputNewrelic(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -14819,19 +14020,12 @@ class CreateOutputOutputNewrelic(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -14935,11 +14129,7 @@ class AuthElasticCloud(BaseModel):
     password: Optional[str] = None
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsAuth],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationMethodOptionsAuth], pydantic.Field(alias="authType")
     ] = AuthenticationMethodOptionsAuth.MANUAL
     r"""Enter credentials directly, or select a stored secret"""
 
@@ -15116,10 +14306,7 @@ class CreateOutputOutputElasticCloud(BaseModel):
     r"""Headers to add to all events"""
 
     failed_request_logging_mode: Annotated[
-        Annotated[
-            Optional[FailedRequestLoggingModeOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
     ] = FailedRequestLoggingModeOptions.NONE
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
@@ -15162,11 +14349,7 @@ class CreateOutputOutputElasticCloud(BaseModel):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -15182,10 +14365,9 @@ class CreateOutputOutputElasticCloud(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -15212,19 +14394,12 @@ class CreateOutputOutputElasticCloud(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -15304,11 +14479,7 @@ class AuthElastic(BaseModel):
     password: Optional[str] = None
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsAuth],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationMethodOptionsAuth], pydantic.Field(alias="authType")
     ] = AuthenticationMethodOptionsAuth.MANUAL
     r"""Enter credentials directly, or select a stored secret"""
 
@@ -15543,10 +14714,7 @@ class CreateOutputOutputElastic(BaseModel):
     r"""Headers to add to all events"""
 
     failed_request_logging_mode: Annotated[
-        Annotated[
-            Optional[FailedRequestLoggingModeOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
     ] = FailedRequestLoggingModeOptions.NONE
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
@@ -15578,11 +14746,7 @@ class CreateOutputOutputElastic(BaseModel):
     auth: Optional[AuthElastic] = None
 
     elastic_version: Annotated[
-        Annotated[
-            Optional[CreateOutputElasticVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="elasticVersion"),
+        Optional[CreateOutputElasticVersion], pydantic.Field(alias="elasticVersion")
     ] = CreateOutputElasticVersion.AUTO
     r"""Optional Elasticsearch version, used to format events. If not specified, will auto-discover version."""
 
@@ -15597,10 +14761,7 @@ class CreateOutputOutputElastic(BaseModel):
     r"""Include the `document_id` field when sending events to an Elastic TSDS (time series data stream)"""
 
     write_action: Annotated[
-        Annotated[
-            Optional[CreateOutputWriteAction], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="writeAction"),
+        Optional[CreateOutputWriteAction], pydantic.Field(alias="writeAction")
     ] = CreateOutputWriteAction.CREATE
     r"""Action to use when writing events. Must be set to `Create` when writing to a data stream."""
 
@@ -15610,11 +14771,7 @@ class CreateOutputOutputElastic(BaseModel):
     r"""Retry failed events when a bulk request to Elastic is successful, but the response body returns an error for one or more events in the batch"""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -15653,10 +14810,9 @@ class CreateOutputOutputElastic(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -15683,19 +14839,12 @@ class CreateOutputOutputElastic(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -15908,23 +15057,15 @@ class CreateOutputOutputMsk(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    ack: Annotated[
-        Optional[AcknowledgmentsOptions1], PlainValidator(validate_open_enum(True))
-    ] = AcknowledgmentsOptions1.ONE
+    ack: Optional[AcknowledgmentsOptions1] = AcknowledgmentsOptions1.ONE
     r"""Control the number of required acknowledgments."""
 
     format_: Annotated[
-        Annotated[
-            Optional[RecordDataFormatOptions1],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="format"),
+        Optional[RecordDataFormatOptions1], pydantic.Field(alias="format")
     ] = RecordDataFormatOptions1.JSON
     r"""Format to use to serialize events before writing to Kafka."""
 
-    compression: Annotated[
-        Optional[CompressionOptions3], PlainValidator(validate_open_enum(False))
-    ] = CompressionOptions3.GZIP
+    compression: Optional[CompressionOptions3] = CompressionOptions3.GZIP
     r"""Codec to use to compress the data before sending to Kafka"""
 
     max_record_size_kb: Annotated[
@@ -15982,10 +15123,7 @@ class CreateOutputOutputMsk(BaseModel):
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
 
     aws_authentication_method: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsS3CollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
     ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
@@ -15998,10 +15136,7 @@ class CreateOutputOutputMsk(BaseModel):
     r"""MSK cluster service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to MSK cluster-compatible endpoint."""
 
     signature_version: Annotated[
-        Annotated[
-            Optional[SignatureVersionOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="signatureVersion"),
+        Optional[SignatureVersionOptions], pydantic.Field(alias="signatureVersion")
     ] = SignatureVersionOptions.V4
     r"""Signature version to use for signing MSK cluster requests"""
 
@@ -16038,11 +15173,7 @@ class CreateOutputOutputMsk(BaseModel):
     tls: Optional[TLSSettingsClientSideType1] = None
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -16073,10 +15204,9 @@ class CreateOutputOutputMsk(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -16103,19 +15233,12 @@ class CreateOutputOutputMsk(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -16323,23 +15446,15 @@ class CreateOutputOutputConfluentCloud(BaseModel):
 
     tls: Optional[TLSSettingsClientSideType1] = None
 
-    ack: Annotated[
-        Optional[AcknowledgmentsOptions1], PlainValidator(validate_open_enum(True))
-    ] = AcknowledgmentsOptions1.ONE
+    ack: Optional[AcknowledgmentsOptions1] = AcknowledgmentsOptions1.ONE
     r"""Control the number of required acknowledgments."""
 
     format_: Annotated[
-        Annotated[
-            Optional[RecordDataFormatOptions1],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="format"),
+        Optional[RecordDataFormatOptions1], pydantic.Field(alias="format")
     ] = RecordDataFormatOptions1.JSON
     r"""Format to use to serialize events before writing to Kafka."""
 
-    compression: Annotated[
-        Optional[CompressionOptions3], PlainValidator(validate_open_enum(False))
-    ] = CompressionOptions3.GZIP
+    compression: Optional[CompressionOptions3] = CompressionOptions3.GZIP
     r"""Codec to use to compress the data before sending to Kafka"""
 
     max_record_size_kb: Annotated[
@@ -16400,11 +15515,7 @@ class CreateOutputOutputConfluentCloud(BaseModel):
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -16430,10 +15541,9 @@ class CreateOutputOutputConfluentCloud(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -16460,19 +15570,12 @@ class CreateOutputOutputConfluentCloud(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -16660,23 +15763,15 @@ class CreateOutputOutputKafka(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    ack: Annotated[
-        Optional[AcknowledgmentsOptions1], PlainValidator(validate_open_enum(True))
-    ] = AcknowledgmentsOptions1.ONE
+    ack: Optional[AcknowledgmentsOptions1] = AcknowledgmentsOptions1.ONE
     r"""Control the number of required acknowledgments."""
 
     format_: Annotated[
-        Annotated[
-            Optional[RecordDataFormatOptions1],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="format"),
+        Optional[RecordDataFormatOptions1], pydantic.Field(alias="format")
     ] = RecordDataFormatOptions1.JSON
     r"""Format to use to serialize events before writing to Kafka."""
 
-    compression: Annotated[
-        Optional[CompressionOptions3], PlainValidator(validate_open_enum(False))
-    ] = CompressionOptions3.GZIP
+    compression: Optional[CompressionOptions3] = CompressionOptions3.GZIP
     r"""Codec to use to compress the data before sending to Kafka"""
 
     max_record_size_kb: Annotated[
@@ -16739,11 +15834,7 @@ class CreateOutputOutputKafka(BaseModel):
     tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -16769,10 +15860,9 @@ class CreateOutputOutputKafka(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -16799,19 +15889,12 @@ class CreateOutputOutputKafka(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -17001,27 +16084,17 @@ class CreateOutputOutputExabeam(BaseModel):
     r"""Google Cloud Storage service endpoint"""
 
     signature_version: Annotated[
-        Annotated[
-            Optional[SignatureVersionOptions4],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="signatureVersion"),
+        Optional[SignatureVersionOptions4], pydantic.Field(alias="signatureVersion")
     ] = SignatureVersionOptions4.V4
     r"""Signature version to use for signing Google Cloud Storage requests"""
 
     object_acl: Annotated[
-        Annotated[
-            Optional[ObjectACLOptions1], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="objectACL"),
+        Optional[ObjectACLOptions1], pydantic.Field(alias="objectACL")
     ] = ObjectACLOptions1.PRIVATE
     r"""Object ACL to assign to uploaded objects"""
 
     storage_class: Annotated[
-        Annotated[
-            Optional[StorageClassOptions1], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="storageClass"),
+        Optional[StorageClassOptions1], pydantic.Field(alias="storageClass")
     ] = None
     r"""Storage class to select for uploaded objects"""
 
@@ -17061,11 +16134,7 @@ class CreateOutputOutputExabeam(BaseModel):
     r"""Maximum number of files to keep open concurrently. When exceeded, @{product} will close the oldest open files and move them to the final output location."""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions1],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions1.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -17075,10 +16144,7 @@ class CreateOutputOutputExabeam(BaseModel):
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
 
     on_disk_full_backpressure: Annotated[
-        Annotated[
-            Optional[DiskSpaceProtectionOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[DiskSpaceProtectionOptions],
         pydantic.Field(alias="onDiskFullBackpressure"),
     ] = DiskSpaceProtectionOptions.BLOCK
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
@@ -17288,10 +16354,7 @@ class CreateOutputOutputGooglePubsub(BaseModel):
     r"""Region to publish messages to. Select 'default' to allow Google to auto-select the nearest region. When using ordered delivery, the selected region must be allowed by message storage policy."""
 
     google_auth_method: Annotated[
-        Annotated[
-            Optional[GoogleAuthenticationMethodOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[GoogleAuthenticationMethodOptions],
         pydantic.Field(alias="googleAuthMethod"),
     ] = GoogleAuthenticationMethodOptions.MANUAL
     r"""Choose Auto to use Google Application Default Credentials (ADC), Manual to enter Google service account credentials directly, or Secret to select or create a stored secret that references Google service account credentials."""
@@ -17331,11 +16394,7 @@ class CreateOutputOutputGooglePubsub(BaseModel):
     r"""The maximum number of in-progress API requests before backpressure is applied."""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -17351,10 +16410,9 @@ class CreateOutputOutputGooglePubsub(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -17381,19 +16439,12 @@ class CreateOutputOutputGooglePubsub(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -17622,10 +16673,7 @@ class CreateOutputOutputGoogleCloudLogging(BaseModel):
     type: CreateOutputTypeGoogleCloudLogging
 
     log_location_type: Annotated[
-        Annotated[
-            CreateOutputLogLocationType, PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="logLocationType"),
+        CreateOutputLogLocationType, pydantic.Field(alias="logLocationType")
     ]
 
     log_name_expression: Annotated[str, pydantic.Field(alias="logNameExpression")]
@@ -17655,11 +16703,7 @@ class CreateOutputOutputGoogleCloudLogging(BaseModel):
     ] = False
 
     payload_format: Annotated[
-        Annotated[
-            Optional[CreateOutputPayloadFormat],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="payloadFormat"),
+        Optional[CreateOutputPayloadFormat], pydantic.Field(alias="payloadFormat")
     ] = CreateOutputPayloadFormat.TEXT
     r"""Format to use when sending payload. Defaults to Text."""
 
@@ -17689,10 +16733,7 @@ class CreateOutputOutputGoogleCloudLogging(BaseModel):
     r"""JavaScript expression to compute the value of the insert ID field."""
 
     google_auth_method: Annotated[
-        Annotated[
-            Optional[GoogleAuthenticationMethodOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[GoogleAuthenticationMethodOptions],
         pydantic.Field(alias="googleAuthMethod"),
     ] = GoogleAuthenticationMethodOptions.MANUAL
     r"""Choose Auto to use Google Application Default Credentials (ADC), Manual to enter Google service account credentials directly, or Secret to select or create a stored secret that references Google service account credentials."""
@@ -17875,11 +16916,7 @@ class CreateOutputOutputGoogleCloudLogging(BaseModel):
     r"""A JavaScript expression that evaluates to the the sampling decision of the span associated with the log entry. See the [documentation](https://cloud.google.com/logging/docs/reference/v2/rest/v2/LogEntry) for details."""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -17905,10 +16942,9 @@ class CreateOutputOutputGoogleCloudLogging(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -17935,19 +16971,12 @@ class CreateOutputOutputGoogleCloudLogging(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -18172,19 +17201,12 @@ class CreateOutputOutputGoogleCloudStorage(BaseModel):
     r"""Google Cloud Storage service endpoint"""
 
     signature_version: Annotated[
-        Annotated[
-            Optional[SignatureVersionOptions4],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="signatureVersion"),
+        Optional[SignatureVersionOptions4], pydantic.Field(alias="signatureVersion")
     ] = SignatureVersionOptions4.V4
     r"""Signature version to use for signing Google Cloud Storage requests"""
 
     aws_authentication_method: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodGoogleCloudStorage],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodGoogleCloudStorage],
         pydantic.Field(alias="awsAuthenticationMethod"),
     ] = AuthenticationMethodGoogleCloudStorage.MANUAL
 
@@ -18202,18 +17224,12 @@ class CreateOutputOutputGoogleCloudStorage(BaseModel):
     r"""Disable if you can access files within the bucket but not the bucket itself"""
 
     object_acl: Annotated[
-        Annotated[
-            Optional[ObjectACLOptions1], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="objectACL"),
+        Optional[ObjectACLOptions1], pydantic.Field(alias="objectACL")
     ] = ObjectACLOptions1.PRIVATE
     r"""Object ACL to assign to uploaded objects"""
 
     storage_class: Annotated[
-        Annotated[
-            Optional[StorageClassOptions1], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="storageClass"),
+        Optional[StorageClassOptions1], pydantic.Field(alias="storageClass")
     ] = None
     r"""Storage class to select for uploaded objects"""
 
@@ -18242,12 +17258,9 @@ class CreateOutputOutputGoogleCloudStorage(BaseModel):
     )
     r"""JavaScript expression defining how files are partitioned and organized. Default is date-based. If blank, Stream will fall back to the event's __partition field value – if present – otherwise to each location's root directory."""
 
-    format_: Annotated[
-        Annotated[
-            Optional[DataFormatOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="format"),
-    ] = DataFormatOptions.JSON
+    format_: Annotated[Optional[DataFormatOptions], pydantic.Field(alias="format")] = (
+        DataFormatOptions.JSON
+    )
     r"""Format of the output data"""
 
     base_file_name: Annotated[Optional[str], pydantic.Field(alias="baseFileName")] = (
@@ -18289,11 +17302,7 @@ class CreateOutputOutputGoogleCloudStorage(BaseModel):
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions1],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions1.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -18303,10 +17312,7 @@ class CreateOutputOutputGoogleCloudStorage(BaseModel):
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
 
     on_disk_full_backpressure: Annotated[
-        Annotated[
-            Optional[DiskSpaceProtectionOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[DiskSpaceProtectionOptions],
         pydantic.Field(alias="onDiskFullBackpressure"),
     ] = DiskSpaceProtectionOptions.BLOCK
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
@@ -18318,16 +17324,11 @@ class CreateOutputOutputGoogleCloudStorage(BaseModel):
 
     description: Optional[str] = None
 
-    compress: Annotated[
-        Optional[CompressionOptions2], PlainValidator(validate_open_enum(False))
-    ] = CompressionOptions2.GZIP
+    compress: Optional[CompressionOptions2] = CompressionOptions2.GZIP
     r"""Data compression format to apply to HTTP content before it is delivered"""
 
     compression_level: Annotated[
-        Annotated[
-            Optional[CompressionLevelOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="compressionLevel"),
+        Optional[CompressionLevelOptions], pydantic.Field(alias="compressionLevel")
     ] = CompressionLevelOptions.BEST_SPEED
     r"""Compression level to apply before moving files to final destination"""
 
@@ -18342,18 +17343,12 @@ class CreateOutputOutputGoogleCloudStorage(BaseModel):
     r"""To add a new schema, navigate to Processing > Knowledge > Parquet Schemas"""
 
     parquet_version: Annotated[
-        Annotated[
-            Optional[ParquetVersionOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="parquetVersion"),
+        Optional[ParquetVersionOptions], pydantic.Field(alias="parquetVersion")
     ] = ParquetVersionOptions.PARQUET_2_6
     r"""Determines which data types are supported and how they are represented"""
 
     parquet_data_page_version: Annotated[
-        Annotated[
-            Optional[DataPageVersionOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="parquetDataPageVersion"),
+        Optional[DataPageVersionOptions], pydantic.Field(alias="parquetDataPageVersion")
     ] = DataPageVersionOptions.DATA_PAGE_V2
     r"""Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it."""
 
@@ -18706,17 +17701,11 @@ class CreateOutputOutputGoogleChronicle(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     api_version: Annotated[
-        Annotated[
-            Optional[CreateOutputAPIVersion], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="apiVersion"),
+        Optional[CreateOutputAPIVersion], pydantic.Field(alias="apiVersion")
     ] = CreateOutputAPIVersion.V1
 
     authentication_method: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodGoogleChronicle],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodGoogleChronicle],
         pydantic.Field(alias="authenticationMethod"),
     ] = AuthenticationMethodGoogleChronicle.SERVICE_ACCOUNT
 
@@ -18736,11 +17725,7 @@ class CreateOutputOutputGoogleChronicle(BaseModel):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     log_format_type: Annotated[
-        Annotated[
-            Optional[CreateOutputSendEventsAs],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="logFormatType"),
+        Optional[CreateOutputSendEventsAs], pydantic.Field(alias="logFormatType")
     ] = CreateOutputSendEventsAs.UNSTRUCTURED
 
     region: Optional[str] = None
@@ -18785,10 +17770,7 @@ class CreateOutputOutputGoogleChronicle(BaseModel):
     r"""Headers to add to all events"""
 
     failed_request_logging_mode: Annotated[
-        Annotated[
-            Optional[FailedRequestLoggingModeOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
     ] = FailedRequestLoggingModeOptions.NONE
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
@@ -18804,11 +17786,7 @@ class CreateOutputOutputGoogleChronicle(BaseModel):
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned."""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -18844,10 +17822,7 @@ class CreateOutputOutputGoogleChronicle(BaseModel):
     r"""Custom labels to be added to every batch"""
 
     udm_type: Annotated[
-        Annotated[
-            Optional[CreateOutputUDMType], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="udmType"),
+        Optional[CreateOutputUDMType], pydantic.Field(alias="udmType")
     ] = CreateOutputUDMType.LOGS
     r"""Defines the specific format for UDM events sent to Google SecOps. This must match the type of UDM data being sent."""
 
@@ -18879,10 +17854,9 @@ class CreateOutputOutputGoogleChronicle(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -18909,19 +17883,12 @@ class CreateOutputOutputGoogleChronicle(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -19120,16 +18087,11 @@ class CreateOutputOutputAzureEventhub(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    ack: Annotated[
-        Optional[AcknowledgmentsOptions], PlainValidator(validate_open_enum(True))
-    ] = AcknowledgmentsOptions.ONE
+    ack: Optional[AcknowledgmentsOptions] = AcknowledgmentsOptions.ONE
     r"""Control the number of required acknowledgments"""
 
     format_: Annotated[
-        Annotated[
-            Optional[RecordDataFormatOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="format"),
+        Optional[RecordDataFormatOptions], pydantic.Field(alias="format")
     ] = RecordDataFormatOptions.JSON
     r"""Format to use to serialize events before writing to the Event Hubs Kafka brokers"""
 
@@ -19188,11 +18150,7 @@ class CreateOutputOutputAzureEventhub(BaseModel):
     tls: Optional[TLSSettingsClientSideType] = None
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -19208,10 +18166,9 @@ class CreateOutputOutputAzureEventhub(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -19238,19 +18195,12 @@ class CreateOutputOutputAzureEventhub(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -19468,10 +18418,7 @@ class CreateOutputOutputHoneycomb(BaseModel):
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     failed_request_logging_mode: Annotated[
-        Annotated[
-            Optional[FailedRequestLoggingModeOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
     ] = FailedRequestLoggingModeOptions.NONE
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
@@ -19497,20 +18444,12 @@ class CreateOutputOutputHoneycomb(BaseModel):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptions2],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationMethodOptions2], pydantic.Field(alias="authType")
     ] = AuthenticationMethodOptions2.MANUAL
     r"""Enter API key directly, or select a stored secret"""
 
@@ -19526,10 +18465,9 @@ class CreateOutputOutputHoneycomb(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -19556,19 +18494,12 @@ class CreateOutputOutputHoneycomb(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -19763,10 +18694,7 @@ class CreateOutputOutputKinesis(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     aws_authentication_method: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsS3CollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
     ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
@@ -19779,11 +18707,7 @@ class CreateOutputOutputKinesis(BaseModel):
     r"""Kinesis stream service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Kinesis stream-compatible endpoint."""
 
     signature_version: Annotated[
-        Annotated[
-            Optional[SignatureVersionOptions2],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="signatureVersion"),
+        Optional[SignatureVersionOptions2], pydantic.Field(alias="signatureVersion")
     ] = SignatureVersionOptions2.V4
     r"""Signature version to use for signing Kinesis stream requests"""
 
@@ -19830,9 +18754,7 @@ class CreateOutputOutputKinesis(BaseModel):
     ] = 1
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Max record size."""
 
-    compression: Annotated[
-        Optional[CreateOutputCompression], PlainValidator(validate_open_enum(False))
-    ] = CreateOutputCompression.GZIP
+    compression: Optional[CreateOutputCompression] = CreateOutputCompression.GZIP
     r"""Compression type to use for records"""
 
     use_list_shards: Annotated[
@@ -19844,11 +18766,7 @@ class CreateOutputOutputKinesis(BaseModel):
     r"""Batch events into a single record as NDJSON"""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -19874,10 +18792,9 @@ class CreateOutputOutputKinesis(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -19904,19 +18821,12 @@ class CreateOutputOutputKinesis(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -20157,10 +19067,7 @@ class CreateOutputOutputAzureLogs(BaseModel):
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     failed_request_logging_mode: Annotated[
-        Annotated[
-            Optional[FailedRequestLoggingModeOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
     ] = FailedRequestLoggingModeOptions.NONE
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
@@ -20191,20 +19098,12 @@ class CreateOutputOutputAzureLogs(BaseModel):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodAzureLogs],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationMethodAzureLogs], pydantic.Field(alias="authType")
     ] = AuthenticationMethodAzureLogs.MANUAL
     r"""Enter workspace ID and workspace key directly, or select a stored secret"""
 
@@ -20220,10 +19119,9 @@ class CreateOutputOutputAzureLogs(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -20250,19 +19148,12 @@ class CreateOutputOutputAzureLogs(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -20385,9 +19276,7 @@ class CreateOutputExtentTagTypedDict(TypedDict):
 class CreateOutputExtentTag(BaseModel):
     value: str
 
-    prefix: Annotated[
-        Optional[CreateOutputPrefixOptional], PlainValidator(validate_open_enum(False))
-    ] = None
+    prefix: Optional[CreateOutputPrefixOptional] = None
 
     @field_serializer("prefix")
     def serialize_prefix(self, value):
@@ -20658,27 +19547,17 @@ class CreateOutputOutputAzureDataExplorer(BaseModel):
     r"""When saving or starting the Destination, validate the database name and credentials; also validate table name, except when creating a new table. Disable if your Azure app does not have both the Database Viewer and the Table Viewer role."""
 
     ingest_mode: Annotated[
-        Annotated[
-            Optional[CreateOutputIngestionMode],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="ingestMode"),
+        Optional[CreateOutputIngestionMode], pydantic.Field(alias="ingestMode")
     ] = CreateOutputIngestionMode.BATCHING
 
     oauth_endpoint: Annotated[
-        Annotated[
-            Optional[MicrosoftEntraIDAuthenticationEndpointOptionsSasl],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[MicrosoftEntraIDAuthenticationEndpointOptionsSasl],
         pydantic.Field(alias="oauthEndpoint"),
     ] = MicrosoftEntraIDAuthenticationEndpointOptionsSasl.HTTPS_LOGIN_MICROSOFTONLINE_COM
     r"""Endpoint used to acquire authentication tokens from Azure"""
 
     oauth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodAzureDataExplorer],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodAzureDataExplorer],
         pydantic.Field(alias="oauthType"),
     ] = AuthenticationMethodAzureDataExplorer.CLIENT_SECRET
     r"""The type of OAuth 2.0 client credentials grant flow to use"""
@@ -20693,24 +19572,16 @@ class CreateOutputOutputAzureDataExplorer(BaseModel):
 
     certificate: Optional[CreateOutputCertificate] = None
 
-    format_: Annotated[
-        Annotated[
-            Optional[DataFormatOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="format"),
-    ] = DataFormatOptions.JSON
+    format_: Annotated[Optional[DataFormatOptions], pydantic.Field(alias="format")] = (
+        DataFormatOptions.JSON
+    )
     r"""Format of the output data"""
 
-    compress: Annotated[
-        Optional[CompressionOptions2], PlainValidator(validate_open_enum(False))
-    ] = CompressionOptions2.GZIP
+    compress: Optional[CompressionOptions2] = CompressionOptions2.GZIP
     r"""Data compression format to apply to HTTP content before it is delivered"""
 
     compression_level: Annotated[
-        Annotated[
-            Optional[CompressionLevelOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="compressionLevel"),
+        Optional[CompressionLevelOptions], pydantic.Field(alias="compressionLevel")
     ] = CompressionLevelOptions.BEST_SPEED
     r"""Compression level to apply before moving files to final destination"""
 
@@ -20725,18 +19596,12 @@ class CreateOutputOutputAzureDataExplorer(BaseModel):
     r"""To add a new schema, navigate to Processing > Knowledge > Parquet Schemas"""
 
     parquet_version: Annotated[
-        Annotated[
-            Optional[ParquetVersionOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="parquetVersion"),
+        Optional[ParquetVersionOptions], pydantic.Field(alias="parquetVersion")
     ] = ParquetVersionOptions.PARQUET_2_6
     r"""Determines which data types are supported and how they are represented"""
 
     parquet_data_page_version: Annotated[
-        Annotated[
-            Optional[DataPageVersionOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="parquetDataPageVersion"),
+        Optional[DataPageVersionOptions], pydantic.Field(alias="parquetDataPageVersion")
     ] = DataPageVersionOptions.DATA_PAGE_V2
     r"""Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it."""
 
@@ -20819,11 +19684,7 @@ class CreateOutputOutputAzureDataExplorer(BaseModel):
     r"""The ingestion service URI for your cluster. Typically, `https://ingest-<cluster>.<region>.kusto.windows.net`."""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -20863,10 +19724,7 @@ class CreateOutputOutputAzureDataExplorer(BaseModel):
     r"""Maximum number of parts to upload in parallel per file"""
 
     on_disk_full_backpressure: Annotated[
-        Annotated[
-            Optional[DiskSpaceProtectionOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[DiskSpaceProtectionOptions],
         pydantic.Field(alias="onDiskFullBackpressure"),
     ] = DiskSpaceProtectionOptions.BLOCK
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
@@ -20901,19 +19759,12 @@ class CreateOutputOutputAzureDataExplorer(BaseModel):
     r"""Prevents duplicate ingestion by verifying whether an extent with the specified ingest-by tag already exists"""
 
     report_level: Annotated[
-        Annotated[
-            Optional[CreateOutputReportLevel], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="reportLevel"),
+        Optional[CreateOutputReportLevel], pydantic.Field(alias="reportLevel")
     ] = CreateOutputReportLevel.FAILURES_ONLY
     r"""Level of ingestion status reporting. Defaults to FailuresOnly."""
 
     report_method: Annotated[
-        Annotated[
-            Optional[CreateOutputReportMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="reportMethod"),
+        Optional[CreateOutputReportMethod], pydantic.Field(alias="reportMethod")
     ] = CreateOutputReportMethod.QUEUE
     r"""Target of the ingestion status reporting. Defaults to Queue."""
 
@@ -20982,10 +19833,9 @@ class CreateOutputOutputAzureDataExplorer(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -21012,19 +19862,12 @@ class CreateOutputOutputAzureDataExplorer(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -21351,12 +20194,9 @@ class CreateOutputOutputAzureBlob(BaseModel):
     )
     r"""JavaScript expression defining how files are partitioned and organized. Default is date-based. If blank, Stream will fall back to the event's __partition field value – if present – otherwise to each location's root directory."""
 
-    format_: Annotated[
-        Annotated[
-            Optional[DataFormatOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="format"),
-    ] = DataFormatOptions.JSON
+    format_: Annotated[Optional[DataFormatOptions], pydantic.Field(alias="format")] = (
+        DataFormatOptions.JSON
+    )
     r"""Format of the output data"""
 
     base_file_name: Annotated[Optional[str], pydantic.Field(alias="baseFileName")] = (
@@ -21398,11 +20238,7 @@ class CreateOutputOutputAzureBlob(BaseModel):
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions1],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions1.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -21412,10 +20248,7 @@ class CreateOutputOutputAzureBlob(BaseModel):
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
 
     on_disk_full_backpressure: Annotated[
-        Annotated[
-            Optional[DiskSpaceProtectionOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[DiskSpaceProtectionOptions],
         pydantic.Field(alias="onDiskFullBackpressure"),
     ] = DiskSpaceProtectionOptions.BLOCK
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
@@ -21426,33 +20259,20 @@ class CreateOutputOutputAzureBlob(BaseModel):
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationMethodOptions], pydantic.Field(alias="authType")
     ] = AuthenticationMethodOptions.MANUAL
 
     storage_class: Annotated[
-        Annotated[
-            Optional[CreateOutputBlobAccessTier],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="storageClass"),
+        Optional[CreateOutputBlobAccessTier], pydantic.Field(alias="storageClass")
     ] = CreateOutputBlobAccessTier.INFERRED
 
     description: Optional[str] = None
 
-    compress: Annotated[
-        Optional[CompressionOptions2], PlainValidator(validate_open_enum(False))
-    ] = CompressionOptions2.GZIP
+    compress: Optional[CompressionOptions2] = CompressionOptions2.GZIP
     r"""Data compression format to apply to HTTP content before it is delivered"""
 
     compression_level: Annotated[
-        Annotated[
-            Optional[CompressionLevelOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="compressionLevel"),
+        Optional[CompressionLevelOptions], pydantic.Field(alias="compressionLevel")
     ] = CompressionLevelOptions.BEST_SPEED
     r"""Compression level to apply before moving files to final destination"""
 
@@ -21467,18 +20287,12 @@ class CreateOutputOutputAzureBlob(BaseModel):
     r"""To add a new schema, navigate to Processing > Knowledge > Parquet Schemas"""
 
     parquet_version: Annotated[
-        Annotated[
-            Optional[ParquetVersionOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="parquetVersion"),
+        Optional[ParquetVersionOptions], pydantic.Field(alias="parquetVersion")
     ] = ParquetVersionOptions.PARQUET_2_6
     r"""Determines which data types are supported and how they are represented"""
 
     parquet_data_page_version: Annotated[
-        Annotated[
-            Optional[DataPageVersionOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="parquetDataPageVersion"),
+        Optional[DataPageVersionOptions], pydantic.Field(alias="parquetDataPageVersion")
     ] = DataPageVersionOptions.DATA_PAGE_V2
     r"""Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it."""
 
@@ -21814,10 +20628,7 @@ class CreateOutputOutputS3(BaseModel):
     r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
 
     aws_authentication_method: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsS3CollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
     ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
@@ -21826,10 +20637,7 @@ class CreateOutputOutputS3(BaseModel):
     r"""S3 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint."""
 
     signature_version: Annotated[
-        Annotated[
-            Optional[SignatureVersionOptionsS3CollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[SignatureVersionOptionsS3CollectorConf],
         pydantic.Field(alias="signatureVersion"),
     ] = SignatureVersionOptionsS3CollectorConf.V4
     r"""Signature version to use for signing S3 requests"""
@@ -21878,26 +20686,17 @@ class CreateOutputOutputS3(BaseModel):
     r"""Prefix to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"""
 
     object_acl: Annotated[
-        Annotated[
-            Optional[ObjectACLOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="objectACL"),
+        Optional[ObjectACLOptions], pydantic.Field(alias="objectACL")
     ] = ObjectACLOptions.PRIVATE
     r"""Object ACL to assign to uploaded objects"""
 
     storage_class: Annotated[
-        Annotated[
-            Optional[StorageClassOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="storageClass"),
+        Optional[StorageClassOptions], pydantic.Field(alias="storageClass")
     ] = None
     r"""Storage class to select for uploaded objects"""
 
     server_side_encryption: Annotated[
-        Annotated[
-            Optional[ServerSideEncryptionForUploadedObjectsOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[ServerSideEncryptionForUploadedObjectsOptions],
         pydantic.Field(alias="serverSideEncryption"),
     ] = None
 
@@ -21914,12 +20713,9 @@ class CreateOutputOutputS3(BaseModel):
     )
     r"""JavaScript expression defining how files are partitioned and organized. Default is date-based. If blank, Stream will fall back to the event's __partition field value – if present – otherwise to each location's root directory."""
 
-    format_: Annotated[
-        Annotated[
-            Optional[DataFormatOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="format"),
-    ] = DataFormatOptions.JSON
+    format_: Annotated[Optional[DataFormatOptions], pydantic.Field(alias="format")] = (
+        DataFormatOptions.JSON
+    )
     r"""Format of the output data"""
 
     base_file_name: Annotated[Optional[str], pydantic.Field(alias="baseFileName")] = (
@@ -21951,11 +20747,7 @@ class CreateOutputOutputS3(BaseModel):
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions1],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions1.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -21965,10 +20757,7 @@ class CreateOutputOutputS3(BaseModel):
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
 
     on_disk_full_backpressure: Annotated[
-        Annotated[
-            Optional[DiskSpaceProtectionOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[DiskSpaceProtectionOptions],
         pydantic.Field(alias="onDiskFullBackpressure"),
     ] = DiskSpaceProtectionOptions.BLOCK
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
@@ -22011,16 +20800,11 @@ class CreateOutputOutputS3(BaseModel):
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
 
-    compress: Annotated[
-        Optional[CompressionOptions2], PlainValidator(validate_open_enum(False))
-    ] = CompressionOptions2.GZIP
+    compress: Optional[CompressionOptions2] = CompressionOptions2.GZIP
     r"""Data compression format to apply to HTTP content before it is delivered"""
 
     compression_level: Annotated[
-        Annotated[
-            Optional[CompressionLevelOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="compressionLevel"),
+        Optional[CompressionLevelOptions], pydantic.Field(alias="compressionLevel")
     ] = CompressionLevelOptions.BEST_SPEED
     r"""Compression level to apply before moving files to final destination"""
 
@@ -22035,18 +20819,12 @@ class CreateOutputOutputS3(BaseModel):
     r"""To add a new schema, navigate to Processing > Knowledge > Parquet Schemas"""
 
     parquet_version: Annotated[
-        Annotated[
-            Optional[ParquetVersionOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="parquetVersion"),
+        Optional[ParquetVersionOptions], pydantic.Field(alias="parquetVersion")
     ] = ParquetVersionOptions.PARQUET_2_6
     r"""Determines which data types are supported and how they are represented"""
 
     parquet_data_page_version: Annotated[
-        Annotated[
-            Optional[DataPageVersionOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="parquetDataPageVersion"),
+        Optional[DataPageVersionOptions], pydantic.Field(alias="parquetDataPageVersion")
     ] = DataPageVersionOptions.DATA_PAGE_V2
     r"""Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it."""
 
@@ -22343,12 +21121,9 @@ class CreateOutputOutputFilesystem(BaseModel):
     )
     r"""JavaScript expression defining how files are partitioned and organized. Default is date-based. If blank, Stream will fall back to the event's __partition field value – if present – otherwise to each location's root directory."""
 
-    format_: Annotated[
-        Annotated[
-            Optional[DataFormatOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="format"),
-    ] = DataFormatOptions.JSON
+    format_: Annotated[Optional[DataFormatOptions], pydantic.Field(alias="format")] = (
+        DataFormatOptions.JSON
+    )
     r"""Format of the output data"""
 
     base_file_name: Annotated[Optional[str], pydantic.Field(alias="baseFileName")] = (
@@ -22390,11 +21165,7 @@ class CreateOutputOutputFilesystem(BaseModel):
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions1],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions1.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -22404,10 +21175,7 @@ class CreateOutputOutputFilesystem(BaseModel):
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
 
     on_disk_full_backpressure: Annotated[
-        Annotated[
-            Optional[DiskSpaceProtectionOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[DiskSpaceProtectionOptions],
         pydantic.Field(alias="onDiskFullBackpressure"),
     ] = DiskSpaceProtectionOptions.BLOCK
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
@@ -22419,16 +21187,11 @@ class CreateOutputOutputFilesystem(BaseModel):
 
     description: Optional[str] = None
 
-    compress: Annotated[
-        Optional[CompressionOptions2], PlainValidator(validate_open_enum(False))
-    ] = CompressionOptions2.GZIP
+    compress: Optional[CompressionOptions2] = CompressionOptions2.GZIP
     r"""Data compression format to apply to HTTP content before it is delivered"""
 
     compression_level: Annotated[
-        Annotated[
-            Optional[CompressionLevelOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="compressionLevel"),
+        Optional[CompressionLevelOptions], pydantic.Field(alias="compressionLevel")
     ] = CompressionLevelOptions.BEST_SPEED
     r"""Compression level to apply before moving files to final destination"""
 
@@ -22443,18 +21206,12 @@ class CreateOutputOutputFilesystem(BaseModel):
     r"""To add a new schema, navigate to Processing > Knowledge > Parquet Schemas"""
 
     parquet_version: Annotated[
-        Annotated[
-            Optional[ParquetVersionOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="parquetVersion"),
+        Optional[ParquetVersionOptions], pydantic.Field(alias="parquetVersion")
     ] = ParquetVersionOptions.PARQUET_2_6
     r"""Determines which data types are supported and how they are represented"""
 
     parquet_data_page_version: Annotated[
-        Annotated[
-            Optional[DataPageVersionOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="parquetDataPageVersion"),
+        Optional[DataPageVersionOptions], pydantic.Field(alias="parquetDataPageVersion")
     ] = DataPageVersionOptions.DATA_PAGE_V2
     r"""Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it."""
 
@@ -22685,10 +21442,7 @@ class CreateOutputOutputSignalfx(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsAuthTokensItems],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsAuthTokensItems],
         pydantic.Field(alias="authType"),
     ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
@@ -22740,10 +21494,7 @@ class CreateOutputOutputSignalfx(BaseModel):
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     failed_request_logging_mode: Annotated[
-        Annotated[
-            Optional[FailedRequestLoggingModeOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
     ] = FailedRequestLoggingModeOptions.NONE
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
@@ -22769,11 +21520,7 @@ class CreateOutputOutputSignalfx(BaseModel):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -22795,10 +21542,9 @@ class CreateOutputOutputSignalfx(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -22825,19 +21571,12 @@ class CreateOutputOutputSignalfx(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -23009,10 +21748,7 @@ class CreateOutputOutputWavefront(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsAuthTokensItems],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsAuthTokensItems],
         pydantic.Field(alias="authType"),
     ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
@@ -23064,10 +21800,7 @@ class CreateOutputOutputWavefront(BaseModel):
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     failed_request_logging_mode: Annotated[
-        Annotated[
-            Optional[FailedRequestLoggingModeOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
     ] = FailedRequestLoggingModeOptions.NONE
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
@@ -23093,11 +21826,7 @@ class CreateOutputOutputWavefront(BaseModel):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -23119,10 +21848,9 @@ class CreateOutputOutputWavefront(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -23149,19 +21877,12 @@ class CreateOutputOutputWavefront(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -23336,9 +22057,7 @@ class CreateOutputOutputTcpjson(BaseModel):
     )
     r"""Use load-balanced destinations"""
 
-    compression: Annotated[
-        Optional[CompressionOptions1], PlainValidator(validate_open_enum(False))
-    ] = CompressionOptions1.GZIP
+    compression: Optional[CompressionOptions1] = CompressionOptions1.GZIP
     r"""Codec to use to compress the data before sending"""
 
     log_failed_requests: Annotated[
@@ -23372,19 +22091,12 @@ class CreateOutputOutputTcpjson(BaseModel):
     r"""Upon connection, send a header-like record containing the auth token and other metadata.This record will not contain an actual event – only subsequent records will."""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsAuthTokensItems],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsAuthTokensItems],
         pydantic.Field(alias="authType"),
     ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
@@ -23428,10 +22140,9 @@ class CreateOutputOutputTcpjson(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -23458,19 +22169,12 @@ class CreateOutputOutputTcpjson(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -23734,10 +22438,7 @@ class CreateOutputOutputSplunkHec(BaseModel):
     r"""Headers to add to all events"""
 
     failed_request_logging_mode: Annotated[
-        Annotated[
-            Optional[FailedRequestLoggingModeOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
     ] = FailedRequestLoggingModeOptions.NONE
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
@@ -23753,10 +22454,7 @@ class CreateOutputOutputSplunkHec(BaseModel):
     r"""Output metrics in multiple-metric format, supported in Splunk 8.0 and above to allow multiple metrics in a single event."""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsAuthTokensItems],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsAuthTokensItems],
         pydantic.Field(alias="authType"),
     ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
@@ -23777,11 +22475,7 @@ class CreateOutputOutputSplunkHec(BaseModel):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -23826,10 +22520,9 @@ class CreateOutputOutputSplunkHec(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -23856,19 +22549,12 @@ class CreateOutputOutputSplunkHec(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -23946,10 +22632,7 @@ class CreateOutputAuthTokenTypedDict(TypedDict):
 
 class CreateOutputAuthToken(BaseModel):
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsAuthTokensItems],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsAuthTokensItems],
         pydantic.Field(alias="authType"),
     ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
@@ -24016,10 +22699,7 @@ class CreateOutputIndexerDiscoveryConfigs(BaseModel):
     r"""Tokens required to authenticate to cluster manager for indexer discovery"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsAuthTokensItems],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsAuthTokensItems],
         pydantic.Field(alias="authType"),
     ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
@@ -24060,9 +22740,7 @@ class HostSplunkLb(BaseModel):
     port: Optional[float] = 9997
     r"""The port to connect to on the provided host"""
 
-    tls: Annotated[
-        Optional[TLSOptionsHostsItems], PlainValidator(validate_open_enum(False))
-    ] = TLSOptionsHostsItems.INHERIT
+    tls: Optional[TLSOptionsHostsItems] = TLSOptionsHostsItems.INHERIT
     r"""Whether to inherit TLS configs from group setting or disable TLS"""
 
     servername: Optional[str] = None
@@ -24209,11 +22887,7 @@ class CreateOutputOutputSplunkLb(BaseModel):
     r"""Maximum number of concurrent connections (per Worker Process). A random set of IPs will be picked on every DNS resolution period. Use 0 for unlimited."""
 
     nested_fields: Annotated[
-        Annotated[
-            Optional[NestedFieldSerializationOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="nestedFields"),
+        Optional[NestedFieldSerializationOptions], pydantic.Field(alias="nestedFields")
     ] = NestedFieldSerializationOptions.NONE
     r"""How to serialize nested fields into index-time fields"""
 
@@ -24248,19 +22922,12 @@ class CreateOutputOutputSplunkLb(BaseModel):
     r"""Use to troubleshoot issues with sending data"""
 
     max_s2_sversion: Annotated[
-        Annotated[
-            Optional[MaxS2SVersionOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="maxS2Sversion"),
+        Optional[MaxS2SVersionOptions], pydantic.Field(alias="maxS2Sversion")
     ] = MaxS2SVersionOptions.V3
     r"""The highest S2S protocol version to advertise during handshake"""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -24275,10 +22942,7 @@ class CreateOutputOutputSplunkLb(BaseModel):
     r"""How long (in milliseconds) each LB endpoint can report blocked before the Destination reports unhealthy, blocking the sender. (Grace period for fluctuations.) Use 0 to disable; max 1 minute."""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsAuthTokensItems],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsAuthTokensItems],
         pydantic.Field(alias="authType"),
     ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
@@ -24290,9 +22954,7 @@ class CreateOutputOutputSplunkLb(BaseModel):
     ] = 1
     r"""Maximum number of times healthcheck can fail before we close connection. If set to 0 (disabled), and the connection to Splunk is forcibly closed, some data loss might occur."""
 
-    compress: Annotated[
-        Optional[CompressionOptions], PlainValidator(validate_open_enum(False))
-    ] = CompressionOptions.DISABLED
+    compress: Optional[CompressionOptions] = CompressionOptions.DISABLED
     r"""Controls whether the sender should send compressed data to the server. Select 'Disabled' to reject compressed connections or 'Always' to ignore server's configuration and send compressed data."""
 
     indexer_discovery_configs: Annotated[
@@ -24314,10 +22976,9 @@ class CreateOutputOutputSplunkLb(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -24344,19 +23005,12 @@ class CreateOutputOutputSplunkLb(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -24551,11 +23205,7 @@ class CreateOutputOutputSplunk(BaseModel):
     r"""The port to connect to on the provided host"""
 
     nested_fields: Annotated[
-        Annotated[
-            Optional[NestedFieldSerializationOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="nestedFields"),
+        Optional[NestedFieldSerializationOptions], pydantic.Field(alias="nestedFields")
     ] = NestedFieldSerializationOptions.NONE
     r"""How to serialize nested fields into index-time fields"""
 
@@ -24590,27 +23240,17 @@ class CreateOutputOutputSplunk(BaseModel):
     r"""Use to troubleshoot issues with sending data"""
 
     max_s2_sversion: Annotated[
-        Annotated[
-            Optional[MaxS2SVersionOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="maxS2Sversion"),
+        Optional[MaxS2SVersionOptions], pydantic.Field(alias="maxS2Sversion")
     ] = MaxS2SVersionOptions.V3
     r"""The highest S2S protocol version to advertise during handshake"""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsAuthTokensItems],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsAuthTokensItems],
         pydantic.Field(alias="authType"),
     ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
@@ -24622,9 +23262,7 @@ class CreateOutputOutputSplunk(BaseModel):
     ] = 1
     r"""Maximum number of times healthcheck can fail before we close connection. If set to 0 (disabled), and the connection to Splunk is forcibly closed, some data loss might occur."""
 
-    compress: Annotated[
-        Optional[CompressionOptions], PlainValidator(validate_open_enum(False))
-    ] = CompressionOptions.DISABLED
+    compress: Optional[CompressionOptions] = CompressionOptions.DISABLED
     r"""Controls whether the sender should send compressed data to the server. Select 'Disabled' to reject compressed connections or 'Always' to ignore server's configuration and send compressed data."""
 
     pq_strict_ordering: Annotated[
@@ -24637,10 +23275,9 @@ class CreateOutputOutputSplunk(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -24667,19 +23304,12 @@ class CreateOutputOutputSplunk(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -24956,39 +23586,25 @@ class CreateOutputOutputSyslog(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    protocol: Annotated[
-        Optional[ProtocolSyslog], PlainValidator(validate_open_enum(False))
-    ] = ProtocolSyslog.TCP
+    protocol: Optional[ProtocolSyslog] = ProtocolSyslog.TCP
     r"""The network protocol to use for sending out syslog messages"""
 
-    facility: Annotated[
-        Optional[CreateOutputFacility], PlainValidator(validate_open_enum(True))
-    ] = CreateOutputFacility.ONE
+    facility: Optional[CreateOutputFacility] = CreateOutputFacility.ONE
     r"""Default value for message facility. Will be overwritten by value of __facility if set. Defaults to user."""
 
-    severity: Annotated[
-        Optional[SeveritySyslog], PlainValidator(validate_open_enum(True))
-    ] = SeveritySyslog.FIVE
+    severity: Optional[SeveritySyslog] = SeveritySyslog.FIVE
     r"""Default value for message severity. Will be overwritten by value of __severity if set. Defaults to notice."""
 
     app_name: Annotated[Optional[str], pydantic.Field(alias="appName")] = "Cribl"
     r"""Default name for device or application that originated the message. Defaults to Cribl, but will be overwritten by value of __appname if set."""
 
     message_format: Annotated[
-        Annotated[
-            Optional[CreateOutputMessageFormat],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="messageFormat"),
+        Optional[CreateOutputMessageFormat], pydantic.Field(alias="messageFormat")
     ] = CreateOutputMessageFormat.RFC3164
     r"""The syslog message format depending on the receiver's support"""
 
     timestamp_format: Annotated[
-        Annotated[
-            Optional[CreateOutputTimestampFormat],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="timestampFormat"),
+        Optional[CreateOutputTimestampFormat], pydantic.Field(alias="timestampFormat")
     ] = CreateOutputTimestampFormat.SYSLOG
     r"""Timestamp format to use when serializing event's time field"""
 
@@ -25054,11 +23670,7 @@ class CreateOutputOutputSyslog(BaseModel):
     tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -25087,10 +23699,9 @@ class CreateOutputOutputSyslog(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -25117,19 +23728,12 @@ class CreateOutputOutputSyslog(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -25474,10 +24078,7 @@ class CreateOutputOutputSentinel(BaseModel):
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     failed_request_logging_mode: Annotated[
-        Annotated[
-            Optional[FailedRequestLoggingModeOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
     ] = FailedRequestLoggingModeOptions.NONE
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
@@ -25503,29 +24104,19 @@ class CreateOutputOutputSentinel(BaseModel):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[CreateOutputAuthType], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[CreateOutputAuthType], pydantic.Field(alias="authType")
     ] = None
 
     scope: Optional[str] = "https://monitor.azure.com/.default"
     r"""Scope to pass in the OAuth request"""
 
     endpoint_url_configuration: Annotated[
-        Annotated[
-            Optional[CreateOutputEndpointConfiguration],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[CreateOutputEndpointConfiguration],
         pydantic.Field(alias="endpointURLConfiguration"),
     ] = CreateOutputEndpointConfiguration.URL
     r"""Enter the data collection endpoint URL or the individual ID"""
@@ -25537,10 +24128,7 @@ class CreateOutputOutputSentinel(BaseModel):
 
     description: Optional[str] = None
 
-    format_: Annotated[
-        Annotated[Optional[FormatSentinel], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="format"),
-    ] = None
+    format_: Annotated[Optional[FormatSentinel], pydantic.Field(alias="format")] = None
 
     custom_source_expression: Annotated[
         Optional[str], pydantic.Field(alias="customSourceExpression")
@@ -25592,10 +24180,9 @@ class CreateOutputOutputSentinel(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -25622,19 +24209,12 @@ class CreateOutputOutputSentinel(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
@@ -25934,15 +24514,12 @@ class CreateOutputOutputWebhook(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    method: Annotated[
-        Optional[MethodOptions], PlainValidator(validate_open_enum(False))
-    ] = MethodOptions.POST
+    method: Optional[MethodOptions] = MethodOptions.POST
     r"""The method to use when sending events"""
 
-    format_: Annotated[
-        Annotated[Optional[FormatWebhook], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="format"),
-    ] = FormatWebhook.NDJSON
+    format_: Annotated[Optional[FormatWebhook], pydantic.Field(alias="format")] = (
+        FormatWebhook.NDJSON
+    )
     r"""How to format events before sending out"""
 
     keep_alive: Annotated[Optional[bool], pydantic.Field(alias="keepAlive")] = True
@@ -25992,10 +24569,7 @@ class CreateOutputOutputWebhook(BaseModel):
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     failed_request_logging_mode: Annotated[
-        Annotated[
-            Optional[FailedRequestLoggingModeOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
     ] = FailedRequestLoggingModeOptions.NONE
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
@@ -26021,20 +24595,12 @@ class CreateOutputOutputWebhook(BaseModel):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationTypeWebhook],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationTypeWebhook], pydantic.Field(alias="authType")
     ] = AuthenticationTypeWebhook.NONE
     r"""Authentication method to use for the HTTP request"""
 
@@ -26102,10 +24668,9 @@ class CreateOutputOutputWebhook(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -26132,19 +24697,12 @@ class CreateOutputOutputWebhook(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 

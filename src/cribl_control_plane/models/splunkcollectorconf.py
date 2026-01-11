@@ -7,11 +7,9 @@ from .retrytypeoptionshealthcheckcollectorconfretryrules import (
 )
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import Any, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
@@ -72,10 +70,9 @@ class SplunkAuthenticationLoginSecretRetryRulesTypedDict(TypedDict):
 
 
 class SplunkAuthenticationLoginSecretRetryRules(BaseModel):
-    type: Annotated[
-        Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules],
-        PlainValidator(validate_open_enum(False)),
-    ] = RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
+    type: Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules] = (
+        RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
+    )
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[Any] = None
@@ -159,10 +156,9 @@ class SplunkAuthenticationLoginSecret(BaseModel):
     search: str
     r"""Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'"""
 
-    authentication: Annotated[
-        Optional[SplunkAuthenticationLoginSecretAuthentication],
-        PlainValidator(validate_open_enum(False)),
-    ] = SplunkAuthenticationLoginSecretAuthentication.BASIC
+    authentication: Optional[SplunkAuthenticationLoginSecretAuthentication] = (
+        SplunkAuthenticationLoginSecretAuthentication.BASIC
+    )
     r"""Authentication method for Discover and Collect REST calls"""
 
     login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = (
@@ -200,10 +196,7 @@ class SplunkAuthenticationLoginSecret(BaseModel):
     r"""REST API used to create a search"""
 
     output_mode: Annotated[
-        Annotated[
-            Optional[OutputModeOptionsSplunkCollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[OutputModeOptionsSplunkCollectorConf],
         pydantic.Field(alias="outputMode"),
     ] = OutputModeOptionsSplunkCollectorConf.JSON
     r"""Format of the returned output"""
@@ -321,10 +314,9 @@ class SplunkAuthenticationLoginRetryRulesTypedDict(TypedDict):
 
 
 class SplunkAuthenticationLoginRetryRules(BaseModel):
-    type: Annotated[
-        Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules],
-        PlainValidator(validate_open_enum(False)),
-    ] = RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
+    type: Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules] = (
+        RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
+    )
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[Any] = None
@@ -409,10 +401,9 @@ class SplunkAuthenticationLogin(BaseModel):
     search: str
     r"""Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'"""
 
-    authentication: Annotated[
-        Optional[SplunkAuthenticationLoginAuthentication],
-        PlainValidator(validate_open_enum(False)),
-    ] = SplunkAuthenticationLoginAuthentication.BASIC
+    authentication: Optional[SplunkAuthenticationLoginAuthentication] = (
+        SplunkAuthenticationLoginAuthentication.BASIC
+    )
     r"""Authentication method for Discover and Collect REST calls"""
 
     login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = (
@@ -450,10 +441,7 @@ class SplunkAuthenticationLogin(BaseModel):
     r"""REST API used to create a search"""
 
     output_mode: Annotated[
-        Annotated[
-            Optional[OutputModeOptionsSplunkCollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[OutputModeOptionsSplunkCollectorConf],
         pydantic.Field(alias="outputMode"),
     ] = OutputModeOptionsSplunkCollectorConf.JSON
     r"""Format of the returned output"""
@@ -573,10 +561,9 @@ class SplunkAuthenticationTokenSecretRetryRulesTypedDict(TypedDict):
 
 
 class SplunkAuthenticationTokenSecretRetryRules(BaseModel):
-    type: Annotated[
-        Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules],
-        PlainValidator(validate_open_enum(False)),
-    ] = RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
+    type: Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules] = (
+        RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
+    )
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[Any] = None
@@ -652,10 +639,9 @@ class SplunkAuthenticationTokenSecret(BaseModel):
     search: str
     r"""Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'"""
 
-    authentication: Annotated[
-        Optional[SplunkAuthenticationTokenSecretAuthentication],
-        PlainValidator(validate_open_enum(False)),
-    ] = SplunkAuthenticationTokenSecretAuthentication.BASIC
+    authentication: Optional[SplunkAuthenticationTokenSecretAuthentication] = (
+        SplunkAuthenticationTokenSecretAuthentication.BASIC
+    )
     r"""Authentication method for Discover and Collect REST calls"""
 
     search_head: Annotated[Optional[str], pydantic.Field(alias="searchHead")] = (
@@ -673,10 +659,7 @@ class SplunkAuthenticationTokenSecret(BaseModel):
     r"""REST API used to create a search"""
 
     output_mode: Annotated[
-        Annotated[
-            Optional[OutputModeOptionsSplunkCollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[OutputModeOptionsSplunkCollectorConf],
         pydantic.Field(alias="outputMode"),
     ] = OutputModeOptionsSplunkCollectorConf.JSON
     r"""Format of the returned output"""
@@ -794,10 +777,9 @@ class SplunkAuthenticationTokenRetryRulesTypedDict(TypedDict):
 
 
 class SplunkAuthenticationTokenRetryRules(BaseModel):
-    type: Annotated[
-        Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules],
-        PlainValidator(validate_open_enum(False)),
-    ] = RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
+    type: Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules] = (
+        RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
+    )
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[Any] = None
@@ -871,10 +853,9 @@ class SplunkAuthenticationToken(BaseModel):
     search: str
     r"""Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'"""
 
-    authentication: Annotated[
-        Optional[SplunkAuthenticationTokenAuthentication],
-        PlainValidator(validate_open_enum(False)),
-    ] = SplunkAuthenticationTokenAuthentication.BASIC
+    authentication: Optional[SplunkAuthenticationTokenAuthentication] = (
+        SplunkAuthenticationTokenAuthentication.BASIC
+    )
     r"""Authentication method for Discover and Collect REST calls"""
 
     search_head: Annotated[Optional[str], pydantic.Field(alias="searchHead")] = (
@@ -892,10 +873,7 @@ class SplunkAuthenticationToken(BaseModel):
     r"""REST API used to create a search"""
 
     output_mode: Annotated[
-        Annotated[
-            Optional[OutputModeOptionsSplunkCollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[OutputModeOptionsSplunkCollectorConf],
         pydantic.Field(alias="outputMode"),
     ] = OutputModeOptionsSplunkCollectorConf.JSON
     r"""Format of the returned output"""
@@ -1015,10 +993,9 @@ class SplunkAuthenticationBasicSecretRetryRulesTypedDict(TypedDict):
 
 
 class SplunkAuthenticationBasicSecretRetryRules(BaseModel):
-    type: Annotated[
-        Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules],
-        PlainValidator(validate_open_enum(False)),
-    ] = RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
+    type: Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules] = (
+        RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
+    )
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[Any] = None
@@ -1094,10 +1071,9 @@ class SplunkAuthenticationBasicSecret(BaseModel):
     search: str
     r"""Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'"""
 
-    authentication: Annotated[
-        Optional[SplunkAuthenticationBasicSecretAuthentication],
-        PlainValidator(validate_open_enum(False)),
-    ] = SplunkAuthenticationBasicSecretAuthentication.BASIC
+    authentication: Optional[SplunkAuthenticationBasicSecretAuthentication] = (
+        SplunkAuthenticationBasicSecretAuthentication.BASIC
+    )
     r"""Authentication method for Discover and Collect REST calls"""
 
     search_head: Annotated[Optional[str], pydantic.Field(alias="searchHead")] = (
@@ -1115,10 +1091,7 @@ class SplunkAuthenticationBasicSecret(BaseModel):
     r"""REST API used to create a search"""
 
     output_mode: Annotated[
-        Annotated[
-            Optional[OutputModeOptionsSplunkCollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[OutputModeOptionsSplunkCollectorConf],
         pydantic.Field(alias="outputMode"),
     ] = OutputModeOptionsSplunkCollectorConf.JSON
     r"""Format of the returned output"""
@@ -1236,10 +1209,9 @@ class SplunkAuthenticationBasicRetryRulesTypedDict(TypedDict):
 
 
 class SplunkAuthenticationBasicRetryRules(BaseModel):
-    type: Annotated[
-        Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules],
-        PlainValidator(validate_open_enum(False)),
-    ] = RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
+    type: Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules] = (
+        RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
+    )
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[Any] = None
@@ -1320,10 +1292,9 @@ class SplunkAuthenticationBasic(BaseModel):
     search: str
     r"""Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'"""
 
-    authentication: Annotated[
-        Optional[SplunkAuthenticationBasicAuthentication],
-        PlainValidator(validate_open_enum(False)),
-    ] = SplunkAuthenticationBasicAuthentication.BASIC
+    authentication: Optional[SplunkAuthenticationBasicAuthentication] = (
+        SplunkAuthenticationBasicAuthentication.BASIC
+    )
     r"""Authentication method for Discover and Collect REST calls"""
 
     search_head: Annotated[Optional[str], pydantic.Field(alias="searchHead")] = (
@@ -1341,10 +1312,7 @@ class SplunkAuthenticationBasic(BaseModel):
     r"""REST API used to create a search"""
 
     output_mode: Annotated[
-        Annotated[
-            Optional[OutputModeOptionsSplunkCollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[OutputModeOptionsSplunkCollectorConf],
         pydantic.Field(alias="outputMode"),
     ] = OutputModeOptionsSplunkCollectorConf.JSON
     r"""Format of the returned output"""
@@ -1462,10 +1430,9 @@ class SplunkAuthenticationNoneRetryRulesTypedDict(TypedDict):
 
 
 class SplunkAuthenticationNoneRetryRules(BaseModel):
-    type: Annotated[
-        Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules],
-        PlainValidator(validate_open_enum(False)),
-    ] = RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
+    type: Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules] = (
+        RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
+    )
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[Any] = None
@@ -1536,10 +1503,9 @@ class SplunkAuthenticationNone(BaseModel):
     search: str
     r"""Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'"""
 
-    authentication: Annotated[
-        Optional[SplunkAuthenticationNoneAuthentication],
-        PlainValidator(validate_open_enum(False)),
-    ] = SplunkAuthenticationNoneAuthentication.BASIC
+    authentication: Optional[SplunkAuthenticationNoneAuthentication] = (
+        SplunkAuthenticationNoneAuthentication.BASIC
+    )
     r"""Authentication method for Discover and Collect REST calls"""
 
     search_head: Annotated[Optional[str], pydantic.Field(alias="searchHead")] = (
@@ -1557,10 +1523,7 @@ class SplunkAuthenticationNone(BaseModel):
     r"""REST API used to create a search"""
 
     output_mode: Annotated[
-        Annotated[
-            Optional[OutputModeOptionsSplunkCollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[OutputModeOptionsSplunkCollectorConf],
         pydantic.Field(alias="outputMode"),
     ] = OutputModeOptionsSplunkCollectorConf.JSON
     r"""Format of the returned output"""

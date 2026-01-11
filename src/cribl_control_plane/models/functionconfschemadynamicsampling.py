@@ -3,11 +3,9 @@
 from __future__ import annotations
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -37,10 +35,9 @@ class FunctionConfSchemaDynamicSamplingTypedDict(TypedDict):
 
 
 class FunctionConfSchemaDynamicSampling(BaseModel):
-    mode: Annotated[
-        Optional[FunctionConfSchemaDynamicSamplingSampleMode],
-        PlainValidator(validate_open_enum(False)),
-    ] = FunctionConfSchemaDynamicSamplingSampleMode.LOG
+    mode: Optional[FunctionConfSchemaDynamicSamplingSampleMode] = (
+        FunctionConfSchemaDynamicSamplingSampleMode.LOG
+    )
     r"""Defines how sample rate will be derived: log(previousPeriodCount) or sqrt(previousPeriodCount)"""
 
     key_expr: Annotated[Optional[str], pydantic.Field(alias="keyExpr")] = "`${host}`"

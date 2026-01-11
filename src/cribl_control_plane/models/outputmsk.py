@@ -22,11 +22,9 @@ from .tlssettingsclientsidetype1 import (
 )
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -172,23 +170,15 @@ class OutputMsk(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    ack: Annotated[
-        Optional[AcknowledgmentsOptions1], PlainValidator(validate_open_enum(True))
-    ] = AcknowledgmentsOptions1.ONE
+    ack: Optional[AcknowledgmentsOptions1] = AcknowledgmentsOptions1.ONE
     r"""Control the number of required acknowledgments."""
 
     format_: Annotated[
-        Annotated[
-            Optional[RecordDataFormatOptions1],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="format"),
+        Optional[RecordDataFormatOptions1], pydantic.Field(alias="format")
     ] = RecordDataFormatOptions1.JSON
     r"""Format to use to serialize events before writing to Kafka."""
 
-    compression: Annotated[
-        Optional[CompressionOptions3], PlainValidator(validate_open_enum(False))
-    ] = CompressionOptions3.GZIP
+    compression: Optional[CompressionOptions3] = CompressionOptions3.GZIP
     r"""Codec to use to compress the data before sending to Kafka"""
 
     max_record_size_kb: Annotated[
@@ -246,10 +236,7 @@ class OutputMsk(BaseModel):
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
 
     aws_authentication_method: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsS3CollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
     ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
@@ -262,10 +249,7 @@ class OutputMsk(BaseModel):
     r"""MSK cluster service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to MSK cluster-compatible endpoint."""
 
     signature_version: Annotated[
-        Annotated[
-            Optional[SignatureVersionOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="signatureVersion"),
+        Optional[SignatureVersionOptions], pydantic.Field(alias="signatureVersion")
     ] = SignatureVersionOptions.V4
     r"""Signature version to use for signing MSK cluster requests"""
 
@@ -302,11 +286,7 @@ class OutputMsk(BaseModel):
     tls: Optional[TLSSettingsClientSideType1] = None
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -337,10 +317,9 @@ class OutputMsk(BaseModel):
     ] = 0
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[
-        Annotated[Optional[ModeOptions], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="pqMode"),
-    ] = ModeOptions.ERROR
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
+        ModeOptions.ERROR
+    )
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
@@ -367,19 +346,12 @@ class OutputMsk(BaseModel):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
-        Annotated[
-            Optional[CompressionOptionsPq], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="pqCompress"),
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
     ] = CompressionOptionsPq.NONE
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
-        Annotated[
-            Optional[QueueFullBehaviorOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="pqOnBackpressure"),
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = QueueFullBehaviorOptions.BLOCK
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 

@@ -17,11 +17,9 @@ from .scheduletyperunnablejobcollection import (
 )
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -65,9 +63,7 @@ class CaptureSettings(BaseModel):
     max_events: Annotated[Optional[float], pydantic.Field(alias="maxEvents")] = 100
     r"""Maximum number of events to capture"""
 
-    level: Annotated[
-        Optional[WhereToCapture], PlainValidator(validate_open_enum(True))
-    ] = WhereToCapture.ZERO
+    level: Optional[WhereToCapture] = WhereToCapture.ZERO
 
     @field_serializer("level")
     def serialize_level(self, value):
@@ -129,10 +125,7 @@ class RunnableJobCollectionRun(BaseModel):
     r"""Maximum number of times a task can be rescheduled"""
 
     log_level: Annotated[
-        Annotated[
-            Optional[LogLevelOptionsSavedJobCollectionScheduleRun],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[LogLevelOptionsSavedJobCollectionScheduleRun],
         pydantic.Field(alias="logLevel"),
     ] = LogLevelOptionsSavedJobCollectionScheduleRun.INFO
     r"""Level at which to set task logging"""
@@ -140,14 +133,11 @@ class RunnableJobCollectionRun(BaseModel):
     job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = "0"
     r"""Maximum time the job is allowed to run. Time unit defaults to seconds if not specified (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
 
-    mode: Annotated[
-        Optional[RunnableJobCollectionMode], PlainValidator(validate_open_enum(False))
-    ] = RunnableJobCollectionMode.LIST
+    mode: Optional[RunnableJobCollectionMode] = RunnableJobCollectionMode.LIST
     r"""Job run mode. Preview will either return up to N matching results, or will run until capture time T is reached. Discovery will gather the list of files to turn into streaming tasks, without running the data collection job. Full Run will run the collection job."""
 
     time_range_type: Annotated[
-        Annotated[Optional[TimeRange], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="timeRangeType"),
+        Optional[TimeRange], pydantic.Field(alias="timeRangeType")
     ] = TimeRange.RELATIVE
 
     earliest: Optional[float] = None
@@ -257,10 +247,7 @@ class RunnableJobCollection(BaseModel):
 
     description: Optional[str] = None
 
-    type: Annotated[
-        Optional[JobTypeOptionsSavedJobCollection],
-        PlainValidator(validate_open_enum(False)),
-    ] = None
+    type: Optional[JobTypeOptionsSavedJobCollection] = None
 
     ttl: Optional[str] = "4h"
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""

@@ -7,11 +7,9 @@ from .datasetmetadataruninfo import (
 )
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -36,10 +34,7 @@ class DatasetMetadata(BaseModel):
 
     field_list: Annotated[List[str], pydantic.Field(alias="fieldList")]
 
-    scan_mode: Annotated[
-        Annotated[ScanMode, PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="scanMode"),
-    ]
+    scan_mode: Annotated[ScanMode, pydantic.Field(alias="scanMode")]
 
     latest_run_info: Annotated[
         Optional[DatasetMetadataRunInfo], pydantic.Field(alias="latestRunInfo")

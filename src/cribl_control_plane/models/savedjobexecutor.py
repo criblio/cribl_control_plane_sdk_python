@@ -12,10 +12,8 @@ from .scheduletypesavedjobcollection import (
 )
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -43,9 +41,7 @@ class SavedJobExecutorTypedDict(TypedDict):
 
 
 class SavedJobExecutor(BaseModel):
-    type: Annotated[
-        JobTypeOptionsSavedJobCollection, PlainValidator(validate_open_enum(False))
-    ]
+    type: JobTypeOptionsSavedJobCollection
 
     executor: ExecutorTypeSavedJobExecutor
 

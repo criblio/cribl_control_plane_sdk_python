@@ -19,11 +19,9 @@ from .serversideencryptionforuploadedobjectsoptions import (
 from .storageclassoptions import StorageClassOptions
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -196,10 +194,7 @@ class OutputSecurityLake(BaseModel):
     )
 
     aws_authentication_method: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsS3CollectorConf],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
     ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
@@ -208,10 +203,7 @@ class OutputSecurityLake(BaseModel):
     r"""Amazon Security Lake service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Amazon Security Lake-compatible endpoint."""
 
     signature_version: Annotated[
-        Annotated[
-            Optional[OutputSecurityLakeSignatureVersion],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[OutputSecurityLakeSignatureVersion],
         pydantic.Field(alias="signatureVersion"),
     ] = OutputSecurityLakeSignatureVersion.V4
     r"""Signature version to use for signing Amazon Security Lake requests"""
@@ -252,26 +244,17 @@ class OutputSecurityLake(BaseModel):
     r"""Add the Output ID value to staging location"""
 
     object_acl: Annotated[
-        Annotated[
-            Optional[ObjectACLOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="objectACL"),
+        Optional[ObjectACLOptions], pydantic.Field(alias="objectACL")
     ] = ObjectACLOptions.PRIVATE
     r"""Object ACL to assign to uploaded objects"""
 
     storage_class: Annotated[
-        Annotated[
-            Optional[StorageClassOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="storageClass"),
+        Optional[StorageClassOptions], pydantic.Field(alias="storageClass")
     ] = None
     r"""Storage class to select for uploaded objects"""
 
     server_side_encryption: Annotated[
-        Annotated[
-            Optional[ServerSideEncryptionForUploadedObjectsOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[ServerSideEncryptionForUploadedObjectsOptions],
         pydantic.Field(alias="serverSideEncryption"),
     ] = None
 
@@ -307,11 +290,7 @@ class OutputSecurityLake(BaseModel):
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
-        Annotated[
-            Optional[BackpressureBehaviorOptions1],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
     ] = BackpressureBehaviorOptions1.BLOCK
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -321,10 +300,7 @@ class OutputSecurityLake(BaseModel):
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
 
     on_disk_full_backpressure: Annotated[
-        Annotated[
-            Optional[DiskSpaceProtectionOptions],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[DiskSpaceProtectionOptions],
         pydantic.Field(alias="onDiskFullBackpressure"),
     ] = DiskSpaceProtectionOptions.BLOCK
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
@@ -365,18 +341,12 @@ class OutputSecurityLake(BaseModel):
     r"""Automatically calculate the schema based on the events of each Parquet file generated"""
 
     parquet_version: Annotated[
-        Annotated[
-            Optional[ParquetVersionOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="parquetVersion"),
+        Optional[ParquetVersionOptions], pydantic.Field(alias="parquetVersion")
     ] = ParquetVersionOptions.PARQUET_2_6
     r"""Determines which data types are supported and how they are represented"""
 
     parquet_data_page_version: Annotated[
-        Annotated[
-            Optional[DataPageVersionOptions], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="parquetDataPageVersion"),
+        Optional[DataPageVersionOptions], pydantic.Field(alias="parquetDataPageVersion")
     ] = DataPageVersionOptions.DATA_PAGE_V2
     r"""Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it."""
 

@@ -13,10 +13,8 @@ from .itemstypesaslsaslextensions import (
 from .saslmechanismoptionssasl import SaslMechanismOptionsSasl
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -63,11 +61,7 @@ class AuthenticationType(BaseModel):
     password: Optional[str] = None
 
     auth_type: Annotated[
-        Annotated[
-            Optional[AuthenticationMethodOptionsSasl],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationMethodOptionsSasl], pydantic.Field(alias="authType")
     ] = AuthenticationMethodOptionsSasl.MANUAL
     r"""Enter credentials directly, or select a stored secret"""
 
@@ -76,9 +70,7 @@ class AuthenticationType(BaseModel):
     ] = None
     r"""Select or create a secret that references your credentials"""
 
-    mechanism: Annotated[
-        Optional[SaslMechanismOptionsSasl], PlainValidator(validate_open_enum(False))
-    ] = SaslMechanismOptionsSasl.PLAIN
+    mechanism: Optional[SaslMechanismOptionsSasl] = SaslMechanismOptionsSasl.PLAIN
 
     keytab_location: Annotated[
         Optional[str], pydantic.Field(alias="keytabLocation")

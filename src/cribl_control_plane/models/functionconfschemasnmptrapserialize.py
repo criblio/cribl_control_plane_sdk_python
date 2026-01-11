@@ -4,10 +4,8 @@ from __future__ import annotations
 from .authenticationprotocoloptionsv3user import AuthenticationProtocolOptionsV3User
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import Any, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -23,10 +21,7 @@ class FunctionConfSchemaSnmpTrapSerializeV3User(BaseModel):
     name: Optional[str] = None
 
     auth_protocol: Annotated[
-        Annotated[
-            Optional[AuthenticationProtocolOptionsV3User],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[AuthenticationProtocolOptionsV3User],
         pydantic.Field(alias="authProtocol"),
     ] = AuthenticationProtocolOptionsV3User.NONE
 

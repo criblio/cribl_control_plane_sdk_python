@@ -3,11 +3,9 @@
 from __future__ import annotations
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -76,19 +74,13 @@ class FunctionConfSchemaRedis(BaseModel):
     commands: Optional[List[FunctionConfSchemaRedisCommand]] = None
 
     deployment_type: Annotated[
-        Annotated[
-            Optional[FunctionConfSchemaRedisDeploymentType],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[FunctionConfSchemaRedisDeploymentType],
         pydantic.Field(alias="deploymentType"),
     ] = FunctionConfSchemaRedisDeploymentType.STANDALONE
     r"""How the Redis server is configured. Defaults to Standalone"""
 
     auth_type: Annotated[
-        Annotated[
-            Optional[FunctionConfSchemaRedisAuthenticationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        Optional[FunctionConfSchemaRedisAuthenticationMethod],
         pydantic.Field(alias="authType"),
     ] = FunctionConfSchemaRedisAuthenticationMethod.NONE
 

@@ -3,11 +3,9 @@
 from __future__ import annotations
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -86,8 +84,7 @@ class FunctionConfSchemaAutoTimestamp(BaseModel):
     r"""Maximum string length at which to look for a timestamp"""
 
     default_time: Annotated[
-        Annotated[Optional[DefaultTime], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="defaultTime"),
+        Optional[DefaultTime], pydantic.Field(alias="defaultTime")
     ] = DefaultTime.NOW
     r"""How to set the time field if no timestamp is found"""
 

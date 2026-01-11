@@ -9,13 +9,11 @@ from .itemstypenotificationmetadata import (
 from .pqtype import PqType, PqTypeTypedDict
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
-from typing import List, Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing import List, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class InputWinEventLogsType(str, Enum):
@@ -40,10 +38,13 @@ class EventFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     XML = "xml"
 
 
-class InputWinEventLogsTypedDict(TypedDict):
+class InputWinEventLogsInputCollectionPart1Type1TypedDict(TypedDict):
     type: InputWinEventLogsType
     log_names: List[str]
     r"""Enter the event logs to collect. Run \"Get-WinEvent -ListLog *\" in PowerShell to see the available logs."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -53,13 +54,10 @@ class InputWinEventLogsTypedDict(TypedDict):
     r"""Select whether to send data to Routes, or directly to Destinations."""
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
     connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[PqTypeTypedDict]
     read_mode: NotRequired[ReadMode]
     r"""Read all stored and future event logs, or only future events"""
     event_format: NotRequired[EventFormat]
@@ -81,11 +79,16 @@ class InputWinEventLogsTypedDict(TypedDict):
     r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
 
 
-class InputWinEventLogs(BaseModel):
+class InputWinEventLogsInputCollectionPart1Type1(BaseModel):
     type: InputWinEventLogsType
 
     log_names: Annotated[List[str], pydantic.Field(alias="logNames")]
     r"""Enter the event logs to collect. Run \"Get-WinEvent -ListLog *\" in PowerShell to see the available logs."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -103,26 +106,19 @@ class InputWinEventLogs(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
     connections: Optional[List[ItemsTypeConnections]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[PqType] = None
-
-    read_mode: Annotated[
-        Annotated[Optional[ReadMode], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="readMode"),
-    ] = ReadMode.NEWEST
+    read_mode: Annotated[Optional[ReadMode], pydantic.Field(alias="readMode")] = (
+        ReadMode.NEWEST
+    )
     r"""Read all stored and future event logs, or only future events"""
 
     event_format: Annotated[
-        Annotated[Optional[EventFormat], PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="eventFormat"),
+        Optional[EventFormat], pydantic.Field(alias="eventFormat")
     ] = EventFormat.JSON
     r"""Format of individual events"""
 
@@ -174,3 +170,427 @@ class InputWinEventLogs(BaseModel):
             except ValueError:
                 return value
         return value
+
+
+class InputWinEventLogsInputCollectionPart0Type1TypedDict(TypedDict):
+    type: InputWinEventLogsType
+    log_names: List[str]
+    r"""Enter the event logs to collect. Run \"Get-WinEvent -ListLog *\" in PowerShell to see the available logs."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    id: NotRequired[str]
+    r"""Unique ID for this input"""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
+    read_mode: NotRequired[ReadMode]
+    r"""Read all stored and future event logs, or only future events"""
+    event_format: NotRequired[EventFormat]
+    r"""Format of individual events"""
+    disable_native_module: NotRequired[bool]
+    r"""Enable to use built-in tools (PowerShell for JSON, wevtutil for XML) to collect event logs instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-windows-event-logs/#advanced-settings)"""
+    interval: NotRequired[float]
+    r"""Time, in seconds, between checking for new entries (Applicable for pre-4.8.0 nodes that use Windows Tools)"""
+    batch_size: NotRequired[float]
+    r"""The maximum number of events to read in one polling interval. A batch size higher than 500 can cause delays when pulling from multiple event logs. (Applicable for pre-4.8.0 nodes that use Windows Tools)"""
+    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    r"""Fields to add to events from this input"""
+    max_event_bytes: NotRequired[float]
+    r"""The maximum number of bytes in an event before it is flushed to the pipelines"""
+    description: NotRequired[str]
+    disable_json_rendering: NotRequired[bool]
+    r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
+    disable_xml_rendering: NotRequired[bool]
+    r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
+
+
+class InputWinEventLogsInputCollectionPart0Type1(BaseModel):
+    type: InputWinEventLogsType
+
+    log_names: Annotated[List[str], pydantic.Field(alias="logNames")]
+    r"""Enter the event logs to collect. Run \"Get-WinEvent -ListLog *\" in PowerShell to see the available logs."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    id: Optional[str] = None
+    r"""Unique ID for this input"""
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnections]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
+
+    read_mode: Annotated[Optional[ReadMode], pydantic.Field(alias="readMode")] = (
+        ReadMode.NEWEST
+    )
+    r"""Read all stored and future event logs, or only future events"""
+
+    event_format: Annotated[
+        Optional[EventFormat], pydantic.Field(alias="eventFormat")
+    ] = EventFormat.JSON
+    r"""Format of individual events"""
+
+    disable_native_module: Annotated[
+        Optional[bool], pydantic.Field(alias="disableNativeModule")
+    ] = False
+    r"""Enable to use built-in tools (PowerShell for JSON, wevtutil for XML) to collect event logs instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-windows-event-logs/#advanced-settings)"""
+
+    interval: Optional[float] = 10
+    r"""Time, in seconds, between checking for new entries (Applicable for pre-4.8.0 nodes that use Windows Tools)"""
+
+    batch_size: Annotated[Optional[float], pydantic.Field(alias="batchSize")] = 500
+    r"""The maximum number of events to read in one polling interval. A batch size higher than 500 can cause delays when pulling from multiple event logs. (Applicable for pre-4.8.0 nodes that use Windows Tools)"""
+
+    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    r"""Fields to add to events from this input"""
+
+    max_event_bytes: Annotated[
+        Optional[float], pydantic.Field(alias="maxEventBytes")
+    ] = 51200
+    r"""The maximum number of bytes in an event before it is flushed to the pipelines"""
+
+    description: Optional[str] = None
+
+    disable_json_rendering: Annotated[
+        Optional[bool], pydantic.Field(alias="disableJsonRendering")
+    ] = False
+    r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
+
+    disable_xml_rendering: Annotated[
+        Optional[bool], pydantic.Field(alias="disableXmlRendering")
+    ] = True
+    r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
+
+    @field_serializer("read_mode")
+    def serialize_read_mode(self, value):
+        if isinstance(value, str):
+            try:
+                return models.ReadMode(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("event_format")
+    def serialize_event_format(self, value):
+        if isinstance(value, str):
+            try:
+                return models.EventFormat(value)
+            except ValueError:
+                return value
+        return value
+
+
+class InputWinEventLogsInputCollectionPart1TypeTypedDict(TypedDict):
+    type: InputWinEventLogsType
+    log_names: List[str]
+    r"""Enter the event logs to collect. Run \"Get-WinEvent -ListLog *\" in PowerShell to see the available logs."""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    id: NotRequired[str]
+    r"""Unique ID for this input"""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    pq: NotRequired[PqTypeTypedDict]
+    read_mode: NotRequired[ReadMode]
+    r"""Read all stored and future event logs, or only future events"""
+    event_format: NotRequired[EventFormat]
+    r"""Format of individual events"""
+    disable_native_module: NotRequired[bool]
+    r"""Enable to use built-in tools (PowerShell for JSON, wevtutil for XML) to collect event logs instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-windows-event-logs/#advanced-settings)"""
+    interval: NotRequired[float]
+    r"""Time, in seconds, between checking for new entries (Applicable for pre-4.8.0 nodes that use Windows Tools)"""
+    batch_size: NotRequired[float]
+    r"""The maximum number of events to read in one polling interval. A batch size higher than 500 can cause delays when pulling from multiple event logs. (Applicable for pre-4.8.0 nodes that use Windows Tools)"""
+    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    r"""Fields to add to events from this input"""
+    max_event_bytes: NotRequired[float]
+    r"""The maximum number of bytes in an event before it is flushed to the pipelines"""
+    description: NotRequired[str]
+    disable_json_rendering: NotRequired[bool]
+    r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
+    disable_xml_rendering: NotRequired[bool]
+    r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
+
+
+class InputWinEventLogsInputCollectionPart1Type(BaseModel):
+    type: InputWinEventLogsType
+
+    log_names: Annotated[List[str], pydantic.Field(alias="logNames")]
+    r"""Enter the event logs to collect. Run \"Get-WinEvent -ListLog *\" in PowerShell to see the available logs."""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    connections: Optional[List[ItemsTypeConnections]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    id: Optional[str] = None
+    r"""Unique ID for this input"""
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    pq: Optional[PqType] = None
+
+    read_mode: Annotated[Optional[ReadMode], pydantic.Field(alias="readMode")] = (
+        ReadMode.NEWEST
+    )
+    r"""Read all stored and future event logs, or only future events"""
+
+    event_format: Annotated[
+        Optional[EventFormat], pydantic.Field(alias="eventFormat")
+    ] = EventFormat.JSON
+    r"""Format of individual events"""
+
+    disable_native_module: Annotated[
+        Optional[bool], pydantic.Field(alias="disableNativeModule")
+    ] = False
+    r"""Enable to use built-in tools (PowerShell for JSON, wevtutil for XML) to collect event logs instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-windows-event-logs/#advanced-settings)"""
+
+    interval: Optional[float] = 10
+    r"""Time, in seconds, between checking for new entries (Applicable for pre-4.8.0 nodes that use Windows Tools)"""
+
+    batch_size: Annotated[Optional[float], pydantic.Field(alias="batchSize")] = 500
+    r"""The maximum number of events to read in one polling interval. A batch size higher than 500 can cause delays when pulling from multiple event logs. (Applicable for pre-4.8.0 nodes that use Windows Tools)"""
+
+    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    r"""Fields to add to events from this input"""
+
+    max_event_bytes: Annotated[
+        Optional[float], pydantic.Field(alias="maxEventBytes")
+    ] = 51200
+    r"""The maximum number of bytes in an event before it is flushed to the pipelines"""
+
+    description: Optional[str] = None
+
+    disable_json_rendering: Annotated[
+        Optional[bool], pydantic.Field(alias="disableJsonRendering")
+    ] = False
+    r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
+
+    disable_xml_rendering: Annotated[
+        Optional[bool], pydantic.Field(alias="disableXmlRendering")
+    ] = True
+    r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
+
+    @field_serializer("read_mode")
+    def serialize_read_mode(self, value):
+        if isinstance(value, str):
+            try:
+                return models.ReadMode(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("event_format")
+    def serialize_event_format(self, value):
+        if isinstance(value, str):
+            try:
+                return models.EventFormat(value)
+            except ValueError:
+                return value
+        return value
+
+
+class InputWinEventLogsInputCollectionPart0TypeTypedDict(TypedDict):
+    type: InputWinEventLogsType
+    log_names: List[str]
+    r"""Enter the event logs to collect. Run \"Get-WinEvent -ListLog *\" in PowerShell to see the available logs."""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    id: NotRequired[str]
+    r"""Unique ID for this input"""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
+    read_mode: NotRequired[ReadMode]
+    r"""Read all stored and future event logs, or only future events"""
+    event_format: NotRequired[EventFormat]
+    r"""Format of individual events"""
+    disable_native_module: NotRequired[bool]
+    r"""Enable to use built-in tools (PowerShell for JSON, wevtutil for XML) to collect event logs instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-windows-event-logs/#advanced-settings)"""
+    interval: NotRequired[float]
+    r"""Time, in seconds, between checking for new entries (Applicable for pre-4.8.0 nodes that use Windows Tools)"""
+    batch_size: NotRequired[float]
+    r"""The maximum number of events to read in one polling interval. A batch size higher than 500 can cause delays when pulling from multiple event logs. (Applicable for pre-4.8.0 nodes that use Windows Tools)"""
+    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    r"""Fields to add to events from this input"""
+    max_event_bytes: NotRequired[float]
+    r"""The maximum number of bytes in an event before it is flushed to the pipelines"""
+    description: NotRequired[str]
+    disable_json_rendering: NotRequired[bool]
+    r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
+    disable_xml_rendering: NotRequired[bool]
+    r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
+
+
+class InputWinEventLogsInputCollectionPart0Type(BaseModel):
+    type: InputWinEventLogsType
+
+    log_names: Annotated[List[str], pydantic.Field(alias="logNames")]
+    r"""Enter the event logs to collect. Run \"Get-WinEvent -ListLog *\" in PowerShell to see the available logs."""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    id: Optional[str] = None
+    r"""Unique ID for this input"""
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnections]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
+
+    read_mode: Annotated[Optional[ReadMode], pydantic.Field(alias="readMode")] = (
+        ReadMode.NEWEST
+    )
+    r"""Read all stored and future event logs, or only future events"""
+
+    event_format: Annotated[
+        Optional[EventFormat], pydantic.Field(alias="eventFormat")
+    ] = EventFormat.JSON
+    r"""Format of individual events"""
+
+    disable_native_module: Annotated[
+        Optional[bool], pydantic.Field(alias="disableNativeModule")
+    ] = False
+    r"""Enable to use built-in tools (PowerShell for JSON, wevtutil for XML) to collect event logs instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-windows-event-logs/#advanced-settings)"""
+
+    interval: Optional[float] = 10
+    r"""Time, in seconds, between checking for new entries (Applicable for pre-4.8.0 nodes that use Windows Tools)"""
+
+    batch_size: Annotated[Optional[float], pydantic.Field(alias="batchSize")] = 500
+    r"""The maximum number of events to read in one polling interval. A batch size higher than 500 can cause delays when pulling from multiple event logs. (Applicable for pre-4.8.0 nodes that use Windows Tools)"""
+
+    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    r"""Fields to add to events from this input"""
+
+    max_event_bytes: Annotated[
+        Optional[float], pydantic.Field(alias="maxEventBytes")
+    ] = 51200
+    r"""The maximum number of bytes in an event before it is flushed to the pipelines"""
+
+    description: Optional[str] = None
+
+    disable_json_rendering: Annotated[
+        Optional[bool], pydantic.Field(alias="disableJsonRendering")
+    ] = False
+    r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
+
+    disable_xml_rendering: Annotated[
+        Optional[bool], pydantic.Field(alias="disableXmlRendering")
+    ] = True
+    r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
+
+    @field_serializer("read_mode")
+    def serialize_read_mode(self, value):
+        if isinstance(value, str):
+            try:
+                return models.ReadMode(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("event_format")
+    def serialize_event_format(self, value):
+        if isinstance(value, str):
+            try:
+                return models.EventFormat(value)
+            except ValueError:
+                return value
+        return value
+
+
+InputWinEventLogsTypedDict = TypeAliasType(
+    "InputWinEventLogsTypedDict",
+    Union[
+        InputWinEventLogsInputCollectionPart0TypeTypedDict,
+        InputWinEventLogsInputCollectionPart1TypeTypedDict,
+        InputWinEventLogsInputCollectionPart0Type1TypedDict,
+        InputWinEventLogsInputCollectionPart1Type1TypedDict,
+    ],
+)
+
+
+InputWinEventLogs = TypeAliasType(
+    "InputWinEventLogs",
+    Union[
+        InputWinEventLogsInputCollectionPart0Type,
+        InputWinEventLogsInputCollectionPart1Type,
+        InputWinEventLogsInputCollectionPart0Type1,
+        InputWinEventLogsInputCollectionPart1Type1,
+    ],
+)

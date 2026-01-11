@@ -4,13 +4,8 @@ from __future__ import annotations
 from .productscore import ProductsCore
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import (
-    FieldMetadata,
-    PathParamMetadata,
-    validate_open_enum,
-)
+from cribl_control_plane.utils import FieldMetadata, PathParamMetadata
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing_extensions import Annotated, TypedDict
 
 
@@ -23,7 +18,7 @@ class GetConfigGroupConfigVersionByProductAndIDRequestTypedDict(TypedDict):
 
 class GetConfigGroupConfigVersionByProductAndIDRequest(BaseModel):
     product: Annotated[
-        Annotated[ProductsCore, PlainValidator(validate_open_enum(False))],
+        ProductsCore,
         FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
     ]
     r"""Name of the Cribl product to get the Worker Groups or Edge Fleets for."""

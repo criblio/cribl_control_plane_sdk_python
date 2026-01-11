@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.CreateInputInputCloudflareHecInputCollectionPart0Type`
+### `models.CreateInputInputCloudflareHecSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputCloudflareHecInputCollectionPart0Type = /* values here */
+value: models.CreateInputInputCloudflareHecSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputCloudflareHecInputCollectionPart1Type`
+### `models.CreateInputInputCloudflareHecSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputCloudflareHecInputCollectionPart1Type = /* values here */
+value: models.CreateInputInputCloudflareHecSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputCloudflareHecInputCollectionPart0Type1`
+### `models.CreateInputInputCloudflareHecPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.CreateInputInputCloudflareHecInputCollectionPart0Type1 = /* values here */
+value: models.CreateInputInputCloudflareHecPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.CreateInputInputCloudflareHecInputCollectionPart1Type1`
+### `models.CreateInputInputCloudflareHecPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.CreateInputInputCloudflareHecInputCollectionPart1Type1 = /* values here */
+value: models.CreateInputInputCloudflareHecPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

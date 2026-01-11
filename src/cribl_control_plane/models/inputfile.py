@@ -16,11 +16,11 @@ from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
-class InputFileInputCollectionPart1Type1Type(str, Enum):
+class InputFilePqEnabledTrueWithPqConstraintType(str, Enum):
     FILE = "file"
 
 
-class InputCollectionPart1Type1Mode(str, Enum, metaclass=utils.OpenEnumMeta):
+class PqEnabledTrueWithPqConstraintMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Choose how to discover files to monitor"""
 
     # Manual
@@ -29,8 +29,8 @@ class InputCollectionPart1Type1Mode(str, Enum, metaclass=utils.OpenEnumMeta):
     AUTO = "auto"
 
 
-class InputFileInputCollectionPart1Type1TypedDict(TypedDict):
-    type: InputFileInputCollectionPart1Type1Type
+class InputFilePqEnabledTrueWithPqConstraintTypedDict(TypedDict):
+    type: InputFilePqEnabledTrueWithPqConstraintType
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     pq: NotRequired[PqTypeTypedDict]
@@ -47,7 +47,7 @@ class InputFileInputCollectionPart1Type1TypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    mode: NotRequired[InputCollectionPart1Type1Mode]
+    mode: NotRequired[PqEnabledTrueWithPqConstraintMode]
     r"""Choose how to discover files to monitor"""
     interval: NotRequired[float]
     r"""Time, in seconds, between scanning for files"""
@@ -87,8 +87,8 @@ class InputFileInputCollectionPart1Type1TypedDict(TypedDict):
     r"""Stream binary files as Base64-encoded chunks."""
 
 
-class InputFileInputCollectionPart1Type1(BaseModel):
-    type: InputFileInputCollectionPart1Type1Type
+class InputFilePqEnabledTrueWithPqConstraint(BaseModel):
+    type: InputFilePqEnabledTrueWithPqConstraintType
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
@@ -117,7 +117,9 @@ class InputFileInputCollectionPart1Type1(BaseModel):
     connections: Optional[List[ItemsTypeConnections]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    mode: Optional[InputCollectionPart1Type1Mode] = InputCollectionPart1Type1Mode.MANUAL
+    mode: Optional[PqEnabledTrueWithPqConstraintMode] = (
+        PqEnabledTrueWithPqConstraintMode.MANUAL
+    )
     r"""Choose how to discover files to monitor"""
 
     interval: Optional[float] = 10
@@ -191,17 +193,17 @@ class InputFileInputCollectionPart1Type1(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.InputCollectionPart1Type1Mode(value)
+                return models.PqEnabledTrueWithPqConstraintMode(value)
             except ValueError:
                 return value
         return value
 
 
-class InputFileInputCollectionPart0Type1Type(str, Enum):
+class InputFilePqEnabledFalseWithPqConstraintType(str, Enum):
     FILE = "file"
 
 
-class InputCollectionPart0Type1Mode(str, Enum, metaclass=utils.OpenEnumMeta):
+class PqEnabledFalseWithPqConstraintMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Choose how to discover files to monitor"""
 
     # Manual
@@ -210,10 +212,11 @@ class InputCollectionPart0Type1Mode(str, Enum, metaclass=utils.OpenEnumMeta):
     AUTO = "auto"
 
 
-class InputFileInputCollectionPart0Type1TypedDict(TypedDict):
-    type: InputFileInputCollectionPart0Type1Type
+class InputFilePqEnabledFalseWithPqConstraintTypedDict(TypedDict):
+    type: InputFilePqEnabledFalseWithPqConstraintType
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -227,8 +230,7 @@ class InputFileInputCollectionPart0Type1TypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[PqTypeTypedDict]
-    mode: NotRequired[InputCollectionPart0Type1Mode]
+    mode: NotRequired[PqEnabledFalseWithPqConstraintMode]
     r"""Choose how to discover files to monitor"""
     interval: NotRequired[float]
     r"""Time, in seconds, between scanning for files"""
@@ -268,11 +270,13 @@ class InputFileInputCollectionPart0Type1TypedDict(TypedDict):
     r"""Stream binary files as Base64-encoded chunks."""
 
 
-class InputFileInputCollectionPart0Type1(BaseModel):
-    type: InputFileInputCollectionPart0Type1Type
+class InputFilePqEnabledFalseWithPqConstraint(BaseModel):
+    type: InputFilePqEnabledFalseWithPqConstraintType
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -296,9 +300,9 @@ class InputFileInputCollectionPart0Type1(BaseModel):
     connections: Optional[List[ItemsTypeConnections]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    pq: Optional[PqType] = None
-
-    mode: Optional[InputCollectionPart0Type1Mode] = InputCollectionPart0Type1Mode.MANUAL
+    mode: Optional[PqEnabledFalseWithPqConstraintMode] = (
+        PqEnabledFalseWithPqConstraintMode.MANUAL
+    )
     r"""Choose how to discover files to monitor"""
 
     interval: Optional[float] = 10
@@ -372,17 +376,19 @@ class InputFileInputCollectionPart0Type1(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.InputCollectionPart0Type1Mode(value)
+                return models.PqEnabledFalseWithPqConstraintMode(value)
             except ValueError:
                 return value
         return value
 
 
-class InputFileInputCollectionPart1TypeType(str, Enum):
+class InputFileSendToRoutesFalseWithConnectionsConstraintType(str, Enum):
     FILE = "file"
 
 
-class InputCollectionPart1TypeMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class SendToRoutesFalseWithConnectionsConstraintMode(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Choose how to discover files to monitor"""
 
     # Manual
@@ -391,8 +397,8 @@ class InputCollectionPart1TypeMode(str, Enum, metaclass=utils.OpenEnumMeta):
     AUTO = "auto"
 
 
-class InputFileInputCollectionPart1TypeTypedDict(TypedDict):
-    type: InputFileInputCollectionPart1TypeType
+class InputFileSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
+    type: InputFileSendToRoutesFalseWithConnectionsConstraintType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
     connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
@@ -409,7 +415,7 @@ class InputFileInputCollectionPart1TypeTypedDict(TypedDict):
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
     pq: NotRequired[PqTypeTypedDict]
-    mode: NotRequired[InputCollectionPart1TypeMode]
+    mode: NotRequired[SendToRoutesFalseWithConnectionsConstraintMode]
     r"""Choose how to discover files to monitor"""
     interval: NotRequired[float]
     r"""Time, in seconds, between scanning for files"""
@@ -449,8 +455,8 @@ class InputFileInputCollectionPart1TypeTypedDict(TypedDict):
     r"""Stream binary files as Base64-encoded chunks."""
 
 
-class InputFileInputCollectionPart1Type(BaseModel):
-    type: InputFileInputCollectionPart1TypeType
+class InputFileSendToRoutesFalseWithConnectionsConstraint(BaseModel):
+    type: InputFileSendToRoutesFalseWithConnectionsConstraintType
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
         True
@@ -479,7 +485,9 @@ class InputFileInputCollectionPart1Type(BaseModel):
 
     pq: Optional[PqType] = None
 
-    mode: Optional[InputCollectionPart1TypeMode] = InputCollectionPart1TypeMode.MANUAL
+    mode: Optional[SendToRoutesFalseWithConnectionsConstraintMode] = (
+        SendToRoutesFalseWithConnectionsConstraintMode.MANUAL
+    )
     r"""Choose how to discover files to monitor"""
 
     interval: Optional[float] = 10
@@ -553,17 +561,19 @@ class InputFileInputCollectionPart1Type(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.InputCollectionPart1TypeMode(value)
+                return models.SendToRoutesFalseWithConnectionsConstraintMode(value)
             except ValueError:
                 return value
         return value
 
 
-class InputFileInputCollectionPart0TypeType(str, Enum):
+class InputFileSendToRoutesTrueWithConnectionsConstraintType(str, Enum):
     FILE = "file"
 
 
-class InputCollectionPart0TypeMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class SendToRoutesTrueWithConnectionsConstraintMode(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Choose how to discover files to monitor"""
 
     # Manual
@@ -572,10 +582,12 @@ class InputCollectionPart0TypeMode(str, Enum, metaclass=utils.OpenEnumMeta):
     AUTO = "auto"
 
 
-class InputFileInputCollectionPart0TypeTypedDict(TypedDict):
-    type: InputFileInputCollectionPart0TypeType
+class InputFileSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
+    type: InputFileSendToRoutesTrueWithConnectionsConstraintType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
+    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -587,10 +599,8 @@ class InputFileInputCollectionPart0TypeTypedDict(TypedDict):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
-    mode: NotRequired[InputCollectionPart0TypeMode]
+    mode: NotRequired[SendToRoutesTrueWithConnectionsConstraintMode]
     r"""Choose how to discover files to monitor"""
     interval: NotRequired[float]
     r"""Time, in seconds, between scanning for files"""
@@ -630,13 +640,16 @@ class InputFileInputCollectionPart0TypeTypedDict(TypedDict):
     r"""Stream binary files as Base64-encoded chunks."""
 
 
-class InputFileInputCollectionPart0Type(BaseModel):
-    type: InputFileInputCollectionPart0TypeType
+class InputFileSendToRoutesTrueWithConnectionsConstraint(BaseModel):
+    type: InputFileSendToRoutesTrueWithConnectionsConstraintType
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
         True
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    connections: Optional[List[ItemsTypeConnections]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -655,12 +668,11 @@ class InputFileInputCollectionPart0Type(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
     pq: Optional[PqType] = None
 
-    mode: Optional[InputCollectionPart0TypeMode] = InputCollectionPart0TypeMode.MANUAL
+    mode: Optional[SendToRoutesTrueWithConnectionsConstraintMode] = (
+        SendToRoutesTrueWithConnectionsConstraintMode.MANUAL
+    )
     r"""Choose how to discover files to monitor"""
 
     interval: Optional[float] = 10
@@ -734,7 +746,7 @@ class InputFileInputCollectionPart0Type(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.InputCollectionPart0TypeMode(value)
+                return models.SendToRoutesTrueWithConnectionsConstraintMode(value)
             except ValueError:
                 return value
         return value
@@ -743,10 +755,10 @@ class InputFileInputCollectionPart0Type(BaseModel):
 InputFileTypedDict = TypeAliasType(
     "InputFileTypedDict",
     Union[
-        InputFileInputCollectionPart0TypeTypedDict,
-        InputFileInputCollectionPart1TypeTypedDict,
-        InputFileInputCollectionPart0Type1TypedDict,
-        InputFileInputCollectionPart1Type1TypedDict,
+        InputFileSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        InputFileSendToRoutesFalseWithConnectionsConstraintTypedDict,
+        InputFilePqEnabledFalseWithPqConstraintTypedDict,
+        InputFilePqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
 
@@ -754,9 +766,9 @@ InputFileTypedDict = TypeAliasType(
 InputFile = TypeAliasType(
     "InputFile",
     Union[
-        InputFileInputCollectionPart0Type,
-        InputFileInputCollectionPart1Type,
-        InputFileInputCollectionPart0Type1,
-        InputFileInputCollectionPart1Type1,
+        InputFileSendToRoutesTrueWithConnectionsConstraint,
+        InputFileSendToRoutesFalseWithConnectionsConstraint,
+        InputFilePqEnabledFalseWithPqConstraint,
+        InputFilePqEnabledTrueWithPqConstraint,
     ],
 )

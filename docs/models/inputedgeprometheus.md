@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.InputEdgePrometheusInputCollectionPart0Type`
+### `models.InputEdgePrometheusSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.InputEdgePrometheusInputCollectionPart0Type = /* values here */
+value: models.InputEdgePrometheusSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputEdgePrometheusInputCollectionPart1Type`
+### `models.InputEdgePrometheusSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.InputEdgePrometheusInputCollectionPart1Type = /* values here */
+value: models.InputEdgePrometheusSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputEdgePrometheusInputCollectionPart0Type1`
+### `models.InputEdgePrometheusPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.InputEdgePrometheusInputCollectionPart0Type1 = /* values here */
+value: models.InputEdgePrometheusPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.InputEdgePrometheusInputCollectionPart1Type1`
+### `models.InputEdgePrometheusPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.InputEdgePrometheusInputCollectionPart1Type1 = /* values here */
+value: models.InputEdgePrometheusPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

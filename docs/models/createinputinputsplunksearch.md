@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.CreateInputInputSplunkSearchInputCollectionPart0Type`
+### `models.CreateInputInputSplunkSearchSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputSplunkSearchInputCollectionPart0Type = /* values here */
+value: models.CreateInputInputSplunkSearchSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputSplunkSearchInputCollectionPart1Type`
+### `models.CreateInputInputSplunkSearchSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputSplunkSearchInputCollectionPart1Type = /* values here */
+value: models.CreateInputInputSplunkSearchSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputSplunkSearchInputCollectionPart0Type1`
+### `models.CreateInputInputSplunkSearchPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.CreateInputInputSplunkSearchInputCollectionPart0Type1 = /* values here */
+value: models.CreateInputInputSplunkSearchPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.CreateInputInputSplunkSearchInputCollectionPart1Type1`
+### `models.CreateInputInputSplunkSearchPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.CreateInputInputSplunkSearchInputCollectionPart1Type1 = /* values here */
+value: models.CreateInputInputSplunkSearchPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

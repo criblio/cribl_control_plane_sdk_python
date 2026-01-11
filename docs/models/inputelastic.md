@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.InputElasticInputCollectionPart0Type`
+### `models.InputElasticSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.InputElasticInputCollectionPart0Type = /* values here */
+value: models.InputElasticSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputElasticInputCollectionPart1Type`
+### `models.InputElasticSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.InputElasticInputCollectionPart1Type = /* values here */
+value: models.InputElasticSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputElasticInputCollectionPart0Type1`
+### `models.InputElasticPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.InputElasticInputCollectionPart0Type1 = /* values here */
+value: models.InputElasticPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.InputElasticInputCollectionPart1Type1`
+### `models.InputElasticPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.InputElasticInputCollectionPart1Type1 = /* values here */
+value: models.InputElasticPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

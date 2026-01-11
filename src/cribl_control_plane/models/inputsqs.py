@@ -33,7 +33,7 @@ class InputSqsQueueType(str, Enum, metaclass=utils.OpenEnumMeta):
     FIFO = "fifo"
 
 
-class InputSqsInputCollectionPart1Type1TypedDict(TypedDict):
+class InputSqsPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     type: InputSqsType
     queue_name: str
     r"""The name, URL, or ARN of the SQS queue to read events from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can only be evaluated at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
@@ -96,7 +96,7 @@ class InputSqsInputCollectionPart1Type1TypedDict(TypedDict):
     r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
 
 
-class InputSqsInputCollectionPart1Type1(BaseModel):
+class InputSqsPqEnabledTrueWithPqConstraint(BaseModel):
     type: InputSqsType
 
     queue_name: Annotated[str, pydantic.Field(alias="queueName")]
@@ -243,7 +243,7 @@ class InputSqsInputCollectionPart1Type1(BaseModel):
         return value
 
 
-class InputSqsInputCollectionPart0Type1TypedDict(TypedDict):
+class InputSqsPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     type: InputSqsType
     queue_name: str
     r"""The name, URL, or ARN of the SQS queue to read events from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can only be evaluated at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
@@ -251,6 +251,7 @@ class InputSqsInputCollectionPart0Type1TypedDict(TypedDict):
     r"""The queue type used (or created)"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -264,6 +265,215 @@ class InputSqsInputCollectionPart0Type1TypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    aws_account_id: NotRequired[str]
+    r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
+    create_queue: NotRequired[bool]
+    r"""Create queue if it does not exist"""
+    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+    aws_secret_key: NotRequired[str]
+    region: NotRequired[str]
+    r"""AWS Region where the SQS queue is located. Required, unless the Queue entry is a URL or ARN that includes a Region."""
+    endpoint: NotRequired[str]
+    r"""SQS service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to SQS-compatible endpoint."""
+    signature_version: NotRequired[SignatureVersionOptions3]
+    r"""Signature version to use for signing SQS requests"""
+    reuse_connections: NotRequired[bool]
+    r"""Reuse connections between requests, which can improve performance"""
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+    enable_assume_role: NotRequired[bool]
+    r"""Use Assume Role credentials to access SQS"""
+    assume_role_arn: NotRequired[str]
+    r"""Amazon Resource Name (ARN) of the role to assume"""
+    assume_role_external_id: NotRequired[str]
+    r"""External ID to use when assuming role"""
+    duration_seconds: NotRequired[float]
+    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+    max_messages: NotRequired[float]
+    r"""The maximum number of messages SQS should return in a poll request. Amazon SQS never returns more messages than this value (however, fewer messages might be returned). Valid values: 1 to 10."""
+    visibility_timeout: NotRequired[float]
+    r"""After messages are retrieved by a ReceiveMessage request, @{product} will hide them from subsequent retrieve requests for at least this duration. You can set this as high as 43200 sec. (12 hours)."""
+    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    r"""Fields to add to events from this input"""
+    poll_timeout: NotRequired[float]
+    r"""How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts."""
+    description: NotRequired[str]
+    aws_api_key: NotRequired[str]
+    aws_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your access key and secret key"""
+    num_receivers: NotRequired[float]
+    r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
+
+
+class InputSqsPqEnabledFalseWithPqConstraint(BaseModel):
+    type: InputSqsType
+
+    queue_name: Annotated[str, pydantic.Field(alias="queueName")]
+    r"""The name, URL, or ARN of the SQS queue to read events from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can only be evaluated at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
+
+    queue_type: Annotated[InputSqsQueueType, pydantic.Field(alias="queueType")]
+    r"""The queue type used (or created)"""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    pq: Optional[PqType] = None
+
+    id: Optional[str] = None
+    r"""Unique ID for this input"""
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnections]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    aws_account_id: Annotated[Optional[str], pydantic.Field(alias="awsAccountId")] = (
+        None
+    )
+    r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
+
+    create_queue: Annotated[Optional[bool], pydantic.Field(alias="createQueue")] = False
+    r"""Create queue if it does not exist"""
+
+    aws_authentication_method: Annotated[
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        pydantic.Field(alias="awsAuthenticationMethod"),
+    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+
+    aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
+        None
+    )
+
+    region: Optional[str] = None
+    r"""AWS Region where the SQS queue is located. Required, unless the Queue entry is a URL or ARN that includes a Region."""
+
+    endpoint: Optional[str] = None
+    r"""SQS service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to SQS-compatible endpoint."""
+
+    signature_version: Annotated[
+        Optional[SignatureVersionOptions3], pydantic.Field(alias="signatureVersion")
+    ] = SignatureVersionOptions3.V4
+    r"""Signature version to use for signing SQS requests"""
+
+    reuse_connections: Annotated[
+        Optional[bool], pydantic.Field(alias="reuseConnections")
+    ] = True
+    r"""Reuse connections between requests, which can improve performance"""
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = True
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+
+    enable_assume_role: Annotated[
+        Optional[bool], pydantic.Field(alias="enableAssumeRole")
+    ] = False
+    r"""Use Assume Role credentials to access SQS"""
+
+    assume_role_arn: Annotated[Optional[str], pydantic.Field(alias="assumeRoleArn")] = (
+        None
+    )
+    r"""Amazon Resource Name (ARN) of the role to assume"""
+
+    assume_role_external_id: Annotated[
+        Optional[str], pydantic.Field(alias="assumeRoleExternalId")
+    ] = None
+    r"""External ID to use when assuming role"""
+
+    duration_seconds: Annotated[
+        Optional[float], pydantic.Field(alias="durationSeconds")
+    ] = 3600
+    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+
+    max_messages: Annotated[Optional[float], pydantic.Field(alias="maxMessages")] = 10
+    r"""The maximum number of messages SQS should return in a poll request. Amazon SQS never returns more messages than this value (however, fewer messages might be returned). Valid values: 1 to 10."""
+
+    visibility_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="visibilityTimeout")
+    ] = 600
+    r"""After messages are retrieved by a ReceiveMessage request, @{product} will hide them from subsequent retrieve requests for at least this duration. You can set this as high as 43200 sec. (12 hours)."""
+
+    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    r"""Fields to add to events from this input"""
+
+    poll_timeout: Annotated[Optional[float], pydantic.Field(alias="pollTimeout")] = 10
+    r"""How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts."""
+
+    description: Optional[str] = None
+
+    aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+
+    aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
+    r"""Select or create a stored secret that references your access key and secret key"""
+
+    num_receivers: Annotated[Optional[float], pydantic.Field(alias="numReceivers")] = 3
+    r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
+
+    @field_serializer("queue_type")
+    def serialize_queue_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.InputSqsQueueType(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("aws_authentication_method")
+    def serialize_aws_authentication_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("signature_version")
+    def serialize_signature_version(self, value):
+        if isinstance(value, str):
+            try:
+                return models.SignatureVersionOptions3(value)
+            except ValueError:
+                return value
+        return value
+
+
+class InputSqsSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
+    type: InputSqsType
+    queue_name: str
+    r"""The name, URL, or ARN of the SQS queue to read events from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can only be evaluated at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
+    queue_type: InputSqsQueueType
+    r"""The queue type used (or created)"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    id: NotRequired[str]
+    r"""Unique ID for this input"""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
     pq: NotRequired[PqTypeTypedDict]
     aws_account_id: NotRequired[str]
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
@@ -306,7 +516,7 @@ class InputSqsInputCollectionPart0Type1TypedDict(TypedDict):
     r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
 
 
-class InputSqsInputCollectionPart0Type1(BaseModel):
+class InputSqsSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     type: InputSqsType
 
     queue_name: Annotated[str, pydantic.Field(alias="queueName")]
@@ -315,8 +525,13 @@ class InputSqsInputCollectionPart0Type1(BaseModel):
     queue_type: Annotated[InputSqsQueueType, pydantic.Field(alias="queueType")]
     r"""The queue type used (or created)"""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    connections: Optional[List[ItemsTypeConnections]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -326,19 +541,14 @@ class InputSqsInputCollectionPart0Type1(BaseModel):
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -453,7 +663,7 @@ class InputSqsInputCollectionPart0Type1(BaseModel):
         return value
 
 
-class InputSqsInputCollectionPart1TypeTypedDict(TypedDict):
+class InputSqsSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
     type: InputSqsType
     queue_name: str
     r"""The name, URL, or ARN of the SQS queue to read events from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can only be evaluated at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
@@ -516,7 +726,7 @@ class InputSqsInputCollectionPart1TypeTypedDict(TypedDict):
     r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
 
 
-class InputSqsInputCollectionPart1Type(BaseModel):
+class InputSqsSendToRoutesTrueWithConnectionsConstraint(BaseModel):
     type: InputSqsType
 
     queue_name: Annotated[str, pydantic.Field(alias="queueName")]
@@ -549,216 +759,6 @@ class InputSqsInputCollectionPart1Type(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
-
-    pq: Optional[PqType] = None
-
-    aws_account_id: Annotated[Optional[str], pydantic.Field(alias="awsAccountId")] = (
-        None
-    )
-    r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
-
-    create_queue: Annotated[Optional[bool], pydantic.Field(alias="createQueue")] = False
-    r"""Create queue if it does not exist"""
-
-    aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
-        pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
-    r"""AWS authentication method. Choose Auto to use IAM roles."""
-
-    aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
-        None
-    )
-
-    region: Optional[str] = None
-    r"""AWS Region where the SQS queue is located. Required, unless the Queue entry is a URL or ARN that includes a Region."""
-
-    endpoint: Optional[str] = None
-    r"""SQS service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to SQS-compatible endpoint."""
-
-    signature_version: Annotated[
-        Optional[SignatureVersionOptions3], pydantic.Field(alias="signatureVersion")
-    ] = SignatureVersionOptions3.V4
-    r"""Signature version to use for signing SQS requests"""
-
-    reuse_connections: Annotated[
-        Optional[bool], pydantic.Field(alias="reuseConnections")
-    ] = True
-    r"""Reuse connections between requests, which can improve performance"""
-
-    reject_unauthorized: Annotated[
-        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
-    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
-
-    enable_assume_role: Annotated[
-        Optional[bool], pydantic.Field(alias="enableAssumeRole")
-    ] = False
-    r"""Use Assume Role credentials to access SQS"""
-
-    assume_role_arn: Annotated[Optional[str], pydantic.Field(alias="assumeRoleArn")] = (
-        None
-    )
-    r"""Amazon Resource Name (ARN) of the role to assume"""
-
-    assume_role_external_id: Annotated[
-        Optional[str], pydantic.Field(alias="assumeRoleExternalId")
-    ] = None
-    r"""External ID to use when assuming role"""
-
-    duration_seconds: Annotated[
-        Optional[float], pydantic.Field(alias="durationSeconds")
-    ] = 3600
-    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
-
-    max_messages: Annotated[Optional[float], pydantic.Field(alias="maxMessages")] = 10
-    r"""The maximum number of messages SQS should return in a poll request. Amazon SQS never returns more messages than this value (however, fewer messages might be returned). Valid values: 1 to 10."""
-
-    visibility_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="visibilityTimeout")
-    ] = 600
-    r"""After messages are retrieved by a ReceiveMessage request, @{product} will hide them from subsequent retrieve requests for at least this duration. You can set this as high as 43200 sec. (12 hours)."""
-
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
-    r"""Fields to add to events from this input"""
-
-    poll_timeout: Annotated[Optional[float], pydantic.Field(alias="pollTimeout")] = 10
-    r"""How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts."""
-
-    description: Optional[str] = None
-
-    aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
-
-    aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
-    r"""Select or create a stored secret that references your access key and secret key"""
-
-    num_receivers: Annotated[Optional[float], pydantic.Field(alias="numReceivers")] = 3
-    r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
-
-    @field_serializer("queue_type")
-    def serialize_queue_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.InputSqsQueueType(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("aws_authentication_method")
-    def serialize_aws_authentication_method(self, value):
-        if isinstance(value, str):
-            try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("signature_version")
-    def serialize_signature_version(self, value):
-        if isinstance(value, str):
-            try:
-                return models.SignatureVersionOptions3(value)
-            except ValueError:
-                return value
-        return value
-
-
-class InputSqsInputCollectionPart0TypeTypedDict(TypedDict):
-    type: InputSqsType
-    queue_name: str
-    r"""The name, URL, or ARN of the SQS queue to read events from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can only be evaluated at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
-    queue_type: InputSqsQueueType
-    r"""The queue type used (or created)"""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-    id: NotRequired[str]
-    r"""Unique ID for this input"""
-    disabled: NotRequired[bool]
-    pipeline: NotRequired[str]
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-    environment: NotRequired[str]
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[PqTypeTypedDict]
-    aws_account_id: NotRequired[str]
-    r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
-    create_queue: NotRequired[bool]
-    r"""Create queue if it does not exist"""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
-    r"""AWS authentication method. Choose Auto to use IAM roles."""
-    aws_secret_key: NotRequired[str]
-    region: NotRequired[str]
-    r"""AWS Region where the SQS queue is located. Required, unless the Queue entry is a URL or ARN that includes a Region."""
-    endpoint: NotRequired[str]
-    r"""SQS service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to SQS-compatible endpoint."""
-    signature_version: NotRequired[SignatureVersionOptions3]
-    r"""Signature version to use for signing SQS requests"""
-    reuse_connections: NotRequired[bool]
-    r"""Reuse connections between requests, which can improve performance"""
-    reject_unauthorized: NotRequired[bool]
-    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
-    enable_assume_role: NotRequired[bool]
-    r"""Use Assume Role credentials to access SQS"""
-    assume_role_arn: NotRequired[str]
-    r"""Amazon Resource Name (ARN) of the role to assume"""
-    assume_role_external_id: NotRequired[str]
-    r"""External ID to use when assuming role"""
-    duration_seconds: NotRequired[float]
-    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
-    max_messages: NotRequired[float]
-    r"""The maximum number of messages SQS should return in a poll request. Amazon SQS never returns more messages than this value (however, fewer messages might be returned). Valid values: 1 to 10."""
-    visibility_timeout: NotRequired[float]
-    r"""After messages are retrieved by a ReceiveMessage request, @{product} will hide them from subsequent retrieve requests for at least this duration. You can set this as high as 43200 sec. (12 hours)."""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
-    r"""Fields to add to events from this input"""
-    poll_timeout: NotRequired[float]
-    r"""How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts."""
-    description: NotRequired[str]
-    aws_api_key: NotRequired[str]
-    aws_secret: NotRequired[str]
-    r"""Select or create a stored secret that references your access key and secret key"""
-    num_receivers: NotRequired[float]
-    r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
-
-
-class InputSqsInputCollectionPart0Type(BaseModel):
-    type: InputSqsType
-
-    queue_name: Annotated[str, pydantic.Field(alias="queueName")]
-    r"""The name, URL, or ARN of the SQS queue to read events from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can only be evaluated at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
-
-    queue_type: Annotated[InputSqsQueueType, pydantic.Field(alias="queueType")]
-    r"""The queue type used (or created)"""
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    id: Optional[str] = None
-    r"""Unique ID for this input"""
-
-    disabled: Optional[bool] = False
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-
-    environment: Optional[str] = None
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -876,10 +876,10 @@ class InputSqsInputCollectionPart0Type(BaseModel):
 InputSqsTypedDict = TypeAliasType(
     "InputSqsTypedDict",
     Union[
-        InputSqsInputCollectionPart0TypeTypedDict,
-        InputSqsInputCollectionPart1TypeTypedDict,
-        InputSqsInputCollectionPart0Type1TypedDict,
-        InputSqsInputCollectionPart1Type1TypedDict,
+        InputSqsSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        InputSqsSendToRoutesFalseWithConnectionsConstraintTypedDict,
+        InputSqsPqEnabledFalseWithPqConstraintTypedDict,
+        InputSqsPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
 
@@ -887,9 +887,9 @@ InputSqsTypedDict = TypeAliasType(
 InputSqs = TypeAliasType(
     "InputSqs",
     Union[
-        InputSqsInputCollectionPart0Type,
-        InputSqsInputCollectionPart1Type,
-        InputSqsInputCollectionPart0Type1,
-        InputSqsInputCollectionPart1Type1,
+        InputSqsSendToRoutesTrueWithConnectionsConstraint,
+        InputSqsSendToRoutesFalseWithConnectionsConstraint,
+        InputSqsPqEnabledFalseWithPqConstraint,
+        InputSqsPqEnabledTrueWithPqConstraint,
     ],
 )

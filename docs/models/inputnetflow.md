@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.InputNetflowInputCollectionPart0Type`
+### `models.InputNetflowSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.InputNetflowInputCollectionPart0Type = /* values here */
+value: models.InputNetflowSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputNetflowInputCollectionPart1Type`
+### `models.InputNetflowSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.InputNetflowInputCollectionPart1Type = /* values here */
+value: models.InputNetflowSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputNetflowInputCollectionPart0Type1`
+### `models.InputNetflowPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.InputNetflowInputCollectionPart0Type1 = /* values here */
+value: models.InputNetflowPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.InputNetflowInputCollectionPart1Type1`
+### `models.InputNetflowPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.InputNetflowInputCollectionPart1Type1 = /* values here */
+value: models.InputNetflowPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

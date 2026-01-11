@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.CreateInputInputKubeLogsInputCollectionPart0Type`
+### `models.CreateInputInputKubeLogsSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputKubeLogsInputCollectionPart0Type = /* values here */
+value: models.CreateInputInputKubeLogsSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputKubeLogsInputCollectionPart1Type`
+### `models.CreateInputInputKubeLogsSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputKubeLogsInputCollectionPart1Type = /* values here */
+value: models.CreateInputInputKubeLogsSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputKubeLogsInputCollectionPart0Type1`
+### `models.CreateInputInputKubeLogsPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.CreateInputInputKubeLogsInputCollectionPart0Type1 = /* values here */
+value: models.CreateInputInputKubeLogsPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.CreateInputInputKubeLogsInputCollectionPart1Type1`
+### `models.CreateInputInputKubeLogsPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.CreateInputInputKubeLogsInputCollectionPart1Type1 = /* values here */
+value: models.CreateInputInputKubeLogsPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

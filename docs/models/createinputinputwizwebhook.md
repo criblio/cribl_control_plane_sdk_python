@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.CreateInputInputWizWebhookInputCollectionPart0Type`
+### `models.CreateInputInputWizWebhookSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputWizWebhookInputCollectionPart0Type = /* values here */
+value: models.CreateInputInputWizWebhookSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputWizWebhookInputCollectionPart1Type`
+### `models.CreateInputInputWizWebhookSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputWizWebhookInputCollectionPart1Type = /* values here */
+value: models.CreateInputInputWizWebhookSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputWizWebhookInputCollectionPart0Type1`
+### `models.CreateInputInputWizWebhookPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.CreateInputInputWizWebhookInputCollectionPart0Type1 = /* values here */
+value: models.CreateInputInputWizWebhookPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.CreateInputInputWizWebhookInputCollectionPart1Type1`
+### `models.CreateInputInputWizWebhookPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.CreateInputInputWizWebhookInputCollectionPart1Type1 = /* values here */
+value: models.CreateInputInputWizWebhookPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

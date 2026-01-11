@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.InputEventhubInputCollectionPart0Type`
+### `models.InputEventhubSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.InputEventhubInputCollectionPart0Type = /* values here */
+value: models.InputEventhubSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputEventhubInputCollectionPart1Type`
+### `models.InputEventhubSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.InputEventhubInputCollectionPart1Type = /* values here */
+value: models.InputEventhubSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputEventhubInputCollectionPart0Type1`
+### `models.InputEventhubPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.InputEventhubInputCollectionPart0Type1 = /* values here */
+value: models.InputEventhubPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.InputEventhubInputCollectionPart1Type1`
+### `models.InputEventhubPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.InputEventhubInputCollectionPart1Type1 = /* values here */
+value: models.InputEventhubPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

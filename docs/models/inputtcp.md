@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.InputTCPInputCollectionPart0Type`
+### `models.InputTCPSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.InputTCPInputCollectionPart0Type = /* values here */
+value: models.InputTCPSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputTCPInputCollectionPart1Type`
+### `models.InputTCPSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.InputTCPInputCollectionPart1Type = /* values here */
+value: models.InputTCPSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputTCPInputCollectionPart0Type1`
+### `models.InputTCPPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.InputTCPInputCollectionPart0Type1 = /* values here */
+value: models.InputTCPPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.InputTCPInputCollectionPart1Type1`
+### `models.InputTCPPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.InputTCPInputCollectionPart1Type1 = /* values here */
+value: models.InputTCPPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

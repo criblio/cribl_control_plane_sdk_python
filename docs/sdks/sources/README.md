@@ -76,6 +76,12 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "send_to_routes": True,
+        "connections": [
+            {
+                "pipeline": "<value>",
+                "output": "<value>",
+            },
+        ],
         "id": "appscope-source",
         "type": models.CreateInputInputAppscopeType.APPSCOPE,
         "disabled": False,
@@ -86,12 +92,6 @@ with CriblControlPlane(
             "<value 1>",
             "<value 2>",
             "<value 3>",
-        ],
-        "connections": [
-            {
-                "pipeline": "<value>",
-                "output": "<value>",
-            },
         ],
         "pq": {
             "mode": models.ModeOptionsPq.ALWAYS,
@@ -249,6 +249,12 @@ with CriblControlPlane(
 
     res = ccp_client.sources.update(id="<id>", input_={
         "send_to_routes": True,
+        "connections": [
+            {
+                "pipeline": "<value>",
+                "output": "<value>",
+            },
+        ],
         "id": "appscope-source",
         "type": models.InputAppscopeType.APPSCOPE,
         "disabled": False,
@@ -258,12 +264,6 @@ with CriblControlPlane(
         "streamtags": [
             "<value 1>",
             "<value 2>",
-        ],
-        "connections": [
-            {
-                "pipeline": "<value>",
-                "output": "<value>",
-            },
         ],
         "pq": {
             "mode": models.ModeOptionsPq.ALWAYS,

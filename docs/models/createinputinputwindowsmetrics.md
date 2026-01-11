@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.CreateInputInputWindowsMetricsInputCollectionPart0Type`
+### `models.CreateInputInputWindowsMetricsSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputWindowsMetricsInputCollectionPart0Type = /* values here */
+value: models.CreateInputInputWindowsMetricsSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputWindowsMetricsInputCollectionPart1Type`
+### `models.CreateInputInputWindowsMetricsSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputWindowsMetricsInputCollectionPart1Type = /* values here */
+value: models.CreateInputInputWindowsMetricsSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputWindowsMetricsInputCollectionPart0Type1`
+### `models.CreateInputInputWindowsMetricsPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.CreateInputInputWindowsMetricsInputCollectionPart0Type1 = /* values here */
+value: models.CreateInputInputWindowsMetricsPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.CreateInputInputWindowsMetricsInputCollectionPart1Type1`
+### `models.CreateInputInputWindowsMetricsPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.CreateInputInputWindowsMetricsInputCollectionPart1Type1 = /* values here */
+value: models.CreateInputInputWindowsMetricsPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

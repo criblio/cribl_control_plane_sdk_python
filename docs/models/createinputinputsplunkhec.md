@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.CreateInputInputSplunkHecInputCollectionPart0Type`
+### `models.CreateInputInputSplunkHecSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputSplunkHecInputCollectionPart0Type = /* values here */
+value: models.CreateInputInputSplunkHecSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputSplunkHecInputCollectionPart1Type`
+### `models.CreateInputInputSplunkHecSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputSplunkHecInputCollectionPart1Type = /* values here */
+value: models.CreateInputInputSplunkHecSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputSplunkHecInputCollectionPart0Type1`
+### `models.CreateInputInputSplunkHecPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.CreateInputInputSplunkHecInputCollectionPart0Type1 = /* values here */
+value: models.CreateInputInputSplunkHecPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.CreateInputInputSplunkHecInputCollectionPart1Type1`
+### `models.CreateInputInputSplunkHecPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.CreateInputInputSplunkHecInputCollectionPart1Type1 = /* values here */
+value: models.CreateInputInputSplunkHecPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

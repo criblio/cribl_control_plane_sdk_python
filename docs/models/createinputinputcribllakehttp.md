@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.CreateInputInputCriblLakeHTTPInputCollectionPart0Type`
+### `models.CreateInputInputCriblLakeHTTPSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputCriblLakeHTTPInputCollectionPart0Type = /* values here */
+value: models.CreateInputInputCriblLakeHTTPSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputCriblLakeHTTPInputCollectionPart1Type`
+### `models.CreateInputInputCriblLakeHTTPSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputCriblLakeHTTPInputCollectionPart1Type = /* values here */
+value: models.CreateInputInputCriblLakeHTTPSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputCriblLakeHTTPInputCollectionPart0Type1`
+### `models.CreateInputInputCriblLakeHTTPPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.CreateInputInputCriblLakeHTTPInputCollectionPart0Type1 = /* values here */
+value: models.CreateInputInputCriblLakeHTTPPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.CreateInputInputCriblLakeHTTPInputCollectionPart1Type1`
+### `models.CreateInputInputCriblLakeHTTPPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.CreateInputInputCriblLakeHTTPInputCollectionPart1Type1 = /* values here */
+value: models.CreateInputInputCriblLakeHTTPPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

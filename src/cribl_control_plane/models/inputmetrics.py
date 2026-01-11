@@ -22,7 +22,7 @@ class InputMetricsType(str, Enum):
     METRICS = "metrics"
 
 
-class InputMetricsInputCollectionPart1Type1TypedDict(TypedDict):
+class InputMetricsPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     type: InputMetricsType
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
@@ -60,7 +60,7 @@ class InputMetricsInputCollectionPart1Type1TypedDict(TypedDict):
     description: NotRequired[str]
 
 
-class InputMetricsInputCollectionPart1Type1(BaseModel):
+class InputMetricsPqEnabledTrueWithPqConstraint(BaseModel):
     type: InputMetricsType
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
@@ -127,10 +127,11 @@ class InputMetricsInputCollectionPart1Type1(BaseModel):
     description: Optional[str] = None
 
 
-class InputMetricsInputCollectionPart0Type1TypedDict(TypedDict):
+class InputMetricsPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     type: InputMetricsType
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -144,7 +145,6 @@ class InputMetricsInputCollectionPart0Type1TypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
     udp_port: NotRequired[float]
@@ -165,11 +165,13 @@ class InputMetricsInputCollectionPart0Type1TypedDict(TypedDict):
     description: NotRequired[str]
 
 
-class InputMetricsInputCollectionPart0Type1(BaseModel):
+class InputMetricsPqEnabledFalseWithPqConstraint(BaseModel):
     type: InputMetricsType
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -192,6 +194,109 @@ class InputMetricsInputCollectionPart0Type1(BaseModel):
 
     connections: Optional[List[ItemsTypeConnections]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    host: Optional[str] = "0.0.0.0"
+    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
+
+    udp_port: Annotated[Optional[float], pydantic.Field(alias="udpPort")] = None
+    r"""Enter UDP port number to listen on. Not required if listening on TCP."""
+
+    tcp_port: Annotated[Optional[float], pydantic.Field(alias="tcpPort")] = None
+    r"""Enter TCP port number to listen on. Not required if listening on UDP."""
+
+    max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxBufferSize")
+    ] = 1000
+    r"""Maximum number of events to buffer when downstream is blocking. Only applies to UDP."""
+
+    ip_whitelist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipWhitelistRegex")
+    ] = "/.*/"
+    r"""Regex matching IP addresses that are allowed to send data"""
+
+    enable_proxy_header: Annotated[
+        Optional[bool], pydantic.Field(alias="enableProxyHeader")
+    ] = False
+    r"""Enable if the connection is proxied by a device that supports Proxy Protocol V1 or V2"""
+
+    tls: Optional[TLSSettingsServerSideType] = None
+
+    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    r"""Fields to add to events from this input"""
+
+    udp_socket_rx_buf_size: Annotated[
+        Optional[float], pydantic.Field(alias="udpSocketRxBufSize")
+    ] = None
+    r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
+
+    description: Optional[str] = None
+
+
+class InputMetricsSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
+    type: InputMetricsType
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    id: NotRequired[str]
+    r"""Unique ID for this input"""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    pq: NotRequired[PqTypeTypedDict]
+    host: NotRequired[str]
+    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
+    udp_port: NotRequired[float]
+    r"""Enter UDP port number to listen on. Not required if listening on TCP."""
+    tcp_port: NotRequired[float]
+    r"""Enter TCP port number to listen on. Not required if listening on UDP."""
+    max_buffer_size: NotRequired[float]
+    r"""Maximum number of events to buffer when downstream is blocking. Only applies to UDP."""
+    ip_whitelist_regex: NotRequired[str]
+    r"""Regex matching IP addresses that are allowed to send data"""
+    enable_proxy_header: NotRequired[bool]
+    r"""Enable if the connection is proxied by a device that supports Proxy Protocol V1 or V2"""
+    tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    r"""Fields to add to events from this input"""
+    udp_socket_rx_buf_size: NotRequired[float]
+    r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
+    description: NotRequired[str]
+
+
+class InputMetricsSendToRoutesFalseWithConnectionsConstraint(BaseModel):
+    type: InputMetricsType
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    connections: Optional[List[ItemsTypeConnections]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    id: Optional[str] = None
+    r"""Unique ID for this input"""
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
 
     pq: Optional[PqType] = None
 
@@ -232,7 +337,7 @@ class InputMetricsInputCollectionPart0Type1(BaseModel):
     description: Optional[str] = None
 
 
-class InputMetricsInputCollectionPart1TypeTypedDict(TypedDict):
+class InputMetricsSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
     type: InputMetricsType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
@@ -270,7 +375,7 @@ class InputMetricsInputCollectionPart1TypeTypedDict(TypedDict):
     description: NotRequired[str]
 
 
-class InputMetricsInputCollectionPart1Type(BaseModel):
+class InputMetricsSendToRoutesTrueWithConnectionsConstraint(BaseModel):
     type: InputMetricsType
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
@@ -297,111 +402,6 @@ class InputMetricsInputCollectionPart1Type(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
-
-    pq: Optional[PqType] = None
-
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
-
-    udp_port: Annotated[Optional[float], pydantic.Field(alias="udpPort")] = None
-    r"""Enter UDP port number to listen on. Not required if listening on TCP."""
-
-    tcp_port: Annotated[Optional[float], pydantic.Field(alias="tcpPort")] = None
-    r"""Enter TCP port number to listen on. Not required if listening on UDP."""
-
-    max_buffer_size: Annotated[
-        Optional[float], pydantic.Field(alias="maxBufferSize")
-    ] = 1000
-    r"""Maximum number of events to buffer when downstream is blocking. Only applies to UDP."""
-
-    ip_whitelist_regex: Annotated[
-        Optional[str], pydantic.Field(alias="ipWhitelistRegex")
-    ] = "/.*/"
-    r"""Regex matching IP addresses that are allowed to send data"""
-
-    enable_proxy_header: Annotated[
-        Optional[bool], pydantic.Field(alias="enableProxyHeader")
-    ] = False
-    r"""Enable if the connection is proxied by a device that supports Proxy Protocol V1 or V2"""
-
-    tls: Optional[TLSSettingsServerSideType] = None
-
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
-    r"""Fields to add to events from this input"""
-
-    udp_socket_rx_buf_size: Annotated[
-        Optional[float], pydantic.Field(alias="udpSocketRxBufSize")
-    ] = None
-    r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
-
-    description: Optional[str] = None
-
-
-class InputMetricsInputCollectionPart0TypeTypedDict(TypedDict):
-    type: InputMetricsType
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-    id: NotRequired[str]
-    r"""Unique ID for this input"""
-    disabled: NotRequired[bool]
-    pipeline: NotRequired[str]
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-    environment: NotRequired[str]
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[PqTypeTypedDict]
-    host: NotRequired[str]
-    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
-    udp_port: NotRequired[float]
-    r"""Enter UDP port number to listen on. Not required if listening on TCP."""
-    tcp_port: NotRequired[float]
-    r"""Enter TCP port number to listen on. Not required if listening on UDP."""
-    max_buffer_size: NotRequired[float]
-    r"""Maximum number of events to buffer when downstream is blocking. Only applies to UDP."""
-    ip_whitelist_regex: NotRequired[str]
-    r"""Regex matching IP addresses that are allowed to send data"""
-    enable_proxy_header: NotRequired[bool]
-    r"""Enable if the connection is proxied by a device that supports Proxy Protocol V1 or V2"""
-    tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
-    r"""Fields to add to events from this input"""
-    udp_socket_rx_buf_size: NotRequired[float]
-    r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
-    description: NotRequired[str]
-
-
-class InputMetricsInputCollectionPart0Type(BaseModel):
-    type: InputMetricsType
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    id: Optional[str] = None
-    r"""Unique ID for this input"""
-
-    disabled: Optional[bool] = False
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-
-    environment: Optional[str] = None
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -445,10 +445,10 @@ class InputMetricsInputCollectionPart0Type(BaseModel):
 InputMetricsTypedDict = TypeAliasType(
     "InputMetricsTypedDict",
     Union[
-        InputMetricsInputCollectionPart0TypeTypedDict,
-        InputMetricsInputCollectionPart1TypeTypedDict,
-        InputMetricsInputCollectionPart0Type1TypedDict,
-        InputMetricsInputCollectionPart1Type1TypedDict,
+        InputMetricsSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        InputMetricsSendToRoutesFalseWithConnectionsConstraintTypedDict,
+        InputMetricsPqEnabledFalseWithPqConstraintTypedDict,
+        InputMetricsPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
 
@@ -456,9 +456,9 @@ InputMetricsTypedDict = TypeAliasType(
 InputMetrics = TypeAliasType(
     "InputMetrics",
     Union[
-        InputMetricsInputCollectionPart0Type,
-        InputMetricsInputCollectionPart1Type,
-        InputMetricsInputCollectionPart0Type1,
-        InputMetricsInputCollectionPart1Type1,
+        InputMetricsSendToRoutesTrueWithConnectionsConstraint,
+        InputMetricsSendToRoutesFalseWithConnectionsConstraint,
+        InputMetricsPqEnabledFalseWithPqConstraint,
+        InputMetricsPqEnabledTrueWithPqConstraint,
     ],
 )

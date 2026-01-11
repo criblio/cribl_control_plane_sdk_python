@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.CreateInputInputJournalFilesInputCollectionPart0Type`
+### `models.CreateInputInputJournalFilesSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputJournalFilesInputCollectionPart0Type = /* values here */
+value: models.CreateInputInputJournalFilesSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputJournalFilesInputCollectionPart1Type`
+### `models.CreateInputInputJournalFilesSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputJournalFilesInputCollectionPart1Type = /* values here */
+value: models.CreateInputInputJournalFilesSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputJournalFilesInputCollectionPart0Type1`
+### `models.CreateInputInputJournalFilesPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.CreateInputInputJournalFilesInputCollectionPart0Type1 = /* values here */
+value: models.CreateInputInputJournalFilesPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.CreateInputInputJournalFilesInputCollectionPart1Type1`
+### `models.CreateInputInputJournalFilesPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.CreateInputInputJournalFilesInputCollectionPart1Type1 = /* values here */
+value: models.CreateInputInputJournalFilesPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

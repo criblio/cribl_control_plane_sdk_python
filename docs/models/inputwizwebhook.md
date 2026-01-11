@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.InputWizWebhookInputCollectionPart0Type`
+### `models.InputWizWebhookSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.InputWizWebhookInputCollectionPart0Type = /* values here */
+value: models.InputWizWebhookSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputWizWebhookInputCollectionPart1Type`
+### `models.InputWizWebhookSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.InputWizWebhookInputCollectionPart1Type = /* values here */
+value: models.InputWizWebhookSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputWizWebhookInputCollectionPart0Type1`
+### `models.InputWizWebhookPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.InputWizWebhookInputCollectionPart0Type1 = /* values here */
+value: models.InputWizWebhookPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.InputWizWebhookInputCollectionPart1Type1`
+### `models.InputWizWebhookPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.InputWizWebhookInputCollectionPart1Type1 = /* values here */
+value: models.InputWizWebhookPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

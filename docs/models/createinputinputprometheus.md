@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.CreateInputInputPrometheusInputCollectionPart0Type`
+### `models.CreateInputInputPrometheusSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputPrometheusInputCollectionPart0Type = /* values here */
+value: models.CreateInputInputPrometheusSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputPrometheusInputCollectionPart1Type`
+### `models.CreateInputInputPrometheusSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputPrometheusInputCollectionPart1Type = /* values here */
+value: models.CreateInputInputPrometheusSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputPrometheusInputCollectionPart0Type1`
+### `models.CreateInputInputPrometheusPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.CreateInputInputPrometheusInputCollectionPart0Type1 = /* values here */
+value: models.CreateInputInputPrometheusPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.CreateInputInputPrometheusInputCollectionPart1Type1`
+### `models.CreateInputInputPrometheusPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.CreateInputInputPrometheusInputCollectionPart1Type1 = /* values here */
+value: models.CreateInputInputPrometheusPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

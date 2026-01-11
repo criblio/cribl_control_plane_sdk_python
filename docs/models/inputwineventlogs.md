@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.InputWinEventLogsInputCollectionPart0Type`
+### `models.InputWinEventLogsSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.InputWinEventLogsInputCollectionPart0Type = /* values here */
+value: models.InputWinEventLogsSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputWinEventLogsInputCollectionPart1Type`
+### `models.InputWinEventLogsSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.InputWinEventLogsInputCollectionPart1Type = /* values here */
+value: models.InputWinEventLogsSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputWinEventLogsInputCollectionPart0Type1`
+### `models.InputWinEventLogsPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.InputWinEventLogsInputCollectionPart0Type1 = /* values here */
+value: models.InputWinEventLogsPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.InputWinEventLogsInputCollectionPart1Type1`
+### `models.InputWinEventLogsPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.InputWinEventLogsInputCollectionPart1Type1 = /* values here */
+value: models.InputWinEventLogsPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

@@ -1,8 +1,0 @@
-# CreateInputInputCollectionPart0TypeInputJournalFilesType
-
-
-## Values
-
-| Name            | Value           |
-| --------------- | --------------- |
-| `JOURNAL_FILES` | journal_files   |

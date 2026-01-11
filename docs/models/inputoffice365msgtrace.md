@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.InputOffice365MsgTraceInputCollectionPart0Type`
+### `models.InputOffice365MsgTraceSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.InputOffice365MsgTraceInputCollectionPart0Type = /* values here */
+value: models.InputOffice365MsgTraceSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputOffice365MsgTraceInputCollectionPart1Type`
+### `models.InputOffice365MsgTraceSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.InputOffice365MsgTraceInputCollectionPart1Type = /* values here */
+value: models.InputOffice365MsgTraceSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputOffice365MsgTraceInputCollectionPart0Type1`
+### `models.InputOffice365MsgTracePqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.InputOffice365MsgTraceInputCollectionPart0Type1 = /* values here */
+value: models.InputOffice365MsgTracePqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.InputOffice365MsgTraceInputCollectionPart1Type1`
+### `models.InputOffice365MsgTracePqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.InputOffice365MsgTraceInputCollectionPart1Type1 = /* values here */
+value: models.InputOffice365MsgTracePqEnabledTrueWithPqConstraint = /* values here */
 ```
 

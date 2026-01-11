@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.CreateInputInputSecurityLakeInputCollectionPart0Type`
+### `models.CreateInputInputSecurityLakeSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputSecurityLakeInputCollectionPart0Type = /* values here */
+value: models.CreateInputInputSecurityLakeSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputSecurityLakeInputCollectionPart1Type`
+### `models.CreateInputInputSecurityLakeSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputSecurityLakeInputCollectionPart1Type = /* values here */
+value: models.CreateInputInputSecurityLakeSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputSecurityLakeInputCollectionPart0Type1`
+### `models.CreateInputInputSecurityLakePqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.CreateInputInputSecurityLakeInputCollectionPart0Type1 = /* values here */
+value: models.CreateInputInputSecurityLakePqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.CreateInputInputSecurityLakeInputCollectionPart1Type1`
+### `models.CreateInputInputSecurityLakePqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.CreateInputInputSecurityLakeInputCollectionPart1Type1 = /* values here */
+value: models.CreateInputInputSecurityLakePqEnabledTrueWithPqConstraint = /* values here */
 ```
 

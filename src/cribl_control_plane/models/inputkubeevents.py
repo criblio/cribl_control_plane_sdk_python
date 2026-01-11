@@ -19,7 +19,7 @@ class InputKubeEventsType(str, Enum):
     KUBE_EVENTS = "kube_events"
 
 
-class InputKubeEventsInputCollectionPart1Type1TypedDict(TypedDict):
+class InputKubeEventsPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     type: InputKubeEventsType
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
@@ -44,7 +44,7 @@ class InputKubeEventsInputCollectionPart1Type1TypedDict(TypedDict):
     description: NotRequired[str]
 
 
-class InputKubeEventsInputCollectionPart1Type1(BaseModel):
+class InputKubeEventsPqEnabledTrueWithPqConstraint(BaseModel):
     type: InputKubeEventsType
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
@@ -83,10 +83,11 @@ class InputKubeEventsInputCollectionPart1Type1(BaseModel):
     description: Optional[str] = None
 
 
-class InputKubeEventsInputCollectionPart0Type1TypedDict(TypedDict):
+class InputKubeEventsPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     type: InputKubeEventsType
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -100,7 +101,6 @@ class InputKubeEventsInputCollectionPart0Type1TypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[PqTypeTypedDict]
     rules: NotRequired[List[ItemsTypeRulesTypedDict]]
     r"""Filtering on event fields"""
     metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
@@ -108,11 +108,13 @@ class InputKubeEventsInputCollectionPart0Type1TypedDict(TypedDict):
     description: NotRequired[str]
 
 
-class InputKubeEventsInputCollectionPart0Type1(BaseModel):
+class InputKubeEventsPqEnabledFalseWithPqConstraint(BaseModel):
     type: InputKubeEventsType
 
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -135,6 +137,68 @@ class InputKubeEventsInputCollectionPart0Type1(BaseModel):
 
     connections: Optional[List[ItemsTypeConnections]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    rules: Optional[List[ItemsTypeRules]] = None
+    r"""Filtering on event fields"""
+
+    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    r"""Fields to add to events from this input"""
+
+    description: Optional[str] = None
+
+
+class InputKubeEventsSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
+    type: InputKubeEventsType
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    id: NotRequired[str]
+    r"""Unique ID for this input"""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    pq: NotRequired[PqTypeTypedDict]
+    rules: NotRequired[List[ItemsTypeRulesTypedDict]]
+    r"""Filtering on event fields"""
+    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    r"""Fields to add to events from this input"""
+    description: NotRequired[str]
+
+
+class InputKubeEventsSendToRoutesFalseWithConnectionsConstraint(BaseModel):
+    type: InputKubeEventsType
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    connections: Optional[List[ItemsTypeConnections]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    id: Optional[str] = None
+    r"""Unique ID for this input"""
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
 
     pq: Optional[PqType] = None
 
@@ -147,7 +211,7 @@ class InputKubeEventsInputCollectionPart0Type1(BaseModel):
     description: Optional[str] = None
 
 
-class InputKubeEventsInputCollectionPart1TypeTypedDict(TypedDict):
+class InputKubeEventsSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
     type: InputKubeEventsType
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
@@ -172,7 +236,7 @@ class InputKubeEventsInputCollectionPart1TypeTypedDict(TypedDict):
     description: NotRequired[str]
 
 
-class InputKubeEventsInputCollectionPart1Type(BaseModel):
+class InputKubeEventsSendToRoutesTrueWithConnectionsConstraint(BaseModel):
     type: InputKubeEventsType
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
@@ -199,70 +263,6 @@ class InputKubeEventsInputCollectionPart1Type(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
-
-    pq: Optional[PqType] = None
-
-    rules: Optional[List[ItemsTypeRules]] = None
-    r"""Filtering on event fields"""
-
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
-    r"""Fields to add to events from this input"""
-
-    description: Optional[str] = None
-
-
-class InputKubeEventsInputCollectionPart0TypeTypedDict(TypedDict):
-    type: InputKubeEventsType
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-    id: NotRequired[str]
-    r"""Unique ID for this input"""
-    disabled: NotRequired[bool]
-    pipeline: NotRequired[str]
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-    environment: NotRequired[str]
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[PqTypeTypedDict]
-    rules: NotRequired[List[ItemsTypeRulesTypedDict]]
-    r"""Filtering on event fields"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
-    r"""Fields to add to events from this input"""
-    description: NotRequired[str]
-
-
-class InputKubeEventsInputCollectionPart0Type(BaseModel):
-    type: InputKubeEventsType
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    id: Optional[str] = None
-    r"""Unique ID for this input"""
-
-    disabled: Optional[bool] = False
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-
-    environment: Optional[str] = None
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -278,10 +278,10 @@ class InputKubeEventsInputCollectionPart0Type(BaseModel):
 InputKubeEventsTypedDict = TypeAliasType(
     "InputKubeEventsTypedDict",
     Union[
-        InputKubeEventsInputCollectionPart0TypeTypedDict,
-        InputKubeEventsInputCollectionPart1TypeTypedDict,
-        InputKubeEventsInputCollectionPart0Type1TypedDict,
-        InputKubeEventsInputCollectionPart1Type1TypedDict,
+        InputKubeEventsSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        InputKubeEventsSendToRoutesFalseWithConnectionsConstraintTypedDict,
+        InputKubeEventsPqEnabledFalseWithPqConstraintTypedDict,
+        InputKubeEventsPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
 
@@ -289,9 +289,9 @@ InputKubeEventsTypedDict = TypeAliasType(
 InputKubeEvents = TypeAliasType(
     "InputKubeEvents",
     Union[
-        InputKubeEventsInputCollectionPart0Type,
-        InputKubeEventsInputCollectionPart1Type,
-        InputKubeEventsInputCollectionPart0Type1,
-        InputKubeEventsInputCollectionPart1Type1,
+        InputKubeEventsSendToRoutesTrueWithConnectionsConstraint,
+        InputKubeEventsSendToRoutesFalseWithConnectionsConstraint,
+        InputKubeEventsPqEnabledFalseWithPqConstraint,
+        InputKubeEventsPqEnabledTrueWithPqConstraint,
     ],
 )

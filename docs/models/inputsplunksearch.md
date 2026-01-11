@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.InputSplunkSearchInputCollectionPart0Type`
+### `models.InputSplunkSearchSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.InputSplunkSearchInputCollectionPart0Type = /* values here */
+value: models.InputSplunkSearchSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputSplunkSearchInputCollectionPart1Type`
+### `models.InputSplunkSearchSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.InputSplunkSearchInputCollectionPart1Type = /* values here */
+value: models.InputSplunkSearchSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputSplunkSearchInputCollectionPart0Type1`
+### `models.InputSplunkSearchPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.InputSplunkSearchInputCollectionPart0Type1 = /* values here */
+value: models.InputSplunkSearchPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.InputSplunkSearchInputCollectionPart1Type1`
+### `models.InputSplunkSearchPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.InputSplunkSearchInputCollectionPart1Type1 = /* values here */
+value: models.InputSplunkSearchPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

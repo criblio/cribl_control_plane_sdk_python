@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.InputSnmpInputCollectionPart0Type`
+### `models.InputSnmpSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.InputSnmpInputCollectionPart0Type = /* values here */
+value: models.InputSnmpSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputSnmpInputCollectionPart1Type`
+### `models.InputSnmpSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.InputSnmpInputCollectionPart1Type = /* values here */
+value: models.InputSnmpSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputSnmpInputCollectionPart0Type1`
+### `models.InputSnmpPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.InputSnmpInputCollectionPart0Type1 = /* values here */
+value: models.InputSnmpPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.InputSnmpInputCollectionPart1Type1`
+### `models.InputSnmpPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.InputSnmpInputCollectionPart1Type1 = /* values here */
+value: models.InputSnmpPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

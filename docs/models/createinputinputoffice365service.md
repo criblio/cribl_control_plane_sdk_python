@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.CreateInputInputOffice365ServiceInputCollectionPart0Type`
+### `models.CreateInputInputOffice365ServiceSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputOffice365ServiceInputCollectionPart0Type = /* values here */
+value: models.CreateInputInputOffice365ServiceSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputOffice365ServiceInputCollectionPart1Type`
+### `models.CreateInputInputOffice365ServiceSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputOffice365ServiceInputCollectionPart1Type = /* values here */
+value: models.CreateInputInputOffice365ServiceSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputOffice365ServiceInputCollectionPart0Type1`
+### `models.CreateInputInputOffice365ServicePqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.CreateInputInputOffice365ServiceInputCollectionPart0Type1 = /* values here */
+value: models.CreateInputInputOffice365ServicePqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.CreateInputInputOffice365ServiceInputCollectionPart1Type1`
+### `models.CreateInputInputOffice365ServicePqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.CreateInputInputOffice365ServiceInputCollectionPart1Type1 = /* values here */
+value: models.CreateInputInputOffice365ServicePqEnabledTrueWithPqConstraint = /* values here */
 ```
 

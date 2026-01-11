@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.InputZscalerHecInputCollectionPart0Type`
+### `models.InputZscalerHecSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.InputZscalerHecInputCollectionPart0Type = /* values here */
+value: models.InputZscalerHecSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputZscalerHecInputCollectionPart1Type`
+### `models.InputZscalerHecSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.InputZscalerHecInputCollectionPart1Type = /* values here */
+value: models.InputZscalerHecSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputZscalerHecInputCollectionPart0Type1`
+### `models.InputZscalerHecPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.InputZscalerHecInputCollectionPart0Type1 = /* values here */
+value: models.InputZscalerHecPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.InputZscalerHecInputCollectionPart1Type1`
+### `models.InputZscalerHecPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.InputZscalerHecInputCollectionPart1Type1 = /* values here */
+value: models.InputZscalerHecPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

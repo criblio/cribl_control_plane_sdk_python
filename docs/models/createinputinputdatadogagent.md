@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.CreateInputInputDatadogAgentInputCollectionPart0Type`
+### `models.CreateInputInputDatadogAgentSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputDatadogAgentInputCollectionPart0Type = /* values here */
+value: models.CreateInputInputDatadogAgentSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputDatadogAgentInputCollectionPart1Type`
+### `models.CreateInputInputDatadogAgentSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputDatadogAgentInputCollectionPart1Type = /* values here */
+value: models.CreateInputInputDatadogAgentSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputDatadogAgentInputCollectionPart0Type1`
+### `models.CreateInputInputDatadogAgentPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.CreateInputInputDatadogAgentInputCollectionPart0Type1 = /* values here */
+value: models.CreateInputInputDatadogAgentPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.CreateInputInputDatadogAgentInputCollectionPart1Type1`
+### `models.CreateInputInputDatadogAgentPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.CreateInputInputDatadogAgentInputCollectionPart1Type1 = /* values here */
+value: models.CreateInputInputDatadogAgentPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

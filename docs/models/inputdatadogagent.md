@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.InputDatadogAgentInputCollectionPart0Type`
+### `models.InputDatadogAgentSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.InputDatadogAgentInputCollectionPart0Type = /* values here */
+value: models.InputDatadogAgentSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputDatadogAgentInputCollectionPart1Type`
+### `models.InputDatadogAgentSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.InputDatadogAgentInputCollectionPart1Type = /* values here */
+value: models.InputDatadogAgentSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputDatadogAgentInputCollectionPart0Type1`
+### `models.InputDatadogAgentPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.InputDatadogAgentInputCollectionPart0Type1 = /* values here */
+value: models.InputDatadogAgentPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.InputDatadogAgentInputCollectionPart1Type1`
+### `models.InputDatadogAgentPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.InputDatadogAgentInputCollectionPart1Type1 = /* values here */
+value: models.InputDatadogAgentPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

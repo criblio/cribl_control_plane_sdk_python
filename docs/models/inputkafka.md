@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.InputKafkaInputCollectionPart0Type`
+### `models.InputKafkaSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.InputKafkaInputCollectionPart0Type = /* values here */
+value: models.InputKafkaSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputKafkaInputCollectionPart1Type`
+### `models.InputKafkaSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.InputKafkaInputCollectionPart1Type = /* values here */
+value: models.InputKafkaSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputKafkaInputCollectionPart0Type1`
+### `models.InputKafkaPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.InputKafkaInputCollectionPart0Type1 = /* values here */
+value: models.InputKafkaPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.InputKafkaInputCollectionPart1Type1`
+### `models.InputKafkaPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.InputKafkaInputCollectionPart1Type1 = /* values here */
+value: models.InputKafkaPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

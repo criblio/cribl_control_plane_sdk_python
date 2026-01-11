@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.CreateInputInputRawUDPInputCollectionPart0Type`
+### `models.CreateInputInputRawUDPSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputRawUDPInputCollectionPart0Type = /* values here */
+value: models.CreateInputInputRawUDPSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputRawUDPInputCollectionPart1Type`
+### `models.CreateInputInputRawUDPSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputRawUDPInputCollectionPart1Type = /* values here */
+value: models.CreateInputInputRawUDPSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputRawUDPInputCollectionPart0Type1`
+### `models.CreateInputInputRawUDPPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.CreateInputInputRawUDPInputCollectionPart0Type1 = /* values here */
+value: models.CreateInputInputRawUDPPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.CreateInputInputRawUDPInputCollectionPart1Type1`
+### `models.CreateInputInputRawUDPPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.CreateInputInputRawUDPInputCollectionPart1Type1 = /* values here */
+value: models.CreateInputInputRawUDPPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

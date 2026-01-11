@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.InputGooglePubsubInputCollectionPart0Type`
+### `models.InputGooglePubsubSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.InputGooglePubsubInputCollectionPart0Type = /* values here */
+value: models.InputGooglePubsubSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputGooglePubsubInputCollectionPart1Type`
+### `models.InputGooglePubsubSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.InputGooglePubsubInputCollectionPart1Type = /* values here */
+value: models.InputGooglePubsubSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.InputGooglePubsubInputCollectionPart0Type1`
+### `models.InputGooglePubsubPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.InputGooglePubsubInputCollectionPart0Type1 = /* values here */
+value: models.InputGooglePubsubPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.InputGooglePubsubInputCollectionPart1Type1`
+### `models.InputGooglePubsubPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.InputGooglePubsubInputCollectionPart1Type1 = /* values here */
+value: models.InputGooglePubsubPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

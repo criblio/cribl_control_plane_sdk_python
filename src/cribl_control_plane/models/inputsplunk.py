@@ -57,7 +57,7 @@ class InputSplunkCompression(str, Enum, metaclass=utils.OpenEnumMeta):
     ALWAYS = "always"
 
 
-class InputSplunkInputCollectionPart1Type1TypedDict(TypedDict):
+class InputSplunkPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     type: InputSplunkType
     port: float
     r"""Port to listen on"""
@@ -113,7 +113,7 @@ class InputSplunkInputCollectionPart1Type1TypedDict(TypedDict):
     r"""Controls whether to support reading compressed data from a forwarder. Select 'Automatic' to match the forwarder's configuration, or 'Disabled' to reject compressed connections."""
 
 
-class InputSplunkInputCollectionPart1Type1(BaseModel):
+class InputSplunkPqEnabledTrueWithPqConstraint(BaseModel):
     type: InputSplunkType
 
     port: float
@@ -243,12 +243,13 @@ class InputSplunkInputCollectionPart1Type1(BaseModel):
         return value
 
 
-class InputSplunkInputCollectionPart0Type1TypedDict(TypedDict):
+class InputSplunkPqEnabledFalseWithPqConstraintTypedDict(TypedDict):
     type: InputSplunkType
     port: float
     r"""Port to listen on"""
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -262,6 +263,191 @@ class InputSplunkInputCollectionPart0Type1TypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    host: NotRequired[str]
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+    tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    ip_whitelist_regex: NotRequired[str]
+    r"""Regex matching IP addresses that are allowed to establish a connection"""
+    max_active_cxn: NotRequired[float]
+    r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
+    socket_idle_timeout: NotRequired[float]
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. After this time, the connection will be closed. Leave at 0 for no inactive socket monitoring."""
+    socket_ending_max_wait: NotRequired[float]
+    r"""How long the server will wait after initiating a closure for a client to close its end of the connection. If the client doesn't close the connection within this time, the server will forcefully terminate the socket to prevent resource leaks and ensure efficient connection cleanup and system stability. Leave at 0 for no inactive socket monitoring."""
+    socket_max_lifespan: NotRequired[float]
+    r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
+    enable_proxy_header: NotRequired[bool]
+    r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
+    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    r"""Fields to add to events from this input"""
+    breaker_rulesets: NotRequired[List[str]]
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+    stale_channel_flush_ms: NotRequired[float]
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+    auth_tokens: NotRequired[List[InputSplunkAuthTokenTypedDict]]
+    r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
+    max_s2_sversion: NotRequired[MaxS2SVersion]
+    r"""The highest S2S protocol version to advertise during handshake"""
+    description: NotRequired[str]
+    use_fwd_timezone: NotRequired[bool]
+    r"""Event Breakers will determine events' time zone from UF-provided metadata, when TZ can't be inferred from the raw event"""
+    drop_control_fields: NotRequired[bool]
+    r"""Drop Splunk control fields such as `crcSalt` and `_savedPort`. If disabled, control fields are stored in the internal field `__ctrlFields`."""
+    extract_metrics: NotRequired[bool]
+    r"""Extract and process Splunk-generated metrics as Cribl metrics"""
+    compress: NotRequired[InputSplunkCompression]
+    r"""Controls whether to support reading compressed data from a forwarder. Select 'Automatic' to match the forwarder's configuration, or 'Disabled' to reject compressed connections."""
+
+
+class InputSplunkPqEnabledFalseWithPqConstraint(BaseModel):
+    type: InputSplunkType
+
+    port: float
+    r"""Port to listen on"""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    pq: Optional[PqType] = None
+
+    id: Optional[str] = None
+    r"""Unique ID for this input"""
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnections]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    host: Optional[str] = "0.0.0.0"
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+
+    tls: Optional[TLSSettingsServerSideType] = None
+
+    ip_whitelist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipWhitelistRegex")
+    ] = "/.*/"
+    r"""Regex matching IP addresses that are allowed to establish a connection"""
+
+    max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
+        1000
+    )
+    r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
+
+    socket_idle_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="socketIdleTimeout")
+    ] = 0
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. After this time, the connection will be closed. Leave at 0 for no inactive socket monitoring."""
+
+    socket_ending_max_wait: Annotated[
+        Optional[float], pydantic.Field(alias="socketEndingMaxWait")
+    ] = 30
+    r"""How long the server will wait after initiating a closure for a client to close its end of the connection. If the client doesn't close the connection within this time, the server will forcefully terminate the socket to prevent resource leaks and ensure efficient connection cleanup and system stability. Leave at 0 for no inactive socket monitoring."""
+
+    socket_max_lifespan: Annotated[
+        Optional[float], pydantic.Field(alias="socketMaxLifespan")
+    ] = 0
+    r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
+
+    enable_proxy_header: Annotated[
+        Optional[bool], pydantic.Field(alias="enableProxyHeader")
+    ] = False
+    r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
+
+    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    r"""Fields to add to events from this input"""
+
+    breaker_rulesets: Annotated[
+        Optional[List[str]], pydantic.Field(alias="breakerRulesets")
+    ] = None
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+
+    stale_channel_flush_ms: Annotated[
+        Optional[float], pydantic.Field(alias="staleChannelFlushMs")
+    ] = 10000
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+
+    auth_tokens: Annotated[
+        Optional[List[InputSplunkAuthToken]], pydantic.Field(alias="authTokens")
+    ] = None
+    r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
+
+    max_s2_sversion: Annotated[
+        Optional[MaxS2SVersion], pydantic.Field(alias="maxS2Sversion")
+    ] = MaxS2SVersion.V3
+    r"""The highest S2S protocol version to advertise during handshake"""
+
+    description: Optional[str] = None
+
+    use_fwd_timezone: Annotated[
+        Optional[bool], pydantic.Field(alias="useFwdTimezone")
+    ] = True
+    r"""Event Breakers will determine events' time zone from UF-provided metadata, when TZ can't be inferred from the raw event"""
+
+    drop_control_fields: Annotated[
+        Optional[bool], pydantic.Field(alias="dropControlFields")
+    ] = True
+    r"""Drop Splunk control fields such as `crcSalt` and `_savedPort`. If disabled, control fields are stored in the internal field `__ctrlFields`."""
+
+    extract_metrics: Annotated[
+        Optional[bool], pydantic.Field(alias="extractMetrics")
+    ] = False
+    r"""Extract and process Splunk-generated metrics as Cribl metrics"""
+
+    compress: Optional[InputSplunkCompression] = InputSplunkCompression.DISABLED
+    r"""Controls whether to support reading compressed data from a forwarder. Select 'Automatic' to match the forwarder's configuration, or 'Disabled' to reject compressed connections."""
+
+    @field_serializer("max_s2_sversion")
+    def serialize_max_s2_sversion(self, value):
+        if isinstance(value, str):
+            try:
+                return models.MaxS2SVersion(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("compress")
+    def serialize_compress(self, value):
+        if isinstance(value, str):
+            try:
+                return models.InputSplunkCompression(value)
+            except ValueError:
+                return value
+        return value
+
+
+class InputSplunkSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
+    type: InputSplunkType
+    port: float
+    r"""Port to listen on"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    id: NotRequired[str]
+    r"""Unique ID for this input"""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
     pq: NotRequired[PqTypeTypedDict]
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -299,14 +485,19 @@ class InputSplunkInputCollectionPart0Type1TypedDict(TypedDict):
     r"""Controls whether to support reading compressed data from a forwarder. Select 'Automatic' to match the forwarder's configuration, or 'Disabled' to reject compressed connections."""
 
 
-class InputSplunkInputCollectionPart0Type1(BaseModel):
+class InputSplunkSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     type: InputSplunkType
 
     port: float
     r"""Port to listen on"""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    connections: Optional[List[ItemsTypeConnections]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -316,19 +507,14 @@ class InputSplunkInputCollectionPart0Type1(BaseModel):
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -429,7 +615,7 @@ class InputSplunkInputCollectionPart0Type1(BaseModel):
         return value
 
 
-class InputSplunkInputCollectionPart1TypeTypedDict(TypedDict):
+class InputSplunkSendToRoutesTrueWithConnectionsConstraintTypedDict(TypedDict):
     type: InputSplunkType
     port: float
     r"""Port to listen on"""
@@ -485,7 +671,7 @@ class InputSplunkInputCollectionPart1TypeTypedDict(TypedDict):
     r"""Controls whether to support reading compressed data from a forwarder. Select 'Automatic' to match the forwarder's configuration, or 'Disabled' to reject compressed connections."""
 
 
-class InputSplunkInputCollectionPart1Type(BaseModel):
+class InputSplunkSendToRoutesTrueWithConnectionsConstraint(BaseModel):
     type: InputSplunkType
 
     port: float
@@ -515,192 +701,6 @@ class InputSplunkInputCollectionPart1Type(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
-
-    pq: Optional[PqType] = None
-
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-
-    tls: Optional[TLSSettingsServerSideType] = None
-
-    ip_whitelist_regex: Annotated[
-        Optional[str], pydantic.Field(alias="ipWhitelistRegex")
-    ] = "/.*/"
-    r"""Regex matching IP addresses that are allowed to establish a connection"""
-
-    max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
-        1000
-    )
-    r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
-
-    socket_idle_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="socketIdleTimeout")
-    ] = 0
-    r"""How long @{product} should wait before assuming that an inactive socket has timed out. After this time, the connection will be closed. Leave at 0 for no inactive socket monitoring."""
-
-    socket_ending_max_wait: Annotated[
-        Optional[float], pydantic.Field(alias="socketEndingMaxWait")
-    ] = 30
-    r"""How long the server will wait after initiating a closure for a client to close its end of the connection. If the client doesn't close the connection within this time, the server will forcefully terminate the socket to prevent resource leaks and ensure efficient connection cleanup and system stability. Leave at 0 for no inactive socket monitoring."""
-
-    socket_max_lifespan: Annotated[
-        Optional[float], pydantic.Field(alias="socketMaxLifespan")
-    ] = 0
-    r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
-
-    enable_proxy_header: Annotated[
-        Optional[bool], pydantic.Field(alias="enableProxyHeader")
-    ] = False
-    r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
-
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
-    r"""Fields to add to events from this input"""
-
-    breaker_rulesets: Annotated[
-        Optional[List[str]], pydantic.Field(alias="breakerRulesets")
-    ] = None
-    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
-
-    stale_channel_flush_ms: Annotated[
-        Optional[float], pydantic.Field(alias="staleChannelFlushMs")
-    ] = 10000
-    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
-
-    auth_tokens: Annotated[
-        Optional[List[InputSplunkAuthToken]], pydantic.Field(alias="authTokens")
-    ] = None
-    r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
-
-    max_s2_sversion: Annotated[
-        Optional[MaxS2SVersion], pydantic.Field(alias="maxS2Sversion")
-    ] = MaxS2SVersion.V3
-    r"""The highest S2S protocol version to advertise during handshake"""
-
-    description: Optional[str] = None
-
-    use_fwd_timezone: Annotated[
-        Optional[bool], pydantic.Field(alias="useFwdTimezone")
-    ] = True
-    r"""Event Breakers will determine events' time zone from UF-provided metadata, when TZ can't be inferred from the raw event"""
-
-    drop_control_fields: Annotated[
-        Optional[bool], pydantic.Field(alias="dropControlFields")
-    ] = True
-    r"""Drop Splunk control fields such as `crcSalt` and `_savedPort`. If disabled, control fields are stored in the internal field `__ctrlFields`."""
-
-    extract_metrics: Annotated[
-        Optional[bool], pydantic.Field(alias="extractMetrics")
-    ] = False
-    r"""Extract and process Splunk-generated metrics as Cribl metrics"""
-
-    compress: Optional[InputSplunkCompression] = InputSplunkCompression.DISABLED
-    r"""Controls whether to support reading compressed data from a forwarder. Select 'Automatic' to match the forwarder's configuration, or 'Disabled' to reject compressed connections."""
-
-    @field_serializer("max_s2_sversion")
-    def serialize_max_s2_sversion(self, value):
-        if isinstance(value, str):
-            try:
-                return models.MaxS2SVersion(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("compress")
-    def serialize_compress(self, value):
-        if isinstance(value, str):
-            try:
-                return models.InputSplunkCompression(value)
-            except ValueError:
-                return value
-        return value
-
-
-class InputSplunkInputCollectionPart0TypeTypedDict(TypedDict):
-    type: InputSplunkType
-    port: float
-    r"""Port to listen on"""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-    id: NotRequired[str]
-    r"""Unique ID for this input"""
-    disabled: NotRequired[bool]
-    pipeline: NotRequired[str]
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-    environment: NotRequired[str]
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[PqTypeTypedDict]
-    host: NotRequired[str]
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-    tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
-    ip_whitelist_regex: NotRequired[str]
-    r"""Regex matching IP addresses that are allowed to establish a connection"""
-    max_active_cxn: NotRequired[float]
-    r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
-    socket_idle_timeout: NotRequired[float]
-    r"""How long @{product} should wait before assuming that an inactive socket has timed out. After this time, the connection will be closed. Leave at 0 for no inactive socket monitoring."""
-    socket_ending_max_wait: NotRequired[float]
-    r"""How long the server will wait after initiating a closure for a client to close its end of the connection. If the client doesn't close the connection within this time, the server will forcefully terminate the socket to prevent resource leaks and ensure efficient connection cleanup and system stability. Leave at 0 for no inactive socket monitoring."""
-    socket_max_lifespan: NotRequired[float]
-    r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
-    enable_proxy_header: NotRequired[bool]
-    r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
-    r"""Fields to add to events from this input"""
-    breaker_rulesets: NotRequired[List[str]]
-    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
-    stale_channel_flush_ms: NotRequired[float]
-    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
-    auth_tokens: NotRequired[List[InputSplunkAuthTokenTypedDict]]
-    r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
-    max_s2_sversion: NotRequired[MaxS2SVersion]
-    r"""The highest S2S protocol version to advertise during handshake"""
-    description: NotRequired[str]
-    use_fwd_timezone: NotRequired[bool]
-    r"""Event Breakers will determine events' time zone from UF-provided metadata, when TZ can't be inferred from the raw event"""
-    drop_control_fields: NotRequired[bool]
-    r"""Drop Splunk control fields such as `crcSalt` and `_savedPort`. If disabled, control fields are stored in the internal field `__ctrlFields`."""
-    extract_metrics: NotRequired[bool]
-    r"""Extract and process Splunk-generated metrics as Cribl metrics"""
-    compress: NotRequired[InputSplunkCompression]
-    r"""Controls whether to support reading compressed data from a forwarder. Select 'Automatic' to match the forwarder's configuration, or 'Disabled' to reject compressed connections."""
-
-
-class InputSplunkInputCollectionPart0Type(BaseModel):
-    type: InputSplunkType
-
-    port: float
-    r"""Port to listen on"""
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    id: Optional[str] = None
-    r"""Unique ID for this input"""
-
-    disabled: Optional[bool] = False
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-
-    environment: Optional[str] = None
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    connections: Optional[List[ItemsTypeConnections]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
 
@@ -804,10 +804,10 @@ class InputSplunkInputCollectionPart0Type(BaseModel):
 InputSplunkTypedDict = TypeAliasType(
     "InputSplunkTypedDict",
     Union[
-        InputSplunkInputCollectionPart0TypeTypedDict,
-        InputSplunkInputCollectionPart1TypeTypedDict,
-        InputSplunkInputCollectionPart0Type1TypedDict,
-        InputSplunkInputCollectionPart1Type1TypedDict,
+        InputSplunkSendToRoutesTrueWithConnectionsConstraintTypedDict,
+        InputSplunkSendToRoutesFalseWithConnectionsConstraintTypedDict,
+        InputSplunkPqEnabledFalseWithPqConstraintTypedDict,
+        InputSplunkPqEnabledTrueWithPqConstraintTypedDict,
     ],
 )
 
@@ -815,9 +815,9 @@ InputSplunkTypedDict = TypeAliasType(
 InputSplunk = TypeAliasType(
     "InputSplunk",
     Union[
-        InputSplunkInputCollectionPart0Type,
-        InputSplunkInputCollectionPart1Type,
-        InputSplunkInputCollectionPart0Type1,
-        InputSplunkInputCollectionPart1Type1,
+        InputSplunkSendToRoutesTrueWithConnectionsConstraint,
+        InputSplunkSendToRoutesFalseWithConnectionsConstraint,
+        InputSplunkPqEnabledFalseWithPqConstraint,
+        InputSplunkPqEnabledTrueWithPqConstraint,
     ],
 )

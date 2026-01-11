@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.CreateInputInputAzureBlobInputCollectionPart0Type`
+### `models.CreateInputInputAzureBlobSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputAzureBlobInputCollectionPart0Type = /* values here */
+value: models.CreateInputInputAzureBlobSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputAzureBlobInputCollectionPart1Type`
+### `models.CreateInputInputAzureBlobSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputAzureBlobInputCollectionPart1Type = /* values here */
+value: models.CreateInputInputAzureBlobSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputAzureBlobInputCollectionPart0Type1`
+### `models.CreateInputInputAzureBlobPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.CreateInputInputAzureBlobInputCollectionPart0Type1 = /* values here */
+value: models.CreateInputInputAzureBlobPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.CreateInputInputAzureBlobInputCollectionPart1Type1`
+### `models.CreateInputInputAzureBlobPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.CreateInputInputAzureBlobInputCollectionPart1Type1 = /* values here */
+value: models.CreateInputInputAzureBlobPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

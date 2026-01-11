@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.CreateInputInputSystemMetricsInputCollectionPart0Type`
+### `models.CreateInputInputSystemMetricsSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputSystemMetricsInputCollectionPart0Type = /* values here */
+value: models.CreateInputInputSystemMetricsSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputSystemMetricsInputCollectionPart1Type`
+### `models.CreateInputInputSystemMetricsSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputSystemMetricsInputCollectionPart1Type = /* values here */
+value: models.CreateInputInputSystemMetricsSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputSystemMetricsInputCollectionPart0Type1`
+### `models.CreateInputInputSystemMetricsPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.CreateInputInputSystemMetricsInputCollectionPart0Type1 = /* values here */
+value: models.CreateInputInputSystemMetricsPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.CreateInputInputSystemMetricsInputCollectionPart1Type1`
+### `models.CreateInputInputSystemMetricsPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.CreateInputInputSystemMetricsInputCollectionPart1Type1 = /* values here */
+value: models.CreateInputInputSystemMetricsPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

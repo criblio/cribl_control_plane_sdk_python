@@ -3,27 +3,27 @@
 
 ## Supported Types
 
-### `models.CreateInputInputCriblHTTPInputCollectionPart0Type`
+### `models.CreateInputInputCriblHTTPSendToRoutesTrueWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputCriblHTTPInputCollectionPart0Type = /* values here */
+value: models.CreateInputInputCriblHTTPSendToRoutesTrueWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputCriblHTTPInputCollectionPart1Type`
+### `models.CreateInputInputCriblHTTPSendToRoutesFalseWithConnectionsConstraint`
 
 ```python
-value: models.CreateInputInputCriblHTTPInputCollectionPart1Type = /* values here */
+value: models.CreateInputInputCriblHTTPSendToRoutesFalseWithConnectionsConstraint = /* values here */
 ```
 
-### `models.CreateInputInputCriblHTTPInputCollectionPart0Type1`
+### `models.CreateInputInputCriblHTTPPqEnabledFalseWithPqConstraint`
 
 ```python
-value: models.CreateInputInputCriblHTTPInputCollectionPart0Type1 = /* values here */
+value: models.CreateInputInputCriblHTTPPqEnabledFalseWithPqConstraint = /* values here */
 ```
 
-### `models.CreateInputInputCriblHTTPInputCollectionPart1Type1`
+### `models.CreateInputInputCriblHTTPPqEnabledTrueWithPqConstraint`
 
 ```python
-value: models.CreateInputInputCriblHTTPInputCollectionPart1Type1 = /* values here */
+value: models.CreateInputInputCriblHTTPPqEnabledTrueWithPqConstraint = /* values here */
 ```
 

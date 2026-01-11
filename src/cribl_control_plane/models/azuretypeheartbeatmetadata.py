@@ -17,6 +17,7 @@ class AzureTypeHeartbeatMetadataTypedDict(TypedDict):
     subscription_id: NotRequired[str]
     tags: NotRequired[Dict[str, str]]
     type: NotRequired[str]
+    vm_id: NotRequired[str]
     zone: NotRequired[str]
 
 
@@ -42,5 +43,7 @@ class AzureTypeHeartbeatMetadata(BaseModel):
     tags: Optional[Dict[str, str]] = None
 
     type: Optional[str] = None
+
+    vm_id: Annotated[Optional[str], pydantic.Field(alias="vmId")] = None
 
     zone: Optional[str] = None

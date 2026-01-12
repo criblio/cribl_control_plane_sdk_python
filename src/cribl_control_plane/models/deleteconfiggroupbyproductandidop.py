@@ -11,9 +11,9 @@ from typing_extensions import Annotated, TypedDict
 
 class DeleteConfigGroupByProductAndIDRequestTypedDict(TypedDict):
     product: ProductsCore
-    r"""Name of the Cribl product to get the Worker Groups or Edge Fleets for."""
+    r"""Name of the Cribl product to get the Worker Groups, Outpost Groups, or Edge Fleets for."""
     id: str
-    r"""The <code>id</code> of the Worker Group or Edge Fleet to delete."""
+    r"""The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to delete."""
 
 
 class DeleteConfigGroupByProductAndIDRequest(BaseModel):
@@ -21,12 +21,12 @@ class DeleteConfigGroupByProductAndIDRequest(BaseModel):
         ProductsCore,
         FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
     ]
-    r"""Name of the Cribl product to get the Worker Groups or Edge Fleets for."""
+    r"""Name of the Cribl product to get the Worker Groups, Outpost Groups, or Edge Fleets for."""
 
     id: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""The <code>id</code> of the Worker Group or Edge Fleet to delete."""
+    r"""The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to delete."""
 
     @field_serializer("product")
     def serialize_product(self, value):

@@ -17,9 +17,9 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class GetConfigGroupACLTeamsByProductAndIDRequestTypedDict(TypedDict):
     product: ProductsCore
-    r"""Name of the Cribl product that contains the Worker Group or Edge Fleet."""
+    r"""Name of the Cribl product that contains the Worker Group, Outpost Group, or Edge Fleet."""
     id: str
-    r"""The <code>id</code> of the Worker Group or Edge Fleet to get the team ACL for."""
+    r"""The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to get the team ACL for."""
     type: NotRequired[RbacResource]
     r"""Filter for limiting the response to ACL entries for the specified RBAC resource type."""
 
@@ -29,12 +29,12 @@ class GetConfigGroupACLTeamsByProductAndIDRequest(BaseModel):
         ProductsCore,
         FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
     ]
-    r"""Name of the Cribl product that contains the Worker Group or Edge Fleet."""
+    r"""Name of the Cribl product that contains the Worker Group, Outpost Group, or Edge Fleet."""
 
     id: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""The <code>id</code> of the Worker Group or Edge Fleet to get the team ACL for."""
+    r"""The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to get the team ACL for."""
 
     type: Annotated[
         Optional[RbacResource],

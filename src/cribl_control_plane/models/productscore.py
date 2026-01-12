@@ -8,3 +8,4 @@ from enum import Enum
 class ProductsCore(str, Enum, metaclass=utils.OpenEnumMeta):
     STREAM = "stream"
     EDGE = "edge"
+    OUTPOST = "outpost"

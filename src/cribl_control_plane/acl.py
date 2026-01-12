@@ -35,12 +35,12 @@ class ACL(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedUserAccessControlList:
-        r"""Get the Access Control List for a Worker Group or Edge Fleet
+        r"""Get the Access Control List for a Worker Group, Outpost Group, or Edge Fleet
 
-        Get the Access Control List (ACL) for the specified Worker Group or Edge Fleet.
+        Get the Access Control List (ACL) for the specified Worker Group, Outpost Group, or Edge Fleet.
 
         :param product: Name of the Cribl product to get the Worker Groups or Edge Fleets for.
-        :param id: The <code>id</code> of the Worker Group or Edge Fleet to get the ACL for.
+        :param id: The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to get the ACL for.
         :param type: Filter for limiting the response to ACL entries for the specified RBAC resource type.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -135,12 +135,12 @@ class ACL(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedUserAccessControlList:
-        r"""Get the Access Control List for a Worker Group or Edge Fleet
+        r"""Get the Access Control List for a Worker Group, Outpost Group, or Edge Fleet
 
-        Get the Access Control List (ACL) for the specified Worker Group or Edge Fleet.
+        Get the Access Control List (ACL) for the specified Worker Group, Outpost Group, or Edge Fleet.
 
         :param product: Name of the Cribl product to get the Worker Groups or Edge Fleets for.
-        :param id: The <code>id</code> of the Worker Group or Edge Fleet to get the ACL for.
+        :param id: The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to get the ACL for.
         :param type: Filter for limiting the response to ACL entries for the specified RBAC resource type.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method

@@ -20,12 +20,12 @@ class ConfigsVersions(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedString:
-        r"""Get the configuration version for a Worker Group or Edge Fleet
+        r"""Get the configuration version for a Worker Group, Outpost Group, or Edge Fleet
 
-        Get the configuration version for the specified Worker Group or Edge Fleet.
+        Get the configuration version for the specified Worker Group, Outpost Group, or Edge Fleet.
 
-        :param product: Name of the Cribl product to get the Worker Groups or Edge Fleets for.
-        :param id: The <code>id</code> of the Worker Group or Edge Fleet to get the configuration version for.
+        :param product: Name of the Cribl product to get the Worker Groups, Outpost Groups, or Edge Fleets for.
+        :param id: The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to get the configuration version for.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -115,12 +115,12 @@ class ConfigsVersions(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedString:
-        r"""Get the configuration version for a Worker Group or Edge Fleet
+        r"""Get the configuration version for a Worker Group, Outpost Group, or Edge Fleet
 
-        Get the configuration version for the specified Worker Group or Edge Fleet.
+        Get the configuration version for the specified Worker Group, Outpost Group, or Edge Fleet.
 
-        :param product: Name of the Cribl product to get the Worker Groups or Edge Fleets for.
-        :param id: The <code>id</code> of the Worker Group or Edge Fleet to get the configuration version for.
+        :param product: Name of the Cribl product to get the Worker Groups, Outpost Groups, or Edge Fleets for.
+        :param id: The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to get the configuration version for.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds

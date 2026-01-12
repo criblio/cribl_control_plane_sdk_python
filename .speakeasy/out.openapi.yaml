@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.16.0-alpha.1767999795481-d460f4f3
+  version: 4.16.0-alpha.1768172629269-03fe1ea9
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -10241,6 +10241,7 @@ components:
       enum:
         - stream
         - edge
+        - outpost
       x-speakeasy-unknown-values: allow
     CountedCriblLakeDataset:
       type: object
@@ -40227,6 +40228,7 @@ components:
       type: string
       enum:
         - edge
+        - outpost
         - stream
         - search
         - lake_access
@@ -48018,8 +48020,8 @@ paths:
       x-speakeasy-name-override: list
       tags:
         - groups
-      summary: List all Worker Groups or Edge Fleets for the specified Cribl product
-      description: Get a list of all Worker Groups or Edge Fleets for the specified Cribl product.
+      summary: List all Worker Groups, Outpost Groups, or Edge Fleets for the specified Cribl product
+      description: Get a list of all Worker Groups, Outpost Groups, or Edge Fleets for the specified Cribl product.
       responses:
         "200":
           description: a list of ConfigGroup objects
@@ -48042,7 +48044,7 @@ paths:
           required: true
           schema:
             $ref: "#/components/schemas/ProductsCore"
-          description: Name of the Cribl product to get the Worker Groups or Edge Fleets for.
+          description: Name of the Cribl product to get the Worker Groups, Outpost Groups, or Edge Fleets for.
         - name: fields
           in: query
           required: false
@@ -48054,8 +48056,8 @@ paths:
       x-speakeasy-name-override: create
       tags:
         - groups
-      summary: Create a Worker Group or Edge Fleet for the specified Cribl product
-      description: Create a new Worker Group or Edge Fleet for the specified Cribl product.
+      summary: Create a Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product
+      description: Create a new Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product.
       requestBody:
         description: GroupCreateRequest object
         required: true
@@ -48094,15 +48096,15 @@ paths:
           required: true
           schema:
             $ref: "#/components/schemas/ProductsCore"
-          description: Name of the Cribl product to add the Worker Group or Edge Fleet to.
+          description: Name of the Cribl product to add the Worker Group, Outpost Group, or Edge Fleet to.
   /products/{product}/groups/{id}:
     get:
       operationId: getConfigGroupByProductAndId
       x-speakeasy-name-override: get
       tags:
         - groups
-      summary: Get a Worker Group or Edge Fleet
-      description: Get the specified Worker Group or Edge Fleet.
+      summary: Get a Worker Group, Outpost Group, or Edge Fleet
+      description: Get the specified Worker Group, Outpost Group, or Edge Fleet.
       parameters:
         - name: product
           in: path
@@ -48110,13 +48112,13 @@ paths:
           schema:
             type: string
             $ref: "#/components/schemas/ProductsCore"
-          description: Name of the Cribl product to get the Worker Groups or Edge Fleets for.
+          description: Name of the Cribl product to get the Worker Groups, Outpost Groups, or Edge Fleets for.
         - name: id
           in: path
           required: true
           schema:
             type: string
-          description: The <code>id</code> of the Worker Group or Edge Fleet to get.
+          description: The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to get.
         - name: fields
           in: query
           required: false
@@ -48144,8 +48146,8 @@ paths:
       x-speakeasy-name-override: update
       tags:
         - groups
-      summary: Update a Worker Group or Edge Fleet
-      description: Update the specified Worker Group or Edge Fleet.
+      summary: Update a Worker Group, Outpost Group, or Edge Fleet
+      description: Update the specified Worker Group, Outpost Group, or Edge Fleet.
       parameters:
         - name: product
           in: path
@@ -48153,13 +48155,13 @@ paths:
           schema:
             type: string
             $ref: "#/components/schemas/ProductsCore"
-          description: Name of the Cribl product to get the Worker Groups or Edge Fleets for.
+          description: Name of the Cribl product to get the Worker Groups, Outpost Groups, or Edge Fleets for.
         - name: id
           in: path
           required: true
           schema:
             type: string
-          description: The <code>id</code> of the Worker Group or Edge Fleet to update.
+          description: The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to update.
       requestBody:
         description: ConfigGroup object
         required: true
@@ -48191,8 +48193,8 @@ paths:
       x-speakeasy-name-override: delete
       tags:
         - groups
-      summary: Delete a Worker Group or Edge Fleet
-      description: Delete the specified Worker Group or Edge Fleet.
+      summary: Delete a Worker Group, Outpost Group, or Edge Fleet
+      description: Delete the specified Worker Group, Outpost Group, or Edge Fleet.
       parameters:
         - name: product
           in: path
@@ -48200,13 +48202,13 @@ paths:
           schema:
             type: string
             $ref: "#/components/schemas/ProductsCore"
-          description: Name of the Cribl product to get the Worker Groups or Edge Fleets for.
+          description: Name of the Cribl product to get the Worker Groups, Outpost Groups, or Edge Fleets for.
         - name: id
           in: path
           required: true
           schema:
             type: string
-          description: The <code>id</code> of the Worker Group or Edge Fleet to delete.
+          description: The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to delete.
       responses:
         "200":
           description: a list of ConfigGroup objects
@@ -48230,8 +48232,8 @@ paths:
         - groups
       x-speakeasy-group: groups.configs.versions
       x-speakeasy-name-override: get
-      summary: Get the configuration version for a Worker Group or Edge Fleet
-      description: Get the configuration version for the specified Worker Group or Edge Fleet.
+      summary: Get the configuration version for a Worker Group, Outpost Group, or Edge Fleet
+      description: Get the configuration version for the specified Worker Group, Outpost Group, or Edge Fleet.
       responses:
         "200":
           description: a list of string objects
@@ -48253,13 +48255,13 @@ paths:
           required: true
           schema:
             $ref: "#/components/schemas/ProductsCore"
-          description: Name of the Cribl product to get the Worker Groups or Edge Fleets for.
+          description: Name of the Cribl product to get the Worker Groups, Outpost Groups, or Edge Fleets for.
         - name: id
           in: path
           required: true
           schema:
             type: string
-          description: The <code>id</code> of the Worker Group or Edge Fleet to get the configuration version for.
+          description: The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to get the configuration version for.
   /products/{product}/groups/{id}/deploy:
     patch:
       operationId: updateConfigGroupDeployByProductAndId
@@ -48311,8 +48313,8 @@ paths:
         - teams
       x-speakeasy-group: groups.acl.teams
       x-speakeasy-name-override: get
-      summary: Get the Access Control List for teams with permissions on a Worker Group or Edge Fleet for the specified Cribl product
-      description: Get the Access Control List (ACL) for teams that have permissions on a Worker Group or Edge Fleet for the specified Cribl product.
+      summary: Get the Access Control List for teams with permissions on a Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product
+      description: Get the Access Control List (ACL) for teams that have permissions on a Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product.
       responses:
         "200":
           description: a list of TeamAccessControlList objects
@@ -48334,13 +48336,13 @@ paths:
           required: true
           schema:
             $ref: "#/components/schemas/ProductsCore"
-          description: Name of the Cribl product that contains the Worker Group or Edge Fleet.
+          description: Name of the Cribl product that contains the Worker Group, Outpost Group, or Edge Fleet.
         - name: id
           in: path
           required: true
           schema:
             type: string
-          description: The <code>id</code> of the Worker Group or Edge Fleet to get the team ACL for.
+          description: The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to get the team ACL for.
         - name: type
           in: query
           required: false
@@ -48354,8 +48356,8 @@ paths:
         - groups
       x-speakeasy-group: groups.acl
       x-speakeasy-name-override: get
-      summary: Get the Access Control List for a Worker Group or Edge Fleet
-      description: Get the Access Control List (ACL) for the specified Worker Group or Edge Fleet.
+      summary: Get the Access Control List for a Worker Group, Outpost Group, or Edge Fleet
+      description: Get the Access Control List (ACL) for the specified Worker Group, Outpost Group, or Edge Fleet.
       responses:
         "200":
           description: a list of UserAccessControlList objects
@@ -48383,7 +48385,7 @@ paths:
           required: true
           schema:
             type: string
-          description: The <code>id</code> of the Worker Group or Edge Fleet to get the ACL for.
+          description: The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to get the ACL for.
         - name: type
           in: query
           required: false

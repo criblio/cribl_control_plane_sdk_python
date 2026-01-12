@@ -39,11 +39,11 @@ class GroupsSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedConfigGroup:
-        r"""List all Worker Groups or Edge Fleets for the specified Cribl product
+        r"""List all Worker Groups, Outpost Groups, or Edge Fleets for the specified Cribl product
 
-        Get a list of all Worker Groups or Edge Fleets for the specified Cribl product.
+        Get a list of all Worker Groups, Outpost Groups, or Edge Fleets for the specified Cribl product.
 
-        :param product: Name of the Cribl product to get the Worker Groups or Edge Fleets for.
+        :param product: Name of the Cribl product to get the Worker Groups, Outpost Groups, or Edge Fleets for.
         :param fields: Comma-separated list of additional properties to include in the response. Available values are <code>git.commit</code>, <code>git.localChanges</code>, and <code>git.log</code>.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -134,11 +134,11 @@ class GroupsSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedConfigGroup:
-        r"""List all Worker Groups or Edge Fleets for the specified Cribl product
+        r"""List all Worker Groups, Outpost Groups, or Edge Fleets for the specified Cribl product
 
-        Get a list of all Worker Groups or Edge Fleets for the specified Cribl product.
+        Get a list of all Worker Groups, Outpost Groups, or Edge Fleets for the specified Cribl product.
 
-        :param product: Name of the Cribl product to get the Worker Groups or Edge Fleets for.
+        :param product: Name of the Cribl product to get the Worker Groups, Outpost Groups, or Edge Fleets for.
         :param fields: Comma-separated list of additional properties to include in the response. Available values are <code>git.commit</code>, <code>git.localChanges</code>, and <code>git.log</code>.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -261,11 +261,11 @@ class GroupsSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedConfigGroup:
-        r"""Create a Worker Group or Edge Fleet for the specified Cribl product
+        r"""Create a Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product
 
-        Create a new Worker Group or Edge Fleet for the specified Cribl product.
+        Create a new Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product.
 
-        :param product: Name of the Cribl product to add the Worker Group or Edge Fleet to.
+        :param product: Name of the Cribl product to add the Worker Group, Outpost Group, or Edge Fleet to.
         :param id:
         :param cloud:
         :param deploying_worker_count:
@@ -443,11 +443,11 @@ class GroupsSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedConfigGroup:
-        r"""Create a Worker Group or Edge Fleet for the specified Cribl product
+        r"""Create a Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product
 
-        Create a new Worker Group or Edge Fleet for the specified Cribl product.
+        Create a new Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product.
 
-        :param product: Name of the Cribl product to add the Worker Group or Edge Fleet to.
+        :param product: Name of the Cribl product to add the Worker Group, Outpost Group, or Edge Fleet to.
         :param id:
         :param cloud:
         :param deploying_worker_count:
@@ -594,12 +594,12 @@ class GroupsSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedConfigGroup:
-        r"""Get a Worker Group or Edge Fleet
+        r"""Get a Worker Group, Outpost Group, or Edge Fleet
 
-        Get the specified Worker Group or Edge Fleet.
+        Get the specified Worker Group, Outpost Group, or Edge Fleet.
 
-        :param product: Name of the Cribl product to get the Worker Groups or Edge Fleets for.
-        :param id: The <code>id</code> of the Worker Group or Edge Fleet to get.
+        :param product: Name of the Cribl product to get the Worker Groups, Outpost Groups, or Edge Fleets for.
+        :param id: The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to get.
         :param fields: Comma-separated list of additional properties to include in the response. Available values are <code>git.commit</code>, <code>git.localChanges</code>, and <code>git.log</code>.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -692,12 +692,12 @@ class GroupsSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedConfigGroup:
-        r"""Get a Worker Group or Edge Fleet
+        r"""Get a Worker Group, Outpost Group, or Edge Fleet
 
-        Get the specified Worker Group or Edge Fleet.
+        Get the specified Worker Group, Outpost Group, or Edge Fleet.
 
-        :param product: Name of the Cribl product to get the Worker Groups or Edge Fleets for.
-        :param id: The <code>id</code> of the Worker Group or Edge Fleet to get.
+        :param product: Name of the Cribl product to get the Worker Groups, Outpost Groups, or Edge Fleets for.
+        :param id: The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to get.
         :param fields: Comma-separated list of additional properties to include in the response. Available values are <code>git.commit</code>, <code>git.localChanges</code>, and <code>git.log</code>.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -822,12 +822,12 @@ class GroupsSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedConfigGroup:
-        r"""Update a Worker Group or Edge Fleet
+        r"""Update a Worker Group, Outpost Group, or Edge Fleet
 
-        Update the specified Worker Group or Edge Fleet.
+        Update the specified Worker Group, Outpost Group, or Edge Fleet.
 
-        :param product: Name of the Cribl product to get the Worker Groups or Edge Fleets for.
-        :param id_param: The <code>id</code> of the Worker Group or Edge Fleet to update.
+        :param product: Name of the Cribl product to get the Worker Groups, Outpost Groups, or Edge Fleets for.
+        :param id_param: The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to update.
         :param id:
         :param cloud:
         :param config_version:
@@ -1003,12 +1003,12 @@ class GroupsSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedConfigGroup:
-        r"""Update a Worker Group or Edge Fleet
+        r"""Update a Worker Group, Outpost Group, or Edge Fleet
 
-        Update the specified Worker Group or Edge Fleet.
+        Update the specified Worker Group, Outpost Group, or Edge Fleet.
 
-        :param product: Name of the Cribl product to get the Worker Groups or Edge Fleets for.
-        :param id_param: The <code>id</code> of the Worker Group or Edge Fleet to update.
+        :param product: Name of the Cribl product to get the Worker Groups, Outpost Groups, or Edge Fleets for.
+        :param id_param: The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to update.
         :param id:
         :param cloud:
         :param config_version:
@@ -1151,12 +1151,12 @@ class GroupsSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedConfigGroup:
-        r"""Delete a Worker Group or Edge Fleet
+        r"""Delete a Worker Group, Outpost Group, or Edge Fleet
 
-        Delete the specified Worker Group or Edge Fleet.
+        Delete the specified Worker Group, Outpost Group, or Edge Fleet.
 
-        :param product: Name of the Cribl product to get the Worker Groups or Edge Fleets for.
-        :param id: The <code>id</code> of the Worker Group or Edge Fleet to delete.
+        :param product: Name of the Cribl product to get the Worker Groups, Outpost Groups, or Edge Fleets for.
+        :param id: The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to delete.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1246,12 +1246,12 @@ class GroupsSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedConfigGroup:
-        r"""Delete a Worker Group or Edge Fleet
+        r"""Delete a Worker Group, Outpost Group, or Edge Fleet
 
-        Delete the specified Worker Group or Edge Fleet.
+        Delete the specified Worker Group, Outpost Group, or Edge Fleet.
 
-        :param product: Name of the Cribl product to get the Worker Groups or Edge Fleets for.
-        :param id: The <code>id</code> of the Worker Group or Edge Fleet to delete.
+        :param product: Name of the Cribl product to get the Worker Groups, Outpost Groups, or Edge Fleets for.
+        :param id: The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to delete.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds

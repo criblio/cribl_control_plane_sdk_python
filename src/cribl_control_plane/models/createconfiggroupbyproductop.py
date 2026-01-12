@@ -12,7 +12,7 @@ from typing_extensions import Annotated, TypedDict
 
 class CreateConfigGroupByProductRequestTypedDict(TypedDict):
     product: ProductsCore
-    r"""Name of the Cribl product to add the Worker Group or Edge Fleet to."""
+    r"""Name of the Cribl product to add the Worker Group, Outpost Group, or Edge Fleet to."""
     group_create_request: GroupCreateRequestTypedDict
     r"""GroupCreateRequest object"""
 
@@ -22,7 +22,7 @@ class CreateConfigGroupByProductRequest(BaseModel):
         ProductsCore,
         FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
     ]
-    r"""Name of the Cribl product to add the Worker Group or Edge Fleet to."""
+    r"""Name of the Cribl product to add the Worker Group, Outpost Group, or Edge Fleet to."""
 
     group_create_request: Annotated[
         GroupCreateRequest,

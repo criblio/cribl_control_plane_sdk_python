@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.16.0-alpha.1768172629269-03fe1ea9
+  version: 4.16.0-alpha.1768293248951-c150d2f0
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -10706,7 +10706,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         breakerRulesets:
@@ -10742,6 +10742,9 @@ components:
           description: Destination to send results to
       required:
         - type
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputKafka:
       type: object
       required:
@@ -10790,7 +10793,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         brokers:
@@ -10951,6 +10954,9 @@ components:
         description:
           type: string
           title: Description
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputMsk:
       type: object
       required:
@@ -11001,7 +11007,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         brokers:
@@ -11215,6 +11221,9 @@ components:
           type: string
           title: Secret key pair
           description: Select or create a stored secret that references your access key and secret key
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputHttp:
       type: object
       required:
@@ -11263,7 +11272,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -11383,6 +11392,9 @@ components:
         description:
           type: string
           title: Description
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputSplunk:
       type: object
       required:
@@ -11431,7 +11443,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -11559,6 +11571,9 @@ components:
             - Automatic
             - Always
           x-speakeasy-unknown-values: allow
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputSplunkSearch:
       type: object
       required:
@@ -11610,7 +11625,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         searchHead:
@@ -11836,6 +11851,9 @@ components:
           description: Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request.
           items:
             $ref: "#/components/schemas/ItemsTypeOauthHeaders"
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputSplunkHec:
       type: object
       required:
@@ -11885,7 +11903,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -12076,6 +12094,9 @@ components:
         description:
           type: string
           title: Description
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputAzureBlob:
       type: object
       required:
@@ -12123,7 +12144,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         queueName:
@@ -12240,6 +12261,9 @@ components:
           description: Select or create a stored text secret
         certificate:
           $ref: "#/components/schemas/CertificateTypeAzureBlobAuthTypeClientCert"
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputElastic:
       type: object
       required:
@@ -12289,7 +12313,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -12511,6 +12535,9 @@ components:
                 },
                 "tagline": "You Know, for Search"
             }
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputConfluentCloud:
       type: object
       required:
@@ -12559,7 +12586,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         brokers:
@@ -12720,6 +12747,9 @@ components:
         description:
           type: string
           title: Description
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputGrafana:
       type: object
       required:
@@ -12768,7 +12798,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -12999,6 +13029,9 @@ components:
             - prometheusAPI
         - required:
             - lokiAPI
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputLoki:
       type: object
       required:
@@ -13048,7 +13081,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -13201,6 +13234,9 @@ components:
           description: Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request.
           items:
             $ref: "#/components/schemas/ItemsTypeOauthHeaders"
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputPrometheusRw:
       type: object
       required:
@@ -13250,7 +13286,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -13403,6 +13439,9 @@ components:
           description: Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request.
           items:
             $ref: "#/components/schemas/ItemsTypeOauthHeaders"
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputPrometheus:
       type: object
       required:
@@ -13451,7 +13490,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         dimensionList:
@@ -13663,6 +13702,9 @@ components:
           type: string
           title: Credentials secret
           description: Select or create a secret that references your credentials
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputEdgePrometheus:
       type: object
       required:
@@ -13711,7 +13753,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         dimensionList:
@@ -13948,6 +13990,9 @@ components:
           type: string
           title: Credentials secret
           description: Select or create a secret that references your credentials
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputOffice365Mgmt:
       type: object
       required:
@@ -13997,7 +14042,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         planType:
@@ -14129,6 +14174,9 @@ components:
           type: string
           title: Client secret (text secret)
           description: Select or create a stored text secret
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputOffice365Service:
       type: object
       required:
@@ -14177,7 +14225,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         planType:
@@ -14283,6 +14331,9 @@ components:
           type: string
           title: Client secret (text secret)
           description: Select or create a stored text secret
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputOffice365MsgTrace:
       type: object
       required:
@@ -14331,7 +14382,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         url:
@@ -14498,6 +14549,9 @@ components:
               type: string
               title: Certificate path
               description: Path to the certificate to use. Certificate should be in PEM format. Can reference $ENV_VARS.
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputEventhub:
       type: object
       required:
@@ -14546,7 +14600,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         brokers:
@@ -14714,6 +14768,9 @@ components:
         description:
           type: string
           title: Description
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputExec:
       type: object
       required:
@@ -14760,7 +14817,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         command:
@@ -14815,6 +14872,9 @@ components:
           title: Schedule
           description: Cron schedule to execute the command on.
           default: "* * * * *"
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputFirehose:
       type: object
       required:
@@ -14863,7 +14923,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -14955,6 +15015,9 @@ components:
         description:
           type: string
           title: Description
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputGooglePubsub:
       type: object
       required:
@@ -15003,7 +15066,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         topicName:
@@ -15077,6 +15140,9 @@ components:
           title: Ordered delivery
           description: Receive events in the order they were added to the queue. The process sending events must have ordering enabled.
           default: false
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputCribl:
       type: object
       properties:
@@ -15121,7 +15187,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         filter:
@@ -15137,6 +15203,9 @@ components:
           title: Description
       required:
         - type
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputCriblTcp:
       type: object
       required:
@@ -15185,7 +15254,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -15249,6 +15318,9 @@ components:
         description:
           type: string
           title: Description
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputCriblHttp:
       type: object
       required:
@@ -15297,7 +15369,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -15389,6 +15461,9 @@ components:
         description:
           type: string
           title: Description
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputCriblLakeHttp:
       type: object
       required:
@@ -15437,7 +15512,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -15592,6 +15667,9 @@ components:
         description:
           type: string
           title: Description
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputTcpjson:
       type: object
       required:
@@ -15640,7 +15718,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -15714,6 +15792,9 @@ components:
           type: string
           title: Auth token (text secret)
           description: Select or create a stored text secret
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputSystemMetrics:
       type: object
       properties:
@@ -15758,7 +15839,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         interval:
@@ -16058,6 +16139,9 @@ components:
           title: Description
       required:
         - type
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputSystemState:
       type: object
       properties:
@@ -16102,7 +16186,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         interval:
@@ -16267,6 +16351,9 @@ components:
           title: Description
       required:
         - type
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputKubeMetrics:
       type: object
       properties:
@@ -16311,7 +16398,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         interval:
@@ -16373,6 +16460,9 @@ components:
           title: Description
       required:
         - type
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputKubeLogs:
       type: object
       properties:
@@ -16417,7 +16507,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         interval:
@@ -16482,6 +16572,9 @@ components:
           title: Description
       required:
         - type
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputKubeEvents:
       type: object
       properties:
@@ -16526,7 +16619,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         rules:
@@ -16547,6 +16640,9 @@ components:
           title: Description
       required:
         - type
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputWindowsMetrics:
       type: object
       properties:
@@ -16591,7 +16687,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         interval:
@@ -16821,6 +16917,9 @@ components:
           title: Description
       required:
         - type
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputCrowdstrike:
       type: object
       required:
@@ -16868,7 +16967,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         queueName:
@@ -17029,6 +17128,9 @@ components:
           type: string
           title: Tag value
           description: The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation.
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputDatadogAgent:
       type: object
       required:
@@ -17077,7 +17179,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -17184,6 +17286,9 @@ components:
         description:
           type: string
           title: Description
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputDatagen:
       type: object
       required:
@@ -17231,7 +17336,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         samples:
@@ -17262,6 +17367,9 @@ components:
         description:
           type: string
           title: Description
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputHttpRaw:
       type: object
       required:
@@ -17310,7 +17418,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -17439,6 +17547,9 @@ components:
         description:
           type: string
           title: Description
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputKinesis:
       type: object
       required:
@@ -17487,7 +17598,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         streamName:
@@ -17633,6 +17744,9 @@ components:
           type: string
           title: Secret key pair
           description: Select or create a stored secret that references your access key and secret key
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputCriblmetrics:
       type: object
       properties:
@@ -17677,7 +17791,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         prefix:
@@ -17701,6 +17815,9 @@ components:
           title: Description
       required:
         - type
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputMetrics:
       type: object
       required:
@@ -17748,7 +17865,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -17799,6 +17916,9 @@ components:
         description:
           type: string
           title: Description
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputS3:
       type: object
       required:
@@ -17846,7 +17966,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         queueName:
@@ -18024,6 +18144,9 @@ components:
           type: string
           title: Tag value
           description: The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation.
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputS3Inventory:
       type: object
       required:
@@ -18071,7 +18194,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         queueName:
@@ -18258,6 +18381,9 @@ components:
           type: string
           title: Tag value
           description: The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation.
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputSnmp:
       type: object
       required:
@@ -18306,7 +18432,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -18411,6 +18537,9 @@ components:
         description:
           type: string
           title: Description
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputOpenTelemetry:
       type: object
       required:
@@ -18459,7 +18588,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -18639,6 +18768,9 @@ components:
           title: Extract logs
           description: Enable to extract each incoming log record to a separate event
           default: false
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputModelDrivenTelemetry:
       type: object
       required:
@@ -18687,7 +18819,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -18724,6 +18856,9 @@ components:
         description:
           type: string
           title: Description
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputSqs:
       type: object
       required:
@@ -18772,7 +18907,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         queueName:
@@ -18891,6 +19026,9 @@ components:
           default: 3
           minimum: 1
           maximum: 100
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputSyslog:
       type: object
       required:
@@ -18938,7 +19076,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -19067,6 +19205,9 @@ components:
         - required:
             - host
             - tcpPort
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputFile:
       type: object
       properties:
@@ -19110,7 +19251,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         mode:
@@ -19226,6 +19367,9 @@ components:
           description: Stream binary files as Base64-encoded chunks.
       required:
         - type
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputTcp:
       type: object
       required:
@@ -19274,7 +19418,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -19363,6 +19507,9 @@ components:
           type: string
           title: Auth token (text secret)
           description: Select or create a stored text secret
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputAppscope:
       type: object
       required:
@@ -19409,7 +19556,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         ipWhitelistRegex:
@@ -19566,6 +19713,9 @@ components:
           type: string
           title: Auth token (text secret)
           description: Select or create a stored text secret
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputWef:
       type: object
       required:
@@ -19615,7 +19765,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -19893,6 +20043,9 @@ components:
           title: Log CA fingerprint mismatch warning
           description: Log a warning if the client certificate authority (CA) fingerprint does not match the expected value. A mismatch prevents Cribl from receiving events from the Windows Event Forwarder.
           default: false
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputWinEventLogs:
       type: object
       required:
@@ -19940,7 +20093,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         logNames:
@@ -20021,6 +20174,9 @@ components:
           default: true
           title: Render event message strings
           description: Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputRawUdp:
       type: object
       required:
@@ -20069,7 +20225,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -20118,6 +20274,9 @@ components:
         description:
           type: string
           title: Description
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputJournalFiles:
       type: object
       required:
@@ -20165,7 +20324,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         path:
@@ -20224,6 +20383,9 @@ components:
         description:
           type: string
           title: Description
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputWiz:
       type: object
       required:
@@ -20274,7 +20436,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         endpoint:
@@ -20813,6 +20975,9 @@ components:
           type: string
           title: Client Secret (text secret)
           description: Select or create a stored text secret
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputWizWebhook:
       type: object
       required:
@@ -20861,7 +21026,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -20992,6 +21157,9 @@ components:
         description:
           type: string
           title: Description
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputNetflow:
       type: object
       required:
@@ -21040,7 +21208,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -21106,6 +21274,9 @@ components:
         description:
           type: string
           title: Description
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputSecurityLake:
       type: object
       required:
@@ -21153,7 +21324,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         queueName:
@@ -21328,6 +21499,9 @@ components:
           type: string
           title: Tag value
           description: The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation.
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputZscalerHec:
       type: object
       required:
@@ -21377,7 +21551,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -21539,6 +21713,9 @@ components:
         description:
           type: string
           title: Description
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputCloudflareHec:
       type: object
       required:
@@ -21588,7 +21765,7 @@ components:
           title: Use QuickConnect
           description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
           items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
         host:
@@ -21763,6 +21940,9 @@ components:
         description:
           type: string
           title: Description
+      allOf:
+        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
+        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     Input:
       oneOf:
         - $ref: "#/components/schemas/InputCollection"
@@ -23682,6 +23862,238 @@ components:
         pqControls:
           type: object
           title: ""
+      required:
+        - type
+    OutputWizHec:
+      type: object
+      properties:
+        id:
+          type: string
+          title: Output ID
+          description: Unique ID for this output
+        type:
+          type: string
+          enum:
+            - wiz_hec
+        pipeline:
+          type: string
+          title: Pipeline
+          description: Pipeline to process data before sending out to this output
+        systemFields:
+          type: array
+          title: System fields
+          description: Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
+          default:
+            - cribl_pipe
+          items:
+            type: string
+        environment:
+          type: string
+          title: Environment
+          description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
+        streamtags:
+          type: array
+          title: Tags
+          description: Tags for filtering and grouping in @{product}
+          default: []
+          items:
+            type: string
+        loadBalanced:
+          type: boolean
+          title: Load balancing
+          description: Enable for optimal performance. Even if you have one hostname, it can expand to multiple IPs. If disabled, consider enabling round-robin DNS.
+          default: true
+        nextQueue:
+          type: string
+          title: Next Processing Queue
+          description: In the Splunk app, define which Splunk processing queue to send the events after HEC processing.
+          default: indexQueue
+        tcpRouting:
+          type: string
+          title: Default _TCP_ROUTING
+          description: In the Splunk app, set the value of _TCP_ROUTING for events that do not have _ctrl._TCP_ROUTING set.
+          default: nowhere
+        tls:
+          $ref: "#/components/schemas/TlsSettingsClientSideType2"
+        concurrency:
+          type: number
+          title: Request concurrency
+          description: Maximum number of ongoing requests before blocking
+          default: 5
+          minimum: 1
+          maximum: 32
+        maxPayloadSizeKB:
+          type: number
+          title: Body size limit (KB)
+          description: Maximum size, in KB, of the request body
+          default: 4096
+          minimum: 1024
+          maximum: 2.097152e+06
+        maxPayloadEvents:
+          type: number
+          title: Events-per-request limit
+          description: Maximum number of events to include in the request body. Default is 0 (unlimited).
+          default: 0
+          minimum: 0
+        compress:
+          type: boolean
+          default: true
+          title: Compress
+          description: Compress the payload body before sending
+        rejectUnauthorized:
+          type: boolean
+          default: true
+          title: Validate server certs
+          description: "Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's). \n        Enabled by default. When this setting is also present in TLS Settings (Client Side), \n        that value will take precedence."
+        timeoutSec:
+          type: number
+          default: 30
+          minimum: 1
+          maximum: 9.007199254740991e+15
+          title: Request timeout
+          description: Amount of time, in seconds, to wait for a request to complete before canceling it
+        flushPeriodSec:
+          type: number
+          default: 1
+          title: Flush period (sec)
+          description: Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit.
+        extraHttpHeaders:
+          type: array
+          title: Extra HTTP headers
+          description: Headers to add to all events
+          items:
+            $ref: "#/components/schemas/ItemsTypeExtraHttpHeaders"
+        failedRequestLoggingMode:
+          $ref: "#/components/schemas/FailedRequestLoggingModeOptions"
+        safeHeaders:
+          type: array
+          title: Safe headers
+          description: List of headers that are safe to log in plain text
+          default: []
+          items:
+            type: string
+        enableMultiMetrics:
+          type: boolean
+          title: Output multi-metrics
+          description: Output metrics in multiple-metric format
+          default: false
+        authType:
+          $ref: "#/components/schemas/AuthenticationMethodOptionsAuthTokensItems"
+        responseRetrySettings:
+          type: array
+          title: Settings for failed HTTP requests
+          description: Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)
+          minItems: 0
+          default:
+            - httpStatus: 401
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 20000
+            - httpStatus: 403
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 20000
+            - httpStatus: 408
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 429
+              initialBackoff: 1000
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 500
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 502
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 503
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 504
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+            - httpStatus: 509
+              initialBackoff: 250
+              backoffRate: 2
+              maxBackoff: 10000
+          items:
+            $ref: "#/components/schemas/ItemsTypeResponseRetrySettings"
+        timeoutRetrySettings:
+          $ref: "#/components/schemas/TimeoutRetrySettingsType"
+        responseHonorRetryAfterHeader:
+          type: boolean
+          title: Honor Retry-After header
+          description: Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored.
+          default: true
+        onBackpressure:
+          $ref: "#/components/schemas/BackpressureBehaviorOptions"
+        description:
+          type: string
+          title: Description
+        url:
+          type: string
+          title: Endpoint
+          description: URL to an endpoint to send events to, such as http://localhost:8088/services/collector/event
+          default: http://localhost:8088/services/collector/event
+          pattern: ^https?://.*
+        useRoundRobinDns:
+          type: boolean
+          title: Round-robin DNS
+          description: Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations.
+          default: false
+        excludeSelf:
+          type: boolean
+          default: false
+          title: Exclude current host IPs
+          description: Exclude all IPs of the current host from the list of any resolved hostnames
+        urls:
+          type: array
+          title: Endpoints
+          description: ""
+          minItems: 1
+          items:
+            type: object
+            required:
+              - url
+            properties:
+              url:
+                type: string
+                title: Endpoint
+                description: URL to an endpoint to send events to, such as http://localhost:8088/services/collector/event
+                default: http://localhost:8088/services/collector/event
+                pattern: ^https?://.*
+              weight:
+                type: number
+                title: Load Weight
+                description: Assign a weight (>0) to each endpoint to indicate its traffic-handling capability
+                minimum: 0
+                default: 1
+        dnsResolvePeriodSec:
+          type: number
+          default: 600
+          minimum: 0
+          maximum: 86400
+          title: DNS resolution period (seconds)
+          description: The interval in which to re-resolve any hostnames and pick up destinations from A records
+        loadBalanceStatsPeriodSec:
+          type: number
+          default: 300
+          minimum: 10
+          title: Load balance stats period (seconds)
+          description: How far back in time to keep traffic stats for load balancing purposes
+        token:
+          type: string
+          title: Authentication token
+          description: Wiz Defender Auth token
+        textSecret:
+          type: string
+          title: Authentication token (text secret)
+          description: Select or create a stored text secret
       required:
         - type
     OutputTcpjson:
@@ -38038,6 +38450,7 @@ components:
         - $ref: "#/components/schemas/OutputSplunk"
         - $ref: "#/components/schemas/OutputSplunkLb"
         - $ref: "#/components/schemas/OutputSplunkHec"
+        - $ref: "#/components/schemas/OutputWizHec"
         - $ref: "#/components/schemas/OutputTcpjson"
         - $ref: "#/components/schemas/OutputWavefront"
         - $ref: "#/components/schemas/OutputSignalfx"
@@ -38110,6 +38523,7 @@ components:
           splunk: "#/components/schemas/OutputSplunk"
           splunk_lb: "#/components/schemas/OutputSplunkLb"
           splunk_hec: "#/components/schemas/OutputSplunkHec"
+          wiz_hec: "#/components/schemas/OutputWizHec"
           tcpjson: "#/components/schemas/OutputTcpjson"
           wavefront: "#/components/schemas/OutputWavefront"
           signalfx: "#/components/schemas/OutputSignalfx"
@@ -40392,7 +40806,7 @@ components:
                             you can bundle up to five 2MB files into one task. Files greater than this size will be assigned to individual tasks.
                   default: 10MB
                   pattern: ^((\d*\.?\d+)((KB|MB|GB|TB|PB|EB|ZB|YB|kb|mb|gb|tb|pb|eb|zb|yb){1}))$
-    SavedJobCollectionPart0TypeScheduleRun:
+    TypeCollectionConstraint:
       type: object
       properties:
         type:
@@ -40456,10 +40870,8 @@ components:
           type: boolean
           title: Disabled
           description: Whether this group is disabled
-    ItemsTypeConnections:
+    ItemsTypeConnectionsOptional:
       type: object
-      required:
-        - output
       properties:
         pipeline:
           title: Pipeline or Pack
@@ -40491,6 +40903,31 @@ components:
       title: Compression
       description: Codec to use to compress the persisted data
       x-speakeasy-unknown-values: allow
+    SendToRoutesTrueConstraint:
+      properties:
+        sendToRoutes:
+          enum:
+            - true
+      required:
+        - sendToRoutes
+    ItemsTypeConnections:
+      type: object
+      required:
+        - output
+      properties:
+        pipeline:
+          title: Pipeline or Pack
+          type: string
+        output:
+          title: Destination
+          type: string
+    PqEnabledFalseConstraint:
+      properties:
+        pqEnabled:
+          enum:
+            - false
+      required:
+        - pqEnabled
     AuthTypeKafkaSchemaRegistry:
       type: object
       description: Credentials to use when authenticating with the schema registry using basic HTTP authentication
@@ -41655,7 +42092,7 @@ components:
           type: object
           title: Run settings
           allOf:
-            - $ref: "#/components/schemas/SavedJobCollectionPart0TypeScheduleRun"
+            - $ref: "#/components/schemas/TypeCollectionConstraint"
             - $ref: "#/components/schemas/ScheduleTypeRunnableJobCollectionPart1TypeRun"
     AdditionalPropertiesTypeJobInfoStats:
       oneOf:
@@ -41967,6 +42404,19 @@ components:
         pqControls:
           type: object
           title: ""
+    SendToRoutesFalseWithConnectionsConstraint:
+      properties:
+        sendToRoutes:
+          enum:
+            - false
+        connections:
+          type: array
+          title: Use QuickConnect
+          description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
+          items:
+            $ref: "#/components/schemas/ItemsTypeConnections"
+      required:
+        - sendToRoutes
     TlsSettingsClientSideTypeKafkaSchemaRegistry:
       type: object
       title: TLS settings (client side)
@@ -42664,6 +43114,19 @@ components:
                     you can bundle up to five 2MB files into one task. Files greater than this size will be assigned to individual tasks.
           default: 10MB
           pattern: ^((\d*\.?\d+)((KB|MB|GB|TB|PB|EB|ZB|YB|kb|mb|gb|tb|pb|eb|zb|yb){1}))$
+    SendToRoutesUnionConstraint:
+      oneOf:
+        - $ref: "#/components/schemas/SendToRoutesTrueConstraint"
+        - $ref: "#/components/schemas/SendToRoutesFalseWithConnectionsConstraint"
+    PqEnabledTrueWithPqConstraint:
+      properties:
+        pqEnabled:
+          enum:
+            - true
+        pq:
+          $ref: "#/components/schemas/PqType"
+      required:
+        - pqEnabled
     KafkaSchemaRegistryAuthenticationType:
       type: object
       title: Kafka Schema Registry Authentication
@@ -42752,6 +43215,10 @@ components:
           type: number
           title: Default value schema ID
           description: Used when __valueSchemaIdOut is not present, to transform _raw, leave blank if value transformation is not required by default.
+    PqEnabledUnionConstraint:
+      oneOf:
+        - $ref: "#/components/schemas/PqEnabledFalseConstraint"
+        - $ref: "#/components/schemas/PqEnabledTrueWithPqConstraint"
   examples:
     CreateGroupExamplesCloudWg:
       summary: Create a Worker Group in Cribl.Cloud
@@ -43088,12 +43555,16 @@ components:
         type: appscope
         host: 0.0.0.0
         port: 9109
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesAzureBlob:
       summary: Azure Blob
       value:
         id: azure-blob-source
         type: azure_blob
         queueName: azure-blob-queue
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesCloudflareHec:
       summary: Cloudflare HEC
       value:
@@ -43102,6 +43573,8 @@ components:
         host: 0.0.0.0
         port: 8088
         hecAPI: /services/collector
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesConfluentCloud:
       summary: Confluent Cloud
       value:
@@ -43111,12 +43584,15 @@ components:
           - pkc-xxxxx.us-east-1.aws.confluent.cloud:9092
         topics:
           - logs
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesCollection:
       summary: Collection
       value:
         id: collection-source
         type: collection
         sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesCriblHttp:
       summary: Cribl HTTP
       value:
@@ -43124,6 +43600,8 @@ components:
         type: cribl_http
         host: 0.0.0.0
         port: 10080
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesCriblLakeHttp:
       summary: Cribl Lake HTTP
       value:
@@ -43131,6 +43609,8 @@ components:
         type: cribl_lake_http
         host: 0.0.0.0
         port: 10080
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesCriblTcp:
       summary: Cribl TCP
       value:
@@ -43138,6 +43618,8 @@ components:
         type: cribl_tcp
         host: 0.0.0.0
         port: 10090
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesCrowdstrike:
       summary: CrowdStrike FDR
       value:
@@ -43145,6 +43627,8 @@ components:
         type: crowdstrike
         queueName: crowdstrike-queue
         region: us-east-1
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesDatadogAgent:
       summary: Datadog Agent
       value:
@@ -43152,6 +43636,8 @@ components:
         type: datadog_agent
         host: 0.0.0.0
         port: 8126
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesDatagen:
       summary: Datagen
       value:
@@ -43160,6 +43646,8 @@ components:
         samples:
           - sample: sample.json
             eventsPerSec: 10
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesEdgePrometheus:
       summary: Edge Prometheus
       value:
@@ -43172,6 +43660,8 @@ components:
             scrapeProtocol: http
             scrapePort: 9090
             scrapePath: /metrics
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesElastic:
       summary: Elasticsearch
       value:
@@ -43180,6 +43670,8 @@ components:
         host: localhost
         port: 9200
         elasticAPI: /
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesEventhub:
       summary: Event Hubs
       value:
@@ -43189,6 +43681,8 @@ components:
           - myeventhub.servicebus.windows.net:9093
         topics:
           - logs
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesExec:
       summary: Exec
       value:
@@ -43196,12 +43690,16 @@ components:
         type: exec
         command: echo "Hello World"
         interval: 60
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesFile:
       summary: File Monitor
       value:
         id: file-source
         type: file
         mode: manual
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesFirehose:
       summary: Firehose
       value:
@@ -43209,6 +43707,8 @@ components:
         type: firehose
         host: 0.0.0.0
         port: 10080
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesGrafana:
       summary: Grafana
       value:
@@ -43217,6 +43717,8 @@ components:
         host: 0.0.0.0
         port: 10080
         prometheusAPI: /api/prom/push
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesGooglePubsub:
       summary: Google Pub/Sub
       value:
@@ -43224,6 +43726,8 @@ components:
         type: google_pubsub
         subscriptionName: my-subscription
         topicName: my-topic
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesHttp:
       summary: HTTP
       value:
@@ -43231,6 +43735,8 @@ components:
         type: http
         host: 0.0.0.0
         port: 10080
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesHttpRaw:
       summary: HTTP Raw
       value:
@@ -43238,6 +43744,8 @@ components:
         type: http_raw
         host: 0.0.0.0
         port: 10080
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesJournalFiles:
       summary: Journal Files
       value:
@@ -43246,6 +43754,8 @@ components:
         path: /var/log/journal
         journals:
           - system
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesKafka:
       summary: Kafka
       value:
@@ -43255,6 +43765,8 @@ components:
           - localhost:9092
         topics:
           - logs
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesKinesis:
       summary: Kinesis
       value:
@@ -43262,21 +43774,29 @@ components:
         type: kinesis
         streamName: my-stream
         region: us-east-1
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesKubeEvents:
       summary: Kubernetes Events
       value:
         id: kube-events-source
         type: kube_events
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesKubeLogs:
       summary: Kubernetes Logs
       value:
         id: kube-logs-source
         type: kube_logs
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesKubeMetrics:
       summary: Kubernetes Metrics
       value:
         id: kube-metrics-source
         type: kube_metrics
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesLoki:
       summary: Loki
       value:
@@ -43285,6 +43805,8 @@ components:
         host: 0.0.0.0
         port: 10080
         lokiAPI: /loki/api/v1/push
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesMetrics:
       summary: Metrics
       value:
@@ -43292,6 +43814,8 @@ components:
         type: metrics
         host: 0.0.0.0
         udpPort: 8125
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesModelDrivenTelemetry:
       summary: Model Driven Telemetry
       value:
@@ -43299,6 +43823,8 @@ components:
         type: model_driven_telemetry
         host: 0.0.0.0
         port: 57000
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesMsk:
       summary: MSK
       value:
@@ -43310,6 +43836,8 @@ components:
           - logs
         region: us-east-1
         awsAuthenticationMethod: auto
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesNetflow:
       summary: Netflow
       value:
@@ -43317,6 +43845,8 @@ components:
         type: netflow
         host: 0.0.0.0
         port: 2055
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesOffice365Mgmt:
       summary: Office 365 Management Activity
       value:
@@ -43325,6 +43855,8 @@ components:
         tenantId: tenant-id
         appId: app-id
         planType: enterprise_gcc
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesOffice365MsgTrace:
       summary: Office 365 Message Trace
       value:
@@ -43332,6 +43864,8 @@ components:
         type: office365_msg_trace
         url: https://reports.office365.com/ecp/reportingwebservice/reporting.svc/MessageTrace
         interval: 15
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesOffice365Service:
       summary: Office 365 Services
       value:
@@ -43339,6 +43873,8 @@ components:
         type: office365_service
         tenantId: tenant-id
         appId: app-id
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesOpenTelemetry:
       summary: OpenTelemetry
       value:
@@ -43346,6 +43882,8 @@ components:
         type: open_telemetry
         host: 0.0.0.0
         port: 4317
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesPrometheus:
       summary: Prometheus Scraper
       value:
@@ -43356,6 +43894,8 @@ components:
         discoveryType: static
         targetList:
           - http://localhost:9090/metrics
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesPrometheusRw:
       summary: Prometheus Remote Write
       value:
@@ -43364,6 +43904,8 @@ components:
         host: 0.0.0.0
         port: 10080
         prometheusAPI: /write
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesRawUdp:
       summary: Raw UDP
       value:
@@ -43371,6 +43913,8 @@ components:
         type: raw_udp
         host: 0.0.0.0
         port: 514
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesS3:
       summary: S3
       value:
@@ -43378,6 +43922,8 @@ components:
         type: s3
         queueName: s3-notifications-queue
         region: us-east-1
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesS3Inventory:
       summary: S3 Inventory
       value:
@@ -43385,6 +43931,8 @@ components:
         type: s3_inventory
         queueName: s3-inventory-queue
         region: us-east-1
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesSecurityLake:
       summary: Security Lake
       value:
@@ -43392,6 +43940,8 @@ components:
         type: security_lake
         queueName: security-lake-queue
         region: us-east-1
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesSnmp:
       summary: SNMP
       value:
@@ -43399,6 +43949,8 @@ components:
         type: snmp
         host: 192.168.1.1
         port: 161
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesSplunk:
       summary: Splunk TCP
       value:
@@ -43406,6 +43958,8 @@ components:
         type: splunk
         host: 0.0.0.0
         port: 9997
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesSplunkHec:
       summary: Splunk HEC
       value:
@@ -43414,6 +43968,8 @@ components:
         host: 0.0.0.0
         port: 8088
         splunkHecAPI: /services/collector
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesSplunkSearch:
       summary: Splunk Search
       value:
@@ -43424,6 +43980,8 @@ components:
         cronSchedule: 0 * * * *
         endpoint: /services/search/jobs/export
         outputMode: json
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesSqs:
       summary: SQS
       value:
@@ -43432,6 +43990,8 @@ components:
         queueName: my-queue
         queueType: standard
         region: us-east-1
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesSyslog:
       summary: Syslog
       value:
@@ -43439,16 +43999,22 @@ components:
         type: syslog
         host: 0.0.0.0
         udpPort: 514
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesSystemMetrics:
       summary: System Metrics
       value:
         id: system-metrics-source
         type: system_metrics
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesSystemState:
       summary: System State
       value:
         id: system-state-source
         type: system_state
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesTcp:
       summary: TCP
       value:
@@ -43456,6 +44022,8 @@ components:
         type: tcp
         host: 0.0.0.0
         port: 10090
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesTcpjson:
       summary: TCP JSON
       value:
@@ -43463,6 +44031,8 @@ components:
         type: tcpjson
         host: 0.0.0.0
         port: 10090
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesWef:
       summary: Windows Event Forwarder
       value:
@@ -43479,6 +44049,8 @@ components:
             heartbeatInterval: 60
             batchTimeout: 5
             targets: []
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesWinEventLogs:
       summary: Windows Event Logs
       value:
@@ -43487,11 +44059,15 @@ components:
         logNames:
           - Application
           - System
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesWindowsMetrics:
       summary: Windows Metrics
       value:
         id: windows-metrics-source
         type: windows_metrics
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesWiz:
       summary: Wiz API
       value:
@@ -43501,6 +44077,8 @@ components:
         authUrl: https://auth.wiz.io/oauth/token
         clientId: client-id
         contentConfig: []
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesWizWebhook:
       summary: Wiz Webhook
       value:
@@ -43508,6 +44086,8 @@ components:
         type: wiz_webhook
         host: 0.0.0.0
         port: 10080
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesZscalerHec:
       summary: Zscaler Cloud NSS
       value:
@@ -43516,16 +44096,22 @@ components:
         host: 0.0.0.0
         port: 8088
         hecAPI: /services/collector
+        sendToRoutes: true
+        pqEnabled: false
     InputExamplesCribl:
       summary: Cribl Internal
       value:
         id: cribl-source
         type: cribl
+        sendToRoutes: true
+        pqEnabled: false
     InputExamplesCriblMetrics:
       summary: Cribl Metrics
       value:
         id: cribl-metrics-source
         type: criblmetrics
+        sendToRoutes: true
+        pqEnabled: false
     OutputCreateExamplesTcpjson:
       summary: TCP JSON
       value:
@@ -43916,6 +44502,15 @@ components:
         rules:
           - filter: "true"
             output: my-output
+    OutputCreateExamplesWizHec:
+      summary: Wiz Defender
+      value:
+        id: wiz-hec-output
+        type: wiz_hec
+        host: localhost
+        port: 8088
+        authType: manual
+        hecToken: your-hec-token
     OutputCreateExamplesHumioHec:
       summary: Humio HEC
       value:
@@ -46218,6 +46813,8 @@ paths:
                 $ref: "#/components/examples/OutputCreateExamplesRing"
               OutputCreateExamplesRouter:
                 $ref: "#/components/examples/OutputCreateExamplesRouter"
+              OutputCreateExamplesWizHec:
+                $ref: "#/components/examples/OutputCreateExamplesWizHec"
               OutputCreateExamplesHumioHec:
                 $ref: "#/components/examples/OutputCreateExamplesHumioHec"
               OutputCreateExamplesCrowdstrikeNextGenSiem:
@@ -46423,6 +47020,8 @@ paths:
                 $ref: "#/components/examples/OutputCreateExamplesRing"
               OutputCreateExamplesRouter:
                 $ref: "#/components/examples/OutputCreateExamplesRouter"
+              OutputCreateExamplesWizHec:
+                $ref: "#/components/examples/OutputCreateExamplesWizHec"
               OutputCreateExamplesHumioHec:
                 $ref: "#/components/examples/OutputCreateExamplesHumioHec"
               OutputCreateExamplesCrowdstrikeNextGenSiem:

@@ -1,4 +1,4 @@
-# RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalsePaginationEnum
+# RestAuthenticationLoginPaginationEnum
 
 
 ## Values

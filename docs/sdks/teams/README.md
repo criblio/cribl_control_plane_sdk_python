@@ -4,11 +4,11 @@
 
 ### Available Operations
 
-* [get](#get) - Get the Access Control List for teams with permissions on a Worker Group or Edge Fleet for the specified Cribl product
+* [get](#get) - Get the Access Control List for teams with permissions on a Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product
 
 ## get
 
-Get the Access Control List (ACL) for teams that have permissions on a Worker Group or Edge Fleet for the specified Cribl product.
+Get the Access Control List (ACL) for teams that have permissions on a Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product.
 
 ### Example Usage
 
@@ -34,12 +34,12 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                                             | Type                                                                                  | Required                                                                              | Description                                                                           |
-| ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| `product`                                                                             | [models.ProductsCore](../../models/productscore.md)                                   | :heavy_check_mark:                                                                    | Name of the Cribl product that contains the Worker Group or Edge Fleet.               |
-| `id`                                                                                  | *str*                                                                                 | :heavy_check_mark:                                                                    | The <code>id</code> of the Worker Group or Edge Fleet to get the team ACL for.        |
-| `type`                                                                                | [Optional[models.RbacResource]](../../models/rbacresource.md)                         | :heavy_minus_sign:                                                                    | Filter for limiting the response to ACL entries for the specified RBAC resource type. |
-| `retries`                                                                             | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                      | :heavy_minus_sign:                                                                    | Configuration to override the default retry behavior of the client.                   |
+| Parameter                                                                                      | Type                                                                                           | Required                                                                                       | Description                                                                                    |
+| ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `product`                                                                                      | [models.ProductsCore](../../models/productscore.md)                                            | :heavy_check_mark:                                                                             | Name of the Cribl product that contains the Worker Group, Outpost Group, or Edge Fleet.        |
+| `id`                                                                                           | *str*                                                                                          | :heavy_check_mark:                                                                             | The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to get the team ACL for. |
+| `type`                                                                                         | [Optional[models.RbacResource]](../../models/rbacresource.md)                                  | :heavy_minus_sign:                                                                             | Filter for limiting the response to ACL entries for the specified RBAC resource type.          |
+| `retries`                                                                                      | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                               | :heavy_minus_sign:                                                                             | Configuration to override the default retry behavior of the client.                            |
 
 ### Response
 

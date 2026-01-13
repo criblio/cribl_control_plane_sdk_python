@@ -16,7 +16,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class ListConfigGroupByProductRequestTypedDict(TypedDict):
     product: ProductsCore
-    r"""Name of the Cribl product to get the Worker Groups or Edge Fleets for."""
+    r"""Name of the Cribl product to get the Worker Groups, Outpost Groups, or Edge Fleets for."""
     fields: NotRequired[str]
     r"""Comma-separated list of additional properties to include in the response. Available values are <code>git.commit</code>, <code>git.localChanges</code>, and <code>git.log</code>."""
 
@@ -26,7 +26,7 @@ class ListConfigGroupByProductRequest(BaseModel):
         ProductsCore,
         FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
     ]
-    r"""Name of the Cribl product to get the Worker Groups or Edge Fleets for."""
+    r"""Name of the Cribl product to get the Worker Groups, Outpost Groups, or Edge Fleets for."""
 
     fields: Annotated[
         Optional[str],

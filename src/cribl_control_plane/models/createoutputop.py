@@ -3287,7 +3287,7 @@ class CreateOutputOutputXsiam(BaseModel):
 
     max_payload_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = 10000
+    ] = 9500
     r"""Maximum size, in KB, of the request body"""
 
     max_payload_events: Annotated[
@@ -22243,6 +22243,272 @@ class CreateOutputOutputTcpjson(BaseModel):
         return value
 
 
+class CreateOutputTypeWizHec(str, Enum):
+    WIZ_HEC = "wiz_hec"
+
+
+class URLWizHecTypedDict(TypedDict):
+    url: NotRequired[str]
+    r"""URL to an endpoint to send events to, such as http://localhost:8088/services/collector/event"""
+    weight: NotRequired[float]
+    r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
+
+
+class URLWizHec(BaseModel):
+    url: Optional[str] = "http://localhost:8088/services/collector/event"
+    r"""URL to an endpoint to send events to, such as http://localhost:8088/services/collector/event"""
+
+    weight: Optional[float] = 1
+    r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
+
+
+class CreateOutputOutputWizHecTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this output"""
+    type: CreateOutputTypeWizHec
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data before sending out to this output"""
+    system_fields: NotRequired[List[str]]
+    r"""Fields to automatically add to events, such as cribl_pipe. Supports wildcards."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    load_balanced: NotRequired[bool]
+    r"""Enable for optimal performance. Even if you have one hostname, it can expand to multiple IPs. If disabled, consider enabling round-robin DNS."""
+    next_queue: NotRequired[str]
+    r"""In the Splunk app, define which Splunk processing queue to send the events after HEC processing."""
+    tcp_routing: NotRequired[str]
+    r"""In the Splunk app, set the value of _TCP_ROUTING for events that do not have _ctrl._TCP_ROUTING set."""
+    tls: NotRequired[TLSSettingsClientSideType2TypedDict]
+    concurrency: NotRequired[float]
+    r"""Maximum number of ongoing requests before blocking"""
+    max_payload_size_kb: NotRequired[float]
+    r"""Maximum size, in KB, of the request body"""
+    max_payload_events: NotRequired[float]
+    r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
+    compress: NotRequired[bool]
+    r"""Compress the payload body before sending"""
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
+    Enabled by default. When this setting is also present in TLS Settings (Client Side),
+    that value will take precedence.
+    """
+    timeout_sec: NotRequired[float]
+    r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+    flush_period_sec: NotRequired[float]
+    r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
+    extra_http_headers: NotRequired[List[ItemsTypeExtraHTTPHeadersTypedDict]]
+    r"""Headers to add to all events"""
+    failed_request_logging_mode: NotRequired[FailedRequestLoggingModeOptions]
+    r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
+    safe_headers: NotRequired[List[str]]
+    r"""List of headers that are safe to log in plain text"""
+    enable_multi_metrics: NotRequired[bool]
+    r"""Output metrics in multiple-metric format"""
+    auth_type: NotRequired[AuthenticationMethodOptionsAuthTokensItems]
+    r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
+    response_retry_settings: NotRequired[List[ItemsTypeResponseRetrySettingsTypedDict]]
+    r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
+    timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
+    response_honor_retry_after_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
+    on_backpressure: NotRequired[BackpressureBehaviorOptions]
+    r"""How to handle events when all receivers are exerting backpressure"""
+    description: NotRequired[str]
+    url: NotRequired[str]
+    r"""URL to an endpoint to send events to, such as http://localhost:8088/services/collector/event"""
+    use_round_robin_dns: NotRequired[bool]
+    r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
+    exclude_self: NotRequired[bool]
+    r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
+    urls: NotRequired[List[URLWizHecTypedDict]]
+    dns_resolve_period_sec: NotRequired[float]
+    r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
+    load_balance_stats_period_sec: NotRequired[float]
+    r"""How far back in time to keep traffic stats for load balancing purposes"""
+    token: NotRequired[str]
+    r"""Wiz Defender Auth token"""
+    text_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
+
+
+class CreateOutputOutputWizHec(BaseModel):
+    id: str
+    r"""Unique ID for this output"""
+
+    type: CreateOutputTypeWizHec
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data before sending out to this output"""
+
+    system_fields: Annotated[
+        Optional[List[str]], pydantic.Field(alias="systemFields")
+    ] = None
+    r"""Fields to automatically add to events, such as cribl_pipe. Supports wildcards."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    load_balanced: Annotated[Optional[bool], pydantic.Field(alias="loadBalanced")] = (
+        True
+    )
+    r"""Enable for optimal performance. Even if you have one hostname, it can expand to multiple IPs. If disabled, consider enabling round-robin DNS."""
+
+    next_queue: Annotated[Optional[str], pydantic.Field(alias="nextQueue")] = (
+        "indexQueue"
+    )
+    r"""In the Splunk app, define which Splunk processing queue to send the events after HEC processing."""
+
+    tcp_routing: Annotated[Optional[str], pydantic.Field(alias="tcpRouting")] = (
+        "nowhere"
+    )
+    r"""In the Splunk app, set the value of _TCP_ROUTING for events that do not have _ctrl._TCP_ROUTING set."""
+
+    tls: Optional[TLSSettingsClientSideType2] = None
+
+    concurrency: Optional[float] = 5
+    r"""Maximum number of ongoing requests before blocking"""
+
+    max_payload_size_kb: Annotated[
+        Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
+    ] = 4096
+    r"""Maximum size, in KB, of the request body"""
+
+    max_payload_events: Annotated[
+        Optional[float], pydantic.Field(alias="maxPayloadEvents")
+    ] = 0
+    r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
+
+    compress: Optional[bool] = True
+    r"""Compress the payload body before sending"""
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = True
+    r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
+    Enabled by default. When this setting is also present in TLS Settings (Client Side),
+    that value will take precedence.
+    """
+
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 30
+    r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+
+    flush_period_sec: Annotated[
+        Optional[float], pydantic.Field(alias="flushPeriodSec")
+    ] = 1
+    r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
+
+    extra_http_headers: Annotated[
+        Optional[List[ItemsTypeExtraHTTPHeaders]],
+        pydantic.Field(alias="extraHttpHeaders"),
+    ] = None
+    r"""Headers to add to all events"""
+
+    failed_request_logging_mode: Annotated[
+        Optional[FailedRequestLoggingModeOptions],
+        pydantic.Field(alias="failedRequestLoggingMode"),
+    ] = FailedRequestLoggingModeOptions.NONE
+    r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
+
+    safe_headers: Annotated[
+        Optional[List[str]], pydantic.Field(alias="safeHeaders")
+    ] = None
+    r"""List of headers that are safe to log in plain text"""
+
+    enable_multi_metrics: Annotated[
+        Optional[bool], pydantic.Field(alias="enableMultiMetrics")
+    ] = False
+    r"""Output metrics in multiple-metric format"""
+
+    auth_type: Annotated[
+        Optional[AuthenticationMethodOptionsAuthTokensItems],
+        pydantic.Field(alias="authType"),
+    ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
+    r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
+
+    response_retry_settings: Annotated[
+        Optional[List[ItemsTypeResponseRetrySettings]],
+        pydantic.Field(alias="responseRetrySettings"),
+    ] = None
+    r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
+
+    timeout_retry_settings: Annotated[
+        Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
+    ] = None
+
+    response_honor_retry_after_header: Annotated[
+        Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
+    ] = True
+    r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
+
+    on_backpressure: Annotated[
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
+    ] = BackpressureBehaviorOptions.BLOCK
+    r"""How to handle events when all receivers are exerting backpressure"""
+
+    description: Optional[str] = None
+
+    url: Optional[str] = "http://localhost:8088/services/collector/event"
+    r"""URL to an endpoint to send events to, such as http://localhost:8088/services/collector/event"""
+
+    use_round_robin_dns: Annotated[
+        Optional[bool], pydantic.Field(alias="useRoundRobinDns")
+    ] = False
+    r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
+
+    exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = False
+    r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
+
+    urls: Optional[List[URLWizHec]] = None
+
+    dns_resolve_period_sec: Annotated[
+        Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
+    ] = 600
+    r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
+
+    load_balance_stats_period_sec: Annotated[
+        Optional[float], pydantic.Field(alias="loadBalanceStatsPeriodSec")
+    ] = 300
+    r"""How far back in time to keep traffic stats for load balancing purposes"""
+
+    token: Optional[str] = None
+    r"""Wiz Defender Auth token"""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a stored text secret"""
+
+    @field_serializer("failed_request_logging_mode")
+    def serialize_failed_request_logging_mode(self, value):
+        if isinstance(value, str):
+            try:
+                return models.FailedRequestLoggingModeOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("auth_type")
+    def serialize_auth_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.AuthenticationMethodOptionsAuthTokensItems(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("on_backpressure")
+    def serialize_on_backpressure(self, value):
+        if isinstance(value, str):
+            try:
+                return models.BackpressureBehaviorOptions(value)
+            except ValueError:
+                return value
+        return value
+
+
 class CreateOutputTypeSplunkHec(str, Enum):
     SPLUNK_HEC = "splunk_hec"
 
@@ -24906,64 +25172,65 @@ CreateOutputRequestTypedDict = TypeAliasType(
         CreateOutputOutputNetflowTypedDict,
         CreateOutputOutputDiskSpoolTypedDict,
         CreateOutputOutputRingTypedDict,
-        CreateOutputOutputGraphiteTypedDict,
         CreateOutputOutputStatsdExtTypedDict,
         CreateOutputOutputStatsdTypedDict,
+        CreateOutputOutputGraphiteTypedDict,
         CreateOutputOutputGooglePubsubTypedDict,
+        CreateOutputOutputWizHecTypedDict,
         CreateOutputOutputSplunkTypedDict,
         CreateOutputOutputSnsTypedDict,
         CreateOutputOutputCriblTCPTypedDict,
+        CreateOutputOutputExabeamTypedDict,
         CreateOutputOutputAzureEventhubTypedDict,
         CreateOutputOutputCloudwatchTypedDict,
-        CreateOutputOutputExabeamTypedDict,
         CreateOutputOutputMicrosoftFabricTypedDict,
         CreateOutputOutputHoneycombTypedDict,
         CreateOutputOutputSignalfxTypedDict,
         CreateOutputOutputWavefrontTypedDict,
         CreateOutputOutputElasticCloudTypedDict,
-        CreateOutputOutputCrowdstrikeNextGenSiemTypedDict,
         CreateOutputOutputSumoLogicTypedDict,
         CreateOutputOutputTcpjsonTypedDict,
         CreateOutputOutputHumioHecTypedDict,
-        CreateOutputOutputKinesisTypedDict,
-        CreateOutputOutputConfluentCloudTypedDict,
+        CreateOutputOutputCrowdstrikeNextGenSiemTypedDict,
         CreateOutputOutputAzureLogsTypedDict,
         CreateOutputOutputKafkaTypedDict,
         CreateOutputOutputNewrelicEventsTypedDict,
+        CreateOutputOutputKinesisTypedDict,
+        CreateOutputOutputConfluentCloudTypedDict,
         CreateOutputOutputSplunkLbTypedDict,
         CreateOutputOutputSqsTypedDict,
-        CreateOutputOutputFilesystemTypedDict,
         CreateOutputOutputSyslogTypedDict,
+        CreateOutputOutputFilesystemTypedDict,
         CreateOutputOutputNewrelicTypedDict,
         CreateOutputOutputXsiamTypedDict,
+        CreateOutputOutputCriblSearchEngineTypedDict,
         CreateOutputOutputCriblHTTPTypedDict,
         CreateOutputOutputDatasetTypedDict,
-        CreateOutputOutputCriblSearchEngineTypedDict,
         CreateOutputOutputDynatraceHTTPTypedDict,
         CreateOutputOutputLokiTypedDict,
         CreateOutputOutputSplunkHecTypedDict,
-        CreateOutputOutputChronicleTypedDict,
         CreateOutputOutputServiceNowTypedDict,
         CreateOutputOutputDynatraceOtlpTypedDict,
+        CreateOutputOutputChronicleTypedDict,
         CreateOutputOutputCriblLakeTypedDict,
         CreateOutputOutputElasticTypedDict,
-        CreateOutputOutputDatadogTypedDict,
         CreateOutputOutputGoogleChronicleTypedDict,
-        CreateOutputOutputPrometheusTypedDict,
+        CreateOutputOutputDatadogTypedDict,
         CreateOutputOutputDatabricksTypedDict,
-        CreateOutputOutputSentinelOneAiSiemTypedDict,
+        CreateOutputOutputPrometheusTypedDict,
         CreateOutputOutputMskTypedDict,
+        CreateOutputOutputSentinelOneAiSiemTypedDict,
         CreateOutputOutputSentinelTypedDict,
-        CreateOutputOutputInfluxdbTypedDict,
         CreateOutputOutputGoogleCloudStorageTypedDict,
+        CreateOutputOutputInfluxdbTypedDict,
         CreateOutputOutputAzureBlobTypedDict,
-        CreateOutputOutputCloudflareR2TypedDict,
         CreateOutputOutputMinioTypedDict,
+        CreateOutputOutputCloudflareR2TypedDict,
         CreateOutputOutputOpenTelemetryTypedDict,
         CreateOutputOutputSecurityLakeTypedDict,
         CreateOutputOutputClickHouseTypedDict,
-        CreateOutputOutputS3TypedDict,
         CreateOutputOutputDlS3TypedDict,
+        CreateOutputOutputS3TypedDict,
         CreateOutputOutputWebhookTypedDict,
         CreateOutputOutputGoogleCloudLoggingTypedDict,
         CreateOutputOutputAzureDataExplorerTypedDict,
@@ -24983,6 +25250,7 @@ CreateOutputRequest = Annotated[
         Annotated[CreateOutputOutputSplunk, Tag("splunk")],
         Annotated[CreateOutputOutputSplunkLb, Tag("splunk_lb")],
         Annotated[CreateOutputOutputSplunkHec, Tag("splunk_hec")],
+        Annotated[CreateOutputOutputWizHec, Tag("wiz_hec")],
         Annotated[CreateOutputOutputTcpjson, Tag("tcpjson")],
         Annotated[CreateOutputOutputWavefront, Tag("wavefront")],
         Annotated[CreateOutputOutputSignalfx, Tag("signalfx")],

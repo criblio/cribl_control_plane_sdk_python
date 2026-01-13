@@ -53,6 +53,12 @@ value: models.CreateOutputOutputSplunkLb = /* values here */
 value: models.CreateOutputOutputSplunkHec = /* values here */
 ```
 
+### `models.CreateOutputOutputWizHec`
+
+```python
+value: models.CreateOutputOutputWizHec = /* values here */
+```
+
 ### `models.CreateOutputOutputTcpjson`
 
 ```python

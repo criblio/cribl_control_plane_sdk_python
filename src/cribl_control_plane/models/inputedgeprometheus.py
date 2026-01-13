@@ -5,7 +5,10 @@ from .authenticationmethodoptionss3collectorconf import (
     AuthenticationMethodOptionsS3CollectorConf,
 )
 from .diskspoolingtype import DiskSpoolingType, DiskSpoolingTypeTypedDict
-from .itemstypeconnections import ItemsTypeConnections, ItemsTypeConnectionsTypedDict
+from .itemstypeconnectionsoptional import (
+    ItemsTypeConnectionsOptional,
+    ItemsTypeConnectionsOptionalTypedDict,
+)
 from .itemstypenotificationmetadata import (
     ItemsTypeNotificationMetadata,
     ItemsTypeNotificationMetadataTypedDict,
@@ -20,8 +23,8 @@ from cribl_control_plane.types import BaseModel
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from typing import List, Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing import List, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class InputEdgePrometheusType(str, Enum):
@@ -100,8 +103,11 @@ class PodFilter(BaseModel):
     r"""Optional description of this rule's purpose"""
 
 
-class InputEdgePrometheusTypedDict(TypedDict):
+class InputEdgePrometheusPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     type: InputEdgePrometheusType
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -111,11 +117,336 @@ class InputEdgePrometheusTypedDict(TypedDict):
     r"""Select whether to send data to Routes, or directly to Destinations."""
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    dimension_list: NotRequired[List[str]]
+    r"""Other dimensions to include in events"""
+    discovery_type: NotRequired[InputEdgePrometheusDiscoveryType]
+    r"""Target discovery mechanism. Use static to manually enter a list of targets."""
+    interval: NotRequired[float]
+    r"""How often in seconds to scrape targets for metrics."""
+    timeout: NotRequired[float]
+    r"""Timeout, in milliseconds, before aborting HTTP connection attempts; 1-60000 or 0 to disable"""
+    persistence: NotRequired[DiskSpoolingTypeTypedDict]
+    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    r"""Fields to add to events from this input"""
+    auth_type: NotRequired[InputEdgePrometheusAuthenticationMethod]
+    r"""Enter credentials directly, or select a stored secret"""
+    description: NotRequired[str]
+    targets: NotRequired[List[TargetTypedDict]]
+    record_type: NotRequired[RecordTypeOptions]
+    r"""DNS record type to resolve"""
+    scrape_port: NotRequired[float]
+    r"""The port number in the metrics URL for discovered targets."""
+    name_list: NotRequired[List[str]]
+    r"""List of DNS names to resolve"""
+    scrape_protocol: NotRequired[ProtocolOptionsTargetsItems]
+    r"""Protocol to use when collecting metrics"""
+    scrape_path: NotRequired[str]
+    r"""Path to use when collecting metrics from discovered targets"""
+    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+    aws_api_key: NotRequired[str]
+    aws_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your access key and secret key"""
+    use_public_ip: NotRequired[bool]
+    r"""Use public IP address for discovered targets. Disable to use the private IP address."""
+    search_filter: NotRequired[List[ItemsTypeSearchFilterTypedDict]]
+    r"""Filter to apply when searching for EC2 instances"""
+    aws_secret_key: NotRequired[str]
+    region: NotRequired[str]
+    r"""Region where the EC2 is located"""
+    endpoint: NotRequired[str]
+    r"""EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint."""
+    signature_version: NotRequired[SignatureVersionOptions1]
+    r"""Signature version to use for signing EC2 requests"""
+    reuse_connections: NotRequired[bool]
+    r"""Reuse connections between requests, which can improve performance"""
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+    enable_assume_role: NotRequired[bool]
+    r"""Use Assume Role credentials to access EC2"""
+    assume_role_arn: NotRequired[str]
+    r"""Amazon Resource Name (ARN) of the role to assume"""
+    assume_role_external_id: NotRequired[str]
+    r"""External ID to use when assuming role"""
+    duration_seconds: NotRequired[float]
+    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+    scrape_protocol_expr: NotRequired[str]
+    r"""Protocol to use when collecting metrics"""
+    scrape_port_expr: NotRequired[str]
+    r"""The port number in the metrics URL for discovered targets."""
+    scrape_path_expr: NotRequired[str]
+    r"""Path to use when collecting metrics from discovered targets"""
+    pod_filter: NotRequired[List[PodFilterTypedDict]]
+    r"""Add rules to decide which pods to discover for metrics.
+    Pods are searched if no rules are given or of all the rules'
+    expressions evaluate to true.
+
+    """
+    username: NotRequired[str]
+    r"""Username for Prometheus Basic authentication"""
+    password: NotRequired[str]
+    r"""Password for Prometheus Basic authentication"""
+    credentials_secret: NotRequired[str]
+    r"""Select or create a secret that references your credentials"""
+
+
+class InputEdgePrometheusPqEnabledTrueWithPqConstraint(BaseModel):
+    type: InputEdgePrometheusType
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    pq: Optional[PqType] = None
+
+    id: Optional[str] = None
+    r"""Unique ID for this input"""
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    dimension_list: Annotated[
+        Optional[List[str]], pydantic.Field(alias="dimensionList")
+    ] = None
+    r"""Other dimensions to include in events"""
+
+    discovery_type: Annotated[
+        Optional[InputEdgePrometheusDiscoveryType],
+        pydantic.Field(alias="discoveryType"),
+    ] = InputEdgePrometheusDiscoveryType.STATIC
+    r"""Target discovery mechanism. Use static to manually enter a list of targets."""
+
+    interval: Optional[float] = 15
+    r"""How often in seconds to scrape targets for metrics."""
+
+    timeout: Optional[float] = 5000
+    r"""Timeout, in milliseconds, before aborting HTTP connection attempts; 1-60000 or 0 to disable"""
+
+    persistence: Optional[DiskSpoolingType] = None
+
+    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    r"""Fields to add to events from this input"""
+
+    auth_type: Annotated[
+        Optional[InputEdgePrometheusAuthenticationMethod],
+        pydantic.Field(alias="authType"),
+    ] = InputEdgePrometheusAuthenticationMethod.MANUAL
+    r"""Enter credentials directly, or select a stored secret"""
+
+    description: Optional[str] = None
+
+    targets: Optional[List[Target]] = None
+
+    record_type: Annotated[
+        Optional[RecordTypeOptions], pydantic.Field(alias="recordType")
+    ] = RecordTypeOptions.SRV
+    r"""DNS record type to resolve"""
+
+    scrape_port: Annotated[Optional[float], pydantic.Field(alias="scrapePort")] = 9090
+    r"""The port number in the metrics URL for discovered targets."""
+
+    name_list: Annotated[Optional[List[str]], pydantic.Field(alias="nameList")] = None
+    r"""List of DNS names to resolve"""
+
+    scrape_protocol: Annotated[
+        Optional[ProtocolOptionsTargetsItems], pydantic.Field(alias="scrapeProtocol")
+    ] = ProtocolOptionsTargetsItems.HTTP
+    r"""Protocol to use when collecting metrics"""
+
+    scrape_path: Annotated[Optional[str], pydantic.Field(alias="scrapePath")] = (
+        "/metrics"
+    )
+    r"""Path to use when collecting metrics from discovered targets"""
+
+    aws_authentication_method: Annotated[
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        pydantic.Field(alias="awsAuthenticationMethod"),
+    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+
+    aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+
+    aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
+    r"""Select or create a stored secret that references your access key and secret key"""
+
+    use_public_ip: Annotated[Optional[bool], pydantic.Field(alias="usePublicIp")] = True
+    r"""Use public IP address for discovered targets. Disable to use the private IP address."""
+
+    search_filter: Annotated[
+        Optional[List[ItemsTypeSearchFilter]], pydantic.Field(alias="searchFilter")
+    ] = None
+    r"""Filter to apply when searching for EC2 instances"""
+
+    aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
+        None
+    )
+
+    region: Optional[str] = None
+    r"""Region where the EC2 is located"""
+
+    endpoint: Optional[str] = None
+    r"""EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint."""
+
+    signature_version: Annotated[
+        Optional[SignatureVersionOptions1], pydantic.Field(alias="signatureVersion")
+    ] = SignatureVersionOptions1.V4
+    r"""Signature version to use for signing EC2 requests"""
+
+    reuse_connections: Annotated[
+        Optional[bool], pydantic.Field(alias="reuseConnections")
+    ] = True
+    r"""Reuse connections between requests, which can improve performance"""
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = True
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+
+    enable_assume_role: Annotated[
+        Optional[bool], pydantic.Field(alias="enableAssumeRole")
+    ] = False
+    r"""Use Assume Role credentials to access EC2"""
+
+    assume_role_arn: Annotated[Optional[str], pydantic.Field(alias="assumeRoleArn")] = (
+        None
+    )
+    r"""Amazon Resource Name (ARN) of the role to assume"""
+
+    assume_role_external_id: Annotated[
+        Optional[str], pydantic.Field(alias="assumeRoleExternalId")
+    ] = None
+    r"""External ID to use when assuming role"""
+
+    duration_seconds: Annotated[
+        Optional[float], pydantic.Field(alias="durationSeconds")
+    ] = 3600
+    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+
+    scrape_protocol_expr: Annotated[
+        Optional[str], pydantic.Field(alias="scrapeProtocolExpr")
+    ] = "metadata.annotations['prometheus.io/scheme'] || 'http'"
+    r"""Protocol to use when collecting metrics"""
+
+    scrape_port_expr: Annotated[
+        Optional[str], pydantic.Field(alias="scrapePortExpr")
+    ] = "metadata.annotations['prometheus.io/port'] || 9090"
+    r"""The port number in the metrics URL for discovered targets."""
+
+    scrape_path_expr: Annotated[
+        Optional[str], pydantic.Field(alias="scrapePathExpr")
+    ] = "metadata.annotations['prometheus.io/path'] || '/metrics'"
+    r"""Path to use when collecting metrics from discovered targets"""
+
+    pod_filter: Annotated[
+        Optional[List[PodFilter]], pydantic.Field(alias="podFilter")
+    ] = None
+    r"""Add rules to decide which pods to discover for metrics.
+    Pods are searched if no rules are given or of all the rules'
+    expressions evaluate to true.
+
+    """
+
+    username: Optional[str] = None
+    r"""Username for Prometheus Basic authentication"""
+
+    password: Optional[str] = None
+    r"""Password for Prometheus Basic authentication"""
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a secret that references your credentials"""
+
+    @field_serializer("discovery_type")
+    def serialize_discovery_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.InputEdgePrometheusDiscoveryType(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("auth_type")
+    def serialize_auth_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.InputEdgePrometheusAuthenticationMethod(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("record_type")
+    def serialize_record_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RecordTypeOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("scrape_protocol")
+    def serialize_scrape_protocol(self, value):
+        if isinstance(value, str):
+            try:
+                return models.ProtocolOptionsTargetsItems(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("aws_authentication_method")
+    def serialize_aws_authentication_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("signature_version")
+    def serialize_signature_version(self, value):
+        if isinstance(value, str):
+            try:
+                return models.SignatureVersionOptions1(value)
+            except ValueError:
+                return value
+        return value
+
+
+class InputEdgePrometheusPqEnabledFalseConstraintTypedDict(TypedDict):
+    type: InputEdgePrometheusType
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    id: NotRequired[str]
+    r"""Unique ID for this input"""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     dimension_list: NotRequired[List[str]]
@@ -191,8 +522,11 @@ class InputEdgePrometheusTypedDict(TypedDict):
     r"""Select or create a secret that references your credentials"""
 
 
-class InputEdgePrometheus(BaseModel):
+class InputEdgePrometheusPqEnabledFalseConstraint(BaseModel):
     type: InputEdgePrometheusType
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -210,13 +544,10 @@ class InputEdgePrometheus(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
@@ -426,3 +757,681 @@ class InputEdgePrometheus(BaseModel):
             except ValueError:
                 return value
         return value
+
+
+class InputEdgePrometheusSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
+    type: InputEdgePrometheusType
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    id: NotRequired[str]
+    r"""Unique ID for this input"""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    pq: NotRequired[PqTypeTypedDict]
+    dimension_list: NotRequired[List[str]]
+    r"""Other dimensions to include in events"""
+    discovery_type: NotRequired[InputEdgePrometheusDiscoveryType]
+    r"""Target discovery mechanism. Use static to manually enter a list of targets."""
+    interval: NotRequired[float]
+    r"""How often in seconds to scrape targets for metrics."""
+    timeout: NotRequired[float]
+    r"""Timeout, in milliseconds, before aborting HTTP connection attempts; 1-60000 or 0 to disable"""
+    persistence: NotRequired[DiskSpoolingTypeTypedDict]
+    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    r"""Fields to add to events from this input"""
+    auth_type: NotRequired[InputEdgePrometheusAuthenticationMethod]
+    r"""Enter credentials directly, or select a stored secret"""
+    description: NotRequired[str]
+    targets: NotRequired[List[TargetTypedDict]]
+    record_type: NotRequired[RecordTypeOptions]
+    r"""DNS record type to resolve"""
+    scrape_port: NotRequired[float]
+    r"""The port number in the metrics URL for discovered targets."""
+    name_list: NotRequired[List[str]]
+    r"""List of DNS names to resolve"""
+    scrape_protocol: NotRequired[ProtocolOptionsTargetsItems]
+    r"""Protocol to use when collecting metrics"""
+    scrape_path: NotRequired[str]
+    r"""Path to use when collecting metrics from discovered targets"""
+    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+    aws_api_key: NotRequired[str]
+    aws_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your access key and secret key"""
+    use_public_ip: NotRequired[bool]
+    r"""Use public IP address for discovered targets. Disable to use the private IP address."""
+    search_filter: NotRequired[List[ItemsTypeSearchFilterTypedDict]]
+    r"""Filter to apply when searching for EC2 instances"""
+    aws_secret_key: NotRequired[str]
+    region: NotRequired[str]
+    r"""Region where the EC2 is located"""
+    endpoint: NotRequired[str]
+    r"""EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint."""
+    signature_version: NotRequired[SignatureVersionOptions1]
+    r"""Signature version to use for signing EC2 requests"""
+    reuse_connections: NotRequired[bool]
+    r"""Reuse connections between requests, which can improve performance"""
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+    enable_assume_role: NotRequired[bool]
+    r"""Use Assume Role credentials to access EC2"""
+    assume_role_arn: NotRequired[str]
+    r"""Amazon Resource Name (ARN) of the role to assume"""
+    assume_role_external_id: NotRequired[str]
+    r"""External ID to use when assuming role"""
+    duration_seconds: NotRequired[float]
+    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+    scrape_protocol_expr: NotRequired[str]
+    r"""Protocol to use when collecting metrics"""
+    scrape_port_expr: NotRequired[str]
+    r"""The port number in the metrics URL for discovered targets."""
+    scrape_path_expr: NotRequired[str]
+    r"""Path to use when collecting metrics from discovered targets"""
+    pod_filter: NotRequired[List[PodFilterTypedDict]]
+    r"""Add rules to decide which pods to discover for metrics.
+    Pods are searched if no rules are given or of all the rules'
+    expressions evaluate to true.
+
+    """
+    username: NotRequired[str]
+    r"""Username for Prometheus Basic authentication"""
+    password: NotRequired[str]
+    r"""Password for Prometheus Basic authentication"""
+    credentials_secret: NotRequired[str]
+    r"""Select or create a secret that references your credentials"""
+
+
+class InputEdgePrometheusSendToRoutesFalseWithConnectionsConstraint(BaseModel):
+    type: InputEdgePrometheusType
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    id: Optional[str] = None
+    r"""Unique ID for this input"""
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    pq: Optional[PqType] = None
+
+    dimension_list: Annotated[
+        Optional[List[str]], pydantic.Field(alias="dimensionList")
+    ] = None
+    r"""Other dimensions to include in events"""
+
+    discovery_type: Annotated[
+        Optional[InputEdgePrometheusDiscoveryType],
+        pydantic.Field(alias="discoveryType"),
+    ] = InputEdgePrometheusDiscoveryType.STATIC
+    r"""Target discovery mechanism. Use static to manually enter a list of targets."""
+
+    interval: Optional[float] = 15
+    r"""How often in seconds to scrape targets for metrics."""
+
+    timeout: Optional[float] = 5000
+    r"""Timeout, in milliseconds, before aborting HTTP connection attempts; 1-60000 or 0 to disable"""
+
+    persistence: Optional[DiskSpoolingType] = None
+
+    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    r"""Fields to add to events from this input"""
+
+    auth_type: Annotated[
+        Optional[InputEdgePrometheusAuthenticationMethod],
+        pydantic.Field(alias="authType"),
+    ] = InputEdgePrometheusAuthenticationMethod.MANUAL
+    r"""Enter credentials directly, or select a stored secret"""
+
+    description: Optional[str] = None
+
+    targets: Optional[List[Target]] = None
+
+    record_type: Annotated[
+        Optional[RecordTypeOptions], pydantic.Field(alias="recordType")
+    ] = RecordTypeOptions.SRV
+    r"""DNS record type to resolve"""
+
+    scrape_port: Annotated[Optional[float], pydantic.Field(alias="scrapePort")] = 9090
+    r"""The port number in the metrics URL for discovered targets."""
+
+    name_list: Annotated[Optional[List[str]], pydantic.Field(alias="nameList")] = None
+    r"""List of DNS names to resolve"""
+
+    scrape_protocol: Annotated[
+        Optional[ProtocolOptionsTargetsItems], pydantic.Field(alias="scrapeProtocol")
+    ] = ProtocolOptionsTargetsItems.HTTP
+    r"""Protocol to use when collecting metrics"""
+
+    scrape_path: Annotated[Optional[str], pydantic.Field(alias="scrapePath")] = (
+        "/metrics"
+    )
+    r"""Path to use when collecting metrics from discovered targets"""
+
+    aws_authentication_method: Annotated[
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        pydantic.Field(alias="awsAuthenticationMethod"),
+    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+
+    aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+
+    aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
+    r"""Select or create a stored secret that references your access key and secret key"""
+
+    use_public_ip: Annotated[Optional[bool], pydantic.Field(alias="usePublicIp")] = True
+    r"""Use public IP address for discovered targets. Disable to use the private IP address."""
+
+    search_filter: Annotated[
+        Optional[List[ItemsTypeSearchFilter]], pydantic.Field(alias="searchFilter")
+    ] = None
+    r"""Filter to apply when searching for EC2 instances"""
+
+    aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
+        None
+    )
+
+    region: Optional[str] = None
+    r"""Region where the EC2 is located"""
+
+    endpoint: Optional[str] = None
+    r"""EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint."""
+
+    signature_version: Annotated[
+        Optional[SignatureVersionOptions1], pydantic.Field(alias="signatureVersion")
+    ] = SignatureVersionOptions1.V4
+    r"""Signature version to use for signing EC2 requests"""
+
+    reuse_connections: Annotated[
+        Optional[bool], pydantic.Field(alias="reuseConnections")
+    ] = True
+    r"""Reuse connections between requests, which can improve performance"""
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = True
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+
+    enable_assume_role: Annotated[
+        Optional[bool], pydantic.Field(alias="enableAssumeRole")
+    ] = False
+    r"""Use Assume Role credentials to access EC2"""
+
+    assume_role_arn: Annotated[Optional[str], pydantic.Field(alias="assumeRoleArn")] = (
+        None
+    )
+    r"""Amazon Resource Name (ARN) of the role to assume"""
+
+    assume_role_external_id: Annotated[
+        Optional[str], pydantic.Field(alias="assumeRoleExternalId")
+    ] = None
+    r"""External ID to use when assuming role"""
+
+    duration_seconds: Annotated[
+        Optional[float], pydantic.Field(alias="durationSeconds")
+    ] = 3600
+    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+
+    scrape_protocol_expr: Annotated[
+        Optional[str], pydantic.Field(alias="scrapeProtocolExpr")
+    ] = "metadata.annotations['prometheus.io/scheme'] || 'http'"
+    r"""Protocol to use when collecting metrics"""
+
+    scrape_port_expr: Annotated[
+        Optional[str], pydantic.Field(alias="scrapePortExpr")
+    ] = "metadata.annotations['prometheus.io/port'] || 9090"
+    r"""The port number in the metrics URL for discovered targets."""
+
+    scrape_path_expr: Annotated[
+        Optional[str], pydantic.Field(alias="scrapePathExpr")
+    ] = "metadata.annotations['prometheus.io/path'] || '/metrics'"
+    r"""Path to use when collecting metrics from discovered targets"""
+
+    pod_filter: Annotated[
+        Optional[List[PodFilter]], pydantic.Field(alias="podFilter")
+    ] = None
+    r"""Add rules to decide which pods to discover for metrics.
+    Pods are searched if no rules are given or of all the rules'
+    expressions evaluate to true.
+
+    """
+
+    username: Optional[str] = None
+    r"""Username for Prometheus Basic authentication"""
+
+    password: Optional[str] = None
+    r"""Password for Prometheus Basic authentication"""
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a secret that references your credentials"""
+
+    @field_serializer("discovery_type")
+    def serialize_discovery_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.InputEdgePrometheusDiscoveryType(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("auth_type")
+    def serialize_auth_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.InputEdgePrometheusAuthenticationMethod(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("record_type")
+    def serialize_record_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RecordTypeOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("scrape_protocol")
+    def serialize_scrape_protocol(self, value):
+        if isinstance(value, str):
+            try:
+                return models.ProtocolOptionsTargetsItems(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("aws_authentication_method")
+    def serialize_aws_authentication_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("signature_version")
+    def serialize_signature_version(self, value):
+        if isinstance(value, str):
+            try:
+                return models.SignatureVersionOptions1(value)
+            except ValueError:
+                return value
+        return value
+
+
+class InputEdgePrometheusSendToRoutesTrueConstraintTypedDict(TypedDict):
+    type: InputEdgePrometheusType
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    id: NotRequired[str]
+    r"""Unique ID for this input"""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
+    dimension_list: NotRequired[List[str]]
+    r"""Other dimensions to include in events"""
+    discovery_type: NotRequired[InputEdgePrometheusDiscoveryType]
+    r"""Target discovery mechanism. Use static to manually enter a list of targets."""
+    interval: NotRequired[float]
+    r"""How often in seconds to scrape targets for metrics."""
+    timeout: NotRequired[float]
+    r"""Timeout, in milliseconds, before aborting HTTP connection attempts; 1-60000 or 0 to disable"""
+    persistence: NotRequired[DiskSpoolingTypeTypedDict]
+    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    r"""Fields to add to events from this input"""
+    auth_type: NotRequired[InputEdgePrometheusAuthenticationMethod]
+    r"""Enter credentials directly, or select a stored secret"""
+    description: NotRequired[str]
+    targets: NotRequired[List[TargetTypedDict]]
+    record_type: NotRequired[RecordTypeOptions]
+    r"""DNS record type to resolve"""
+    scrape_port: NotRequired[float]
+    r"""The port number in the metrics URL for discovered targets."""
+    name_list: NotRequired[List[str]]
+    r"""List of DNS names to resolve"""
+    scrape_protocol: NotRequired[ProtocolOptionsTargetsItems]
+    r"""Protocol to use when collecting metrics"""
+    scrape_path: NotRequired[str]
+    r"""Path to use when collecting metrics from discovered targets"""
+    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+    aws_api_key: NotRequired[str]
+    aws_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your access key and secret key"""
+    use_public_ip: NotRequired[bool]
+    r"""Use public IP address for discovered targets. Disable to use the private IP address."""
+    search_filter: NotRequired[List[ItemsTypeSearchFilterTypedDict]]
+    r"""Filter to apply when searching for EC2 instances"""
+    aws_secret_key: NotRequired[str]
+    region: NotRequired[str]
+    r"""Region where the EC2 is located"""
+    endpoint: NotRequired[str]
+    r"""EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint."""
+    signature_version: NotRequired[SignatureVersionOptions1]
+    r"""Signature version to use for signing EC2 requests"""
+    reuse_connections: NotRequired[bool]
+    r"""Reuse connections between requests, which can improve performance"""
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+    enable_assume_role: NotRequired[bool]
+    r"""Use Assume Role credentials to access EC2"""
+    assume_role_arn: NotRequired[str]
+    r"""Amazon Resource Name (ARN) of the role to assume"""
+    assume_role_external_id: NotRequired[str]
+    r"""External ID to use when assuming role"""
+    duration_seconds: NotRequired[float]
+    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+    scrape_protocol_expr: NotRequired[str]
+    r"""Protocol to use when collecting metrics"""
+    scrape_port_expr: NotRequired[str]
+    r"""The port number in the metrics URL for discovered targets."""
+    scrape_path_expr: NotRequired[str]
+    r"""Path to use when collecting metrics from discovered targets"""
+    pod_filter: NotRequired[List[PodFilterTypedDict]]
+    r"""Add rules to decide which pods to discover for metrics.
+    Pods are searched if no rules are given or of all the rules'
+    expressions evaluate to true.
+
+    """
+    username: NotRequired[str]
+    r"""Username for Prometheus Basic authentication"""
+    password: NotRequired[str]
+    r"""Password for Prometheus Basic authentication"""
+    credentials_secret: NotRequired[str]
+    r"""Select or create a secret that references your credentials"""
+
+
+class InputEdgePrometheusSendToRoutesTrueConstraint(BaseModel):
+    type: InputEdgePrometheusType
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    id: Optional[str] = None
+    r"""Unique ID for this input"""
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
+
+    dimension_list: Annotated[
+        Optional[List[str]], pydantic.Field(alias="dimensionList")
+    ] = None
+    r"""Other dimensions to include in events"""
+
+    discovery_type: Annotated[
+        Optional[InputEdgePrometheusDiscoveryType],
+        pydantic.Field(alias="discoveryType"),
+    ] = InputEdgePrometheusDiscoveryType.STATIC
+    r"""Target discovery mechanism. Use static to manually enter a list of targets."""
+
+    interval: Optional[float] = 15
+    r"""How often in seconds to scrape targets for metrics."""
+
+    timeout: Optional[float] = 5000
+    r"""Timeout, in milliseconds, before aborting HTTP connection attempts; 1-60000 or 0 to disable"""
+
+    persistence: Optional[DiskSpoolingType] = None
+
+    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    r"""Fields to add to events from this input"""
+
+    auth_type: Annotated[
+        Optional[InputEdgePrometheusAuthenticationMethod],
+        pydantic.Field(alias="authType"),
+    ] = InputEdgePrometheusAuthenticationMethod.MANUAL
+    r"""Enter credentials directly, or select a stored secret"""
+
+    description: Optional[str] = None
+
+    targets: Optional[List[Target]] = None
+
+    record_type: Annotated[
+        Optional[RecordTypeOptions], pydantic.Field(alias="recordType")
+    ] = RecordTypeOptions.SRV
+    r"""DNS record type to resolve"""
+
+    scrape_port: Annotated[Optional[float], pydantic.Field(alias="scrapePort")] = 9090
+    r"""The port number in the metrics URL for discovered targets."""
+
+    name_list: Annotated[Optional[List[str]], pydantic.Field(alias="nameList")] = None
+    r"""List of DNS names to resolve"""
+
+    scrape_protocol: Annotated[
+        Optional[ProtocolOptionsTargetsItems], pydantic.Field(alias="scrapeProtocol")
+    ] = ProtocolOptionsTargetsItems.HTTP
+    r"""Protocol to use when collecting metrics"""
+
+    scrape_path: Annotated[Optional[str], pydantic.Field(alias="scrapePath")] = (
+        "/metrics"
+    )
+    r"""Path to use when collecting metrics from discovered targets"""
+
+    aws_authentication_method: Annotated[
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        pydantic.Field(alias="awsAuthenticationMethod"),
+    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+
+    aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+
+    aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
+    r"""Select or create a stored secret that references your access key and secret key"""
+
+    use_public_ip: Annotated[Optional[bool], pydantic.Field(alias="usePublicIp")] = True
+    r"""Use public IP address for discovered targets. Disable to use the private IP address."""
+
+    search_filter: Annotated[
+        Optional[List[ItemsTypeSearchFilter]], pydantic.Field(alias="searchFilter")
+    ] = None
+    r"""Filter to apply when searching for EC2 instances"""
+
+    aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
+        None
+    )
+
+    region: Optional[str] = None
+    r"""Region where the EC2 is located"""
+
+    endpoint: Optional[str] = None
+    r"""EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint."""
+
+    signature_version: Annotated[
+        Optional[SignatureVersionOptions1], pydantic.Field(alias="signatureVersion")
+    ] = SignatureVersionOptions1.V4
+    r"""Signature version to use for signing EC2 requests"""
+
+    reuse_connections: Annotated[
+        Optional[bool], pydantic.Field(alias="reuseConnections")
+    ] = True
+    r"""Reuse connections between requests, which can improve performance"""
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = True
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+
+    enable_assume_role: Annotated[
+        Optional[bool], pydantic.Field(alias="enableAssumeRole")
+    ] = False
+    r"""Use Assume Role credentials to access EC2"""
+
+    assume_role_arn: Annotated[Optional[str], pydantic.Field(alias="assumeRoleArn")] = (
+        None
+    )
+    r"""Amazon Resource Name (ARN) of the role to assume"""
+
+    assume_role_external_id: Annotated[
+        Optional[str], pydantic.Field(alias="assumeRoleExternalId")
+    ] = None
+    r"""External ID to use when assuming role"""
+
+    duration_seconds: Annotated[
+        Optional[float], pydantic.Field(alias="durationSeconds")
+    ] = 3600
+    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+
+    scrape_protocol_expr: Annotated[
+        Optional[str], pydantic.Field(alias="scrapeProtocolExpr")
+    ] = "metadata.annotations['prometheus.io/scheme'] || 'http'"
+    r"""Protocol to use when collecting metrics"""
+
+    scrape_port_expr: Annotated[
+        Optional[str], pydantic.Field(alias="scrapePortExpr")
+    ] = "metadata.annotations['prometheus.io/port'] || 9090"
+    r"""The port number in the metrics URL for discovered targets."""
+
+    scrape_path_expr: Annotated[
+        Optional[str], pydantic.Field(alias="scrapePathExpr")
+    ] = "metadata.annotations['prometheus.io/path'] || '/metrics'"
+    r"""Path to use when collecting metrics from discovered targets"""
+
+    pod_filter: Annotated[
+        Optional[List[PodFilter]], pydantic.Field(alias="podFilter")
+    ] = None
+    r"""Add rules to decide which pods to discover for metrics.
+    Pods are searched if no rules are given or of all the rules'
+    expressions evaluate to true.
+
+    """
+
+    username: Optional[str] = None
+    r"""Username for Prometheus Basic authentication"""
+
+    password: Optional[str] = None
+    r"""Password for Prometheus Basic authentication"""
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a secret that references your credentials"""
+
+    @field_serializer("discovery_type")
+    def serialize_discovery_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.InputEdgePrometheusDiscoveryType(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("auth_type")
+    def serialize_auth_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.InputEdgePrometheusAuthenticationMethod(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("record_type")
+    def serialize_record_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RecordTypeOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("scrape_protocol")
+    def serialize_scrape_protocol(self, value):
+        if isinstance(value, str):
+            try:
+                return models.ProtocolOptionsTargetsItems(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("aws_authentication_method")
+    def serialize_aws_authentication_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("signature_version")
+    def serialize_signature_version(self, value):
+        if isinstance(value, str):
+            try:
+                return models.SignatureVersionOptions1(value)
+            except ValueError:
+                return value
+        return value
+
+
+InputEdgePrometheusTypedDict = TypeAliasType(
+    "InputEdgePrometheusTypedDict",
+    Union[
+        InputEdgePrometheusSendToRoutesTrueConstraintTypedDict,
+        InputEdgePrometheusSendToRoutesFalseWithConnectionsConstraintTypedDict,
+        InputEdgePrometheusPqEnabledFalseConstraintTypedDict,
+        InputEdgePrometheusPqEnabledTrueWithPqConstraintTypedDict,
+    ],
+)
+
+
+InputEdgePrometheus = TypeAliasType(
+    "InputEdgePrometheus",
+    Union[
+        InputEdgePrometheusSendToRoutesTrueConstraint,
+        InputEdgePrometheusSendToRoutesFalseWithConnectionsConstraint,
+        InputEdgePrometheusPqEnabledFalseConstraint,
+        InputEdgePrometheusPqEnabledTrueWithPqConstraint,
+    ],
+)

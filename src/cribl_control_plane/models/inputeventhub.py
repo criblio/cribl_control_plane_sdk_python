@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 from .authenticationtype1 import AuthenticationType1, AuthenticationType1TypedDict
-from .itemstypeconnections import ItemsTypeConnections, ItemsTypeConnectionsTypedDict
+from .itemstypeconnectionsoptional import (
+    ItemsTypeConnectionsOptional,
+    ItemsTypeConnectionsOptionalTypedDict,
+)
 from .itemstypenotificationmetadata import (
     ItemsTypeNotificationMetadata,
     ItemsTypeNotificationMetadataTypedDict,
@@ -15,20 +18,23 @@ from .tlssettingsclientsidetype import (
 from cribl_control_plane.types import BaseModel
 from enum import Enum
 import pydantic
-from typing import List, Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing import List, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class InputEventhubType(str, Enum):
     EVENTHUB = "eventhub"
 
 
-class InputEventhubTypedDict(TypedDict):
+class InputEventhubPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     type: InputEventhubType
     brokers: List[str]
     r"""List of Event Hubs Kafka brokers to connect to (example: yourdomain.servicebus.windows.net:9093). The hostname can be found in the host portion of the primary or secondary connection string in Shared Access Policies."""
     topics: List[str]
     r"""The name of the Event Hub (Kafka topic) to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Event Hubs Source to only a single topic."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -38,11 +44,228 @@ class InputEventhubTypedDict(TypedDict):
     r"""Select whether to send data to Routes, or directly to Destinations."""
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsTypedDict]]
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    group_id: NotRequired[str]
+    r"""The consumer group this instance belongs to. Default is 'Cribl'."""
+    from_beginning: NotRequired[bool]
+    r"""Start reading from earliest available data; relevant only during initial subscription"""
+    connection_timeout: NotRequired[float]
+    r"""Maximum time to wait for a connection to complete successfully"""
+    request_timeout: NotRequired[float]
+    r"""Maximum time to wait for Kafka to respond to a request"""
+    max_retries: NotRequired[float]
+    r"""If messages are failing, you can set the maximum number of retries as high as 100 to prevent loss of data"""
+    max_back_off: NotRequired[float]
+    r"""The maximum wait time for a retry, in milliseconds. Default (and minimum) is 30,000 ms (30 seconds); maximum is 180,000 ms (180 seconds)."""
+    initial_backoff: NotRequired[float]
+    r"""Initial value used to calculate the retry, in milliseconds. Maximum is 600,000 ms (10 minutes)."""
+    backoff_rate: NotRequired[float]
+    r"""Set the backoff multiplier (2-20) to control the retry frequency for failed messages. For faster retries, use a lower multiplier. For slower retries with more delay between attempts, use a higher multiplier. The multiplier is used in an exponential backoff formula; see the Kafka [documentation](https://kafka.js.org/docs/retry-detailed) for details."""
+    authentication_timeout: NotRequired[float]
+    r"""Maximum time to wait for Kafka to respond to an authentication request"""
+    reauthentication_threshold: NotRequired[float]
+    r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
+    sasl: NotRequired[AuthenticationType1TypedDict]
+    r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
+    tls: NotRequired[TLSSettingsClientSideTypeTypedDict]
+    session_timeout: NotRequired[float]
+    r"""Timeout (session.timeout.ms in Kafka domain) used to detect client failures when using Kafka's group-management facilities.
+    If the client sends no heartbeats to the broker before the timeout expires, the broker will remove the client from the group and initiate a rebalance.
+    Value must be lower than rebalanceTimeout.
+    See details [here](https://github.com/Azure/azure-event-hubs-for-kafka/blob/master/CONFIGURATION.md).
+    """
+    rebalance_timeout: NotRequired[float]
+    r"""Maximum allowed time (rebalance.timeout.ms in Kafka domain) for each worker to join the group after a rebalance begins.
+    If the timeout is exceeded, the coordinator broker will remove the worker from the group.
+    See [Recommended configurations](https://github.com/Azure/azure-event-hubs-for-kafka/blob/master/CONFIGURATION.md).
+    """
+    heartbeat_interval: NotRequired[float]
+    r"""Expected time (heartbeat.interval.ms in Kafka domain) between heartbeats to the consumer coordinator when using Kafka's group-management facilities.
+    Value must be lower than sessionTimeout and typically should not exceed 1/3 of the sessionTimeout value.
+    See [Recommended configurations](https://github.com/Azure/azure-event-hubs-for-kafka/blob/master/CONFIGURATION.md).
+    """
+    auto_commit_interval: NotRequired[float]
+    r"""How often to commit offsets. If both this and Offset commit threshold are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
+    auto_commit_threshold: NotRequired[float]
+    r"""How many events are needed to trigger an offset commit. If both this and Offset commit interval are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
+    max_bytes_per_partition: NotRequired[float]
+    r"""Maximum amount of data that Kafka will return per partition, per fetch request. Must equal or exceed the maximum message size (maxBytesPerPartition) that Kafka is configured to allow. Otherwise, @{product} can get stuck trying to retrieve messages. Defaults to 1048576 (1 MB)."""
+    max_bytes: NotRequired[float]
+    r"""Maximum number of bytes that Kafka will return per fetch request. Defaults to 10485760 (10 MB)."""
+    max_socket_errors: NotRequired[float]
+    r"""Maximum number of network errors before the consumer re-creates a socket"""
+    minimize_duplicates: NotRequired[bool]
+    r"""Minimize duplicate events by starting only one consumer for each topic partition"""
+    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    r"""Fields to add to events from this input"""
+    description: NotRequired[str]
+
+
+class InputEventhubPqEnabledTrueWithPqConstraint(BaseModel):
+    type: InputEventhubType
+
+    brokers: List[str]
+    r"""List of Event Hubs Kafka brokers to connect to (example: yourdomain.servicebus.windows.net:9093). The hostname can be found in the host portion of the primary or secondary connection string in Shared Access Policies."""
+
+    topics: List[str]
+    r"""The name of the Event Hub (Kafka topic) to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Event Hubs Source to only a single topic."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    pq: Optional[PqType] = None
+
+    id: Optional[str] = None
+    r"""Unique ID for this input"""
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = "Cribl"
+    r"""The consumer group this instance belongs to. Default is 'Cribl'."""
+
+    from_beginning: Annotated[Optional[bool], pydantic.Field(alias="fromBeginning")] = (
+        True
+    )
+    r"""Start reading from earliest available data; relevant only during initial subscription"""
+
+    connection_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="connectionTimeout")
+    ] = 10000
+    r"""Maximum time to wait for a connection to complete successfully"""
+
+    request_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="requestTimeout")
+    ] = 60000
+    r"""Maximum time to wait for Kafka to respond to a request"""
+
+    max_retries: Annotated[Optional[float], pydantic.Field(alias="maxRetries")] = 5
+    r"""If messages are failing, you can set the maximum number of retries as high as 100 to prevent loss of data"""
+
+    max_back_off: Annotated[Optional[float], pydantic.Field(alias="maxBackOff")] = 30000
+    r"""The maximum wait time for a retry, in milliseconds. Default (and minimum) is 30,000 ms (30 seconds); maximum is 180,000 ms (180 seconds)."""
+
+    initial_backoff: Annotated[
+        Optional[float], pydantic.Field(alias="initialBackoff")
+    ] = 300
+    r"""Initial value used to calculate the retry, in milliseconds. Maximum is 600,000 ms (10 minutes)."""
+
+    backoff_rate: Annotated[Optional[float], pydantic.Field(alias="backoffRate")] = 2
+    r"""Set the backoff multiplier (2-20) to control the retry frequency for failed messages. For faster retries, use a lower multiplier. For slower retries with more delay between attempts, use a higher multiplier. The multiplier is used in an exponential backoff formula; see the Kafka [documentation](https://kafka.js.org/docs/retry-detailed) for details."""
+
+    authentication_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="authenticationTimeout")
+    ] = 10000
+    r"""Maximum time to wait for Kafka to respond to an authentication request"""
+
+    reauthentication_threshold: Annotated[
+        Optional[float], pydantic.Field(alias="reauthenticationThreshold")
+    ] = 10000
+    r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
+
+    sasl: Optional[AuthenticationType1] = None
+    r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
+
+    tls: Optional[TLSSettingsClientSideType] = None
+
+    session_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="sessionTimeout")
+    ] = 30000
+    r"""Timeout (session.timeout.ms in Kafka domain) used to detect client failures when using Kafka's group-management facilities.
+    If the client sends no heartbeats to the broker before the timeout expires, the broker will remove the client from the group and initiate a rebalance.
+    Value must be lower than rebalanceTimeout.
+    See details [here](https://github.com/Azure/azure-event-hubs-for-kafka/blob/master/CONFIGURATION.md).
+    """
+
+    rebalance_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="rebalanceTimeout")
+    ] = 60000
+    r"""Maximum allowed time (rebalance.timeout.ms in Kafka domain) for each worker to join the group after a rebalance begins.
+    If the timeout is exceeded, the coordinator broker will remove the worker from the group.
+    See [Recommended configurations](https://github.com/Azure/azure-event-hubs-for-kafka/blob/master/CONFIGURATION.md).
+    """
+
+    heartbeat_interval: Annotated[
+        Optional[float], pydantic.Field(alias="heartbeatInterval")
+    ] = 3000
+    r"""Expected time (heartbeat.interval.ms in Kafka domain) between heartbeats to the consumer coordinator when using Kafka's group-management facilities.
+    Value must be lower than sessionTimeout and typically should not exceed 1/3 of the sessionTimeout value.
+    See [Recommended configurations](https://github.com/Azure/azure-event-hubs-for-kafka/blob/master/CONFIGURATION.md).
+    """
+
+    auto_commit_interval: Annotated[
+        Optional[float], pydantic.Field(alias="autoCommitInterval")
+    ] = None
+    r"""How often to commit offsets. If both this and Offset commit threshold are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
+
+    auto_commit_threshold: Annotated[
+        Optional[float], pydantic.Field(alias="autoCommitThreshold")
+    ] = None
+    r"""How many events are needed to trigger an offset commit. If both this and Offset commit interval are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
+
+    max_bytes_per_partition: Annotated[
+        Optional[float], pydantic.Field(alias="maxBytesPerPartition")
+    ] = 1048576
+    r"""Maximum amount of data that Kafka will return per partition, per fetch request. Must equal or exceed the maximum message size (maxBytesPerPartition) that Kafka is configured to allow. Otherwise, @{product} can get stuck trying to retrieve messages. Defaults to 1048576 (1 MB)."""
+
+    max_bytes: Annotated[Optional[float], pydantic.Field(alias="maxBytes")] = 10485760
+    r"""Maximum number of bytes that Kafka will return per fetch request. Defaults to 10485760 (10 MB)."""
+
+    max_socket_errors: Annotated[
+        Optional[float], pydantic.Field(alias="maxSocketErrors")
+    ] = 0
+    r"""Maximum number of network errors before the consumer re-creates a socket"""
+
+    minimize_duplicates: Annotated[
+        Optional[bool], pydantic.Field(alias="minimizeDuplicates")
+    ] = False
+    r"""Minimize duplicate events by starting only one consumer for each topic partition"""
+
+    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    r"""Fields to add to events from this input"""
+
+    description: Optional[str] = None
+
+
+class InputEventhubPqEnabledFalseConstraintTypedDict(TypedDict):
+    type: InputEventhubType
+    brokers: List[str]
+    r"""List of Event Hubs Kafka brokers to connect to (example: yourdomain.servicebus.windows.net:9093). The hostname can be found in the host portion of the primary or secondary connection string in Shared Access Policies."""
+    topics: List[str]
+    r"""The name of the Event Hub (Kafka topic) to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Event Hubs Source to only a single topic."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    id: NotRequired[str]
+    r"""Unique ID for this input"""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     group_id: NotRequired[str]
@@ -101,7 +324,7 @@ class InputEventhubTypedDict(TypedDict):
     description: NotRequired[str]
 
 
-class InputEventhub(BaseModel):
+class InputEventhubPqEnabledFalseConstraint(BaseModel):
     type: InputEventhubType
 
     brokers: List[str]
@@ -109,6 +332,9 @@ class InputEventhub(BaseModel):
 
     topics: List[str]
     r"""The name of the Event Hub (Kafka topic) to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Event Hubs Source to only a single topic."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -126,13 +352,10 @@ class InputEventhub(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    connections: Optional[List[ItemsTypeConnections]] = None
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
@@ -241,3 +464,465 @@ class InputEventhub(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+
+
+class InputEventhubSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
+    type: InputEventhubType
+    brokers: List[str]
+    r"""List of Event Hubs Kafka brokers to connect to (example: yourdomain.servicebus.windows.net:9093). The hostname can be found in the host portion of the primary or secondary connection string in Shared Access Policies."""
+    topics: List[str]
+    r"""The name of the Event Hub (Kafka topic) to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Event Hubs Source to only a single topic."""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    id: NotRequired[str]
+    r"""Unique ID for this input"""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    pq: NotRequired[PqTypeTypedDict]
+    group_id: NotRequired[str]
+    r"""The consumer group this instance belongs to. Default is 'Cribl'."""
+    from_beginning: NotRequired[bool]
+    r"""Start reading from earliest available data; relevant only during initial subscription"""
+    connection_timeout: NotRequired[float]
+    r"""Maximum time to wait for a connection to complete successfully"""
+    request_timeout: NotRequired[float]
+    r"""Maximum time to wait for Kafka to respond to a request"""
+    max_retries: NotRequired[float]
+    r"""If messages are failing, you can set the maximum number of retries as high as 100 to prevent loss of data"""
+    max_back_off: NotRequired[float]
+    r"""The maximum wait time for a retry, in milliseconds. Default (and minimum) is 30,000 ms (30 seconds); maximum is 180,000 ms (180 seconds)."""
+    initial_backoff: NotRequired[float]
+    r"""Initial value used to calculate the retry, in milliseconds. Maximum is 600,000 ms (10 minutes)."""
+    backoff_rate: NotRequired[float]
+    r"""Set the backoff multiplier (2-20) to control the retry frequency for failed messages. For faster retries, use a lower multiplier. For slower retries with more delay between attempts, use a higher multiplier. The multiplier is used in an exponential backoff formula; see the Kafka [documentation](https://kafka.js.org/docs/retry-detailed) for details."""
+    authentication_timeout: NotRequired[float]
+    r"""Maximum time to wait for Kafka to respond to an authentication request"""
+    reauthentication_threshold: NotRequired[float]
+    r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
+    sasl: NotRequired[AuthenticationType1TypedDict]
+    r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
+    tls: NotRequired[TLSSettingsClientSideTypeTypedDict]
+    session_timeout: NotRequired[float]
+    r"""Timeout (session.timeout.ms in Kafka domain) used to detect client failures when using Kafka's group-management facilities.
+    If the client sends no heartbeats to the broker before the timeout expires, the broker will remove the client from the group and initiate a rebalance.
+    Value must be lower than rebalanceTimeout.
+    See details [here](https://github.com/Azure/azure-event-hubs-for-kafka/blob/master/CONFIGURATION.md).
+    """
+    rebalance_timeout: NotRequired[float]
+    r"""Maximum allowed time (rebalance.timeout.ms in Kafka domain) for each worker to join the group after a rebalance begins.
+    If the timeout is exceeded, the coordinator broker will remove the worker from the group.
+    See [Recommended configurations](https://github.com/Azure/azure-event-hubs-for-kafka/blob/master/CONFIGURATION.md).
+    """
+    heartbeat_interval: NotRequired[float]
+    r"""Expected time (heartbeat.interval.ms in Kafka domain) between heartbeats to the consumer coordinator when using Kafka's group-management facilities.
+    Value must be lower than sessionTimeout and typically should not exceed 1/3 of the sessionTimeout value.
+    See [Recommended configurations](https://github.com/Azure/azure-event-hubs-for-kafka/blob/master/CONFIGURATION.md).
+    """
+    auto_commit_interval: NotRequired[float]
+    r"""How often to commit offsets. If both this and Offset commit threshold are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
+    auto_commit_threshold: NotRequired[float]
+    r"""How many events are needed to trigger an offset commit. If both this and Offset commit interval are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
+    max_bytes_per_partition: NotRequired[float]
+    r"""Maximum amount of data that Kafka will return per partition, per fetch request. Must equal or exceed the maximum message size (maxBytesPerPartition) that Kafka is configured to allow. Otherwise, @{product} can get stuck trying to retrieve messages. Defaults to 1048576 (1 MB)."""
+    max_bytes: NotRequired[float]
+    r"""Maximum number of bytes that Kafka will return per fetch request. Defaults to 10485760 (10 MB)."""
+    max_socket_errors: NotRequired[float]
+    r"""Maximum number of network errors before the consumer re-creates a socket"""
+    minimize_duplicates: NotRequired[bool]
+    r"""Minimize duplicate events by starting only one consumer for each topic partition"""
+    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    r"""Fields to add to events from this input"""
+    description: NotRequired[str]
+
+
+class InputEventhubSendToRoutesFalseWithConnectionsConstraint(BaseModel):
+    type: InputEventhubType
+
+    brokers: List[str]
+    r"""List of Event Hubs Kafka brokers to connect to (example: yourdomain.servicebus.windows.net:9093). The hostname can be found in the host portion of the primary or secondary connection string in Shared Access Policies."""
+
+    topics: List[str]
+    r"""The name of the Event Hub (Kafka topic) to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Event Hubs Source to only a single topic."""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    id: Optional[str] = None
+    r"""Unique ID for this input"""
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    pq: Optional[PqType] = None
+
+    group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = "Cribl"
+    r"""The consumer group this instance belongs to. Default is 'Cribl'."""
+
+    from_beginning: Annotated[Optional[bool], pydantic.Field(alias="fromBeginning")] = (
+        True
+    )
+    r"""Start reading from earliest available data; relevant only during initial subscription"""
+
+    connection_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="connectionTimeout")
+    ] = 10000
+    r"""Maximum time to wait for a connection to complete successfully"""
+
+    request_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="requestTimeout")
+    ] = 60000
+    r"""Maximum time to wait for Kafka to respond to a request"""
+
+    max_retries: Annotated[Optional[float], pydantic.Field(alias="maxRetries")] = 5
+    r"""If messages are failing, you can set the maximum number of retries as high as 100 to prevent loss of data"""
+
+    max_back_off: Annotated[Optional[float], pydantic.Field(alias="maxBackOff")] = 30000
+    r"""The maximum wait time for a retry, in milliseconds. Default (and minimum) is 30,000 ms (30 seconds); maximum is 180,000 ms (180 seconds)."""
+
+    initial_backoff: Annotated[
+        Optional[float], pydantic.Field(alias="initialBackoff")
+    ] = 300
+    r"""Initial value used to calculate the retry, in milliseconds. Maximum is 600,000 ms (10 minutes)."""
+
+    backoff_rate: Annotated[Optional[float], pydantic.Field(alias="backoffRate")] = 2
+    r"""Set the backoff multiplier (2-20) to control the retry frequency for failed messages. For faster retries, use a lower multiplier. For slower retries with more delay between attempts, use a higher multiplier. The multiplier is used in an exponential backoff formula; see the Kafka [documentation](https://kafka.js.org/docs/retry-detailed) for details."""
+
+    authentication_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="authenticationTimeout")
+    ] = 10000
+    r"""Maximum time to wait for Kafka to respond to an authentication request"""
+
+    reauthentication_threshold: Annotated[
+        Optional[float], pydantic.Field(alias="reauthenticationThreshold")
+    ] = 10000
+    r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
+
+    sasl: Optional[AuthenticationType1] = None
+    r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
+
+    tls: Optional[TLSSettingsClientSideType] = None
+
+    session_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="sessionTimeout")
+    ] = 30000
+    r"""Timeout (session.timeout.ms in Kafka domain) used to detect client failures when using Kafka's group-management facilities.
+    If the client sends no heartbeats to the broker before the timeout expires, the broker will remove the client from the group and initiate a rebalance.
+    Value must be lower than rebalanceTimeout.
+    See details [here](https://github.com/Azure/azure-event-hubs-for-kafka/blob/master/CONFIGURATION.md).
+    """
+
+    rebalance_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="rebalanceTimeout")
+    ] = 60000
+    r"""Maximum allowed time (rebalance.timeout.ms in Kafka domain) for each worker to join the group after a rebalance begins.
+    If the timeout is exceeded, the coordinator broker will remove the worker from the group.
+    See [Recommended configurations](https://github.com/Azure/azure-event-hubs-for-kafka/blob/master/CONFIGURATION.md).
+    """
+
+    heartbeat_interval: Annotated[
+        Optional[float], pydantic.Field(alias="heartbeatInterval")
+    ] = 3000
+    r"""Expected time (heartbeat.interval.ms in Kafka domain) between heartbeats to the consumer coordinator when using Kafka's group-management facilities.
+    Value must be lower than sessionTimeout and typically should not exceed 1/3 of the sessionTimeout value.
+    See [Recommended configurations](https://github.com/Azure/azure-event-hubs-for-kafka/blob/master/CONFIGURATION.md).
+    """
+
+    auto_commit_interval: Annotated[
+        Optional[float], pydantic.Field(alias="autoCommitInterval")
+    ] = None
+    r"""How often to commit offsets. If both this and Offset commit threshold are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
+
+    auto_commit_threshold: Annotated[
+        Optional[float], pydantic.Field(alias="autoCommitThreshold")
+    ] = None
+    r"""How many events are needed to trigger an offset commit. If both this and Offset commit interval are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
+
+    max_bytes_per_partition: Annotated[
+        Optional[float], pydantic.Field(alias="maxBytesPerPartition")
+    ] = 1048576
+    r"""Maximum amount of data that Kafka will return per partition, per fetch request. Must equal or exceed the maximum message size (maxBytesPerPartition) that Kafka is configured to allow. Otherwise, @{product} can get stuck trying to retrieve messages. Defaults to 1048576 (1 MB)."""
+
+    max_bytes: Annotated[Optional[float], pydantic.Field(alias="maxBytes")] = 10485760
+    r"""Maximum number of bytes that Kafka will return per fetch request. Defaults to 10485760 (10 MB)."""
+
+    max_socket_errors: Annotated[
+        Optional[float], pydantic.Field(alias="maxSocketErrors")
+    ] = 0
+    r"""Maximum number of network errors before the consumer re-creates a socket"""
+
+    minimize_duplicates: Annotated[
+        Optional[bool], pydantic.Field(alias="minimizeDuplicates")
+    ] = False
+    r"""Minimize duplicate events by starting only one consumer for each topic partition"""
+
+    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    r"""Fields to add to events from this input"""
+
+    description: Optional[str] = None
+
+
+class InputEventhubSendToRoutesTrueConstraintTypedDict(TypedDict):
+    type: InputEventhubType
+    brokers: List[str]
+    r"""List of Event Hubs Kafka brokers to connect to (example: yourdomain.servicebus.windows.net:9093). The hostname can be found in the host portion of the primary or secondary connection string in Shared Access Policies."""
+    topics: List[str]
+    r"""The name of the Event Hub (Kafka topic) to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Event Hubs Source to only a single topic."""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    id: NotRequired[str]
+    r"""Unique ID for this input"""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
+    group_id: NotRequired[str]
+    r"""The consumer group this instance belongs to. Default is 'Cribl'."""
+    from_beginning: NotRequired[bool]
+    r"""Start reading from earliest available data; relevant only during initial subscription"""
+    connection_timeout: NotRequired[float]
+    r"""Maximum time to wait for a connection to complete successfully"""
+    request_timeout: NotRequired[float]
+    r"""Maximum time to wait for Kafka to respond to a request"""
+    max_retries: NotRequired[float]
+    r"""If messages are failing, you can set the maximum number of retries as high as 100 to prevent loss of data"""
+    max_back_off: NotRequired[float]
+    r"""The maximum wait time for a retry, in milliseconds. Default (and minimum) is 30,000 ms (30 seconds); maximum is 180,000 ms (180 seconds)."""
+    initial_backoff: NotRequired[float]
+    r"""Initial value used to calculate the retry, in milliseconds. Maximum is 600,000 ms (10 minutes)."""
+    backoff_rate: NotRequired[float]
+    r"""Set the backoff multiplier (2-20) to control the retry frequency for failed messages. For faster retries, use a lower multiplier. For slower retries with more delay between attempts, use a higher multiplier. The multiplier is used in an exponential backoff formula; see the Kafka [documentation](https://kafka.js.org/docs/retry-detailed) for details."""
+    authentication_timeout: NotRequired[float]
+    r"""Maximum time to wait for Kafka to respond to an authentication request"""
+    reauthentication_threshold: NotRequired[float]
+    r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
+    sasl: NotRequired[AuthenticationType1TypedDict]
+    r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
+    tls: NotRequired[TLSSettingsClientSideTypeTypedDict]
+    session_timeout: NotRequired[float]
+    r"""Timeout (session.timeout.ms in Kafka domain) used to detect client failures when using Kafka's group-management facilities.
+    If the client sends no heartbeats to the broker before the timeout expires, the broker will remove the client from the group and initiate a rebalance.
+    Value must be lower than rebalanceTimeout.
+    See details [here](https://github.com/Azure/azure-event-hubs-for-kafka/blob/master/CONFIGURATION.md).
+    """
+    rebalance_timeout: NotRequired[float]
+    r"""Maximum allowed time (rebalance.timeout.ms in Kafka domain) for each worker to join the group after a rebalance begins.
+    If the timeout is exceeded, the coordinator broker will remove the worker from the group.
+    See [Recommended configurations](https://github.com/Azure/azure-event-hubs-for-kafka/blob/master/CONFIGURATION.md).
+    """
+    heartbeat_interval: NotRequired[float]
+    r"""Expected time (heartbeat.interval.ms in Kafka domain) between heartbeats to the consumer coordinator when using Kafka's group-management facilities.
+    Value must be lower than sessionTimeout and typically should not exceed 1/3 of the sessionTimeout value.
+    See [Recommended configurations](https://github.com/Azure/azure-event-hubs-for-kafka/blob/master/CONFIGURATION.md).
+    """
+    auto_commit_interval: NotRequired[float]
+    r"""How often to commit offsets. If both this and Offset commit threshold are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
+    auto_commit_threshold: NotRequired[float]
+    r"""How many events are needed to trigger an offset commit. If both this and Offset commit interval are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
+    max_bytes_per_partition: NotRequired[float]
+    r"""Maximum amount of data that Kafka will return per partition, per fetch request. Must equal or exceed the maximum message size (maxBytesPerPartition) that Kafka is configured to allow. Otherwise, @{product} can get stuck trying to retrieve messages. Defaults to 1048576 (1 MB)."""
+    max_bytes: NotRequired[float]
+    r"""Maximum number of bytes that Kafka will return per fetch request. Defaults to 10485760 (10 MB)."""
+    max_socket_errors: NotRequired[float]
+    r"""Maximum number of network errors before the consumer re-creates a socket"""
+    minimize_duplicates: NotRequired[bool]
+    r"""Minimize duplicate events by starting only one consumer for each topic partition"""
+    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    r"""Fields to add to events from this input"""
+    description: NotRequired[str]
+
+
+class InputEventhubSendToRoutesTrueConstraint(BaseModel):
+    type: InputEventhubType
+
+    brokers: List[str]
+    r"""List of Event Hubs Kafka brokers to connect to (example: yourdomain.servicebus.windows.net:9093). The hostname can be found in the host portion of the primary or secondary connection string in Shared Access Policies."""
+
+    topics: List[str]
+    r"""The name of the Event Hub (Kafka topic) to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Event Hubs Source to only a single topic."""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        True
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    id: Optional[str] = None
+    r"""Unique ID for this input"""
+
+    disabled: Optional[bool] = False
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
+
+    group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = "Cribl"
+    r"""The consumer group this instance belongs to. Default is 'Cribl'."""
+
+    from_beginning: Annotated[Optional[bool], pydantic.Field(alias="fromBeginning")] = (
+        True
+    )
+    r"""Start reading from earliest available data; relevant only during initial subscription"""
+
+    connection_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="connectionTimeout")
+    ] = 10000
+    r"""Maximum time to wait for a connection to complete successfully"""
+
+    request_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="requestTimeout")
+    ] = 60000
+    r"""Maximum time to wait for Kafka to respond to a request"""
+
+    max_retries: Annotated[Optional[float], pydantic.Field(alias="maxRetries")] = 5
+    r"""If messages are failing, you can set the maximum number of retries as high as 100 to prevent loss of data"""
+
+    max_back_off: Annotated[Optional[float], pydantic.Field(alias="maxBackOff")] = 30000
+    r"""The maximum wait time for a retry, in milliseconds. Default (and minimum) is 30,000 ms (30 seconds); maximum is 180,000 ms (180 seconds)."""
+
+    initial_backoff: Annotated[
+        Optional[float], pydantic.Field(alias="initialBackoff")
+    ] = 300
+    r"""Initial value used to calculate the retry, in milliseconds. Maximum is 600,000 ms (10 minutes)."""
+
+    backoff_rate: Annotated[Optional[float], pydantic.Field(alias="backoffRate")] = 2
+    r"""Set the backoff multiplier (2-20) to control the retry frequency for failed messages. For faster retries, use a lower multiplier. For slower retries with more delay between attempts, use a higher multiplier. The multiplier is used in an exponential backoff formula; see the Kafka [documentation](https://kafka.js.org/docs/retry-detailed) for details."""
+
+    authentication_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="authenticationTimeout")
+    ] = 10000
+    r"""Maximum time to wait for Kafka to respond to an authentication request"""
+
+    reauthentication_threshold: Annotated[
+        Optional[float], pydantic.Field(alias="reauthenticationThreshold")
+    ] = 10000
+    r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
+
+    sasl: Optional[AuthenticationType1] = None
+    r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
+
+    tls: Optional[TLSSettingsClientSideType] = None
+
+    session_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="sessionTimeout")
+    ] = 30000
+    r"""Timeout (session.timeout.ms in Kafka domain) used to detect client failures when using Kafka's group-management facilities.
+    If the client sends no heartbeats to the broker before the timeout expires, the broker will remove the client from the group and initiate a rebalance.
+    Value must be lower than rebalanceTimeout.
+    See details [here](https://github.com/Azure/azure-event-hubs-for-kafka/blob/master/CONFIGURATION.md).
+    """
+
+    rebalance_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="rebalanceTimeout")
+    ] = 60000
+    r"""Maximum allowed time (rebalance.timeout.ms in Kafka domain) for each worker to join the group after a rebalance begins.
+    If the timeout is exceeded, the coordinator broker will remove the worker from the group.
+    See [Recommended configurations](https://github.com/Azure/azure-event-hubs-for-kafka/blob/master/CONFIGURATION.md).
+    """
+
+    heartbeat_interval: Annotated[
+        Optional[float], pydantic.Field(alias="heartbeatInterval")
+    ] = 3000
+    r"""Expected time (heartbeat.interval.ms in Kafka domain) between heartbeats to the consumer coordinator when using Kafka's group-management facilities.
+    Value must be lower than sessionTimeout and typically should not exceed 1/3 of the sessionTimeout value.
+    See [Recommended configurations](https://github.com/Azure/azure-event-hubs-for-kafka/blob/master/CONFIGURATION.md).
+    """
+
+    auto_commit_interval: Annotated[
+        Optional[float], pydantic.Field(alias="autoCommitInterval")
+    ] = None
+    r"""How often to commit offsets. If both this and Offset commit threshold are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
+
+    auto_commit_threshold: Annotated[
+        Optional[float], pydantic.Field(alias="autoCommitThreshold")
+    ] = None
+    r"""How many events are needed to trigger an offset commit. If both this and Offset commit interval are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
+
+    max_bytes_per_partition: Annotated[
+        Optional[float], pydantic.Field(alias="maxBytesPerPartition")
+    ] = 1048576
+    r"""Maximum amount of data that Kafka will return per partition, per fetch request. Must equal or exceed the maximum message size (maxBytesPerPartition) that Kafka is configured to allow. Otherwise, @{product} can get stuck trying to retrieve messages. Defaults to 1048576 (1 MB)."""
+
+    max_bytes: Annotated[Optional[float], pydantic.Field(alias="maxBytes")] = 10485760
+    r"""Maximum number of bytes that Kafka will return per fetch request. Defaults to 10485760 (10 MB)."""
+
+    max_socket_errors: Annotated[
+        Optional[float], pydantic.Field(alias="maxSocketErrors")
+    ] = 0
+    r"""Maximum number of network errors before the consumer re-creates a socket"""
+
+    minimize_duplicates: Annotated[
+        Optional[bool], pydantic.Field(alias="minimizeDuplicates")
+    ] = False
+    r"""Minimize duplicate events by starting only one consumer for each topic partition"""
+
+    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    r"""Fields to add to events from this input"""
+
+    description: Optional[str] = None
+
+
+InputEventhubTypedDict = TypeAliasType(
+    "InputEventhubTypedDict",
+    Union[
+        InputEventhubSendToRoutesTrueConstraintTypedDict,
+        InputEventhubSendToRoutesFalseWithConnectionsConstraintTypedDict,
+        InputEventhubPqEnabledFalseConstraintTypedDict,
+        InputEventhubPqEnabledTrueWithPqConstraintTypedDict,
+    ],
+)
+
+
+InputEventhub = TypeAliasType(
+    "InputEventhub",
+    Union[
+        InputEventhubSendToRoutesTrueConstraint,
+        InputEventhubSendToRoutesFalseWithConnectionsConstraint,
+        InputEventhubPqEnabledFalseConstraint,
+        InputEventhubPqEnabledTrueWithPqConstraint,
+    ],
+)

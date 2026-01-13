@@ -51,6 +51,12 @@ value: models.OutputSplunkLb = /* values here */
 value: models.OutputSplunkHec = /* values here */
 ```
 
+### `models.OutputWizHec`
+
+```python
+value: models.OutputWizHec = /* values here */
+```
+
 ### `models.OutputTcpjson`
 
 ```python

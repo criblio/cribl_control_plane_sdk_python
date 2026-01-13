@@ -13,9 +13,9 @@ from typing_extensions import Annotated, TypedDict
 
 class UpdateConfigGroupByProductAndIDRequestTypedDict(TypedDict):
     product: ProductsCore
-    r"""Name of the Cribl product to get the Worker Groups or Edge Fleets for."""
+    r"""Name of the Cribl product to get the Worker Groups, Outpost Groups, or Edge Fleets for."""
     id_param: str
-    r"""The <code>id</code> of the Worker Group or Edge Fleet to update."""
+    r"""The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to update."""
     config_group: ConfigGroupTypedDict
     r"""ConfigGroup object"""
 
@@ -25,14 +25,14 @@ class UpdateConfigGroupByProductAndIDRequest(BaseModel):
         ProductsCore,
         FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
     ]
-    r"""Name of the Cribl product to get the Worker Groups or Edge Fleets for."""
+    r"""Name of the Cribl product to get the Worker Groups, Outpost Groups, or Edge Fleets for."""
 
     id_param: Annotated[
         str,
         pydantic.Field(alias="id"),
         FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
     ]
-    r"""The <code>id</code> of the Worker Group or Edge Fleet to update."""
+    r"""The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to update."""
 
     config_group: Annotated[
         ConfigGroup,

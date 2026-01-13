@@ -7,6 +7,7 @@ from enum import Enum
 
 class TypeOptionsConfigGroup(str, Enum, metaclass=utils.OpenEnumMeta):
     EDGE = "edge"
+    OUTPOST = "outpost"
     STREAM = "stream"
     SEARCH = "search"
     LAKE_ACCESS = "lake_access"

@@ -1,4 +1,4 @@
-# RestAuthenticationLoginGetAuthTokenFromHeaderFalseCollectMethod
+# RestAuthenticationLoginCollectMethod
 
 
 ## Values

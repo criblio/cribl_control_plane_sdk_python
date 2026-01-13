@@ -21,12 +21,12 @@ class Teams(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedTeamAccessControlList:
-        r"""Get the Access Control List for teams with permissions on a Worker Group or Edge Fleet for the specified Cribl product
+        r"""Get the Access Control List for teams with permissions on a Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product
 
-        Get the Access Control List (ACL) for teams that have permissions on a Worker Group or Edge Fleet for the specified Cribl product.
+        Get the Access Control List (ACL) for teams that have permissions on a Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product.
 
-        :param product: Name of the Cribl product that contains the Worker Group or Edge Fleet.
-        :param id: The <code>id</code> of the Worker Group or Edge Fleet to get the team ACL for.
+        :param product: Name of the Cribl product that contains the Worker Group, Outpost Group, or Edge Fleet.
+        :param id: The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to get the team ACL for.
         :param type: Filter for limiting the response to ACL entries for the specified RBAC resource type.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -121,12 +121,12 @@ class Teams(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedTeamAccessControlList:
-        r"""Get the Access Control List for teams with permissions on a Worker Group or Edge Fleet for the specified Cribl product
+        r"""Get the Access Control List for teams with permissions on a Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product
 
-        Get the Access Control List (ACL) for teams that have permissions on a Worker Group or Edge Fleet for the specified Cribl product.
+        Get the Access Control List (ACL) for teams that have permissions on a Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product.
 
-        :param product: Name of the Cribl product that contains the Worker Group or Edge Fleet.
-        :param id: The <code>id</code> of the Worker Group or Edge Fleet to get the team ACL for.
+        :param product: Name of the Cribl product that contains the Worker Group, Outpost Group, or Edge Fleet.
+        :param id: The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to get the team ACL for.
         :param type: Filter for limiting the response to ACL entries for the specified RBAC resource type.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method

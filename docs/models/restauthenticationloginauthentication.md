@@ -1,4 +1,4 @@
-# RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueAuthentication
+# RestAuthenticationLoginAuthentication
 
 Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers.
 

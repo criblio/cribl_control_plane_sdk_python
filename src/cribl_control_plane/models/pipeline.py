@@ -12,7 +12,7 @@ from typing import Dict, List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class ConfTypedDict(TypedDict):
+class PipelineConfTypedDict(TypedDict):
     async_func_timeout: NotRequired[int]
     r"""Time (in ms) to wait for an async function to complete processing of a data item"""
     output: NotRequired[str]
@@ -25,7 +25,7 @@ class ConfTypedDict(TypedDict):
     groups: NotRequired[Dict[str, AdditionalPropertiesTypePipelineConfGroupsTypedDict]]
 
 
-class Conf(BaseModel):
+class PipelineConf(BaseModel):
     async_func_timeout: Annotated[
         Optional[int], pydantic.Field(alias="asyncFuncTimeout")
     ] = None
@@ -47,10 +47,10 @@ class Conf(BaseModel):
 
 class PipelineTypedDict(TypedDict):
     id: str
-    conf: ConfTypedDict
+    conf: PipelineConfTypedDict
 
 
 class Pipeline(BaseModel):
     id: str
 
-    conf: Conf
+    conf: PipelineConf

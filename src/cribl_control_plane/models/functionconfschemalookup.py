@@ -7,14 +7,14 @@ from typing import Any, List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class InFieldTypedDict(TypedDict):
+class FunctionConfSchemaLookupInFieldTypedDict(TypedDict):
     event_field: str
     r"""Field name as it appears in events"""
     lookup_field: NotRequired[str]
     r"""Optional: The field name as it appears in the lookup file. Defaults to event field name"""
 
 
-class InField(BaseModel):
+class FunctionConfSchemaLookupInField(BaseModel):
     event_field: Annotated[str, pydantic.Field(alias="eventField")]
     r"""Field name as it appears in events"""
 
@@ -22,7 +22,7 @@ class InField(BaseModel):
     r"""Optional: The field name as it appears in the lookup file. Defaults to event field name"""
 
 
-class OutFieldTypedDict(TypedDict):
+class FunctionConfSchemaLookupOutFieldTypedDict(TypedDict):
     lookup_field: str
     r"""The field name as it appears in the lookup file"""
     event_field: NotRequired[str]
@@ -31,7 +31,7 @@ class OutFieldTypedDict(TypedDict):
     r"""Optional: Value to assign if lookup entry is not found"""
 
 
-class OutField(BaseModel):
+class FunctionConfSchemaLookupOutField(BaseModel):
     lookup_field: Annotated[str, pydantic.Field(alias="lookupField")]
     r"""The field name as it appears in the lookup file"""
 
@@ -50,9 +50,9 @@ class FunctionConfSchemaLookupTypedDict(TypedDict):
     match_mode: NotRequired[Any]
     match_type: NotRequired[Any]
     reload_period_sec: NotRequired[Any]
-    in_fields: NotRequired[List[InFieldTypedDict]]
+    in_fields: NotRequired[List[FunctionConfSchemaLookupInFieldTypedDict]]
     r"""Fields that should be used to key into the lookup table"""
-    out_fields: NotRequired[List[OutFieldTypedDict]]
+    out_fields: NotRequired[List[FunctionConfSchemaLookupOutFieldTypedDict]]
     r"""Fields to add to events after matching lookup. Defaults to all if not specified."""
     add_to_event: NotRequired[bool]
     r"""Add the looked-up values to _raw, as key=value pairs"""
@@ -74,13 +74,15 @@ class FunctionConfSchemaLookup(BaseModel):
         Optional[Any], pydantic.Field(alias="reloadPeriodSec")
     ] = None
 
-    in_fields: Annotated[Optional[List[InField]], pydantic.Field(alias="inFields")] = (
-        None
-    )
+    in_fields: Annotated[
+        Optional[List[FunctionConfSchemaLookupInField]],
+        pydantic.Field(alias="inFields"),
+    ] = None
     r"""Fields that should be used to key into the lookup table"""
 
     out_fields: Annotated[
-        Optional[List[OutField]], pydantic.Field(alias="outFields")
+        Optional[List[FunctionConfSchemaLookupOutField]],
+        pydantic.Field(alias="outFields"),
     ] = None
     r"""Fields to add to events after matching lookup. Defaults to all if not specified."""
 

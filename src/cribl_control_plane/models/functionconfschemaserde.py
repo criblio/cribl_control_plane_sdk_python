@@ -11,7 +11,7 @@ from typing import Any, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class OperationMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class FunctionConfSchemaSerdeOperationMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Extract creates new fields. Reserialize extracts and filters fields, and then reserializes."""
 
     # Extract
@@ -21,7 +21,7 @@ class OperationMode(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class FunctionConfSchemaSerdeTypedDict(TypedDict):
-    mode: NotRequired[OperationMode]
+    mode: NotRequired[FunctionConfSchemaSerdeOperationMode]
     r"""Extract creates new fields. Reserialize extracts and filters fields, and then reserializes."""
     type: NotRequired[TypeOptions]
     r"""Parser or formatter type to use"""
@@ -37,7 +37,7 @@ class FunctionConfSchemaSerdeTypedDict(TypedDict):
 
 
 class FunctionConfSchemaSerde(BaseModel):
-    mode: Optional[OperationMode] = None
+    mode: Optional[FunctionConfSchemaSerdeOperationMode] = None
     r"""Extract creates new fields. Reserialize extracts and filters fields, and then reserializes."""
 
     type: Optional[TypeOptions] = None
@@ -63,7 +63,7 @@ class FunctionConfSchemaSerde(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.OperationMode(value)
+                return models.FunctionConfSchemaSerdeOperationMode(value)
             except ValueError:
                 return value
         return value

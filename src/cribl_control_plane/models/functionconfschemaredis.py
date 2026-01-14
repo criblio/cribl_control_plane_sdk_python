@@ -10,7 +10,7 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class CommandTypedDict(TypedDict):
+class FunctionConfSchemaRedisCommandTypedDict(TypedDict):
     command: str
     r"""Redis command to perform. For a complete list visit: https://redis.io/commands"""
     key_expr: str
@@ -21,7 +21,7 @@ class CommandTypedDict(TypedDict):
     r"""A JavaScript expression to compute arguments to the operation. Can return an array."""
 
 
-class Command(BaseModel):
+class FunctionConfSchemaRedisCommand(BaseModel):
     command: str
     r"""Redis command to perform. For a complete list visit: https://redis.io/commands"""
 
@@ -35,7 +35,7 @@ class Command(BaseModel):
     r"""A JavaScript expression to compute arguments to the operation. Can return an array."""
 
 
-class DeploymentType(str, Enum, metaclass=utils.OpenEnumMeta):
+class FunctionConfSchemaRedisDeploymentType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How the Redis server is configured. Defaults to Standalone"""
 
     # Standalone
@@ -60,8 +60,8 @@ class FunctionConfSchemaRedisAuthenticationMethod(
 
 
 class FunctionConfSchemaRedisTypedDict(TypedDict):
-    commands: NotRequired[List[CommandTypedDict]]
-    deployment_type: NotRequired[DeploymentType]
+    commands: NotRequired[List[FunctionConfSchemaRedisCommandTypedDict]]
+    deployment_type: NotRequired[FunctionConfSchemaRedisDeploymentType]
     r"""How the Redis server is configured. Defaults to Standalone"""
     auth_type: NotRequired[FunctionConfSchemaRedisAuthenticationMethod]
     max_block_secs: NotRequired[float]
@@ -71,10 +71,11 @@ class FunctionConfSchemaRedisTypedDict(TypedDict):
 
 
 class FunctionConfSchemaRedis(BaseModel):
-    commands: Optional[List[Command]] = None
+    commands: Optional[List[FunctionConfSchemaRedisCommand]] = None
 
     deployment_type: Annotated[
-        Optional[DeploymentType], pydantic.Field(alias="deploymentType")
+        Optional[FunctionConfSchemaRedisDeploymentType],
+        pydantic.Field(alias="deploymentType"),
     ] = None
     r"""How the Redis server is configured. Defaults to Standalone"""
 
@@ -97,7 +98,7 @@ class FunctionConfSchemaRedis(BaseModel):
     def serialize_deployment_type(self, value):
         if isinstance(value, str):
             try:
-                return models.DeploymentType(value)
+                return models.FunctionConfSchemaRedisDeploymentType(value)
             except ValueError:
                 return value
         return value

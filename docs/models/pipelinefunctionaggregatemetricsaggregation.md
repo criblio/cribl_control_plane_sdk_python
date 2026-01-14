@@ -1,0 +1,9 @@
+# PipelineFunctionAggregateMetricsAggregation
+
+
+## Fields
+
+| Field                                                                                                        | Type                                                                                                         | Required                                                                                                     | Description                                                                                                  |
+| ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
+| `metric_type`                                                                                                | [models.PipelineFunctionAggregateMetricsMetricType](../models/pipelinefunctionaggregatemetricsmetrictype.md) | :heavy_check_mark:                                                                                           | The output metric type                                                                                       |
+| `agg`                                                                                                        | *str*                                                                                                        | :heavy_check_mark:                                                                                           | Aggregate function to perform on events. Example: sum(bytes).where(action=='REJECT').as(TotalBytes)          |

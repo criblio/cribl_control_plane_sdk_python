@@ -292,6 +292,8 @@ class InputSystemStatePqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     persistence: NotRequired[InputSystemStatePersistenceTypedDict]
     disable_native_module: NotRequired[bool]
     r"""Enable to use built-in tools (PowerShell) to collect events instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)"""
+    disable_native_last_log_module: NotRequired[bool]
+    r"""Enable to only use non-native API to collect LastLog events. This option will be unavailable in future releases. Please contact Support with any concerns about this deprecation. [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)"""
     description: NotRequired[str]
 
 
@@ -340,6 +342,11 @@ class InputSystemStatePqEnabledTrueWithPqConstraint(BaseModel):
     ] = False
     r"""Enable to use built-in tools (PowerShell) to collect events instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)"""
 
+    disable_native_last_log_module: Annotated[
+        Optional[bool], pydantic.Field(alias="disableNativeLastLogModule")
+    ] = False
+    r"""Enable to only use non-native API to collect LastLog events. This option will be unavailable in future releases. Please contact Support with any concerns about this deprecation. [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)"""
+
     description: Optional[str] = None
 
 
@@ -369,6 +376,8 @@ class InputSystemStatePqEnabledFalseConstraintTypedDict(TypedDict):
     persistence: NotRequired[InputSystemStatePersistenceTypedDict]
     disable_native_module: NotRequired[bool]
     r"""Enable to use built-in tools (PowerShell) to collect events instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)"""
+    disable_native_last_log_module: NotRequired[bool]
+    r"""Enable to only use non-native API to collect LastLog events. This option will be unavailable in future releases. Please contact Support with any concerns about this deprecation. [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)"""
     description: NotRequired[str]
 
 
@@ -417,6 +426,11 @@ class InputSystemStatePqEnabledFalseConstraint(BaseModel):
     ] = False
     r"""Enable to use built-in tools (PowerShell) to collect events instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)"""
 
+    disable_native_last_log_module: Annotated[
+        Optional[bool], pydantic.Field(alias="disableNativeLastLogModule")
+    ] = False
+    r"""Enable to only use non-native API to collect LastLog events. This option will be unavailable in future releases. Please contact Support with any concerns about this deprecation. [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)"""
+
     description: Optional[str] = None
 
 
@@ -446,6 +460,8 @@ class InputSystemStateSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedD
     persistence: NotRequired[InputSystemStatePersistenceTypedDict]
     disable_native_module: NotRequired[bool]
     r"""Enable to use built-in tools (PowerShell) to collect events instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)"""
+    disable_native_last_log_module: NotRequired[bool]
+    r"""Enable to only use non-native API to collect LastLog events. This option will be unavailable in future releases. Please contact Support with any concerns about this deprecation. [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)"""
     description: NotRequired[str]
 
 
@@ -494,6 +510,11 @@ class InputSystemStateSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     ] = False
     r"""Enable to use built-in tools (PowerShell) to collect events instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)"""
 
+    disable_native_last_log_module: Annotated[
+        Optional[bool], pydantic.Field(alias="disableNativeLastLogModule")
+    ] = False
+    r"""Enable to only use non-native API to collect LastLog events. This option will be unavailable in future releases. Please contact Support with any concerns about this deprecation. [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)"""
+
     description: Optional[str] = None
 
 
@@ -523,6 +544,8 @@ class InputSystemStateSendToRoutesTrueConstraintTypedDict(TypedDict):
     persistence: NotRequired[InputSystemStatePersistenceTypedDict]
     disable_native_module: NotRequired[bool]
     r"""Enable to use built-in tools (PowerShell) to collect events instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)"""
+    disable_native_last_log_module: NotRequired[bool]
+    r"""Enable to only use non-native API to collect LastLog events. This option will be unavailable in future releases. Please contact Support with any concerns about this deprecation. [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)"""
     description: NotRequired[str]
 
 
@@ -570,6 +593,11 @@ class InputSystemStateSendToRoutesTrueConstraint(BaseModel):
         Optional[bool], pydantic.Field(alias="disableNativeModule")
     ] = False
     r"""Enable to use built-in tools (PowerShell) to collect events instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)"""
+
+    disable_native_last_log_module: Annotated[
+        Optional[bool], pydantic.Field(alias="disableNativeLastLogModule")
+    ] = False
+    r"""Enable to only use non-native API to collect LastLog events. This option will be unavailable in future releases. Please contact Support with any concerns about this deprecation. [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)"""
 
     description: Optional[str] = None
 

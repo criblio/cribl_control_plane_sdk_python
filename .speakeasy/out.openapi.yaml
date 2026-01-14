@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.16.0-alpha.1768293248951-c150d2f0
+  version: 4.16.0-alpha.1768420351318-8a7ec210
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -16346,6 +16346,11 @@ components:
           default: false
           title: Use Windows Tools
           description: Enable to use built-in tools (PowerShell) to collect events instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)
+        disableNativeLastLogModule:
+          type: boolean
+          default: false
+          title: Use non-native API for LastLog
+          description: Enable to only use non-native API to collect LastLog events. This option will be unavailable in future releases. Please contact Support with any concerns about this deprecation. [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)
         description:
           type: string
           title: Description
@@ -36269,7 +36274,7 @@ components:
           type: number
           title: Body size limit (KB)
           description: Maximum size, in KB, of the request body
-          default: 10000
+          default: 9500
           minimum: 100
           maximum: 10000
         maxPayloadEvents:
@@ -40015,6 +40020,16 @@ components:
       required:
         - name
         - value
+    CountedNumber:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            type: number
     CountedFunctionResponse:
       type: object
       properties:
@@ -40291,16 +40306,6 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/MasterWorkerEntry"
-    CountedNumber:
-      type: object
-      properties:
-        count:
-          type: integer
-          description: number of items present in the items array
-        items:
-          type: array
-          items:
-            type: number
     CountedTeamAccessControlList:
       type: object
       properties:

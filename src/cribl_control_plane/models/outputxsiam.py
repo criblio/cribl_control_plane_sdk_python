@@ -176,7 +176,7 @@ class OutputXsiam(BaseModel):
 
     max_payload_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = 10000
+    ] = 9500
     r"""Maximum size, in KB, of the request body"""
 
     max_payload_events: Annotated[
